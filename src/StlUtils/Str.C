@@ -544,7 +544,7 @@ Str::substitute( const char * from, const char * to, size_type start, bool globa
       
       for( size_type fromBeg = find( from, start, fromLen );
 	  fromBeg != npos;
-	  fromBeg = find( from, fromBeg + fromLen, fromLen ) )
+	  fromBeg = find( from, fromBeg + toLen, fromLen ) )
 	{
 	  replace( fromBeg, fromLen, to, toLen );
 	}
@@ -1242,6 +1242,10 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1998/01/22 18:32:18  houghton
+// Bug-Fix: substitute() was using wrong value to starts looking for next
+//     'from' string.
+//
 // Revision 4.4  1997/12/29 14:00:32  houghton
 // Bug-Fix: strip() was not handling all cases correctly.
 //
