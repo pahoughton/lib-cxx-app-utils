@@ -33,7 +33,7 @@ INSTALL_INCDIR	= $(alpha_incdir)
 
 VER_MAJOR	= 2
 VER_MINOR	= 01
-VER_RELEASE	= 00.a.6
+VER_RELEASE	= 00.a.7
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -346,10 +346,11 @@ CXX_INLINES	=			\
 
 include Make/make.cfg.targets.$(makefile_type).$(make_cfg_ver)
 
-tvp:
-	echo $(UNIX_VPATH)
-	echo $(CLUE1_VPATH)
-	echo $(ARCH_VPATH)
+time_all: time all time
+
+time:
+	date
+	vmstat
 
 default debug profile shared:: proto
 
@@ -389,6 +390,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.15  1996/05/18 12:56:21  houghton
+# Cleanup & change version number.
+#
 # Revision 2.14  1996/05/14 14:18:11  houghton
 # Rework SHDEP_LIBS for AIX.
 #
