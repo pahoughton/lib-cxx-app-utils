@@ -333,9 +333,9 @@ CXX_C_SOURCES	=			\
 	tDateRange.C                    \
 	tDateRangeDaily.C               \
 	tDateRangeWeekly.C              \
-	tFile.C				\
-	tFile01.C			\
-	tFile02.C			\
+	tFileOp.C			\
+	tFileOp01.C			\
+	tFileOp02.C			\
 	tSortOrder.C                    \
 	tDirectory.C			\
 	tDirectory01.C			\
@@ -470,6 +470,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.13  1998/11/02 19:36:03  houghton
+# Changed: the File class was renamed to FileOp.
+#
 # Revision 4.12  1998/11/02 15:28:31  houghton
 # Added LruSash
 #

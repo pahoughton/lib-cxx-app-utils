@@ -65,7 +65,7 @@ LibTest::TestItem   TestList[] =
   { "LogLevel",		    tLogLevel },
   { "Log",		    tLog },
   { "Param",		    tParam },
-  { "File",		    tFile },
+  { "FileOp",		    tFileOp },
   { "SortOrder",	    tSortOrder },
   { "Directory",	    tDirectory },
   { "LruMap",		    tLruMap },
@@ -201,6 +201,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.10  1998/11/02 19:36:25  houghton
+// Changed: the File class was renamed to FileOp.
+//
 // Revision 4.9  1998/11/02 15:28:37  houghton
 // Added LruSash
 //

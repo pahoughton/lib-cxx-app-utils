@@ -86,7 +86,7 @@ bool	tLog( LibTest & tester );
 // Param.hh
 bool	tParam( LibTest & tester );
 // File.hh
-bool	tFile( LibTest & tester );
+bool	tFileOp( LibTest & tester );
 // SortOrder.hh
 bool	tSortOrder( LibTest & tester );
 // Directory.hh
@@ -169,6 +169,9 @@ bool tVectorResync( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 4.9  1998/11/02 19:36:18  houghton
+// Changed: the File class was renamed to FileOp.
+//
 // Revision 4.8  1998/11/02 15:28:34  houghton
 // Added LruSash
 //

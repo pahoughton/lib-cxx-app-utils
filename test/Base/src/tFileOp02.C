@@ -1,9 +1,9 @@
 //
-// File:        tFile02.C
+// File:        tFileOp02.C
 // Project:	StlUtils
 // Desc:        
 //
-//  Compiled sources for tFile02
+//  Compiled sources for tFileOp02
 //  
 // Author:      Paul Houghton 719-527-7834 - (paul.houghton@wcom.com)
 // Created:     03/08/98 11:24
@@ -18,18 +18,18 @@
 
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <File.hh>
+#include <FileOp.hh>
 #include <cstdio>
 
 bool
-tFile02( LibTest & tester )
+tFileOp02( LibTest & tester )
 {
-  static const char * ExpFn = TEST_DATA_DIR "/File.01.01.exp";
+  static const char * ExpFn = TEST_DATA_DIR "/FileOp.01.01.exp";
   
   {
-    static const char * TestFn = TEST_DATA_DIR "/File.02.01";
+    static const char * TestFn = TEST_DATA_DIR "/FileOp.02.01";
 
-    File    t( ExpFn );
+    FileOp    t( ExpFn );
 
     TESTR( t.error(), t.good() );
 
@@ -40,10 +40,10 @@ tFile02( LibTest & tester )
   }
 
   {
-    static const char * SrcFn  = TEST_DATA_DIR "/File.02.01";
-    static const char * TestFn = TEST_DATA_DIR "/File.02.01.01";
+    static const char * SrcFn  = TEST_DATA_DIR "/FileOp.02.01";
+    static const char * TestFn = TEST_DATA_DIR "/FileOp.02.01.01";
 
-    File t( SrcFn );
+    FileOp t( SrcFn );
 
     TESTR( t.error(), t.good() );
 
@@ -62,11 +62,11 @@ tFile02( LibTest & tester )
   }
 
   {
-    static const char * SrcFn = TEST_DATA_DIR "/File.02.01.01";
-    static const char * TestFn = "/tmp/File.02.01.01";
+    static const char * SrcFn = TEST_DATA_DIR "/FileOp.02.01.01";
+    static const char * TestFn = "/tmp/FileOp.02.01.01";
     static const char * TestDir = "/tmp";
       
-    File t( SrcFn );
+    FileOp t( SrcFn );
 
     TESTR( t.error(), t.good() );
 
@@ -85,10 +85,10 @@ tFile02( LibTest & tester )
   }
 
   {
-    static const char * SrcFn = "/tmp/File.02.01.01";
-    static const char * TestFn = TEST_DATA_DIR "/File.02.01.01";
+    static const char * SrcFn = "/tmp/FileOp.02.01.01";
+    static const char * TestFn = TEST_DATA_DIR "/FileOp.02.01.01";
       
-    File t( SrcFn );
+    FileOp t( SrcFn );
 
     TESTR( t.error(), t.good() );
 
@@ -114,6 +114,9 @@ tFile02( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1998/11/02 19:36:39  houghton
+// Changed: the File class was renamed to FileOp.
+//
 // Revision 1.1  1998/03/21 13:57:29  houghton
 // Initial Version.
 //
