@@ -21,6 +21,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstring>
+#include <errno.h>
 
 #if defined( CLUE_DEBUG )
 #include <LogBuf.ii>
@@ -702,6 +703,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/04/05 11:58:00  houghton
+// Changed needed to include errno.h
+//
 // Revision 3.6  1997/04/04 20:53:25  houghton
 // Added log file error checking.
 // Cleanup.
