@@ -19,6 +19,11 @@
 
 #define _ALL_SOURCE_
 
+//
+// the AIX compiler does not support 'typename'
+//
+#define typename
+
 /* #define STLUTILS_HAVE_LONG_ABS 1 */
 #define STLUTILS_HAS_STRPTIME	1
 #define STLUTILS_LOG_WHERE	1
@@ -86,6 +91,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/10/13 15:25:22  houghton
+// Added define for 'typename'.
+//
 // Revision 4.2  1997/09/19 11:21:49  houghton
 // Cleanup
 // Added portable types (STLUTILS*_T).
