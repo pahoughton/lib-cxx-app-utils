@@ -77,7 +77,7 @@ public:
        LogLevel::Level 	outLevel = ( LogLevel::Error |
 				     LogLevel::Warn |
 				     LogLevel::Info ),
-       ios::open_mode	mode = ios::app,
+       ios::open_mode	mode = (ios::open_mode)(ios::app|ios::out),
        int		prot = filebuf::openprot,
        bool		stampLevel = true,
        bool		stampTime = true,
@@ -87,7 +87,7 @@ public:
   
   Log( const char * 	fileName,
        const char *	outLevel,
-       ios::open_mode	mode = ios::app,
+       ios::open_mode	mode = (ios::open_mode)(ios::app|ios::out),
        int		prot = filebuf::openprot,
        bool		stampLevel = true,
        bool		stampTime = true,
@@ -646,6 +646,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.9  1997/07/18 19:21:57  houghton
+// Port(Sun5): changed default ios::open_mode it (ios::app|ios::out).
+//
 // Revision 3.8  1997/05/02 12:15:00  houghton
 // Bug-Fix: changed commonLevelMap to a * to remove any posibilities of
 //     problems with static instanciation.
