@@ -201,6 +201,30 @@ STLUTILS_FUNCT_T
 StringToTm( const char * src, const char * fmt = "%m/%d/%y %H:%M:%S" );
 
 
+bool
+STLUTILS_FUNCT_T
+MfNumTo( short & dest, const char * src, size_t len = NPOS );
+
+bool
+STLUTILS_FUNCT_T
+MfNumTo( int & dest, const char * src, size_t len = NPOS );
+
+bool
+STLUTILS_FUNCT_T
+MfNumTo( long & dest, const char * src, size_t len = NPOS );
+
+short
+STLUTILS_FUNCT_T
+MfNumToShort( const char * src, size_t len = NPOS );
+
+int
+STLUTILS_FUNCT_T
+MfNumToInt( const char * src, size_t len = NPOS );
+
+long
+STLUTILS_FUNCT_T
+MfNumToLong( const char * src, size_t len = NPOS );
+
 const char *
 STLUTILS_FUNCT_T
 StringFrom( int num, short base = 10, bool prefix = false );
@@ -649,6 +673,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/11/18 15:07:02  houghton
+// Added MfNumTo functions.
+//
 // Revision 4.1  1997/09/17 15:13:04  houghton
 // Changed to Version 4
 //
