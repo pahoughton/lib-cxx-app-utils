@@ -13,6 +13,7 @@
 
 #include "LogBuf.hh"
 #include "FileStat.hh"
+#include "FilePath.hh"
 #include "RegexScan.hh"
 #include <strstream.h>
 #include <iostream>
@@ -303,7 +304,7 @@ LogBuf::dumpInfo(
     ;
 
   {
-    RWCString pre;
+    Str pre;
     pre = prefix;
     pre += "logLevel:" ;
     pre += logLevel.getClassName() ;
@@ -422,25 +423,9 @@ LogBuf::openLog( ios::open_mode openMask )
 size_t
 LogBuf::trimLog( size_t curSize, size_t maxLogSize )
 {
-#if defined( CLUE_USE_FILEPATH )
   FilePath  tmpFn( logFileName );
   tmpFn.setTempName();
-#else
-  // do it by hand with RWCStrings
-  size_t    pathSep = logFileName.last( CLUE_DIR_DELIM );
-
-  RWCString tmpPath;
-  RWCString tempName;
   
-  if( pathSep != RW_NPOS )
-    {
-      tmpPath = logFileName( 0, pathSep - 1 );
-    }
-
-  char * tempFileName = tempnam( tmpPath, logFileName.data() + pathSep + 1  );
-  RWCString tmpFn( tempFileName );
-  free( tempFileName );
-#endif
   if( rename( logFileName, tmpFn ) )
     {
       openLog( ios::app );
@@ -541,6 +526,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/03 14:36:31  houghton
+// Removed support for RW Tools++
+//
 // Revision 3.2  1996/11/20 12:04:24  houghton
 // Bug-Fix: Fixed memory leaks.
 //

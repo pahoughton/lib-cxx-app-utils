@@ -20,7 +20,7 @@
 #include "ClueConfig.hh"
 #include "Bitmask.hh"
 #include "ClueSysStat.hh"
-#include <rw/cstring.h>
+#include "Str.hh"
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -149,10 +149,10 @@ private:
   
   int	fd;
   
-  RWCString  name;
-  RWCString  userName;
-  RWCString  groupName;
-  RWCString  modeString;
+  Str  name;
+  Str  userName;
+  Str  groupName;
+  Str  modeString;
 
   struct stat	st;
   
@@ -570,6 +570,9 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/03 14:36:18  houghton
+// Removed support for RW Tools++
+//
 // Revision 3.2  1996/11/19 12:32:02  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.

@@ -18,7 +18,7 @@
 
 #include "ClueConfig.hh"
 #include "LogLevel.hh"
-#include <rw/cstring.h>
+#include "Str.hh"
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -136,7 +136,7 @@ protected:
 
   typedef vector< Filter > FilterList;
   
-  RWCString	    logFileName;
+  Str		    logFileName;
   size_t	    maxSize;
   size_t	    trimSize;
   ios::open_mode    openMode;
@@ -273,6 +273,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/03 14:36:36  houghton
+// Removed support for RW Tools++
+//
 // Revision 3.2  1996/11/19 12:21:32  houghton
 // Added getLogFileName method.
 //

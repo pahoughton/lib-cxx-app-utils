@@ -12,8 +12,7 @@
 //
 
 #include "Log.hh"
-#include <rw/rwtime.h>
-#include <rw/cstring.h>
+#include "DateTime.hh"
 
 #if defined( CLUE_DEBUG )
 #include "Log.ii"
@@ -39,7 +38,7 @@ Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
 
   if( timeStamp )
     {
-      RWTime  now;
+      DateTime  now(time(0));
 
       *this << now << ' ';
     }
@@ -70,7 +69,7 @@ Log::level( const char * lvl, const char * srcFile, long srcLine )
 
   if( timeStamp )
     {
-      RWTime  now;
+      DateTime now(time(0));
 
       *this << now << ' ';
     }
@@ -97,7 +96,7 @@ Log::good( void ) const
 const char *
 Log::error( void ) const
 {
-  static RWCString errStr;
+  static Str errStr;
 
   errStr = getClassName();
 
@@ -169,7 +168,7 @@ Log::dumpInfo(
   
   if( rdbuf() )
     {
-      RWCString pre;
+      Str pre;
       pre = prefix;
       pre += "rdbuf: " ;
       pre += rdbuf()->getClassName() ;
@@ -187,6 +186,9 @@ Log::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/03 14:36:23  houghton
+// Removed support for RW Tools++
+//
 // Revision 3.1  1996/11/14 01:23:45  houghton
 // Changed to Release 3
 //

@@ -15,7 +15,7 @@
 #include "ClueUtils.hh"
 #include "Bit.hh"
 #include "StringUtils.hh"
-#include <rw/cstring.h>
+#include "Str.hh"
 #include <cstring>
 
 #if defined( CLUE_DEBUG )
@@ -232,7 +232,7 @@ LogLevel::dumpInfo(
 	 << LogLevel::getVersion() << '\n';
 
   {
-    RWCString pre;
+    Str pre;
     pre = prefix;
     pre += "output:  " ;
     pre += output.getClassName() ;
@@ -242,7 +242,7 @@ LogLevel::dumpInfo(
   }
 
   {
-    RWCString pre;
+    Str pre;
     pre =  prefix;
     pre += "current: ";
     pre += current.getClassName();
@@ -284,6 +284,9 @@ LogLevel::levelFromString( const char * level )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/03 14:36:41  houghton
+// Removed support for RW Tools++
+//
 // Revision 3.1  1996/11/14 01:23:48  houghton
 // Changed to Release 3
 //
