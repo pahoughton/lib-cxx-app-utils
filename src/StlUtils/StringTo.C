@@ -1,37 +1,205 @@
 //
 // File:        StringTo.C
+// Project:	Clue
 // Desc:        
 //
-//  
+//	bool
+//	StringTo( bool & 	    	dest,
+//		  const char *  	str,
+//		  size_t 	    	len = NPOS );
+//	    Set dest by converting str to a bool value. If str is
+//	    'yes', 'true', 'on', 't', 'y' or a non zero number, dest
+//	    will be set to true (case is ignored). If str is 'no',
+//	    'false', 'off', 'f', 'n', ' ' or '0', dest will be
+//	    set to true. Returns true if dest was set or false if
+//	    str could not be converted.
+//
+//	bool
+//	StringTo( int &     	    dest,
+//		  const char * 	    str,
+//		  unsigned short    base = 0,
+//		  size_t    	    len = NPOS );
+//	    Set dest by converting str to a numeric value. base is
+//	    the base to use for the conversion (i.e. 8 = for oct,
+//	    10 for dec, 16 for hex), it can be any value between
+//	    2 and 36 or 0. If base is zero the beginning of str is
+//	    used to determine base. If it is 0x or 0X the base is 16.
+//	    If it is 0 the base is 8. Otherwise the base is 10.
+//	    Returns true if dest was set or false if str could
+//	    not be converted.
+//	
+//	bool
+//	StringTo( short &     	    dest,
+//		  const char * 	    str,
+//		  unsigned short    base = 0,
+//		  size_t    	    len = NPOS );
+//	    Set dest by converting str to a numeric value. base is
+//	    the base to use for the conversion (i.e. 8 = for oct,
+//	    10 for dec, 16 for hex), it can be any value between
+//	    2 and 36 or 0. If base is zero the beginning of str is
+//	    used to determine base. If it is 0x or 0X the base is 16.
+//	    If it is 0 the base is 8. Otherwise the base is 10.
+//	    Returns true if dest was set or false if str could
+//	    not be converted.
+//	
+//	bool
+//	StringTo( long &     	    dest,
+//		  const char * 	    str,
+//		  unsigned short    base = 0,
+//		  size_t    	    len = NPOS );
+//	    Set dest by converting str to a numeric value. base is
+//	    the base to use for the conversion (i.e. 8 = for oct,
+//	    10 for dec, 16 for hex), it can be any value between
+//	    2 and 36 or 0. If base is zero the beginning of str is
+//	    used to determine base. If it is 0x or 0X the base is 16.
+//	    If it is 0 the base is 8. Otherwise the base is 10.
+//	    Returns true if dest was set or false if str could
+//	    not be converted.
+//	
+//	bool
+//	StringTo( float &     	    dest,
+//		  const char * 	    str,
+//		  unsigned short    base = 0,
+//		  size_t    	    len = NPOS );
+//	    Set dest by converting str to a numeric value. base is
+//	    the base to use for the conversion (i.e. 8 = for oct,
+//	    10 for dec, 16 for hex), it can be any value between
+//	    2 and 36 or 0. If base is zero the beginning of str is
+//	    used to determine base. If it is 0x or 0X the base is 16.
+//	    If it is 0 the base is 8. Otherwise the base is 10.
+//	    Returns true if dest was set or false if str could
+//	    not be converted.
+//	
+//	bool
+//	StringTo( double &     	    dest,
+//		  const char * 	    str,
+//		  unsigned short    base = 0,
+//		  size_t    	    len = NPOS );
+//	    Set dest by converting str to a numeric value. base is
+//	    the base to use for the conversion (i.e. 8 = for oct,
+//	    10 for dec, 16 for hex), it can be any value between
+//	    2 and 36 or 0. If base is zero the beginning of str is
+//	    used to determine base. If it is 0x or 0X the base is 16.
+//	    If it is 0 the base is 8. Otherwise the base is 10.
+//	    Returns true if dest was set or false if str could
+//	    not be converted.
+//	
+//	bool
+//	StringTo( unsigned int &    dest,
+//		  const char * 	    str,
+//		  unsigned short    base = 0,
+//		  size_t    	    len = NPOS );
+//	    Set dest by converting str to a numeric value. base is
+//	    the base to use for the conversion (i.e. 8 = for oct,
+//	    10 for dec, 16 for hex), it can be any value between
+//	    2 and 36 or 0. If base is zero the beginning of str is
+//	    used to determine base. If it is 0x or 0X the base is 16.
+//	    If it is 0 the base is 8. Otherwise the base is 10.
+//	    Returns true if dest was set or false if str could
+//	    not be converted.
+//	
+//	bool
+//	StringTo( unsigned short &  dest,
+//		  const char * 	    str,
+//		  unsigned short    base = 0,
+//		  size_t    	    len = NPOS );
+//	    Set dest by converting str to a numeric value. base is
+//	    the base to use for the conversion (i.e. 8 = for oct,
+//	    10 for dec, 16 for hex), it can be any value between
+//	    2 and 36 or 0. If base is zero the beginning of str is
+//	    used to determine base. If it is 0x or 0X the base is 16.
+//	    If it is 0 the base is 8. Otherwise the base is 10.
+//	    Returns true if dest was set or false if str could
+//	    not be converted.
+//	
+//	bool
+//	StringTo( unsigned long &   dest,
+//		  const char * 	    str,
+//		  unsigned short    base = 0,
+//		  size_t    	    len = NPOS );
+//	    Set dest by converting str to a numeric value. base is
+//	    the base to use for the conversion (i.e. 8 = for oct,
+//	    10 for dec, 16 for hex), it can be any value between
+//	    2 and 36 or 0. If base is zero the beginning of str is
+//	    used to determine base. If it is 0x or 0X the base is 16.
+//	    If it is 0 the base is 8. Otherwise the base is 10.
+//	    Returns true if dest was set or false if str could
+//	    not be converted.
+//	
+//	bool
+//	StringToBool( const char * str, size_t len = NPOS );
+//	    Uses StringTo to convert the str and returns
+//	    the value. If StringTo returned false, 'false' is returned.
+//	
+//	int
+//	StringToInt( const char *   str,
+//		     unsigned short base = 0,
+//		     size_t	    len = NPOS );
+//	    Uses StringTo to convert the str and returns the
+//	    value. If StringTo returned false, 0 is returned.
+//	
+//	short
+//	StringToShort( const char *	str,
+//		       unsigned short	base = 0,
+//		       size_t		len = NPOS );
+//	    Uses StringTo to convert the str and returns the
+//	    value. If StringTo returned false, 0 is returned.
+//	
+//	long
+//	StringToLong( const char *	str,
+//		      unsigned short	base = 0,
+//		      size_t		len = NPOS );
+//	    Uses StringTo to convert the str and returns the
+//	    value. If StringTo returned false, 0 is returned.
+//	
+//	float
+//	StringToFloat( const char *	str,
+//		       unsigned short	base = 0,
+//		       size_t		len = NPOS );
+//	    Uses StringTo to convert the str and returns the
+//	    value. If StringTo returned false, 0 is returned.
+//	
+//	double
+//	StringToDouble( const char *	str,
+//			unsigned short  base = 0,
+//			size_t          len = NPOS );
+//	    Uses StringTo to convert the str and returns the
+//	    value. If StringTo returned false, 0 is returned.
+//	
+//	unsigned int
+//	StringToUInt( const char *	str,
+//		      unsigned short	base = 0,
+//		      size_t		len = NPOS );
+//	    Uses StringTo to convert the str and returns the
+//	    value. If StringTo returned false, 0 is returned.
+//	
+//	unsigned short
+//	StringToUShort( const char *	str,
+//			unsigned short  base = 0,
+//			size_t		len = NPOS );
+//	    Uses StringTo to convert the str and returns the
+//	    value. If StringTo returned false, 0 is returned.
+//	
+//	unsigned long
+//	StringToULong( const char *	str,
+//		       unsigned short	base = 0,
+//		       size_t		len = NPOS );
+//	    Uses StringTo to convert the str and returns the
+//	    value. If StringTo returned false, 0 is returned.
+//	
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/06/95 09:31 
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.3  1996/07/09 11:34:13  houghton
-// Bug-Fix: Change to StringToBool to StringTo.
-//
-// Revision 2.2  1996/05/25 12:36:04  houghton
-// Bug-Fix: convert '   ' to 0.
-//
-// Revision 2.1  1995/11/10 12:41:13  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:50  houghton
-// Ports and Version ID changes
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 
 #if !defined( CLUE_SHORT_FN )
-#include "Clue.hh"
 #include "StringUtils.hh"
 #include <cstring>
 #include <cctype>
 #else
-#include "Clue.hh"
 #include "StrUtil.hh"
 #include <cstring>
 #include <cctype>
@@ -151,7 +319,7 @@ StringTo(								      \
 {									      \
   _type_  value = 0;							      \
 									      \
-  const char * 	    end = src + ( len ? len : strlen( src ) );		      \
+  const char * 	    end = src + ( len != NPOS ? len : strlen( src ) );	      \
   unsigned short    base = baseToUse;					      \
   bool	    	    neg = false;					      \
 									      \
@@ -167,7 +335,7 @@ StringTo(								      \
 									      \
   for( ; conv < end; conv++ )						      \
     {									      \
-      if( IsBaseDigit( *conv, base ) )					      \
+      if( CharIsBaseDigit( *conv, base ) )				      \
 	{								      \
 	  value *= base;						      \
 	  value += CharToInt( *conv );					      \
@@ -185,7 +353,53 @@ StringTo(								      \
   return( true );							      \
 }
 
+#if ! defined( USE_MACRO )
+bool
+StringTo(
+  int &	    dest,
+  const char * 	    src,
+  unsigned short    baseToUse,
+  size_t    	    len
+  )
+{
+  int  value = 0;
+
+  const char * 	    end = src + ( len != NPOS ? len : strlen( src ) );
+  unsigned short    base = baseToUse;
+  bool	    	    neg = false;
+
+  const char * conv = _StringToNumPrep( src, end, base, neg );
+
+  if( ! conv || conv >= end )
+    {
+      dest = 0;
+      return( true );
+    }
+
+  const char * first = conv;
+
+  for( ; conv < end; conv++ )
+    {
+      if( CharIsBaseDigit( *conv, base ) )
+	{
+	  value *= base;
+	  value += CharToInt( *conv );
+	}
+      else
+	{
+	  if( conv == first || isdigit( *conv ) )
+	    return( false );
+
+	  dest = (neg) ? value * -1 : value;
+	  return( true );
+	}
+    }
+  dest = (neg) ? value * -1 : value;
+  return( true );
+}
+#else
 STRING_TO_TYPE( int )
+#endif
 STRING_TO_TYPE( short )
 STRING_TO_TYPE( long )
 
@@ -200,7 +414,7 @@ StringTo(								      \
 {									      \
   _type_  value = 0;							      \
 									      \
-  const char * 	    end = src + ( len ? len : strlen( src ) );		      \
+  const char * 	    end = src + ( len != NPOS ? len : strlen( src ) );	      \
   unsigned short    base = baseToUse;					      \
   bool	    	    neg = false;					      \
 									      \
@@ -215,7 +429,7 @@ StringTo(								      \
   const char * first = conv;						      \
   for( ; conv < end; conv++ )						      \
     {									      \
-      if( IsBaseDigit( *conv, base ) )					      \
+      if( CharIsBaseDigit( *conv, base ) )				      \
 	{								      \
 	  value *= base;						      \
 	  value += CharToInt( *conv );					      \
@@ -250,7 +464,7 @@ StringTo(
 
   double  value = 0;
   
-  const char *      end = src + ((len) ? len : strlen( src ) );
+  const char *      end = src + ((len != NPOS) ? len : strlen( src ) );
   unsigned short    base = baseToUse;
   bool	    	    neg = false;
   
@@ -274,7 +488,7 @@ StringTo(
 	  continue;
 	}
       
-      if( IsBaseDigit( *conv, base ) )
+      if( CharIsBaseDigit( *conv, base ) )
 	{
 	  value *= base;
 	  value += CharToInt( *conv );
@@ -326,7 +540,7 @@ StringTo(
 _type_									      \
 StringTo##_name_( const char * src, unsigned short base, size_t  len )	      \
 {									      \
-  _type_  value = -1;							      \
+  _type_  value = 0;							      \
   StringTo( value, src, base, len );					      \
   return( value );							      \
 }									      \
@@ -378,7 +592,7 @@ StringTo(
       return( true );
     }
 
-  if( ( (len == 1 || (len == 0 && src[1] == 0 ) ) &&
+  if( ( (len == 1 || (len == NPOS && src[1] == 0 ) ) &&
 	( tolower( src[0] ) == 't' || tolower( src[0] ) == 'y' ) ) ||
 	
       ! StringCaseCompare( src, "true", (len && len < 4) ? len : 4 ) ||
@@ -389,13 +603,14 @@ StringTo(
       return( true );
     }
 
-  if( ( (len == 1 || (len == 0 && src[1] == 0 ) ) &&
+  if( ( (len == 1 || (len == NPOS && src[1] == 0 ) ) &&
 	( tolower( src[0] ) == 'f' ||
 	  tolower( src[0] ) == 'n' ||
 	  tolower( src[0] ) == ' ' ) ) ||
-      ! StringCaseCompare( src, "false", (len && len < 4) ? len : 4 ) ||
-      ! StringCaseCompare( src, "no", (len && len < 2) ? len : 2 ) ||
-      ! StringCaseCompare( src, "off", (len && len < 3) ? len : 3 ) )
+      ! StringCaseCompare( src, "false", ( (len != NPOS && len < 4) ?
+					   len : 4 ) ) ||
+      ! StringCaseCompare( src, "no", (len != NPOS && len < 2) ? len : 2 ) ||
+      ! StringCaseCompare( src, "off", (len != NPOS && len < 3) ? len : 3 ) )
     {
       dest = false;
       return( true );
@@ -403,9 +618,10 @@ StringTo(
 
   const char * c = src;
   
-  for( ; ((len && ((size_t)(c - src)) < len) || *c != 0) && *c == ' '; c++ );
+  for( ; ((len != NPOS && ((size_t)(c - src)) < len) || *c != 0) &&
+	 *c == ' '; c++ );
 
-  if( (len &&  ((size_t)(c - src)) == len ) || *c == 0 )
+  if( (len != NPOS &&  ((size_t)(c - src)) == len ) || *c == 0 )
     {
       dest = false;
       return( true );
@@ -426,5 +642,27 @@ StringToBool(
   return( dest );
 }
       
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.4  1996/11/04 14:32:20  houghton
+// Restructure header comments layout.
+// Changed default len to be NPOS instead of 0.
+// Changed to call CharIsBaseDigit instead of IsBaseDigit.
+//
+// Revision 2.3  1996/07/09 11:34:13  houghton
+// Bug-Fix: Change to StringToBool to StringTo.
+//
+// Revision 2.2  1996/05/25 12:36:04  houghton
+// Bug-Fix: convert '   ' to 0.
+//
+// Revision 2.1  1995/11/10 12:41:13  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:50  houghton
+// Ports and Version ID changes
+//
+//
 
   
