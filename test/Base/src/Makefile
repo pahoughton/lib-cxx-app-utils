@@ -28,9 +28,9 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Test
 
-for_rpm		= true
+#for_rpm		= true
 
-TYPE_SUBDIR	= /pers
+TYPE_SUBDIR	= /beta
 
 ifeq ($(for_rpm),true)
 TYPE_SUBDIR	= /beta
@@ -386,6 +386,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.5  1997/01/18 17:42:24  houghton
+# Changed installatino parameters for cshore.
+#
 # Revision 3.4  1996/11/22 12:26:03  houghton
 # Test for rpm.
 #
