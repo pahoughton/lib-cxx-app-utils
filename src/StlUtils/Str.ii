@@ -1073,58 +1073,58 @@ Str::to( bool & dest ) const
 
 inline
 bool
-Str::to( int & dest, unsigned short base ) const
+Str::to( int & dest, unsigned short base, bool sand ) const
 {
-  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+  return( size() ? StringTo( dest, strbase(), base,  length(), sand ) : false );
 }
 
 inline
 bool
-Str::to( short & dest, unsigned short base ) const
+Str::to( short & dest, unsigned short base, bool sand ) const
 {
-  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
 }
 
 inline
 bool
-Str::to( long & dest, unsigned short base ) const
+Str::to( long & dest, unsigned short base, bool sand ) const
 {
-  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
 }
 
 inline
 bool
-Str::to( float & dest, unsigned short base ) const
+Str::to( float & dest, unsigned short base, bool sand ) const
 {
-  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
 }
 
 inline
 bool
-Str::to( double & dest, unsigned short base ) const
+Str::to( double & dest, unsigned short base, bool sand ) const
 {
-  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+  return( size() ? StringTo( dest, strbase(), base,  length(), sand ) : false );
 }
 
 inline
 bool
-Str::to( unsigned int & dest, unsigned short base ) const
+Str::to( unsigned int & dest, unsigned short base, bool sand ) const
 {
-  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
 }
 
 inline
 bool
-Str::to( unsigned short & dest, unsigned short base ) const
+Str::to( unsigned short & dest, unsigned short base, bool sand ) const
 {
-  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
 }
 
 inline
 bool
-Str::to( unsigned long & dest, unsigned short base ) const
+Str::to( unsigned long & dest, unsigned short base, bool sand ) const
 {
-  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
 }
 
 inline
@@ -1138,46 +1138,46 @@ Str::toBool( void ) const
 
 inline
 int
-Str::toInt( unsigned short base ) const
+Str::toInt( unsigned short base, bool sand ) const
 {
   int dest = 0;
-  to( dest, base );
+  to( dest, base, sand );
   return( dest );
 }
 
 inline
 long
-Str::toLong( unsigned short base ) const
+Str::toLong( unsigned short base, bool sand ) const
 {
   long dest = 0;
-  to( dest, base );
+  to( dest, base, sand );
   return( dest );
 }
 
 inline
 double
-Str::toDouble( unsigned short base ) const
+Str::toDouble( unsigned short base, bool sand ) const
 {
   double dest = 0;
-  to( dest, base );
+  to( dest, base, sand );
   return( dest );
 }
 
 inline
 unsigned int
-Str::toUInt( unsigned short base ) const
+Str::toUInt( unsigned short base, bool sand ) const
 {
   unsigned int dest = 0;
-  to( dest, base );
+  to( dest, base, sand );
   return( dest );
 }
 
 inline
 unsigned long
-Str::toULong( unsigned short base ) const
+Str::toULong( unsigned short base, bool sand ) const
 {
   unsigned long dest = 0;
-  to( dest, base );
+  to( dest, base, sand );
   return( dest );
 }
 
@@ -2004,6 +2004,9 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 4.2  1998/02/17 13:51:21  houghton
+// Added stopAtNonDigit arg to to() methods.
+//
 // Revision 4.1  1997/09/17 15:12:56  houghton
 // Changed to Version 4
 //
