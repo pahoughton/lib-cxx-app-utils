@@ -71,8 +71,10 @@ tParam01( LibTest & tester )
     // appName( void ) const;
     // appFullName( void ) const;
     
-    const Param t( ArraySize( argv_01 ), argv_01 );
+    Param t( ArraySize( argv_01 ), argv_01 );
 
+    t.parseArgs();
+    
     TEST( compare( t.appName(), APP_NAME_01 ) == 0 );
     TEST( compare( t.appFullName(), APP_FULLNAME_01 ) == 0 );
   }
@@ -86,8 +88,10 @@ tParam01( LibTest & tester )
     // beginAll( void ) const
     // endAll( void ) const;
     
-    const Param t( ArraySize( argv_02 ), argv_02, APP_VER );
+    Param t( ArraySize( argv_02 ), argv_02, APP_VER );
 
+    t.parseArgs();
+    
     TEST( compare( t.appVersion(), APP_VER ) == 0 );
     TEST( t.count() == ArraySize( argv_02 ) );
     
@@ -127,6 +131,8 @@ tParam01( LibTest & tester )
     
     Param t( ArraySize( argv_02 ), argv_02, APP_VER );
 
+    t.parseArgs();
+    
     TEST( compare( t.arg(), argv_02[1] ) == 0 );
     TEST( compare( t.arg(2), argv_02[2] ) == 0 );
 
@@ -142,6 +148,9 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 3.5  1997/03/21 15:41:46  houghton
+// Changed new style Param requires a call to parse.
+//
 // Revision 3.4  1997/03/03 19:10:52  houghton
 // Changed for port to AIX41.
 //
