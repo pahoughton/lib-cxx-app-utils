@@ -376,7 +376,7 @@ tStr17( LibTest & tester )
       
     }
 
-    r = "4:8,10:20.23  30..35\t50;1025:";
+    r = "4:8,10:20,23  30..35\t50;1025:";
     TEST( r.to( t ) == 6 );
     
     {
@@ -391,12 +391,12 @@ tStr17( LibTest & tester )
       ++ them;
       TEST( them != t.end() );
       TEST( (*them).first == 10 );
-      TEST( (*them).second == 0 );
+      TEST( (*them).second == 20 );
       
       ++ them;
       TEST( them != t.end() );
-      TEST( (*them).first == 20 );
-      TEST( (*them).second == 23 );
+      TEST( (*them).first == 23 );
+      TEST( (*them).second == 0 );
       
       ++ them;
       TEST( them != t.end() );
@@ -411,7 +411,11 @@ tStr17( LibTest & tester )
       ++ them;
       TEST( them != t.end() );
       TEST( (*them).first == 1025 );
-      TEST( (*them).second == ULONG_MAX );
+#if defined( STLUTILS_HAVE_LONG_LONG )
+      TEST( (*them).second == LLONG_MAX );
+#else
+      TEST( (*them).second == LONG_MAX );
+#endif
     }
 
   }
