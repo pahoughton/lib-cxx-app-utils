@@ -54,9 +54,11 @@
     <item>
       <subdir usedesc="yes">User</subdir>
     </item>
+    <!--
     <item>
       <subdir usedesc="yes">Devel</subdir>
     </item>
+    -->
     <item>
       <doc>Contacts</doc>
     </item>
