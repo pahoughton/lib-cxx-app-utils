@@ -18,10 +18,13 @@
 #include "SigCatcher.hh"
 #include <Str.hh>
 #include <DateTime.hh>
+#include <ClueUtils.hh>
 #include <LibLog.hh>
 #include <algorithm>
 #include <signal.h>
 #include <errno.h>
+
+#include "SignalStrings.h"
 
 #if defined( CLUE_DEBUG )
 #include "SigCatcher.ii"
@@ -32,6 +35,15 @@ CLUE_VERSION(
   "$Id$");
 
 SigCatcher *	SigCatcher::self = 0;
+
+const char *
+SigCatcher::Caught::name( void ) const
+{
+  if( signal >= 0 && signal < (SigCatcher::Signal)ArraySize( SignalStrings ) )
+    return( SignalStrings[ signal ] );
+  else
+    return( "SIG_outofrangge" );
+}
 
 SigCatcher::SigCatcher( void )
   : errorNum( E_OK ),
@@ -307,6 +319,9 @@ SigCatcher::catchAction(
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/08/08 13:26:25  houghton
+// Added name() to return the name of the signal.
+//
 // Revision 3.3  1997/04/21 12:15:54  houghton
 // Bug-Fix: errorNum and osErrno initializers where missing from constructors.
 //

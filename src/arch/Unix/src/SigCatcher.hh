@@ -50,7 +50,8 @@ public:
     
     inline SigCatcher::Signal   sig( void ) const;
     inline time_t		when( void ) const;
-
+    const char *		name( void ) const;
+    
     inline bool			operator == ( const Caught & rhs ) const;
     
   private:
@@ -216,6 +217,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/08/08 13:26:14  houghton
+// Added name() to return the name of the signal.
+//
 // Revision 3.4  1997/07/25 12:18:42  houghton
 // Added caught() const method.
 //
