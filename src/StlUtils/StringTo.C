@@ -147,8 +147,6 @@ StringTo(									\
       return( true );								\
     }										\
 										\
-  const char * first = conv;							\
-										\
   for( ; conv < end; conv++ )							\
     {										\
       if( CharIsBaseDigit( *conv, base ) )					\
@@ -250,7 +248,6 @@ StringTo(									\
       return( true );								\
     }										\
 										\
-  const char * first = conv;							\
   for( ; conv < end; conv++ )							\
     {										\
       if( CharIsBaseDigit( *conv, base ) )					\
@@ -309,8 +306,6 @@ StringTo(
       return( true );
     }
 
-  const char * first = conv;
-  
   for( ; conv < end; conv++ )
     {
       if( ! fract && *conv == '.' )
@@ -698,6 +693,9 @@ StringToTm( const char * src, const char * fmt )
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/02/13 23:32:53  houghton
+// Cleanup.
+//
 // Revision 4.2  1998/01/22 18:33:42  houghton
 // Changed - added stopAtNonDigit arg to all StringTo functions.
 // Cleanup - moved descriptions to end of file.
