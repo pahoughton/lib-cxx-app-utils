@@ -165,26 +165,56 @@ tLogLevel( LibTest & tester )
   {
     // setOutput( const char * out )
 
-    LogLevel t;
+    {
+      LogLevel t;
+      
+      t.setOutput( "TEST | INFO" );
+      TEST( t.getOutput() == (LogLevel::Test | LogLevel::Info ) );
+      
+      t.setOutput( "ALL" );
+      TEST( t.getOutput() == LogLevel::All );
+      
+      t.setOutput( "err" );
+      TEST( t.getOutput() == LogLevel::Error );
+      
+      t.setOutput( "warn" );
+      TEST( t.getOutput() == LogLevel::Warning );
+      
+      t.setOutput( "err| Info | Debug|test|Warning" );
+      TEST( t.getOutput() == (LogLevel::Error |
+			      LogLevel::Info |
+			      LogLevel::Debug |
+			      LogLevel::Test |
+			      LogLevel::Warning ) );
+    }
 
-    t.setOutput( "TEST | INFO" );
-    TEST( t.getOutput() == (LogLevel::Test | LogLevel::Info ) );
+    {
+      LogLevel	t;
+      
+      t.setOutput( "TEST | INFO" );
+      TEST( t.getOutput() == (LogLevel::Test | LogLevel::Info ) );
 
-    t.setOutput( "ALL" );
-    TEST( t.getOutput() == LogLevel::All );
+      t.setOutput( "+debug | err | -INFO" );
+      TESTR( t.getLevelNames( t.getOutput() ),
+	     t.getOutput() == (LogLevel::Test |
+			       LogLevel::Err |
+			       LogLevel::Debug ) );
+      
+      t.setOutput( "+info" );
+      TEST( t.getOutput() == (LogLevel::Test |
+			      LogLevel::Err |
+			      LogLevel::Debug |
+			      LogLevel::Info ) );
 
-    t.setOutput( "err" );
-    TEST( t.getOutput() == LogLevel::Error );
+      t.setOutput( "-debug" );
+      TEST( t.getOutput() == (LogLevel::Test |
+			      LogLevel::Err |
+			      LogLevel::Info ) );
+
+      t.setOutput( "funct" );
+      TEST( t.getOutput() == (LogLevel::Funct ) );
+    }
     
-    t.setOutput( "warn" );
-    TEST( t.getOutput() == LogLevel::Warning );
-    
-    t.setOutput( "err| Info | Debug|test|Warning" );
-    TEST( t.getOutput() == (LogLevel::Error |
-			    LogLevel::Info |
-			    LogLevel::Debug |
-			    LogLevel::Test |
-			    LogLevel::Warning ) );
   }
 
   
@@ -613,6 +643,9 @@ tLogLevel( LibTest & tester )
  
 //
 // $Log$
+// Revision 3.3  1997/03/21 15:41:24  houghton
+// Added test for string conversion +/- flags.
+//
 // Revision 3.2  1997/03/03 19:10:36  houghton
 // Changed for port to AIX41.
 //
