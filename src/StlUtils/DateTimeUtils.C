@@ -1,48 +1,40 @@
 //
 // File:        DateTimeUtils.C
+// Project:	Clue
 // Desc:        
 //
+//  Compiled sources for DateTimeUtils
 //  
-//  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     05/02/95 06:57 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.1  1996/11/14 01:23:38  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1996/04/27 12:59:31  houghton
-// Cleanup
-//
-// Revision 2.1  1995/11/10 12:40:33  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:32  houghton
-// Ports and Version ID changes
-//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
 
-
-#if !defined( CLUE_SHORT_FN )
 #include "DateTimeUtils.hh"
-#else
-#include "DtTmUtil.hh"
-#endif
+#include <climits>
 
 CLUE_FUNCT_VERSION(
   DateTimeUtils,
   "$Id$" );
 
-const long   SecPerMin	    = 60;
-const long   SecPerHour	    = 60 * 60;
-const long   SecPerDay	    = 60 * 60 * 24;
-const long   SecPerYear	    = 60 * 60 * 24 * 365;
+const time_t  SecPerMin	    = 60;
+const time_t  SecPerHour    = 60 * 60;
+const time_t  SecPerDay	    = 60 * 60 * 24;
+const time_t  SecPerYear    = 60 * 60 * 24 * 365;
 
-const long   MinPerHour	    = 60;
-const long   MinPerDay	    = 60 * 24;
+const time_t  MinPerHour    = 60;
+const time_t  MinPerDay	    = 60 * 24;
 
+const time_t  MinTimeT	    = LONG_MIN;
+const time_t  MaxTimeT	    = LONG_MAX;
+
+const time_t  MinYear	    = 1970 + (LONG_MIN / (60 * 60 * 24 * 365));
+const time_t  MaxYear	    = 1970 + (LONG_MAX / (60 * 60 * 24 * 365));
 
 const int DaysInMonth[] =
 { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0};
@@ -108,3 +100,24 @@ const char * AbbrWeekDays[] =
   0
 };
 
+// Revision Log:
+//
+// $Log$
+// Revision 3.2  1997/08/24 23:07:51  houghton
+// Cleanup comments.
+// Changed type of global const values to time_t.
+// Added MinTimeT, MaxTimeT, MinYear & MaxYear.
+//
+// Revision 3.1  1996/11/14 01:23:38  houghton
+// Changed to Release 3
+//
+// Revision 2.2  1996/04/27 12:59:31  houghton
+// Cleanup
+//
+// Revision 2.1  1995/11/10 12:40:33  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:32  houghton
+// Ports and Version ID changes
+//
+//
