@@ -31,7 +31,7 @@ tLog09( LibTest & tester )
   {
     // LogIf( Log, LogLevel::Level )
 
-    const char * TestFn = TEST_DATA_DIR "/log.38";
+    const char * TestFn = TEST_DATA_DIR "/log.39";
     
     {
       Log  t( TestFn,
@@ -109,6 +109,9 @@ tLog09( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1997/04/26 14:13:00  houghton
+// Renamed test file names.
+//
 // Revision 3.1  1996/11/14 01:26:50  houghton
 // Changed to Release 3
 //
