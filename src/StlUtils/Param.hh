@@ -100,9 +100,6 @@ public:
   virtual bool	parseArgs( void );
   virtual bool	parseArgs( int argc, char * argv[] );
  
-  inline bool	readArgs( const char * fileName );
-  bool		readArgs( istream & src );
-
   bool	argStr( char * &  	 dest,
 		const char *	 description,
 		const char *     argId,
@@ -215,6 +212,9 @@ public:
 
 protected:
 
+  inline bool	readArgs( const char * fileName );
+  bool		readArgs( istream & src );
+
 private:
 
   Param( const Param & copyFrom );
@@ -239,6 +239,7 @@ private:
   
   Log	    	    appLog;
 
+  Str		    argFile;
   bool    	    helpFlag;
 
   Str    	    logFile;
@@ -826,6 +827,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.10  1997/03/21 15:39:55  houghton
+// Changed readargs is now a protected member (was public).
+//
 // Revision 3.9  1997/03/21 12:27:26  houghton
 // Changed Args to a deque (should improve performance).
 // Added dump().
