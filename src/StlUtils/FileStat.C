@@ -26,6 +26,8 @@
 #include <cstring>
 #include <cerrno>
 
+#include <utime.h>
+
 #if defined( STLUTILS_DEBUG )
 #include "FileStat.ii"
 #endif
@@ -45,6 +47,29 @@ const FileStat::What	FileStat::EXEC( Bit( 0 ) );
 const FileStat::What	FileStat::WRITE( Bit( 1 ) );
 const FileStat::What	FileStat::READ( Bit( 2 ) );
 
+bool
+FileStat::setTimes(
+  time_t    accessTime,
+  time_t    modificationTime
+  )
+{
+  struct utimbuf tv;
+
+  tv.actime = accessTime;
+  tv.modtime = modificationTime;
+
+  if( utime( name, &tv ) )
+    {
+      sysError = errno;
+      return( false );
+    }
+  else
+    {
+      st.st_atime = accessTime;
+      st.st_mtime = modificationTime;
+      return( true );
+    }
+}
 
 bool
 FileStat::setMode( mode_t mode )
@@ -184,7 +209,13 @@ FileStat::toStream( ostream & dest ) const
   return( dest );
 }
 
-  
+bool
+FileStat::clear( void )
+{
+  sysError = 0;
+  return( good() );
+}
+
 // good - return TRUE if no detected errors
 bool
 FileStat::good( void ) const
@@ -385,6 +416,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/03/08 18:05:43  houghton
+// Added setTimes() to set the access and modification times.
+//
 // Revision 4.1  1997/09/17 15:12:26  houghton
 // Changed to Version 4
 //

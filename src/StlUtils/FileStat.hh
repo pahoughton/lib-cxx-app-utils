@@ -97,6 +97,9 @@ public:
   inline FileStat & 	stat( int fd, bool keepName = false );
 
   inline FileStat &	lstat( const char * fileName );
+
+  bool			setTimes( time_t accessTime,
+				  time_t modificationTime );
   
   bool			setMode( mode_t mode );
   bool			setMode( Who who, What what, bool on = true );
@@ -124,6 +127,8 @@ public:
   // libStlUtils Common Class Methods
   
   ostream &		toStream( ostream & dest = cout ) const;
+
+  bool		clear( void );
   
   bool		good( void ) const;
   inline bool	exist( void ) const;
@@ -574,6 +579,9 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/03/08 18:05:28  houghton
+// Added setTimes() to set the access and modification times.
+//
 // Revision 4.1  1997/09/17 15:12:27  houghton
 // Changed to Version 4
 //
