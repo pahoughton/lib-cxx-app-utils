@@ -374,6 +374,58 @@ tStringFrom( LibTest & tester )
 	  }
       }
   }
+
+  {
+    // StringFrom( char *   dest,
+    //		   size_t   destSize,
+    //		   long	    num )
+
+    char	    t[11];
+    long	    num = 1234;
+    const char *    exp = "*00001234*";
+
+    memset( t, '*', sizeof( t ) - 1);
+    t[sizeof(t) - 1] = 0;
+
+    TESTR( t, StringFrom( t + 1, 8, num ) == (t + 1) );
+    TESTR( t, strcmp( t, exp ) == 0 );
+
+    memset( t, '*', sizeof( t ) - 1 );
+    num = -987;
+    exp = "*-0000987*";
+    
+    TESTR( t, StringFrom( t + 1, 8, num ) == (t + 1) );
+    TESTR( t, strcmp( t, exp ) == 0 );
+
+  }
+    
+    
+  {
+    // StringFrom( char *   dest,
+    //		   size_t   destSize,
+    //		   long	    num,
+    //		   char     fill );
+
+    char	    t[11];
+    long	    num = 1234;
+    const char *    exp = "*    1234*";
+
+    memset( t, '*', sizeof( t ) - 1 );
+    t[sizeof( t ) - 1] = 0;
+
+    TEST( StringFrom( t + 1, 8, num, ' ' ) == t + 1 );
+    TESTR( t, strcmp( t, exp ) == 0 );
+
+    memset( t, '*', sizeof( t ) - 1 );
+    num = -987;
+    exp = "*    -987*";
+    
+    TEST( StringFrom( t + 1, 8, num, ' ' ) == t + 1 );
+    TESTR( t, strcmp( t, exp ) == 0 );
+
+  }
+    
+    
   
   {
     // just some output
@@ -394,6 +446,9 @@ tStringFrom( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.2  1997/12/23 12:07:19  houghton
+// Added tests for StringFrom( char * dest ).
+//
 // Revision 4.1  1997/09/17 15:14:44  houghton
 // Changed to Version 4
 //
