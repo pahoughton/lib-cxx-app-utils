@@ -11,6 +11,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  1996/05/18 12:57:01  houghton
+// Added include climits
+// Added CLUE_BAD_FPOS_T
+//
 // Revision 1.3  1996/05/03 16:14:55  houghton
 // AIX port fixes.
 //
@@ -71,6 +75,11 @@
 #endif
 
 #define CLUE_UNUSED( x ) x
+
+#include <climits>
+
+#define CLUE_BAD_FPOS_T	    LONG_MIN
+
 
 #include <AnsiBool.hh>
 #include <ClueVersion.hh>
