@@ -49,19 +49,17 @@ bool
 FileProc::operator () ( const FilePath & fn )
 {
   FileStat  fs( fn );
+
+  ++ counter;
   
   AppInfo << App->appName()
-	  << " processing: '" << fs.getName() << '\'' << endl;
+	  << " processing: '" << fs.getName() << "' (" << counter << ')'
+	  << endl;
 
   remove( fn );
 
-  // sleep( (rand() % 5) + 1 );
+  return( true );
   
-  if( ++ counter < 100 )
-    return( true );
-  else
-    return( false );
-      
 }
 
 int
@@ -101,6 +99,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/10/13 15:22:27  houghton
+// Rework for extended testing.
+//
 // Revision 4.2  1998/09/29 13:46:29  houghton
 // Change to work with latest version of inbound processoer.
 //
