@@ -59,6 +59,13 @@ IosOpenModeToString( ios::open_mode mode );
 const char * 
 IosSeekDirToString( ios::seek_dir dir );
 
+ostream &
+CommaNum( ostream &	dest,
+	  long		num,
+	  size_t	width,
+	  char		fill,
+	  size_t	decimalPlaces );
+
 // See StlUtilsUtils.ii for inline Functions
 #include <StlUtilsMisc.ii>
 
@@ -209,6 +216,9 @@ IosSeekDirToString( ios::seek_dir dir );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2004/04/19 18:16:30  houghton
+// Added CommaNum prototype
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //
