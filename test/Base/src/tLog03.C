@@ -17,7 +17,7 @@
 bool
 tLog03( LibTest & tester )
 {
-  static const char *   fn = "data/logfile.01";
+  static const char *   fn = TEST_DATA_DIR "/logfile.01";
   size_t		logSize = 0;
 
   remove( fn );
@@ -80,7 +80,7 @@ tLog03( LibTest & tester )
     TEST( (size_t)t.getSize() == logSize );
   }
 
-  fn = "data/logfile.02";
+  fn = TEST_DATA_DIR "/logfile.02";
     
   {  
     // Log( const char *, const char *, bool, bool, ios::open_mode )
@@ -108,7 +108,7 @@ tLog03( LibTest & tester )
     tester.file( __FILE__, __LINE__, fn );
   }
 
-  fn = "data/logfile.03";
+  fn = TEST_DATA_DIR "/logfile.03";
 
   remove( fn );
   
@@ -130,7 +130,7 @@ tLog03( LibTest & tester )
     tester.file( __FILE__, __LINE__, fn );
   }
   
-  fn = "data/logfile.04";
+  fn = TEST_DATA_DIR "/logfile.04";
 
   remove( fn );
   

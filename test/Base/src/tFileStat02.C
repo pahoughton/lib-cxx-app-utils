@@ -22,7 +22,7 @@ tFileStat02( LibTest & tester )
     // isSetUID( void ) const
     // isSetGID( void ) const
     
-    const FileStat t( "data/FileStat.01" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.01" );
     
     TEST( ! t.isLink() );
     TEST(   t.isReg() );
@@ -36,7 +36,7 @@ tFileStat02( LibTest & tester )
 
   {
     
-    const FileStat t( "data/FileStat.l1", true );
+    const FileStat t( TEST_DATA_DIR "/FileStat.l1", true );
     
     TEST(   t.isLink() );
     TEST( ! t.isReg() );

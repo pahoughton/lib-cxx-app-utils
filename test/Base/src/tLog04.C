@@ -18,14 +18,14 @@
 bool
 tLog04( LibTest & tester )
 {
-  const char * fn = "data/logfile.05";
+  const char * fn = TEST_DATA_DIR "/logfile.05";
 
   remove( fn );
     
   {
     // tee( ostream & )
 
-    ofstream tfile( "data/logfile.05.tee" );
+    ofstream tfile( TEST_DATA_DIR "/logfile.05.tee" );
     
     Log t( fn, LogLevel::Error, true, false );
 
@@ -41,10 +41,10 @@ tLog04( LibTest & tester )
 
   {
     tester.file( __FILE__, __LINE__, fn );
-    tester.file( __FILE__, __LINE__, "data/logfile.05.tee" );
+    tester.file( __FILE__, __LINE__, TEST_DATA_DIR "/logfile.05.tee" );
   }
 
-  fn = "data/logfile.06";
+  fn = TEST_DATA_DIR "/logfile.06";
   remove( fn );
       
   {

@@ -19,8 +19,8 @@ tFileStat06( LibTest & tester )
     // operator <  ( const FileStat & ) const
     // operator >  ( const FileStat & ) const
     
-    const FileStat tl( "data/FileStat.01" );
-    const FileStat tm( "data/FileStat.l1" );
+    const FileStat tl( TEST_DATA_DIR "/FileStat.01" );
+    const FileStat tm( TEST_DATA_DIR "/FileStat.l1" );
 
     TEST( tl.compare( tl ) == 0 );
     TEST( tl == tl );
@@ -35,7 +35,7 @@ tFileStat06( LibTest & tester )
     // operator << ( ostream &, const FilePath & )
 
     strstream tStrm;
-    const FileStat t( "data/FileStat.01" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.01" );
 
     t.toStream( tStrm );
     tStrm << t;
@@ -48,7 +48,7 @@ tFileStat06( LibTest & tester )
     // getVersion( void ) const
     // getVersion( bool ) const
 
-    const FileStat t( "data/FileStat.01" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.01" );
 
     TESTR( t.error(), t.good() );
     TEST( t.error() != 0 );
@@ -62,7 +62,7 @@ tFileStat06( LibTest & tester )
     // dumpInfo( ostream & ) const
     // version
 
-    const FileStat t( "data/FileStat.01" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.01" );
 
     tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
     t.toStream( tester.getDump() );
@@ -78,8 +78,8 @@ tFileStat06( LibTest & tester )
   {
     // ::compare( const FileStat &, const FileStat & ) 
       
-    const FileStat tl( "data/FileStat.01" );
-    const FileStat tm( "data/FileStat.l1" );
+    const FileStat tl( TEST_DATA_DIR "/FileStat.01" );
+    const FileStat tm( TEST_DATA_DIR "/FileStat.l1" );
 
     TEST( compare( tl, tl ) == 0 );
     TEST( compare( tl, tm ) <  0 );

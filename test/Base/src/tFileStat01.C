@@ -31,7 +31,7 @@ tFileStat01( LibTest & tester )
   {
     // FileStat( const char * )
 
-    FileStat t( "data/FileStat.01" );
+    FileStat t( TEST_DATA_DIR "/FileStat.01" );
 
     TEST( t.good() );
   }
@@ -39,7 +39,7 @@ tFileStat01( LibTest & tester )
   {
     // FileStat( const char *, bool )
 
-    FileStat t( "data/FileStat.l1", true );
+    FileStat t( TEST_DATA_DIR "/FileStat.l1", true );
 
     TEST( t.good() );
   }
@@ -47,7 +47,7 @@ tFileStat01( LibTest & tester )
   {
     // FileStat( int fd )
 
-    int fd = open( "data/FileStat.01", O_RDONLY, 0 );
+    int fd = open( TEST_DATA_DIR "/FileStat.01", O_RDONLY, 0 );
 
     TEST( fd >= 0 );
 
@@ -71,12 +71,12 @@ tFileStat01( LibTest & tester )
     // getModificationTime( void ) const
     // getStatusChangeTime( void ) const
 
-    FileStat t( "data/FileStat.01" );
+    FileStat t( TEST_DATA_DIR "/FileStat.01" );
     User     h( "houghton" );
     
     struct stat fstat;
 
-    TEST( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
     TEST( t.getUID() == h.getUID() );
@@ -105,12 +105,12 @@ tFileStat01( LibTest & tester )
   }
 
   {
-    FileStat t( "data/FileStat.l1", true );
+    FileStat t( TEST_DATA_DIR "/FileStat.l1", true );
     User     h( "houghton" );
     
     struct stat fstat;
 
-    TEST( ! lstat( "data/FileStat.l1", &fstat ) );
+    TEST( ! lstat( TEST_DATA_DIR "/FileStat.l1", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
     TEST( t.getUID() == h.getUID() );
@@ -138,12 +138,12 @@ tFileStat01( LibTest & tester )
   
   {
  
-    FileStat t( "data/FileStat.l1" );
+    FileStat t( TEST_DATA_DIR "/FileStat.l1" );
     User     h( "houghton" );
     
     struct stat fstat;
 
-    TEST( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
     TEST( t.getUID() == h.getUID() );

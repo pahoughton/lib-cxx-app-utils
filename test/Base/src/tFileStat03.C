@@ -19,7 +19,7 @@ tFileStat03( LibTest & tester )
     // canWrite( Who ) const
     // canExec( Who ) const
     
-    const FileStat t( "data/FileStat.h.t.yyy.yyy.yyy" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.h.t.yyy.yyy.yyy" );
 
     TEST(   t.good() );
     
@@ -42,7 +42,7 @@ tFileStat03( LibTest & tester )
   }
 
   {
-    const FileStat t( "data/FileStat.h.t.nnn.nnn.nnn" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.h.t.nnn.nnn.nnn" );
 
     TEST( ! t.canRead() );
     TEST( ! t.canWrite() );
@@ -63,7 +63,7 @@ tFileStat03( LibTest & tester )
   }
 
   {
-    const FileStat t( "data/FileStat.h.t.nnn.yyy.nnn" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.h.t.nnn.yyy.nnn" );
 
     TEST( ! t.canRead() );
     TEST( ! t.canWrite() );
@@ -84,7 +84,7 @@ tFileStat03( LibTest & tester )
   }
 #ifdef HAVE_BIN_UID
   {
-    const FileStat t( "data/FileStat.b.b.yyy.yyy.nnn" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.b.b.yyy.yyy.nnn" );
 
     TEST( ! t.canRead() );
     TEST( ! t.canWrite() );
@@ -105,7 +105,7 @@ tFileStat03( LibTest & tester )
   }
 
   {
-    const FileStat t( "data/FileStat.b.b.yyy.yny.yny" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.b.b.yyy.yny.yny" );
 
     TEST(   t.canRead() );
     TEST( ! t.canWrite() );

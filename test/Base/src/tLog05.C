@@ -16,7 +16,7 @@
 bool
 tLog05( LibTest & tester )
 {
-  const char * fn = "data/logfile.07";
+  const char * fn = TEST_DATA_DIR "/logfile.07";
 
   remove( fn );
   
@@ -55,7 +55,7 @@ tLog05( LibTest & tester )
     tester.file( __FILE__, __LINE__, fn );
   }
 
-  fn = "data/logfile.08";
+  fn = TEST_DATA_DIR "/logfile.08";
   
   {
     // on( LogLevel::Level )
@@ -123,7 +123,7 @@ tLog05( LibTest & tester )
 
     t() << "BAD\n";
     
-    t.setFileName( "data/logfile.09", ios::out );
+    t.setFileName( TEST_DATA_DIR "/logfile.09", ios::out );
 
     t() << "error good\n";
     t( LogLevel::Info ) << "info good\n";
@@ -137,9 +137,9 @@ tLog05( LibTest & tester )
     
     TEST( ! t.good() );
     
-    tester.file( __FILE__, __LINE__, "data/logfile.09" );
+    tester.file( __FILE__, __LINE__, TEST_DATA_DIR "/logfile.09" );
 
-    t.open( "data/logfile.10", ios::out );
+    t.open( TEST_DATA_DIR "/logfile.10", ios::out );
 
     TEST( t.good() );
 
@@ -150,10 +150,10 @@ tLog05( LibTest & tester )
   }
 
   {
-    tester.file( __FILE__, __LINE__, "data/logfile.10" );
+    tester.file( __FILE__, __LINE__, TEST_DATA_DIR "/logfile.10" );
   }
   
-  fn = "data/logfile.11";
+  fn = TEST_DATA_DIR "/logfile.11";
   
   {
     // setOutputLevel( LogLevel::Level )
@@ -196,7 +196,7 @@ tLog05( LibTest & tester )
     tester.file( __FILE__, __LINE__, fn );
   }
 
-  fn = "data/logfile.12";
+  fn = TEST_DATA_DIR "/logfile.12";
   remove( fn );
   
   {

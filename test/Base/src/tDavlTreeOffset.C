@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/05/01 11:34:59  houghton
+// Use TEST_DATA_DIR define for data path.
+//
 // Revision 2.1  1995/11/10 12:49:10  houghton
 // Change to Version 2
 //
@@ -53,7 +56,7 @@ tDavlTreeOffset( void )
 	  &keyMem,
 	  &dataMem);
 
-  DavlTestData	    	data( "data/davl.data" );
+  DavlTestData	    	data( TEST_DATA_DIR "/davl.data" );
 
   DavlTestData::Action	action;
 

@@ -14,29 +14,29 @@ tFileStat05( LibTest & tester )
   {
     // setMode( mode_t )
     
-    FileStat t( "data/FileStat.set" );
+    FileStat t( TEST_DATA_DIR "/FileStat.set" );
     FileStat c;
     
     TEST( t.setMode( 0777 ) );
 
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0777 );
     TEST( (t.getMode() & 0777) == 0777 );
 
     TEST( t.setMode( 0644 ) );
 
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0644 );
     TEST( (t.getMode() & 0777) == 0644 );
     
 #ifdef HAVE_BIN_UID
-    t.stat( "data/FileStat.b.b.yyy.yny.yny" );
+    t.stat( TEST_DATA_DIR "/FileStat.b.b.yyy.yny.yny" );
 
     TEST( ! t.setMode( 0444 ) );
     
-    c.stat( "data/FileStat.b.b.yyy.yny.yny" );
+    c.stat( TEST_DATA_DIR "/FileStat.b.b.yyy.yny.yny" );
 
     TEST( (c.getMode() & 0777) == 0755 );
     TEST( (t.getMode() & 0777) == 0755 );
@@ -46,19 +46,19 @@ tFileStat05( LibTest & tester )
   {
     // set( Who, What );
     
-    FileStat t( "data/FileStat.set" );
+    FileStat t( TEST_DATA_DIR "/FileStat.set" );
     FileStat c;
     
     TEST( t.setMode( 0444 ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0444 );
     TEST( (t.getMode() & 0777) == 0444 );
 
     TEST( t.setMode( FileStat::USER, FileStat::EXEC ) );
 
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
     
     TEST( c.canExec( FileStat::USER ) );
     TEST( t.canExec( FileStat::USER ) );
@@ -69,7 +69,7 @@ tFileStat05( LibTest & tester )
     TEST( t.setMode( FileStat::USER | FileStat::GROUP | FileStat::OTHER,
 		     FileStat::WRITE ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
     
     TEST( c.canWrite( FileStat::USER ) );
     TEST( c.canWrite( FileStat::GROUP ) );
@@ -87,19 +87,19 @@ tFileStat05( LibTest & tester )
   {
     // set( Who, What, bool )
 
-    FileStat t( "data/FileStat.set" );
+    FileStat t( TEST_DATA_DIR "/FileStat.set" );
     FileStat c;
     
     TEST( t.setMode( 0777 ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0777 );
     TEST( (t.getMode() & 0777) == 0777 );
 
     TEST( t.setMode( FileStat::OTHER, FileStat::EXEC, false ) );
 
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0776 );
     TEST( (t.getMode() & 0777) == 0776 );
@@ -108,7 +108,7 @@ tFileStat05( LibTest & tester )
     TEST( t.setMode( FileStat::USER | FileStat::GROUP | FileStat::OTHER,
 		     FileStat::WRITE, false ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0554 );
     TEST( (t.getMode() & 0777) == 0554 );
@@ -122,54 +122,54 @@ tFileStat05( LibTest & tester )
     // setExec( Who )
     // setExec( Who, bool )
 
-    FileStat t( "data/FileStat.set" );
+    FileStat t( TEST_DATA_DIR "/FileStat.set" );
     FileStat c;
     
     TEST( t.setMode( 0 ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0 );
     TEST( (t.getMode() & 0777) == 0 );
 
     TEST( t.setRead( FileStat::ALL ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0444 );
     TEST( (t.getMode() & 0777) == 0444 );
 
     TEST( t.setRead( FileStat::OTHER, false ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0440 );
     TEST( (t.getMode() & 0777) == 0440 );
 
     TEST( t.setWrite( FileStat::ALL ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0662 );
     TEST( (t.getMode() & 0777) == 0662 );
 
     TEST( t.setWrite( FileStat::OTHER, false ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0660 );
     TEST( (t.getMode() & 0777) == 0660 );
 
     TEST( t.setExec( FileStat::ALL ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0771 );
     TEST( (t.getMode() & 0777) == 0771 );
 
     TEST( t.setExec( FileStat::OTHER, false ) );
     
-    c.stat( "data/FileStat.set" );
+    c.stat( TEST_DATA_DIR "/FileStat.set" );
 
     TEST( (c.getMode() & 0777) == 0770 );
     TEST( (t.getMode() & 0777) == 0770 );

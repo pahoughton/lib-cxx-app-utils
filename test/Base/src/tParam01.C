@@ -25,7 +25,7 @@ char * argv01[] =
 char * argv02[] =
 {
   "test/test",
-  "-log",	"data/param.log.01",
+  "-log",	TEST_DATA_DIR "/param.log.01",
   "-help",
   "-loglevel",	"TEST | INFO",
   "-logmax",	"10240",
@@ -49,7 +49,7 @@ char * argv02[] =
 bool
 tParam01( LibTest & tester )
 {
-  remove( "data/param.log.01" );
+  remove( TEST_DATA_DIR "/param.log.01" );
   
   {
     // Param( int &, char * [], const char * )

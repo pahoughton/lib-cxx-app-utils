@@ -27,10 +27,10 @@ tFileStat04( LibTest & tester )
     // getUserName( void ) const
     // getGroupName( void ) const
 
-    const FileStat t( "data/FileStat.01" );
+    const FileStat t( TEST_DATA_DIR "/FileStat.01" );
 
     TEST( t.good() );
-    TEST( compare( (const char *)t.getName(), "data/FileStat.01" ) == 0 );
+    TEST( compare( (const char *)t.getName(), TEST_DATA_DIR "/FileStat.01" ) == 0 );
     TEST( compare( t.getModeString(), "-rw-rw-r--" ) == 0 );
     TEST( compare( t.getUserName(), "houghton" ) == 0 );
     TEST( compare( t.getGroupName(), "tools" ) == 0 );
@@ -42,11 +42,11 @@ tFileStat04( LibTest & tester )
     FileStat t( "data" );
     User     h( "houghton" );
 
-    t.stat( "data/FileStat.01" );
+    t.stat( TEST_DATA_DIR "/FileStat.01" );
     
     struct stat fstat;
     
-    TEST( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
     TEST( t.getUID() == h.getUID() );
@@ -77,7 +77,7 @@ tFileStat04( LibTest & tester )
   {
     // stat( int )
 
-    int fd = open( "data/FileStat.01", O_RDONLY, 0 );
+    int fd = open( TEST_DATA_DIR "/FileStat.01", O_RDONLY, 0 );
 
     TEST( fd >= 0 );
 
@@ -88,7 +88,7 @@ tFileStat04( LibTest & tester )
     
     struct stat fstat;
     
-    TEST( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
     TEST( t.getUID() == h.getUID() );
@@ -124,10 +124,10 @@ tFileStat04( LibTest & tester )
     User     h( "houghton" );
 
     
-    t.lstat( "data/FileStat.l1" );
+    t.lstat( TEST_DATA_DIR "/FileStat.l1" );
     struct stat fstat;
     
-    TEST( ! lstat( "data/FileStat.l1", &fstat ) );
+    TEST( ! lstat( TEST_DATA_DIR "/FileStat.l1", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
     TEST( t.getUID() == h.getUID() );
@@ -159,11 +159,11 @@ tFileStat04( LibTest & tester )
     FileStat t( "data" );
     User     h( "houghton" );
 
-    t( "data/FileStat.01" );
+    t( TEST_DATA_DIR "/FileStat.01" );
     
     struct stat fstat;
     
-    TEST( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
     TEST( t.getUID() == h.getUID() );
@@ -194,7 +194,7 @@ tFileStat04( LibTest & tester )
   {
     // operator () ( int )
 
-    int fd = open( "data/FileStat.01", O_RDONLY, 0 );
+    int fd = open( TEST_DATA_DIR "/FileStat.01", O_RDONLY, 0 );
 
     TEST( fd >= 0 );
 
@@ -205,7 +205,7 @@ tFileStat04( LibTest & tester )
     
     struct stat fstat;
     
-    TEST( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
     TEST( t.getUID() == h.getUID() );
