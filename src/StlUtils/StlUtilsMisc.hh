@@ -59,12 +59,6 @@ IosOpenModeToString( ios::open_mode mode );
 const char * 
 IosSeekDirToString( ios::seek_dir dir );
 
-bool
-ArchiveFile( const FilePath &	srcFn,
-	     const FilePath &	archiveDir,
-	     time_t		archiveTimeStamp,
-	     bool		compressIt );
-
 // See StlUtilsUtils.ii for inline Functions
 #include <StlUtilsMisc.ii>
 
@@ -215,6 +209,10 @@ ArchiveFile( const FilePath &	srcFn,
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/07/25 12:59:01  houghton
+// Removed ArchiveFile prototype .. the funtion was moved to FileTools
+// project.
+//
 // Revision 5.4  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //
