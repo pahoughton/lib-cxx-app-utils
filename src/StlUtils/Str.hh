@@ -51,8 +51,17 @@ public:
   typedef const char *				const_pointer;
   typedef pointer				iterator;
   typedef const_pointer				const_iterator;
+  
+#if defined( STDCXX_PARTIAL_SPECIALIZATION )
   typedef ::reverse_iterator< iterator >	reverse_iterator;
   typedef ::reverse_iterator< const_iterator >	const_reverse_iterator;
+#else
+  typedef ::reverse_iterator< iterator, char, char &, ptrdiff_t >
+	reverse_iterator;
+  
+  typedef ::reverse_iterator< const_iterator, char, const char &, ptrdiff_t >
+	const_reverse_iterator;
+#endif
   
   typedef pair< unsigned long, unsigned long >	Range;
   
@@ -1749,6 +1758,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.10  1998/10/23 13:07:05  houghton
+// Changed to support both new (Std) and old types of reverse_iterator.
+//
 // Revision 4.9  1998/10/13 16:23:48  houghton
 // Changed to use new standard include files.
 // Cleanup.
