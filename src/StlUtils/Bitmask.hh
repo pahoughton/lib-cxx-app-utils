@@ -35,7 +35,7 @@ class Bitmask
 
 public:
 
-  typedef STLUTILS_LONG_U32_T  ValueType;
+  typedef STLUTILS_LONG_U32_T  value_type;
 
   class bit
   {
@@ -149,6 +149,8 @@ public:
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
+  static const Bitmask all;
+
   static const bit b00;
   static const bit b01;
   static const bit b02;
@@ -182,8 +184,6 @@ public:
   static const bit b30;
   static const bit b31;
 
-  static const Bitmask all;
-
   static const size_t	maxPos;
   
   static const ClassVersion version;
@@ -192,7 +192,7 @@ protected:
 
 private:
 
-  ValueType value;
+  value_type value;
   
 };
 
@@ -263,7 +263,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //
 //  	Bitmask
 //
-//	ValueType
+//	value_type
 //	    An unsigned 32 bit type used to contain the bit data.
 //
 //	bit	    class
@@ -717,6 +717,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/10/13 16:13:46  houghton
+// Changed ValueType to value_type for consistency.
+//
 // Revision 4.3  1998/07/20 11:19:39  houghton
 // Port(Hpux): Added operatoer == (bool) && operator != (bool).
 //

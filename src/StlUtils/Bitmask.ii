@@ -223,7 +223,7 @@ inline
 const char *
 Bitmask::to_string( void ) const
 {
-  static char	tmp[ CHAR_BITS * sizeof( Bitmask::ValueType ) ];
+  static char	tmp[ CHAR_BITS * sizeof( Bitmask::value_type ) ];
 
   int p = maxPos;
   for( ; p > 0; p-- )
@@ -578,6 +578,9 @@ operator << ( ostream & dest, const Bitmask::bit & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/10/13 16:14:08  houghton
+// Changed ValueType to value_type for consistency.
+//
 // Revision 4.2  1998/07/20 11:19:42  houghton
 // Port(Hpux): Added operatoer == (bool) && operator != (bool).
 //
