@@ -47,9 +47,13 @@ rm /tmp/sigs$$.c
 
 rm sig.lst 2> /dev/null
 
+
 for hdr in $hdrs ; do
-  grep '^[ 	]*#[ 	]*define[ 	]*SIG[A-Z].*[ 	][ 	]*[0-9][0-9]*' $hdr | sed -e 's/.*\(SIG.*\)[ 	][ 	]*\([0-9][0-9]*\).*/\2 \1/' | sort -n >> sig.lst
+  # echo -- Checking $hdr for sigs
+  grep '^[ 	]*#[ 	]*define[ 	]*SIG[A-Z].*[ 	][ 	]*[0-9][0-9]*' $hdr | sed -e 's/.*\(SIG[^ 	]*\)[ 	][ 	]*\([0-9][0-9]*\).*/\2 \1/' | sort -n >> sig.lst
+  # cat sig.lst
 done
+
 
 echo Found `wc -l sig.lst | sed -e 's/[^0-9]*\([0-9][0-9]*\)[^0-9]*/\1/'` signals.
 
@@ -84,6 +88,9 @@ EOS
 
 #
 # $Log$
+# Revision 4.3  2000/03/21 23:29:15  houghton
+# Bug-Fix: was not picking up all sig names.
+#
 # Revision 4.2  1997/09/21 21:22:00  houghton
 # Port(Sun5): have to filter out #indent lines.
 #
@@ -109,6 +116,9 @@ EOS
 
 #
 # $Log$
+# Revision 4.3  2000/03/21 23:29:15  houghton
+# Bug-Fix: was not picking up all sig names.
+#
 # Revision 4.2  1997/09/21 21:22:00  houghton
 # Port(Sun5): have to filter out #indent lines.
 #
