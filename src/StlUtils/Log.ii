@@ -194,7 +194,7 @@ inline
 const LogBuf *
 Log::rdbuf( void ) const
 {
-#if defined( AIX41 ) || defined( Sun5 )
+#if defined( AIX41 ) || defined( Sun5 ) || defined( Hpux10 )
   // aix does not have a const rdbuf
   return( (const LogBuf *)(bp) );
 #else
@@ -235,6 +235,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/07/20 11:21:22  houghton
+// Port(Hpux): it also does not have a 'const' version of rdbuf().
+//
 // Revision 4.1  1997/09/17 15:12:34  houghton
 // Changed to Version 4
 //
