@@ -14,11 +14,13 @@
 
 include make.cfg
 
-BETA_LIB_DEST	= /usr/local/lib/beta
-BETA_INC_DEST	= /usr/local/include/beta
+BETA_LIB_DEST	= /rating/dev/lib
+# usr/local/lib/beta
+BETA_INC_DEST	= /rating/dev/include
+# /usr/local/include/beta
 
-PROD_LIB_DEST	= 
-PROD_INC_DEST	= 
+PROD_LIB_DEST	= /rating/dev/lib
+PROD_INC_DEST	= /rating/dev/include
 
 
 LIBRARY		= libClue.a
@@ -185,7 +187,10 @@ include .depend
 
 # 
 # $Log$
-# Revision 1.5  1995/01/13 19:34:38  ichudov
+# Revision 1.6  1995/01/13 20:27:48  ichudov
+# Set the production destination
+#
+# Revision 1.5  1995/01/13  19:34:38  ichudov
 # Corrected a bug in TeleNumCompare.
 #
 # Revision 1.4  1994/09/27  16:58:40  houghton
