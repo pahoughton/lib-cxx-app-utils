@@ -18,6 +18,8 @@
 #include "Str.hh"
 #include "DateTime.hh"
 
+#include <unistd.h>
+
 CLUE_VERSION(
   Param,
   "$Id$" );
@@ -39,7 +41,7 @@ const char * Param::ErrorStrings[] =
 Param::Param(
   int		    mainArgc,
   char *	    mainArgv[],
-  const char *	    version,
+  const char *	    appVersion,
   bool		    useDefaultArgFn,
   const char *	    logLevel,
   ios::open_mode    logOpenMode,
@@ -57,8 +59,8 @@ Param::Param(
     logLevelStamp( true ),
     logLocStamp( true )
 {
-  if( version )
-    ver = version;
+  if( appVersion )
+    ver = appVersion;
     
   if( _LibLog  == 0 )
     _LibLog = &appLog;
@@ -1111,6 +1113,10 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.13  1997/07/18 19:25:17  houghton
+// Cleanup.
+// Port(Sun5): changed local variable names to eliminate compiler warnings.
+//
 // Revision 3.12  1997/04/26 16:47:28  houghton
 // Added env var for argfile.
 //
