@@ -20,21 +20,27 @@ UNIX_C_SOURCES		=	\
 
 UNIX_CXX_C_SOURCES	=	\
 	OpenFlags.C		\
+	PidFile.C		\
 	TimeIt.C		\
 	User.C			\
 	UserGroup.C		\
+	SigCatcher.C		\
 
 UNIX_USER_H_INCS	=	\
 
 UNIX_USER_HH_INCS	=	\
 	TimeIt.hh		\
+	PidFile.hh		\
 	User.hh			\
 	UserGroup.hh		\
+	SigCatcher.hh		\
 
 UNIX_USER_II_INCS	=	\
 	TimeIt.ii		\
+	PidFile.ii		\
 	User.ii			\
 	UserGroup.ii		\
+	SigCatcher.ii		\
 
 UNIX_C_HEADERS		=
 UNIX_CXX_HEADERS	=
@@ -43,6 +49,10 @@ UNIX_CXX_INLINES	=
 
 #
 # $Log$
+# Revision 3.4  1997/04/19 09:53:22  houghton
+# Added PidFile
+# Added SigCatcher
+#
 # Revision 3.3  1997/01/18 17:41:50  houghton
 # Added TimeIt sources.
 #
