@@ -208,7 +208,7 @@ DateTime::getHHMMSS( void ) const
 
   const struct tm * tmTime = ( flags.tmValid ? &tm : gmtime( &seconds ) );
   
-  sprintf( hhmmss, "%02d:%02d:%02d",
+  sprintf( hhmmss, "%02d%02d%02d",
 	   tmTime->tm_hour,
 	   tmTime->tm_min,
 	   tmTime->tm_sec );
@@ -960,6 +960,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.9  1999/06/10 11:43:47  houghton
+// changed output format of getHHMMSS from 02:04:05 to 020405.
+//
 // Revision 4.8  1998/10/23 13:04:26  houghton
 // Bug-Fix: the env string passed to putenv() must be static.
 //
