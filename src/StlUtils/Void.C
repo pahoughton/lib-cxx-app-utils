@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.6  1997/03/16 08:56:50  houghton
+// Cleanup dump output.
+//
 // Revision 3.5  1997/03/16 07:38:36  houghton
 // Bug-Fix: reset error in read.
 //
@@ -317,7 +320,7 @@ Void::dumpInfo(
       if( isprint( d[pos] ) )
 	dest << d[pos] << ' ';
       else
-	dest << "0x" << setw(2) << (int)d[pos] << ' ' ;
+	dest << "0x" << setw(2) << (unsigned int)(unsigned char)d[pos] << ' ' ;
     }
 
   dest.fill( oldFill );
