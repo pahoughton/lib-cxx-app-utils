@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/04/27 13:02:48  houghton
+// Added thread locking support.
+//
 // Revision 2.4  1995/11/12 18:01:16  houghton
 // Added srcFile, srcLine args to level().
 // Change LogIf macro to use __FILE__ and __LINE__.
@@ -31,12 +34,14 @@
 //
 
 #if !defined( CLUE_SHORT_FN )
+#include <Mutex.hh>
 #include <ClueConfig.hh>
 #include <LogBuf.hh>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #else
+#include <Mutex.hh>
 #include <ClueCfg.hh>
 #include <LogBuf.hh>
 #include <iostream>
@@ -133,6 +138,11 @@ public:
   inline LogBuf *	    rdbuf( void );
   inline const LogBuf *	    rdbuf( void ) const;
 
+  // mutex locking
+
+  inline bool		    lock( void );
+  inline bool		    unlock( void );
+  
   virtual bool 		good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char *	getClassName( void ) const;
@@ -152,6 +162,8 @@ private:
 
   bool		timeStamp;
   bool		levelStamp;
+
+  Mutex		mutex;
   
 };
 
