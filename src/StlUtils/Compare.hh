@@ -74,15 +74,19 @@ Compare_PSCMP_( char * * , char * const * );
 Compare_PSCMP_( char * * , char * * );
 
 Compare_NCMP( char );
+Compare_NCMP( unsigned char );
 Compare_NCMP( short );
+Compare_NCMP( unsigned short );
 Compare_NCMP( int );
+Compare_NCMP( unsigned int );
 Compare_NCMP( long );
+Compare_NCMP( unsigned long );
+#if defined( STLUTILS_HAVE_LONG_LONG )
+Compare_NCMP( long long );
+Compare_NCMP( unsigned long long );
+#endif
 Compare_NCMP( float );
 Compare_NCMP( double );
-Compare_NCMP( unsigned char );
-Compare_NCMP( unsigned short );
-Compare_NCMP( unsigned int );
-Compare_NCMP( unsigned long );
 
 #undef Compare_SCMP_
 #undef Compare_PSCMP_
@@ -224,6 +228,10 @@ Compare_NCMP( unsigned long );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/06/10 11:43:11  houghton
+// Added long long (64 bit) support.
+// Cleanup.
+//
 // Revision 4.1  1997/09/17 15:12:13  houghton
 // Changed to Version 4
 //
