@@ -2,28 +2,17 @@
 #define _FileStat_ii_
 //
 // File:        FileStat.ii
+// Project:	Clue
 // Desc:        
 //
-//  	inlines for FileStat
+//  	Definitions for FileStat inline functions.
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     07/22/95 07:18
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 2.3  1995/12/31 11:25:52  houghton
-// Bug Fix - Added include for 'cerrno'
-//
-// Revision 2.2  1995/12/04 11:20:33  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:47:12  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  16:04:15  houghton
-// Revised
-//
+// $Id$
 //
 
 #include <cerrno>
@@ -58,6 +47,18 @@ FileStat::FileStat( int fileDescriptor )
   fd = fileDescriptor;
   sysError = 0;
   stat( fd );
+}
+
+inline
+FileStat::FileStat( const FileSta & from )
+  : fd( from.fd ),
+    name( from.name ),
+    useName( from.userName ),
+    groupName( from.groupName ),
+    modeString( from.modeString ),
+    st( from.st ),
+    sysError( from.sysError )
+{
 }
 
 inline
@@ -420,6 +421,21 @@ FileStat::operator () ( int fd, bool keepName )
 }
 
 inline
+FileStat &
+FileStat::operator = ( const FileStat & rhs )
+{
+  fd		= rhs.fd;
+  name		= rhs.name;
+  useName	= rhs.userName;
+  groupName	= rhs.groupName;
+  modeString	= rhs.modeString;
+  st		= rhs.st;
+  sysError	= rhs.sysError;
+
+  return( *this );
+}
+
+inline
 int
 FileStat::compare( const FileStat & two ) const
 {
@@ -454,4 +470,25 @@ operator << ( ostream & dest, const FileStat & obj )
   return( obj.toStream( dest ) );
 }
 
+// Revision Log:
+//
+// $Log$
+// Revision 2.4  1996/11/04 14:40:05  houghton
+// Restructure header comments layout.
+// Added copy construtor
+// Added operator = ( const FileStat & rhs )
+//
+// Revision 2.3  1995/12/31 11:25:52  houghton
+// Bug Fix - Added include for 'cerrno'
+//
+// Revision 2.2  1995/12/04 11:20:33  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:47:12  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  16:04:15  houghton
+// Revised
+//
+//
 #endif // ! def _FileStat_ii_ 
