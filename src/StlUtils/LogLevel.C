@@ -110,13 +110,13 @@ LogLevel::getName( const Level level )
   if( level == All )
     return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
     
-  for( size_t l = 0; l < (ArraySize( LevelNames )  - 1); l++ )
+  for( size_t l = 0; l < (ArraySize( LevelNames )  - 3); l++ )
     {
       if( level( l ) )
 	return( LevelNames[ l + 1 ] );
     }
   
-  return( "unknown" );
+  return( 0 );
 }
 
 const char * 
@@ -134,7 +134,7 @@ LogLevel::getLevelNames( const Level level )
 
   names[0] = 0;
   
-  for( size_t l = 0; l < (ArraySize( LevelNames )  - 1); l++ )
+  for( size_t l = 0; l < (ArraySize( LevelNames )  - 3); l++ )
     {
       if( level.test( l ) )
 	{
@@ -166,7 +166,7 @@ LogLevel::setName( const Level level, const char * name )
       return( true );
     }
     
-  for( size_t pos = 0; pos < (ArraySize( LevelNames ) - 1) ; pos++ )
+  for( size_t pos = 0; pos < (ArraySize( LevelNames ) - 3) ; pos++ )
     {
       if( level( pos ) )
 	{
@@ -284,6 +284,10 @@ LogLevel::levelFromString( const char * level )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/19 16:25:23  houghton
+// Bug-Fix: getName* would return all even if not all bits were set.
+// Changed getName now returns 0 if name not found.
+//
 // Revision 3.2  1997/03/03 14:36:41  houghton
 // Removed support for RW Tools++
 //
