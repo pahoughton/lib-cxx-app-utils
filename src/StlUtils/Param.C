@@ -16,7 +16,14 @@
 #include "StringUtils.hh"
 #include "StlUtilsMisc.hh"
 #include "Str.hh"
+#include "FileStat.hh"
 #include "DateTime.hh"
+
+#if defined( STLUTILS_HAS_USER )
+#include "User.hh"
+#endif
+
+#include "FileOp.hh"
 
 #include <unistd.h>
 
@@ -27,6 +34,11 @@ STLUTILS_VERSION(
 #if defined( STLUTILS_DEBUG )
 #include <Param.ii>
 #endif
+
+#define ARG_ID_ARGFILE	    "argfile"
+#define ARG_ID_HELP	    "help"
+#define ARG_ID_VERSION	    "version"
+#define ARG_ID_GEN_ARGFILE  "gen-argfile"
 
 const char * Param::ErrorStrings[] =
 {
@@ -64,6 +76,7 @@ Param::Param(
     logTimeStamp( true ),
     logLevelStamp( true ),
     logLocStamp( true ),
+    generateArgFile( false ),
     errorLogFile( 0 ),
     errorLogId( LogBuf::badFilterId ),
     errorLogLevels( "ERROR | WARN" )
@@ -147,8 +160,30 @@ Log &
 Param::logStartInfo( void )
 {
   appLog( LogLevel::Info )
-    << appName() << '(' << getpid() << ") Started at " << appStartTime
-    ;
+    << appName() << '(' << getpid() << ") Started";
+
+  if( ! appLog.getTimeStamp() )
+    appLog << " at " << appStartTime;
+
+  appLog << '.' << endl;
+  return( appLog );
+}
+
+Log &
+Param::logExitInfo( int exitCode )
+{
+  if( exitCode )
+    appLog( LogLevel::Info );
+  else
+    appLog( LogLevel::Error );
+
+  appLog << appName() << '(' << getpid() << ") Completed";
+
+  if( ! appLog.getTimeStamp() )
+    appLog << " at " << DateTime( time(0), true );
+
+  appLog << '.' << endl;
+  
   return( appLog );
 }
 
@@ -167,7 +202,7 @@ Param::parseArgs( void )
   
   argStr( argFile,
 	  "Name of file to read args from.",
-	  "argfile",
+	  ARG_ID_ARGFILE,
 	  argFileEnvVar );
 
   if( argFile.size() )
@@ -178,12 +213,12 @@ Param::parseArgs( void )
   
   argFlag( helpFlag,
 	   "show usage help.",
-	   "help" );
+	   ARG_ID_HELP );
 
   bool	verFlag = false;
   argFlag( verFlag,
 	   "show version and exit",
-	   "version" );
+	   ARG_ID_VERSION );
 
   if( verFlag && ! helpFlag )
     {
@@ -198,6 +233,10 @@ Param::parseArgs( void )
       cout << endl;
       exit( 0 );
     }
+
+  argFlag( generateArgFile,
+	   "generate an args file.",
+	   ARG_ID_GEN_ARGFILE );
   
   argStr( logFile,
 	  "log file name.",
@@ -258,30 +297,6 @@ Param::parseArgs( void )
 	   "log-trim",
 	   "LOG_TRIM" );
   
-  if( logFilter.size() )
-    appLog.filter( logFilter.c_str() );
-	  
-  if( logFile.size() )
-    appLog.setFileName( logFile.c_str(),
-			logMode,
-			logProt );
-
-  if( logTrimSize )
-    appLog.setTrimSize( logTrimSize );
-      
-  if( logMaxSize )
-    appLog.setMaxSize( logMaxSize );
-  
-  if( logTee )
-    appLog.tee( cerr );
-
-  appLog.setTimeStamp( logTimeStamp );
-  appLog.setLevelStamp( logLevelStamp );
-  appLog.setLocStamp( logLocStamp );
-
-  if( logOutputLevel.size() )
-    appLog.setOutputLevel( logOutputLevel.c_str() );
-
   argStr( errorLogName,
 	  "error log file name.",
 	  "error-log",
@@ -292,65 +307,92 @@ Param::parseArgs( void )
 	  "error-log-level",
 	  "ERROR_LOG_LEVEL" );
 
+  if( logFilter.size() )
+    appLog.filter( logFilter.c_str() );
   
-  if( errorLogName.size() && errorLogLevels.size() )
+  if( logTee )
+    appLog.tee( cerr );
+  
+  appLog.setTimeStamp( logTimeStamp );
+  appLog.setLevelStamp( logLevelStamp );
+  appLog.setLocStamp( logLocStamp );
+  
+  if( logOutputLevel.size() )
+    appLog.setOutputLevel( logOutputLevel.c_str() );
+  
+  if( logTrimSize )
+    appLog.setTrimSize( logTrimSize );
+  
+  if( logMaxSize )
+    appLog.setMaxSize( logMaxSize );
+  
+  if( ! helpFlag )
     {
-      LogLevel errLevel( errorLogLevels );
+      if( logFile.size() )
+	appLog.setFileName( logFile.c_str(),
+			    logMode,
+			    logProt );
 
-      if( errLevel.getOutput() != LogLevel::None )
+      if( errorLogName.size() && errorLogLevels.size() )
 	{
-	  errorLogFile = new ofstream( errorLogName,
-				       ios::out | ios::app,
-				       0664 );
-      
-	  if( errorLogFile )
+	  LogLevel errLevel( errorLogLevels );
+
+	  if( errLevel.getOutput() != LogLevel::None )
 	    {
-	      if( (*errorLogFile).good() )
+	      errorLogFile = new ofstream( errorLogName,
+					   ios::out | ios::app,
+					   0664 );
+      
+	      if( errorLogFile )
 		{
-		  errorLogId = appLog.addFilter( (*errorLogFile).rdbuf(),
-						 errLevel.getOutput() );
-		  if( errorLogId == LogBuf::badFilterId )
+		  if( (*errorLogFile).good() )
 		    {
-		      setError( E_ERRLOG_ADD,
+		      errorLogId = appLog.addFilter( (*errorLogFile).rdbuf(),
+						     errLevel.getOutput() );
+		      if( errorLogId == LogBuf::badFilterId )
+			{
+			  setError( E_ERRLOG_ADD,
+				    "error-log",
+				    "ERROR_LOG",
+				    errorLogName );
+			}
+		    }
+		  else
+		    {
+		      Str errDesc;
+
+		      errDesc << " '"
+			      << errorLogName
+			      << "' - "
+			      << strerror( errno );
+		  
+		      setError( E_ERRLOG_OPEN,
 				"error-log",
 				"ERROR_LOG",
-				errorLogName );
+				errDesc );
 		    }
 		}
 	      else
 		{
-		  Str errDesc;
-
-		  errDesc << " '"
-			  << errorLogName
-			  << "' - "
-			  << strerror( errno );
-		  
-		  setError( E_ERRLOG_OPEN,
+		  setError( E_ERRLOG_NEW,
 			    "error-log",
 			    "ERROR_LOG",
-			    errDesc );
+			    0 );
 		}
 	    }
 	  else
 	    {
-	      setError( E_ERRLOG_NEW,
-			"error-log",
-			"ERROR_LOG",
-			0 );
+	      Str errDesc;
+	      errDesc << "(" << errorLogLevels << ')';
+	  
+	      setError( E_ERRLOG_LEVEL,
+			"error-log-level",
+			"ERROR_LOG_LEVEL",
+			errDesc );
 	    }
 	}
-      else
-	{
-	  Str errDesc;
-	  errDesc << "(" << errorLogLevels << ')';
-	  
-	  setError( E_ERRLOG_LEVEL,
-		    "error-log-level",
-		    "ERROR_LOG_LEVEL",
-		    errDesc );
-	}
     }
+  
   return( good() );
 }  
 
@@ -376,7 +418,7 @@ Param::readArgs( istream & src )
 {
   Str    line;
 
-  allFileArgs.erase( fileArgs.begin(), fileArgs.end() );
+  allFileArgs.erase( allFileArgs.begin(), allFileArgs.end() );
   
   while( getline( src, line ).good() )
     {
@@ -428,7 +470,7 @@ Param::argStr(
       dest[ arg.size() ] = 0;
     }
 
-  appendHelp( argId, desc, envVar, dest );
+  appendArgInfo( argId, desc, envVar, dest );
 
   return( arg.size() != 0 );
 }
@@ -444,10 +486,35 @@ Param::argStr(
   Str    arg	     = getArgValue( argId, envVar );
 
   if( arg.size() )
-    dest = arg.c_str();
+    dest = arg;
 
-  appendHelp( argId, desc, envVar, dest );
+  appendArgInfo( argId, desc, envVar, dest );
 
+  return( arg.size() != 0 );
+}
+
+bool
+Param::argChar(
+  char &	dest,
+  const char *	desc,
+  const char *	argId,
+  const char *	envVar
+  )
+{
+  Str	arg = getArgValue( argId, envVar );
+
+  if( arg.size() == 1 )
+    dest = arg[0];
+
+  if( arg.size() > 1 )
+    {
+      Str tmpErrDesc;
+      tmpErrDesc << ": '" << arg << "' not a single character.";
+      
+      setError( E_RANGE, argId, envVar, tmpErrDesc.c_str() );
+    }
+
+  appendArgInfo( argId, desc, envVar, arg.c_str() );
   return( arg.size() != 0 );
 }
 
@@ -487,7 +554,7 @@ _StlUtilsParamArgNum(
   return( conv );
 }
 
-#define PARAM_ARG_NUM( Name, NumType )					      \
+#define PARAM_ARG_NUM( Name, NumType, Snum )				      \
 bool									      \
 Param::Name(								      \
   NumType &  	dest,							      \
@@ -498,7 +565,7 @@ Param::Name(								      \
   NumType    	maxVal							      \
   )									      \
 {									      \
-  Str    arg	 = getArgValue( argId, envVar );			      \
+  Str    arg	 = getArgValue( argId, envVar, Snum );			      \
   bool	    conv = false;						      \
   									      \
   if( arg.size() )							      \
@@ -541,17 +608,17 @@ Param::Name(								      \
 	}								      \
     }									      \
 									      \
-  appendHelp( argId, desc, envVar, StringFrom( dest ) );		      \
+  appendArgInfo( argId, desc, envVar, StringFrom( dest ) );		      \
 									      \
   return( conv );							      \
 }
 
-PARAM_ARG_NUM( argInt, int )
-PARAM_ARG_NUM( argUInt, unsigned int )
-PARAM_ARG_NUM( argShort, short )
-PARAM_ARG_NUM( argUShort, unsigned short )
-PARAM_ARG_NUM( argLong, long )
-PARAM_ARG_NUM( argULong, unsigned long )
+PARAM_ARG_NUM( argInt, int, true )
+PARAM_ARG_NUM( argUInt, unsigned int, false )
+PARAM_ARG_NUM( argShort, short, true )
+PARAM_ARG_NUM( argUShort, unsigned short, false )
+PARAM_ARG_NUM( argLong, long, true )
+PARAM_ARG_NUM( argULong, unsigned long, false )
 
   ;
 
@@ -563,7 +630,7 @@ Param::argDouble(
   const char * 	envVar
   )
 {
-  Str    arg	 = getArgValue( argId, envVar );
+  Str    arg	 = getArgValue( argId, envVar, true );
   bool	    conv = false;
 
   if( arg.size() )
@@ -589,7 +656,7 @@ Param::argDouble(
       
     }
 
-  appendHelp( argId, desc, envVar, StringFrom( dest ) );
+  appendArgInfo( argId, desc, envVar, StringFrom( dest ) );
 
   return( conv );
 }
@@ -627,7 +694,7 @@ Param::argBool(
 	}
     }
 
-  appendHelp( argId, desc, envVar,
+  appendArgInfo( argId, desc, envVar,
 	      (dest ? "true" : "false" ) );
 
   return( conv );
@@ -642,9 +709,11 @@ Param::argFlag(
   )
 {
   dest = getArgFlag( argId, envVar );
-  
-  appendHelp( argId, desc, envVar,
-	      (dest ? "true" : "flag") );
+
+  // note: appendArgFile() depends on the 't'
+  //    to determin if the flag is set.
+  appendArgInfo( argId, desc, envVar,
+	      (dest ? "true" : "flag"), true );
 
   return( dest );
 }
@@ -688,6 +757,7 @@ Param::argDateTime(
       if( dt.good() )
 	{
 	  dest = dt;
+	  conv = true;
 	}
       else
 	{
@@ -701,7 +771,7 @@ Param::argDateTime(
 	}
     }
 
-  appendHelp( argId, desc, envVar, dest );
+  appendArgInfo( argId, desc, envVar, dest );
 
   return( conv );
 }
@@ -740,7 +810,7 @@ Param::argDate(
 	}
     }
 
-  appendHelp( argId, desc, envVar, dest );
+  appendArgInfo( argId, desc, envVar, dest );
 
   return( conv );
 }
@@ -758,7 +828,7 @@ Param::argTime(
 
 
 Str
-Param::getArgValue( const char * argId, const char * envVar )
+Param::getArgValue( const char * argId, const char * envVar, bool sNum )
 {
   Str	value;
 
@@ -782,7 +852,11 @@ Param::getArgValue( const char * argId, const char * envVar )
 	    // found it
 	    for( ++ them; them != fileArgs.end(); ++ them )
 	      {
-		if( (*them).size() && (*them)[0UL] != '-' )
+		if( (*them).size()
+		    && ( (*them)[0UL] != '-' 
+			 || ( sNum
+			      && (*them).size() > 1
+			      && isdigit( (*them)[1UL] ) ) ) )
 		  {
 		    foundArg = true;
 		    value = *them;
@@ -827,17 +901,21 @@ Param::getArgValue( const char * argId, const char * envVar )
     Args::iterator	them = argv.begin();
     for( ; them != argv.end(); ++ them )
       {
-	if( (*them).size() > 1 &&
-	    (*them)[0UL] == '-' &&
-	    (*them).substr( 1 ).compare( argId ) == 0 )
+	// look for -arg value
+	if( (*them).size() > 1
+	    && (*them)[0UL] == '-'
+	    && (*them).substr( 1 ).compare( argId ) == 0 )
 	  {
 	    
 	    // found it now get the value.
 	    // and erase it from the vector.
 	    for( them++; them != argv.end(); ++ them )
 	      {
-		if( (*them).size() &&
-		    (*them)[0UL] != '-' )
+		if( (*them).size() 
+		    && ( (*them)[0UL] != '-' 
+			 || ( sNum
+			      && (*them).size() > 1
+			      && isdigit( (*them)[1UL] ) ) ) )
 		  {
 		    foundArg = true;
 		    value = *them;
@@ -852,6 +930,18 @@ Param::getArgValue( const char * argId, const char * envVar )
 	    
 	    break;
 	    
+	  }
+	// look for -arg=value
+	Str::size_type eqpos( Str::npos );
+	
+	if( (*them).size() > 1
+	    && (*them)[0UL] == '-'
+	    && (eqpos = (*them).find( '=' )) != Str::npos
+	    && (*them).substr( 1, eqpos - 1 ).compare( argId ) == 0 )
+	  {
+	    value = (*them).substr( eqpos + 1 );
+	    // lie about foundArg because I can erase it myself
+	    argv.erase( them );
 	  }
       }
     // if I found it and got it's value,
@@ -1139,10 +1229,10 @@ Param::dumpInfo(
   
   dest << '\n';
 
-  dest << prefix << "helpFlag:       " << helpFlag << '\n'
+  dest << prefix << "helpFlag:       " << (int)helpFlag << '\n'
        << prefix << "logFile:        " << logFile << '\n'
        << prefix << "logOutputLevel: " << logOutputLevel << '\n'
-       << prefix << "logTee:         " << logTee << '\n'
+       << prefix << "logTee:         " << (int)logTee << '\n'
     ;
   
   dest << prefix << "helpString: \n" << helpString << '\n';
@@ -1172,20 +1262,95 @@ Param::dumpInfo(
 }
 
 size_t
-Param::appendHelp( 
+Param::appendArgInfo(
   const char * argId,
   const char * desc,
   const char * envVar,
-  const char * value
+  const char * value,
+  bool	       isflag 
+  )
+{
+  size_t    argIdLen( strlen( argId ) );
+  
+  appendArgFile( argId, argIdLen, desc, envVar, value, isflag );
+  return( appendHelp( argId, argIdLen, desc, envVar, value ) );
+}
+
+size_t
+Param::appendArgFile(
+  const char *	argId,
+  size_t	argIdLen,
+  const char *	desc,
+  const char *	envVar,
+  const char *	value,
+  bool		isflag
+  )
+{
+
+  // i.e. don't put the flowing in args file:
+  //    -argfile
+  //	-help
+  //	-version
+  //	-gen-argfile
+  //
+  
+  if( strcmp( argId, ARG_ID_ARGFILE )
+      && strcmp( argId, ARG_ID_HELP )
+      && strcmp( argId, ARG_ID_VERSION )
+      && strcmp( argId, ARG_ID_GEN_ARGFILE ) )
+    {
+      if( isflag )
+	{
+	  if( value && value[0] == 't' )
+	    argFileString << '-' << argId << '\n';
+	  else
+	    argFileString << "# -" << argId << '\n';
+	}
+      else
+	{
+	  size_t prefixWidth;
+	  
+	  if( value && strlen( value ) )
+	    {
+	      prefixWidth = 1;
+	      argFileString << '-' << argId << '\t';
+	    }
+	  else
+	    {
+	      prefixWidth = 3;
+	      argFileString << '# -' << argId << '\t';
+	    }
+      
+	  for( size_t width = argIdLen + prefixWidth + 8;
+	       width < (8 * 3);
+	       width += 8 )
+	    argFileString << '\t';
+      
+	  if( value && strlen( value ) )
+	    argFileString << value;
+      
+	  argFileString << '\n';
+	}
+    }
+  
+  return( argFileString.size() );
+}
+  
+
+size_t
+Param::appendHelp( 
+  const char *	argId,
+  size_t	argIdLen,
+  const char *	desc,
+  const char *	envVar,
+  const char *	value
   )
 {
   Str argHelp;
 
   argHelp.setf( ios::left, ios::adjustfield );
 
-  size_t    contLinePadSize(16); // = max( (size_t)10, strlen( argId ))  + 3 + 1;
-  size_t    argIdLen( strlen( argId ) );
-
+  size_t    contLinePadSize(16); 
     
   argHelp << desc ;
 
@@ -1268,11 +1433,168 @@ Param::setError(
   return( good() );
 }
 
+#if defined( STLUTILS_TEST )
+int Stlutils_Prama_Gen_NoDate( 0 );
+#endif
 
+// If the user requested an argfile (i.e. -gen-argfile) then we
+// should generate it, tell him about it and exit.bool
+
+void
+Param::genArgFile( bool exitApp )
+{
+  ostream * out;
+
+  if( argFile.size() )
+    {
+      FileStat	fileStat( argFile );
+
+      if( fileStat.good() )
+	{
+	  // backup existing argFile
+	  FileOp	fileOp;
+	  FilePath	destFn( argFile );
+
+	  destFn << ".bak";
+	  if( ! fileOp.copy( argFile, destFn ) )
+	    {
+	      LogIf( log(), LogLevel::Error )
+		<< "gen args file - " << fileOp.error()
+		<< endl;
+	      log().close();
+	      
+	      if( errorLogFile )
+		delete errorLogFile;
+	      
+	      if( exitApp )
+		exit( 1 );
+	    }
+	}
+      out = new ofstream( argFile );
+    }
+  else
+    {
+      out = &cout;
+    }
+
+  if( (*out).good() )
+    {
+      (*out) <<
+	"#\n"
+	;
+      
+      if( argFile.size() )
+	(*out) << "# Title:        " << argFile.getFileName() << '\n';
+      else
+	(*out) << "# Title:        " << appName() << ".args\n";
+
+      (*out) <<
+	"# Project:      \n" <<
+	"# Desc:         \n" <<
+	"#\n" << 
+	"#   See Args Descriptions following args definitions.\n" <<
+	"#\n" << 
+	"# Notes:\n"
+	"#   \n" <<
+	"# Author:       Generated by "
+	;
+#if defined( STLUTILS_HAS_USER )
+      {
+	User  user;
+	(*out) << user.getRealName();
+      }
+#else
+      (*out) << "unknown";
+#endif
+      (*out) << '\n' <<
+	"# Generated:    "
+	;
+#if defined( STLUTILS_TEST )
+      if( Stlutils_Prama_Gen_NoDate == 0 )
+#endif
+	(*out) << DateTime(time(0),true);
+      
+      (*out) << '\n' <<
+	"#\n" << 
+	"# Revision History: (See end of file for Revision Log)\n" << 
+	"#\n" <<
+	"#   Last Mod By:    $Author$\n" <<
+	"#   Last Mod:       $Date$\n" <<
+	"#   Version:        $Revision$\n" <<
+	"#\n" <<
+	"#   $Id$\n" <<
+	"#\n" <<
+	'\n'
+	;
+
+      (*out) << argFileString << "\n\n" <<
+	"#\n" <<
+	"# Args Descriptioins:\n"
+	"#\n" 
+	;
+      {
+	Str comment( helpString );
+
+	comment.substitute( "\n","\n# " );
+
+	(*out) << '#' << comment;
+      }
+
+      (*out) << '\n' <<
+	"#\n" <<
+	"# $Log$
+	"# Revision 4.8  1999/11/09 11:05:34  houghton
+	"# Added generate arg file support.
+	"# Reworked logStartInfo().
+	"# Added logExitInfo()
+	"# Changed to not try and open logs if -help.
+	"# Bug-Fix: was using wrong args to call of allFileArgs.erase().
+	"# Added argChar().
+	"# Bug-Fix: signed num args -123 was not working.
+	"# Added support for -arg=value.
+	"#\n" <<
+	"#\n"
+	;
+    }
+
+  bool status( (*out).good() ? true : false );
+  
+  if( out != &cout )
+    delete out;
+
+  if( helpFlag )
+    cerr << (*this) << "\n";
+      
+  if( status )
+    cerr << "\n Generated args file ";
+  else
+    cerr << "ERROR: Generate args file failed ";
+    
+  if( argFile.size() )
+    cerr << '\'' << argFile << "'.\n";
+  else
+    cerr << "to cout.\n";
+
+  cerr << endl;
+
+  if( exitApp )
+    exit( status ? 0 : 1 );
+}
+	
 //
 // Revision Log:
 //
 // $Log$
+// Revision 4.8  1999/11/09 11:05:34  houghton
+// Added generate arg file support.
+// Reworked logStartInfo().
+// Added logExitInfo()
+// Changed to not try and open logs if -help.
+// Bug-Fix: was using wrong args to call of allFileArgs.erase().
+// Added argChar().
+// Bug-Fix: signed num args -123 was not working.
+// Added support for -arg=value.
+//
 // Revision 4.7  1999/11/04 17:33:06  houghton
 // Changed help output format (much cleaner now i think:).
 //
