@@ -11,7 +11,12 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.3  1995/11/10 14:11:42  houghton
+// Revision 2.4  1995/11/12 18:01:16  houghton
+// Added srcFile, srcLine args to level().
+// Change LogIf macro to use __FILE__ and __LINE__.
+// Change LogLevel::XXXX to LogLevel::Xxxxx.
+//
+// Revision 2.3  1995/11/10  14:11:42  houghton
 // Cleanup (move final endif)
 //
 // Revision 2.2  1995/11/10  14:08:37  houghton
@@ -41,10 +46,13 @@
 
 
 
-
-#define WHERE  __FILE__ << ':' << __LINE__ 
-
-#define LogIf( lg, lvl ) if( (lg).willOutput( lvl ) ) ((lg)( lvl ))
+#if defined( CLUE_LOG_WHERE )
+#define LogIf( lg, lvl ) \
+  if( (lg).willOutput( lvl ) ) ( (lg)( lvl, __FILE__, __LINE__ ) )
+#else
+#define LogIf( lg, lvl ) \
+  if( (lg).willOutput( lvl ) ) ( (lg)( lvl, 0, 0 ) )
+#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -56,7 +64,7 @@ class Log : public ostream
 public:
 
   inline Log( ostream & 	outStream = cout,
-	      LogLevel::Level 	outLevel = LogLevel::ERROR,
+	      LogLevel::Level 	outLevel = LogLevel::Error,
 	      bool		stampLevel = true,
 	      bool		stampTime = true );
 
@@ -66,7 +74,7 @@ public:
 	      bool		stampTime = true ); 
   
   inline Log( const char * 	fileName,
-	      LogLevel::Level 	outLevel = LogLevel::ERROR,
+	      LogLevel::Level 	outLevel = LogLevel::Error,
 	      bool		stampLevel = true,
 	      bool		stampTime = true,
 	      ios::open_mode	mode = ios::app,
@@ -90,9 +98,15 @@ public:
   inline size_t		    setMaxSize( size_t maxSize );
   inline size_t		    setTrimSize( size_t trimSize );
   
-  Log &		    level( LogLevel::Level curren = LogLevel::ERROR );
+  Log &		    level( LogLevel::Level  current = LogLevel::Error,
+			   const char *	    srcFile = 0,
+			   long		    srcLine = 0 );
+  
   inline Log &	    operator () ( void );
-  inline Log &	    operator () ( LogLevel::Level current );
+  inline Log &	    operator () ( LogLevel::Level   current );
+  inline Log &	    operator () ( LogLevel::Level   current,
+				  const char *	    srcFile,
+				  long		    srcLine );
 
   Log &		    level( const char * current );  
   inline Log &      operator () ( const char * current );
