@@ -17,10 +17,11 @@
 // $Id$
 //
 
-#include "StlUtilsConfig.hh"
-#include "Bitmask.hh"
-#include "StlUtilsSysStat.hh"
-#include "FilePath.hh"
+#include <StlUtilsConfig.hh>
+#include <Bitmask.hh>
+#include <StlUtilsSysStat.hh>
+#include <FilePath.hh>
+#include <DumpInfo.hh>
 
 #if defined( STLUTILS_DEBUG )
 #define inline
@@ -139,6 +140,9 @@ public:
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
+  inline DumpInfo< FileStat >
+  dump( const char * preifx = "    ", bool showVer = true ) const;
+
   static const ClassVersion version;
 
   static const int badFd;
@@ -579,6 +583,9 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/10/28 14:20:44  houghton
+// Added dump().
+//
 // Revision 4.2  1998/03/08 18:05:28  houghton
 // Added setTimes() to set the access and modification times.
 //

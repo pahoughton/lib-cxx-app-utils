@@ -484,9 +484,20 @@ operator << ( ostream & dest, const FileStat & obj )
   return( obj.toStream( dest ) );
 }
 
+inline
+DumpInfo< FileStat >
+FileStat::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< FileStat >( *this, prefix, showVer ) );
+}
+
+
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/10/28 14:20:47  houghton
+// Added dump().
+//
 // Revision 4.1  1997/09/17 15:12:28  houghton
 // Changed to Version 4
 //
