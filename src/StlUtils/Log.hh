@@ -35,9 +35,9 @@
 #include "StlUtilsConfig.hh"
 #include "Mutex.hh"
 #include "LogBuf.hh"
+#include <fstream>
 #include <iostream>
 #include <iomanip>
-#include <fstream>
 
 
 
@@ -646,6 +646,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/07/20 11:20:47  houghton
+// Port(Hpux): reordered includes.
+//
 // Revision 4.1  1997/09/17 15:12:33  houghton
 // Changed to Version 4
 //
