@@ -1,0 +1,54 @@
+#ifndef _Semaphore_ii_
+#define _Semaphore_ii_
+//
+// File:        Semaphore.ii
+// Project:	Clue
+// Desc:        
+//
+//  	Inline source for Semaphore
+//
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Created:     06/10/97 06:10
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+
+inline
+bool
+Semaphore::wouldBlock( void ) const
+{
+  return( osErrno == EAGAIN );
+}
+
+inline
+bool
+Semaphore::setError( int err )
+{
+  osErrno = err;
+  return( good() );
+}
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 3.1  1997/06/10 13:54:25  houghton
+// Initial Version.
+//
+//
+#endif // ! def _Semaphore_ii_ 
