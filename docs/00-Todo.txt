@@ -13,6 +13,10 @@
 # See End of file for format specs
 #
 
+BUG Chris Boys 11/15/95 07:00 Paul Houghton 11/15/95 07:00
+FilePath error. changePath( getPath(), "new" )
+changes ext. if getPath().size() == 0 only
+
 ADM Paul Houghton 11/12/95 08:59
 Move test to test/Test01 so I can have multible test when I'm ready
 
@@ -108,7 +112,10 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
-# Revision 2.3  1995/11/12 17:51:00  houghton
+# Revision 2.4  1995/11/17 16:59:21  houghton
+# *** empty log message ***
+#
+# Revision 2.3  1995/11/12  17:51:00  houghton
 # *** empty log message ***
 #
 # Revision 2.2  1995/11/10  18:46:29  houghton
