@@ -1,3 +1,21 @@
+//
+// File:        tBit.C
+// Project:	Clue
+// Desc:        
+//
+//  Tests for Bit Constants, Macros, and functions found
+//  in Bit.hh & Bit.ii
+//  
+// Source Header Version: 2.3
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/28/96 07:02
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -11,6 +29,30 @@
 bool
 tBit( LibTest & tester )
 {
+  {
+    // CHAR_BITS
+    // SHORT_BITS
+    // INT_BITS
+    // LONG_BITS
+    
+    TEST( CHAR_BITS == CHAR_BIT );
+    TEST( SHORT_BITS == ( sizeof(short) * CHAR_BITS ) );
+    TEST( INT_BITS == ( sizeof(int) * CHAR_BITS ) );
+    TEST( LONG_BITS == ( sizeof(long) * CHAR_BITS ) );
+  }
+
+  {
+    // CHAR_ALL_BITS
+    // SHORT_ALL_BITS
+    // LONG_ALL_BITS
+    // INT_ALL_BITS
+
+    TEST( CHAR_ALL_BITS == (unsigned char)(~0L ) );
+    TEST( SHORT_ALL_BITS == (unsigned short)(~0L ) );
+    TEST( LONG_ALL_BITS == (unsigned long)(~0L ) );
+    TEST( INT_ALL_BITS == (unsigned int)(~0 ) );
+  }
+      
   {
     // Bit( number )
     for( int i = 0; i < 32; i++ )
@@ -44,7 +86,7 @@ tBit( LibTest & tester )
     // StripHigh( char, number )
 
     char t = 0xf5;
-    
+
     TEST( StripHigh( t, 6 ) == 0x35 );
     t = 0x80;
     TEST( StripHigh( t, 7 ) == 0x00 );
@@ -56,6 +98,8 @@ tBit( LibTest & tester )
     TEST( StripHigh( t, 4 ) == 0x0f );
     t = 0xff;
     TEST( StripHigh( t, 1 ) == 0x01 );
+    t = 0xff;
+    TEST( StripHigh( t, 3 ) == 0x07 ); // doc example
   }
 
   {
@@ -132,6 +176,7 @@ tBit( LibTest & tester )
     TEST( StripLow( t, 4 ) == 0xf0 );
     TEST( StripLow( t, 7 ) == 0x80 );
     TEST( StripLow( t, 1 ) == 0xfe );
+    TEST( StripLow( t, 3 ) == 0xf8 );	// doc example
   }
 
   {
@@ -160,13 +205,27 @@ tBit( LibTest & tester )
     TEST( ShiftRight( t, 28 ) == 0x0 );
     TEST( ShiftRight( t, 24 ) == 0x03 );
   }
+
+  {
+    // ShiftLeft( unsigned char, number )
+
+    unsigned char t = 0x35;
+    TEST( ShiftLeft( t, 4 ) == 0xA8 ); // doc example
+  }
   
+    
   {
     // ShiftLeft( unsigned char, number, number )
     
     unsigned char t = 0x06;
 
     TEST( ShiftLeft( t, 1, 2 ) == 0xc0 );
+    t = 0x34;
+    TEST( ShiftLeft( t, 4, 3 ) == 0x68 ); // doc example
+    TEST( ShiftLeft( t, 3, 3 ) == 0xd0 ); // doc example
+    t = 3;
+    TEST( ShiftLeft( t, 0, 3 ) == 0x60 ); // doc example
+    TEST( ShiftLeft( t, 3, 0 ) == 0x60 ); // doc example 
   }
 
   {
@@ -185,6 +244,9 @@ tBit( LibTest & tester )
     TEST( ExtractBits( t, 2, 3 ) == 5 );
     t = 0xc0;
     TEST( ExtractBits( t, 6, 2 ) == 3 );
+    t = 0x34;
+    TEST( ExtractBits( t, 4, 3 ) == 0x03 ); // doc example
+    TEST( ExtractBits( t, 3, 3 ) == 0x06 ); // doc example
   }
 
   {
@@ -237,6 +299,31 @@ tBit( LibTest & tester )
     TEST( ExtractBits( t, 22, 5 ) == 12 );
   }
 
+  {
+    // SetBits( unsigned char, int, number, number );
+
+    unsigned char dest = CHAR_ALL_BITS;
+
+    SetBits( dest, 0x0a, 1, 5 );
+    TEST( dest == 0xD5 );	// doc example
+    
+    dest = CHAR_ALL_BITS;
+    SetBits( dest, 3, 4, 3 );
+    TEST( dest == 0xbf );	// doc example
+    
+    dest = CHAR_ALL_BITS;
+    SetBits( dest, 6, 3, 3 );
+    TEST( dest == 0xf7 );	// doc example
+
+    dest = 0;
+    SetBits( dest, 3, 4, 3 );
+    TEST( dest == 0x30 );	// doc example
+
+    dest = 0;
+    SetBits( dest, 6, 3, 3 );
+    TEST( dest == 0x30 );	// doc example
+  }
+  
 // 0110 0000 1000 0000   0000 0000 0000 0000
 // 0110 0000 1000 0000   0000 0000 0000 0000
   {
@@ -263,3 +350,11 @@ tBit( LibTest & tester )
   return( true );
   
 }
+
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:45:21  houghton
+// Added header comments.
+// Changed so that everything in Bit.hh is tested.
+//
+//
