@@ -20,10 +20,6 @@
 //
 
 
-#if defined( STLUTILS_DEBUG )
-#define inline
-#endif
-
 template< class Rec >
 inline
 FileBatch< Rec >::FileBatch(
@@ -31,11 +27,56 @@ FileBatch< Rec >::FileBatch(
   ios::open_mode    mode,
   unsigned short    permMask
   )
-  : name( fileName ),
-    fileSize( 0 ),
-    errorNum( E_OK )
+  : FileBatchBase( fileName, sizeof( Rec ) ),
+    fileSize( 0 )
 {
-  batch = new fstream( fileName, mode, 0666 ^ permMask );
+  batch = new fstream( name, mode, 0666 ^ permMask );
+
+  streampos cur( 0 );
+  streampos endPos( 0 );
+  
+  if( batch && (*batch).good() )
+    {
+      cur = (*batch).tellg();
+      (*batch).seekg( 0, ios::end );
+      endPos = (*batch).tellg();
+      
+      if( endPos % sizeof( Rec ) )
+	{
+	  setError( E_SIZE, endPos, 0 );
+	  return;
+	}
+      fileSize = endPos / sizeof( Rec );
+      (*batch).seekg( cur, ios::beg );
+    }
+  else
+    {
+      setError( E_OPEN, 0, errno );
+    }
+  
+  return;
+}
+
+template< class Rec >
+inline
+FileBatch< Rec >::FileBatch(
+  const char *	fileName,
+  ios::open_mode    mode,
+  bool		    create,
+  unsigned short    permMask
+  )
+  : FileBatchBase( fileName, sizeof( Rec ) ),
+    fileSize( 0 )
+{
+  if( ! create )
+    {
+      if( ! (mode & ios::nocreate ) )
+	{
+	  mode = (ios::open_mode)(mode | ios::nocreate);
+	}
+    }
+  
+  batch = new fstream( name, mode, 0666 ^ permMask );
 
   streampos cur( 0 );
   streampos endPos( 0 );
@@ -92,6 +133,22 @@ FileBatch< Rec >::iterator
 FileBatch< Rec >::end( void )
 {
   return( iterator( this, NPOS ) );
+}
+
+template< class Rec >
+inline
+Rec
+FileBatch< Rec >::front( void ) const
+{
+  return( (*this)[0] );
+}
+
+template< class Rec >
+inline
+Rec
+FileBatch< Rec >::back( void ) const
+{
+  return( (*this)[ size() - 1 ] );
 }
 
 template< class Rec >
@@ -209,10 +266,20 @@ FileBatch< Rec >::size( void ) const
 
 template< class Rec >
 inline
+Rec
+FileBatch< Rec >::operator [] ( size_type rec ) const
+{
+  Rec r;
+  read( r, rec );
+  return( r );
+}
+
+template< class Rec >
+inline
 bool
 FileBatch< Rec >::good( void ) const
 {
-  return( errorNum == E_OK && batch && (*batch).good() );
+  return( FileBatchBase::good() );
 }
 
 template< class Rec >
@@ -220,61 +287,7 @@ inline
 const char *
 FileBatch< Rec >::error( void ) const
 {
-  static Str errStr;
-
-  errStr = FileBatch< Rec >::getClassName();
-
-  if( good() )
-    {
-      errStr << ": ok";
-    }
-  else
-    {
-      errStr << ": '" << name << "' ";
-      
-      if( ! batch )
-	{
-	  errStr << "no batch.";
-	}
-      else
-	{
-	  switch( errorNum )
-	    {
-	    case E_OPEN:
-	      errStr << "open failed - "
-		     << strerror( osErrno ) << '.';
-	      break;
-	      
-	    case E_SIZE:
-	      errStr << "invalid size '"
-		     << errorPos << "' expect multiple of '"
-		     << sizeof( Rec ) << "'.";
-	      break;
-
-	    case E_WRITE:
-	      errStr << "writing at '" << errorPos
-		     << "' - " << strerror( osErrno ) << '.';
-	      break;
-
-	    case E_READ:
-	      errStr << "reading at '" << errorPos
-		     << "' - " << strerror( osErrno ) << '.';
-	      break;
-
-	    default:
-	      if( ! (*batch).good() )
-		{
-		  errStr << ": '" << name << "' - "
-			 << strerror( osErrno );
-		}
-	      else
-		{
-		  errStr << "unknown error.";
-		}
-	    }
-	}
-    }
-  return( errStr.c_str() );
+  return( FileBatchBase::error() );
 }       
 	      
 template< class Rec >
@@ -326,25 +339,16 @@ FileBatch< Rec >::file( void ) const
   return( *batch );
 }
 
-template< class Rec >
-inline
-bool
-FileBatch< Rec >::setError( ErrorNum errNum, streampos errPos, int osErr )
-{
-  errorNum  = errNum;
-  errorPos  = errPos;
-  osErrno   = osErr;
-  
-  return( good() );
-}
-
-#if defined( inline )
-#undef inline
-#endif
 
 // Revision Log:
 // 
 // $Log$
+// Revision 4.2  1999/05/01 12:52:21  houghton
+// Rework to get around compile problems.
+// Added front()
+// Added back()
+// Added operator []
+//
 // Revision 4.1  1999/03/02 12:46:30  houghton
 // Initial Version.
 //
