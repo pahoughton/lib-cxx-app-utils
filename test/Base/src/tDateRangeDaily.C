@@ -1,18 +1,12 @@
-#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateRangeDaily.hh>
 #include <DateTimeUtils.hh>
 #include <functional>
-#include <strstream.h>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <HBinStrm.hh>
-#include <DateRgDl.hh>
-#include <functional>
-#include <strstream>
+#if defined( Hpux10 )
+#include <utility>
 #endif
+#include <strstream.h>
 
 bool
 tDateRangeDaily( LibTest & tester )

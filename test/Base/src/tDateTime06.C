@@ -2,6 +2,9 @@
 #include <LibTest.hh>
 #include <DateTime.hh>
 #include <functional>
+#if defined( Hpux10 )
+#include <utility>
+#endif
 #include <cstring>
 
 bool
