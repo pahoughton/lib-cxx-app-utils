@@ -1,5 +1,5 @@
-#ifndef _User_ii_
-#define _User_ii_
+#ifndef _UserGroup_ii_
+#define _UserGroup_ii_
 //
 // File:        UserGroup.ii
 // Desc:        
@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1995/12/31 11:24:53  houghton
+// Bug Fix - header defines were wrong.
+//
 // Revision 2.2  1995/12/04 11:20:22  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -207,4 +210,4 @@ operator <<( ostream & dest, const UserGroup & obj )
   return( obj.toStream( dest ) );
 }
 
-#endif // ! def _User_ii_ 
+#endif // ! def _UserGroup_ii_ 
