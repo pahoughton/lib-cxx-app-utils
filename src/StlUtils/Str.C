@@ -7,53 +7,18 @@
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/30/95 15:08 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.2  1996/11/20 12:12:05  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:24:08  houghton
-// Changed to Release 3
-//
-// Revision 2.6  1996/11/06 18:06:16  houghton
-// Clue.hh renamed to ClueUtils.hh.
-//
-// Revision 2.5  1996/10/11 17:42:59  houghton
-// Changed: Added new 'multiDelim' arg to scan methods. This arg
-//   specifies if multiple consecutive instances of the delimiter are
-//   ignored or create separate matches.
-//      Example: 'this,is,,a,test'
-//               mutliDelim == true:  4 fields
-//               multiDelim == false: 5 fields (the third has a 0 length).
-//
-// Revision 2.4  1996/06/09 09:44:49  houghton
-// Bug-Fix: compare( const char * ) if both strings are empty, return 0.
-// Bug-Fix: read( BinStream & ) if len was 0, was not reseting string.
-//
-// Revision 2.3  1996/04/27 13:08:39  houghton
-// Cleanup.
-//
-// Revision 2.2  1995/12/04 11:18:26  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:03  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:46  houghton
-// Revised
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "Str.hh"
 #include "ClueUtils.hh"
 #include "Compare.hh"
-#else
-#include "Str.hh"
-#include "Clue.hh"
-#include "Compare.hh"
-#endif
+
 
 #if defined( CLUE_DEBUG )
 #include <Str.ii>
@@ -65,17 +30,17 @@ CLUE_VERSION(
   Str,
   "$Id$" );
 
-const size_t Str::npos = NPOS;
+const Str::size_type Str::npos = NPOS;
 
 inline
-size_t
+Str::size_type
 Str::length( const char * from )
 {
   return( length() - (from - strbase()) );
 }
 
 inline
-size_t
+Str::size_type
 Str::pos( const char * at )
 {
   return( at - strbase() );
@@ -93,14 +58,14 @@ Str::~Str( void )
 // append  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 Str &
-Str::append( const char * src, size_t srcLen )
+Str::append( const char * src, size_type srcLen )
 {
   // there is a real danger of overlap so check for it
 
   if( ! src )
     return( *this );
       
-  size_t  appLen = ( srcLen == npos ) ? strlen( src ) : srcLen;
+  size_type  appLen = ( srcLen == npos ) ? strlen( src ) : srcLen;
 
   if( ! appLen )
     return( *this );
@@ -125,17 +90,17 @@ Str::append( const char * src, size_t srcLen )
 
 Str &
 Str::replace(
-  size_t    	start,
-  size_t    	len,
+  size_type    	start,
+  size_type    	len,
   const char * 	src,
-  size_t    	srcLen
+  size_type    	srcLen
   )
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
 
-  size_t    replaceLen = min( len, size() - start );
+  size_type    replaceLen = min( len, size() - start );
   
-  size_t    keepSize = size() - ( start + replaceLen );
+  size_type    keepSize = size() - ( start + replaceLen );
   char *    keepString = 0;
 
   if( keepSize )
@@ -162,17 +127,17 @@ Str::replace(
   
 Str &
 Str::replace(
-  size_t    start,
-  size_t    len,
-  size_t    count,
+  size_type    start,
+  size_type    len,
+  size_type    count,
   char 	    src
   )
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
 
-  size_t    replaceLen = min( len, size() - start );
+  size_type    replaceLen = min( len, size() - start );
   
-  size_t    keepSize = size() - ( start + replaceLen );
+  size_type    keepSize = size() - ( start + replaceLen );
   char *    keepString = 0;
 
   if( keepSize )
@@ -204,10 +169,10 @@ Str::replace(
   InputIterator	srcLast
   )
 {
-  size_t    start = (size_t)(min( 0L, (long)(first - begin())));
-  size_t    replaceLen = last - first;
+  size_type    start = (size_type)(min( 0L, (long)(first - begin())));
+  size_type    replaceLen = last - first;
   
-  size_t    keepSize = size() - ( start + replaceLen );
+  size_type    keepSize = size() - ( start + replaceLen );
   char *    keepString = 0;
 
   if( keepSize )
@@ -236,12 +201,12 @@ Str::replace(
 
 
 int
-Str::compare( const Str & two, size_t start, size_t len ) const
+Str::compare( const Str & two, size_type start, size_type len ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_type oneLen = min( size() - start, len );
+  size_type twoLen = min( two.size(), len );
 
   int diff = strncmp( strbase() + start, two.strbase(), min( oneLen, twoLen ) );
 
@@ -249,12 +214,12 @@ Str::compare( const Str & two, size_t start, size_t len ) const
 }
 
 int
-Str::compare( const SubStr & two, size_t start, size_t len ) const
+Str::compare( const SubStr & two, size_type start, size_type len ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_type oneLen = min( size() - start, len );
+  size_type twoLen = min( two.size(), len );
 
   int diff = strncmp( strbase() + start, two.strbase(), min( oneLen, twoLen ) );
 
@@ -262,7 +227,7 @@ Str::compare( const SubStr & two, size_t start, size_t len ) const
 }  
 
 int
-Str::compare( const char * two, size_t start, size_t len ) const
+Str::compare( const char * two, size_type start, size_type len ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
 
@@ -271,8 +236,8 @@ Str::compare( const char * two, size_t start, size_t len ) const
   if( ! two )
     return( size() - start ? 1 : 0  );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( strlen( two ), len );
+  size_type oneLen = min( size() - start, len );
+  size_type twoLen = min( strlen( two ), len );
 
   int diff = strncmp( strbase() + start, two, min( oneLen, twoLen ) );
 
@@ -280,16 +245,16 @@ Str::compare( const char * two, size_t start, size_t len ) const
 }
 
 int
-compare( const SubStr & one, const Str & two, size_t len )
+compare( const SubStr & one, const Str & two, Str::size_type len )
 {
   return( one.compare( two, 0, len ) );
 }
 
 int
-compare( const char * one, const Str & two, size_t len )
+compare( const char * one, const Str & two, Str::size_type len )
 {
-  size_t oneLen = min( strlen( one ), len );
-  size_t twoLen = min( two.size(), len );
+  Str::size_type oneLen = min( strlen( one ), len );
+  Str::size_type twoLen = min( two.size(), len );
 
   int diff = strncmp( one, two.strbase(), min( oneLen, twoLen ) );
 
@@ -299,12 +264,12 @@ compare( const char * one, const Str & two, size_t len )
 
 	 
 int
-Str::fcompare( const Str & two, size_t start, size_t len ) const
+Str::fcompare( const Str & two, size_type start, size_type len ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_type oneLen = min( size() - start, len );
+  size_type twoLen = min( two.size(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				min( oneLen, twoLen ) );
@@ -313,12 +278,12 @@ Str::fcompare( const Str & two, size_t start, size_t len ) const
 }
 
 int
-Str::fcompare( const SubStr & two, size_t start, size_t len ) const
+Str::fcompare( const SubStr & two, size_type start, size_type len ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_type oneLen = min( size() - start, len );
+  size_type twoLen = min( two.size(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				min( oneLen, twoLen ) );
@@ -327,10 +292,10 @@ Str::fcompare( const SubStr & two, size_t start, size_t len ) const
 }  
 
 int
-Str::fcompare( const char * two, size_t start, size_t len ) const
+Str::fcompare( const char * two, size_type start, size_type len ) const
 {
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( strlen( two ), len );
+  size_type oneLen = min( size() - start, len );
+  size_type twoLen = min( strlen( two ), len );
 
   int diff = StringCaseCompare( strbase() + start, two,
 				min( oneLen, twoLen ) );
@@ -339,16 +304,16 @@ Str::fcompare( const char * two, size_t start, size_t len ) const
 }
 
 int
-fcompare( const SubStr & one, const Str & two, size_t len )
+fcompare( const SubStr & one, const Str & two, Str::size_type len )
 {
   return( one.fcompare( two, 0, len ) );
 }
 
 int
-fcompare( const char * one, const Str & two, size_t len )
+fcompare( const char * one, const Str & two, Str::size_type len )
 {
-  size_t oneLen = min( strlen( one ), len );
-  size_t twoLen = min( two.size(), len );
+  Str::size_type oneLen = min( strlen( one ), len );
+  Str::size_type twoLen = min( two.size(), len );
 
   int diff = StringCaseCompare( one, two.strbase(),
 				min( oneLen, twoLen ) );
@@ -359,7 +324,7 @@ fcompare( const char * one, const Str & two, size_t len )
 // modifications * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
-size_t
+Str::size_type
 Str::strip( const char * stripChars )
 {
   const char * bufStart = cstr();
@@ -386,7 +351,7 @@ Str::strip( const char * stripChars )
       srcStart = srcEnd;
     }
 
-  size_t count = length() - (srcStart - bufStart);
+  size_type count = length() - (srcStart - bufStart);
   
   memmove( destStart, srcStart, count );
   seekp( (destStart + count) - bufStart );
@@ -397,7 +362,7 @@ Str::strip( const char * stripChars )
 // substitute
 
 Str &
-Str::substitute( char from, char to, size_t start, bool global )
+Str::substitute( char from, char to, size_type start, bool global )
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
   
@@ -425,15 +390,15 @@ Str::substitute( char from, char to, size_t start, bool global )
 
 
 Str &
-Str::substitute( const char * from, const char * to, size_t start, bool global )
+Str::substitute( const char * from, const char * to, size_type start, bool global )
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
   
-  size_t fromLen = strlen( from );
+  size_type fromLen = strlen( from );
   
   if( ! global )
     {
-      size_t beg = find( from, start, fromLen );
+      size_type beg = find( from, start, fromLen );
 
       if( beg != npos )
 	{
@@ -442,9 +407,9 @@ Str::substitute( const char * from, const char * to, size_t start, bool global )
     }
   else
     {
-      size_t toLen = strlen( to );
+      size_type toLen = strlen( to );
       
-      for( size_t beg = find( from, start, fromLen );
+      for( size_type beg = find( from, start, fromLen );
 	  beg != npos;
 	  beg = find( from, beg + fromLen, fromLen ) )
 	{
@@ -459,16 +424,16 @@ Str &
 Str::substitute(
   const RegexScan & exp,
   const char *	    to,
-  size_t    	    start,
+  size_type    	    start,
   bool	    	    global
   )
 {
   const char * base = strbase() + start;
-  size_t       bLen = size() - start;
+  size_type       bLen = size() - start;
   
   Str repl;
   
-  for( size_t beg = 0;
+  for( size_type beg = 0;
       exp.search( base, beg, bLen );
       beg = exp.matchStart() + repl.size(),
 	base = strbase() + start,
@@ -482,7 +447,7 @@ Str::substitute(
 	      t++;
 	      if( isdigit( *t ) )
 		{
-		  if( (size_t)(CharToInt( *t )) <= exp.matchCount() )
+		  if( (size_type)(CharToInt( *t )) <= exp.matchCount() )
 		    {
 		      repl += at( start + exp.matchStart( CharToInt( *t ) ),
 				  exp.matchLength( CharToInt( *t ) ) );
@@ -510,8 +475,8 @@ Str::substitute(
   return( *this );
 }
 
-size_t
-Str::wrap( size_t w, long pad, long firstPad )
+Str::size_type
+Str::wrap( size_type w, long pad, long firstPad )
 {
 
   stripLeading( " \t\n\r\f" );
@@ -535,13 +500,13 @@ Str::wrap( size_t w, long pad, long firstPad )
   if( ! scan( ' ' ) > 0 )
     return( 1 );
 
-  size_t col = fp;
-  size_t lines = 0;
+  size_type col = fp;
+  size_type lines = 0;
 
   tmp += scanMatch(1);
   col += scanMatchLength(1);
   
-  for( size_t m = 2;
+  for( size_type m = 2;
       m < scanMatchCount();
       m++ )
     {
@@ -580,8 +545,8 @@ Str::wrap( size_t w, long pad, long firstPad )
 // scan  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
-size_t
-Str::scan( const RegexScan & exp, size_t start )
+Str::size_type
+Str::scan( const RegexScan & exp, size_type start )
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), 0 );
   
@@ -589,7 +554,7 @@ Str::scan( const RegexScan & exp, size_t start )
 
   if( exp.search( strbase(), start, length() ) )
     {
-      for( size_t r = 0; r <= exp.matchCount(); r++ )
+      for( size_type r = 0; r <= exp.matchCount(); r++ )
 	{
 	  int mBeg = 0;
 	  int mLen = 0;
@@ -603,26 +568,26 @@ Str::scan( const RegexScan & exp, size_t start )
 }
       
 
-size_t
+Str::size_type
 Str::scan(
   const char *	delim,
   bool		multiDelim,
-  size_t	start,
-  size_t	dLen
+  size_type	start,
+  size_type	dLen
   )
 {
   matches.erase( matches.begin(), matches.end() );
 
   matches.push_back( ScanMatch( start, size() - start ) );
   
-  size_t delimLen = (dLen == npos) ? strlen( delim ) : dLen;
+  size_type delimLen = (dLen == npos) ? strlen( delim ) : dLen;
   
-  size_t beg = find_first_not_of( delim, start, delimLen );
+  size_type beg = find_first_not_of( delim, start, delimLen );
 
   if( beg == npos )
     return( 0 );
 
-  for( size_t end = find_first_of( delim, beg, delimLen );
+  for( size_type end = find_first_of( delim, beg, delimLen );
       end != npos;
       end = find_first_of( delim, beg, delimLen ) )
     {
@@ -650,12 +615,12 @@ Str::scan(
   return( matches.size() );
 }
 	  
-size_t
-Str::scan( char delim, bool multiDelim, size_t start )
+Str::size_type
+Str::scan( char delim, bool multiDelim, size_type start )
 {
   matches.erase( matches.begin(), matches.end() );
 
-  size_t beg = start;
+  size_type beg = start;
   
   for( ; at( beg ) == delim && beg < size(); beg++ );
 
@@ -664,7 +629,7 @@ Str::scan( char delim, bool multiDelim, size_t start )
   
   matches.push_back( ScanMatch( start, size() - start ) );
 
-  for( size_t end = find( delim, beg ); end < size(); end = find( delim, beg ) )
+  for( size_type end = find( delim, beg ); end < size(); end = find( delim, beg ) )
     {
       matches.push_back( ScanMatch( beg , end - beg) );
 
@@ -689,13 +654,13 @@ Str::scan( char delim, bool multiDelim, size_t start )
   return( matches.size() );
 }
 
-size_t
-Str::scanPattern( const RegexScan & exp, size_t start )
+Str::size_type
+Str::scanPattern( const RegexScan & exp, size_type start )
 {
   matches.erase( matches.begin(), matches.end() );
 
   const char *  str = strbase() + start;
-  size_t    	len = size() - start;
+  size_type    	len = size() - start;
 
   matches.push_back( ScanMatch( start, length( str ) ) );
   
@@ -720,17 +685,17 @@ Str::scanPattern( const RegexScan & exp, size_t start )
     }
 }
 
-size_t
+Str::size_type
 Str::scanString(
   const char *	delimStr,
-  size_t    	scanStart,
-  size_t    	delimLength
+  size_type    	scanStart,
+  size_type    	delimLength
   )
 {
   if( ! delimStr || delimStr[0] == 0 ) return( 0 );
   
   const char * 	str = strbase() + scanStart;
-  size_t    	dLen = (delimLength == npos) ? strlen( delimStr ) : delimLength;
+  size_type    	dLen = (delimLength == npos) ? strlen( delimStr ) : delimLength;
 
   matches.push_back( ScanMatch( pos( str ), length( str )) );
 
@@ -815,9 +780,9 @@ Str::getDelim( istream & src, const char * delimChars, bool discard  )
 }
 
 istream &
-Str::get( istream & src, size_t size )
+Str::get( istream & src, size_type size )
 {
-  size_t len = size;
+  size_type len = size;
   reset();
   
   // if the put buffer is not big enough read
@@ -856,7 +821,7 @@ Str::get( istream & src, size_t size )
   return( src );
 }
   
-size_t
+Str::size_type
 Str::getBinSize( void ) const
 {
   return( sizeof( CLUE_U32 ) + size() );
@@ -910,7 +875,7 @@ Str::error( void ) const
     }
   else
     {
-      size_t eSize = errStr.size();
+      size_type eSize = errStr.size();
 
       if( rdbuf() == 0 )
 	errStr << ": no 'streambuf'";
@@ -972,7 +937,7 @@ Str::dumpInfo(
       
       dest << prefix << "matches.size(): " << matches.size() << '\n';
 
-      for( size_t m = 0; m < matches.size(); m++ )
+      for( size_type m = 0; m < matches.size(); m++ )
 	{
 	  scanMatch( matchStr, m );
 	  dest << prefix << "matches[" << m << "].pos:   "
@@ -1089,12 +1054,12 @@ operator >> ( istream & src, Str & dest )
 
 #ifdef STD_STRING
 int
-Str::compare( const string & two, size_t start, size_t len ) const
+Str::compare( const string & two, size_type start, size_type len ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_type oneLen = min( size() - start, len );
+  size_type twoLen = min( two.size(), len );
 
   int diff = strncmp( strbase() + start, two.c_str(), min( oneLen, twoLen ) );
 
@@ -1104,12 +1069,12 @@ Str::compare( const string & two, size_t start, size_t len ) const
 
 #ifdef STD_STRING
 int
-Str::fcompare( const string & two, size_t start, size_t len ) const
+Str::fcompare( const string & two, size_type start, size_type len ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_type oneLen = min( size() - start, len );
+  size_type twoLen = min( two.size(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.c_str(),
 				min( oneLen, twoLen ) );
@@ -1118,3 +1083,43 @@ Str::fcompare( const string & two, size_t start, size_t len ) const
 }  
 #endif
 
+// Revision Log:
+//
+// $Log$
+// Revision 3.3  1997/03/02 13:20:17  houghton
+// Changed to use 'size_type'
+//
+// Revision 3.2  1996/11/20 12:12:05  houghton
+// Removed support for BinStream.
+//
+// Revision 3.1  1996/11/14 01:24:08  houghton
+// Changed to Release 3
+//
+// Revision 2.6  1996/11/06 18:06:16  houghton
+// Clue.hh renamed to ClueUtils.hh.
+//
+// Revision 2.5  1996/10/11 17:42:59  houghton
+// Changed: Added new 'multiDelim' arg to scan methods. This arg
+//   specifies if multiple consecutive instances of the delimiter are
+//   ignored or create separate matches.
+//      Example: 'this,is,,a,test'
+//               mutliDelim == true:  4 fields
+//               multiDelim == false: 5 fields (the third has a 0 length).
+//
+// Revision 2.4  1996/06/09 09:44:49  houghton
+// Bug-Fix: compare( const char * ) if both strings are empty, return 0.
+// Bug-Fix: read( BinStream & ) if len was 0, was not reseting string.
+//
+// Revision 2.3  1996/04/27 13:08:39  houghton
+// Cleanup.
+//
+// Revision 2.2  1995/12/04 11:18:26  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:03  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:28:46  houghton
+// Revised
+//
+//

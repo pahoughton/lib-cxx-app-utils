@@ -10,74 +10,21 @@
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     06/01/95 07:53
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.2  1997/01/18 17:34:43  houghton
-// Bug-Fix: Linux - had to remove (actually ifdef out) functions that can
-//     be created with functional.h.
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.1  1996/11/14 01:24:13  houghton
-// Changed to Release 3
-//
-// Revision 2.10  1996/11/06 18:07:01  houghton
-// Changed calls to StringUtils functions to use npos for default len arg.
-//
-// Revision 2.9  1996/10/11 17:43:05  houghton
-// Changed: Added new 'multiDelim' arg to scan methods. This arg
-//   specifies if multiple consecutive instances of the delimiter are
-//   ignored or create separate matches.
-//      Example: 'this,is,,a,test'
-//               mutliDelim == true:  4 fields
-//               multiDelim == false: 5 fields (the third has a 0 length).
-//
-// Revision 2.8  1996/07/09 11:33:52  houghton
-// Bug-Fix: Change call to StringToBool to StringTo.
-//
-// Revision 2.7  1996/07/04 10:29:01  houghton
-// Added to( bool ).
-//
-// Revision 2.6  1996/05/11 11:02:55  houghton
-// Bug-Fix: stripLeading was not working correctly if the string
-//   only contained strip chars.
-//
-// Revision 2.5  1996/05/03 16:13:46  houghton
-// AIX Port cleanup.
-//
-// Revision 2.4  1996/04/27 13:09:00  houghton
-// Cleanup includes.
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
-//
-// Revision 2.3  1996/02/29 19:07:22  houghton
-// Added some ifndefs for GNU
-//
-// Revision 2.2  1995/12/04 11:18:27  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:06  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:47  houghton
-// Revised
-//
+//  $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include <ClueExceptions.hh>
 #include <RegexScan.hh>
 #include <StrStreambuf.hh>
 #include <SubStr.hh>
 #include <StringUtils.hh>
 #include <cctype>
-#else
-#include <ClueExcp.hh>
-#include <RxScan.hh>
-#include <StrSbuf.hh>
-#include <SubStr.hh>
-#include <StrUtil.hh>
-#include <cctype>
-#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -93,28 +40,28 @@ Str::Str( void )
 }
 
 inline
-Str::Str( const Str & src, size_t srcStart, size_t srcLen )
+Str::Str( const Str & src, size_type srcStart, size_type srcLen )
   : iostream( new StrStreambuf )
 {
   append( src, srcStart, srcLen );
 }
 
 inline
-Str::Str( const SubStr & src, size_t srcStart, size_t srcLen )
+Str::Str( const SubStr & src, size_type srcStart, size_type srcLen )
   : iostream( new StrStreambuf )
 {
   append( src, srcStart, srcLen );
 }
 
 inline
-Str::Str( const char * src, size_t srcLen )
+Str::Str( const char * src, size_type srcLen )
   : iostream( new StrStreambuf )
 {
   append( src, srcLen );
 }
 
 inline
-Str::Str( size_t count, char src )
+Str::Str( size_type count, char src )
   : iostream( new StrStreambuf )
 {
   append( count, src );
@@ -153,7 +100,7 @@ Str::Str( istream & src, bool text, bool line )
 
 inline
 Str &
-Str::append( const Str & src, size_t srcStart, size_t srcLen )
+Str::append( const Str & src, size_type srcStart, size_type srcLen )
 {
   CLUE_EXCPT_OUT_OF_RANGE( srcStart > src.size(), *this );
   
@@ -163,7 +110,7 @@ Str::append( const Str & src, size_t srcStart, size_t srcLen )
 
 inline
 Str &
-Str::append( const SubStr & src, size_t srcStart, size_t srcLen )
+Str::append( const SubStr & src, size_type srcStart, size_type srcLen )
 {
   CLUE_EXCPT_OUT_OF_RANGE( srcStart > src.size(), *this );
   
@@ -173,9 +120,9 @@ Str::append( const SubStr & src, size_t srcStart, size_t srcLen )
 
 inline
 Str &
-Str::append( size_t count, char src )
+Str::append( size_type count, char src )
 {
-  for( size_t c = 0; c < count; c++ )
+  for( size_type c = 0; c < count; c++ )
     rdbuf()->sputc( src );
   return( *this );
 }
@@ -202,7 +149,7 @@ Str::append( InputIterator first, InputIterator last )
 
 inline
 Str &
-Str::assign( const Str & src, size_t srcStart, size_t srcLen )
+Str::assign( const Str & src, size_type srcStart, size_type srcLen )
 {
   seekp( 0, ios::beg );
 
@@ -214,7 +161,7 @@ Str::assign( const Str & src, size_t srcStart, size_t srcLen )
 
 inline
 Str &
-Str::assign( const SubStr & src, size_t srcStart, size_t srcLen )
+Str::assign( const SubStr & src, size_type srcStart, size_type srcLen )
 {
   seekp( 0, ios::beg );
 
@@ -226,7 +173,7 @@ Str::assign( const SubStr & src, size_t srcStart, size_t srcLen )
 
 inline
 Str &
-Str::assign( const char * src, size_t srcLen )
+Str::assign( const char * src, size_type srcLen )
 {
   seekp( 0, ios::beg );
 
@@ -238,7 +185,7 @@ Str::assign( const char * src, size_t srcLen )
 
 inline
 Str &
-Str::assign( size_t count, char src )
+Str::assign( size_type count, char src )
 {
   seekp( 0, ios::beg );
 
@@ -279,10 +226,10 @@ Str::assign( InputIterator first, InputIterator last )
 inline
 Str &
 Str::insert(
-  size_t    	start,
+  size_type    	start,
   const Str & 	src,
-  size_t    	srcStart,
-  size_t    	srcLen
+  size_type    	srcStart,
+  size_type    	srcLen
   )
 {
   return( replace( start, 0, src, srcStart, srcLen ) );
@@ -291,10 +238,10 @@ Str::insert(
 inline
 Str &
 Str::insert(
-  size_t    	    start,
+  size_type    	    start,
   const SubStr &    src,
-  size_t    	    srcStart,
-  size_t    	    srcLen
+  size_type    	    srcStart,
+  size_type    	    srcLen
   )
 {
   return( replace( start, 0, src, srcStart, srcLen ) );
@@ -303,9 +250,9 @@ Str::insert(
 inline
 Str &
 Str::insert(
-  size_t    	    start,
+  size_type    	    start,
   const char *      src,
-  size_t    	    srcLen
+  size_type    	    srcLen
   )
 {
   return( replace( start, 0, src, srcLen ) );
@@ -313,14 +260,14 @@ Str::insert(
 
 inline
 Str &
-Str::insert( size_t start, size_t count, char src )
+Str::insert( size_type start, size_type count, char src )
 {
   return( replace( start, 0, count, src ) );
 }
 
 inline
 Str &
-Str::insert( size_t start, char src )
+Str::insert( size_type start, char src )
 {
   return( replace( start, 0, src ) );
 }
@@ -337,7 +284,7 @@ Str::insert( iterator before, InputIterator first, InputIterator last )
 
 inline
 Str &
-Str::remove( size_t start, size_t len )
+Str::remove( size_type start, size_type len )
 {
   return( replace( start, len, (const char *)0, 0 ) );
 }
@@ -362,11 +309,11 @@ Str::remove( iterator first, iterator last )
 inline
 Str &
 Str::replace(
-  size_t    	start,
-  size_t    	len,
+  size_type    	start,
+  size_type    	len,
   const Str &  	src,
-  size_t    	srcStart,
-  size_t    	srcLen
+  size_type    	srcStart,
+  size_type    	srcLen
   )
 {
 
@@ -379,11 +326,11 @@ Str::replace(
 inline
 Str &
 Str::replace(
-  size_t    	    start,
-  size_t    	    len,
+  size_type    	    start,
+  size_type    	    len,
   const SubStr &    src,
-  size_t    	    srcStart,
-  size_t    	    srcLen
+  size_type    	    srcStart,
+  size_type    	    srcLen
   )
 {
 
@@ -396,8 +343,8 @@ Str::replace(
 inline
 Str &
 Str::replace(
-  size_t    start,
-  size_t    len,
+  size_type    start,
+  size_type    len,
   char 	    src
   )
 {
@@ -410,8 +357,8 @@ Str::replace(
   iterator  	first,
   iterator  	last,
   const Str &  	src,
-  size_t    	srcStart,
-  size_t    	srcLen
+  size_type    	srcStart,
+  size_type    	srcLen
   )
 {
 
@@ -427,8 +374,8 @@ Str::replace(
   iterator  	    first,
   iterator  	    last,
   const SubStr &    src,
-  size_t    	    srcStart,
-  size_t    	    srcLen
+  size_type    	    srcStart,
+  size_type    	    srcLen
   )
 {
 
@@ -445,7 +392,7 @@ Str::replace(
   iterator  	first,
   iterator  	last,
   const char *  src,
-  size_t    	srcLen
+  size_type    	srcLen
   )
 {
 
@@ -520,7 +467,7 @@ Str::rend( void ) const
 
 inline
 char &
-Str::at( size_t index )
+Str::at( size_type index )
 {
   static char badChar = 0;
   
@@ -531,7 +478,7 @@ Str::at( size_t index )
 
 inline
 char 
-Str::at( size_t index ) const
+Str::at( size_type index ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( index >= size(), 0 );
     
@@ -540,7 +487,7 @@ Str::at( size_t index ) const
 
 inline
 SubStr
-Str::substr( size_t start, size_t len )
+Str::substr( size_type start, size_type len )
 {
   
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
@@ -552,7 +499,7 @@ Str::substr( size_t start, size_t len )
 
 inline
 const SubStr
-Str::substr( size_t start, size_t len ) const
+Str::substr( size_type start, size_type len ) const
 {
 
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
@@ -563,23 +510,23 @@ Str::substr( size_t start, size_t len ) const
 
 inline
 SubStr
-Str::at( size_t start, size_t len )
+Str::at( size_type start, size_type len )
 {
   return( substr( start, len ) );
 }
 
 inline
 const SubStr
-Str::at( size_t start, size_t len ) const
+Str::at( size_type start, size_type len ) const
 {
   return( substr( start, len ) );
 }
 
 inline
 SubStr
-Str::at( const char * pat, size_t start, size_t patLen )
+Str::at( const char * pat, size_type start, size_type patLen )
 {
-  size_t pLen = (patLen == npos) ? (pat) ? strlen( pat ) : 0 : patLen;
+  size_type pLen = (patLen == npos) ? (pat) ? strlen( pat ) : 0 : patLen;
 
   SubStr sub( *this, find( pat, start, pLen ), pLen );
   return( sub );
@@ -587,7 +534,7 @@ Str::at( const char * pat, size_t start, size_t patLen )
 
 inline
 const SubStr
-Str::at( const char * pat, size_t start, size_t patLen ) const 
+Str::at( const char * pat, size_type start, size_type patLen ) const 
 {
   const SubStr sub( *this, find( pat, start, patLen ), patLen );
   return( sub );
@@ -595,9 +542,9 @@ Str::at( const char * pat, size_t start, size_t patLen ) const
 
 inline
 SubStr
-Str::at( const RegexScan & pat, size_t start )
+Str::at( const RegexScan & pat, size_type start )
 {
-  size_t beg = find( pat, start );
+  size_type beg = find( pat, start );
 
   SubStr sub( *this, beg, (beg == npos) ? 0 : pat.matchLength() );
   return( sub );
@@ -605,65 +552,65 @@ Str::at( const RegexScan & pat, size_t start )
 
 inline
 const SubStr
-Str::at( const RegexScan & pat, size_t start ) const
+Str::at( const RegexScan & pat, size_type start ) const
 {
-  size_t    	beg = find( pat, start );
+  size_type    	beg = find( pat, start );
   const SubStr  sub( *this, beg, (beg == npos) ? 0 : pat.matchLength() );
   return( sub );
 }
 
 inline
 SubStr
-Str::at( const Str & pat, size_t start )
+Str::at( const Str & pat, size_type start )
 {
   return( at( pat.strbase(), start, pat.size() ) );
 }
 
 inline
 const SubStr
-Str::at( const Str & pat, size_t start ) const
+Str::at( const Str & pat, size_type start ) const
 {
   return( at( pat.strbase(), start, pat.size() ) );
 }
 
 inline
 SubStr
-Str::at( const SubStr & pat, size_t start )
+Str::at( const SubStr & pat, size_type start )
 {
   return( at( pat.strbase(), start, pat.size() ) );
 }
 
 inline
 const SubStr
-Str::at( const SubStr & pat, size_t start ) const
+Str::at( const SubStr & pat, size_type start ) const
 {
   return( at( pat.strbase(), start, pat.size() ) );
 }
 
 inline
 SubStr
-Str::before( size_t end )
+Str::before( size_type end )
 {
-  return( at( (size_t)0, end ) );
+  return( at( (size_type)0, end ) );
 }
 
 inline
 const SubStr
-Str::before( size_t end ) const
+Str::before( size_type end ) const
 {
-  return( at( (size_t)0, end ) );
+  return( at( (size_type)0, end ) );
 }
 
 inline
 SubStr
-Str::after( size_t start )
+Str::after( size_type start )
 {
   return( at( start, size() - start ) );
 }
 
 inline
 const SubStr
-Str::after( size_t start ) const
+Str::after( size_type start ) const
 {
   return( at( start, size() - start ) );
 }
@@ -671,8 +618,8 @@ Str::after( size_t start ) const
 // searching * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 inline
-size_t
-Str::find( const Str & str, size_t start ) const
+Str::size_type
+Str::find( const Str & str, size_type start ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -683,8 +630,8 @@ Str::find( const Str & str, size_t start ) const
 }
 
 inline
-size_t
-Str::find( const SubStr & str, size_t start ) const
+Str::size_type
+Str::find( const SubStr & str, size_type start ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -695,8 +642,8 @@ Str::find( const SubStr & str, size_t start ) const
 }
 
 inline
-size_t
-Str::find( const RegexScan & exp, size_t start ) const
+Str::size_type
+Str::find( const RegexScan & exp, size_type start ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -705,8 +652,8 @@ Str::find( const RegexScan & exp, size_t start ) const
 }
 
 inline
-size_t
-Str::find( const char * str, size_t start, size_t strLen ) const
+Str::size_type
+Str::find( const char * str, size_type start, size_type strLen ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -717,8 +664,8 @@ Str::find( const char * str, size_t start, size_t strLen ) const
 }
 
 inline
-size_t
-Str::find( char c, size_t start ) const
+Str::size_type
+Str::find( char c, size_type start ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -728,8 +675,8 @@ Str::find( char c, size_t start ) const
 
 
 inline
-size_t
-Str::rfind( const Str & str, size_t end ) const
+Str::size_type
+Str::rfind( const Str & str, size_type end ) const
 {
   const char * pos = StringReverseSearch( strbase(), min( end, size() ),
 				   str.strbase(), str.size() );
@@ -738,8 +685,8 @@ Str::rfind( const Str & str, size_t end ) const
 }
 
 inline
-size_t
-Str::rfind( const SubStr & str, size_t end ) const
+Str::size_type
+Str::rfind( const SubStr & str, size_type end ) const
 {
   const char * pos = StringReverseSearch( strbase(), min( end, size() ),
 				   str.strbase(), str.size() );
@@ -748,8 +695,8 @@ Str::rfind( const SubStr & str, size_t end ) const
 }
 
 inline
-size_t
-Str::rfind( const char * str, size_t end, size_t strLen ) const
+Str::size_type
+Str::rfind( const char * str, size_type end, size_type strLen ) const
 {
   const char * pos = StringReverseSearch( strbase(), min( end, size() ),
 				   str, strLen );
@@ -758,22 +705,22 @@ Str::rfind( const char * str, size_t end, size_t strLen ) const
 }
 
 inline
-size_t
-Str::rfind( char c, size_t end ) const
+Str::size_type
+Str::rfind( char c, size_type end ) const
 {
   if( ! size() || end == 0 )
     return( npos );
   
-  size_t e = min( end, size() ) - 1;
+  size_type e = min( end, size() ) - 1;
   for( ; e > 0 && c != at( e ); e-- );
   return( (c == at(e)) ? e :
-	  (c == at((size_t)0)) ? 0 : npos );
+	  (c == at((size_type)0)) ? 0 : npos );
 }
 
 
 inline
-size_t
-Str::ffind( const Str & str, size_t start ) const
+Str::size_type
+Str::ffind( const Str & str, size_type start ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -784,8 +731,8 @@ Str::ffind( const Str & str, size_t start ) const
 }
 
 inline
-size_t
-Str::ffind( const SubStr & str, size_t start ) const
+Str::size_type
+Str::ffind( const SubStr & str, size_type start ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -796,8 +743,8 @@ Str::ffind( const SubStr & str, size_t start ) const
 }
 
 inline
-size_t
-Str::ffind( const char * str, size_t start, size_t strLen ) const
+Str::size_type
+Str::ffind( const char * str, size_type start, size_type strLen ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -808,20 +755,20 @@ Str::ffind( const char * str, size_t start, size_t strLen ) const
 }
 
 inline
-size_t
-Str::ffind( char c, size_t start ) const
+Str::size_type
+Str::ffind( char c, size_type start ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
-  size_t s = start;
+  size_type s = start;
   for( ; s < size() && tolower( c ) != tolower( at( s ) ); s++ );
   return( (tolower( c ) == tolower( at(s) )) ? s : npos );
 }
 
 
 inline
-size_t
-Str::rffind( const Str & str, size_t end ) const
+Str::size_type
+Str::rffind( const Str & str, size_type end ) const
 {
   const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
 				   str.strbase(), str.size() );
@@ -830,8 +777,8 @@ Str::rffind( const Str & str, size_t end ) const
 }
 
 inline
-size_t
-Str::rffind( const SubStr & str, size_t end ) const
+Str::size_type
+Str::rffind( const SubStr & str, size_type end ) const
 {
   const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
 				   str.strbase(), str.size() );
@@ -840,8 +787,8 @@ Str::rffind( const SubStr & str, size_t end ) const
 }
 
 inline
-size_t
-Str::rffind( const char * str, size_t end, size_t strLen ) const
+Str::size_type
+Str::rffind( const char * str, size_type end, size_type strLen ) const
 {
   const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
 				   str, strLen );
@@ -850,18 +797,18 @@ Str::rffind( const char * str, size_t end, size_t strLen ) const
 }
 
 inline
-size_t
-Str::rffind( char c, size_t end ) const
+Str::size_type
+Str::rffind( char c, size_type end ) const
 {
-  size_t e = min( end, size() ) - 1;
+  size_type e = min( end, size() ) - 1;
   for( ; e > 0 && tolower( c ) != tolower( at( e ) ); e-- );
   return( (tolower( c ) == tolower( at(e) )) ? e :
-	  (tolower( c ) == tolower( at((size_t)0) )) ? 0 : npos );
+	  (tolower( c ) == tolower( at((size_type)0) )) ? 0 : npos );
 }
 
 inline
-size_t
-Str::find_first_of( const Str & str, size_t start ) const
+Str::size_type
+Str::find_first_of( const Str & str, size_type start ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -869,8 +816,8 @@ Str::find_first_of( const Str & str, size_t start ) const
 }
 
 inline
-size_t
-Str::find_first_of( const SubStr & str, size_t start ) const
+Str::size_type
+Str::find_first_of( const SubStr & str, size_type start ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
@@ -878,18 +825,18 @@ Str::find_first_of( const SubStr & str, size_t start ) const
 }
   
 inline
-size_t
+Str::size_type
 Str::find_first_of(
   const char * str,
-  size_t start,
-  size_t strLen ) const
+  size_type start,
+  size_type strLen ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * nBeg = str;
   const char * nEnd = str + ( (strLen == npos) ? strlen( str ) : strLen );
 
-  size_t  pos = size();
+  size_type  pos = size();
   
   for( const char * n = nBeg; n < nEnd; n++ )
     {
@@ -898,7 +845,7 @@ Str::find_first_of(
 				       *n ,
 				       pos - start );
       
-      if( curPos && (size_t)(curPos - strbase()) < pos )
+      if( curPos && (size_type)(curPos - strbase()) < pos )
 	{
 	  pos = curPos - strbase();
 	}
@@ -908,22 +855,22 @@ Str::find_first_of(
 }  
 
 inline
-size_t
-Str::find_last_of( const Str & s, size_t end ) const
+Str::size_type
+Str::find_last_of( const Str & s, size_type end ) const
 {
   return( find_last_of( s.strbase(), end, s.size() ) );
 }
 
 inline
-size_t
-Str::find_last_of( const SubStr & s, size_t end ) const
+Str::size_type
+Str::find_last_of( const SubStr & s, size_type end ) const
 {
   return( find_last_of( s.strbase(), end, s.size() ) );
 }
 
 inline
-size_t
-Str::find_last_of( const char * str, size_t end, size_t strLen ) const
+Str::size_type
+Str::find_last_of( const char * str, size_type end, size_type strLen ) const
 {
   const char * hBeg = strbase();
   const char * hEnd = strbase() + ((end == npos) ? size() : end);
@@ -946,22 +893,22 @@ Str::find_last_of( const char * str, size_t end, size_t strLen ) const
 }  
 
 inline
-size_t
-Str::find_first_not_of( const Str & str, size_t start ) const
+Str::size_type
+Str::find_first_not_of( const Str & str, size_type start ) const
 {
   return( find_first_not_of( str.strbase(), start, str.size() ) );  
 }
 
 inline
-size_t
-Str::find_first_not_of( const SubStr & str, size_t start ) const
+Str::size_type
+Str::find_first_not_of( const SubStr & str, size_type start ) const
 {
   return( find_first_not_of( str.strbase(), start, str.size() ) );
 }
 
 inline
-size_t
-Str::find_first_not_of( const char * str, size_t start, size_t strLen ) const
+Str::size_type
+Str::find_first_not_of( const char * str, size_type start, size_type strLen ) const
 {
   const char * hBeg = strbase() + start;
   const char * hEnd = strbase() + size();
@@ -990,22 +937,22 @@ Str::find_first_not_of( const char * str, size_t start, size_t strLen ) const
 }
 
 inline
-size_t
-Str::find_last_not_of( const Str & str, size_t end ) const
+Str::size_type
+Str::find_last_not_of( const Str & str, size_type end ) const
 {
   return( find_last_not_of( str.strbase(), end, str.size() ) );
 }
  
 inline
-size_t
-Str::find_last_not_of( const SubStr & str, size_t end ) const
+Str::size_type
+Str::find_last_not_of( const SubStr & str, size_type end ) const
 {
   return( find_last_not_of( str.strbase(), end, str.size() ) );
 }
   
 inline
-size_t
-Str::find_last_not_of( const char * str, size_t end, size_t strLen ) const
+Str::size_type
+Str::find_last_not_of( const char * str, size_type end, size_type strLen ) const
 {
   const char * hBeg = strbase();
   const char * hEnd = strbase() + ((end == npos) ? size() : end);
@@ -1269,17 +1216,17 @@ Str::capitalize( void )
   StringCapitalize( rdbuf()->pbase(), length() );
 }
 
-size_t
+Str::size_type
 Str::stripLeading( const char * stripChars )
 {
   cstr();
   char * destStart = rdbuf()->pbase();
 
-  size_t    srcPos = find_first_not_of( stripChars );
+  size_type    srcPos = find_first_not_of( stripChars );
 
   if( srcPos == npos ) // no non-strip chars
     {
-      size_t count = size();
+      size_type count = size();
       reset();
       return( count );
     }
@@ -1298,14 +1245,14 @@ Str::stripLeading( const char * stripChars )
     }
 }
 
-size_t
+Str::size_type
 Str::stripTrailing( const char * stripChars )
 {
-  size_t last = find_last_not_of( stripChars );
+  size_type last = find_last_not_of( stripChars );
 
   if( last != npos )
     {
-      size_t count = length() - ( last + 1 );
+      size_type count = length() - ( last + 1 );
   
       if( count )
 	{
@@ -1317,7 +1264,7 @@ Str::stripTrailing( const char * stripChars )
     {
       if( find_first_of( stripChars ) == 0 )
 	{
-	  size_t origSize = size();
+	  size_type origSize = size();
 	  reset();
 	  return( origSize );
 	}
@@ -1328,10 +1275,10 @@ Str::stripTrailing( const char * stripChars )
     }
 }
 
-size_t
+Str::size_type
 Str::stripEnds( const char * stripChars )
 {
-  size_t count = stripLeading( stripChars );
+  size_type count = stripLeading( stripChars );
   count += stripTrailing( stripChars );
   return( count );
 }
@@ -1340,32 +1287,32 @@ Str::stripEnds( const char * stripChars )
 // scan  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 inline
-size_t
-Str::scan( const Str & delimChars, bool multiDelim, size_t start )
+Str::size_type
+Str::scan( const Str & delimChars, bool multiDelim, size_type start )
 {
   return( scan( delimChars.strbase(), multiDelim, start,
 		delimChars.size() ) );
 }
 
 inline
-size_t
-Str::scan( const SubStr & delimChars, bool multiDelim, size_t start )
+Str::size_type
+Str::scan( const SubStr & delimChars, bool multiDelim, size_type start )
 {
   return( scan( delimChars.strbase(), multiDelim, start,
 		delimChars.size() ) );
 }
 
 inline
-size_t
-Str::scanString( const Str & delimStr, size_t start )
+Str::size_type
+Str::scanString( const Str & delimStr, size_type start )
 {
   return( scanString( delimStr.strbase(), start,
 		      delimStr.size() ) );
 }
 
 inline
-size_t
-Str::scanString( const SubStr & delimStr, size_t start )
+Str::size_type
+Str::scanString( const SubStr & delimStr, size_type start )
 {
   return( scanString( delimStr.strbase(), start,
 		      delimStr.size() ) );
@@ -1373,7 +1320,7 @@ Str::scanString( const SubStr & delimStr, size_t start )
 
 	   
 inline
-size_t
+Str::size_type
 Str::scanMatchCount( void ) const
 {
   return( matches.size() );
@@ -1381,7 +1328,7 @@ Str::scanMatchCount( void ) const
 
 inline
 SubStr
-Str::scanMatch( size_t scanNum )
+Str::scanMatch( size_type scanNum )
 {
   CLUE_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), SubStr(*this, 0,0) );
 
@@ -1390,8 +1337,8 @@ Str::scanMatch( size_t scanNum )
 }
 
 inline
-size_t
-Str::scanMatch( Str & dest, size_t scanNum ) const
+Str::size_type
+Str::scanMatch( Str & dest, size_type scanNum ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), 0 );
 
@@ -1401,8 +1348,8 @@ Str::scanMatch( Str & dest, size_t scanNum ) const
 }
 
 inline
-size_t
-Str::scanMatchStart( size_t scanNum ) const
+Str::size_type
+Str::scanMatchStart( size_type scanNum ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), npos );
 
@@ -1410,8 +1357,8 @@ Str::scanMatchStart( size_t scanNum ) const
 }
   
 inline
-size_t
-Str::scanMatchLength( size_t scanNum ) const
+Str::size_type
+Str::scanMatchLength( size_type scanNum ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), npos );
 
@@ -1435,18 +1382,19 @@ void
 Str::reset( void )
 {
   seekp(0);
+  seekg(0);
   clear();
 }
 
 inline
-size_t
+Str::size_type
 Str::size( void ) const
 {
   return( rdbuf()->plen() );
 }
 
 inline
-size_t
+Str::size_type
 Str::length( void ) const
 {
   return( size() );
@@ -1460,7 +1408,7 @@ Str::empty( void ) const
 }
 
 inline
-size_t
+Str::size_type
 Str::max_size( void ) const
 {
   return( npos - 1 );
@@ -1474,10 +1422,17 @@ Str::cstr( void ) const
 }
 
 inline
-size_t
-Str::copy( char * dest, size_t destLen, size_t start )
+const char *
+Str::c_str( void ) const
 {
-  size_t len = min( destLen, size() - start );
+  return( rdbuf()->cstr() );
+}
+
+inline
+Str::size_type
+Str::copy( char * dest, size_type destLen, size_type start )
+{
+  size_type len = min( destLen, size() - start );
   strncpy( dest, strbase() + start, len );
   return( len );
 }
@@ -1511,28 +1466,28 @@ Str::operator const char * ( void ) const
 
 inline
 char &
-Str::operator [] ( size_t index )
+Str::operator [] ( size_type index )
 {
   return( at(index) );
 }
 
 inline
 char 
-Str::operator [] ( size_t index ) const
+Str::operator [] ( size_type index ) const
 {
   return( at(index) );
 }
 
 inline
 SubStr
-Str::operator () ( size_t start, size_t len )
+Str::operator () ( size_type start, size_type len )
 {
   return( at( start, len ) );
 }
 
 inline
 const SubStr
-Str::operator () ( size_t start, size_t len ) const
+Str::operator () ( size_type start, size_type len ) const
 {
   return( at( start, len ) );
 }
@@ -1753,42 +1708,42 @@ Str::strbase( void ) const
 
 inline
 int
-compare( const Str & one, const Str & two, size_t len STR_COMP_LEN )
+compare( const Str & one, const Str & two, Str::size_type len STR_COMP_LEN )
 {
   return( one.compare( two, 0, len ) );
 }
 
 inline
 int
-compare( const Str & one, const SubStr & two, size_t len STR_COMP_LEN )
+compare( const Str & one, const SubStr & two, Str::size_type len STR_COMP_LEN )
 {
   return( one.compare( two, 0, len ) );
 }
 
 inline
 int
-compare( const Str & one, const char * two, size_t len STR_COMP_LEN )
+compare( const Str & one, const char * two, Str::size_type len STR_COMP_LEN )
 {
   return( one.compare( two, 0, len ) );
 }
 
 inline
 int
-fcompare( const Str & one, const Str & two, size_t len STR_COMP_LEN )
+fcompare( const Str & one, const Str & two, Str::size_type len STR_COMP_LEN )
 {
   return( one.fcompare( two, 0, len ) );
 }
 
 inline
 int
-fcompare( const Str & one, const SubStr & two, size_t len STR_COMP_LEN )
+fcompare( const Str & one, const SubStr & two, Str::size_type len STR_COMP_LEN )
 {
   return( one.fcompare( two, 0, len ) );
 }
 
 inline
 int
-fcompare( const Str & one, const char * two, size_t len STR_COMP_LEN )
+fcompare( const Str & one, const char * two, Str::size_type len STR_COMP_LEN )
 {
   return( one.fcompare( two, 0, len ) );
 }
@@ -1960,7 +1915,7 @@ Str::operator <  ( const string & two ) const
 }
 
 inline
-Str::Str( const string & src, size_t srcStart, size_t srcLen )
+Str::Str( const string & src, size_type srcStart, size_type srcLen )
   : ios( new StrStreambuf )
 {
   append( src, srcStart, srcLen );
@@ -1968,7 +1923,7 @@ Str::Str( const string & src, size_t srcStart, size_t srcLen )
 
 inline
 Str &
-Str::append( const string & src, size_t srcStart, size_t srcLen )
+Str::append( const string & src, size_type srcStart, size_type srcLen )
 {
   CLUE_EXCPT_OUT_OF_RANGE( srcStart > src.length(), *this );
   
@@ -1985,7 +1940,7 @@ Str::operator += ( const string & src )
 
 inline
 Str &
-Str::assign( const string & src, size_t srcStart, size_t srcLen )
+Str::assign( const string & src, size_type srcStart, size_type srcLen )
 {
   seekp( 0, ios::beg );
   return( append( src, srcStart, srcLen ) );
@@ -2001,10 +1956,10 @@ Str::operator =  ( const string & src )
 inline
 Str &
 Str::insert(
-  size_t    	    start,
+  size_type    	    start,
   const string &    src,
-  size_t    	    srcStart,
-  size_t    	    srcLen
+  size_type    	    srcStart,
+  size_type    	    srcLen
   )
 {
   return( replace( start, 0, src, srcStart, srcLen ) );
@@ -2013,11 +1968,11 @@ Str::insert(
 inline
 Str &
 Str::replace(
-  size_t    	    start,
-  size_t    	    len,
+  size_type    	    start,
+  size_type    	    len,
   const string &    src,
-  size_t    	    srcStart,
-  size_t    	    srcLen
+  size_type    	    srcStart,
+  size_type    	    srcLen
   )
 {
 
@@ -2033,8 +1988,8 @@ Str::replace(
   iterator  	    first,
   iterator  	    last,
   const string &    src,
-  size_t    	    srcStart,
-  size_t    	    srcLen
+  size_type    	    srcStart,
+  size_type    	    srcLen
   )
 {
 
@@ -2049,4 +2004,59 @@ Str::replace(
 #undef inline
 #endif
 
+// Revision Log:
+// 
+// $Log$
+// Revision 3.3  1997/03/02 13:20:28  houghton
+// Changed to use 'size_type'
+//
+// Revision 3.2  1997/01/18 17:34:43  houghton
+// Bug-Fix: Linux - had to remove (actually ifdef out) functions that can
+//     be created with functional.h.
+//
+// Revision 3.1  1996/11/14 01:24:13  houghton
+// Changed to Release 3
+//
+// Revision 2.10  1996/11/06 18:07:01  houghton
+// Changed calls to StringUtils functions to use npos for default len arg.
+//
+// Revision 2.9  1996/10/11 17:43:05  houghton
+// Changed: Added new 'multiDelim' arg to scan methods. This arg
+//   specifies if multiple consecutive instances of the delimiter are
+//   ignored or create separate matches.
+//      Example: 'this,is,,a,test'
+//               mutliDelim == true:  4 fields
+//               multiDelim == false: 5 fields (the third has a 0 length).
+//
+// Revision 2.8  1996/07/09 11:33:52  houghton
+// Bug-Fix: Change call to StringToBool to StringTo.
+//
+// Revision 2.7  1996/07/04 10:29:01  houghton
+// Added to( bool ).
+//
+// Revision 2.6  1996/05/11 11:02:55  houghton
+// Bug-Fix: stripLeading was not working correctly if the string
+//   only contained strip chars.
+//
+// Revision 2.5  1996/05/03 16:13:46  houghton
+// AIX Port cleanup.
+//
+// Revision 2.4  1996/04/27 13:09:00  houghton
+// Cleanup includes.
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.3  1996/02/29 19:07:22  houghton
+// Added some ifndefs for GNU
+//
+// Revision 2.2  1995/12/04 11:18:27  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:06  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:28:47  houghton
+// Revised
+//
+//
 #endif // ! def _Str_ii_ 
