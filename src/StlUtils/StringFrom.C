@@ -164,8 +164,22 @@ StringFrom( double num, short prec )
   return( NumBuf );
 }
 
+const char *
+StringFrom( const struct tm & src, const char * fmt )
+{
+  
+  // NumBufMutex.lock();
+  NumBuf[0] = 0;
+  strftime( NumBuf, sizeof( NumBuf ), fmt, &src );
+  // NumBufMutex.unlock();
+  return( NumBuf );
+}
+
 //
 // $Log$
+// Revision 1.3  1996/11/25 10:12:48  houghton
+// Added StringFrom( const struct & tm, const char * fmt );
+//
 // Revision 1.2  1996/11/24 19:06:58  houghton
 // Commented out mutex support for rpm (temporary).
 //
