@@ -58,7 +58,7 @@ tFileStat02( LibTest & tester )
     TEST( ! t.isChar() );
     TEST( ! t.isSocket() );
     TEST( ! t.isSetUID() );
-    TEST( ! t.isSetGID() );
+    TEST( t.isSetGID() );
   }
 
   {
