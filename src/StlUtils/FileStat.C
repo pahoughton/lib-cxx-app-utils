@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1995/12/31 11:25:31  houghton
+// Bug Fix - change the order of includes.
+//
 // Revision 2.2  1995/12/04 11:20:33  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -23,16 +26,16 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include "FileStat.hh"
-#include <User.hh>
 #include <UserGroup.hh>
+#include <User.hh>
 #include <DateTime.hh>
 #include <iomanip>
 #include <cstring>
 #include <cerrno>
 #else
 #include "FileStat.hh"
-#include <User.hh>
 #include <UserGrp.hh>
+#include <User.hh>
 #include <DateTime.hh>
 #include <iomanip>
 #include <cstring>
