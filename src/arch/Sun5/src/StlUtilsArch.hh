@@ -47,7 +47,7 @@
 #define STLUTILS_HAS_CONST_IOSRDBUF	1 
 #define STLUTILS_HAS_CONST_IOSGOOD	1 
 #define STLUTILS_HAS_CONST_IOSRDSTATE	1 
-#define STLUTILS_STD_ITERATORS		1
+// #define STLUTILS_STD_ITERATORS		1
 #define STLUTILS_STRBUF_CONST_RDBUF	const
 #define STLUTILS_RELOPS_BROKEN		1
 #define STLUTILS_STD_STREAMBUF_STUPID	1
@@ -172,6 +172,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 5.9  2001/08/07 22:37:04  houghton
+// *** empty log message ***
+//
 // Revision 5.8  2001/08/07 21:47:26  houghton
 // *** empty log message ***
 //
