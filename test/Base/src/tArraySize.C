@@ -1,3 +1,21 @@
+//
+// File:        tArraySize.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for the ArraySize macro.
+//  
+// Source Header Version: 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/31/96 06:42
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -30,8 +48,11 @@ static TestValue TestArray[] =
   { 5, 'e', 5 }
 };
 
-bool tArraySize( LibTest & tester )
+bool
+tArraySize( LibTest & tester )
 {
+  // ArraySize( array )
+  
   TEST( ArraySize( CharArray ) 	 == 4 );
   TEST( ArraySize( IntArray )  	 == 6 );
   TEST( ArraySize( ShortArray )  == 7 );
@@ -42,3 +63,9 @@ bool tArraySize( LibTest & tester )
   return( true );
 }
 
+//
+// $Log$
+// Revision 2.3  1996/11/04 14:44:25  houghton
+// Added header comments.
+//
+//

@@ -1,3 +1,20 @@
+//
+// File:        tbasename.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for basename functions
+//  
+// Source Header Version: StringUtils.hh 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/30/96 04:08
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -45,6 +62,10 @@ tbasename( LibTest & tester )
 
   return( true );
 }
-
-    
       
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:53:58  houghton
+// Added header comments.
+//
+//

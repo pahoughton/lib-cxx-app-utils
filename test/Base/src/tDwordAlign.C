@@ -1,3 +1,20 @@
+//
+// File:        tDwordAlign.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for DwordAlign functions.
+//  
+// Source Header Version: 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/31/96 07:10
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -50,3 +67,9 @@ tDwordAlign( LibTest & tester )
   return( true );
 }
 
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:47:43  houghton
+// Added header comments.
+//
+//

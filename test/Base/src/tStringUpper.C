@@ -1,3 +1,20 @@
+//
+// File:        tStringUpper.C
+// Project:	Clue
+// Desc:        
+//
+//  Test StringUpper Function
+//  
+// Source Header Version: StringUtils.hh 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/29/96 07:15
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -49,3 +66,9 @@ tStringUpper( LibTest & tester )
 
     
       
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:53:02  houghton
+// Added header comments.
+//
+//

@@ -1,3 +1,21 @@
+//
+// File:        tCompare01.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for Compare functions in Compare.hh
+//
+// Source Header Version: 2.3
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/27/96 04:13
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -67,3 +85,10 @@ tCompare01( LibTest & tester )
 
   return( true );
 }
+
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:47:17  houghton
+// Added header comments.
+//
+//

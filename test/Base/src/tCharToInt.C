@@ -1,3 +1,19 @@
+//
+// File:        tCharToInt.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for CharToInt function.
+//  
+// Source Header Version: StringUtils.hh 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/30/96 04:21
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -28,4 +44,10 @@ tCharToInt( LibTest & tester )
   return( true );
 }
 
+//
+// $Log$
+// Revision 2.3  1996/11/04 14:46:47  houghton
+// Added header comments.
+//
+//
 	  
