@@ -124,6 +124,7 @@ TEST_CC_FLAGS		= $(cc_debug_flags)
 PROFILE_CC_FLAGS	= $(cc_profile_flags)
 SHARED_CC_FLAGS		= $(cc_shared_flags) $(cc_optimize_flags)
 
+CXX_OTHER		= 
 CXX_FLAGS		= $(cxx_warn_flags) $(ARCH_CXX_FLAGS) $(CXX_OTHER)
 
 DEFAULT_CXX_FLAGS	= $(cxx_optimize_flags)
@@ -341,6 +342,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.13  1998/07/20 11:23:16  houghton
+# Added CXX_OTHER variable.
+#
 # Revision 4.12  1998/03/23 10:43:50  houghton
 # Changed to work with MakeConfigs 5.05.
 #
