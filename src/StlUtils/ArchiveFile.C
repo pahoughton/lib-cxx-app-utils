@@ -67,7 +67,7 @@ ArchiveFile(
 	  
 	  Compress	comp;
 	  
-	  if( ! comp.compress( srcFn, destFn ) )
+	  if( ! comp.compress( srcFn.c_str(), destFn.c_str() ) )
 	    {
 	      LLgError << comp.error() << endl;
 	      return( false );
@@ -99,6 +99,9 @@ ArchiveFile(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2001/10/22 14:02:44  houghton
+// Port: Sun CC 6.2 - minor change.
+//
 // Revision 5.2  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //
