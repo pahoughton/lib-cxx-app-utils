@@ -32,15 +32,8 @@
 #include <StlUtilsConfig.hh>
 #include <DateTimeUtils.hh>
 #include <DumpInfo.hh>
+#include <utility>
 #include <ctime>
-
-#if !defined( STLUTILS_HAS_STRPTIME )
-extern "C"
-char *
-STLUTILS_FUNCT_T
-strptime( char * b, const char * fmt, struct tm * t );
-#endif
-
 
 #if defined( STLUTILS_DEBUG )
 #define inline
@@ -100,7 +93,6 @@ public:
   bool	    	    	isDST( void );
   inline const char *	getTimeZone( void ) const;
 
-  static long       	getGmtOffset( const char * timeZone = 0 );
   static const char *	getSysTimeZone( void );
 
   inline time_t     	setTimeT( time_t timeSec = 0 );
@@ -202,8 +194,10 @@ protected:
 
 private:
   
-  void 	    	    setTmOffset( void );
-  static long	    localSysOffset;
+  // void			setTmOffset( void );
+  long			setTimeZoneOffset( void );
+  
+  static void		setEnvTimeZone( const char * timeZone );
   
   struct Flags
   {
@@ -213,7 +207,7 @@ private:
     int    	tmValid	    : 1;
   };
 
-  const char *	timeZoneName;  
+  char		timeZone[ 30 ];
   Flags	    	flags;
   long	    	offset;
   struct tm   	tm;
@@ -677,6 +671,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1998/10/13 16:17:05  houghton
+// Changed: time zone processing no longer uses 'static' methods.
+//
 // Revision 4.4  1998/10/13 15:17:04  houghton
 // Added getHHMMSS( void ).
 //
