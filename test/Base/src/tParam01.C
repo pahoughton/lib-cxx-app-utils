@@ -3,7 +3,7 @@
 #include <LibTest.hh>
 #include <Param.hh>
 #include <Compare.hh>
-#include <Clue.hh>
+#include <ClueUtils.hh>
 #include <cstdio>
 #else
 #include <TestCfg.hh>
@@ -116,7 +116,7 @@ tParam01( LibTest & tester )
     }
 
     char * string = "init";
-    TEST( t.argString( string, "argString test args", "string" ) );
+    TEST( t.argStr( string, "argString test args", "string" ) );
     TEST( compare( string, "test string" ) == 0 );
     
     Str str( "init" );
@@ -128,7 +128,7 @@ tParam01( LibTest & tester )
     TEST( i == -123 );
 
     unsigned int ui = 0;
-    TEST( t.argInt( ui, "argInt unsigned test args", "uint" ) );
+    TEST( t.argUInt( ui, "argInt unsigned test args", "uint" ) );
     TEST( ui == 123 );
 
     short s = 0;
@@ -136,7 +136,7 @@ tParam01( LibTest & tester )
     TEST( s == -456 );
 
     unsigned short us = 0;
-    TEST( t.argShort( us, "argShort unsigned test args", "ushort" ) );
+    TEST( t.argUShort( us, "argShort unsigned test args", "ushort" ) );
     TEST( us == 456 );
 
     long l = 0;
@@ -144,7 +144,7 @@ tParam01( LibTest & tester )
     TEST( l == -789 );
 
     unsigned long ul = 0;
-    TEST( t.argLong( ul, "argLong unsigned test args", "ulong" ) );
+    TEST( t.argULong( ul, "argLong unsigned test args", "ulong" ) );
     TEST( ul == 789 );
 
     double d = 0;
