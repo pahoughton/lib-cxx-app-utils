@@ -1,0 +1,4 @@
+BinStream
+NetBinStream
+LibTest( FailObject );
+test( __FILE__, __LINE__, bool );
