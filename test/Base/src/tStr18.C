@@ -47,12 +47,92 @@ tStr18( LibTest & tester )
 
     Str t;
 
-    const char * from = "str-ip. (all# pu%nct #$% from-+= me.";
-    const char * to   = "strip all punct  from me";
+    {
+      // nothing to strip
+      const char * from = "do_not_strip_any";
+      const char * to = from;
 
-    t.assign( from );
-    t.strip( "-.(#%$+=" );
-    TEST( t == to );
+      t.assign( from );
+      t.strip( ",. !" );
+      TEST( t == to );
+    }
+
+    {
+      // strip 1 from front
+      const char * from = ".this is only a test";
+      const char * to = "this is only a test";
+
+      t.assign( from );
+      t.strip( ",.!" );
+      TEST( t == to );
+    }
+
+    {
+      // strip a few from the front
+
+      const char * from = ".,.,this is only a test";
+      const char * to = "this is only a test";
+
+      t.assign( from );
+      t.strip( ",.!" );
+      TEST( t == to );
+    }
+    
+    {
+      // strip all
+
+      const char * from = ".a,b.c,,,,abc...";
+      const char * to = "";
+
+      t.assign( from );
+      t.strip( ",.abc" );
+      TEST( t == to );
+    }
+    
+    {
+      // strip 1 from the back
+
+      const char * from = "this is only a test.";
+      const char * to = "this is only a test";
+
+      t.assign( from );
+      t.strip( ",.!" );
+      TEST( t == to );
+    }
+    
+    {
+      // strip a few from the back
+
+      const char * from = "this is only a test..,,";
+      const char * to = "this is only a test";
+
+      t.assign( from );
+      t.strip( ",.!" );
+      TEST( t == to );
+    }
+    
+    {
+      // strip an empty string
+
+      const char * from = "";
+      const char * to = "";
+
+      t.assign( from );
+      t.strip( ",.!" );
+      TEST( t == to );
+    }
+    
+    {
+      // stuff in the middle
+      const char * from = "str-ip. (all# pu%nct #$% from-+= me.";
+      const char * to   = "strip all punct  from me";
+      
+      t.assign( from );
+      t.strip( "-.(#%$+=" );
+      TEST( t == to );
+    }
+
+    
   }
 
   {
