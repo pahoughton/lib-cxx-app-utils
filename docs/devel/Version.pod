@@ -1,0 +1,255 @@
+=head1 =PROJECT= Version Control
+
+Version: =VERSION=
+
+Paul A. Houghton <paul.houghton@wcom.com>
+
+=LAST_MOD=
+
+=head3 Overview
+
+All the sources for the =PROJECT= project are kept in a CVS version control
+repository on sideswipe.wcom.com. This repository is currently being
+maintained by Paul Houghton <paul.houghton@wcom.com>, please contact
+him for remote write access or any problems you encounter.  For read
+only access to the repository you can use the B<cvsguest> id.
+
+=head3 CVS Installation
+
+Before you install CVS on a host, you should check to see if the
+correct version (1.10) is already installed on you system. First look for a
+copy in /Tools/bin as follows:
+
+    /Tools/bin/cvs --version
+
+If this reports version 1.10 then use this one and skip to the
+L<Environment Setup|/"Environment Setup"> section of this document. If
+not, check for a one in your PATH as follows:
+
+    cvs --version
+
+If this reports version 1.10 then you can use it and skip to the
+L<Environment Setup|/"Environment Setup"> section of this
+document. Otherwise, follow the instructions below to install the
+correct version of cvs.
+
+=over
+
+=item Setup Directories and Environment
+
+
+Create a base directory for all the development components.  Just as
+an example, the first few steps below assume you had a file system
+created and mounted to /MyProject and you decided you name your base
+directory 'devel'. The rest of this document will refer to this
+directory as BASE_DIR.
+
+    BASE_DIR=/MyProject/devel
+
+All of the tools and libraies will be installed under
+$BASE_DIR/Support. The TOOL_DIR environment variable will need to be
+set to this directory. It can have any name and be on any filesystem,
+you just need to set TOOL_DIR correctly and export it. MakeConfigs
+depends on this variable, so you should probably put it into your
+~/.profile file.
+
+You will also need to prefix your PATH with $TOOL_DIR/bin so the tools
+you are about to install can be found.
+
+Execute the following commands:
+
+    cd $BASE_DIR
+    mkdir Support
+    cd Support
+    export TOOL_DIR=`pwd`
+    mkdir src
+    mkdir src/Archives
+    mkdir src/Build
+    mkdir src/Build/Tools
+    mkdir bin
+    PATH=.:$TOOL_DIR/bin:$PATH
+
+=item Ftp a copy of CVS
+
+You will need a copy of the sources for both CVS and gzip. gzip is
+needed to uncompress the cvs tar file. Both these are available from
+<b>sideswipe.wcom.com</b>. They should be place it in
+$TOOL_DIR/src/Archives.
+
+Files:
+
+    sideswipe.wcom.com:pub/tools/gzip-1.2.4.tar
+    sideswipe.wcom.com:pub/tools/cvs-1.10.tar.gz
+
+Commands:
+
+    cd $TOOL_DIR/src/Archives
+
+    ftp sideswipe.wcom.com
+      # user anonymous
+      # pass: your.email@address
+      ftp> bin
+      ftp> cd pub/tools
+      ftp> get gzip-1.2.4.tar
+      ftp> get cvs-1.10.tar.gz
+      ftp> quit
+
+=item Install Gzip
+
+Now gzip needs to be configured, built and installed. To accomplish
+this, perform the following:
+
+    cd $TOOL_DIR/src/Build/Tools
+    tar xf ../../Archives/gzip-*.tar
+    cd gzip*
+    ./configure --prefix=$TOOL_DIR
+    make install
+
+=item Install CVS
+
+Finally, you can configure, build and install CVS.  To accomplish
+this, perform the following:
+
+    cd $TOOL_DIR/src/Build/Tools
+    zcat ../../Archives/cvs-*.tar.gz | tar xf -
+    cd cvs*
+    ./configure --prefix=$TOOL_DIR
+    make install
+
+=back
+
+=head3 Environment Setup
+
+Once you have a working version of CVS installed, you need to set the
+CVSROOT environment variable and login to the CVS server. If you were
+given a writable CVS id, use it instead of cvsguest below.
+
+=over
+
+=item Set CVSROOT
+
+export CVSROOT=:pserver:cvsguest@sideswipe.wcom.com:/Tools/src/CvsRepository
+
+=item Login to the CVS Server
+
+If you have not used CVS on this host, you will have to use cvs login
+to gain access (Note: cvs login creates a .cvspass file in your home
+directory. The password for cvsguest is 'cvsguest'.
+
+    cvs login
+    (Logging in to cvsguest@sideswipe.wcom.com)
+    CVS password: cvsguest
+
+=back
+
+=head3 CVS Documentation
+
+There is plenty of documentation available to learn more about
+CVS. The primary source of information is the man page, cvs(1), that
+was installed with the software. CVS also provided help with the -H
+(or --help) arg. The man page also refers to the CVS Bubbles web site
+you might find useful, this is at
+L<http://www.loria.fr/~molli/cvs-index.html>. 
+
+If you still want to learn more, checkout the cvs source directory
+(where cvs was built and installed from).
+
+=head3 Checkout
+
+You should checkout the =PROJECT= source tree into the
+$TOOL_DIR/src/Build/Tools directory by performing the following:
+
+    cd $TOOL_DIR/src/Build/Tools
+    cvs co =PROJECT=.=VER_MAJOR=.=VER_MINOR=
+
+=head3 Checkin
+
+After you have modified the sources, you need to check your changes
+into the repository. B<Please write a descriptive log entry for each
+source file changed>. Just look at the end of every file for example
+log entryies. Each entry should start with Bug-Fix, Added, Changed or
+Removed to help identify the type of change made.
+
+I highly recomment you use xemacs to checkin you changes. It has a
+very good interface to the CVS program and will indentify all the
+sources that have changed. If you decided to go this route, just go to
+the base source directory
+($TOOL_DIR/src/Build/Tools/=PROJECT=.=VER_MAJOR=.=VER_MINOR=) and run
+cvs-update (E<lt>ESCE<gt>X cvs-updateE<lt>RETE<gt>). The documentation
+for this is in info:pcl-cvs.
+
+The command line interface to check in a source is:
+
+    cvs ci FILENAME
+
+The vi command will be run so you can enter a change log message for
+the file.
+
+=head3 Update
+
+When changes have been checked in from other developers, you will need
+to update your copy of the sources with these changes. Again I
+recomment using the cvs-update command from within xemacs, but I also
+frequently use the command line for this task.
+
+The command line interface to update your sources is:
+
+    cd $TOOL_DIR/src/Build/Tools
+    cvs update =PROJECT=.=VER_MAJOR=.=VER_MINOR=
+
+Just as a side note, you can also use the check out command (cvs co)
+to update your sources.
+
+=head3 Tag
+
+The cvs tag command is used to identify a specific version by a
+symbolic name. This is normally only done when the sources are ready
+to be migrated to test and/or production.
+
+There are two types of tags, these are normal tags and branch tags. A
+branch tag creates a branch in the source line so modifications can
+occure on more that one line of deveopment. We use branch tags when
+the source is migrate to test/production so production bug-fixes can
+be checked in independant of on-going development changes. Development
+can then merge the production changes as needed.
+
+As an example, if the sources were ready to go to test then production
+for 4.05 release, you would perform the following:
+
+=over
+
+=item Checkin your changes
+
+    cd $TOOL_DIR/src/Build/Tools/=PROJECT=.=VER_MAJOR=.=VER_MINOR=
+    cvs ci
+
+=item Tag the current version with a branch tag
+
+    cd $TOOL_DIR/src/Build/Tools
+    cvs tag -F -b PROD_1_01 =PROJECT=.=VER_MAJOR=.=VER_MINOR=
+
+=item Checkout this version on the test box:
+
+    cd $TOOL_DIR/src/Build/Tools
+    cvs co -r PROD_1_01 =PROJECT=.=VER_MAJOR=.=VER_MINOR=
+
+=back
+
+=for html
+<hr>
+
+Paul A. Houghton <paul.houghton@wcom.com>
+
+Last Modified: =LAST_MOD=
+
+$Id$
+
+=cut
+
+$Log$
+Revision 1.1  2000/06/04 18:01:13  houghton
+Initial Version.
+
+Revision 1.1  2000/05/31 11:20:13  houghton
+Initial Version.
+

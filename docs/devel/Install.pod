@@ -1,0 +1,109 @@
+=head1 MakeConfigs Stand Alone Installation
+
+Version: =VERSION=
+
+Paul A. Houghton <paul.houghton@wcom.com>
+
+=LAST_MOD=
+
+=head3 Overview
+
+MakeConfigs uses a B<setup> target in it's main Makefile to configure
+and install all the tools it uses. Once the version control software
+is installed and a copy of MakeConfigs has been checked out, the
+B<setup> target will do the rest.
+
+This document describes how to install MakeConfigs as a stand alone
+tool. To use a specific version of MakeConfigs with a specific Project
+(you probably want to do this), see the L<Project Install|ProjInstall>
+documentation.
+
+=head3 Environment
+
+Ther are a few of environment variables used by the build scripts and
+make files that need to be set for everthing to run properly these
+are:
+
+=over
+
+=item CVSROOT
+
+This identifies the location of the source version repository. See the
+L<Overview|Version/Overview> Section of the Version Control Document
+to determine how to set this environment variable.
+
+=item TOOL_DIR
+
+This needs to be set to the base directory of all the external tools
+and libraries used by MakeConfigs. Its value is based on where you
+decide to install these components. If you follow the examples
+throughout this document, it would be set to:
+
+    export TOOL_DIR=/Tools
+
+=item PATH
+
+This needs to have $TOOL_DIR/bin before any other system directories
+and should also contain '.' for convience.
+
+For example:
+
+    export PATH=.:$TOOL_DIR/bin:$PATH
+
+=back
+
+=head3 Setup Directories
+
+Run the following commands to setup the directory structure used by
+MakeConfigs:
+
+    mkdir -p $TOOL_DIR
+    mkdir -p $TOOL_DIR/src/Build/Libs
+
+=head3 Check Out a Copy of MakeConfigs
+
+See the L<Version Control|Version> documentation for instructions.
+
+=head3 Setup and Configure MakeConfigs
+
+Run the systems version of the make command to build the setup target
+in the main Makefile. As far as I know, the make command can be found
+in the following locations:
+
+    Sun OS     /usr/ccs/bin/make
+    AIX        /usr/bin/make
+    Linux      /usr/bin/make
+
+Execute the following commands to build the setup target:
+
+    cd $TOOL_DIR/src/Build/Libs
+    make -f lib=PROJECT=-=VER_MAJOR=/Makefile setup
+
+=head3 Install The System
+
+To install MakeConfigs, Use GNU make to Build the install target in
+the main Makefile.
+
+    cd $TOOL_DIR/src/Build/Libs
+    $TOOL_DIR/bin/make -C lib=PROJECT=-=VER_MAJOR= install_all
+
+
+
+=for html
+<hr>
+
+Paul A. Houghton <paul.houghton@wcom.com>
+
+Last Modified: =LAST_MOD=
+
+$Id$
+
+=cut
+
+$Log$
+Revision 1.1  2000/06/04 18:01:13  houghton
+Initial Version.
+
+Revision 1.1  2000/05/31 11:20:21  houghton
+Initial Version.
+
