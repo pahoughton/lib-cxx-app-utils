@@ -419,11 +419,80 @@ tLog03( LibTest & tester )
 				   strlen( "mm/dd/yy hh:mm:ss TEST ") + 1 ));
     }      
   }
+  {
+    // level( const char * )
+
+    const char * TestFn = TEST_DATA_DIR "/log.10";
+    
+    {
+      Log	t( TestFn, LogLevel::All, ios::out, 0644,
+		   true, false, false  );
+      
+      t.level( "Error" )   << "test Error" << '\n';
+      t.level( "Err" )     << "test Err" << '\n';
+      t.level( "Warning" ) << "test Warning" << '\n';
+      t.level( "Warn" )    << "test Warn" << '\n';
+      t.level( "App1" )    << "test App1" << '\n';
+      t.level( "App2" )    << "test App2" << '\n';
+      t.level( "App3" )    << "test App3" << '\n';
+      t.level( "App4" )    << "test App4" << '\n';
+      t.level( "App5" )    << "test App5" << '\n';
+      t.level( "App6" )    << "test App6" << '\n';
+      t.level( "Lib1" )    << "test Lib1" << '\n';
+      t.level( "Lib2" )    << "test Lib2" << '\n';
+      t.level( "Lib3" )    << "test Lib3" << '\n';
+      t.level( "Lib4" )    << "test Lib4" << '\n';
+      t.level( "Info" )    << "test Info" << '\n';
+      t.level( "Test" )    << "test Test" << '\n';
+      t.level( "Debug" )   << "test Debug" << '\n';
+      t.level( "Funct" )   << "test Funct" << '\n';
+    }
+    
+    tester.file( __FILE__, __LINE__, TestFn );
+  }
+
+  {
+    // level( const char *, const char * )
+    const char * TestFn = TEST_DATA_DIR "/log.11";
+    remove( TestFn );
+    
+    {
+      Log	t( TestFn,
+		   LogLevel::Warn | LogLevel::Info | LogLevel::Debug,
+		   (ios::open_mode)(ios::app|ios::out), 0644,
+		   true, false, true  );
+      
+      t.level( "Error",   "Src" ) << "test Error (bad)" << '\n';
+      t.level( "Err",     "Src" ) << "test Err (bad)" << '\n';
+      t.level( "Warning", "Src" ) << "test Warning" << '\n';
+      t.level( "Warn",    "Src" ) << "test Warn" << '\n';
+      t.level( "App1",    "Src" ) << "test App1 (bad)" << '\n';
+      t.level( "App2",    "Src" ) << "test App2 (bad)" << '\n';
+      t.level( "App3",    "Src" ) << "test App3 (bad)" << '\n';
+      t.level( "App4",    "Src" ) << "test App4 (bad)" << '\n';
+      t.level( "App5",    "Src" ) << "test App5 (bad)" << '\n';
+      t.level( "App6",    "Src" ) << "test App6 (bad)" << '\n';
+      t.level( "Lib1",    "Src" ) << "test Lib1 (bad)" << '\n';
+      t.level( "Lib2",    "Src" ) << "test Lib2 (bad)" << '\n';
+      t.level( "Lib3",    "Src" ) << "test Lib3 (bad)" << '\n';
+      t.level( "Lib4",    "Src" ) << "test Lib4 (bad)" << '\n';
+      t.level( "Info",    "Src" ) << "test Info" << '\n';
+      t.level( "Test",    "Src" ) << "test Test (bad)" << '\n';
+      t.level( "Debug",   "Src" ) << "test Debug" << '\n';
+      t.level( "Funct",   "Src" ) << "test Funct (bad)" << '\n';
+    }
+    
+    tester.file( __FILE__, __LINE__, TestFn );
+  }
+
   return( true );
 }
 
 //
 // $Log$
+// Revision 4.3  1998/07/20 11:32:08  houghton
+// Port(Hpux10): Had to split tLog04.C, The compiler was running out of memory.
+//
 // Revision 4.2  1998/04/02 14:19:24  houghton
 // Cleanup and eliminate warnings.
 //
