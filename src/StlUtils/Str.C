@@ -10,6 +10,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/10/11 17:42:59  houghton
+// Changed: Added new 'multiDelim' arg to scan methods. This arg
+//   specifies if multiple consecutive instances of the delimiter are
+//   ignored or create separate matches.
+//      Example: 'this,is,,a,test'
+//               mutliDelim == true:  4 fields
+//               multiDelim == false: 5 fields (the third has a 0 length).
+//
 // Revision 2.4  1996/06/09 09:44:49  houghton
 // Bug-Fix: compare( const char * ) if both strings are empty, return 0.
 // Bug-Fix: read( BinStream & ) if len was 0, was not reseting string.
@@ -587,7 +595,12 @@ Str::scan( const RegexScan & exp, size_t start )
       
 
 size_t
-Str::scan( const char * delim, size_t start, size_t dLen )
+Str::scan(
+  const char *	delim,
+  bool		multiDelim,
+  size_t	start,
+  size_t	dLen
+  )
 {
   matches.erase( matches.begin(), matches.end() );
 
@@ -606,9 +619,18 @@ Str::scan( const char * delim, size_t start, size_t dLen )
     {
       matches.push_back( ScanMatch( beg , end - beg) );
 
-      beg = find_first_not_of( delim, end, delimLen );
-      if( beg == npos )
-	break;
+      if( multiDelim )
+	{
+	  beg = find_first_not_of( delim, end, delimLen );
+	  if( beg == npos )
+	    break;
+	}	  
+      else
+	{
+	  beg = end + 1;
+	  if( beg >= size() )
+	    break;
+	}
     }
 
   if( beg != start )
@@ -620,7 +642,7 @@ Str::scan( const char * delim, size_t start, size_t dLen )
 }
 	  
 size_t
-Str::scan( char delim, size_t start )
+Str::scan( char delim, bool multiDelim, size_t start )
 {
   matches.erase( matches.begin(), matches.end() );
 
@@ -637,8 +659,15 @@ Str::scan( char delim, size_t start )
     {
       matches.push_back( ScanMatch( beg , end - beg) );
 
-      for( beg = end + 1; at( beg ) == delim && beg < size();  beg++ );
-
+      if( multiDelim )
+	{
+	  for( beg = end + 1; at( beg ) == delim && beg < size();  beg++ );
+	}
+      else
+	{
+	  beg = end + 1;
+	}
+      
       if( beg >= size() )
 	break;
     }
@@ -990,15 +1019,19 @@ Str::dumpInfo(
 
   if( matches.size() )
     {
-      int m = 0;
-      for( vector<ScanMatch>::const_iterator them = matches.begin();
-	   them;
-	   them++ )
+      Str matchStr;
+      
+      dest << prefix << "matches.size(): " << matches.size() << '\n';
+
+      for( size_t m = 0; m < matches.size(); m++ )
 	{
+	  scanMatch( matchStr, m );
 	  dest << prefix << "matches[" << m << "].pos:   "
-	       << (*them).pos << '\n';
+	       << matches[m].pos << '\n';
 	  dest << prefix << "matches[" << m << "].len:   "
-	       << (*them).len << '\n';
+	       << matches[m].len << '\n';
+	  dest << prefix << "matches[" << m << "].SubStr: '"
+	       << matchStr << "'\n" ;
 	}
     }
 

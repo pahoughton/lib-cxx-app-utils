@@ -16,6 +16,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.8  1996/10/11 17:43:01  houghton
+// Changed: Added new 'multiDelim' arg to scan methods. This arg
+//   specifies if multiple consecutive instances of the delimiter are
+//   ignored or create separate matches.
+//      Example: 'this,is,,a,test'
+//               mutliDelim == true:  4 fields
+//               multiDelim == false: 5 fields (the third has a 0 length).
+//
 // Revision 2.7  1996/07/04 10:28:49  houghton
 // Added to( bool ).
 //
@@ -444,10 +452,21 @@ public:
   // scan - scan for substrings
   
   size_t    scan( const RegexScan & exp, size_t start = 0 );
-  size_t    scan( const Str & delimChars, size_t start = 0 );
-  size_t    scan( const SubStr & delimChars, size_t start = 0 );
-  size_t    scan( const char * delimChars, size_t start = 0, size_t dLen = npos );
-  size_t    scan( char delim, size_t start = 0 );
+  
+  inline size_t    scan( const Str &	delimChars,
+			 bool		multiDelim = true,
+			 size_t		start = 0 );
+  
+  inline size_t    scan( const SubStr &	delimChars,
+			 bool		multiDelim = true,
+			 size_t		start = 0 );
+  
+  inline size_t    scan( const char *	delimChars,
+			 bool		multiDelim = true,
+			 size_t		start = 0,
+			 size_t		dLen = npos );
+  
+  size_t    scan( char delim, bool multiDelim = true, size_t start = 0 );
 
   size_t    scanPattern( const RegexScan & delimExp, size_t start = 0 );
   size_t    scanString( const Str & delimStr, size_t start = 0 ); 

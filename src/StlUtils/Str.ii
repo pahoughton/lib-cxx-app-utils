@@ -13,6 +13,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.9  1996/10/11 17:43:05  houghton
+// Changed: Added new 'multiDelim' arg to scan methods. This arg
+//   specifies if multiple consecutive instances of the delimiter are
+//   ignored or create separate matches.
+//      Example: 'this,is,,a,test'
+//               mutliDelim == true:  4 fields
+//               multiDelim == false: 5 fields (the third has a 0 length).
+//
 // Revision 2.8  1996/07/09 11:33:52  houghton
 // Bug-Fix: Change call to StringToBool to StringTo.
 //
@@ -1323,17 +1331,17 @@ Str::stripEnds( const char * stripChars )
 
 inline
 size_t
-Str::scan( const Str & delimChars, size_t start )
+Str::scan( const Str & delimChars, bool multiDelim, size_t start )
 {
-  return( scan( delimChars.strbase(), start,
+  return( scan( delimChars.strbase(), multiDelim, start,
 		delimChars.size() ) );
 }
 
 inline
 size_t
-Str::scan( const SubStr & delimChars, size_t start )
+Str::scan( const SubStr & delimChars, bool multiDelim, size_t start )
 {
-  return( scan( delimChars.strbase(), start,
+  return( scan( delimChars.strbase(), multiDelim, start,
 		delimChars.size() ) );
 }
 
