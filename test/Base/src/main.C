@@ -37,6 +37,7 @@ LibTest::TestItem   TestList[] =
   { "CharToInt",    	    tCharToInt },
   { "SafeStrcpy",   	    tSafeStrcpy },
   { "CharIsBaseDigit",	    tCharIsBaseDigit },
+  { "CommaNum",		    tCommaNum },
   { "StringCapitalize",	    tStringCapitalize },
   { "StringCaseCompare",    tStringCaseCompare },
   { "StringLower",  	    tStringLower },
@@ -202,6 +203,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2004/04/19 18:17:24  houghton
+// Added CommaNum test.
+//
 // Revision 6.1  2003/08/09 11:22:49  houghton
 // Changed to version 6
 //
