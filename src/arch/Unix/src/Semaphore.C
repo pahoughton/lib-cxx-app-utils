@@ -259,7 +259,7 @@ Semaphore::dumpInfo(
   if( semId != badSem )
     {
       struct semid_ds	semInfo;
-#if defined( LINUX )
+#if defined( Linux )
       union semun	buff;
       buff.buf =	&semInfo;
 #endif
@@ -291,6 +291,9 @@ Semaphore::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/07/15 20:20:45  houghton
+// Bug-Fix: changed defined( LINUX ) to defined( Linux ).
+//
 // Revision 3.2  1997/07/14 10:32:42  houghton
 // Port: short term fix because aix does not have semun. The long
 //     term solution should eliminate the #if defined().
