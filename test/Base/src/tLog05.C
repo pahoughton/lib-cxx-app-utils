@@ -300,7 +300,7 @@ tLog05( LibTest & tester )
       for( int l = EntrySize; l < (MaxSize * 3); l += EntrySize )
 	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
 
-      TEST( t.setMaxSize( 0 ) == MaxSize );
+      TEST( (FileStat::size_type)t.setMaxSize( 0 ) == MaxSize );
       
       for( int e = EntrySize; e < (MaxSize * 2); e += EntrySize )
 	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
@@ -339,6 +339,9 @@ tLog05( LibTest & tester )
       
 //
 // $Log$
+// Revision 4.4  1998/10/13 16:39:44  houghton
+// Cleanup.
+//
 // Revision 4.3  1998/07/20 11:32:17  houghton
 // Port(Hpux10): Had to split tLog04.C, The compiler was running out of memory.
 //

@@ -415,8 +415,8 @@ tRegexScan( LibTest & tester )
 
   {
     // search( const char * ) const
-    // \
-
+    // \ char
+    
     RegexScan t( "a\\.c" );
 
     TEST( t.search( "a.c" ) );
@@ -704,6 +704,9 @@ tRegexScan( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.2  1998/10/13 16:40:50  houghton
+// Cleanup.
+//
 // Revision 4.1  1997/09/17 15:14:29  houghton
 // Changed to Version 4
 //

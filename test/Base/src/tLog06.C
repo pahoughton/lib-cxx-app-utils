@@ -69,7 +69,7 @@ tLog06( LibTest & tester )
 	     MaxSize,
 	     TrimSize );
 
-      size_t trimmed = t.trim();
+      FileStat::size_type trimmed = t.trim();
 
       TEST( trimmed > 0 );
       TEST( trimmed < TrimSize );
@@ -92,7 +92,7 @@ tLog06( LibTest & tester )
 	     true,
 	     MaxSize );
 
-      size_t trimmed = t.trim( 10240 );
+      FileStat::size_type trimmed = t.trim( 10240 );
 
       TEST( trimmed < MaxSize );
       TEST( trimmed > 0 );
@@ -310,6 +310,9 @@ tLog06( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.3  1998/10/13 16:40:02  houghton
+// Cleanup.
+//
 // Revision 4.2  1998/04/02 14:19:25  houghton
 // Cleanup and eliminate warnings.
 //

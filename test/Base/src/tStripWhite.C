@@ -66,7 +66,7 @@ tStripWhite( LibTest & tester )
   char reason[1024];
   char from[ 100 ];
   
-  for( int t = 0; TestValues[t].from[0]; t++ )
+  for( int t = 0; TestValues[t].from; t++ )
     {
       strcpy( from, TestValues[t].from );
       
@@ -123,6 +123,9 @@ tStripWhite( LibTest & tester )
   
 //
 // $Log$
+// Revision 4.4  1998/10/13 16:41:03  houghton
+// Cleanup.
+//
 // Revision 4.3  1998/10/13 15:21:28  houghton
 // Workaround for Hpux compiler.
 //

@@ -309,7 +309,8 @@ tUser( LibTest & tester )
 
     t.findGroups();
 
-    TEST( t.getGroups().size() == gCount );
+    TEST( t.getGroups().size() == gCount
+	  || t.getGroups().size() == gCount + 1 );
 
     for( User::Groups::const_iterator them = t.getGroups().begin();
 	 them != t.getGroups().end();
@@ -317,13 +318,21 @@ tUser( LibTest & tester )
       {
 	const UserGroup & it = *them;
 	gid_t key = it.getGID();
-	gid_t * found = (gid_t *)bsearch( &key,
-					  groups,
-					  gCount,
-					  sizeof( groups[0] ),
-					  (int(*)(const void*,const void*))compareGid );
-	TEST( found != 0 );
-	TEST( *found == (*them).getGID() );
+	gid_t * found
+	  = (gid_t *)bsearch( &key,
+			      groups,
+			      gCount,
+			      sizeof( groups[0] ),
+			      (int(*)(const void*,const void*))compareGid );
+
+	if( found == 0 )
+	  {
+	    TEST( key == t.getPrimaryGroup().getGID() );
+	  }
+	else
+	  {
+	    TEST( *found == (*them).getGID() );
+	  }
       }
   }
 

@@ -292,7 +292,9 @@ tLog03( LibTest & tester )
 	     true,
 	     MaxSize );
 
-      for( size_t size = LineLen; size < MaxSize; size += LineLen )
+      for( FileStat::size_type size = LineLen;
+	   size < MaxSize;
+	   size += LineLen )
 	t( LogLevel::Test ) << "good test with log trimming.\n";
       
     }
@@ -490,6 +492,9 @@ tLog03( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.4  1998/10/13 16:39:26  houghton
+// Cleanup.
+//
 // Revision 4.3  1998/07/20 11:32:08  houghton
 // Port(Hpux10): Had to split tLog04.C, The compiler was running out of memory.
 //
