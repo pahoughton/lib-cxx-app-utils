@@ -27,6 +27,59 @@ tDateRangeDaily( LibTest & tester )
     TEST( t.getStart() == startTime );
     TEST( t.getDur() == duration );
   }
+
+  {
+    // in( const DateTime & ) const
+    DateRangeDaily  t( 8 * SecPerHour, (17 - 8) * SecPerHour );
+
+    tester.getOutput() << t << endl;
+    
+    {
+      DateTime	dt( 2003, 5, 12, 6, 00, 00 );
+      TESTR( dt.getString(), ! t.in( dt ) );
+    }
+    {
+      DateTime	dt( 2003, 5, 12, 7, 59, 59 );
+      TESTR( dt.getString(), ! t.in( dt ) );
+    }
+    {
+      DateTime	dt( 2003, 5, 12, 8, 00, 00 );
+      TESTR( dt.getString(), t.in( dt ) );
+    }
+    {
+      DateTime	dt( 2003, 5, 12, 8, 00, 01 );
+      TESTR( dt.getString(), t.in( dt ) );
+    }
+    {
+      DateTime	dt( 2003, 5, 12, 12, 00, 00 );
+      TESTR( dt.getString(), t.in( dt ) );
+    }
+    {
+      DateTime	dt( 2003, 5, 12, 16, 59, 59 );
+      TESTR( dt.getString(), t.in( dt ) );
+    }
+    {
+      DateTime	dt( 2003, 5, 12, 17, 00, 00 );
+      TESTR( dt.getString(), t.in( dt ) );
+    }
+    {
+      DateTime	dt( 2003, 5, 12, 17, 00, 01 );
+      TESTR( dt.getString(), ! t.in( dt ) );
+    }
+    {
+      DateTime	dt( 2003, 5, 12, 20, 00, 00 );
+      TESTR( dt.getString(), ! t.in( dt ) );
+    }
+
+    {
+      DateTime	dt( 2003, 5, 11, 17, 00, 00 );
+      TESTR( dt.getString(), t.in( dt ) );
+    }
+    {
+      DateTime	dt( 2003, 5, 11, 17, 00, 01 );
+      TESTR( dt.getString(), ! t.in( dt ) );
+    }
+  }
     
   {
     // secIn( const DateRange & ) const
