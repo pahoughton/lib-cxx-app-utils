@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1998/07/20 11:27:16  houghton
+// Bug-Fix: no need for default constructor declaration.
+//
 // Revision 4.1  1997/09/17 15:12:59  houghton
 // Changed to Version 4
 //
@@ -59,7 +62,6 @@ class STLUTILS_CLASS_T StrStreambuf : public strstreambuf
 {
 
 public:
-  StrStreamBuf( void );
   
   inline size_t	    	plen(void) STLUTILS_STRBUF_CONST_RDBUF;
   inline size_t	    	psize(void) STLUTILS_STRBUF_CONST_RDBUF;
