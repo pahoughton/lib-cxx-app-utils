@@ -17,6 +17,9 @@
 //
 // 
 // $Log$
+// Revision 2.6  1996/11/04 13:34:20  houghton
+// Added strptime funct proto
+//
 // Revision 2.5  1996/05/01 10:59:05  houghton
 // Bug-Fix: gcc did not like the flags being a char changed to int.
 //
@@ -49,6 +52,13 @@
 #include <ClueCfg.hh>
 #include <BinStrm.hh>
 #include <ctime>
+#endif
+
+#if defined( CLUE_STRPTIME )
+extern "C"
+char *
+CLUE_FUNCT_T
+strptime( char * b, const char * fmt, struct tm * t );
 #endif
 
 
