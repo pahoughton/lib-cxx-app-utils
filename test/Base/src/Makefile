@@ -417,7 +417,8 @@ check: test_data test
 	LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/StlUtils:$(local_libdir) \
 	  $(PROGRAM_TEST) $(TEST)
 
-check_debug: test_debug
+check_debug: debug
+	$(PROGRAM_DEBUG) $(TEST)
 
 test_data:
 	chmod g+s $(TEST_DATA_DIR)
@@ -472,6 +473,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.15  1999/05/01 12:56:16  houghton
+# Added tStr27.C
+#
 # Revision 4.14  1999/03/02 12:53:50  houghton
 # Added tBetween.
 #
