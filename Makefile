@@ -11,7 +11,7 @@
 show_commands	= # true
 check_install	= true
 
-PROJECT		= libSqlClient-2
+PROJECT		= libStlUtils-4
 
 PRJ_TOPDIR	= .
 CFG_DIR		= $(PRJ_TOPDIR)/src/config
@@ -47,27 +47,48 @@ verify_setup:
 	  exit 1;							      \
 	fi
 	@ if [ ! -f "$(common_h)" ] ; then				      \
-	  echo "+ $(common_h) not found";				      \
-	  echo "    run make -f $(PROJECT)/Makefile setup from the";	      \
-	  echo "    \$TOOL_DIR/src/Build/Libs directory.";		      \
+	  echo " ";							      \
+	  echo "+ $(common_h) NOT FOUND!";				      \
+	  echo " ";							      \
+	  echo "    To install all the dependencies, please perform";	      \
+	  echo "    the following:";				      \
+	  echo " ";							      \
+	  echo "      cd \$$TOOL_DIR/src/Build/Libs";			      \
+	  echo "      make -f $(PROJECT)/Makefile setup";		      \
+	  echo " ";							      \
 	  echo "    Please see $(PROJECT)/docs/devel/Dependencies.txt";	      \
 	  echo "    for details.";					      \
+	  echo " ";							      \
 	  exit 1;							      \
 	fi
 	@ if [ ! -f "$(gnuregex_h)" ] ; then				      \
-	  echo "+ $(gnuregex_h) not found";				      \
-	  echo "    run make -f $(PROJECT)/Makefile setup from the";	      \
-	  echo "    \$TOOL_DIR/src/Build/Libs directory.";		      \
+	  echo " ";							      \
+	  echo "+ $(gnuregex_h) NOT FOUND!";				      \
+	  echo " ";							      \
+	  echo "    To install all the dependencies, please perform";	      \
+	  echo "    the following:";				      \
+	  echo " ";							      \
+	  echo "      cd \$$TOOL_DIR/src/Build/Libs";			      \
+	  echo "      make -f $(PROJECT)/Makefile setup";		      \
+	  echo " ";							      \
 	  echo "    Please see $(PROJECT)/docs/devel/Dependencies.txt";	      \
 	  echo "    for details.";					      \
+	  echo " ";							      \
 	  exit 1;							      \
 	fi
 	@ if [ ! -f "$(stdcxx_hh)" ] ; then				      \
-	  echo "+ $(stdcxx_hh) not found";				      \
-	  echo "    run make -f $(PROJECT)/Makefile setup from the";	      \
-	  echo "    \$TOOL_DIR/src/Build/Libs directory.";		      \
+	  echo " ";							      \
+	  echo "+ $(stdcxx_hh) NOT FOUND!";				      \
+	  echo " ";							      \
+	  echo "    To install all the dependencies, please perform";	      \
+	  echo "    the following:";				      \
+	  echo " ";							      \
+	  echo "      cd \$$TOOL_DIR/src/Build/Libs";			      \
+	  echo "      make -f $(PROJECT)/Makefile setup";		      \
+	  echo " ";							      \
 	  echo "    Please see $(PROJECT)/docs/devel/Dependencies.txt";	      \
 	  echo "    for details.";					      \
+	  echo " ";							      \
 	  exit 1;							      \
 	fi
 
@@ -130,6 +151,10 @@ help_config:
 
 #
 # $Log$
+# Revision 4.6  1999/10/30 12:26:41  houghton
+# Bug-Fix: typo.
+# Cleanup verify_setup error message.
+#
 # Revision 4.5  1999/10/30 10:39:57  houghton
 # Changed (complete rework) to support setup and other new targets.
 #
