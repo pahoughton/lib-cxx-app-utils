@@ -122,8 +122,8 @@ INSTALL_MAN_FLAGS	= -m 664
 # **** S O U R C E   F I L E S ****
 
 C_SOURCES	=			\
-	$(ARCH_C_SOURCES)		\
 	regex.c                         \
+	$(ARCH_C_SOURCES)		\
 
 CXX_C_SOURCES	=			\
 	BinStream.C                     \
@@ -420,7 +420,10 @@ include .depend
 # =MAKEFILE_LOG=
 #
 # $Log$
-# Revision 2.1  1995/11/10 12:40:49  houghton
+# Revision 2.2  1995/11/10 18:47:14  houghton
+# *** empty log message ***
+#
+# Revision 2.1  1995/11/10  12:40:49  houghton
 # Change to Version 2
 #
 # Revision 1.20  1995/11/10  12:03:21  houghton
