@@ -20,45 +20,52 @@
 //
 
 
-template< class Proc >
+template< class Proc, class PreScan >
 inline
-InboundProcessor<Proc>::InboundProcessor(
+InboundProcessor<Proc,PreScan>::InboundProcessor(
   const char *	    fileNamePattern,
   const char *	    inDirName,
   const char *	    procDirName,
   long		    rescanWaitSecs,
-  Proc &	    processor
+  Proc &	    processor,
+  PreScan &	    preScanProc
   )
   : InboundProcessorBase( fileNamePattern,
 			  inDirName,
 			  procDirName,
 			  rescanWaitSecs ),
-    proc( processor )
+    proc( processor ),
+    prescan( preScanProc )
 {
 }
 
-template< class Proc >
+template< class Proc, class PreScan >
 inline
-InboundProcessor<Proc>::InboundProcessor(
+InboundProcessor<Proc,PreScan>::InboundProcessor(
   const char *		fileNamePattern,
   const char *		inDirName,
   const char *		procDirName,
   long			rescanWaitSecs,
   const SigCatcher *	signalCatcher,
-  Proc &		processor
+  Proc &		processor,
+  PreScan &		preScanProc
   )
   : InboundProcessorBase( fileNamePattern,
 			  inDirName,
 			  procDirName,
 			  rescanWaitSecs,
 			  signalCatcher ),
-    proc( processor )
+    proc( processor ),
+    prescan( preScanProc )
 {
 }
 
 // Revision Log:
 // 
 // $Log$
+// Revision 4.2  1997/10/15 13:39:03  houghton
+// Added prescan support.
+//
 // Revision 4.1  1997/09/17 15:13:32  houghton
 // Changed to Version 4
 //
