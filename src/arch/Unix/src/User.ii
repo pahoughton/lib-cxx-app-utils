@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1998/08/13 10:55:16  houghton
+// Bug-Fix: if set failes, set the uid to 'bad'.
+//
 // Revision 4.1  1997/09/17 15:13:40  houghton
 // Changed to Version 4
 //
@@ -53,25 +56,29 @@
 inline
 User::User( bool findGroups )
 {
-  set( getuid(), findGroups );
+  if( ! set( getuid(), findGroups ) )
+    uid = bad;
 }
 
 inline
 User::User( uid_t user, bool findGroups )
 {
-  set( user, findGroups );
+  if( ! set( user, findGroups ) )
+    uid = bad;
 }
 
 inline
 User::User( const char * user, bool findGrps )
 {
-  set( user, findGrps );
+  if( ! set( user, findGrps ) )
+    uid = bad;
 }
 
 inline
 User::User( const struct passwd * passwdEntry, bool findGrps )
 {
-  set( passwdEntry, findGrps );
+  if( ! set( passwdEntry, findGrps ) )
+    uid = bad;
 }
 
 inline
