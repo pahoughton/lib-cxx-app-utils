@@ -84,17 +84,17 @@ tLog08( LibTest & tester )
 
     TEST( ! strcmp( t.getClassName(), T_CLASS_NAME ) );
 
-    TEST( strstr( t.getVersion(), "@(#) libClue - " ));
-    TEST( strstr( t.getVersion(), T_CLASS_NAME ) );
-    TEST( strstr( t.getVersion(), "Compiled: " ) );
+    TEST( strstr( t.getVersion(), "@(#) libClue - " ) != 0 );
+    TEST( strstr( t.getVersion(), T_CLASS_NAME ) != 0 );
+    TEST( strstr( t.getVersion(), "Compiled: " ) != 0 );
     
-    TEST( strstr( t.getVersion(true), "@(#) libClue - " ));
-    TEST( strstr( t.getVersion(true), T_CLASS_NAME ) );
-    TEST( strstr( t.getVersion(true), "Compiled: " ) );
+    TEST( strstr( t.getVersion(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( t.getVersion(true), T_CLASS_NAME ) != 0 );
+    TEST( strstr( t.getVersion(true), "Compiled: " ) != 0 );
     
-    TEST( ! strstr( t.getVersion(false), "@(#) libClue - " ) );
-    TEST( strstr( t.getVersion(false), T_CLASS_NAME ) );
-    TEST( strstr( t.getVersion(false), "Compiled: " ) );
+    TEST( strstr( t.getVersion(false), "@(#) libClue - " ) == 0 );
+    TEST( strstr( t.getVersion(false), T_CLASS_NAME ) != 0 );
+    TEST( strstr( t.getVersion(false), "Compiled: " ) != 0 );
 
   }
   
@@ -114,17 +114,17 @@ tLog08( LibTest & tester )
   {
     // static const ClassVersion version
 
-    TEST( strstr( Log::version.getVer(true), "@(#) libClue - " ));
-    TEST( strstr( Log::version.getVer(true), T_CLASS_NAME ) );
-    TEST( strstr( Log::version.getVer(true), "Compiled: " ) );
+    TEST( strstr( Log::version.getVer(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( Log::version.getVer(true), T_CLASS_NAME ) != 0 );
+    TEST( strstr( Log::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( strstr( Log::version.getVer(true), "@(#) libClue - " ));
-    TEST( strstr( Log::version.getVer(true), T_CLASS_NAME ) );
-    TEST( strstr( Log::version.getVer(true), "Compiled: " ) );
+    TEST( strstr( Log::version.getVer(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( Log::version.getVer(true), T_CLASS_NAME ) != 0 );
+    TEST( strstr( Log::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( ! strstr( Log::version.getVer(false), "@(#) libClue - " ) );
-    TEST( strstr( Log::version.getVer(false), T_CLASS_NAME ) );
-    TEST( strstr( Log::version.getVer(false), "Compiled: " ) );
+    TEST( strstr( Log::version.getVer(false), "@(#) libClue - " ) == 0 );
+    TEST( strstr( Log::version.getVer(false), T_CLASS_NAME ) != 0 );
+    TEST( strstr( Log::version.getVer(false), "Compiled: " ) != 0 );
     
   }
 
@@ -133,6 +133,9 @@ tLog08( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1997/03/03 19:10:26  houghton
+// Changed for port to AIX41.
+//
 // Revision 3.1  1996/11/14 01:26:50  houghton
 // Changed to Release 3
 //

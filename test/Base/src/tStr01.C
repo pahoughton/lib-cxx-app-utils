@@ -265,6 +265,7 @@ tStr01( LibTest & tester )
       Str *       tp = tvect.begin();
       const Str * tcp  = tvect.begin();
 
+#if defined( Linux )
       // FIXME !! Warning Linux/gcc 2.7.2 has a bug dealing with
       // const pointer incrementing
       
@@ -278,6 +279,7 @@ tStr01( LibTest & tester )
 
       cerr << "size: " << sizeof( Str ) << endl;
       cerr << "const size: " << sizeof( const Str ) << endl;
+#endif
       
       for( StrVect::const_iterator them = t.begin();
 	   them != t.end();

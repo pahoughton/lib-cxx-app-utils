@@ -538,7 +538,7 @@ tLogLevel( LibTest & tester )
 
     TEST( compare( tStrm.str(), "TEST" ) == 0 );
 
-    tStrm.freeze(0);
+    tStrm.rdbuf()->freeze(0);
   }
     
   {
@@ -549,19 +549,19 @@ tLogLevel( LibTest & tester )
     
     const LogLevel t(2);
 
-    TEST( ! strcmp( t.getClassName(), T_CLASS_NAME ) );
+    TEST( strcmp( t.getClassName(), T_CLASS_NAME ) == 0 );
 
-    TEST( strstr( t.getVersion(), "@(#) libClue - " ));
-    TEST( strstr( t.getVersion(), T_CLASS_NAME ) );
-    TEST( strstr( t.getVersion(), "Compiled: " ) );
+    TEST( strstr( t.getVersion(), "@(#) libClue - " ) != 0 );
+    TEST( strstr( t.getVersion(), T_CLASS_NAME ) != 0 );
+    TEST( strstr( t.getVersion(), "Compiled: " ) != 0 );
     
-    TEST( strstr( t.getVersion(true), "@(#) libClue - " ));
-    TEST( strstr( t.getVersion(true), T_CLASS_NAME ) );
-    TEST( strstr( t.getVersion(true), "Compiled: " ) );
+    TEST( strstr( t.getVersion(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( t.getVersion(true), T_CLASS_NAME ) != 0 );
+    TEST( strstr( t.getVersion(true), "Compiled: " ) != 0 );
     
-    TEST( ! strstr( t.getVersion(false), "@(#) libClue - " ) );
-    TEST( strstr( t.getVersion(false), T_CLASS_NAME ) );
-    TEST( strstr( t.getVersion(false), "Compiled: " ) );
+    TEST( strstr( t.getVersion(false), "@(#) libClue - " ) == 0 );
+    TEST( strstr( t.getVersion(false), T_CLASS_NAME ) != 0 );
+    TEST( strstr( t.getVersion(false), "Compiled: " ) != 0 );
 
   }
   
@@ -580,17 +580,17 @@ tLogLevel( LibTest & tester )
   {
     // static const ClassVersion version
 
-    TEST( strstr( LogLevel::version.getVer(true), "@(#) libClue - " ));
-    TEST( strstr( LogLevel::version.getVer(true), T_CLASS_NAME ) );
-    TEST( strstr( LogLevel::version.getVer(true), "Compiled: " ) );
+    TEST( strstr( LogLevel::version.getVer(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( LogLevel::version.getVer(true), T_CLASS_NAME ) != 0 );
+    TEST( strstr( LogLevel::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( strstr( LogLevel::version.getVer(true), "@(#) libClue - " ));
-    TEST( strstr( LogLevel::version.getVer(true), T_CLASS_NAME ) );
-    TEST( strstr( LogLevel::version.getVer(true), "Compiled: " ) );
+    TEST( strstr( LogLevel::version.getVer(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( LogLevel::version.getVer(true), T_CLASS_NAME ) != 0 );
+    TEST( strstr( LogLevel::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( ! strstr( LogLevel::version.getVer(false), "@(#) libClue - " ) );
-    TEST( strstr( LogLevel::version.getVer(false), T_CLASS_NAME ) );
-    TEST( strstr( LogLevel::version.getVer(false), "Compiled: " ) );
+    TEST( strstr( LogLevel::version.getVer(false), "@(#) libClue - " ) == 0 );
+    TEST( strstr( LogLevel::version.getVer(false), T_CLASS_NAME ) != 0 );
+    TEST( strstr( LogLevel::version.getVer(false), "Compiled: " ) != 0 );
     
   }
 
@@ -605,7 +605,7 @@ tLogLevel( LibTest & tester )
 
     TEST( compare( tStrm.str(), "WARNING" ) == 0 );
 
-    tStrm.freeze(0);
+    tStrm.rdbuf()->freeze(0);
   }
   
   return( true );
@@ -613,6 +613,9 @@ tLogLevel( LibTest & tester )
  
 //
 // $Log$
+// Revision 3.2  1997/03/03 19:10:36  houghton
+// Changed for port to AIX41.
+//
 // Revision 3.1  1996/11/14 01:26:51  houghton
 // Changed to Release 3
 //

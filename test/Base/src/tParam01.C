@@ -94,25 +94,27 @@ tParam01( LibTest & tester )
     size_t  count = 0;
 
 #if !defined( Linux )
-    for( Param::Args::const_iterator them = t.begin();
-	 them != t.end();
-	 ++them, ++count )
-      {
-	TEST( (*them) == argv_02[count] );
-      }
-    
-    TEST( count == ArraySize( argv_02 ) );
-
+    {
+      for( Param::Args::const_iterator them = t.begin();
+	   them != t.end();
+	   ++them, ++count )
+	{
+	  TEST( (*them) == argv_02[count] );
+	}
+      
+      TEST( count == ArraySize( argv_02 ) );
+    }
     count = 0;
-    
-    for( Param::Args::const_iterator them = t.beginAll();
-	 them != t.endAll();
-	 ++them, ++count )
-      {
-	TEST( (*them) == argv_02[count] );
-      }
-    
-    TEST( count == ArraySize( argv_02 ) );
+    {
+      for( Param::Args::const_iterator them = t.beginAll();
+	   them != t.endAll();
+	   ++them, ++count )
+	{
+	  TEST( (*them) == argv_02[count] );
+	}
+      
+      TEST( count == ArraySize( argv_02 ) );
+    }
 #endif
   }
 
@@ -140,6 +142,9 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 3.4  1997/03/03 19:10:52  houghton
+// Changed for port to AIX41.
+//
 // Revision 3.3  1997/03/03 14:39:38  houghton
 // Removed support for RW Tools++ & rpm.
 // Bug had to add and ifdef for linux - gcc has a bug in const Class *
