@@ -5,7 +5,7 @@
 // Project:	Clue
 // Desc:        
 //
-//  	Definition for Log Class inline functions.
+//  	Definition for Log class inline functions.
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     07/21/95 12:52
@@ -68,6 +68,8 @@ Log::Log(
     levelStamp( stampLevel ),
     locStamp( stampLoc )    
 {
+  if( rdbuf() && ! rdbuf()->is_open() )
+    setstate( ios::badbit );
 }
 
 inline
@@ -87,6 +89,8 @@ Log::Log(
     levelStamp( stampLevel ),
     locStamp( stampLoc )    
 {
+  if( rdbuf() && ! rdbuf()->is_open() )
+    setstate( ios::badbit );
 }
 
 inline
@@ -208,11 +212,11 @@ void
 Log::open( const char * outFn, ios::open_mode mode )
 {
   rdbuf()->close();
-  clear();
-  if( rdbuf()->open( outFn, (ios::open_mode)mode ) == 0 )
-    {
-      setstate( failbit );
-    }
+  
+  if( rdbuf()->open( outFn, (ios::open_mode)mode ) != 0 )
+    clear();
+  else
+    setstate( badbit );
 }
 
 inline
@@ -225,6 +229,10 @@ Log::close( void )
     }
   
   rdbuf()->close();
+
+  if( rdbuf() && rdbuf()->is_file() )
+    setstate( badbit );
+  
 }
 
 inline
@@ -272,6 +280,31 @@ Log::setLocStamp( bool stamp )
 }
 
 inline
+bool
+Log::filter( const char * regex )
+{
+  return( rdbuf()->filter( regex ) );
+}
+
+inline
+LogBuf::FilterId
+Log::addFilter(
+  streambuf *	    dest,
+  LogLevel::Level   outLevel,
+  const char *	    regex
+  )
+{
+  return( rdbuf()->addFilter( dest, outLevel, regex ) );
+}
+
+inline
+streambuf *
+Log::delFilter( LogBuf::FilterId id )
+{
+  return( rdbuf()->delFilter( id ) );
+}
+
+inline
 LogBuf *
 Log::rdbuf( void )
 {
@@ -314,6 +347,14 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 2.7  1996/11/13 16:34:40  houghton
+// Bug-Fix: Log( const char * ...) set badbit if the log is a file
+//     and it did not successfully open.
+// Bug-Fix: rework open to correctly set the state of the stream.
+// Added filter() code.
+// Added addFilter() code.
+// Added delFilter() code.
+//
 // Revision 2.6  1996/11/04 13:45:14  houghton
 // Restructure header comments layout.
 // Changed order of constructor args.
