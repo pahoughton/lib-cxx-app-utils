@@ -32,8 +32,8 @@ INSTALL_LIBDIR	= $(alpha_libdir)
 INSTALL_INCDIR	= $(alpha_incdir)
 
 VER_MAJOR	= 2
-VER_MINOR	= 00
-VER_RELEASE	= 00.a.14
+VER_MINOR	= 01
+VER_RELEASE	= 00.a.1
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -95,14 +95,14 @@ CC_FLAGS		= $(cc_warn) $(ARCH_CC_FLAGS)
 DEFAULT_CC_FLAGS	= $(cc_optimize)
 DEBUG_CC_FLAGS		= $(cc_debug)
 PROFILE_CC_FLAGS	= $(cc_profile)
-SHARED_CC_FLAGS		= $(cc_optimize)
+SHARED_CC_FLAGS		= $(cc_shared) $(cc_optimize)
 
 CXX_FLAGS		= $(cxx_warn) $(ARCH_CXX_FLAGS)
 
 DEFAULT_CXX_FLAGS	= $(cxx_optimize)
 DEBUG_CXX_FLAGS		= $(cxx_debug)
 PROFILE_CXX_FLAGS	= $(cxx_profile)
-SHARED_CXX_FLAGS	= $(cxx_optimize)
+SHARED_CXX_FLAGS	= $(cxx_shared) $(cxx_optimize)
 
 # **** S H A R E D   D E P   L I B S *****
 
@@ -207,7 +207,6 @@ USER_HH_INCS	=			\
 	StringUtils.hh                  \
 	SubStr.hh                       \
 	ThreadBase.hh                   \
-	Threaded.hh                     \
 	Timer.hh                        \
 	Void.hh                         \
 	$(ARCH_USER_HH_INCS)            \
@@ -240,6 +239,7 @@ USER_II_INCS	=			\
 	SubStr.ii                       \
 	ThreadBase.ii                   \
 	Timer.ii                        \
+	ThreadBase.ii			\
 	Void.ii                         \
 	$(ARCH_USER_II_INCS)            \
 
@@ -389,6 +389,10 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.9  1996/05/01 11:00:00  houghton
+# Bug-Fix: Added c*shared flags to SHARED_C*FLAGS.
+# Changed version number.
+#
 # Revision 2.8  1996/04/27 13:03:56  houghton
 # Changed to use MakeConfigs 5
 #
