@@ -13,6 +13,9 @@
 # See End of file for format specs
 #
 
+ENH Paul Houghton 08/24/97 16:52
+Add test to tDateTimeUtils that verifies a time_t is a long.
+
 ENH Paul A. Houghton 08/11/97 09:02
 also verify performance of current implementation against
 using memchr.
@@ -168,6 +171,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 3.6  1997/08/24 23:08:05  houghton
+# *** empty log message ***
+#
 # Revision 3.5  1997/08/12 11:11:23  houghton
 # *** empty log message ***
 #
