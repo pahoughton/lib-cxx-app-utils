@@ -1318,7 +1318,7 @@ Param::appendArgFile(
 	  else
 	    {
 	      prefixWidth = 3;
-	      argFileString << '# -' << argId << '\t';
+	      argFileString << "# -" << argId << '\t';
 	    }
       
 	  for( size_t width = argIdLen + prefixWidth + 8;
@@ -1577,6 +1577,9 @@ Param::genArgFile( bool exitApp )
 // Revision Log:
 //
 // $Log$
+// Revision 4.11  2000/01/03 14:21:17  houghton
+// Bug-Fix: was using single quotes (chg to ").
+//
 // Revision 4.10  1999/11/09 14:06:33  houghton
 // Bug-Fix: changed to prevent genArgsFile() log entry output from
 //     getting Param.C's log entries.
