@@ -61,33 +61,50 @@ tDateTime01( LibTest & tester )
     DateTime dtGmt( when, false );
     DateTime dtLocal( when, true );
 
-    struct tm * check = gmtime( &when );
+    struct tm check = *gmtime( &when );
 
     char checkStr[50];
 
     sprintf( checkStr, "%02d/%02d/%02d %02d:%02d:%02d",
-	     check->tm_mon + 1,
-	     check->tm_mday,
-	     check->tm_year,
-	     check->tm_hour,
-	     check->tm_min,
-	     check->tm_sec );
+	     check.tm_mon + 1,
+	     check.tm_mday,
+	     check.tm_year,
+	     check.tm_hour,
+	     check.tm_min,
+	     check.tm_sec );
 
 
     TEST( ! strcmp( checkStr, dtGmt.getString() ) );
     TEST( dtGmt == dtOneArg );
       
-    check = localtime( &when );
+    check = *localtime( &when );
     
     sprintf( checkStr, "%02d/%02d/%02d %02d:%02d:%02d",
-	     check->tm_mon + 1,
-	     check->tm_mday,
-	     check->tm_year,
-	     check->tm_hour,
-	     check->tm_min,
-	     check->tm_sec );
+	     check.tm_mon + 1,
+	     check.tm_mday,
+	     check.tm_year,
+	     check.tm_hour,
+	     check.tm_min,
+	     check.tm_sec );
     
     TEST( ! strcmp( checkStr, dtLocal.getString() ) );
+
+    {
+      // verify  1950 < year < 2000 getString uses 4 digit year
+      strcpy( checkStr, "04/28/1945 13:04:40" );
+      TEST( strptime( checkStr, "%m/%d/%Y %H:%M:%S", &check ) != 0 );
+
+      DateTime dt( check );
+
+      TESTR( dt.getString(), ! strcmp( dt.getString(), checkStr ) );
+
+      strcpy( checkStr, "04/28/2025 13:04:40" );
+      TEST( strptime( checkStr, "%m/%d/%Y %H:%M:%S", &check ) != 0 );
+
+      dt.set( check );
+
+      TESTR( dt.getString(), ! strcmp( dt.getString(), checkStr ) );
+    }
   }
   
   {
