@@ -148,7 +148,7 @@ Bitmask::fromStream( istream & src )
 
   if( in == tmp )
     {
-      src.setstate( ios::failbit );
+      src.clear( ios::failbit );
       return ( src );
     }
 
@@ -159,10 +159,10 @@ Bitmask::fromStream( istream & src )
 
   // convert it to an unsigned long
   if( ! StringTo( value, tmp, 2 ) )
-    src.setstate( ios::failbit );
+    src.clear( ios::failbit );
 
   if( wasEof )
-    src.setstate( ios::eofbit );
+    src.clear( ios::eofbit );
 
   return( src );
 }
@@ -208,6 +208,9 @@ Bitmask::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/03 18:57:23  houghton
+// Changed calls from setstate to clear (setstate is protected on AIX).
+//
 // Revision 3.1  1996/11/14 01:23:26  houghton
 // Changed to Release 3
 //
