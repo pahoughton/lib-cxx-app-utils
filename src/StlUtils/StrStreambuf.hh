@@ -11,7 +11,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:07  houghton
+// Revision 2.2  1995/11/10 14:08:41  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:41:07  houghton
 // Change to Version 2
 //
 // Revision 1.2  1995/11/05  14:44:46  houghton
@@ -92,6 +95,15 @@ private:
 //  Destructors:
 //
 //  Public Interface:
+//
+//  	size_t
+//  	plen(void) STR_CONST_RDBUF;
+//
+//  	size_t
+//  	psize(void) STR_CONST_RDBUF;
+//
+//  	const char *
+//  	cstr(void);  
 //
 //  	virtual const char *
 //  	getClassName( void ) const;

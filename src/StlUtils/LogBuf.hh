@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 2.1  1995/11/10 12:40:45  houghton
+// Revision 2.2  1995/11/10 14:08:37  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:45  houghton
 // Change to Version 2
 //
 // Revision 1.4  1995/11/05  15:28:39  houghton
@@ -139,3 +142,111 @@ private:
 #endif
 
 #endif // ! def _LogBuf_hh_ 
+//  Quick Start : - short example of class usage
+//
+//  Data Types: - data types defined by this header
+//
+//  	LogBuf class
+//
+//  Constructors:
+//
+//  	LogBuf( LogLevel::Level   outLevel,
+//    	    	streambuf * 	  outStream );
+//
+//  	LogBuf( const char * 	outLevel,
+//		streambuf * 	outStream );
+//
+//  	LogBuf( const char *	    fileName,
+//		LogLevel::Level    outLevel = LogLevel::ERROR, 
+//		ios::open_mode	    mode = ios::app,
+//		int		    prot = filebuf::openprot,
+//		size_t		    maxSize = 0,
+//		size_t		    trimSize = 0 );
+//  
+//  	LogBuf( const char *	    fileName,
+//		const char *	    outLevel,
+//		ios::open_mode	    mode = ios::app,
+//		int		    prot = filebuf::openprot,
+//		size_t		    maxSize = 0,
+//		size_t		    trimSize = 0 );
+//
+//  Destructors:
+//
+//  	virtual ~LogBuf( void );
+//
+//  Public Interface:
+//
+//  	bool
+//  	willOutput( LogLevel::Level outputLevel ) const;
+//
+//  	filebuf *
+//  	open( const char *	name,
+//	      ios::open_mode    mode,
+//	      int	        prot = filebuf::openprot,
+//	      size_t	        maxSize = 0,
+//	      size_t	        trimSize = 0 );
+//
+//  	void
+//  	close( void );
+//
+//  	size_t
+//  	trim( size_t maxSize = 0 );
+//
+//  	size_t
+//  	setMaxSize( size_t maxSize );
+//
+//  	size_t
+//  	setTrimSize( size_t trimSize );;
+//
+//  	bool
+//  	isFile( void ) const;
+//
+//  	LogLevel &
+//  	level( void );
+//
+//  	const LogLevel &
+//  	level( void ) const;
+//
+//  	virtual int
+//  	overflow(int=EOF);
+//
+//  	virtual int
+//  	underflow();
+//
+//  	virtual int
+//  	sync() ;
+//
+//  	const char *
+//  	getClassName( void ) const;
+//
+//  	ostream &
+//  	dumpInfo( ostream & dest = cerr ) const;
+//
+//  Private interface:
+//
+//  	void
+//  	initLogBuffer( void )
+//
+//  	void
+//  	initLogBuffer( void );
+//
+//  	void
+//  	initbuf( const char * fn,
+//		 ios::open_mode mode,
+//	    	 int prot,
+//		 size_t m,
+//
+//  	filebuf *
+//  	openLog( void );
+//
+//  	size_t
+//  	trimLog( size_t curSize, size_t maxLogSize );
+//
+//  	void
+//  	closeLog( void );
+//
+//  Private Methods:
+//
+//  Other Associated Functions:
+//
+

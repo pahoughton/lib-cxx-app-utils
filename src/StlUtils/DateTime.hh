@@ -4,9 +4,9 @@
 // File:        DateTime.hh
 // Desc:        
 //
-//  The DateTime class provides many methods for managing and coverting
+//  The DateTime class provides many methods for managing and converting
 //  date/time values. A time_t value is used inside the class for
-//  storage. Most methods do NOT varify the values passed.
+//  storage. Most methods do NOT verify the values passed.
 //
 // Author:      Paul Houghton x2309 - (houghton@shoe)
 // Created:     02/09/94 12:24
@@ -15,7 +15,10 @@
 //
 // 
 // $Log$
-// Revision 2.1  1995/11/10 12:40:31  houghton
+// Revision 2.2  1995/11/10 14:08:35  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:31  houghton
 // Change to Version 2
 //
 // Revision 1.11  1995/11/05  14:44:30  houghton
@@ -74,8 +77,8 @@ public:
 
   //
   // The non const versions set the internal struct tm so
-  // the valuse do not have to be recalced. If you need these
-  // values repeditivly, you may want to call 'setTm(void)'
+  // the values do not have to be recalculated. If you need these
+  // values repeatedly, you may want to call 'setTm(void)'
   // right after construction to increase access performance
   //
   inline short  	getDayOfYear( void ) const;
@@ -247,7 +250,7 @@ compare( const DateTime & one, const DateTime & two );
 //  Constructors:
 //
 //  	DateTime( time_t setTime = 0, bool addLocal = false );
-//  	    use 'setTime' for the inital value. If addLocal is true,
+//  	    use 'setTime' for the initial value. If addLocal is true,
 //  	    the local (according to TZ) time zone offset will be added.
 //
 //  	DateTime( time_t day, time_t timeOfDay );
@@ -269,7 +272,7 @@ compare( const DateTime & one, const DateTime & two );
 //  	    as a 'GMT' value.
 //
 //  	DateTime( const char * timeString )
-//  	    set the initial from 'timeString' the format must be
+//  	    set the initial value from 'timeString' the format must be
 //  	    '2/20/95 13:40:50'. The time portion is not required and
 //  	    leading '0' are ignored.
 //
@@ -307,6 +310,9 @@ compare( const DateTime & one, const DateTime & two );
 //
 //  	short
 //  	getDayOfyear( void ) const;
+//  	    return day of the year. ( 1 -> 366 )
+//  	    non-const version sets the internal tm to improve performance.
+//
 //  	short
 //  	getDayOfYear( void );
 //  	    return day of the year. ( 1 -> 366 )
@@ -314,6 +320,9 @@ compare( const DateTime & one, const DateTime & two );
 //
 //  	short
 //  	getDayOfMonth( void ) const;
+//  	    return the day of the month. (1 -> 31)
+//  	    non-const version sets the internal tm to improve performance.
+//
 //  	short
 //  	getDayOfMonth( void );
 //  	    return the day of the month. (1 -> 31)
@@ -321,6 +330,9 @@ compare( const DateTime & one, const DateTime & two );
 //
 //  	short
 //  	getMonth( void ) const
+//  	    return the month of the year. (1 -> 12)
+//  	    non-const version sets the internal tm to improve performance.
+//
 //  	short
 //  	getMonth( void )
 //  	    return the month of the year. (1 -> 12)
@@ -328,14 +340,21 @@ compare( const DateTime & one, const DateTime & two );
 //
 //  	short
 //  	getYearOfCentury( void ) const
+//  	    return the year of the century. (0 -> 99)
+//  	    Both 1930 and 2030 will return '30'.
+//  	    non-const version sets the internal tm to improve performance.
+//
 //  	short
-//  	getYearOfCentury( void ) const
+//  	getYearOfCentury( void ) 
 //  	    return the year of the century. (0 -> 99)
 //  	    Both 1930 and 2030 will return '30'.
 //  	    non-const version sets the internal tm to improve performance.
 //
 //  	short
 //  	getYear( void ) const;
+//  	    return the year. ( all four digits - 1995, 2005 )
+//  	    non-const version sets the internal tm to improve performance.
+//
 //  	short
 //  	getYear( void )
 //  	    return the year. ( all four digits - 1995, 2005 )
@@ -343,6 +362,12 @@ compare( const DateTime & one, const DateTime & two );
 //
 //  	const char *
 //  	getString( char * buffer = 0, const char * fmt = 0 )
+//  	    return a string representation of the date/time. If
+//  	    'buffer' is not 0, the string will be placed in it, otherwise
+//  	    a static internal bufferr will be used. If fmt is 0, the default
+//  	    format ( '02/05/95 03:05:05' ) will be used, otherwise strftime
+//  	    will use 'fmt' to determine the format of the string.
+//
 //  	const char *
 //  	getString( char * buffer = 0, const char * fmt = 0 ) const
 //  	    return a string representation of the date/time. If
@@ -362,8 +387,11 @@ compare( const DateTime & one, const DateTime & two );
 //
 //  	bool
 //    	isDST( void )
+//  	    return true if a timezone is set and daylight savings time is
+//  	    in effect.
+//
 //  	bool
-//  	isDST( void )
+//  	isDST( void ) const
 //  	    return true if a timezone is set and daylight savings time is
 //  	    in effect.
 //
@@ -371,6 +399,18 @@ compare( const DateTime & one, const DateTime & two );
 //  	getTimeZone( void ) const
 //  	    return the name of the timezone that has been set. If no
 //  	    timezone is set, 0 is returned.
+//
+//  	static long
+//  	getGmtOffset( const char * timeZone = 0 )
+//  	    return the value of the offset from Greenwich Mean Time
+//  	    in seconds.(i.e. -21600 for CST6CDT ). The value is negative
+//  	    when used in the USA. (west of GMT), Uses the TZ environment
+//  	    variable.
+//
+//  	static const char *
+//  	getSysTimeZone( void )
+//  	    return the name of the current system time zone.
+//  	    i.e (CST6CDT). Uses the TZ environment variable.
 //
 //  	time_t
 //  	setTimeT( time_t timeSec = 0 )
@@ -380,7 +420,7 @@ compare( const DateTime & one, const DateTime & two );
 //
 //     	time_t
 //  	set( time_t timeSec, bool addLocal = false )
-//  	    set the date/time to the specific value. if allLocal
+//  	    set the date/time to the specific value. if addLocal
 //  	    is true, the local timezone offset ( according to TZ env var )
 //  	    will be added to the time. Any timezone is reset to GMT.
 //  	    Returns the previous date/time value.
@@ -388,18 +428,18 @@ compare( const DateTime & one, const DateTime & two );
 //  	time_t
 //  	set( const char * dateString, const char * fmt = 0 )
 //  	    set the date/time by converting the'dateString'. If 'fmt' is 0,
-//  	    the string is expected to be int '1/5/94 03:04:00' format.
-//  	    When using this format, neither the seconds, nor the time is
-//  	    not requried (ie 1/1/92 & 1/1/95 05:00 is ok). If 'fmt' is
-//  	    not 0, strptime will use it to translate the string. Any timezone
-//  	    is reset to GMT.
+//  	    the string is expected to be in '1/5/94 03:04:00' format.
+//  	    When using this format, neither the seconds, or the time is
+//  	    required (ie 1/1/92 & 1/1/95 05:00 is ok).
+//          If 'fmt' is not 0, strptime will use it to translate the string.
+//          Any timezone is reset to GMT.
 //  	    Returns the previous date/time value.
 //
 //  	time_t
 //  	set( int year, int month, int day,
 //  	     int hour = 0, int min = 0, int sec = 0)
-//  	    set the date/time from year, month, day, hour, min, sec. Any
-//  	    timezone is reset to GMT.
+//  	    set the date/time from year, month, day, hour, min, sec.
+//          Any timezone is reset to GMT.
 //  	    Returns the previous date/time value.
 //
 //  	time_t
@@ -423,9 +463,9 @@ compare( const DateTime & one, const DateTime & two );
 //  	time_t
 //  	setValid( const char * dateString, const char * fmt = 0 )
 //  	    set the date/time by converting the'dateString'. If 'fmt' is 0,
-//  	    the string is expected to be int '1/5/94 03:04:00' format.
-//  	    When using this format, neither the seconds, nor the time is
-//  	    not requried (ie 1/1/92 & 1/1/95 05:00 is ok). If 'fmt' is
+//  	    the string is expected to be in '1/5/94 03:04:00' format.
+//  	    When using this format, neither the seconds, or the time is
+//  	    requried (ie 1/1/92 & 1/1/95 05:00 is ok). If 'fmt' is
 //  	    not 0, strptime will use it to translate the string.
 //  	    The values are checked to be sure they are in range. If
 //  	    any value is not in range, the date/time value is set to 0
@@ -445,14 +485,16 @@ compare( const DateTime & one, const DateTime & two );
 //  	    set the 'date' by translating 'yymmdd'.  The string does NOT
 //  	    have to be NULL terminated.  'yy' values between 00 and 50 are
 //  	    considered to be for the next century (ie 05 = 2005).
-//  	    The time and timezone are not modified. Example string (950130)
+//  	    The time and timezone are not modified.
+//          Example string (950130)
 //  	    Returns the previous date/time value.
 //
 //  	time_t
 //  	setHHMMSS( const char * hhmmss )
 //  	    set the 'time' by translating 'hhmmss'. The string does NOT
 //  	    have to be NULL terminated. The date and timezone are not
-//  	    modified. Example stirng (155005 = 3:50:05 pm)
+//  	    modified.
+//          Example string (155005 = 3:50:05 pm)
 //  	    Returns the previous date/time value.
 //
 //  	time_t
@@ -465,7 +507,7 @@ compare( const DateTime & one, const DateTime & two );
 //
 //  	time_t
 //  	setMonth( short month )
-//  	    set the month. WARNING: this function is VERY litteral. If
+//  	    set the month. WARNING: this function is VERY literal. If
 //   	    the current value is 1/31/95 and you 'setMonth( 6 )' you
 //  	    will end up with 7/1/95 (june only has 30 days). It also does
 //  	    NOT verify the input value, 'setMonth(13)' will have undefined
@@ -512,38 +554,38 @@ compare( const DateTime & one, const DateTime & two );
 //  	DateTime &
 //      add( const DateTime & dt )
 //  	    add the DateTime to the current value.
-//  	    Returns a referance to self
+//  	    Returns a reference to self
 //
 //  	DateTime &
 //  	add( long seconds = 1 )
 //  	    add the seconds to the date/time value.
-//  	    Returns a referance to self
+//  	    Returns a reference to self
 //
 //  	DateTime &
 //  	addSec( long seconds = 1 )
 //  	    add the seconds to the date/time value.
-//  	    Returns a referance to self
+//  	    Returns a reference to self
 //
 //  	DateTime &
 //  	addMin( long minutes = 1 )
 //  	    add the minutes to the date/time value
-//  	    Returns a referance to self
+//  	    Returns a reference to self
 //
 //  	DateTime &
 //  	addHour( long hours = 1 )
 //  	    add the hours to the date/time value.
-//  	    Returns a referance to self
+//  	    Returns a reference to self
 //
 //  	DateTime &
 //  	addDay( long days = 1 )
 //  	    add the days to the datd/time value.
-//  	    Returns a referance to self
+//  	    Returns a reference to self
 //
 //  	void
 //  	setTm( void )
 //  	    set the internal tm struct for the current date/time value.
 //  	    This call will pre-assign the year, month, day of month,
-//  	    and day of year for the current value. I is provided so
+//  	    and day of year for the current value. It is provided so
 //  	    these values do not have to be recalculated for multible
 //  	    'get' calls.
 //
@@ -552,7 +594,7 @@ compare( const DateTime & one, const DateTime & two );
 //  	    return the difference between 'two' and self. If self
 //  	    is > two, a > 0 value will be returned. If self is == two, a
 //  	    value of 0 will be returned. If self is < two, a < 0 value will
-//  	    be returned.  Only the actuall date/time value is used
+//  	    be returned.  Only the actual date/time value is used
 //  	    for comparison
 //
 //  	operator time_t () const;
@@ -564,12 +606,12 @@ compare( const DateTime & one, const DateTime & two );
 //
 //  	int
 //  	operator ==( const DateTime & two ) const;
-//  	    return true if 'two' is equal to self. Only the actuall
+//  	    return true if 'two' is equal to self. Only the actual
 //  	    date time value is used for comparison.
 //
 //  	int
 //  	operator !=( const DateTime & two ) const;
-//  	    return true if 'two' is not equal to self. Only the actuall
+//  	    return true if 'two' is not equal to self. Only the actual
 //  	    date time value is used for comparison.
 //
 //  	virtual
@@ -580,8 +622,8 @@ compare( const DateTime & one, const DateTime & two );
 //  	virtual
 //  	bool
 //  	good( void ) const
-//  	    return true if no detected errors existe. Only setValid will
-//  	    detect and invalid date/time value.
+//  	    return true if no detected errors exist. Only setValid will
+//  	    detect an invalid date/time value.
 //
 //  	virtual
 //  	const char *

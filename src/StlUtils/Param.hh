@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 2.1  1995/11/10 12:40:54  houghton
+// Revision 2.2  1995/11/10 14:08:38  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:54  houghton
 // Change to Version 2
 //
 // Revision 1.6  1995/11/05  15:28:44  houghton
@@ -205,3 +208,178 @@ private:
 
 
 #endif // ! def _Param_hh_ 
+//  Quick Start : - short example of class usage
+//
+//  Data Types: - data types defined by this header
+//
+//  	Param class
+//
+//  Constructors:
+//
+//  	Param( int & mainArgc, char * mainArgv[], const char * version = 0 );
+//
+//  Public Interface:
+//
+//  	Log &
+//  	log( void );
+//
+//  	Log &
+//  	log( LogLevel::Level lvl );
+//
+//  	const char *
+//  	appName( void ) const ;
+//
+//  	const char *
+//  	appFullName( void ) const;
+//
+//  	char *
+//  	arg( size_t which = 1 );
+//
+//  	int
+//  	argInt( size_t which = 1 );
+//
+//  	size_t
+//  	count( void ) const;
+//
+//  	const char *
+//  	env( const char * envVar ) const;
+//
+//  	bool
+//  	argString( char * &  	    dest,
+//		   const char *	    description,
+//		   const char *     argId,
+//		   const char *     envVar = 0 );
+//  	bool
+//  	argStr( Str  &  	    dest,
+//		const char *	    description,
+//		const char *     argId,
+//		const char *     envVar = 0 );
+//
+//
+//  	bool
+//  	argInt( Int & 	    	dest,
+//		const char *	description,
+//		const char *    argId,
+//	    	const char *    envVar = 0,
+//		int	    	minVal = INT_MIN,
+//		int	    	maxVal = INT_MAX );
+//
+//  	bool
+//  	argInt( unsigned int &	dest,
+//		const char *	description,
+//		const char *    argId,
+//		const char *    envVar = 0,
+//		unsigned int	minVal = 0,
+//		unsigned int   	maxVal = UINT_MAX );
+//
+//  	bool
+//  	argShort( short &    	dest,
+//		  const char *	description,
+//		  const char *  argId,
+//		  const char *  envVar = 0,
+//		  short	    	minVal = SHRT_MIN,
+//		  short	    	maxVal = SHRT_MAX );
+//
+//  	bool
+//  	argShort( unsigned short & dest,
+//		  const char *	description,
+//		  const char *  argId,
+//		  const char *  envVar = 0,
+//		  unsigned short minVal = 0,
+//		  unsigned short maxVal = USHRT_MAX );
+//
+//  	bool
+//  	argLong( long &	    	dest,
+//		 const char *	description,
+//		 const char *   argId,
+//		 const char *   envVar = 0,
+//		 long	    	minVal = LONG_MIN,
+//		 long	    	maxVal = LONG_MAX );
+//
+//  	bool
+//  	argLong( unsigned long & dest,
+//		 const char *	description,
+//		 const char *   argId,
+//		 const char *   envVar = 0,
+//		 unsigned long 	minVal = 0,
+//		 unsigned long 	maxVal = ULONG_MAX );
+//
+//  	bool
+//  	argDouble( double & 	dest,
+//		   const char *	description,
+//		   const char * argId,
+//		   const char * envVar = 0 );
+//
+//  	bool
+//  	argBool( bool &	    	dest,
+//		 const char *   description,
+//		 const char *   argId,
+//		 const char *   envVar = 0 );
+//		 
+//  	bool
+//  	argFlag( bool &	    	dest,
+//		 const char *   description,
+//		 const char *   argId,
+//		 const char *   envVar = 0 );
+//
+//    	bool
+//  	argDateTime( time_t &	    dest,
+//		     const char *   description,
+//		     const char *   argId,
+//		     const char *   envVar = 0 );
+//		     
+//  	bool
+//  	argDateTime( DateTime &	    dest,
+//		     const char *   description,
+//		     const char *   argId,
+//		     const char *   envVar = 0 );
+//
+//     	bool
+//  	help( void ) const;
+//
+//      bool
+//  	allArgs( void ) const;
+//
+//  	void
+//  	abort( int  	    exitStatus = 1,
+//     	       bool 	    showArgs = false,
+//	       ostream &    dest = cerr );
+//
+//  	virtual bool
+//  	good( void ) const;
+//  	    Returns true if there are no detected errors associated
+//  	    with this class, otherwise FALSE.
+//
+//  	virtual const char *
+//  	error( void ) const;
+//  	    Returns as string description of the state of the class.
+//
+//  	virtual const char *
+//  	getClassName( void ) const;
+//  	    Return the name of this class (i.e. Param )
+//
+//  	virtual ostream & 
+//  	toStream( ostream & dest ) const;
+//  
+//  Protected:
+//
+//  Private:
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

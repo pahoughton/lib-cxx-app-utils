@@ -11,7 +11,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:00  houghton
+// Revision 2.2  1995/11/10 14:08:38  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:41:00  houghton
 // Change to Version 2
 //
 // Revision 1.2  1995/11/05  14:44:42  houghton
@@ -122,9 +125,68 @@ private:
 //
 //  	RegexScan( );
 //
+//  	RegexScan( const char *   pattern,
+//  	    	   bool   	  fast = 0,
+//  	    	   size_t    	  bufSize = 40,
+//  	    	   const char *   tranTable = 0 );
+//
+//  	RegexScan( unsigned int   syntax,
+//  	    	   const char *   pattern,
+//  	    	   bool   	  fast = 0,
+//  	    	   size_t    	  bufSize = 40,
+//  	    	   const char *   tranTable = 0 );
+//
+//  	RegexScan( const RegexScan & copyFrom );
+//
 //  Destructors:
 //
+//  	virtual ~RegexScan( void );
+//
 //  Public Interface:
+//
+//  	static unsigned int
+//  	setDefaultSyntax( unsigned int syntax );
+//  
+//  	void
+//  	setPattern( const char *    pattern,
+//  	    	    bool   	    fast = 0,
+//  	    	    size_t 	    bufSize = 40,
+//  	    	    const char *    tranTable = 0 );
+//
+//  	void
+//  	setPattern( unsigned int    syntax,
+//  	    	    const char *    pattern,
+//  	    	    bool   	    fast = 0,
+//  	    	    size_t 	    bufSize = 40,
+//  	    	    const char *    tranTable = 0 );
+//
+//  	bool
+//  	match( const char *     str,
+//  	       size_t   	strStart = 0,
+//  	       size_t   	strLen = NPOS ) const;
+//
+//  	bool
+//  	search( const char *    str,
+//  	    	size_t   	strStart = 0,
+//  	    	size_t   	strLen = NPOS ) const;
+//
+//  	size_t
+//  	matchCount( void ) const;
+//
+//  	int
+//  	matchStart( unsigned short  regNum = 0 ) const;
+//
+//  	int
+//  	matchLength( unsigned short regNum = 0 ) const;
+//
+//  	void
+//  	matchInfo( int & start, int & len, unsigned short regNum = 0 ) const;
+//  
+//  	RegexScan &
+//  	operator =  ( const RegexScan & assignFrom );
+//
+//  	RegexScan &
+//  	operator =  ( const char * pattern );
 //
 //  	virtual const char *
 //  	getClassName( void ) const;

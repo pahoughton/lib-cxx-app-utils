@@ -13,7 +13,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:35  houghton
+// Revision 2.2  1995/11/10 14:08:36  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:35  houghton
 // Change to Version 2
 //
 // Revision 1.3  1995/11/05  15:28:34  houghton
@@ -130,6 +133,92 @@ compare( const FilePath & one, const FilePath & two );
 //
 //  Public Interface:
 //
+//  	FilePath( char dirDelim = DIR_DELIM, char extDelim = '.' );
+//
+//  	FilePath( const char * fullName,
+//  		  char dirDelim = DIR_DELIM,
+//  	    	  char extDelim = '.' );
+//  
+//  	FilePath( const char *    dirName,
+//  	    	  const char *    fileName,
+//  	    	  char    	  dirDelim = DIR_DELIM,
+//  	    	  char    	  extDelim = '.' );
+//  	    
+//  	Str
+//  	getFullName( void ) const;
+//
+//  	Str
+//  	getPath( void ) const;
+//
+//  	Str
+//  	getFileName( void ) const;
+//
+//  	Str
+//  	getName( void ) const;
+//
+//  	Str
+//  	getExt( void ) const;
+//
+//  	bool
+//  	set( const char * fullPath );
+//
+//  	bool
+//  	setPrefix( const char * prefix );
+//
+//  	bool
+//  	setPath( const char * path );
+//
+//  	bool
+//  	setFileName( const char * name );
+//
+//  	bool
+//  	setName( const char * name );
+//
+//  	bool
+//  	setName( const char * name, char ext );
+//
+//  	bool
+//  	setName( const char * name, const char * ext );
+//
+//  	bool
+//  	setExt( const char * ext );
+//
+//  	bool
+//  	setExt( const char * ext, char delim );
+//
+//  	bool
+//  	setExt( const char * oldExt, const char * newExt );
+//
+//  	bool
+//  	setTempName( const char * prefix = 0 );
+//  
+//  	bool
+//  	changePath( const char * oldDirs, const char * newDirs );
+//  
+//  	size_t
+//  	getStreamSize( void ) const;
+//
+//  	ostream &
+//  	write( ostream & dest ) const;
+//
+//  	istream &
+//  	read( istream & src );
+//  
+//  	int
+//  	compare( const FilePath & two ) const;
+//  
+//  	bool
+//  	operator == ( const FilePath & rhs ) const;
+//
+//  	bool
+//  	operator <  ( const FilePath & rhs ) const;
+//
+//  	FilePath &
+//  	operator =  ( const char * );
+//
+//  	 operator const char * ( void ) const;
+//
+//
 //  	virtual const char *
 //  	getClassName( void ) const;
 //  	    Return the name of this class (i.e. FilePath )
@@ -142,6 +231,11 @@ compare( const FilePath & one, const FilePath & two );
 //  	virtual const char *
 //  	error( void ) const
 //  	    Returns as string description of the state of the class.
+//  	virtual ostream &
+//  	toStream( ostream & dest ) const;
+//
+//  	virtual ostream &
+//  	dumpInfo( ostream & dest ) const;
 //
 //  Protected Interface:
 //

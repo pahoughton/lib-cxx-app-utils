@@ -11,7 +11,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:17  houghton
+// Revision 2.2  1995/11/10 14:08:33  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:17  houghton
 // Change to Version 2
 //
 // Revision 1.3  1995/11/05  15:28:31  houghton
@@ -149,7 +152,6 @@ operator >  ( unsigned long lhs, const Bitmask & rhs );
 #endif
 
 
-#endif // ! def _Bitmask_hh_ 
 //  Quick Start: - short example of class usage
 //
 //  Data Types: - data types defined by this header
@@ -163,6 +165,79 @@ operator >  ( unsigned long lhs, const Bitmask & rhs );
 //  Destructors:
 //
 //  Public Interface:
+//
+//  	Bitmask( void );
+//
+//  	Bitmask( size_t pos );
+//
+//  	Bitmask( unsigned long set, bool flip );
+// 
+//  	Bitmask &
+//  	set( size_t pos );
+//
+//  	Bitmask &
+//  	clear( size_t pos );
+//
+//  	Bitmask &
+//  	clear( void );
+//
+//  
+//  	bool
+//  	isSet( size_t pos ) const;
+//
+//  	bool
+//  	isClear( size_t pos ) const;
+//
+//  	unsigned long
+//  	all( void ) const;
+//  
+//  	size_t
+//  	getStreamSize( void ) const;
+//
+//  	ostream &
+//  	write( ostream & dest ) const;
+//
+//  	istream &
+//  	read( istream & src );
+//  
+//  	int
+//  	compare( const Bitmask & two ) const;
+//
+//  	int
+//  	compare( unsigned long two ) const;
+//  
+//  	Bitmask &
+//  	operator =  ( unsigned long rhs );
+//
+//  	Bitmask &
+//    	operator &= ( const Bitmask & rhs );
+//
+//  	Bitmask &
+//  	operator |= ( const Bitmask & rhs );
+//
+//  	Bitmask &
+//  	operator ^= ( const Bitmask & rhs );
+//
+//  	bool
+//  	operator () ( size_t pos ) const;
+//
+//  	bool
+//  	operator == ( const Bitmask & rhs ) const;
+//
+//  	bool
+//  	operator <  ( const Bitmask & rhs ) const;
+//
+//  	bool
+//  	operator == ( unsigned long rhs ) const;
+//
+//  	bool
+//  	operator != ( unsigned long rhs ) const;
+//
+//  	bool
+//  	operator <  ( unsigned long rhs ) const;
+//
+//  	bool
+//  	operator >  ( unsigned long rhs ) const;
 //
 //  	virtual const char *
 //  	getClassName( void ) const;
@@ -186,3 +261,5 @@ operator >  ( unsigned long lhs, const Bitmask & rhs );
 //  	ostream &
 //  	operator <<( ostream & dest, const Bitmask & obj );
 //
+
+#endif // ! def _Bitmask_hh_ 

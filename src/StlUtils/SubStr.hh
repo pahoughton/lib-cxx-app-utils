@@ -15,7 +15,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:17  houghton
+// Revision 2.2  1995/11/10 14:08:41  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:41:17  houghton
 // Change to Version 2
 //
 // Revision 1.2  1995/11/05  14:44:54  houghton
@@ -252,6 +255,161 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 //  Destructors:
 //
 //  Public Interface:
+//
+//  	size_t
+//  	size( void ) const;
+//
+//  	size_t
+//  	length( void ) const;
+//
+//  	bool
+//  	empty( void ) const;
+//
+//  	bool
+//  	to( int & dest, unsigned short base = 0 ) const;
+//
+//  	bool
+//  	to( short & dest, unsigned short base = 0 ) const;
+//
+//  	bool
+//  	to( long & dest, unsigned short base = 0 ) const;
+//
+//  	bool
+//  	to( double & dest, unsigned short base = 0 ) const;
+//
+//  	bool
+//  	to( unsigned int & dest, unsigned short base = 0 ) const;
+//
+//  	bool
+//  	to( unsigned short & dest, unsigned short base = 0 ) const;
+//
+//  	bool
+//  	to( unsigned long & dest, unsigned short base = 0 ) const;
+//
+//  	bool
+//  	toBool( void ) const;
+//
+//  	bool
+//  	toInt( unsigned short base = 0 )const;
+//
+//  	bool
+//  	tShort( unsigned short base = 0 )const;
+//
+//  	bool
+//  	toLong( unsigned short base = 0 )const;
+//
+//  	bool
+//  	toDouble( unsigned short base = 0 )const;
+//
+//  	bool
+//  	toUInt( unsigned short base = 0 )const;
+//
+//  	bool
+//  	toUShort( unsigned short base = 0 )const;
+//
+//  	bool
+//  	toULong( unsigned short base = 0 )const;
+//
+//  	int
+//  	compare( const Str & two,
+//  	    	 size_t start = 0,
+//  	    	 size_t len = NPOS ) const;
+//
+//  	int
+//  	compare( const SubStr & two,
+//  	    	 size_t start = 0,
+//  	    	 size_t len = NPOS ) const;
+//
+//  	int
+//  	compare( const char * two,
+//  	    	 size_t start = 0,
+    	    	 size_t len = NPOS ) const;
+//
+//  	friend int
+//  	compare( const char * one,
+//  	    	 size_t start = 0,
+//  	    	 size_t len = NPOS ) const;
+//
+//  	int
+// 	fcompare( const Str & two,
+//  	    	  size_t start = 0,
+//  	    	  size_t len = NPOS ) const;
+//
+//  	int
+//  	fcompare( const SubStr & two,
+//  	    	  size_t start = 0,
+//  	    	  size_t len = NPOS ) const;
+//
+//  	int
+//  	fcompare( const char * two,
+//  	    	  size_t start = 0,
+//  	    	  size_t len = NPOS ) const;
+//
+//  	friend int
+//  	fcompare( const char * one,
+//  	    	  size_t start = 0,
+//  	    	  size_t len = NPOS ) const;
+//
+//  	char &
+//  	operator [] ( size_t index );
+//
+//  	char
+//  	operator [] ( size_t index ) const;
+//
+//  	SubStr &
+//  	operator = ( const SubStr & src );
+//
+//  	SubStr &
+//  	operator = ( const Str & src );
+//
+//  	SubStr &
+//  	operator = ( const char * src );
+//
+//  	SubStr &
+//  	operator = ( const char src );
+//
+//  	bool
+//  	operator == ( const SubStr & two ) const;
+//
+//  	bool
+//  	operator == ( const Str & two ) const;
+//
+//  	bool
+//  	operator == ( const char * two ) const;
+//
+//  	bool
+//  	operator < ( const SubStr & two ) const;
+//
+//  	bool
+//  	operator < ( const Str & two ) const;
+//
+//  	bool
+//  	operator < ( const char * two ) const;
+//
+//  	bool
+//  	operator != ( const Str & two ) const;
+//
+//  	bool
+//  	operator != ( const char * two ) const;
+//
+//  	bool
+//  	operator > ( const Str & two ) const;
+//
+//  	bool
+//  	operator > ( const char * two ) const;
+//
+//  	bool
+//  	operator <= ( const Str & two ) const;
+//
+//  	bool
+//  	operator <= ( const char * two ) const;
+//
+//  	bool
+//  	operator >= ( const Str & two ) const;
+//
+//  	bool
+//  	operator >= ( const char * two ) const;
+//
 //
 //  	virtual const char *
 //  	getClassName( void ) const;

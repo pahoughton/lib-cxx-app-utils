@@ -14,7 +14,10 @@
 //
 // 
 // $Log$
-// Revision 2.1  1995/11/10 12:40:47  houghton
+// Revision 2.2  1995/11/10 14:08:37  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:47  houghton
 // Change to Version 2
 //
 // Revision 1.4  1995/11/05  15:28:40  houghton
@@ -126,3 +129,80 @@ private:
 #endif
 
 #endif // ! def _LogLevel_hh_ 
+
+
+
+
+//  Quick Start:
+//
+//  DataTypes:
+//
+//  Constructors:
+//
+//  Destructors:
+//
+//
+//  Public Interface:
+//
+//
+//  	static const Level	NONE;
+//  	static const Level	ERROR;
+//  	static const Level	ERR;
+//  	static const Level	WARNING;
+//  	static const Level	WARN;
+//  	static const Level	USER_1;
+//  	static const Level	USER_2;
+//  	static const Level	USER_3;
+//  	static const Level	USER_4;
+//  	static const Level	INFO;
+//  	static const Level	TEST;
+//  	static const Level	DEBUG;
+//  	static const Level	FUNCT;
+//  	static const Level	ALL;
+//  
+//  	LogLevel( const Level out = NONE );
+//
+//  	LogLevel( const char * out );
+//
+//  	Level
+//  	setOutput( const Level out );
+//
+//  	level
+//  	setoutput( const char * out );
+//
+//  	Level
+//  	setCurrent( const Level cur );
+//
+//  	Level
+//  	setCurrent( const char * cur );
+//
+//  	Level
+//  	getOutput( void ) const;
+//
+//  	Level
+//  	getCurrent( void  ) const;
+//
+//  	const char *
+//  	getName( const Level level ) const;
+//
+//  	const char *
+//  	getLevelNames( const Level level ) const;
+//
+//  	void
+//  	setName( const Level level, const char * name );
+//
+//  	bool
+//  	shouldOutput( void ) const;
+//
+//  	bool
+//  	willOutput( const Level outLevel ) const;
+//
+//  	const char *
+//  	getClassName( void ) const;
+//  	    return the name of this class.
+//
+//  	ostream &
+//  	dumpInfo( ostream & dest = cerr ) const;
+//
+//  Other Accociated Functions:
+//

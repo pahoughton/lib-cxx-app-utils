@@ -18,7 +18,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:15  houghton
+// Revision 2.2  1995/11/10 14:08:33  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:15  houghton
 // Change to Version 2
 //
 // Revision 1.4  1995/11/06  11:59:47  houghton
@@ -64,7 +67,7 @@
 // T ShiftRight( T value, int count )
 // T ShiftLeft( T value, int start, int len )
 // T ExtractBits( T value, int start, int len )
-// T SetBits( T value, int start, int len )
+// T SetBits( Dest dest, T setValue, int start, int len )
 //
 // start is right to left begining with bit 0
 // len is right to left begining with bit 'start'

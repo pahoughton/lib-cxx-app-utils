@@ -11,7 +11,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:43  houghton
+// Revision 2.2  1995/11/10 14:08:37  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:43  houghton
 // Change to Version 2
 //
 // Revision 1.7  1995/11/05  15:28:37  houghton
@@ -143,3 +146,119 @@ private:
 
 
 #endif // ! def _Log_hh_ 
+
+//  Quick Start : - short example of class usage
+//
+//  Data Types: - data types defined by this header
+//
+//  	Log class
+//
+//  Constructors:
+//
+//  	log( ostream & outStream = cout,
+//  	     LogLevel::Level outLevel = LogLevel::ERROR,
+//  	     bool stampLevel = true,
+//  	     bool stampTime = true );
+//
+//  	log( ostream & outStream,
+//  	     const char * outLevel,
+//  	     bool stampLevel = true,
+//  	     bool stampTime = true );
+//
+//  	log( const char * fileName,
+//  	     LogLevel::Level outLevel = LogLevel::ERROR,
+//  	     bool stampLevel = true,
+//  	     bool stampTime = true,
+//  	     ios::open_mode mode = ios::app,
+//  	     int prot = filebuf::openprot,
+//  	     size_t maxSize = 0,
+//  	     size_t trimSize = 0 );
+//
+//  	log( const char * fileName,
+//  	     const char * outLevel,
+//  	     bool stampLevel = true,
+//  	     bool stampTime = true,
+//  	     ios::open_mode mode = ios::app,
+//  	     int prot = filebuf::openprot,
+//  	     size_t maxSize = 0,
+//  	     size_t trimSize = 0 );
+//
+//  Destructors:
+//
+//  	~Log( void );
+//
+//  Public Interface:
+//
+//  	void
+//  	tee( ostream & teeStream = cerr );
+//
+//  	size_t
+//  	trim( size_t maxSize = 0 );
+//
+//  	size_t
+//  	setMaxSize( size_t maxSize );
+//
+//  	size_t
+//  	setTrimSize( size_t trimSize );
+//
+//  	virtual Log &
+//  	level( LogLevel::Level curren = LogLevel::ERROR );
+//
+//  	Log &
+//  	operator () ( LogLevel::Level curren = LogLevel::ERROR );
+//
+// 	virtual Log &
+//  	level( const char * current );
+//
+// 	Log &
+//  	operator () ( const char * current );
+//
+//  	void
+//  	on( LogLevel::Level output );
+//
+//  	void
+//  	off( LogLevel::Level ouput );
+//
+//  	LogLevel::Level
+//  	getCurrent( void ) const;
+//
+//  	LogLevel::Level
+//  	getOutput( void ) const;
+//
+//  	void
+//  	setFileName( const char * f, int mode = ios::app );
+//
+//  	void
+//  	open( const char * f, int mode = ios::app );
+//
+//  	void
+//  	close( void );
+//
+//  	LogLevel::Level
+//  	setOutputLevel( const char * output );
+//
+//  	LogLevel::Level
+//  	setOutputLevel( LogLevel::Level output );
+//
+//  	bool
+//  	setLevelStamp( bool stamp );
+//
+//  	bool
+//  	setTimeStamp( bool stamp );
+//
+//  	LogBuf *
+//  	rdbuf( void );
+//
+//  	const LogBuf *
+//  	rdbuf( void ) const;
+//
+//  	virtual const char *
+//  	getClassName( void ) const;
+//  	    Returns the name of this class ( i.e. Log )
+//
+//  Protected Interface:
+//
+//  Private Methods:
+//
+//  Other Associated Functions:
+//

@@ -16,7 +16,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:04  houghton
+// Revision 2.2  1995/11/10 14:08:39  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:41:04  houghton
 // Change to Version 2
 //
 // Revision 1.6  1995/11/05  15:28:47  houghton
@@ -648,11 +651,1010 @@ unsigned long	StringToULong( const Str & str, unsigned short base = 0 );
 //
 //  Constructors:
 //
-//  	Str( );
+//  	Str( void );
+//
+//  	Str( cont Str & src, size_t srcStart = 0, size_t srcLen = NPOS )
+//  	    Str constructor requires at least a Str to be given, the
+//  	    srcStart if omitted will default to 0, the srcLen if not
+//  	    given will be calculated from the length of (src).
+//
+//  	Str( const SubStr & src, size_t srcStart = 0, size_t srcLen = NPOS )
+//  	    Str constructor requires at least a SubStr to be given, the
+//  	    srcStart if omitted will default to 0, the srcLen if not
+//  	    given will be calculated from the length of (src).
+//
+//  	Str( const char * src, size_t srcLen = NPOS )
+//  	    Str constructor requires at least a char *(src) to be given, the
+//  	    length (rscLen) if not given will be calculated from the
+//  	    length of (src).
+//
+//  	Str( size_t count, char src )
+//  	    Str constructor requires a value (count) and a char(src).
+//
+//  	Str( InputIterator first, InputIterator last )
 //
 //  Destructors:
 //
+//  	~Str( void )
+//
 //  Public Interface:
+//
+//  	void
+//  	reset( void )
+//
+//  	size_t
+//  	size( void ) const;
+//
+//  	size_t
+//  	length( void ) const;
+//
+//  	bool
+//  	empty( void ) const;
+//
+//  	size_t
+//  	max_size( void ) const;
+//
+//  	const char *
+//  	cstr( void ) const;
+//
+//  	size_t
+//  	copy( char * dest, size_t destLen, size_t start = 0 );
+//
+//  	StrStreambuf *
+//  	rdbuf( void ) const;
+//
+//  	StrStreambuf *
+//  	rdbuf( void );
+//
+//  append
+//
+//  	Str &
+//  	append( const char * src, size_t srcLen = NPOS );
+//  	    append onto a Str the contents of (src) for (srcLen)
+//	    character(s) of (src).
+//
+//  	Str &
+//  	append( const Str & src, size_t srcStart = 0, size_t srcLen = NPOS );
+//  	    append onto a Str the contents of (src), starting at position
+//  	    (srcStart), for (srcLen) number of characters..
+//
+//  	Str &
+//  	append( const SubStr & src,
+//  	    	size_t srcStart = 0,
+//  	    	size_t srcLen = NPOS );
+//  	    append onto a Str, the contents of a Substr (src), starting
+//  	    at position (srcStart) of (src), for (srcLen) number of
+//	    characters.
+//
+//  	Str &
+//  	append( size_t count, char src );
+//  	    append onto a Str, for (count) a character of (src).
+//  	    ie. ( 5, 'x' )  appends "xxxxx"
+//
+//  	Str &
+//  	append( char src );
+//  	    append onto a Str, a character (src).
+//
+//  	Str &
+//  	append( InputIterator first, InputIterator last );
+//
+//  assign
+//
+//  	Str &
+//  	assign( const char * src, size_t srcLen = NPOS );
+//  	    assign will overwrite the contents of a Str, with the contents
+//  	    of (src), starting at position 0, for (srcLen) characters.
+//
+//  	Str &
+//  	assign( const Str & src, size_t srcStart = 0, size_t srcLen = NPOS );
+//  	    assign will overwrite the contents of a Str, with the contents
+//  	    of (src), starting at (srcStart) for (srcLen) characters.
+//
+//  	Str &
+//  	assign( const SubStr & src,
+//  	    	size_t srcStart = 0,
+//  	    	size_t srcLen = NPOS );
+//  	    assign will overwrite the contents of a Str, with the contents
+//  	    of the SubStr (src) starting at position (srcStart), for
+//  	    (srcLen) characters.
+//
+//  	Str &
+//  	assign( size_t count, char src );
+//  	    assign will overwrite the contents of Str, by replicating
+//  	    (src) by (count) times.
+//
+//  	Str &
+//  	assign( char src );
+//  	    assign will overwrite the contents of Str, with the contents
+//  	    of src.
+//
+//  	Str &
+//  	assign( InputIterator first, InputIterator last );
+//
+//  insert
+//
+//      NOTE!!!
+//  	size_t before specifies the position at which the insert action
+//  	will occur, It should be noted that the value of zero (0) will allow
+//      insert to occur at the beginning of an Str
+//  	Str &
+//  	insert( size_t before, const char * src, size_t srcLen = NPOS );
+//  	    insert will modify Str, by inserting (srcLen) characters from
+//  	    (src) before position (before) in Str.
+//
+//  	Str &
+//  	insert( size_t before,
+//              const Str & src,
+//              size_t srcStart = 0,
+//              size_t srcLen = NPOS );
+//  	    insert will modify Str, by inserting (srcLen) characters,
+//  	    starting at (srcStart) from Str (src), into Str before
+//  	    (before).
+//  	
+//  	Str &
+//  	insert( size_t before,
+//  	    	const SubStr & src,
+//  	    	size_t srcStart = 0,
+//  	    	size_t srcLen = NPOS );
+//  	    insert will modify Str, by inserting (srcLen) characters,
+//  	    starting at (srcStart) from SubStr (src), into Str before
+//  	    position (before)
+//
+//  	Str &
+//  	insert( size_t before, size_t count, char src );
+//  	    insert will modify Str, by inserting the character (src),
+//          (count) number of times, before position (before) in Str.
+//  	    
+//
+//  	Str &
+//  	insert( size_t before, char src );
+//  	    insert will modify Str, by inserting the character (src)
+//  	    before position (before) in Str.
+//
+//  	Str &
+//  	insert( iterator before, InputIterator first, InputIterator last );
+//
+//  remove
+//
+//  	Str &
+//  	remove( size_t start, size_t len = NPOS );
+//  	    remove will modify Str, by removing (len) characters,
+//  	    starting at position (start) in Str. This will reduce the
+//  	    original length of Str by (len) characters.
+//
+//  	Str &
+//  	remove( iterator which );
+//
+//  	Str &
+//  	remove( iterator first, iterator last );
+//
+//  replacement
+//
+//  	Str &
+//  	replace( size_t start,
+//  	    	 size_t len,
+//  	    	 const char * src,
+//               size_t srcLen = NPOS );
+//  	    replace will modify Str, by replacing (srcLen) characters from
+//  	    (src) and replace these characters in the Str starting at
+//  	    position (start) for (len) number of characters.
+//
+//  	Str &
+//  	replace( size_t start, size_t len, size_t count, char src );
+//  	    replace will modify Str, by using character( src) replicated
+//  	    (count) times, and replacing in Str starting at position (start)
+//  	    for (len) number of characters. 
+//
+//  	Str &
+//  	replace( size_t start,
+//  	    	 size_t len,
+//  	    	 const Str & src,
+//  	    	 size_t srcStart = 0,
+//  	replace( size_t start,
+//  	    	 size_t len,
+//  	    	 const char * src,
+//               size_t srcLen = NPOS );
+//  	    replace will modify Str, by replacing (srcLen) characters from
+//  	    (src) and replace these characters in the Str starting at
+//  	    position (start) for (len) number of characters.
+//
+//  	Str &
+//  	replace( size_t start, size_t len, size_t count, char src );
+//  	    replace will modify Str, by using character( src) replicated
+//  	    (count) times, and replacing in Str starting at position (start)
+//  	    for (len) number of characters. 
+//
+//  	Str &
+//  	replace( size_t start,
+//  	    	 size_t len,
+//  	    	 const Str & src,
+//  	    	 size_t srcStart = 0,
+//  	    	 size_t srcLen = NPOS);
+//  	    replace will modify Str, starting at position (start) in Str,
+//  	    for (len) number of positions, with the characters starting at
+//  	    position (srcStart) of Str (src) for (srcLen) number of characters
+//
+//  	Str &
+//  	replace( size_t start,
+//  	    	 size_t len,
+//  	    	 const SubStr & src,
+//  	    	 size_t srcStart = 0,
+//  	    	 size_t srcLen = NPOS);
+//  	    replace will modify Str, starting at position (start) for (len)
+//  	    number of positions, with the characters from SubStr (src)
+//  	    starting at position (start) for (srcLen) number of characters
+//
+//  	Str &
+//  	replace( size_t start, size_t len, char src );
+//  	    replace will modify Str, starting at position (start) for (len)
+//  	    number of positions with character (src).
+//
+//  	NOTE!! WARNING.
+//  	    When using iterators and (last) is a NULL terminator, replacement
+//  	    will stop at (last -1).
+//
+//  	Str &
+//  	replace( iterator first,
+//  	    	 iterator last, 
+//  	    	 const Str & src,
+//  	    	 size_t srcStart = 0,
+//  	    	 size_t srcLen = NPOS );
+//  	    replace will modify Str, starting at position (first) in Str,
+//  	    ending at (last -1), with the characters starting at
+
+//  	    	 size_t srcLen = NPOS);
+//  	    replace will modify Str, starting at position (start) in Str,
+//  	    for (len) number of positions, with the characters starting at
+//  	    position (srcStart) of Str (src) for (srcLen) number of characters
+//
+//  	Str &
+//  	replace( size_t start,
+//  	    	 size_t len,
+//  	    	 const SubStr & src,
+//  	    	 size_t srcStart = 0,
+//  	    	 size_t srcLen = NPOS);
+//  	    replace will modify Str, starting at position (start) for (len)
+//  	    number of positions, with the characters from SubStr (src)
+//  	    starting at position (start) for (srcLen) number of characters
+//
+//  	Str &
+//  	replace( size_t start, size_t len, char src );
+//  	    replace will modify Str, starting at position (start) for (len)
+//  	    number of positions with character (src).
+//
+//  	NOTE!! WARNING.
+//  	    When using iterators and (last) is a NULL terminator, replacement
+//  	    will stop at (last -1).
+//
+//  	Str &
+//  	replace( iterator first,
+//  	    	 iterator last, 
+//  	    	 const Str & src,
+//  	    	 size_t srcStart = 0,
+//  	    	 size_t srcLen = NPOS );
+//  	    replace will modify Str, starting at position (first) in Str,
+//  	    ending at (last -1), with the characters starting at
+//  	    position (srcStart) of Str (src) for (srcLen) number of characters
+//
+//  	Str &
+//  	replace( iterator first,
+//  	    	 iterator last,
+//  	    	 const SubStr & src,
+//  	    	 size_t srcStart = 0,
+//  	    	 size_t srcLen = NPOS );
+//  	    replace will modify Str, starting at position (first) in Str
+//  	    ending at (last -1), with the characters from SubStr (src)
+//  	    starting at position (start) for (srcLen) number of characters
+//
+//  	Str &
+//  	replace( iterator first,
+//  	    	 iterator last,
+//  	    	 const char * src,
+//  	    	 size_t srcLen = NPOS );
+//  	    replace will modify Str, starting at position (first) in Str
+//  	    ending at (last -1), with (srcLen) number of characters from (src) 
+//
+//  	Str &
+//  	replace( iterator first,
+//  	    	 iterator last,
+//  	    	 InputIterator srcFirst,
+//  	    	 InputIterator srcLast );
+//
+//  iterators
+//
+//  	iterator
+//  	begin( void );
+//
+//  	iterator
+//  	end( void );
+//
+//  	const_iterator
+//  	begin( void ) const;
+//
+//  	const_iterator
+//  	end( void ) const;
+//
+//  	reverse_iterator
+//  	rbegin( void );
+//
+//  	reverse_iterator
+//  	rend( void );
+//
+//  	const_reverse_iterator
+//  	rbegin( void ) const;
+//
+//  	const_reverse_iterator
+//  	rend( void ) const;
+//
+//  compare
+//
+//  	compare will return values of
+//  	0 (zero) is the compare is true.
+//  	- (negative) value
+//  	+ (positive) value
+//
+//  	int
+//  	compare( const Str & two,
+//  	    	 size_t start = 0,
+//  	    	 size_t len = NPOS ) const;
+//  	    compares Str (one), starting at position (start) for (len)
+//  	    number of positions of Str (two).
+//
+//  	int
+//  	compare( const SubStr & two,
+//  	    	 size_t start = 0,
+//  	    	 size_t len = NPOS ) const;
+//  	    compares Str (one), starting at position (start) for (len)
+//  	    number of positions of SubStr (two).
+//
+//  	int
+//  	compare( const char * two,
+//  	    	 size_t start = 0,
+//  	    	 size_t len = NPOS ) const;
+//  	    compares Str (one), starting at position (start) for (len)
+//  	    number of positions of (two).
+//
+//  	friend int
+//  	compare( const SubStr & one,
+//  	    	 size_t start = 0,
+//  	    	 size_t len = Str::npos );
+//
+//  	friend int
+//  	compare( const char * one,
+//  	    	 const Str & two,
+//  	    	 size_t len = Str::npos );
+//
+//  	NOTE!! fcompare
+//  	    fcompare is a NON CASE sensitive compare.
+//
+//  	int
+//  	fcompare( const Str & two,
+//  	    	  size_t start = 0,
+//  	    	  size_t len = NPOS ) const; 	    
+//  	    compares Str (one), starting at position (start) for (len)
+//  	    number of positions of Str (two).
+//
+//  	int
+//  	fcompare( const SubStr & two,
+//  	    	  size_t start = 0,
+//  	    	  size_t len = NPOS ) const;
+//  	    compares Str (one), starting at position (start) for (len)
+//  	    number of positions of SubStr (two).
+//
+//  	int
+//  	fcompare( const char * two,
+//  	    	  size_t start = 0,
+//  	    	  size_t len = NPOS ) const;
+//  	    compares Str (one), starting at position (start) for (len)
+//  	    number of positions of (two).
+//
+//  	friend int
+//  	fcompare( const SubStr & one,
+//  	    	  size_t start = 0,
+//  	    	  size_t len = Str::npos );
+//
+//  	friend int
+//  	fcompare( const char * one,
+//  	    	  const Str & two,
+//  	    	  size_t len = Str::npos );
+//
+//  substring
+//
+//  	char &
+//  	at( size_t index );
+//  	    return the character at position (index) in an Str.
+//
+//  	char
+//  	at( size_t index ) const;
+//  	    return the character at position (index) in an Str
+//
+//  	SubStr
+//  	substr( size_t start = 0, size_t len = npos );
+//  	    return a Substr of the contents of a Str starting at position
+//  	    (start) for (len) number of positions.
+//
+//  	const SubStr
+//  	substr( size_t start = 0, size_t len = npos ) const;
+//  	    return a Substr of the contents of a Str starting at position
+//  	    (start) for (len) number of positions.
+//
+//  	SubStr
+//  	at( size_t start, size_t len );
+//  	    return a Substr of the contents of a Str starting at position
+//  	    (start) for (len) number of positions.
+//  	    
+//  	const SubStr
+//  	at( size_t start, size_t len ) const;
+//  	    return a Substr of the contents of a Str starting at position
+//  	    (start) for (len) number of positions.
+//
+//  	SubStr
+//  	at( const char * pat,size_t start = 0, size_t len = npos );
+//  	    return a SubStr of a Str, where a pattern (pat) occured starting
+//  	    at position (start) for (len) number of positions of the Str.
+//
+//  	const SubStr
+//  	at( const char * pat,size_t start = 0, size_t len = npos ) const;
+//  	    return a SubStr of a Str, where a pattern (pat) occured starting
+//  	    at position (start) for (len) number of positions of the Str.
+//
+//  	SubStr
+//  	at( const RegexScan & pat, size_t start = 0 );
+//
+//  	const SubStr
+//  	at( const RegexScan & pat, size_t start = 0 ) const;
+//
+//  	SubStr
+//  	at( const Str & pat, size_t start = 0 );
+//
+//  	const SubStr
+//  	at( const Str & pat, size_t start = 0 ) const;
+//  	    return a SubStr of a Str, where a pattern (pat) occured starting
+//  	    at position (start) of the Str.
+//
+//  	SubStr
+//  	at( const SubStr & pat, size_t start = 0 );
+//  	    return a SubStr of a Str, where a pattern (pat) occured starting
+//  	    at position (start) of the Str.
+//
+//  	const SubStr
+//  	at( const SubStr & pat, size_t start = 0 ) const;
+//  	    return a SubStr of a Str, where a pattern (pat) occured starting
+//  	    at position (start) of the Str.
+//
+//      SubStr
+//  	before( size_t end );
+//  	    creates a SubStr of all characters of a string from position
+//  	    (0) upto but not including position (end),
+//
+//  	const SubStr
+//  	before( size_t end ) const;
+//  	    creates a SubStr of all characters of a string from position
+//  	    (0) upto but not including position (end),
+//
+//      SubStr
+//  	after( size_t start );
+//  	    creates a SubStr of all characters of a string from position
+//  	    (start) to the end of the String
+//
+//  	const SubStr
+//  	after( size_t start ) const;
+//  	    creates a SubStr of all characters of a string from position
+//  	    (start) to the end of the string(Str),
+//
+//  searching
+//
+//  	size_t
+//  	find( const Str & pat, size_t start = 0 )const;
+//  	    return the position in an Str, where the pattern (pat)
+//  	    first occurs starting at position (start) of the Str.
+//
+//  	size_t
+//  	find( const SubStr & pat, size_t start = 0 )const;
+//  	    return the position in a Str, where the pattern (pat)
+//  	    first occurs starting at position (start) of the Str.
+//
+//  	size_t
+//  	find( const RegexScan & exp, size_t start = 0 )const;
+//
+//  	size_t
+//  	find( const char * pat, size_t start =0, size_t patLen = npos )const;
+//  	    return the position in a Str, where the pattern (pat) of
+//  	    length (patLen)  first occured in Str, starting at position
+//  	    (start) of the Str.
+//
+//  	size_t
+//  	find( char c, size_t start =0 )const;
+//  	    return the position in an Str, where the character (c)
+//  	    first occurs starting at position (start) of the Str.
+//
+//  	size_t
+//  	rfind( const Str & s, size_t end = npos )const;
+//  	    return the position in an Str, where the Str (s)
+//  	    first occurs starting at position (end) of the Str and
+//  	    ending at position (0).
+//
+//  	size_t
+//  	rfind( const SubStr & s, size_t end = npos )const;
+//  	    return the position in an Str, where the SubStr (s)
+//  	    first occurs starting at position (end) of the Str and
+//  	    ending at position (0).
+//
+//  	size_t
+//  	rfind( const char * s, size_t end = npos, size_t sLen = npos )const;
+//  	    return the position in an Str, where char (s) of length (sLen)
+//  	    first occurs starting at position (end) of the Str and
+//  	    ending at position (0).
+//
+//  	size_t
+//  	rfind( char c, size_t end = npos )const;
+//  	    return the position in an Str, where the character (c)
+//  	    first occurs starting at position (end) of the Str and
+//  	    ending at position (0).
+//
+//  fold
+//
+//  	NOTE!!!
+//  	    when using (fold) it is NOT case sensitive.
+//
+//  	size_t
+//  	ffind( const Str & s, size_t start = 0 ) const;
+//  	    return the position in an Str, where the Str (s)
+//  	    first occurs starting at position (start) of the Str.
+//
+//  	size_t
+//  	ffind( const SubStr & s, size_t start = 0 ) const;
+//  	    return the position in an Str, where the SubStr (s)
+//  	    first occurs starting at position (start) of the Str.
+//
+//  	size_t
+//  	ffind( const char * s, size_t start = 0, size_t sLen = npos ) const;
+//  	    return the position in an Str, where the char (s) of length (sLen)
+//  	    first occurs starting at position (start) of the Str.
+//
+//  	size_t
+//  	ffind( char c, size_t start = 0 ) const;
+//  	    return the position in an Str, where the character (c)
+//  	    first occurs starting at position (start) of the Str.
+//
+//  	size_t
+//  	rffind( const Str & s, size_t end = npos ) const;
+//  	    return the position in an Str, where the Str (s)
+//  	    first occurs starting at position (end) of the Str and
+//  	    ending at position (0).
+//
+//  	size_t
+//  	rffind( const SubStr & s, size_t end = npos ) const;
+//  	    return the position in an Str, where the SubStr (s)
+//  	    first occurs starting at position (end) of the Str and
+//  	    ending at position (0).
+//
+//  	size_t
+//  	rffind( const char * s, size_t end = npos, size_t sLen = npos ) const;
+//  	    return the position in an Str, where the char (c) of length (sLen)
+//  	    first occurs starting at position (end) of the Str and
+//  	    ending at position (0).
+//
+//  	size_t
+//  	rffind( char c, size_t end = npos ) const;
+//  	    return the position in an Str, where the character (c)
+//  	    first occurs starting at position (end) of the Str and
+//  	    ending at position (0).
+//
+//  	size_t
+//  	find_first_of( const Str & s, size_t start = 0 ) const;
+//  	    return the position in a Str, where any character in the Str (s)
+//  	    first occurs starting at position (start) of the Str.
+//
+//  	size_t
+//  	find_first_of( const SubStr & s, size_t start = 0 ) const;
+//  	    return the position in an Str, where  any character in SubStr (s)
+//  	    first occurs starting at position (start) of the Str.
+//
+//  	size_t
+//  	find_first_of( const char * s,
+//  	    	       size_t start = 0,
+//  	    	       size_t sLen = npos ) const;
+//  	    return the position in an Str, where any character in the char (s)
+//          of length (sLen) first occurs starting at position
+//          (start) of the Str.
+//
+//  	size_t
+//  	find_last_of( const Str & s, size_t end = npos ) const;
+//  	    return the position in an Str, where any character in the Str (s)
+//  	    last occurs starting at position (end) of the Str.
+//
+//  	size_t
+//  	find_last_of( const SubStr & s, size_t end = npos ) const;
+//  	    return the position in an Str, where any character the SubStr (s)
+//  	    last occurs starting at position (end) of the Str.
+//
+//  	size_t
+//  	find_last_of( const char * s,
+//  	    	      size_t end = npos,
+//  	    	      size_t sLen = npos ) const;
+//  	    return the position in an Str, where any character in the char (s)
+//          of length (sLen) last occurs starting at position (end) of the Str.
+//  	    and checking Str in reverse order.
+//
+//  	size_t
+//  	find_first_not_of( const Str & s, size_t start = 0 ) const;
+//  	    return the position in a Str, where any character in the Str (s)
+//  	    does not occur starting at position (start) of the Str.
+//
+//  	size_t
+//  	find_first_not_of( const SubStr & s, size_t start = 0 ) const;
+//  	    return the position in an Str, where  any character in SubStr (s)
+//  	    does not occur starting at position (start) of the Str.
+//
+//  	size_t
+//  	find_first_not_of( const char * s,
+//  	    	    	   size_t start = 0,
+//  	    	    	   size_t sLen = npos ) const;
+//  	    return the position in an Str, where any character in the char (s)
+//          of length (sLen) does not occurs starting at position
+//          (start) of the Str.
+//
+//  	size_t
+//  	find_last_not_of( const Str & s, size_t end = npos ) const;
+//  	    return the position in a Str, where any character in the Str (s)
+//  	    does not occur starting at position (end) of the Str.
+//  	    and moving towards the position (0)
+//
+//  	size_t
+//  	find_last_not_of( const SubStr & s, size_t end = npos ) const;
+//  	    return the position in a Str, where any character in the SubStr (s)
+//  	    does not occur starting at position (end) of the Str.
+//  	    and moving towards the position (0)
+//
+//  	size_t
+//  	find_last_not_of( const char * s,
+//  	    	    	  size_t end = npos,
+//  	    	    	  size_t sLen = npos ) const;
+//  	    return the position in a Str, where any character in char (s) of
+//  	    length (slen) does not occur starting at position (end) of the Str.
+//  	    and moving towards the position (0)
+//
+//  converters
+//
+//  	Str &
+//  	from( int src, unsigned short base = 0 );
+//  	    return an Str whose characters represent the value of (src)
+//
+//  	Str &
+//  	from( short src, unsigned short base = 0 );
+//  	    return an Str whose characters represent the value of (src)
+//
+//  	Str &
+//  	from( long src, unsigned short base = 0 );
+//  	    return an Str whose characters represent the value of (src)
+//
+//  	Str &
+//  	from( unsigned int src,  unsigned short base = 0 );
+//  	    return an Str whose characters represent the value of (src)
+//
+//  	Str &
+//  	from( unsigned short, unsigned short base = 0 );
+//  	    return an Str whose characters represent the value of (src)
+//
+//  	Str &
+//  	from( unsigned long, unsigned short base = 0 );
+//  	    return an Str whose characters represent the value of (src)
+//
+//  	bool
+//  	to( int & dest, unsigned short base = 0 ) const;
+//  	    return a bool value(0) if a Str could convert to an int (dest)
+//
+//  	bool
+//  	to( short & dest, unsigned short base = 0 ) const;
+//  	    return a bool value(0) if a Str could convert to a short (dest)
+//
+//  	bool
+//  	to( long & dest, unsigned short base = 0 ) const;
+//  	    return a bool value(0) if a Str could convert to a long (dest)
+//
+//  	bool
+//  	to( double & dest, unsigned short base = 0 ) const;
+//  	    return a bool value(0) if a Str could convert to a double (dest)
+//
+//  	bool
+//  	to( unsigned int & dest, unsigned short base = 0 ) const;
+//  	    return a bool value(0) if a Str could convert to an unsigned
+//  	    int (dest)
+//
+//  	bool
+//  	to( unsigned short & dest, unsigned short base = 0 ) const;
+//  	    return a bool value(0) if a Str could convert to an unsigned
+//  	    short (dest)
+//
+//  	bool
+//  	to( unsigned long & dest, unsigned short base = 0 ) const;
+//  	    return a bool value(0) if a Str could convert to an unsigned
+//  	    long (dest)
+//
+//  	bool
+//  	toBool( void ) const;
+//
+//  	int
+//  	toInt( unsigned short base = 0) const;
+//  	    return an int from a Str
+//
+//  	long
+//  	toLong( unsigned short base = 0) const;
+//  	    return a long from a Str
+//
+//  	double
+//  	toDouble( unsigned short base = 0) const;
+//  	    return a double from a Str
+//
+//  	unsigned int
+//  	toUInt( unsigned short base = 0) const;
+//  	    return an unsigned int from a Str
+//
+//  	unsigned long
+//  	toULong( unsigned short base = 0) const;
+//  	    return an unsigned long from a Str
+//
+//  modifications
+//
+//  	void
+//  	upcase( void );
+//  	    convert lowercase characters to uppercase in a Str.
+//
+//  	void
+//  	downcase( void );
+//  	    convert uppercase to lowercase in a Str
+//
+//  	void
+//  	capitalize( void );
+//  	    capitalize each word within a Str.
+//
+//  	size_t
+//  	strip( const char * stripChars );
+//  	    strip all characters in Str that match the characters contained
+//  	    in (stripChars) and return the number of characters removed.
+//
+//  	size_t
+//  	stripLeading( const char * stripChars );
+//  	    starting a position (0) in a Str, strip out any characters
+//  	    that are contained in (stripChars) until a character is encounter
+//  	    that is NOt contained in (stripChars), return the number of
+//  	    characters removed.
+//
+//  	size
+//  	stripTrailing( const char * strinpChars );
+//  	    starting at the last character in a Str, remove any character that
+//  	    matches a character contained in (strinpChars). When a character
+//  	    is encounter not in (strinpChars) it will stop, and return
+//  	    the number of characters removed.
+//
+//  	size_t
+//  	stripEnds( const char * stripChars = " \t\n\r\f\v" );
+//  	    remove any character at the begining or end of a Str that
+//  	    matches those contained in (stripChars). when a character is
+//  	    encountered that does not match those in (stripChars) stop.
+//  	    return the number of characters removed.
+//
+//      Str &
+//  	substitute( char from,
+//  	    	    char to,
+//  	    	    size_t start = 0,
+//  	    	    bool global = true );
+//  	    Substitute in a Str starting at position (start) any
+//  	    occurance of (from) with (to) while (global = true)
+//
+//  	Str &
+//  	substitute( const char * from,
+//  	    	    const char * to,
+//  	    	    size_t start = 0,
+//  	    	    bool global = true );
+//  	    substitute in a Str starting at position (start) any occurance
+//  	    of (from) with (to) while (global = true ).
+//
+//  	Str &
+//  	substitute( const RegexScan & exp,
+//                  const char * to,
+//                  size_t start = 0,
+//                  bool global = true );
+//  	    substitute in a Str starting a position(start) any occurance
+//  	    of (exp) with (to) while(global = true).
+//
+//  	size_t
+//  	wrap( size_t width = 72, long pad = -1, long firstPad = -1 )
+//     	    wrap will reformat a string by inserting( firstPad) white spaces
+//  	    at the begining of an Str, insert a newline between words where
+//  	    they would extend beyond (width), and insert (pad) white spaces
+//  	    after each newline.
+//
+//  scan
+//
+//  	size_t
+//  	scan( const RegexScan & exp, size_t start = 0 );
+//
+//  	size_t
+//  	scan( const Str & delimCharts, size_t start = 0 );
+//
+//  	size_t
+//  	scan( const SubStr & delimChars, size_t start = 0 );
+//
+//  	size_t
+//  	scan( const char * delimChars, size_t start = 0, size_t dLen = npos );
+//
+//  	size_t
+//  	scan( char delim, size_t start = 0 );
+//
+//  	size_t
+//  	scanPattern( const RegexScan & delimExp, size_t start = 0 );
+//
+//  	size_t
+//  	scanString( const Str & delimStr, size_t start = 0 );
+//
+//  	size_t
+//  	scanString( const SubStr & delimStr, size_t start = 0 );
+//
+//  	size_t
+//  	scanString( const char * dStr, size_t start = 0, size dLen = npos );
+//
+//  scan support
+//
+//  	size_t
+//  	scanMatchCount( void ) const;
+//
+//  	SubStr
+//  	scanMatch( size_t scanNum = 0 );
+//
+//  	size_t
+//  	scanMatch( Str & dest, size_t scanNum = 0 ) const;
+//
+//  	size_t
+//  	scanMatchStart( size_t scanNum = 0 ) const;
+//
+//  	size_t
+//  	scanMatchLength( size_t scanNum = 0 ) const;
+//
+//  io helpers
+//
+//  	friend ostream & operator << ( ostream & dest, const Str & str );
+//
+//  	friend istream & operator >> ( istream & src, Str & dest );
+//
+//  	istream &
+//  	getline( istream & src );
+//
+//  	istream &
+//  	getDelim( istream & src, const char * delimChars, bool discard = true );
+//
+//  	istream &
+//  	getDelim( istream & src, char delim, bool discard = true );
+//
+//  	size_t
+//  	getStreamSize( void ) const;
+//
+//  	ostream &
+//  	write( ostream & dest ) const;
+//
+//  	istream &
+//  	read( istream & src );
+//
+//  operators
+//  NOTE All operators require a NULL terminated string
+//
+//  	operator const char * ( void ) const;
+//
+//  	char &
+//  	operator [] ( size_t index );
+//
+//  	char
+//  	operator [] ( size_t index ) const;
+//
+//  	SubStr
+//  	operator () ( size_t start, size_t len );
+//
+//  	const SubStr
+//  	operator () ( size_t start, size_t len ) const;
+//
+//  	Str &
+//  	operator = ( const Str & src );
+//  	    operator = acts like assign. it will copy the characters in (src)
+//  	    into an Str.
+//
+//  	Str &
+//  	operator = ( const SubStr & src );
+//  	    operator = acts like assign. it will copy the characters in (src)
+//  	    into an Str.
+//
+//  	Str &
+//  	operator = ( const char * src );
+//  	    operator = acts like assign. it will copy the characters in (src)
+//  	    into an Str.
+//
+//  	Str &
+//  	operator = ( char src );
+//  	    operator = acts like assign. it will copy the character in (src)
+//  	    into an Str.
+//
+//  	Str &
+//  	operator += ( const Str & src );
+//  	    operator += acts like append. It will add to the end of a Str
+//  	    the contents of (src).
+//
+//  	Str &
+//  	operator += ( const SubStr & src );
+//  	    operator += acts like append. It will add to the end of a Str
+//  	    the contents of a SubStr (src) according to the arguments
+//  	    specified for the SubStr.
+//
+//  	Str &
+//  	operator += ( const char * src );
+//  	    operator += acts like an append. It will add to the end of a Str
+//  	    the contents of (src).
+//
+//  	Str &
+//  	operator += ( char src );
+//  	    operator += acts like and append. It will add to the end of a Str
+//  	    (src).
+//
+//  	bool
+//  	operator == ( const Str & two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator == ( const SubStr & two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator == ( const char * two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator < ( const Str & two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator < ( const SubStr & two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator < ( const char * two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator != ( const SubStr & two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator != ( const char * two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator > ( const SubStr & two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator > ( const char * two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator <= ( const SubStr & two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator <= ( const char * two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator >= ( const SubStr & two ) const;
+//  	    operator == acts like a compare.
+//
+//  	bool
+//  	operator >= ( const char * two ) const;
+//  	    operator == acts like a compare.
+//
+//  	virtual ostream &
+//  	toStream( ostream & dest = cout ) const;
+//
+//  	virtual ostream &
+//  	dumpInfo( ostream & dest = cerr ) const;
 //
 //  	virtual const char *
 //  	getClassName( void ) const;
