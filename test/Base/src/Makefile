@@ -145,7 +145,7 @@ PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
 DEFAULT_LD_LIBS		= -lStlUtils -lCommon $(ARCH_DEFAULT_LIBS)
-DEBUG_LD_LIBS		= -lStlUtils_g -lCommon_g $(ARCH_DEBUG_LIBS) -lg
+DEBUG_LD_LIBS		= -lStlUtils_g -lCommon_g $(ARCH_DEBUG_LIBS)
 PROFILE_LD_LIBS		= -lStlUtils_pg -lCommon_pg $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= -lStlUtils -lCommon $(DEFAULT_LD_LIBS)
 
@@ -188,6 +188,7 @@ CXX_C_SOURCES	=			\
 	tStringFrom.C			\
 	tStringFirstNotOf.C		\
 	tbasename.C                     \
+	tMfNumTo.C			\
 	tSafeStrcpy.C			\
 	tCharToInt.C			\
 	tCharIsBaseDigit.C		\
@@ -371,6 +372,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.2  1997/12/19 12:52:44  houghton
+# Added tMfNumTo.C
+#
 # Revision 4.1  1997/09/17 15:13:59  houghton
 # Changed to Version 4
 #
