@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:44  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:26:34  houghton
 // Changed to Release 3
 //
@@ -19,7 +22,7 @@
 // Change to Version 2
 //
 // Revision 1.1  1995/02/13  16:12:06  houghton
-// Initial libClue test - This has a long way to go.
+// Initial libStlUtils test - This has a long way to go.
 //
 //
 static const char * RcsId =

@@ -2,7 +2,7 @@
 #define _LogBuf_ii_
 //
 // File:        LogBuf.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Definitions for LogBuf inline functions.
@@ -17,7 +17,7 @@
 
 #include <RegexScan.hh>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -184,6 +184,9 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/09/17 11:08:31  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.7  1997/05/02 12:16:54  houghton
 // Changed all LogLevel::Level args to const & to avoid copy constructor calls.
 //
@@ -244,7 +247,7 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 //   at the bottom.
 //
 // Revision 2.2  1995/12/04 11:17:24  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:46  houghton
 // Change to Version 2

@@ -1,6 +1,6 @@
 //
 // File:        StringTo.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //	bool
@@ -199,7 +199,7 @@
 #include <cstring>
 #include <cctype>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   StringTo,
   "$Id$" );
 
@@ -658,6 +658,9 @@ StringToTm( const char * src, const char * fmt )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:53  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1996/11/25 10:14:01  houghton
 // Added StringTo( struct & tm dest, const char * src, const char * fmt )
 // Added StringToTm( const char * src, const char * fmt

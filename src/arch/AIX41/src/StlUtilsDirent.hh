@@ -1,8 +1,8 @@
-#ifndef _ClueDirent_hh_
-#define _ClueDirent_hh_
+#ifndef _StlUtilsDirent_hh_
+#define _StlUtilsDirent_hh_
 //
-// File:        ClueDirent.hh
-// Project:	Clue
+// File:        StlUtilsDirent.hh
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -27,6 +27,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:08  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/07/25 12:26:14  houghton
 // Changed version number to 3.
 //
@@ -34,5 +37,5 @@
 // Initial Version.
 //
 //
-#endif // ! def _ClueDirent_hh_ 
+#endif // ! def _StlUtilsDirent_hh_ 
 

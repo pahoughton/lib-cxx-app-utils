@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:14  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/08/24 21:55:11  houghton
 // Changed getDayOfWeek to return a 'DayOfWeek' (was int).
 //
@@ -16,13 +19,13 @@
 // Changed to Release 3
 //
 // Revision 2.4  1996/11/06 18:04:09  houghton
-// Clue.hh renamed to ClueUtils.hh
+// StlUtils.hh renamed to StlUtilsUtils.hh
 //
 // Revision 2.3  1996/04/27 12:57:24  houghton
 // Removed unneeded includes.
 //
 // Revision 2.2  1995/12/04 11:17:19  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:28  houghton
 // Change to Version 2
@@ -32,29 +35,29 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include "DateRangeWeekly.hh"
 #include "DateTimeUtils.hh"
-#include "ClueUtils.hh"
+#include "StlUtilsUtils.hh"
 #include "Str.hh"
 #include <iomanip>
 #else
 #include "DateRgWk.hh"
 #include "DtTmUtil.hh"
-#include "Clue.hh"
+#include "StlUtils.hh"
 #include "Str.hh"
 #include <iomanip>
 #endif
 
-#if defined( CLUE_DEBUG )
-#if !defined( CLUE_SHORT_FN )
+#if defined( STLUTILS_DEBUG )
+#if !defined( STLUTILS_SHORT_FN )
 #include "DateRangeWeekly.ii"
 #else
 #include "DateRgWk.ii"
 #endif
-#endif // def( CLUE_DEBUG )
+#endif // def( STLUTILS_DEBUG )
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   DateRangeWeekly,
   "$Id$" );
 

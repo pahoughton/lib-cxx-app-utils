@@ -1,4 +1,4 @@
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <Common.h>
 #include <TestConfig.hh>
 #include <LibTest.hh>

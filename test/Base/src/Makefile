@@ -1,4 +1,4 @@
-# -*- makefile -*- for tClue
+# -*- makefile -*- for tStlUtils
 #
 # Created: 4/28/96 using MakeConfigs 5.01.00.a.03
 #
@@ -64,9 +64,9 @@ SRC_DEFINES	= -DTEST_DATA_DIR=\"$(TEST_DATA_DIR)\" 	\
 PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFAULT_DEFINES = -DTEST_DEFAULT=1
-DEBUG_DEFINES	= -DTEST_DEBUG=1 -DCLUE_DEBUG=1
-PROFILE_DEFINES	= -DTCLUE_PROFILE=1
-STATIC_DEFINES	= -DTCLUE_STATIC=1
+DEBUG_DEFINES	= -DTEST_DEBUG=1 -DSTLUTILS_DEBUG=1
+PROFILE_DEFINES	= -DTSTLUTILS_PROFILE=1
+STATIC_DEFINES	= -DTSTLUTILS_STATIC=1
 
 ######  I N C L U D E S #####
 #
@@ -80,8 +80,8 @@ SRC_INC		= $(ARCH_INC) -I.
 PRJ_INC		= $($($(make_target))_PRJ_INC) -I$(beta_incdir)
 
 DEFAULT_PRJ_INC	= 
-DEBUG_PRJ_INC	= $(CLUE_SRC_INC)
-PROFILE_PRJ_INC = $(CLUE_SRC_INC)
+DEBUG_PRJ_INC	= $(STLUTILS_SRC_INC)
+PROFILE_PRJ_INC = $(STLUTILS_SRC_INC)
 STATIC_PRJ_INC	= 
 
 # Any other cpp flags to use on for all targets
@@ -140,19 +140,19 @@ PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
 DEFAULT_LD_LIBDIRS	= -L$(beta_libdir)
-DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) $(DEFAULT_LD_LIBDIRS)
+DEBUG_LD_LIBDIRS	= $(STLUTILS_SRC_LDIR) $(DEFAULT_LD_LIBDIRS)
 PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue -lCommon $(ARCH_DEFAULT_LIBS)
-DEBUG_LD_LIBS		= -lClue_g -lCommon_g $(ARCH_DEBUG_LIBS)
-PROFILE_LD_LIBS		= -lClue_pg -lCommon_pg $(DEFAULT_LD_LIBS)
-STATIC_LD_LIBS		= -lClue -lCommon $(DEFAULT_LD_LIBS)
+DEFAULT_LD_LIBS		= -lStlUtils -lCommon $(ARCH_DEFAULT_LIBS)
+DEBUG_LD_LIBS		= -lStlUtils_g -lCommon_g $(ARCH_DEBUG_LIBS) -lg
+PROFILE_LD_LIBS		= -lStlUtils_pg -lCommon_pg $(DEFAULT_LD_LIBS)
+STATIC_LD_LIBS		= -lStlUtils -lCommon $(DEFAULT_LD_LIBS)
 
 # DEP_LIBS - rebuild target if DEP_LIBS newer than target
 
 DEFAULT_DEP_LIBS	=
-DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/Clue/libClue_g.a
+DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/StlUtils/libStlUtils_g.a
 PROFILE_DEP_LIBS	=
 STATIC_DEP_LIBS		=
 
@@ -279,7 +279,7 @@ CXX_C_SOURCES	=			\
 CXX_HEADERS	=			\
 	AppParam.hh                     \
 	AvlTestData.hh                  \
-	ClueTest.hh                     \
+	StlUtilsTest.hh                     \
 	DavlTestData.hh                 \
 	StaticBinStream.hh              \
 	StaticStream.hh                 \
@@ -316,7 +316,7 @@ test: test_data default
 	 LD_LIBRARY_PATH=$(beta_libdir) $(NAME) $(TEST)
 
 test_debug: test_data debug
-	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:$(beta_libdir) \
+	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/StlUtils:$(beta_libdir) \
 	  $(NAME)_g $(TEST)
 
 test_data: 
@@ -371,6 +371,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.11  1997/09/17 11:09:32  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.10  1997/08/18 10:33:29  houghton
 # Changed to use MakeConfigs 5.02.
 #

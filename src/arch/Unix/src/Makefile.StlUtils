@@ -1,5 +1,5 @@
 #
-# -*- Makefile -*- for libClue src/arc/Unix
+# -*- Makefile -*- for libStlUtils src/arc/Unix
 #
 # Created 11/20/95
 #
@@ -67,6 +67,9 @@ $(UNIX_DIR)/SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 
 #
 # $Log$
+# Revision 3.9  1997/09/17 11:09:22  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.8  1997/09/16 11:27:44  houghton
 # Added Whence.C
 # Added FileLock.C

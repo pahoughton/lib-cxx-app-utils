@@ -1,6 +1,6 @@
 //
 // File:        tLog07.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test the following Log methods
@@ -334,6 +334,9 @@ tLog07( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:52  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/19 12:35:50  houghton
 // Changed include strstream to include strstream.h because strstream
 //     is not part of the standard.

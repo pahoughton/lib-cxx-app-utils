@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:49  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:23:42  houghton
 // Changed to Release 3
 //
@@ -30,15 +33,15 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#if !defined( STLUTILS_SHORT_FN )
+#include <StlUtilsConfig.hh>
 #include <Str.hh>
 #else
-#include <ClueCfg.hh>
+#include <StlUtilsCfg.hh>
 #include <Str.hh>
 #endif
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -49,15 +52,15 @@ public:
 
   static const char DirDelim;
   
-  inline FilePath( char dirDelim = CLUE_DIR_DELIM, char extDelim = '.' );
+  inline FilePath( char dirDelim = STLUTILS_DIR_DELIM, char extDelim = '.' );
 
   inline FilePath( const char *	fullName,
-		   char		dirDelim = CLUE_DIR_DELIM,
+		   char		dirDelim = STLUTILS_DIR_DELIM,
 		   char		extDelim = '.' );
   
   inline FilePath( const char * dirName,
 		   const char * fileName,
-		   char    	dirDelim = CLUE_DIR_DELIM,
+		   char    	dirDelim = STLUTILS_DIR_DELIM,
 		   char    	extDelim = '.' );
 
   inline FilePath( const FilePath & from );

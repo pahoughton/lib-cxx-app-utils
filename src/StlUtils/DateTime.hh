@@ -2,7 +2,7 @@
 #define _DateTime_hh_
 //
 // File:        DateTime.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  The DateTime class provides many methods for managing and converting
@@ -29,26 +29,26 @@
 //  $Id$
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <DateTimeUtils.hh>
 #include <DumpInfo.hh>
 #include <ctime>
 
-#if !defined( CLUE_HAS_STRPTIME )
+#if !defined( STLUTILS_HAS_STRPTIME )
 extern "C"
 char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 strptime( char * b, const char * fmt, struct tm * t );
 #endif
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
 class RegexScan;
 
-class CLUE_CLASS_T DateTime
+class STLUTILS_CLASS_T DateTime
 {
 public:
 
@@ -149,7 +149,7 @@ public:
   inline time_t	operator -  ( const DateTime & rhs ) const;
   inline time_t operator -  ( const time_t rhs ) const;
   
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
   
   virtual size_t    	getBinSize( void ) const;
   
@@ -672,6 +672,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:08:16  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/08/28 21:20:23  houghton
 // Changed operator == and operator < to return 'bool'.
 // Added operator - .

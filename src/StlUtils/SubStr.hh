@@ -2,7 +2,7 @@
 #define _SubStr_hh_
 //
 // File:        SubStr.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	A 'SubStr' is a section of a 'Str'. Any modifications to
@@ -22,12 +22,12 @@
 //  $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <stddef.h>
 #include <iostream>
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -139,7 +139,7 @@ public:
   inline bool       operator >= ( const Str & rhs ) const;
   inline bool       operator >= ( const char * rhs ) const;
   
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
 
   size_t	    getBinSize( void ) const;
 
@@ -182,7 +182,7 @@ private:
 
 // These are the global functions that are defined in the .ii
 // file. They are declared here so their prototypes will
-// be available when CLUE_DEBUG is defined.
+// be available when STLUTILS_DEBUG is defined.
 
 int
 compare( const SubStr & one,
@@ -438,6 +438,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:08:56  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/08/28 16:33:07  houghton
 // Bug-Fix: changed toStream to virtual (was inline) and added support
 //     for setw(n) (the width was being ignored).

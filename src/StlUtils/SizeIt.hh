@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:41  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/04/03 23:23:20  houghton
 // Changed include stddef to stddef.h
 //
@@ -27,15 +30,15 @@
 //
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <iostream>
 #include <stddef.h>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
-#define CLUE_SIZEIT_SIZE    8
+#define STLUTILS_SIZEIT_SIZE    8
 
 class SizeIt
 {

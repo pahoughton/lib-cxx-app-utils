@@ -1,4 +1,4 @@
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
@@ -148,7 +148,7 @@ tStr25( LibTest & tester )
     // ::getline( istream &, Str &, char )
     
     Str t( T1 T2 );
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/getline.Str.input";
 #else
     const char * fn = TEST_DATA_DIR "/glstr.in";

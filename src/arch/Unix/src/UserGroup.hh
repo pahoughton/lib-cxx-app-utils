@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:29  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/03/03 14:38:22  houghton
 // Removed support for RW Tools++.
 //
@@ -28,7 +31,7 @@
 //   change so the effective() method just returns a new 'UserGroup'
 //
 // Revision 2.2  1995/12/04 11:20:22  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:46:58  houghton
 // Change to Version 2
@@ -38,7 +41,7 @@
 //
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <Str.hh>
 #include <set>
 #include <functional>
@@ -46,7 +49,7 @@
 #include <unistd.h>
 #include <grp.h>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -94,7 +97,7 @@ public:
   inline   	    operator const char * ( void ) const;
   inline   	    operator gid_t ( void ) const;
 
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
   // note: write/read only stores the GID
   
   virtual size_t	getBinSize( void ) const;
@@ -131,7 +134,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <UserGroup.ii>
 #else
 #include <UserGrp.ii>

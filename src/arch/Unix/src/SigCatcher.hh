@@ -2,7 +2,7 @@
 #define _SigCatcher_hh_
 //
 // File:        SigCatcher.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Catch signals.
@@ -21,13 +21,13 @@
 //  $Id$
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <vector>
 #include <deque>
 #include <iostream>
 #include <ctime>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -217,6 +217,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:09:24  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/08/08 13:26:14  houghton
 // Added name() to return the name of the signal.
 //

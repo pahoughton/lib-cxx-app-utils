@@ -1,6 +1,6 @@
 //
 // File:        IosOpenModeFromString.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for IosOpenModeFromString
@@ -19,7 +19,7 @@
 #include <iostream>
 
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   IosOpenModeFromString,
   "$Id$" );
 
@@ -61,6 +61,9 @@ IosOpenModeFromString( const char * modeString )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:24  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/04/05 11:57:33  houghton
 // Changed AIX41 does not have ios::binary.
 //

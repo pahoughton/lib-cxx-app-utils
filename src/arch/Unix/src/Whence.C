@@ -1,6 +1,6 @@
 //
 // File:        Whence.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for Whence
@@ -15,11 +15,11 @@
 //  Version:	    $Revision$
 //
 
-#include "ClueUtils.hh"
+#include "StlUtilsUtils.hh"
 #include <iostream>
 #include <fcntl.h>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   Whence,
   "$Id$" );
 
@@ -36,6 +36,9 @@ Whence( ios::seek_dir dir )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:29  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/09/16 11:21:27  houghton
 // Initial Version.
 //

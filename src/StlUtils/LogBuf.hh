@@ -2,7 +2,7 @@
 #define _LogBuf_hh_
 //
 // File:        LogBuf.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //              
 //  This is a specialized streambuf used by Log to
@@ -16,7 +16,7 @@
 // $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include "LogLevel.hh"
 #include "Str.hh"
 #include <vector>
@@ -24,7 +24,7 @@
 #include <fstream>
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -291,6 +291,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.12  1997/09/17 11:08:30  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.11  1997/07/18 19:23:38  houghton
 // Port(Sun5): had to make 'class Filter' a public member to eliminate
 //     compiler errors.

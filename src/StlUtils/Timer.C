@@ -10,11 +10,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:57  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:26  houghton
 // Changed to Release 3
 //
 // Revision 2.2  1995/12/04 11:18:31  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:41:19  houghton
 // Change to Version 2
@@ -24,7 +27,7 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include "Timer.hh"
 #include "DateTimeUtils.hh"
 #include <iomanip>
@@ -34,11 +37,11 @@
 #include <iomanip>
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   Timer,
   "$Id$" );
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "Timer.ii"
 #endif
 

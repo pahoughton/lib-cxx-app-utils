@@ -2,7 +2,7 @@
 #define _LogLevel_ii_
 //
 // File:        LogLevel.ii
-// Proejct:	Clue
+// Proejct:	StlUtils
 // Desc:        
 //
 //  	Source for LogLevel inline methods
@@ -15,7 +15,7 @@
 // $Id$
 //
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -150,6 +150,9 @@ operator << ( ostream & dest, const LogLevel & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:32  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/05/02 12:17:36  houghton
 // Changed all LogLevel::Level args to const & to avoid copy constructor calls.
 //
@@ -173,7 +176,7 @@ operator << ( ostream & dest, const LogLevel & obj )
 //   at the bottom.
 //
 // Revision 2.3  1995/12/04 11:17:25  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.2  1995/11/12  18:05:44  houghton
 // Change LogLevel::XXXX to LogLevel::Xxxxx.

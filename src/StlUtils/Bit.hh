@@ -2,7 +2,7 @@
 #define _Bit_hh_
 //
 // File:        Bit.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  This is a collection of defines and macros and inline functions
@@ -25,7 +25,7 @@
 //
 
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <cstddef>
 #include <climits>
 
@@ -183,6 +183,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:08  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/19 12:18:37  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.

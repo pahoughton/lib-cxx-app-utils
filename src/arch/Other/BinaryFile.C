@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:13  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:25:16  houghton
 // Changed to Release 3
 //
@@ -24,31 +27,31 @@
 #include "BinaryFile.hh"
 
 #include <Str.hh>
-#include <Clue.hh>
+#include <StlUtils.hh>
 
 #include <unistd.h>
 #include <fcntl.h>
 #include <cerrno>
 
-#ifdef   CLUE_DEBUG
+#ifdef   STLUTILS_DEBUG
 #define  inline
 #include <BinaryFile.ii>
 #endif
 
 const char BinaryFile::version[] =
-LIB_CLUE_VERSION
+LIB_STLUTILS_VERSION
 "$Id$";
 
 const char iBinaryFile::version[] =
-LIB_CLUE_VERSION
+LIB_STLUTILS_VERSION
 "$Id$";
 
 const char oBinaryFile::version[] =
-LIB_CLUE_VERSION
+LIB_STLUTILS_VERSION
 "$Id$";
 
 const char ioBinaryFile::version[] =
-LIB_CLUE_VERSION
+LIB_STLUTILS_VERSION
 "$Id$";
 
 BinaryFile::~BinaryFile( void )

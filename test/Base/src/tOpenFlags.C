@@ -14,15 +14,15 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <ClueUtils.hh>
+#include <StlUtilsUtils.hh>
 #include <fcntl.h>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <Clue.hh>
+#include <StlUtils.hh>
 #include <fcntl.h>
 #endif
 
@@ -49,11 +49,14 @@ tOpenFlags( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:54  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:26:52  houghton
 // Changed to Release 3
 //
 // Revision 2.2  1996/11/04 18:22:53  houghton
-// Chaged include because Clue.hh renamed to ClueUtils.hh.
+// Chaged include because StlUtils.hh renamed to StlUtilsUtils.hh.
 //
 // Revision 2.1  1996/11/04 14:50:18  houghton
 // Initial Version.

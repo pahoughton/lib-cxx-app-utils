@@ -1,19 +1,19 @@
-#ifndef _ClueVersion_hh_
-#define _ClueVersion_hh_
+#ifndef _StlUtilsVersion_hh_
+#define _StlUtilsVersion_hh_
 //
-// File:        ClueVersion.hh
-// Project:	Clue
+// File:        StlUtilsVersion.hh
+// Project:	StlUtils
 // Desc:        
 //
-//  Version macros for libClue. 
+//  Version macros for libStlUtils. 
 //
 // Quick Start: - short example of usage
 //
 //  class Test { publie: static const ClassVersion version; };
-//  CLUE_VERSION( Test, "Id:" );
+//  STLUTILS_VERSION( Test, "Id:" );
 //
 //  int DoThis( int i );
-//  CLUE_FUNCT_VERSION( DoThis, "Id:" );
+//  STLUTILS_FUNCT_VERSION( DoThis, "Id:" );
 // 
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     10/05/95 04:47
@@ -24,42 +24,42 @@
 //
 
 // Constants
-#define CLUE_PRJ_NAME	    "libClue"
-#define CLUE_PRJ_VER	    "3.02.04"
-#define CLUE_PRJ_VER_NUM    0x03020400L
-#define CLUE_PRJ_VER_TAG    "PROD_3_02"
+#define STLUTILS_PRJ_NAME	    "libStlUtils"
+#define STLUTILS_PRJ_VER	    "3.02.04"
+#define STLUTILS_PRJ_VER_NUM    0x03020400L
+#define STLUTILS_PRJ_VER_TAG    "PROD_3_02"
 
 // Macros
-#define CLUE_VERSION( name_, verId_ )					      \
+#define STLUTILS_VERSION( name_, verId_ )					      \
 CLASS_VERSION( name_,							      \
 	       verId_,							      \
-	       CLUE_PRJ_NAME,						      \
-	       CLUE_PRJ_VER,						      \
-	       CLUE_PRJ_VER_NUM,					      \
-	       CLUE_PRJ_VER_TAG )
+	       STLUTILS_PRJ_NAME,						      \
+	       STLUTILS_PRJ_VER,						      \
+	       STLUTILS_PRJ_VER_NUM,					      \
+	       STLUTILS_PRJ_VER_TAG )
 				   
-#define CLUE_FUNCT_VERSION( name_, verId_ )				      \
+#define STLUTILS_FUNCT_VERSION( name_, verId_ )				      \
 const char VERID_##name_[] =						      \
-"@(#) " CLUE_PRJ_NAME " - " CLUE_PRJ_VER "\n"				      \
+"@(#) " STLUTILS_PRJ_NAME " - " STLUTILS_PRJ_VER "\n"				      \
 "    " #name_ " - " __FILE__ " - Compiled: " __DATE__ " "__TIME__ "\n"	      \
-"    CVS Tag: " CLUE_PRJ_VER_TAG "\n"					      \
+"    CVS Tag: " STLUTILS_PRJ_VER_TAG "\n"					      \
 "    " verId_
 
 // Detail Documentation
 //
 // Constants:
 //
-//  CLUE_PRJ_NAME       project name
-//  CLUE_PRJ_VER        project version string
-//  CLUE_PRJ_VER_NUM	project version number
+//  STLUTILS_PRJ_NAME       project name
+//  STLUTILS_PRJ_VER        project version string
+//  STLUTILS_PRJ_VER_NUM	project version number
 //
 // Macros:
 //
-//	CLUE_VERSION( name, verid )
+//	STLUTILS_VERSION( name, verid )
 //	    Uses CLASS_VERSION macro to instantiate the class's static
 //	    version.
 //
-//	CLUE_FUNCT_VERSION( name, verid )
+//	STLUTILS_FUNCT_VERSION( name, verid )
 //	    creates a global const char[] variable that contains the
 //	    version info for a function.
 //
@@ -72,6 +72,9 @@ const char VERID_##name_[] =						      \
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:43  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/04/26 14:41:11  houghton
 // Added project tag support.
 //
@@ -100,5 +103,5 @@ const char VERID_##name_[] =						      \
 //
 //
 
-#endif // ! def _ClueVersion_hh_ 
+#endif // ! def _StlUtilsVersion_hh_ 
 

@@ -1,6 +1,6 @@
 //
 // File:        AppParam.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for AppParam
@@ -65,6 +65,9 @@ AppParam::parseArgs( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:30  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/03/21 15:58:13  houghton
 // Changed base version to 3
 //

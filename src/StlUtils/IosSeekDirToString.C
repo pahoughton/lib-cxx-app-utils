@@ -1,6 +1,6 @@
 //
 // File:        IosSeekDirToString.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for IosSeekDirToString
@@ -15,7 +15,7 @@
 //  Version:	    $Revision$
 //
 
-#include <ClueUtils.hh>
+#include <StlUtilsUtils.hh>
 
 const char * 
 IosSeekDirToString( ios::seek_dir dir )
@@ -28,6 +28,9 @@ IosSeekDirToString( ios::seek_dir dir )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:24  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/09/16 11:21:03  houghton
 // Initial Version.
 //

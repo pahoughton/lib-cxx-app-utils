@@ -1,6 +1,6 @@
 //
 // File:        Bitmask.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled source code for Bitmask.
@@ -14,11 +14,11 @@
 #include "Bitmask.hh"
 #include "StringUtils.hh"
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "Bitmask.ii"
-#endif // def( CLUE_DEBUG )
+#endif // def( STLUTILS_DEBUG )
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   Bitmask,
   "$Id$" );
 
@@ -208,6 +208,9 @@ Bitmask::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:08  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/03/03 18:57:23  houghton
 // Changed calls from setstate to clear (setstate is protected on AIX).
 //
@@ -240,7 +243,7 @@ Bitmask::dumpInfo(
 // Bug fix - remove 'inline' statement.
 //
 // Revision 2.2  1995/12/04 11:16:21  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 // Bug Fix - Now there is a special type for all single 'bit' values.
 //
 // Revision 2.1  1995/11/10  12:40:16  houghton

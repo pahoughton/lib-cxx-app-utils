@@ -1,6 +1,6 @@
 //
 // File:        tLog03.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test construtor args operate as expected. This test
@@ -421,6 +421,9 @@ tLog03( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:09:50  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/07/18 21:42:50  houghton
 // Port(Sun5): Changed ios::app to (ios::open_mode)(ios::app|ios::out).
 //

@@ -2,7 +2,7 @@
 #define _Compare_hh_
 //
 // File:        Compare.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  This file defines inline functions to two compare values of the
@@ -224,6 +224,9 @@ Compare_NCMP( unsigned long );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:11  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:23:31  houghton
 // Changed to Release 3
 //

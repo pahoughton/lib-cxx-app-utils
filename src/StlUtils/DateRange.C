@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:12  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/07/18 19:10:23  houghton
 // Added compare( const DateTime & two ) const to eliminate compiler warnings.
 //
@@ -19,7 +22,7 @@
 // Changed to Release 3
 //
 // Revision 2.5  1996/11/06 18:03:45  houghton
-// Clue.hh renamed to ClueUtils.hh
+// StlUtils.hh renamed to StlUtilsUtils.hh
 //
 // Revision 2.4  1996/04/27 12:54:34  houghton
 // Cleanup.
@@ -28,7 +31,7 @@
 // Bug fix - Removed 'inline' statement.
 //
 // Revision 2.2  1995/12/04 11:17:04  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:23  houghton
 // Change to Version 2
@@ -39,15 +42,15 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include "DateRange.hh"
-#include "ClueUtils.hh"
+#include "StlUtilsUtils.hh"
 #include "Str.hh"
 #include "DateTimeUtils.hh"
 #include <iomanip>
 #else
 #include "DateRg.hh"
-#include "Clue.hh"
+#include "StlUtils.hh"
 #include "Str.hh"
 #include "DateTimeUtils.hh"
 #include <iomanip>
@@ -55,15 +58,15 @@
 
 
 
-#if defined( CLUE_DEBUG )
-#if !defined( CLUE_SHORT_FN )
+#if defined( STLUTILS_DEBUG )
+#if !defined( STLUTILS_SHORT_FN )
 #include "DateRange.ii"
 #else
 #include "DateRg.ii"
 #endif
-#endif // def( CLUE_DEBUG )
+#endif // def( STLUTILS_DEBUG )
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   DateRange,
   "$Id$");
 

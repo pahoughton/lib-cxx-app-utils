@@ -1,6 +1,6 @@
 //
 // File:        DateTime.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for DateTime
@@ -20,12 +20,12 @@
 #include "Str.hh"
 #include <cstdio>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include <DateTime.ii>
 #endif
 
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   DateTime,
   "$Id$" );
 
@@ -766,6 +766,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:08:15  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/08/24 22:07:42  houghton
 // Cleanup comments.
 // Changed getDayOfWeek to return a DayOfWeek.
@@ -800,7 +803,7 @@ DateTime::getVersion( bool withPrjVer ) const
 // Removed unneeded includes.
 //
 // Revision 2.2  1995/12/04 11:17:20  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:30  houghton
 // Change to Version 2

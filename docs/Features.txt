@@ -1,6 +1,6 @@
 Emacs Mode: -*- indented-text -*-
 
-Title:		LibClue Features 
+Title:		LibStlUtils Features 
 Author:		Paul Houghton
 Date:		7/18/95
 Last Updated:	7/18/95
@@ -8,7 +8,7 @@ Last Updated:	7/18/95
 
 General Description:
 
-    LibClue is a collection of generic C++ classes, functions, and
+    LibStlUtils is a collection of generic C++ classes, functions, and
     defines that can be used by any application. 
 
 

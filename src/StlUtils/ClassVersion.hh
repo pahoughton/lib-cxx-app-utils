@@ -2,7 +2,7 @@
 #define _ClassVersion_hh_
 //
 // File:        ClassVersion.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Provides information about a class's version that is accessible
@@ -31,7 +31,7 @@
 //
 //    CLASS_VERSION( MyClass, "RCS_ID_TAG", "ProjectName", "2.01.05", 20105L );
 //
-//    See ClueVersion.hh for another example of a helper macro.
+//    See StlUtilsVersion.hh for another example of a helper macro.
 //
 // Author:      Paul Houghton - (paul_houghton@wcom.com)
 // Created:     10/04/95 07:04
@@ -41,11 +41,11 @@
 // $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <iostream>
 
 
-class CLUE_CLASS_T ClassVersion
+class STLUTILS_CLASS_T ClassVersion
 {
 
 public:
@@ -112,7 +112,7 @@ const ClassVersion className_::version( #className_,			      \
 					prjVerNum_,			      \
                                         prjVerTag_ );
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <ClassVersion.ii>
 #else
 #include <ClassVer.ii>
@@ -266,13 +266,13 @@ const ClassVersion className_::version( #className_,			      \
 //
 // See Also:
 //
-//  ClueVersion.hh
+//  StlUtilsVersion.hh
 //
 // Files:
 //
 //  ClassVersion.hh, ClassVersion.ii,
-//  ClueConfig.hh, ClueVersion.hh,
-//  libClue.a
+//  StlUtilsConfig.hh, StlUtilsVersion.hh,
+//  libStlUtils.a
 //
 // Documented Ver:  2.5
 // Tested Ver:	    2.5
@@ -280,6 +280,9 @@ const ClassVersion className_::version( #className_,			      \
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:11  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/04/26 14:41:01  houghton
 // Added project tag support.
 //
@@ -307,7 +310,7 @@ const ClassVersion className_::version( #className_,			      \
 // Cleanup.
 //
 // Revision 2.2  1995/12/04 11:16:59  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:19  houghton
 // Change to Version 2

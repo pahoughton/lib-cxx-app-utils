@@ -2,7 +2,7 @@
 #define _FilePath_ii_
 //
 // File:        FilePath.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Inline source for FilePath
@@ -21,7 +21,7 @@
 
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -293,6 +293,9 @@ operator << ( ostream & dest, const FilePath & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.8  1997/09/17 11:08:22  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.7  1997/07/20 18:49:53  houghton
 // Changed getPath to return an empty string if there is no directory
 //     part (used to return ".").
@@ -323,7 +326,7 @@ operator << ( ostream & dest, const FilePath & obj )
 //   at the bottom.
 //
 // Revision 2.2  1995/12/04 11:17:22  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:36  houghton
 // Change to Version 2

@@ -1,6 +1,6 @@
 //
 // File:        PidFile.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for PidFile
@@ -23,11 +23,11 @@
 #include <unistd.h>
 #include <errno.h>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "PidFile.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   PidFile,
   "$Id$");
 
@@ -161,6 +161,9 @@ PidFile::removePidFile( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:09:22  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/07/18 20:05:33  houghton
 // Cleanup.
 //

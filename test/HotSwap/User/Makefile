@@ -76,7 +76,7 @@ SRC_DEFINES	=
 PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFAULT_DEFINES = -DUSER_DEFAULT=1
-DEBUG_DEFINES	= -DCLUE_DEBUG=1
+DEBUG_DEFINES	= -DSTLUTILS_DEBUG=1
 PROFILE_DEFINES	= -DUSER_PROFILE=1
 STATIC_DEFINES	= -DUSER_STATIC=1
 
@@ -88,7 +88,7 @@ STATIC_DEFINES	= -DUSER_STATIC=1
 #
 
 
-SRC_INC		= $(ARCH_INC) -I. $(CLUE_SRC_INC) -I$(PRJ_TOPDIR)/src/Clue 
+SRC_INC		= $(ARCH_INC) -I. $(STLUTILS_SRC_INC) -I$(PRJ_TOPDIR)/src/StlUtils 
 PRJ_INC		= -I$(beta_incdir)
 
 # Any other cpp flags to use on for all targets
@@ -149,12 +149,12 @@ DEBUG_LD_FLAGS		= $(ld_debug)
 PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
-DEFAULT_LD_LIBDIRS	= -L$(PRJ_TOPDIR)/src/Clue -L$(beta_libdir)
+DEFAULT_LD_LIBDIRS	= -L$(PRJ_TOPDIR)/src/StlUtils -L$(beta_libdir)
 DEBUG_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue_g -lGnuRegex -lCommon
+DEFAULT_LD_LIBS		= -lStlUtils_g -lGnuRegex -lCommon
 DEBUG_LD_LIBS		= $(DEFAULT_LD_LIBS)
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
@@ -162,7 +162,7 @@ STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
 # DEP_LIBS - rebuild target if DEP_LIBS newer than target
 
 DEFAULT_DEP_LIBS	=
-DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/Clue/libClue_g.a
+DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/StlUtils/libStlUtils_g.a
 PROFILE_DEP_LIBS	=
 STATIC_DEP_LIBS		=
 
@@ -252,6 +252,9 @@ test:	default
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 1.2  1997/09/17 11:10:19  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 1.1  1997/09/16 11:31:27  houghton
 # Initial Version.
 #

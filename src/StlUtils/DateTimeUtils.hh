@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:18  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/08/24 23:07:04  houghton
 // Changed type of global const values to time_t.
 //
@@ -29,34 +32,34 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#if !defined( STLUTILS_SHORT_FN )
+#include <StlUtilsConfig.hh>
 #include <ctime>
 #else
-#include <ClueCfg.hh>
+#include <StlUtilsCfg.hh>
 #include <ctime>
 #endif
 
-extern const time_t CLUE_GVAR_T SecPerMin;
-extern const time_t CLUE_GVAR_T SecPerHour;
-extern const time_t CLUE_GVAR_T SecPerDay;
-extern const time_t CLUE_GVAR_T SecPerYear;
+extern const time_t STLUTILS_GVAR_T SecPerMin;
+extern const time_t STLUTILS_GVAR_T SecPerHour;
+extern const time_t STLUTILS_GVAR_T SecPerDay;
+extern const time_t STLUTILS_GVAR_T SecPerYear;
 
-extern const time_t CLUE_GVAR_T MinPerHour;
-extern const time_t CLUE_GVAR_T MinPerDay;
+extern const time_t STLUTILS_GVAR_T MinPerHour;
+extern const time_t STLUTILS_GVAR_T MinPerDay;
 
-extern const time_t CLUE_GVAR_T MinTimeT;
-extern const time_t CLUE_GVAR_T MaxTimeT;
+extern const time_t STLUTILS_GVAR_T MinTimeT;
+extern const time_t STLUTILS_GVAR_T MaxTimeT;
 
-extern const time_t CLUE_GVAR_T MinYear;
-extern const time_t CLUE_GVAR_T MaxYear;
+extern const time_t STLUTILS_GVAR_T MinYear;
+extern const time_t STLUTILS_GVAR_T MaxYear;
 
-extern const int    CLUE_GVAR_T DaysInMonth[];
-extern const int    CLUE_GVAR_T MonthDayOfYear[];
-extern const char * CLUE_GVAR_T Months[];
-extern const char * CLUE_GVAR_T AbbrMonths[];
-extern const char * CLUE_GVAR_T WeekDays[];
-extern const char * CLUE_GVAR_T AbbrWeekDays[];
+extern const int    STLUTILS_GVAR_T DaysInMonth[];
+extern const int    STLUTILS_GVAR_T MonthDayOfYear[];
+extern const char * STLUTILS_GVAR_T Months[];
+extern const char * STLUTILS_GVAR_T AbbrMonths[];
+extern const char * STLUTILS_GVAR_T WeekDays[];
+extern const char * STLUTILS_GVAR_T AbbrWeekDays[];
 
 #if !defined( DAYOFWEEK_ENUM )
 #define DAYOFWEEK_ENUM 1
@@ -73,7 +76,7 @@ typedef enum {
 
 #endif
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <DateTimeUtils.ii>
 #else
 #include <DtTmUtil.ii>

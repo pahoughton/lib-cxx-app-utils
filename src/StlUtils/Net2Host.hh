@@ -2,7 +2,7 @@
 #define _Net2Host_hh_
 //
 // File:        Net2Host.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -17,7 +17,7 @@
 // $Id$
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <Common.h>
 
 inline
@@ -164,6 +164,9 @@ Host2Net( unsigned long num )
 // Revision Log
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:35  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/03/21 15:43:07  houghton
 // Changed base version to 3
 //

@@ -10,8 +10,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:09:22  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/09/16 11:27:58  houghton
-// Changed to include ClueUtils.hh
+// Changed to include StlUtilsUtils.hh
 //
 // Revision 3.2  1996/11/24 19:10:12  houghton
 // Removed support for short filenames.
@@ -28,11 +31,11 @@
 //
 
 
-#include "ClueUtils.hh"
+#include "StlUtilsUtils.hh"
 #include <iostream>
 #include <fcntl.h>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   OpenFlags,
   "$Id$" );
 

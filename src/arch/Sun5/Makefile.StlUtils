@@ -1,6 +1,6 @@
 # -*- makefile -*-
 #
-# Makefile for libClue src/arch/Sun5
+# Makefile for libStlUtils src/arch/Sun5
 #
 # Created 7/17/97
 #
@@ -8,7 +8,7 @@
 #
 #
 
-include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.Clue
+include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.StlUtils
 
 ARCH_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/src
 ARCH_SRC_DIR	= $(PRJ_TOPDIR)/src/arch/src
@@ -41,10 +41,10 @@ ARCH_USER_H_INCS	=	\
 
 
 ARCH_USER_HH_INCS	=		\
-	ClueArch.hh			\
-	ClueDirent.hh			\
-	ClueSysStat.hh			\
-	ClueExceptions.hh		\
+	StlUtilsArch.hh			\
+	StlUtilsDirent.hh			\
+	StlUtilsSysStat.hh			\
+	StlUtilsExceptions.hh		\
 	Directory.hh			\
 	$(UNIX_USER_HH_INCS)		\
 
@@ -64,6 +64,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 3.3  1997/09/17 11:09:16  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.2  1997/08/18 10:30:24  houghton
 # Added generated sources.
 #

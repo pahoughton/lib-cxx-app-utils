@@ -2,7 +2,7 @@
 #define _TestFunctProto_hh_
 //
 // File:        TestFunctProto.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Function prototypes for test functions
@@ -87,9 +87,9 @@ bool	tSortOrder( LibTest & tester );
 // TimeIt.hh
 bool tTimeIt( LibTest & tester );
 
-// libClue works with LibCommon
+// libStlUtils works with LibCommon
 bool	tWithCommon( LibTest & tester );
-// libClue works with Wcf
+// libStlUtils works with Wcf
 bool	tWithWcf( LibTest & tester );
 
 // Components
@@ -155,6 +155,9 @@ bool	tFileBinStream( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:09:33  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/08/12 11:11:44  houghton
 // Added tStringFirstNotOf
 //

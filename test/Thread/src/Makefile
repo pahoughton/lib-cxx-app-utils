@@ -1,4 +1,4 @@
-# -*- makefile -*- for tClue
+# -*- makefile -*- for tStlUtils
 #
 # Created: 4/28/96 using MakeConfigs 5.01.00.a.03
 #
@@ -64,9 +64,9 @@ SRC_DEFINES	= -DTEST_DATA_DIR=\"$(TEST_DATA_DIR)\" 	\
 PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFAULT_DEFINES = -DTEST_DEFAULT=1
-DEBUG_DEFINES	= -DTEST_DEBUG=1 -DCLUE_DEBUG=1
-PROFILE_DEFINES	= -DTCLUE_PROFILE=1
-STATIC_DEFINES	= -DTCLUE_STATIC=1
+DEBUG_DEFINES	= -DTEST_DEBUG=1 -DSTLUTILS_DEBUG=1
+PROFILE_DEFINES	= -DTSTLUTILS_PROFILE=1
+STATIC_DEFINES	= -DTSTLUTILS_STATIC=1
 
 ######  I N C L U D E S #####
 #
@@ -79,9 +79,9 @@ STATIC_DEFINES	= -DTCLUE_STATIC=1
 SRC_INC		= $(ARCH_INC) -I. 
 PRJ_INC		= $($($(make_target))_PRJ_INC)
 
-DEFAULT_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
-DEBUG_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
-PROFILE_PRJ_INC = $(CLUE_SRC_INC) -I$(alpha_incdir)
+DEFAULT_PRJ_INC	= $(STLUTILS_SRC_INC) -I$(alpha_incdir)
+DEBUG_PRJ_INC	= $(STLUTILS_SRC_INC) -I$(alpha_incdir)
+PROFILE_PRJ_INC = $(STLUTILS_SRC_INC) -I$(alpha_incdir)
 STATIC_PRJ_INC	= -I$(alpha_incdir)
 
 # Any other cpp flags to use on for all targets
@@ -139,20 +139,20 @@ DEBUG_LD_FLAGS		= $(ld_debug)
 PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
-DEFAULT_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
-DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
+DEFAULT_LD_LIBDIRS	= $(STLUTILS_SRC_LDIR) -L$(alpha_libdir)
+DEBUG_LD_LIBDIRS	= $(STLUTILS_SRC_LDIR) -L$(alpha_libdir)
 PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue_s -lCommon_s $(ARCH_LIBS)
-DEBUG_LD_LIBS		= -lClue_g -lCommon  $(ARCH_LIBS)
+DEFAULT_LD_LIBS		= -lStlUtils_s -lCommon_s $(ARCH_LIBS)
+DEBUG_LD_LIBS		= -lStlUtils_g -lCommon  $(ARCH_LIBS)
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
 
 # DEP_LIBS - rebuild target if DEP_LIBS newer than target
 
 DEFAULT_DEP_LIBS	=
-DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/Clue/libClue_g.a
+DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/StlUtils/libStlUtils_g.a
 PROFILE_DEP_LIBS	=
 STATIC_DEP_LIBS		=
 
@@ -170,7 +170,7 @@ CXX_C_SOURCES	=			\
 USER_HH_INCS	=			\
 	AppParam.hh                     \
 	AvlTestData.hh                  \
-	ClueTest.hh                     \
+	StlUtilsTest.hh                     \
 	DavlTestData.hh                 \
 	StaticBinStream.hh              \
 	StaticStream.hh                 \
@@ -184,7 +184,7 @@ USER_INCLUDES	=		\
 CXX_HEADERS	=			\
 	AppParam.hh                     \
 	AvlTestData.hh                  \
-	ClueTest.hh                     \
+	StlUtilsTest.hh                     \
 	DavlTestData.hh                 \
 	StaticBinStream.hh              \
 	StaticStream.hh                 \
@@ -221,7 +221,7 @@ test: test_data default
 	 LD_LIBRARY_PATH=$(TOOL_DIR)/lib/alpha $(NAME)
 
 test_debug: test_data debug
-	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha $(NAME)_g
+	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/StlUtils:/usr/local/lib/alpha $(NAME)_g
 
 test_data: 
 	chgrp $(TEST_GROUP) $(TEST_DATA_DIR)/FileStat.01
@@ -274,6 +274,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.2  1997/09/17 11:10:24  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.1  1996/11/14 01:28:07  houghton
 # Changed to Release 3
 #

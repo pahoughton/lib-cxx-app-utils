@@ -2,7 +2,7 @@
 #define _PidFile_hh_
 //
 // File:        PidFile.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -21,12 +21,12 @@
 //  $Id$
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <FilePath.hh>
 #include <DumpInfo.hh>
 #include <iostream>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -164,6 +164,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:22  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/04/19 09:53:03  houghton
 // Initial Version.
 //

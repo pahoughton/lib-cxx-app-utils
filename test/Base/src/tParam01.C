@@ -1,6 +1,6 @@
 //
 // File:        tParam01.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for the follwing Param methods.
@@ -18,7 +18,7 @@
 #include "LibTest.hh"
 #include "Param.hh"
 #include "Compare.hh"
-#include "ClueUtils.hh"
+#include "StlUtilsUtils.hh"
 
 #define APP_VER		"Test Param Ver: 01.01.01"
 
@@ -93,7 +93,7 @@ tParam01( LibTest & tester )
     t.parseArgs();
     
     TEST( compare( t.appVersion(), APP_VER ) == 0 );
-    TEST( t.count() == ArraySize( argv_02 ) );
+    TEST( t.count() == ArraySize( argv_02 ) -1  );
     
     size_t  count = 0;
 
@@ -133,11 +133,11 @@ tParam01( LibTest & tester )
 
     t.parseArgs();
     
-    TEST( compare( t.arg(), argv_02[1] ) == 0 );
-    TEST( compare( t.arg(2), argv_02[2] ) == 0 );
+    TESTR( t.arg(), compare( t.arg(), argv_02[1] ) == 0 );
+    TESTR( t.arg(2), compare( t.arg(1), argv_02[2] ) == 0 );
 
-    TEST( t.argLong( 4 )   == 1234 );
-    TEST( t.argDouble( 5 ) == 10.10 );
+    TEST( t.argLong( 3 )   == 1234 );
+    TEST( t.argDouble( 4 ) == 10.10 );
   }
 
   return( true );
@@ -148,6 +148,9 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 3.7  1997/09/17 11:09:55  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.6  1997/07/18 21:49:33  houghton
 // Port(Sun5): the linker had problems with this. FIXME (need a better
 //     solution to the problem)

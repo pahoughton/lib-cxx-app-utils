@@ -2,7 +2,7 @@
 #define _SigCatcher_ii_
 //
 // File:        SigCatcher.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Inline source for SigCatcher
@@ -20,7 +20,7 @@
 //
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -110,6 +110,9 @@ SigCatcher::setError(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.4  1997/09/17 11:09:24  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/07/25 12:18:45  houghton
 // Added caught() const method.
 //

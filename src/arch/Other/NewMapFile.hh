@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:14  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:25:26  houghton
 // Changed to Release 3
 //
@@ -25,12 +28,12 @@
 //
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 
 #include <File.hh>
 #include <BinFile.hh>
 
-#ifdef	CLUE_DEBUG
+#ifdef	STLUTILS_DEBUG
 #define inline
 #endif
 

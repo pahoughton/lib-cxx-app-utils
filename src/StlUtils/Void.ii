@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:59  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/03/14 14:48:15  houghton
 // Added dump() method.
 //
@@ -26,7 +29,7 @@
 //   at the bottom.
 //
 // Revision 2.3  1995/12/04 11:18:32  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.2  1995/11/13  11:31:18  houghton
 // Cleanup.
@@ -38,7 +41,7 @@
 
 #include <algorithm>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 

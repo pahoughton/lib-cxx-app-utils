@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Title:        GenSigList.sh
-# Project:	Clue
+# Project:	StlUtils
 # Desc:
 # 
 #   
@@ -84,6 +84,9 @@ EOS
 
 #
 # $Log$
+# Revision 3.3  1997/09/17 11:09:19  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.2  1997/08/18 10:32:50  houghton
 # Changed to limit the number of signals to 100, sun has one with a
 #     value up around 8000.
@@ -100,6 +103,9 @@ EOS
 
 #
 # $Log$
+# Revision 3.3  1997/09/17 11:09:19  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.2  1997/08/18 10:32:50  houghton
 # Changed to limit the number of signals to 100, sun has one with a
 #     value up around 8000.

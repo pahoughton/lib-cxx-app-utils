@@ -10,11 +10,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:49  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:13  houghton
 // Changed to Release 3
 //
 // Revision 2.2  1995/12/04 11:18:28  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:41:07  houghton
 // Change to Version 2
@@ -24,21 +27,21 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include "StrStreambuf.hh"
 #else
 #include "StrSbuf.hh"
 #endif
 
-#if defined( CLUE_DEBUG )
-#if !defined( CLUE_SHORT_FN )
+#if defined( STLUTILS_DEBUG )
+#if !defined( STLUTILS_SHORT_FN )
 #include "StrStreambuf.ii"
 #else
 #include "StrSbuf.ii"
 #endif
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   StrStreambuf,
   "$Id$" );
 

@@ -1,6 +1,6 @@
 //
 // File:        StringCapitalize.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //    Convert the first lower case alpha (a-z) char of
@@ -17,7 +17,7 @@
 #include <cctype>
 #include <cstddef>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   StringCapitalize,
   "$Id$" );
 
@@ -80,6 +80,9 @@ StringCapitalize( char * str, size_t len )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:50  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/24 19:04:50  houghton
 // Removed support for short filenames.
 // Changed include lines from < > to " " for rpm.

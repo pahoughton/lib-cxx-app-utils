@@ -35,11 +35,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:18  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:23:39  houghton
 // Changed to Release 3
 //
 // Revision 2.2  1995/12/04 11:17:21  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:34  houghton
 // Change to Version 2
@@ -104,7 +107,7 @@ DateInTimeT( time_t sec )
 }
 
 #if !defined( COMMON_IsLeapYear )
-#define CLUE_IsLeapYear 1
+#define STLUTILS_IsLeapYear 1
 
 inline
 bool

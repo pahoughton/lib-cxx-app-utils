@@ -86,7 +86,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
     // FIXME - need to define this in the TestConfig for other platforms.
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif    
   }
@@ -104,7 +104,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -142,7 +142,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -160,7 +160,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -178,7 +178,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -196,7 +196,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -220,7 +220,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -243,7 +243,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -267,7 +267,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -453,7 +453,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -473,7 +473,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-#if !defined( CLUE_TEST_MULTI_GROUPS )
+#if !defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
@@ -512,7 +512,7 @@ tUser( LibTest & tester )
     TEST( getpwuid( t )->pw_uid == t.getUID() );
   }
 
-#if defined( CLUE_BINSTREAM )
+#if defined( STLUTILS_BINSTREAM )
   {
     // getBinSize( void ) const
     // write( BinStream & dest ) const

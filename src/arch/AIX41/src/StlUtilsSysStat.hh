@@ -1,8 +1,8 @@
-#ifndef _ClueSysStat_hh_
-#define _ClueSysStat_hh_
+#ifndef _StlUtilsSysStat_hh_
+#define _StlUtilsSysStat_hh_
 //
-// File:        ClueSysStat.hh
-// Project:	Clue
+// File:        StlUtilsSysStat.hh
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -17,14 +17,17 @@
 
 #include <sys/stat.h>
 
-#define CLUE_STAT_SIZE_TYPE	off_t
+#define STLUTILS_STAT_SIZE_TYPE	off_t
 
 //
 // Revision Log
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:09  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/06/09 14:29:33  houghton
-// Added CLUE_STAT_SIZE_TYPE.
+// Added STLUTILS_STAT_SIZE_TYPE.
 //
 // Revision 3.1  1997/03/21 15:44:21  houghton
 // Changed base version to 3
@@ -39,5 +42,5 @@
 // Initial Version.
 //
 //
-#endif // ! def _ClueSysStat_hh_ 
+#endif // ! def _StlUtilsSysStat_hh_ 
 

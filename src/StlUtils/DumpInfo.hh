@@ -61,7 +61,7 @@
 // $Id$
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <iostream>
 
 template< class T >
@@ -137,8 +137,11 @@ operator << ( ostream & dest, const DumpInfo<T> & src )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:20  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/01/18 17:28:53  houghton
-// Initial version checked in with Clue.
+// Initial version checked in with StlUtils.
 //
 // Revision 1.1  1996/12/10 00:53:19  houghton
 // Initial revision

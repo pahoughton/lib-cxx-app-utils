@@ -1,6 +1,6 @@
 //
 // File:        RegexScan.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compile source code for RegexScan class.
@@ -23,7 +23,7 @@ extern "C" {
 #include <algorithm>
 
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   RegexScan,
   "$Id$" );
 
@@ -357,6 +357,9 @@ RegexScan::cleanup()
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:39  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/04/02 13:45:00  houghton
 // Added getPattern().
 //

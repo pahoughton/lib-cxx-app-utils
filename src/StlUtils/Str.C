@@ -16,17 +16,17 @@
 //
 
 #include "Str.hh"
-#include "ClueUtils.hh"
+#include "StlUtilsUtils.hh"
 #include "Compare.hh"
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include <Str.ii>
 #else
 
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   Str,
   "$Id$" );
 
@@ -100,7 +100,7 @@ Str::append( const char * src, size_type srcLen )
   if( MemOverlap( src, appLen, strbase(), size() ) )
     {
       char * tmp = new char[ appLen + 1 ];
-      CLUE_EXCPT_BAD_ALLOC( tmp == 0, *this );
+      STLUTILS_EXCPT_BAD_ALLOC( tmp == 0, *this );
       memcpy( tmp, src, appLen );
       rdbuf()->sputn( tmp, appLen );
       delete tmp;
@@ -123,7 +123,7 @@ Str::replace(
   size_type    	srcLen
   )
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
 
   size_type    replaceLen = min( len, size() - start );
   
@@ -133,7 +133,7 @@ Str::replace(
   if( keepSize )
     {
       keepString = new char[ keepSize + 1];
-      CLUE_EXCPT_BAD_ALLOC( keepString == 0, *this );
+      STLUTILS_EXCPT_BAD_ALLOC( keepString == 0, *this );
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
@@ -160,7 +160,7 @@ Str::replace(
   char 	    src
   )
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
 
   size_type    replaceLen = min( len, size() - start );
   
@@ -170,7 +170,7 @@ Str::replace(
   if( keepSize )
     {
       keepString = new char[ keepSize + 1];
-      CLUE_EXCPT_BAD_ALLOC( keepString == 0, *this );
+      STLUTILS_EXCPT_BAD_ALLOC( keepString == 0, *this );
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
@@ -205,7 +205,7 @@ Str::replace(
   if( keepSize )
     {
       keepString = new char[ keepSize + 1];
-      CLUE_EXCPT_BAD_ALLOC( keepString == 0, *this );
+      STLUTILS_EXCPT_BAD_ALLOC( keepString == 0, *this );
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
@@ -230,7 +230,7 @@ Str::replace(
 int
 Str::compare( const Str & two, size_type start, size_type len ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_type oneLen = min( size() - start, len );
   size_type twoLen = min( two.size(), len );
@@ -243,7 +243,7 @@ Str::compare( const Str & two, size_type start, size_type len ) const
 int
 Str::compare( const SubStr & two, size_type start, size_type len ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_type oneLen = min( size() - start, len );
   size_type twoLen = min( two.size(), len );
@@ -256,7 +256,7 @@ Str::compare( const SubStr & two, size_type start, size_type len ) const
 int
 Str::compare( const char * two, size_type start, size_type len ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
 
   // no string I have 1 or more chars from start, return 1 (I'm bigger)
   //  I have no chars (we are both empty, return 0
@@ -293,7 +293,7 @@ compare( const char * one, const Str & two, Str::size_type len )
 int
 Str::fcompare( const Str & two, size_type start, size_type len ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_type oneLen = min( size() - start, len );
   size_type twoLen = min( two.size(), len );
@@ -307,7 +307,7 @@ Str::fcompare( const Str & two, size_type start, size_type len ) const
 int
 Str::fcompare( const SubStr & two, size_type start, size_type len ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_type oneLen = min( size() - start, len );
   size_type twoLen = min( two.size(), len );
@@ -472,7 +472,7 @@ Str::strip( const char * stripChars )
 Str &
 Str::substitute( char from, char to, size_type start, bool global )
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
   
   if( ! global )
     {
@@ -500,7 +500,7 @@ Str::substitute( char from, char to, size_type start, bool global )
 Str &
 Str::substitute( const char * from, const char * to, size_type start, bool global )
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
   
   size_type fromLen = strlen( from );
   
@@ -656,7 +656,7 @@ Str::wrap( size_type w, long pad, long firstPad )
 Str::size_type
 Str::scan( const RegexScan & exp, size_type start )
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), 0 );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), 0 );
   
   matches.erase( matches.begin(), matches.end() );
 
@@ -936,13 +936,13 @@ Str::get( istream & src, size_type size )
 Str::size_type
 Str::getBinSize( void ) const
 {
-  return( sizeof( CLUE_U32 ) + size() );
+  return( sizeof( STLUTILS_U32 ) + size() );
 }
 
 istream &
 Str::read( istream & src )
 {
-  CLUE_U32 len;
+  STLUTILS_U32 len;
 
   src.read( (char *)&len, sizeof( len ) );
 
@@ -952,7 +952,7 @@ Str::read( istream & src )
 ostream &
 Str::write( ostream & dest ) const
 {
-  CLUE_U32 len = length();
+  STLUTILS_U32 len = length();
   dest.write( (const char *)&len, sizeof( len ) );
   dest.write( strbase(), length() );
   return( dest );
@@ -977,7 +977,7 @@ bool
 Str::good( void ) const
 {
   return( rdbuf() != 0 &&
-#if defined( CLUE_HAS_CONST_IOSGOOD )
+#if defined( STLUTILS_HAS_CONST_IOSGOOD )
 	  ios::good()
 #else
 	  ios::state == 0
@@ -1005,7 +1005,7 @@ Str::error( void ) const
       if( rdbuf() == 0 )
 	errStr << ": no 'streambuf'";
       
-#if defined( CLUE_HAS_CONST_IOSRDSTATE )
+#if defined( STLUTILS_HAS_CONST_IOSRDSTATE )
       if( ! ios::good() )
 	{
 	  if( ios::rdstate() & ios::eofbit )
@@ -1187,7 +1187,7 @@ Str::writeNum( unsigned long num, unsigned short base, bool neg )
 int
 Str::compare( const string & two, size_type start, size_type len ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_type oneLen = min( size() - start, len );
   size_type twoLen = min( two.size(), len );
@@ -1202,7 +1202,7 @@ Str::compare( const string & two, size_type start, size_type len ) const
 int
 Str::fcompare( const string & two, size_type start, size_type len ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_type oneLen = min( size() - start, len );
   size_type twoLen = min( two.size(), len );
@@ -1217,6 +1217,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/09/17 11:08:44  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.6  1997/09/02 13:07:45  houghton
 // Added to( Range )
 // Added to( RangeList )
@@ -1242,7 +1245,7 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Changed to Release 3
 //
 // Revision 2.6  1996/11/06 18:06:16  houghton
-// Clue.hh renamed to ClueUtils.hh.
+// StlUtils.hh renamed to StlUtilsUtils.hh.
 //
 // Revision 2.5  1996/10/11 17:42:59  houghton
 // Changed: Added new 'multiDelim' arg to scan methods. This arg
@@ -1260,7 +1263,7 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Cleanup.
 //
 // Revision 2.2  1995/12/04 11:18:26  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:41:03  houghton
 // Change to Version 2

@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:59  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:30  houghton
 // Changed to Release 3
 //
@@ -23,7 +26,7 @@
 //
 //
 
-#include "Clue.hh"
+#include "StlUtils.hh"
 
 
 #endif // ! def __Utils_hh_ 

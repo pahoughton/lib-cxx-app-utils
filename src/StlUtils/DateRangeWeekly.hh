@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 3.3  1997/09/17 11:08:14  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/08/24 21:54:53  houghton
 // Changed getDayOfWeek to return a 'DayOfWeek' (was int).
 //
@@ -32,15 +35,15 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#if !defined( STLUTILS_SHORT_FN )
+#include <StlUtilsConfig.hh>
 #include <DateRangeDaily.hh>
 #else
-#include <ClueCfg.hh>
+#include <StlUtilsCfg.hh>
 #include <DateRgDl.hh>
 #endif
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -80,7 +83,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <DateRangeWeekly.ii>
 #else
 #include <DateRgWk.ii>

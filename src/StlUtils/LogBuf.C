@@ -1,6 +1,6 @@
 //
 // File:        LogBuf.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //	Compiled source for for the LogBuf class.
@@ -12,7 +12,7 @@
 //
 
 #include "LogBuf.hh"
-#include "ClueUtils.hh"
+#include "StlUtilsUtils.hh"
 #include "StringUtils.hh"
 #include "FileStat.hh"
 #include "FilePath.hh"
@@ -23,11 +23,11 @@
 #include <cstring>
 #include <errno.h>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include <LogBuf.ii>
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   LogBuf,
   "$Id$" );
 
@@ -703,6 +703,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.9  1997/09/17 11:08:29  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.8  1997/05/02 12:15:54  houghton
 // Changed all LogLevel::Level args to const & to avoid copy constructor calls.
 //
@@ -787,7 +790,7 @@ LogBuf::closeLog( void )
 //     (as required by Mike Alexandar).
 //
 // Revision 2.2  1995/12/04 11:17:24  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:44  houghton
 // Change to Version 2

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:08:55  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/08/28 16:35:01  houghton
 // Bug-Fix: added toStream (was inline) and added support
 //     for setw(n) (the width was being ignored).
@@ -27,7 +30,7 @@
 // Changed to Release 3
 //
 // Revision 2.2  1995/12/04 11:18:29  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:41:16  houghton
 // Change to Version 2
@@ -37,27 +40,27 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include "SubStr.hh"
-#include "ClueExceptions.hh"
+#include "StlUtilsExceptions.hh"
 #include "Str.hh"
 #include "Compare.hh"
 #include "StringUtils.hh"
 #include <algorithm>
 #else
 #include "SubStr.hh"
-#include "ClueExcp.hh"
+#include "StlUtilsExcp.hh"
 #include "Str.hh"
 #include "Compare.hh"
 #include "StrUtil.hh"
 #include <algorithm>
 #endif
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include <SubStr.ii>
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   SubStr,
   "$Id$" );
 
@@ -72,7 +75,7 @@ Str SubStr::dummyStr("dummy");
 int
 SubStr::compare( const Str & two, size_t start, size_t compLen ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, compLen );
   size_t twoLen = min( two.size(), compLen );
@@ -85,7 +88,7 @@ SubStr::compare( const Str & two, size_t start, size_t compLen ) const
 int
 SubStr::compare( const SubStr & two, size_t start, size_t compLen ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, compLen );
   size_t twoLen = min( two.size(), compLen );
@@ -99,7 +102,7 @@ SubStr::compare( const SubStr & two, size_t start, size_t compLen ) const
 int
 SubStr::compare( const char * two, size_t start, size_t compLen ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, compLen );
   size_t twoLen = min( strlen( two ), compLen );
@@ -112,7 +115,7 @@ SubStr::compare( const char * two, size_t start, size_t compLen ) const
 int
 SubStr::fcompare( const Str & two, size_t start, size_t compLen ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, compLen );
   size_t twoLen = min( two.size(), compLen );
@@ -126,7 +129,7 @@ SubStr::fcompare( const Str & two, size_t start, size_t compLen ) const
 int
 SubStr::fcompare( const SubStr & two, size_t start, size_t compLen ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, compLen );
   size_t twoLen = min( two.size(), compLen );
@@ -175,13 +178,13 @@ fcompare( const char * one, const SubStr & two, size_t len )
 size_t
 SubStr::getBinSize( void ) const
 {
-  return( sizeof( CLUE_U32 ) + len );
+  return( sizeof( STLUTILS_U32 ) + len );
 }
 
 ostream &
 SubStr::write( ostream & dest ) const
 {
-  CLUE_U32 sLen = len;
+  STLUTILS_U32 sLen = len;
   dest.write( (const char *)&sLen, sizeof( sLen ) );
   dest.write( strbase(), len );
   return( dest );

@@ -1,6 +1,6 @@
 //
 // File:        tLog.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for Log class
@@ -49,6 +49,9 @@ tLog( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:48  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/20 12:16:16  houghton
 // Cleanup.
 //

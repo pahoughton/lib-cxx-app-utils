@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:24  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:28:09  houghton
 // Changed to Release 3
 //
@@ -27,16 +30,16 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#if !defined( STLUTILS_SHORT_FN )
+#include <StlUtilsConfig.hh>
 #include <ThreadBase.hh>
 #include <iostream>
 #else
-#include <ClueCfg.hh>
+#include <StlUtilsCfg.hh>
 #include <iostream>
 #endif
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -62,7 +65,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <ThreadTest.ii>
 #else
 #include <ThreadTest.ii>

@@ -1,6 +1,6 @@
 //
 // File:        StringCaseCompare.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  StringCaseCompare( const char * one, const char * two );
@@ -31,7 +31,7 @@
 #include <cstddef>
 #include <cctype>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   StringCaseCompare,
   "$Id$" );
 
@@ -90,6 +90,9 @@ StringCaseCompare(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:50  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/24 19:05:16  houghton
 // Removed support for short filenames.
 //
@@ -100,7 +103,7 @@ StringCaseCompare(
 // Restructure header comments layout.
 //
 // Revision 2.2  1995/12/04 11:18:29  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:41:09  houghton
 // Change to Version 2

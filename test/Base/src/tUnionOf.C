@@ -1,6 +1,6 @@
 //
 // File:        tUnionOf.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for UnionOf & UnionOfDur functions.
@@ -15,14 +15,14 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <ClueUtils.hh>
+#include <StlUtilsUtils.hh>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <Clue.hh>
+#include <StlUtils.hh>
 #endif
 
 bool
@@ -218,11 +218,14 @@ tUnionOf( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:14  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:27:20  houghton
 // Changed to Release 3
 //
 // Revision 2.3  1996/11/04 18:22:54  houghton
-// Chaged include because Clue.hh renamed to ClueUtils.hh.
+// Chaged include because StlUtils.hh renamed to StlUtilsUtils.hh.
 //
 // Revision 2.2  1996/11/04 14:53:50  houghton
 // Added header comments.

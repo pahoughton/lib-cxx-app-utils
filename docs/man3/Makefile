@@ -1,10 +1,10 @@
 
-CLUE_SRC	= ../../src/Clue
+STLUTILS_SRC	= ../../src/StlUtils
 
 GEN_CMD		= GenC++Man.pl $< > $@
 
 MAN_PAGES	= 		\
-	ClueUtils.3		\
+	StlUtilsUtils.3		\
 	StringUtils.3		\
 	ClassVersion.3		\
 	Compare.3		\
@@ -15,28 +15,28 @@ MAN_PAGES	= 		\
 
 all: $(MAN_PAGES)
 
-ClueUtils.3:	$(CLUE_SRC)/ClueUtils.hh
+StlUtilsUtils.3:	$(STLUTILS_SRC)/StlUtilsUtils.hh
 	$(GEN_CMD)
 
-StringUtils.3:	$(CLUE_SRC)/StringUtils.hh
+StringUtils.3:	$(STLUTILS_SRC)/StringUtils.hh
 	$(GEN_CMD)
 
-ClassVersion.3:	$(CLUE_SRC)/ClassVersion.hh
+ClassVersion.3:	$(STLUTILS_SRC)/ClassVersion.hh
 	$(GEN_CMD)
 
-Compare.3:	$(CLUE_SRC)/Compare.hh
+Compare.3:	$(STLUTILS_SRC)/Compare.hh
 	$(GEN_CMD)
 
-LibTest.3:	$(CLUE_SRC)/LibTest.hh
+LibTest.3:	$(STLUTILS_SRC)/LibTest.hh
 	$(GEN_CMD)
 
-Bit.3:	$(CLUE_SRC)/Bit.hh
+Bit.3:	$(STLUTILS_SRC)/Bit.hh
 	$(GEN_CMD)
 
-Bitmask.3:	$(CLUE_SRC)/Bitmask.hh
+Bitmask.3:	$(STLUTILS_SRC)/Bitmask.hh
 	$(GEN_CMD)
 
-RegexScan.3:	$(CLUE_SRC)/RegexScan.hh
+RegexScan.3:	$(STLUTILS_SRC)/RegexScan.hh
 	$(GEN_CMD)
 
 clean:

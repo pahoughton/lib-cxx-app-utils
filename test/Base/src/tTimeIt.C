@@ -1,6 +1,6 @@
 //
 // File:        tTimeIt.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for tTimeIt
@@ -32,6 +32,9 @@ tTimeIt( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:14  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/07/11 15:57:08  houghton
 // Initial Version.
 //

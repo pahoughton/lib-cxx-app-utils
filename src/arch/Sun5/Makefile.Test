@@ -1,7 +1,7 @@
 #
 #
 # Title:        Makefile.Test
-# Project:	Clue
+# Project:	StlUtils
 # Desc:
 # 
 #   
@@ -26,20 +26,23 @@ TEST_GROUP	= softdev
 TEST_UID	= 223
 TEST_GID	= 103
 
-ARCH_DEFINES	= -DCLUE_TEST_NO_GROUPS=1
+ARCH_DEFINES	= -DSTLUTILS_TEST_NO_GROUPS=1
 ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
-CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src 		\
+STLUTILS_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src 		\
 		  -I$(PRJ_TOPDIR)/src/arch/Unix/src 		\
 		  -I$(PRJ_TOPDIR)/src/arch/src 			\
-		  -I$(PRJ_TOPDIR)/src/Clue 
+		  -I$(PRJ_TOPDIR)/src/StlUtils 
 
-CLUE_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/Clue
+STLUTILS_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/StlUtils
 
 ARCH_DEBUG_LIBS		= -lGnuRegex 
 ARCH_DEFAULT_LIBS 	= -lGnuRegex
 
 #
 # $Log$
+# Revision 3.3  1997/09/17 11:09:17  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.2  1997/08/18 10:30:58  houghton
 # Changed uid and group (I really need a better solution to this).
 #

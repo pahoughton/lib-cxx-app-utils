@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 3.4  1997/09/17 11:08:13  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/08/24 21:56:11  houghton
 // Changed getDayOfWeek to return a 'DayOfWeek' (was int).
 //
@@ -36,14 +39,14 @@
 //
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <DateRange.hh>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
-class CLUE_CLASS_T DateRangeDaily : public DateRange
+class STLUTILS_CLASS_T DateRangeDaily : public DateRange
 {
 
 public:
@@ -67,7 +70,7 @@ public:
   bool		    operator == ( const DateRangeDaily & two ) const;
   bool		    operator <  ( const DateRangeDaily & two ) const;
     
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
   
   virtual ostream & 	toStream( ostream & dest ) const;
   
@@ -93,7 +96,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <DateRangeDaily.ii>
 #else
 #include <DateRgDl.ii>

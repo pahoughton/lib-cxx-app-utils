@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 3.2  1997/09/17 11:08:58  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:27  houghton
 // Changed to Release 3
 //
@@ -24,18 +27,18 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#if !defined( STLUTILS_SHORT_FN )
+#include <StlUtilsConfig.hh>
 #include <ctime>
 #include <iostream>
 #else
-#include <ClueCfg.hh>
+#include <StlUtilsCfg.hh>
 #include <ctime>
 #include <iostream>
 #endif
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 

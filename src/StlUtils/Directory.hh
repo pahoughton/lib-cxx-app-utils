@@ -2,7 +2,7 @@
 #define _Directory_hh_
 //
 // File:        Directory.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -21,8 +21,8 @@
 //  $Id$
 //
 
-#include <ClueConfig.hh>
-#include <ClueDirent.hh>
+#include <StlUtilsConfig.hh>
+#include <StlUtilsDirent.hh>
 #include <SortOrder.hh>
 #include <FileStat.hh>
 #include <Bitmask.hh>
@@ -32,7 +32,7 @@
 
 #include <iostream>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -456,12 +456,15 @@ operator >> ( istream & src, const Directory & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:08:19  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/07/11 15:54:13  houghton
 // Added Directory( void )
 // Added reread().
 //
 // Revision 3.3  1997/06/09 14:36:33  houghton
-// Added include ClueDirent.hh
+// Added include StlUtilsDirent.hh
 // Bug-Fix: DirFieldTime copy constructor arg was wrong.
 // Bug-Fix: forgot to declere 'Time' (DirField).
 //

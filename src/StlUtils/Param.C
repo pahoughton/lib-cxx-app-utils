@@ -1,6 +1,6 @@
 //
 // File:        Param.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //              
 //  Compiled sources for the Param class
@@ -14,17 +14,17 @@
 
 #include "Param.hh"
 #include "StringUtils.hh"
-#include "ClueUtils.hh"
+#include "StlUtilsUtils.hh"
 #include "Str.hh"
 #include "DateTime.hh"
 
 #include <unistd.h>
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   Param,
   "$Id$" );
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include <Param.ii>
 #endif
 
@@ -139,6 +139,7 @@ Param::logStartInfo( void )
   appLog( LogLevel::Info )
     << appName() << '(' << getpid() << ") Started at " << appStartTime
     ;
+  return( appLog );
 }
 
 bool
@@ -375,7 +376,7 @@ Param::argStr(
 template< class NumT >
 inline
 bool
-_ClueParamArgNum(
+_StlUtilsParamArgNum(
   Str &	arg,
   NumT &  	dest,
   NumT	    	minVal,
@@ -1171,6 +1172,9 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.19  1997/09/17 11:08:36  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.18  1997/09/16 11:24:49  houghton
 // Added startTime method().
 // Added logStartInfo method().
@@ -1271,7 +1275,7 @@ Param::setError(
 // *** empty log message ***
 //
 // Revision 2.2  1995/12/04 11:18:23  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:53  houghton
 // Change to Version 2

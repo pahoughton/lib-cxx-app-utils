@@ -1,6 +1,6 @@
 //
 // File:        DateTimeUtils.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for DateTimeUtils
@@ -18,7 +18,7 @@
 #include "DateTimeUtils.hh"
 #include <climits>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   DateTimeUtils,
   "$Id$" );
 
@@ -103,6 +103,9 @@ const char * AbbrWeekDays[] =
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:18  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/08/24 23:07:51  houghton
 // Cleanup comments.
 // Changed type of global const values to time_t.

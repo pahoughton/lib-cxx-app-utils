@@ -1,6 +1,6 @@
 //
 // File:        StringUpper.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //    Convert all lowercase characters (a-z) to uppercase (A-Z).
@@ -16,7 +16,7 @@
 #include <cstddef>
 #include <cctype>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   StringUpper,
   "$Id$" );
 
@@ -41,6 +41,9 @@ StringUpper( char * str, size_t len )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:53  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/24 19:08:41  houghton
 // Removed support for short filenames.
 //

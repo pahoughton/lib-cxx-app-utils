@@ -16,24 +16,27 @@
 // $Id$
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:57  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:25  houghton
 // Changed to Release 3
 //
 // Revision 2.2  1996/11/04 14:34:35  houghton
-// Changed to be compilable even if CLUE_THREADS is not defined.
+// Changed to be compilable even if STLUTILS_THREADS is not defined.
 //
 // Revision 2.1  1996/04/27 13:11:52  houghton
 // Initial version.
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#if !defined( STLUTILS_SHORT_FN )
+#include <StlUtilsConfig.hh>
 #else
-#include <ClueCfg.hh>
+#include <StlUtilsCfg.hh>
 #endif
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -68,7 +71,7 @@ protected:
 
   virtual bool	main( void ) = 0;
 
-#if defined( CLUE_THREADS )
+#if defined( STLUTILS_THREADS )
   pthread_t	threadId;
 #endif
   bool		cleanup;
@@ -84,7 +87,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <ThreadBase.ii>
 #else
 #include <ThreadBase.ii>

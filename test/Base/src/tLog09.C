@@ -1,6 +1,6 @@
 //
 // File:        tLog09.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for LogIf macro.
@@ -109,6 +109,9 @@ tLog09( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:53  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/04/26 14:13:00  houghton
 // Renamed test file names.
 //

@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.8  1997/09/17 11:08:21  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.7  1997/08/08 12:37:29  houghton
 // Added expand() method.
 //
@@ -40,7 +43,7 @@
 // Bug-Fix: changeDirs - if oldDirs not found in path, return false.
 //
 // Revision 2.2  1995/12/04 11:17:22  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:34  houghton
 // Change to Version 2
@@ -63,15 +66,15 @@
 #include <cstdio>
 #include <cstring>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include <FilePath.ii>
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   FilePath,
   "$Id$" );
 
-const char FilePath::DirDelim = CLUE_DIR_DELIM;
+const char FilePath::DirDelim = STLUTILS_DIR_DELIM;
 
 Str
 FilePath::getName( void ) const
@@ -412,7 +415,7 @@ FilePath::toStream( ostream & dest ) const
 size_t
 FilePath::getBinSize( void ) const
 {
-  return( sizeof( CLUE_U32 ) +
+  return( sizeof( STLUTILS_U32 ) +
 	  size() +
 	  sizeof( dirDelim ) +
 	  sizeof( extDelim ) );
@@ -422,7 +425,7 @@ FilePath::getBinSize( void ) const
 ostream & 
 FilePath::write( ostream & dest ) const
 {
-  CLUE_U32  len = size();
+  STLUTILS_U32  len = size();
   dest.write( (const char *)&len, sizeof( len ) );
   dest.write( c_str(), size() );
   dest.write( &dirDelim, sizeof( dirDelim ) );
@@ -433,7 +436,7 @@ FilePath::write( ostream & dest ) const
 istream &
 FilePath::read( istream & src )
 {
-  CLUE_U32  len = 0;
+  STLUTILS_U32  len = 0;
   src.read( (char *)&len, sizeof( len ) );
 
   if( ! len )

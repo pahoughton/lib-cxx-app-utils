@@ -1,6 +1,6 @@
 //
 // File:        tStringTo.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test StringTo* functions
@@ -974,6 +974,9 @@ tStringTo( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:10:09  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1996/11/24 19:14:26  houghton
 // Changed for AIX because bool is not a real type.
 //

@@ -1,6 +1,6 @@
 //
 // File:        TimeIt.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for TimeIt
@@ -16,16 +16,16 @@
 //
 
 #include "TimeIt.hh"
-#include <ClueUtils.hh>
+#include <StlUtilsUtils.hh>
 #include <Str.hh>
 #include <iomanip>
 #include <cstring>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "TimeIt.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   TimeIt,
   "$Id$");
 
@@ -239,6 +239,9 @@ TimeIt::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:09:26  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/03/21 12:28:52  houghton
 // Cleanup toStream output.
 //

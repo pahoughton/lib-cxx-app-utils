@@ -2,7 +2,7 @@
 #define _InboundProcessorBase_ii_
 //
 // File:        InboundProcessorBase.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Inline source for InboundProcessorBase
@@ -20,7 +20,7 @@
 //
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -39,6 +39,9 @@ InboundProcessorBase::dump( const char * prefix, bool showVer ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 3.4  1997/09/17 11:09:21  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/07/25 13:54:54  houghton
 // Moved caughtSignal to .C.
 //

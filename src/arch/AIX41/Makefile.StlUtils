@@ -1,6 +1,6 @@
 # -*- makefile -*-
 #
-# Makefile for libCluee src/arch/Linux/src
+# Makefile for libStlUtilse src/arch/Linux/src
 #
 # Created 11/20/95
 #
@@ -8,7 +8,7 @@
 #
 #
 
-include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.Clue
+include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.StlUtils
 
 ARCH_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/src
 ARCH_SRC_DIR	= $(PRJ_TOPDIR)/src/arch/src
@@ -38,10 +38,10 @@ ARCH_USER_H_INCS	=	\
 	$(UNIX_USER_H_INCS)	\
 
 ARCH_USER_HH_INCS	=		\
-	ClueArch.hh			\
-	ClueDirent.hh			\
-	ClueSysStat.hh			\
-	ClueExceptions.hh		\
+	StlUtilsArch.hh			\
+	StlUtilsDirent.hh			\
+	StlUtilsSysStat.hh			\
+	StlUtilsExceptions.hh		\
 	$(UNIX_USER_HH_INCS)		\
 
 ARCH_USER_II_INCS	=		\
@@ -59,6 +59,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 3.6  1997/09/17 11:09:07  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.5  1997/08/17 00:55:45  houghton
 # Added ARCH_GENERATED_SOURCES
 #

@@ -1,6 +1,6 @@
 //
 // File:        FileLock.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for FileLock
@@ -17,15 +17,15 @@
 
 #include "FileLock.hh"
 #include <Str.hh>
-#include <ClueUtils.hh>
+#include <StlUtilsUtils.hh>
 #include <unistd.h>
 #include <fcntl.h>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "FileLock.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   FileLock,
   "$Id$");
 
@@ -216,6 +216,9 @@ FileLock::typeName( Type t )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:18  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/09/16 11:21:12  houghton
 // Initial Version.
 //

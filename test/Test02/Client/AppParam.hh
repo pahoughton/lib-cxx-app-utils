@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:22  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:27:58  houghton
 // Changed to Release 3
 //
@@ -59,7 +62,7 @@ inline
 AppParam::AppParam( int & argc, char ** argv, const char * ver )
   : Param( argc, argv, ver ),
     vServer( "WcfTest01" ),
-    vClient( "Clue" )
+    vClient( "StlUtils" )
 {
   argStr( vServer, "CF Server name", "sn", "SERVERNAME" );  
   argStr( vClient, "CF Client name", "cn", "CLIENTNAME" ); 

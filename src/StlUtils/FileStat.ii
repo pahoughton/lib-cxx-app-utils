@@ -2,7 +2,7 @@
 #define _FileStat_ii_
 //
 // File:        FileStat.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Definitions for FileStat inline functions.
@@ -17,7 +17,7 @@
 
 #include <cerrno>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -487,6 +487,9 @@ operator << ( ostream & dest, const FileStat & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:08:24  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/09/16 11:23:22  houghton
 // Added 'exist' method.
 //
@@ -515,7 +518,7 @@ operator << ( ostream & dest, const FileStat & obj )
 // Bug Fix - Added include for 'cerrno'
 //
 // Revision 2.2  1995/12/04 11:20:33  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:47:12  houghton
 // Change to Version 2

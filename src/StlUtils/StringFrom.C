@@ -1,6 +1,6 @@
 //
 // File:        StringFrom.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  The StringFrom functions were developed out of my
@@ -19,7 +19,7 @@
 // Revision History: (See end of file for Revision Log)
 //
 
-#if defined( CLUE_THREADS )
+#if defined( STLUTILS_THREADS )
 #error Mutex needed
 #endif
 
@@ -29,7 +29,7 @@
 #include <cstring>
 #include <cctype>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   StringAppend,
   "$Id$" );
 
@@ -40,7 +40,7 @@ static char	NumBuf[ 129 ];
 template< class NumT >
 inline
 char * 
-_ClueStringUnsignedFrom(
+_StlUtilsStringUnsignedFrom(
   char *    end,
   NumT	    num,
   bool	    neg,
@@ -104,57 +104,57 @@ _ClueStringUnsignedFrom(
 template< class NumT >
 inline
 char * 
-_ClueStringSignedFrom( char * end, NumT num, short base, bool prefix )
+_StlUtilsStringSignedFrom( char * end, NumT num, short base, bool prefix )
 {
   if( num < 0 )
     {
-      return( _ClueStringUnsignedFrom( end, -num, true, base, prefix  ) );
+      return( _StlUtilsStringUnsignedFrom( end, -num, true, base, prefix  ) );
     }
   else
     {
-      return( _ClueStringUnsignedFrom( end, num, false, base, prefix  ) );
+      return( _StlUtilsStringUnsignedFrom( end, num, false, base, prefix  ) );
     }
 }
 
 const char *
 StringFrom( int num, short base, bool prefix )
 {
-  return( _ClueStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,
+  return( _StlUtilsStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,
 				 num, base, prefix ) );
 }
 
 const char *
 StringFrom( short num, short base, bool prefix )
 {
-  return( _ClueStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,
+  return( _StlUtilsStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,
 				 num, base, prefix ) );
 }
 
 const char *
 StringFrom( long num, short base, bool prefix )
 {
-  return( _ClueStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,
+  return( _StlUtilsStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,
 				 num, base, prefix ) );
 }
 
 const char *
 StringFrom( unsigned int num, short base, bool prefix )
 {
-  return( _ClueStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,
+  return( _StlUtilsStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,
 				   num, false, base, prefix ) );
 }
 
 const char *
 StringFrom( unsigned short num, short base, bool prefix )
 {
-  return( _ClueStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,
+  return( _StlUtilsStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,
 				   num, false, base, prefix ) );
 }
 
 const char *
 StringFrom( unsigned long num, short base, bool prefix )
 {
-  return( _ClueStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,
+  return( _StlUtilsStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,
 				   num, false, base, prefix ) );
 }
 
@@ -185,6 +185,9 @@ StringFrom( const struct tm & src, const char * fmt )
 
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:52  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/07/28 16:46:48  houghton
 // Bug-Fix: if num was 0, an empty string would be returned.
 //

@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:49  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:23:43  houghton
 // Changed to Release 3
 //
@@ -21,7 +24,7 @@
 //   at the bottom.
 //
 // Revision 2.2  1995/12/04 11:17:22  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:36  houghton
 // Change to Version 2
@@ -31,7 +34,7 @@
 //
 //
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 

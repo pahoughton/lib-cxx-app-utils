@@ -1,6 +1,6 @@
 //
 // File:        main.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Application entry point.
@@ -17,7 +17,7 @@
 //  $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include "AppParam.hh"
 #include <Semaphore.hh>
 #include <FileStat.hh>
@@ -27,7 +27,7 @@
 
 AppParam * App = 0;
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   main,
   "$Id$");
 
@@ -129,6 +129,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1997/09/17 11:10:20  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 1.1  1997/09/16 11:31:27  houghton
 // Initial Version.
 //

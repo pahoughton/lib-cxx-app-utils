@@ -1,6 +1,6 @@
 //
 // File:        basename.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //	const char *
@@ -22,7 +22,7 @@
 #include "StringUtils.hh"
 #include <cstring>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   basename,
   "$Id$" );
 
@@ -32,7 +32,7 @@ basename( const char * fn )
 {
   if( ! fn ) return( fn );
 
-  const char * name = strrchr( fn, CLUE_DIR_DELIM );
+  const char * name = strrchr( fn, STLUTILS_DIR_DELIM );
 
   if( name )
     return( name + 1 );
@@ -45,7 +45,7 @@ basename( char * fn )
 {
   if( ! fn ) return( fn );
 
-  char * name = strrchr( fn, CLUE_DIR_DELIM );
+  char * name = strrchr( fn, STLUTILS_DIR_DELIM );
 
   if( name )
     return( name + 1 );
@@ -57,6 +57,9 @@ basename( char * fn )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:11  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/24 19:15:04  houghton
 // Removed support for short file names.
 //
@@ -65,7 +68,7 @@ basename( char * fn )
 //
 // Revision 2.2  1996/11/04 14:40:41  houghton
 // Restructure header comments layout.
-// Changed to use CLUE_DIR_DELIM (defined in ClueConfig.hh).
+// Changed to use STLUTILS_DIR_DELIM (defined in StlUtilsConfig.hh).
 //
 // Revision 2.1  1995/11/10 12:47:16  houghton
 // Change to Version 2

@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:50  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/04/03 23:23:22  houghton
 // Changed include stddef to stddef.h
 //
@@ -37,26 +40,26 @@
 //
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <stddef.h>
 #include <strstream.h>
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
-class CLUE_CLASS_T Str;
-class CLUE_CLASS_T SubStr;
+class STLUTILS_CLASS_T Str;
+class STLUTILS_CLASS_T SubStr;
 
-class CLUE_CLASS_T StrStreambuf : public strstreambuf
+class STLUTILS_CLASS_T StrStreambuf : public strstreambuf
 {
 
 public:
   StrStreamBuf( void );
   
-  inline size_t	    	plen(void) CLUE_STRBUF_CONST_RDBUF;
-  inline size_t	    	psize(void) CLUE_STRBUF_CONST_RDBUF;
+  inline size_t	    	plen(void) STLUTILS_STRBUF_CONST_RDBUF;
+  inline size_t	    	psize(void) STLUTILS_STRBUF_CONST_RDBUF;
   inline const char * 	cstr(void);  
 
   const char *		getClassName( void ) const;
@@ -71,11 +74,11 @@ public:
   
 private:
 
-#if defined( CLUE_STRBUF_PBASE )
+#if defined( STLUTILS_STRBUF_PBASE )
   char * pbase( void ) { return( base() ); }
 #endif
   
-  inline const char * 	strbase( void ) CLUE_STRBUF_CONST_RDBUF;
+  inline const char * 	strbase( void ) STLUTILS_STRBUF_CONST_RDBUF;
   
   friend class Str;
   friend class SubStr;

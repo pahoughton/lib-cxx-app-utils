@@ -1,6 +1,6 @@
 //
 // File:        LogLevel.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //              
 //  Source code for LogLevel methods.
@@ -12,17 +12,17 @@
 //
 
 #include "LogLevel.hh"
-#include "ClueUtils.hh"
+#include "StlUtilsUtils.hh"
 #include "Bit.hh"
 #include "StringUtils.hh"
 #include "Str.hh"
 #include <cstring>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "LogLevel.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   LogLevel,
   "$Id$" );
 
@@ -316,6 +316,9 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/09/17 11:08:31  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.6  1997/05/02 12:17:06  houghton
 // Changed all LogLevel::Level args to const & to avoid copy constructor calls.
 //
@@ -349,7 +352,7 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 //     of an inconsitancy in the public member of strstream.
 //
 // Revision 2.9  1996/11/04 18:21:40  houghton
-// Chaged include becuase Clue.hh was renamed to ClueUtils.hh.
+// Chaged include becuase StlUtils.hh was renamed to StlUtilsUtils.hh.
 //
 // Revision 2.8  1996/11/04 14:14:16  houghton
 // Restructure header comments layout.
@@ -372,7 +375,7 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 // Bug Fix: Cant use static class object to construct other static objects
 //
 // Revision 2.4  1995/12/04 11:17:24  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.3  1995/11/12  22:08:05  houghton
 // Bug fix - setName() - junk code from copy (cut out).

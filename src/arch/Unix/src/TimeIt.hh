@@ -2,7 +2,7 @@
 #define _TimeIt_hh_
 //
 // File:        TimeIt.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -21,7 +21,7 @@
 //  $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include "DumpInfo.hh"
 #include <iostream>
 #include <sys/time.h>
@@ -30,7 +30,7 @@
 #include <cstring>
 #include <algorithm>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -366,6 +366,9 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:09:27  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/08/08 13:25:48  houghton
 // Added getStartRealTime().
 //

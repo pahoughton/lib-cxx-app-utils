@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:08:25  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/08/18 10:21:12  houghton
 // Port(Sun5): Renamed 'times' in run to numTimes to prevent a compiler warning.
 //
@@ -49,7 +52,7 @@
 #include <cstdio>
 #include <cctype>
 
-CLUE_VERSION( LibTest,
+STLUTILS_VERSION( LibTest,
 	      "$Id$" );
 
 LibTest::DefaultResults LibTest::defaultResultsObj;
@@ -470,11 +473,11 @@ LibTest::DefaultResults::failed(
 void
 LibTest::DefaultResults::passed(
   LibTest &	tester,
-  const char *	CLUE_UNUSED( testName ),
-  size_t	CLUE_UNUSED( testNum ),
-  size_t	CLUE_UNUSED( passNum ),
-  const char *	CLUE_UNUSED( srcFile ),
-  long		CLUE_UNUSED( srcLine ),
+  const char *	STLUTILS_UNUSED( testName ),
+  size_t	STLUTILS_UNUSED( testNum ),
+  size_t	STLUTILS_UNUSED( passNum ),
+  const char *	STLUTILS_UNUSED( srcFile ),
+  long		STLUTILS_UNUSED( srcLine ),
   bool		progress
   )
 {

@@ -2,7 +2,7 @@
 #define _LogLevel_hh_
 //
 // File:        LogLevel.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //              
 //	A LogLevel should be used in conjuntion with a Log and LogBuf.
@@ -22,14 +22,14 @@
 //
 
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <Bitmask.hh>
 #include <iostream>
 #include <map>
 
 #include <Common.h>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -92,7 +92,7 @@ public:
   inline bool	    operator == ( const LogLevel & rhs ) const;
   inline bool	    operator <  ( const LogLevel & rhs ) const;
   
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
     
   virtual size_t	getBinSize( void ) const;
   
@@ -131,7 +131,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <LogLevel.ii>
 #else
 #include <LogLvl.ii>
@@ -368,7 +368,7 @@ operator << ( ostream & dest, const LogLevel & obj );
 //
 //  Files:
 //
-//	LogLevel.hh, LogLevel.ii, libClue.a
+//	LogLevel.hh, LogLevel.ii, libStlUtils.a
 //
 // Documented Ver: 2.5
 // Tested Ver: 2.5
@@ -376,6 +376,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:08:32  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/07/18 19:24:26  houghton
 // Port(Sun5): had to make 'struct Name2Level' a public member to eliminate
 //     compiler errors.

@@ -15,14 +15,14 @@
 //
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <DumpInfo.hh>
 
 #include <iostream>
 
 #include <cstring>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -83,7 +83,7 @@ public:
 
   inline       	    operator const void * ( void ) const;
   
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
   
   virtual size_t    	getBinSize( void ) const;
   
@@ -203,6 +203,9 @@ compare( const Void & lhs, const Void & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:08:59  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/07/18 19:31:22  houghton
 // Port(Sun5): added include <cstring>.
 //
@@ -225,7 +228,7 @@ compare( const Void & lhs, const Void & rhs );
 // Bug-Fix: '#else was missing'
 //
 // Revision 2.3  1995/12/04 11:18:31  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.2  1995/11/13  11:31:02  houghton
 // Changed compare to const.

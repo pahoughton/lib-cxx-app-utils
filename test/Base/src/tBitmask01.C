@@ -1,6 +1,6 @@
 //
 // File:        tBitmask01.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test the following Bitmask methods.
@@ -467,6 +467,9 @@ tBitmask01( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:09:36  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/07/18 21:33:58  houghton
 // Port(Sun5): added include <cstring>
 //

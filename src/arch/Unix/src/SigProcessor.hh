@@ -2,7 +2,7 @@
 #define _SigProcessor_hh_
 //
 // File:        SigProcessor.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -21,10 +21,10 @@
 //  $Id$
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <iostream>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -156,6 +156,9 @@ operator >> ( istream & src, const SigProcessor & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:26  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/04/19 09:53:05  houghton
 // Initial Version.
 //

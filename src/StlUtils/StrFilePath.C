@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:48  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:23:41  houghton
 // Changed to Release 3
 //
@@ -19,7 +22,7 @@
 // Bug-Fix: changeDirs - if oldDirs not found in path, return false.
 //
 // Revision 2.2  1995/12/04 11:17:22  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:34  houghton
 // Change to Version 2
@@ -36,15 +39,15 @@
 #include <cstdio>
 #include <cstring>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include <FilePath.ii>
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   FilePath,
   "$Id$" );
 
-const char FilePath::DirDelim = CLUE_DIR_DELIM;
+const char FilePath::DirDelim = STLUTILS_DIR_DELIM;
 
 Str
 FilePath::getName( void ) const

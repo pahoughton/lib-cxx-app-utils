@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:14  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:25:20  houghton
 // Changed to Release 3
 //
@@ -27,7 +30,7 @@
 #include <fcntl.h>
 #include <cerrno>
 
-#ifdef CLUE_DEBUG
+#ifdef STLUTILS_DEBUG
 #define inline
 #include <File.ii>
 #endif

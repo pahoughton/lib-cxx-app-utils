@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 
 %shortNames =
-    ("ClueVersion",		    "cluever",
+    ("StlUtilsVersion",		    "cluever",
      "ClassVersion",		    "classver",
      "BinStream",		    "binstrm",
      "NetStream",		    "netstrm",

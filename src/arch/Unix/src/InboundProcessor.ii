@@ -2,7 +2,7 @@
 #define _InboundProcessor_ii_
 //
 // File:        InboundProcessor.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Inline source for InboundProcessor
@@ -59,6 +59,9 @@ InboundProcessor<Proc>::InboundProcessor(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.5  1997/09/17 11:09:20  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/09/02 21:30:09  houghton
 // Port(Sun5): Changed variable name 'sigCatcher' to signalCatcher to
 //     avoid compiler warning.

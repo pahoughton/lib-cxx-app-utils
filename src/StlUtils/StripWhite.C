@@ -1,6 +1,6 @@
 //
 // File:        StripWhite.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Remove leading and trailing white space from a string.
@@ -18,7 +18,7 @@
 
 #include "StringUtils.hh"
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   StripWhite,
   "$Id$" );
 
@@ -71,6 +71,9 @@ StripWhite( char * buffer, const char * white, size_t bufSize )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:55  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/24 19:09:42  houghton
 // Removed support for short filenames.
 //

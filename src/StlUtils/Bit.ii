@@ -2,7 +2,7 @@
 #define _Bit_ii_
 //
 // File:        Bit.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Inline source for Bit manipulation functions.
@@ -95,6 +95,9 @@ SetBits( Dest & dest, Value value, NumberType start, NumberType len )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:08  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/19 12:19:13  houghton
 // Restructure header comments.
 //

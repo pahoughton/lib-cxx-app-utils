@@ -2,7 +2,7 @@
 #define _StringUtils_hh_
 //
 // File:        StringUtils.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  This is a collection of char string utility functions. They
@@ -20,224 +20,224 @@
 // $Id$ 
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <cstring>
 #include <ctime>
 
 char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StripWhite( char *  	    buffer,
 	    const char *    white = " \n\t\r\v\f",
 	    size_t          bufSize = NPOS );
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringSearch( const char *  haystack,
 	      size_t        hayLen,
 	      const char *  needle,
 	      size_t        needleLen );
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringReverseSearch( const char *  haystack,
 		     size_t        hayLen,
 		     const char *  needle,
 		     size_t        needleLen );
 
 const char * 
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringCaseSearch( const char *  haystack,
 		  size_t        hayLen,
 		  const char *  needle,
 		  size_t        needleLen );
 
 const char * 
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringCaseReverseSearch( const char *  haystack,
 			 size_t        hayLen,
 			 const char *  needle,
 			 size_t        needleLen );
 
 size_t
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringFirstNotOf( const char *	haystack,
 		  size_t	hayLen,
 		  const char *	needles,
 		  size_t	needleLen );
 
 int
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringCaseCompare( const char * one, const char * two );
 
 int
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringCaseCompare( const char * one, const char * two, size_t len );
 
 int
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringCaseCompare( const char * one, size_t lenOne,
 		   const char * two, size_t lenTwo );
 
 
 char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringLower( char * str, size_t len = NPOS );
 
 char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringUpper( char * str, size_t len = NPOS );
 
 char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringCapitalize( char * str, size_t len = NPOS );
 
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( bool & 	    	dest,
 	  const char *  	str,
 	  size_t 	    	len = NPOS );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( int &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
 	  size_t    	    len = NPOS );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( short &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
 	  size_t    	    len = NPOS );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( long &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
 	  size_t    	    len = NPOS );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( float &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
 	  size_t    	    len = NPOS );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( double &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
 	  size_t    	    len = NPOS );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( unsigned int &    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
 	  size_t    	    len = NPOS );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( unsigned short &  dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
 	  size_t    	    len = NPOS );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( unsigned long &   dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
 	  size_t    	    len = NPOS );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringTo( struct tm &	    dest,
 	  const char *	    src,
 	  const char *	    fmt = "%m/%d/%y %H:%M:%S" );
 
 bool
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToBool( const char * str, size_t len = NPOS );
 
 int
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToInt( const char * str, unsigned short base = 0, size_t len = NPOS );
 
 short
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToShort( const char * str, unsigned short base = 0, size_t len = NPOS );
 
 long
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToLong( const char * str, unsigned short base = 0, size_t len = NPOS );
 
 float
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToFloat( const char * str, unsigned short base = 0, size_t len = NPOS );
 
 double
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToDouble( const char * str, unsigned short base = 0, size_t len = NPOS );
 
 unsigned int
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToUInt( const char * str, unsigned short base = 0, size_t len = NPOS );
 
 unsigned short
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToUShort( const char * str, unsigned short base = 0, size_t len = NPOS );
 
 unsigned long
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToULong( const char * str, unsigned short base = 0, size_t len = NPOS );
 
 struct tm
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringToTm( const char * src, const char * fmt = "%m/%d/%y %H:%M:%S" );
 
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringFrom( int num, short base = 10, bool prefix = false );
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringFrom( short num, short base = 10, bool prefix = false );
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringFrom( long num, short base = 10, bool prefix = false );
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringFrom( unsigned int num, short base = 10, bool prefix = false );
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringFrom( unsigned short num, short base = 10, bool prefix = false );
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringFrom( unsigned long num, short base = 10, bool prefix = false );
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringFrom( double num, short precision = 2 );
 
 const char *
 StringFrom( const struct tm & src, const char * fmt = "%m/%d/%y %H:%M:%S" );
 
 const char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 basename( const char * fn );
 
 char *
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 basename( char * fn );
 
 
@@ -641,7 +641,7 @@ basename( char * fn );
 //
 //  Files:
 //
-//	StringUtils.hh, StringUtils.ii, libClue.a
+//	StringUtils.hh, StringUtils.ii, libStlUtils.a
 //
 //  Documented Ver: 2.4
 //  Tested Ver: 2.4
@@ -649,6 +649,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:08:54  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/08/12 11:10:15  houghton
 // Added StringFirstNotOf.
 //

@@ -2,7 +2,7 @@
 #define _StringUtils_ii_
 //
 // File:        StringUtils.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Inline StringUtil functions source.
@@ -49,6 +49,9 @@ CharIsBaseDigit( char c, unsigned short base )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:54  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:21  houghton
 // Changed to Release 3
 //

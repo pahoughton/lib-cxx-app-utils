@@ -2,7 +2,7 @@
 #define _SortOrder_ii_
 //
 // File:        SortOrder.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Inline source for SortOrder
@@ -53,6 +53,9 @@ SortOrder<T>::operator + ( const SortOrder<T> & rhs ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 3.3  1997/09/17 11:08:42  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/06/09 12:02:37  houghton
 // Complete rework.
 //

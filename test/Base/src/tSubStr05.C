@@ -1,4 +1,4 @@
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
@@ -27,7 +27,7 @@ tSubStr05( LibTest & tester )
     const Str stw( "123" OutStr "junk" );
     const SubStr tw( stw, 3, strlen( OutStr ) );
 
-    TEST( tw.getBinSize() == (sizeof(CLUE_U32) + tw.size() ) );
+    TEST( tw.getBinSize() == (sizeof(STLUTILS_U32) + tw.size() ) );
   }
   
   {
@@ -52,7 +52,7 @@ tSubStr05( LibTest & tester )
   {      
     // toStream( ostream & ) const
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/SubStr.operator.output.01";
 #else
     const char * fn = TEST_DATA_DIR "/ssopot1.txt";
@@ -70,7 +70,7 @@ tSubStr05( LibTest & tester )
   {
     // operator << ( ostream &, const Str & )
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/SubStr.operator.output.02";
 #else
     const char * fn = TEST_DATA_DIR "/ssopot2.txt";

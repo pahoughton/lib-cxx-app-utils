@@ -2,7 +2,7 @@
 #define _DateTime_ii_
 //
 // File:        DateTime.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Inline source for DateTime
@@ -23,7 +23,7 @@
 #include <StringUtils.hh>
 #include <cstdlib>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -700,6 +700,9 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.4  1997/09/17 11:08:17  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/08/28 21:21:43  houghton
 // Cleanup comment header.
 // Changed operator == and operator < to return 'bool'.
@@ -719,7 +722,7 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 //   at the bottom.
 //
 // Revision 2.3  1995/12/04 11:17:21  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.2  1995/11/12  17:52:35  houghton
 // New default constructor that sets the value to current local time.

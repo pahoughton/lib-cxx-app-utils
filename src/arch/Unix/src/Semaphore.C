@@ -1,6 +1,6 @@
 //
 // File:        Semaphore.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for Semaphore
@@ -17,14 +17,14 @@
 
 #include "Semaphore.hh"
 #include <Str.hh>
-#include <ClueUtils.hh>
+#include <StlUtilsUtils.hh>
 #include <cstring>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "Semaphore.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   Semaphore,
   "$Id$");
 
@@ -50,19 +50,19 @@ static struct sembuf	OpWait[1] =
   { 0, 0, 0 }
 };
 
-const key_t	Semaphore::badKey( CLUE_SEM_BADKEY );
-const int	Semaphore::badSem( CLUE_SEM_BADSEM );
+const key_t	Semaphore::badKey( STLUTILS_SEM_BADKEY );
+const int	Semaphore::badSem( STLUTILS_SEM_BADSEM );
 
 Semaphore::Semaphore( void )
-  : key( CLUE_SEM_BADKEY ),
-    semId( CLUE_SEM_BADSEM ),
+  : key( STLUTILS_SEM_BADKEY ),
+    semId( STLUTILS_SEM_BADSEM ),
     osErrno( ENOENT )
 {
 }
 
 Semaphore::Semaphore( key_t semKey, int numSems, int flags )
-  : key( CLUE_SEM_BADKEY ),
-    semId( CLUE_SEM_BADSEM ),
+  : key( STLUTILS_SEM_BADKEY ),
+    semId( STLUTILS_SEM_BADSEM ),
     osErrno( ENOENT )
 {
   create( semKey, numSems, flags );
@@ -74,8 +74,8 @@ Semaphore::Semaphore(
   int		numSems,
   int		flags
   )
-  : key( CLUE_SEM_BADKEY ),
-    semId( CLUE_SEM_BADSEM ),
+  : key( STLUTILS_SEM_BADKEY ),
+    semId( STLUTILS_SEM_BADSEM ),
     osErrno( ENOENT )
 {
   create( keyPath, proj, numSems, flags );
@@ -114,7 +114,7 @@ Semaphore::remove( void )
 {
   if( semId != badSem )
     {
-#if defined( CLUE_HAS_SEMUN )
+#if defined( STLUTILS_HAS_SEMUN )
       static union semun  OpRemove = { 0 };
 #else
       long OpRemove = 0;
@@ -177,7 +177,7 @@ Semaphore::islocked( void ) const
 {
   if( semId != badSem )
     {
-#if defined( CLUE_HAS_SEMUN )
+#if defined( STLUTILS_HAS_SEMUN )
       static union semun  OpGetVal = { 0 };
 #else
       long OpGetVal = 0;
@@ -279,7 +279,7 @@ Semaphore::dumpInfo(
   if( semId != badSem )
     {
       struct semid_ds	semInfo;
-#if defined( CLUE_HAS_SEMUN )
+#if defined( STLUTILS_HAS_SEMUN )
       union semun	buff;
       buff.buf =	&semInfo;
 #else
@@ -309,12 +309,15 @@ Semaphore::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:09:23  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/09/16 11:28:22  houghton
 // Added islocked method().
 //
 // Revision 3.4  1997/07/18 21:30:44  houghton
 // Cleanup
-// Port(Sun5): reworked to use CLUE_HAS_SEMUN define.
+// Port(Sun5): reworked to use STLUTILS_HAS_SEMUN define.
 //
 // Revision 3.3  1997/07/15 20:20:45  houghton
 // Bug-Fix: changed defined( LINUX ) to defined( Linux ).

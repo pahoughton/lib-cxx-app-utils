@@ -1,8 +1,8 @@
-#ifndef _ClueSem_hh_
-#define _ClueSem_hh_
+#ifndef _StlUtilsSem_hh_
+#define _StlUtilsSem_hh_
 //
-// File:        ClueSem.hh
-// Project:	Clue
+// File:        StlUtilsSem.hh
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -26,13 +26,16 @@
 #include <sys/sem.h>
 #include <errno.h>
 
-#define CLUE_SEM_BADKEY	    -1
-#define CLUE_SEM_BADSEM	    -1
+#define STLUTILS_SEM_BADKEY	    -1
+#define STLUTILS_SEM_BADSEM	    -1
 
 //
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:18  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/07/25 12:26:26  houghton
 // Changed version number to 3.
 //
@@ -40,5 +43,5 @@
 // Initial Version.
 //
 //
-#endif // ! def _ClueSem_hh_ 
+#endif // ! def _StlUtilsSem_hh_ 
 

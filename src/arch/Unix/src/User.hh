@@ -2,7 +2,7 @@
 #define _User_hh_
 //
 // File:        User.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  A User provide logon information about a user on a Unix system.
@@ -15,12 +15,12 @@
 // $Id$ 
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <UserGroup.hh>
 #include <set>
 #include <pwd.h>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -77,7 +77,7 @@ public:
   inline		operator const char * () const;
   inline		operator uid_t () const;
 
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
   // note: write/read only stores the UID
   
   virtual size_t	getBinSize( void ) const;
@@ -178,6 +178,9 @@ compare( const User & one, const User & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:28  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/03/03 14:38:21  houghton
 // Removed support for RW Tools++.
 //
@@ -195,7 +198,7 @@ compare( const User & one, const User & two );
 //   change so the effective() method just returns a new 'User'
 //
 // Revision 2.2  1995/12/04 11:20:21  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:46:57  houghton
 // Change to Version 2

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:09:28  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/03/03 19:12:26  houghton
 // Changed from useing strstream to Str.
 //
@@ -36,7 +39,7 @@
 // Bug Fix - Removed 'inline' statement.
 //
 // Revision 2.2  1995/12/04 11:20:22  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:46:58  houghton
 // Change to Version 2
@@ -46,7 +49,7 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include "UserGroup.hh"
 #include "User.hh"
 #include "Compare.hh"
@@ -63,15 +66,15 @@
 #include <pwd.h>
 #endif
 
-#if defined( CLUE_DEBUG )
-#if !defined( CLUE_SHORT_FN )
+#if defined( STLUTILS_DEBUG )
+#if !defined( STLUTILS_SHORT_FN )
 #include <UserGroup.ii>
 #else
 #include <UserGrp.ii>
 #endif
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   UserGroup,
   "$Id$" );
   

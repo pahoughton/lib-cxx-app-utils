@@ -2,9 +2,9 @@
 .depend_default
 .depend_profile
 .depend_shared
-Clue.exp
+StlUtils.exp
 Templates.DB
-_Clue_Proto.h
+_StlUtils_Proto.h
 ir.out
 objects
 sig.awk

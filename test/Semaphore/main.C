@@ -1,6 +1,6 @@
 //
 // File:        main.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Application entry point.
@@ -17,7 +17,7 @@
 //  $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <Semaphore.hh>
 #include <iostream>
 #include <cstdlib>
@@ -86,6 +86,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:22  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/07/25 12:27:36  houghton
 // Changed version number to 3.
 //

@@ -2,7 +2,7 @@
 #define _Bitmask_hh_
 //
 // File:        Bitmask.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  This class provides for easy to use high perfomance
@@ -22,11 +22,11 @@
 //
 
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <functional>
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -35,7 +35,7 @@ class Bitmask
 
 public:
 
-  typedef CLUE_U32  ValueType;
+  typedef STLUTILS_U32  ValueType;
 
   class bit
   {
@@ -129,7 +129,7 @@ public:
   inline    	    	operator bool ( void ) const;
   inline    	    	operator unsigned long ( void ) const;
 
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
     
   virtual size_t	getBinSize( void ) const;
   
@@ -706,7 +706,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //
 //  Files:
 //
-//	Bitmask.hh, Bitmask.ii, libClue.a
+//	Bitmask.hh, Bitmask.ii, libStlUtils.a
 //
 //  Documented Ver: 2.7
 //  Tested Ver: 2.7
@@ -714,6 +714,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:09  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/19 12:19:40  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.
@@ -751,7 +754,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Cleanup.
 //
 // Revision 2.3  1995/12/04 11:16:41  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 // Bug Fix - Now there is a special type for all single 'bit' values.
 //
 // Revision 2.2  1995/11/10  14:08:33  houghton

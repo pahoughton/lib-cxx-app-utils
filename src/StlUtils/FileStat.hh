@@ -2,7 +2,7 @@
 #define _FileStat_hh_
 //
 // File:        FileStat.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  FileStat is provides information about files and modification
@@ -17,12 +17,12 @@
 // $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include "Bitmask.hh"
-#include "ClueSysStat.hh"
+#include "StlUtilsSysStat.hh"
 #include "FilePath.hh"
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -31,7 +31,7 @@ class FileStat
 
 public:
 
-  typedef CLUE_STAT_SIZE_TYPE	size_type;
+  typedef STLUTILS_STAT_SIZE_TYPE	size_type;
   
   typedef Bitmask   Who;
   typedef Bitmask   What;
@@ -121,7 +121,7 @@ public:
   inline bool	    	operator == ( const FileStat & rhs ) const;
   inline bool	    	operator <  ( const FileStat & rhs ) const;
 
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
   
   ostream &		toStream( ostream & dest = cout ) const;
   
@@ -566,7 +566,7 @@ compare( const FileStat & one, const FileStat & two );
 //
 // Files:
 //
-//	FileStat.hh, FileStat.ii, libClue.a
+//	FileStat.hh, FileStat.ii, libStlUtils.a
 //
 //  Documented Ver: 2.2
 //  Tested Ver: 2.2
@@ -574,6 +574,9 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:08:23  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/09/16 11:23:15  houghton
 // Added 'exist' method.
 //

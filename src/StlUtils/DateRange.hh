@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 3.4  1997/09/17 11:08:12  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/07/18 19:10:47  houghton
 // Cleanup.
 // Added compare( const DateTime & two ) const to eliminate compiler warnings.
@@ -36,15 +39,15 @@
 //
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <DateTime.hh>
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
-class CLUE_CLASS_T DateRange : public DateTime
+class STLUTILS_CLASS_T DateRange : public DateTime
 {
 public:
 
@@ -65,7 +68,7 @@ public:
   bool		    operator == ( const DateRange & two ) const;
   bool		    operator <  ( const DateRange & two ) const;
   
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
   
   virtual size_t    	getBinSize( void ) const;
   
@@ -96,7 +99,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <DateRange.ii>
 #else
 #include <DateRg.ii>

@@ -2,7 +2,7 @@
 #define _LibTest_hh_
 //
 // File:        LibTest.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  LibTest was designed to make it easier to test C++ classes
@@ -30,7 +30,7 @@
 // $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <iostream>
 #include <cstddef>
 
@@ -50,7 +50,7 @@
 //  r	    const char *    fail reason description
 //  p	    bool	    true=output a progress marker (i.e. '.')
 
-class CLUE_CLASS_T LibTest
+class STLUTILS_CLASS_T LibTest
 {
 
 public:
@@ -61,7 +61,7 @@ public:
     bool    	    (*test)( LibTest & );
   };
   
-  class CLUE_CLASS_T Results
+  class STLUTILS_CLASS_T Results
   {
   public:
     virtual void	start( LibTest &	tester,
@@ -159,7 +159,7 @@ public:
   static const ClassVersion version;
 
   // do not use this!
-  class CLUE_CLASS_T DefaultResults : public Results
+  class STLUTILS_CLASS_T DefaultResults : public Results
   {
   public:
     virtual void	start( LibTest &	tester,
@@ -487,6 +487,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:26  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/07/18 19:18:58  houghton
 // Port(Sun5): had to make 'class DefaultResults' a public member due to
 //     compile errors.

@@ -1,4 +1,4 @@
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
@@ -25,7 +25,7 @@ tStr22( LibTest & tester )
   {
     // getline( istream & )
     
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.getline.input";
 #else
     const char * fn = TEST_DATA_DIR "/strgl.in";
@@ -48,7 +48,7 @@ tStr22( LibTest & tester )
   {
     // getDelim( istream &, const char * )
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.getDelim.input";
 #else
     const char * fn = TEST_DATA_DIR "/strgd.in";
@@ -82,7 +82,7 @@ tStr22( LibTest & tester )
   {
     // getDelim( istream &, const char *, bool )
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.getDelim.input";
 #else
     const char * fn = TEST_DATA_DIR "/strgd.in";
@@ -116,7 +116,7 @@ tStr22( LibTest & tester )
   {
     // getDelim( istream &, char )
     
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.getDelim.char.input";
 #else
     const char * fn = TEST_DATA_DIR "/strgdch.in";
@@ -140,7 +140,7 @@ tStr22( LibTest & tester )
   {
     // getDelim( istream &, char, bool )
     
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.getDelim.char.input";
 #else
     const char * fn = TEST_DATA_DIR "/strgdch.in";
@@ -175,7 +175,7 @@ tStr22( LibTest & tester )
   {
     // write( ostream & )
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.bin.data";
 #else
     const char * fn = TEST_DATA_DIR "/strbin.dat";
@@ -202,7 +202,7 @@ tStr22( LibTest & tester )
   {
     // read( istream & )
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.bin.data";
 #else
     const char * fn = TEST_DATA_DIR "/strbin.dat";
@@ -229,7 +229,7 @@ tStr22( LibTest & tester )
   {
     // toStream( ostream & ) const
     
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.operator.output";
 #else
     const char * fn = TEST_DATA_DIR "/stropout";
@@ -248,7 +248,7 @@ tStr22( LibTest & tester )
   {
     // operator << ( ostream &, const Str & )
     
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.operator.output";
 #else
     const char * fn = TEST_DATA_DIR "/stropout";
@@ -267,7 +267,7 @@ tStr22( LibTest & tester )
   {
     // operator >> ( istream &, Str & )
     
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.operator.input";
 #else
     const char * fn = TEST_DATA_DIR "/strop.in";

@@ -1,12 +1,12 @@
-#ifndef _ClueUtils_ii_
-#define _ClueUtils_ii_
+#ifndef _StlUtilsUtils_ii_
+#define _StlUtilsUtils_ii_
 //
-// File:        ClueUtils.ii
-// Proejct:	Clue
+// File:        StlUtilsUtils.ii
+// Proejct:	StlUtils
 // Desc:        
 //
 //  This file contains the source for the inline
-//  functions documented in ClueUtils.hh
+//  functions documented in StlUtilsUtils.hh
 //  
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:43  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:23:29  houghton
 // Changed to Release 3
 //
@@ -22,7 +25,7 @@
 // Bug-Fix: had to change Align to use a template class for SizeType
 //
 // Revision 2.6  1996/11/04 18:21:19  houghton
-// Renamed Clue.hh to ClueUtils.hh.
+// Renamed StlUtils.hh to StlUtilsUtils.hh.
 //
 // Revision 2.5  1996/11/04 13:31:53  houghton
 // Restructure header comments layout.
@@ -110,7 +113,7 @@ MemOverlap( const void * one, size_t lenOne, const void * two, size_t lenTwo )
 }
 
 
-#if !defined( CLUE_HAVE_LONG_ABS )
+#if !defined( STLUTILS_HAVE_LONG_ABS )
 inline
 long
 abs( long value )
@@ -218,6 +221,6 @@ RoundDown( NumberType value, int factor  )
   return( value - remain );
 }
 
-#endif // ! def _ClueUtils_ii_ 
+#endif // ! def _StlUtilsUtils_ii_ 
 
 

@@ -1,6 +1,6 @@
 //
 // File:        tStringCaseCompare.C
-// Project:     Clue
+// Project:     StlUtils
 // Desc:        
 //
 //  Test StringCaseCompare functions.
@@ -15,7 +15,7 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StringUtils.hh>
@@ -153,6 +153,9 @@ tStringCaseCompare( LibTest & tester )
     
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:07  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:27:11  houghton
 // Changed to Release 3
 //

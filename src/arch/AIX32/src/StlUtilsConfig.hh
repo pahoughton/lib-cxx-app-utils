@@ -1,5 +1,5 @@
-#ifndef _ClueConfig_hh_
-#define _ClueConfig_hh_
+#ifndef _StlUtilsConfig_hh_
+#define _StlUtilsConfig_hh_
 //
 // File:        UtilsConfig.hh
 // Desc:        
@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:06  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:52  houghton
 // Changed to Release 3
 //
@@ -25,17 +28,17 @@
 //
 //
 
-#define CLUE_CLASS_T
-#define CLUE_FUNCT_T
-#define CLUE_GVAR_T
+#define STLUTILS_CLASS_T
+#define STLUTILS_FUNCT_T
+#define STLUTILS_GVAR_T
 
 
-#if defined( CLUE_DEBUG )
-#define CLUE_SAFETY_ON 1
+#if defined( STLUTILS_DEBUG )
+#define STLUTILS_SAFETY_ON 1
 #endif
 
-#define CLUE_STRBUF_CONST_RDBUF
-#define CLUE_STRBUF_PBASE
+#define STLUTILS_STRBUF_CONST_RDBUF
+#define STLUTILS_STRBUF_PBASE
 
 #if defined( NPOS )
 #error "NPOS already defined"
@@ -43,26 +46,26 @@
 #define NPOS ((size_t)-1)
 #endif
 
-#define CLUE_CHAR   char
-#define CLUE_SCHAR  signed char
-#define CLUE_UCHAR  unsigned char
-#define CLUE_16	    short
-#define CLUE_U16    unsigned short
-#define CLUE_32	    long
-#define CLUE_U32    unsigned long
-#define CLUE_DOUBLE double
-#define CLUE_BOOL   bool
+#define STLUTILS_CHAR   char
+#define STLUTILS_SCHAR  signed char
+#define STLUTILS_UCHAR  unsigned char
+#define STLUTILS_16	    short
+#define STLUTILS_U16    unsigned short
+#define STLUTILS_32	    long
+#define STLUTILS_U32    unsigned long
+#define STLUTILS_DOUBLE double
+#define STLUTILS_BOOL   bool
 
-#if !defined( CLUE_DIR_DELIM )
-#define CLUE_DIR_DELIM '/'
+#if !defined( STLUTILS_DIR_DELIM )
+#define STLUTILS_DIR_DELIM '/'
 #endif
 
 extern "C" size_t getpagesize( void );
 
 #include <AnsiBool.hh>
-#include <ClueVersion.hh>
+#include <StlUtilsVersion.hh>
 #include <ClassVersion.hh>
-#include <ClueExceptions.hh>
+#include <StlUtilsExceptions.hh>
 
 #endif // ! def _UtilsConfig_hh_ 
 

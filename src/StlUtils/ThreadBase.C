@@ -10,11 +10,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:57  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:25  houghton
 // Changed to Release 3
 //
 // Revision 2.4  1996/11/04 14:34:32  houghton
-// Changed to be compilable even if CLUE_THREADS is not defined.
+// Changed to be compilable even if STLUTILS_THREADS is not defined.
 //
 // Revision 2.3  1996/07/15 12:15:48  houghton
 // Bug-Fix: if detach, call pthread_detach so the threads resources
@@ -28,7 +31,7 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include "ThreadBase.hh"
 #include <LibLog.hh>
 #include <Str.hh>
@@ -38,19 +41,19 @@
 #include <Str.hh>
 #endif
 
-#if defined( CLUE_DEBUG )
-#if !defined( CLUE_SHORT_FN )
+#if defined( STLUTILS_DEBUG )
+#if !defined( STLUTILS_SHORT_FN )
 #include "ThreadBase.ii"
 #else
 #include "ThreadBase.ii"
 #endif
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   ThreadBase,
   "$Id$");
 
-#if defined( CLUE_THREADS )
+#if defined( STLUTILS_THREADS )
 
 ThreadBase::ThreadBase( bool detach )
   : threadId( 0 ),
@@ -198,7 +201,7 @@ ThreadBase::dumpInfo(
   return( dest );
 }
 
-#else // ! defined( CLUE_THREADS )
+#else // ! defined( STLUTILS_THREADS )
 
 ThreadBase::ThreadBase( bool detach )
   : cleanup( detach ),
@@ -224,7 +227,7 @@ ThreadBase::join( void )
 }
 
 void *
-ThreadBase::threadEntry( void * CLUE_UNUSED( obj ) )
+ThreadBase::threadEntry( void * STLUTILS_UNUSED( obj ) )
 {
   return( 0 );
 }
@@ -294,4 +297,4 @@ ThreadBase::dumpInfo(
   return( dest );
 }
 
-#endif // defined( CLUE_THREADS )
+#endif // defined( STLUTILS_THREADS )

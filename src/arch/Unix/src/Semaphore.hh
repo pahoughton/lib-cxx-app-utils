@@ -2,7 +2,7 @@
 #define _Semaphore_hh_
 //
 // File:        Semaphore.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -21,11 +21,11 @@
 //  $Id$
 //
 
-#include <ClueConfig.hh>
-#include <ClueSem.hh>
+#include <StlUtilsConfig.hh>
+#include <StlUtilsSem.hh>
 #include <iostream>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -188,6 +188,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:09:23  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/09/16 11:28:12  houghton
 // Added islocked method().
 //

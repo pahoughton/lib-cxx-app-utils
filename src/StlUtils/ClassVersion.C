@@ -21,7 +21,7 @@
 #include <cstring>
 
 
-CLUE_VERSION( ClassVersion,
+STLUTILS_VERSION( ClassVersion,
 	      "$Id$" );
 	 
 
@@ -111,6 +111,9 @@ ClassVersion::getVer(
 
 
 // $Log$
+// Revision 3.4  1997/09/17 11:08:10  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/04/26 14:40:47  houghton
 // Added project tag support.
 //
@@ -132,7 +135,7 @@ ClassVersion::getVer(
 // Removed unneeded includes.
 //
 // Revision 2.2  1995/12/04 11:16:52  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:18  houghton
 // Change to Version 2

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:24  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:28:08  houghton
 // Changed to Release 3
 //
@@ -21,7 +24,7 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include "ThreadTest.hh"
 #include "SubThread.hh"
 #include "AppParam.hh"
@@ -32,8 +35,8 @@
 #include <Str.hh>
 #endif
 
-#if defined( CLUE_DEBUG )
-#if !defined( CLUE_SHORT_FN )
+#if defined( STLUTILS_DEBUG )
+#if !defined( STLUTILS_SHORT_FN )
 #include "ThreadTest.ii"
 #else
 #include "ThreadTest.ii"

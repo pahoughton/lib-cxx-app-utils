@@ -1,6 +1,6 @@
 //
 // File:        StringCaseSearch.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //    Search the string 'haystack' for the string 'needle' ignoring
@@ -20,7 +20,7 @@
 #include <cstring>
 #include <cctype>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   StringCaseSearch,
   "$Id$" );
 
@@ -81,8 +81,11 @@ StringCaseSearch(
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:51  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/01/18 17:35:40  houghton
-// Changed: removed ifdef CLUE_SAFETY_ON. Now always checks args.
+// Changed: removed ifdef STLUTILS_SAFETY_ON. Now always checks args.
 //
 // Revision 3.2  1996/11/24 19:06:07  houghton
 // Removed support for short filenames.

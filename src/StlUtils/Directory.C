@@ -1,6 +1,6 @@
 //
 // File:        Directory.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for Directory
@@ -27,11 +27,11 @@
 #include <errno.h>
 #include <cstring>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "Directory.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   Directory,
   "$Id$");
 
@@ -854,6 +854,9 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 11:08:19  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/07/20 18:50:30  houghton
 // Changed so that no matching files found is not an error.
 //
@@ -862,7 +865,7 @@ Directory::readDir(
 // Bug-Fix: convert (opts & All) to a bool.
 //
 // Revision 3.3  1997/06/09 14:31:16  houghton
-// Removed 'include dirent.h' now include ClueDirent.hh is in .hh file.
+// Removed 'include dirent.h' now include StlUtilsDirent.hh is in .hh file.
 // Changed AIX41 had to instanciate the sort objects before I could pass
 //     them to the DirOrder objects.
 //

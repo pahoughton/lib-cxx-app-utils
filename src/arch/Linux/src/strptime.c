@@ -21,18 +21,61 @@
  *
  *********************************************************************/
 
-#include <StlUtilsConfig.hh>
-
 #include <ctype.h>
 #include <limits.h>
 #include <string.h>
 #include <time.h>
 
+static const char *
+DayOfWeekNames[] =
+{
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+};
 
+static const char *
+DayOfWeekAbbr[] =
+{
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat"
+};
 
-STLUTILS_FUNCT_VERSION(
-  strptime,
-  "$Id$" );
+static const char *
+MonthNames[] =
+{
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+};
+
+static const char *
+MonthAbbr[] =
+{
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+};
+
+#define AM_STR "AM"
+#define PM_STR "PM"
 
 
 #define match_char(ch1, ch2) if (ch1 != ch2) return NULL
@@ -43,6 +86,21 @@ STLUTILS_FUNCT_VERSION(
      result; })
 /* We intentionally do not use isdigit() for testing because this will
    lead to problems with the wide character version.  */
+     
+#define get_number_width(from, to, max_digits )					\
+  do {										\
+    const char * frp = rp;							\
+    val = 0;									\
+    if (*rp < '0' || *rp > '9')							\
+      return NULL;								\
+    do {									\
+      val *= 10;								\
+      val += *rp++ - '0';							\
+    } while ( (rp - frp) <= max_digits && *rp >= '0' && *rp <= '9');		\
+    if (val < from || val > to)							\
+      return NULL;								\
+  } while (0)
+     
 #define get_number(from, to)						      \
   do {									      \
     val = 0;								      \
@@ -79,10 +137,13 @@ STLUTILS_FUNCT_VERSION(
       return NULL;							      \
   } while (0)
   
-
+     
 char *
-DEFUN (strptime, (buf, format, tm),
-       CONST char *buf AND CONST char *format AND register struct tm *tm)
+strptime(
+  const char * buf,
+  const char * format,
+  register struct tm * tm
+  )
 {
   const char *rp;
   const char *fmt;
@@ -126,9 +187,9 @@ DEFUN (strptime, (buf, format, tm),
 	  /* Match day of week.  */
 	  for (cnt = 0; cnt < 7; ++cnt)
 	    {
-	      if (match_string (_NL_CURRENT (LC_TIME, DAY_1 + cnt), rp))
+	      if (match_string (DayOfWeekNames[ cnt ], rp))
 		break;
-	      if (match_string (_NL_CURRENT (LC_TIME, ABDAY_1 + cnt), rp))
+	      if (match_string (DayOfWeekAbbr[cnt], rp))
 		break;
 	    }
 	  if (cnt == 7)
@@ -142,9 +203,9 @@ DEFUN (strptime, (buf, format, tm),
 	  /* Match month name.  */
 	  for (cnt = 0; cnt < 12; ++cnt)
 	    {
-	      if (match_string (_NL_CURRENT (LC_TIME, MON_1 + cnt), rp))
+	      if (match_string (MonthNames[cnt], rp))
 		break;
-	      if (match_string (_NL_CURRENT (LC_TIME, ABMON_1 + cnt), rp))
+	      if (match_string (MonthAbbr[cnt], rp))
 		break;
 	    }
 	  if (cnt == 12)
@@ -154,7 +215,7 @@ DEFUN (strptime, (buf, format, tm),
 	  break;
 	case 'c':
 	  /* Match locale's date and time format.  */
-	  recursive (_NL_CURRENT (LC_TIME, D_T_FMT));
+	  recursive ("%a %b %d %H:%M:%S %Y");
 	  break;
 	case 'C':
 	  /* Match century number.  */
@@ -206,16 +267,16 @@ DEFUN (strptime, (buf, format, tm),
 	  break;
 	case 'p':
 	  /* Match locale's equivalent of AM/PM.  */
-	  if (match_string (_NL_CURRENT (LC_TIME, AM_STR), rp))
+	  if (match_string ( AM_STR, rp))
 	    break;
-	  if (match_string (_NL_CURRENT (LC_TIME, PM_STR), rp))
+	  if (match_string (PM_STR, rp))
 	    {
 	      is_pm = 1;
 	      break;
 	    }
 	  return NULL;
 	case 'r':
-	  recursive (_NL_CURRENT (LC_TIME, T_FMT_AMPM));
+	  recursive ("%I:%M:%S %p");
 	  break;
 	case 'R':
 	  recursive ("%H:%M");
@@ -239,116 +300,25 @@ DEFUN (strptime, (buf, format, tm),
 	  tm->tm_wday = val;
 	  break;
 	case 'x':
-	  recursive (_NL_CURRENT (LC_TIME, D_FMT));
+	  recursive ("%m/%d/%y");
 	  break;
 	case 'X':
-	  recursive (_NL_CURRENT (LC_TIME, T_FMT));
+	  recursive ("%H:%M:%S");
 	  break;
 	case 'y':
 	  /* Match year within century.  */
-	  get_number (0, 99);
+	  get_number_width (0, 99, 2);
 	  tm->tm_year = val;
 	  break;
 	case 'Y':
 	  /* Match year including century number.  */
 	  /* Use 9999 instead of INT_MAX. That is best we can do.
 	   * Let others worry about a year 9999 problem. H.J. */
-	  if (sizeof (time_t) > 4)
-	  {
-	    get_number (0, 9999);
-	  }
-	  else
-	  {
-	    get_number (0, 2038);
-	  }
+	  get_number_width (0, 9999, 4);
 	  tm->tm_year = val - 1900;
 	  break;
 	case 'Z':
 	  /* XXX How to handle this?  */
-	  break;
-	case 'E':
-	  switch (*fmt++)
-	    {
-	    case 'c':
-	      /* Match locale's alternate date and time format.  */
-	      recursive (_NL_CURRENT (LC_TIME, ERA_D_T_FMT));
-	      break;
-	    case 'C':
-	    case 'y':
-	    case 'Y':
-	      /* Match name of base year in locale's alternate
-		 representation.  */
-	      /* XXX This is currently not implemented.  It should
-		 use the value _NL_CURRENT (LC_TIME, ERA) but POSIX
-		 leaves this implementation defined and we haven't
-		 figured out how to do it yet.  */
-	      break;
-	    case 'x':
-	      recursive (_NL_CURRENT (LC_TIME, ERA_D_FMT));
-	      break;
-	    case 'X':
-	      recursive (_NL_CURRENT (LC_TIME, ERA_T_FMT));
-	      break;
-	    default:
-	      return NULL;
-	    }
-	  break;
-	case 'O':
-	  switch (*fmt++)
-	    {
-	    case 'd':
-	    case 'e':
-	      /* Match day of month using alternate numeric symbols.  */
-	      get_alt_number (1, 31);
-	      tm->tm_mday = val;
-	      break;
-	    case 'H':
-	      /* Match hour in 24-hour clock using alternate numeric
-		 symbols.  */
-	      get_alt_number (0, 23);
-	      tm->tm_hour = val;
-	      have_I = 0;
-	      break;
-	    case 'I':
-	      /* Match hour in 12-hour clock using alternate numeric
-		 symbols.  */
-	      get_alt_number (1, 12);
-	      tm->tm_hour = val - 1;
-	      have_I = 1;
-	      break;
-	    case 'm':
-	      /* Match month using alternate numeric symbols.  */
-	      get_alt_number (1, 12);
-	      tm->tm_mon = val - 1;
-	      break;
-	    case 'M':
-	      /* Match minutes using alternate numeric symbols.  */
-	      get_alt_number (0, 59);
-	      tm->tm_min = val;
-	      break;
-	    case 'S':
-	      /* Match seconds using alternate numeric symbols.  */
-	      get_alt_number (0, 61);
-	      tm->tm_sec = val;
-	      break;
-	    case 'U':
-	    case 'V':
-	    case 'W':
-	      get_alt_number (0, 53);
-	      /* XXX This cannot determine any field in TM.  */
-	      break;
-	    case 'w':
-	      /* Match number of weekday using alternate numeric symbols.  */
-	      get_alt_number (0, 6);
-	      tm->tm_wday = val;
-	      break;
-	    case 'y':
-	      /* Match year within century using alternate numeric symbols.  */
-	      get_alt_number (0, 99);
-	      break;
-	    default:
-	      return NULL;
-	    }
 	  break;
 	default:
 	  return NULL;
@@ -386,6 +356,9 @@ Boston, MA 02111-1307, USA.  */
  * Revision Log:
  *
  * $Log$
+ * Revision 3.2  1997/09/17 11:09:12  houghton
+ * Changed: renamed library to StlUtils.
+ *
  * Revision 3.1  1997/09/16 16:05:17  houghton
  * Initial Version (from Linux libc-5.4.33).
  *

@@ -1,6 +1,6 @@
 # -*- makefile -*-
 #
-# Makefile for libClue src/arch/Linux/src
+# Makefile for libStlUtils src/arch/Linux/src
 #
 # Created 11/20/95
 #
@@ -8,7 +8,7 @@
 #
 #
 
-include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.Clue
+include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.StlUtils
 
 ARCH_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/src
 ARCH_SRC_DIR	= $(PRJ_TOPDIR)/src/arch/src
@@ -27,6 +27,7 @@ ARCH_GENERATED_SOURCES = $(UNIX_GENERATED_SOURCES)
 
 
 ARCH_C_SOURCES		=	\
+	strptime.c		\
 	$(UNIX_C_SOURCES)	\
 
 
@@ -39,10 +40,10 @@ ARCH_USER_H_INCS	=	\
 
 
 ARCH_USER_HH_INCS	=		\
-	ClueArch.hh			\
-	ClueDirent.hh			\
-	ClueSysStat.hh			\
-	ClueExceptions.hh		\
+	StlUtilsArch.hh			\
+	StlUtilsDirent.hh			\
+	StlUtilsSysStat.hh			\
+	StlUtilsExceptions.hh		\
 	$(UNIX_USER_HH_INCS)		\
 
 ARCH_USER_II_INCS	=		\
@@ -60,6 +61,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 3.11  1997/09/17 11:09:09  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.10  1997/08/08 13:28:29  houghton
 # Added ARCH_GENERATED_SOURCES.
 #
@@ -67,7 +71,7 @@ ARCH_CXX_INLINES	=		\
 # Removed Directory (now part of main src).
 #
 # Revision 3.8  1997/06/09 14:29:51  houghton
-# Added ClueDirent.hh
+# Added StlUtilsDirent.hh
 #
 # Revision 3.7  1997/06/09 12:02:56  houghton
 # Added 'Directory'
@@ -76,7 +80,7 @@ ARCH_CXX_INLINES	=		\
 # Cleanup.
 #
 # Revision 3.5  1997/01/18 17:38:02  houghton
-# Added ClueExceptions.hh, ClueArch.hh & ClueSysStat.hh to installed headers.
+# Added StlUtilsExceptions.hh, StlUtilsArch.hh & StlUtilsSysStat.hh to installed headers.
 #
 # Revision 3.4  1996/11/20 12:14:19  houghton
 # Cleanup.
@@ -85,7 +89,7 @@ ARCH_CXX_INLINES	=		\
 # Cleanup install items.
 #
 # Revision 3.2  1996/11/19 12:28:34  houghton
-# Rework for Clue3 because it does not include Clue1.
+# Rework for StlUtils3 because it does not include StlUtils1.
 #
 # Revision 3.1  1996/11/14 01:25:03  houghton
 # Changed to Release 3

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:34  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/03/03 14:37:11  houghton
 // Removed support for RW Tools++.
 //
@@ -30,7 +33,7 @@
 //     (as required by Mike Alexander)
 //
 // Revision 2.2  1996/11/04 14:20:22  houghton
-// Changed to work even if CLUE_THREADS is not defined.
+// Changed to work even if STLUTILS_THREADS is not defined.
 //
 // Revision 2.1  1996/04/27 13:04:22  houghton
 // Initial version.
@@ -41,15 +44,15 @@
 #include "Str.hh"
 #include <strstream.h>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "Mutex.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   Mutex,
   "$Id$");
 
-#if defined( CLUE_THREADS )
+#if defined( STLUTILS_THREADS )
 
 Mutex::Mutex( void )
   : errorNum( 0 )
@@ -151,7 +154,7 @@ Mutex::dumpInfo(
   return( dest );
 }
 
-#else // ! defined CLUE_THREADS
+#else // ! defined STLUTILS_THREADS
 
 Mutex::Mutex( void )
   : errorNum( 0 )
@@ -244,7 +247,7 @@ Mutex::dumpInfo(
 }
 
 
-#endif  // defined( CLUE_THREADS )
+#endif  // defined( STLUTILS_THREADS )
 
 
 

@@ -1,6 +1,6 @@
 //
 // File:        FileStat.C
-// Project	Clue
+// Project	StlUtils
 // Desc:        
 //
 //  Compiled source for the FileStat class
@@ -13,7 +13,7 @@
 
 #include "FileStat.hh"
 
-#if defined( CLUE_HAS_USER )
+#if defined( STLUTILS_HAS_USER )
 #include <UserGroup.hh>
 #include <User.hh>
 #endif
@@ -26,11 +26,11 @@
 #include <cstring>
 #include <cerrno>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "FileStat.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   FileStat,
   "$Id$");
 
@@ -279,7 +279,7 @@ FileStat::dumpInfo(
 bool
 FileStat::canDo( mode_t uMode, mode_t gMode, mode_t oMode ) const
 {
-#if defined( CLUE_HAS_USER )
+#if defined( STLUTILS_HAS_USER )
   User	me;
 
   if( me.getUID() == getUID() || me.effective().getUID() == getUID() )
@@ -318,7 +318,7 @@ FileStat::setStrings( const char * fileName )
 void
 FileStat::setUserString( void )
 {
-#if defined( CLUE_HAS_USER )
+#if defined( STLUTILS_HAS_USER )
   User	u( getUID() );
 
   userName = u.getName();
@@ -330,7 +330,7 @@ FileStat::setUserString( void )
 void
 FileStat::setGroupString( void )
 {
-#if defined( CLUE_HAS_USER )
+#if defined( STLUTILS_HAS_USER )
   UserGroup g( getGID() );
 
   groupName = g.getName();
@@ -385,6 +385,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/09/17 11:08:22  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.6  1997/09/16 11:22:55  houghton
 // Added error num to error output.
 //
@@ -421,7 +424,7 @@ FileStat::setModeString( void )
 // Bug Fix - change the order of includes.
 //
 // Revision 2.2  1995/12/04 11:20:33  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:47:11  houghton
 // Change to Version 2

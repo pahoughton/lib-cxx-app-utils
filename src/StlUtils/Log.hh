@@ -2,7 +2,7 @@
 #define _Log_hh_
 //
 // File:        Log.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Log is a specialized ostream. It provides control over
@@ -32,7 +32,7 @@
 // $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include "Mutex.hh"
 #include "LogBuf.hh"
 #include <iostream>
@@ -41,7 +41,7 @@
 
 
 
-#if defined( CLUE_LOG_WHERE )
+#if defined( STLUTILS_LOG_WHERE )
 #define LogIf( lg, lvl ) \
   if( (lg)(lvl, __FILE__, __LINE__ ).willOutput( lvl ) ) (lg)
 #else
@@ -50,7 +50,7 @@
 #endif
 
     
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -638,7 +638,7 @@ private:
 //  Files:
 //
 //	Log.hh, Log.ii, LogBuf.hh, LogBuf.ii, LogLevel.hh, LogLevel.ii,
-//	libClue.a
+//	libStlUtils.a
 //
 //  Documented Ver: 2.8
 //  Tested Ver: 2.8
@@ -646,6 +646,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.10  1997/09/17 11:08:27  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.9  1997/07/18 19:21:57  houghton
 // Port(Sun5): changed default ios::open_mode it (ios::app|ios::out).
 //

@@ -1,6 +1,6 @@
 //
 // File:        tRegexScan.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for RegexScan class.
@@ -15,7 +15,7 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <RegexScan.hh>
@@ -656,15 +656,15 @@ tRegexScan( LibTest & tester )
 
     TEST( ! strcmp( t.getClassName(), T_CLASS_NAME ) );
 
-    TEST( strstr( t.getVersion(), "@(#) libClue - " ) != 0 );
+    TEST( strstr( t.getVersion(), "@(#) libStlUtils - " ) != 0 );
     TEST( strstr( t.getVersion(), T_CLASS_NAME ) != 0 );
     TEST( strstr( t.getVersion(), "Compiled: " ) != 0 );
     
-    TEST( strstr( t.getVersion(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( t.getVersion(true), "@(#) libStlUtils - " ) != 0 );
     TEST( strstr( t.getVersion(true), T_CLASS_NAME ) != 0 );
     TEST( strstr( t.getVersion(true), "Compiled: " ) != 0 );
     
-    TEST( strstr( t.getVersion(false), "@(#) libClue - " ) == 0 );
+    TEST( strstr( t.getVersion(false), "@(#) libStlUtils - " ) == 0 );
     TEST( strstr( t.getVersion(false), T_CLASS_NAME ) != 0 );
     TEST( strstr( t.getVersion(false), "Compiled: " ) != 0 );
 
@@ -684,15 +684,15 @@ tRegexScan( LibTest & tester )
   {
     // static const ClassVersion version
 
-    TEST( strstr( RegexScan::version.getVer(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( RegexScan::version.getVer(true), "@(#) libStlUtils - " ) != 0 );
     TEST( strstr( RegexScan::version.getVer(true), T_CLASS_NAME ) != 0 );
     TEST( strstr( RegexScan::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( strstr( RegexScan::version.getVer(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( RegexScan::version.getVer(true), "@(#) libStlUtils - " ) != 0 );
     TEST( strstr( RegexScan::version.getVer(true), T_CLASS_NAME ) != 0 );
     TEST( strstr( RegexScan::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( strstr( RegexScan::version.getVer(false), "@(#) libClue - " ) == 0 );
+    TEST( strstr( RegexScan::version.getVer(false), "@(#) libStlUtils - " ) == 0 );
     TEST( strstr( RegexScan::version.getVer(false), T_CLASS_NAME ) != 0 );
     TEST( strstr( RegexScan::version.getVer(false), "Compiled: " ) != 0 );
     
@@ -704,6 +704,9 @@ tRegexScan( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:56  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/03/03 19:11:01  houghton
 // Changed for port to AIX41.
 //

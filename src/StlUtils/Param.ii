@@ -2,7 +2,7 @@
 #define _Param_ii_
 //
 // File:        Param.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Inline source for Param
@@ -22,7 +22,7 @@
 
 #include <StringUtils.hh>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -176,6 +176,9 @@ operator<<( ostream & dest, const Param & obj )
 // 
 //
 // $Log$
+// Revision 3.9  1997/09/17 11:08:39  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.8  1997/09/02 13:07:08  houghton
 // Reworked so begin() does not include argv[0] (i.e. appName ).
 //
@@ -208,7 +211,7 @@ operator<<( ostream & dest, const Param & obj )
 // *** empty log message ***
 //
 // Revision 2.2  1995/12/04 11:18:23  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:40:55  houghton
 // Change to Version 2

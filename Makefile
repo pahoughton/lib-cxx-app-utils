@@ -1,5 +1,5 @@
 #
-# -*- Makefile -*- for Clue root dir
+# -*- Makefile -*- for StlUtils root dir
 #
 # Author: Paul Houghton
 #
@@ -16,6 +16,9 @@ include Make/make.cfg.targets.3.5
 
 #
 # $Log$
+# Revision 3.2  1997/09/17 11:07:50  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.1  1996/11/14 01:23:03  houghton
 # Changed to Release 3
 #

@@ -2,7 +2,7 @@
 #define _FileLock_hh_
 //
 // File:        FileLock.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -21,12 +21,12 @@
 //  $Id$
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <DumpInfo.hh>
 #include <iostream>
 #include <vector>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -215,6 +215,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:19  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/09/16 11:21:18  houghton
 // Initial Version.
 //

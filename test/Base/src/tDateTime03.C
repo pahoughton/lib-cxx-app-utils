@@ -1,4 +1,4 @@
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
@@ -122,7 +122,8 @@ tDateTime03( LibTest & tester )
     TEST( dt.getTimeT() == MinTimeT );
     
     dt.set( "06/26/2076", "%m/%d/%Y" );
-    TEST( dt.getTimeT() == MaxTimeT );
+    
+    TESTR( dt.getString(), dt.getTimeT() == MaxTimeT );
     
   }
 

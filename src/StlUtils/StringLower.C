@@ -1,6 +1,6 @@
 //
 // File:        StringLower.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //    Convert all uppercase characters (A-Z) to lowercase (a-z).
@@ -17,7 +17,7 @@
 #include <cctype>
 #include <cstddef>
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   StringLower,
   "$Id$" );
 
@@ -42,6 +42,9 @@ StringLower( char * str, size_t len )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:52  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/24 19:07:29  houghton
 // Removed support for short filenames.
 //

@@ -1,6 +1,6 @@
 //
 // File:        InboundProcessorBase.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for InboundProcessorBase
@@ -23,11 +23,11 @@
 #include <LibLog.hh>
 #include <cstdio>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "InboundProcessorBase.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   InboundProcessorBase,
   "$Id$");
 
@@ -293,6 +293,9 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:09:21  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/09/16 11:27:04  houghton
 // Added prescan support (ie do 'prescan' before scanning dir and after
 //     processing each file.

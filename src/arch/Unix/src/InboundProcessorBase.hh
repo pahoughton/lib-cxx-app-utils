@@ -2,7 +2,7 @@
 #define _InboundProcessorBase_hh_
 //
 // File:        InboundProcessorBase.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  The InboundProcessor watches an inbound directory for file
@@ -43,12 +43,12 @@
 //  $Id$
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <FilePath.hh>
 #include <DumpInfo.hh>
 #include <iostream>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -229,13 +229,13 @@ private:
 //
 //  InboundProcessor(3), FilePath(3), SigCatcher(3)
 //
-//  libClue3/docs/design/InboundProcessorBase.txt
+//  libStlUtils3/docs/design/InboundProcessorBase.txt
 //
 // Files:
 //
 //  InboundProcessorBase.hh, InboundProcessorBase.ii
 //
-//  libClue3.a
+//  libStlUtils3.a
 //
 // Documented Ver: 3.2
 //
@@ -244,6 +244,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:09:21  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/09/16 11:27:20  houghton
 // Added prescan support (ie do 'prescan' before scanning dir and after
 //     processing each file.

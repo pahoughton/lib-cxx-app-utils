@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:25  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:23:43  houghton
 // Changed to Release 3
 //
@@ -24,7 +27,7 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <Log.hh>
 #else
 #include <Log.hh>

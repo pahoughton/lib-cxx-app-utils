@@ -1,6 +1,6 @@
 //
 // File:        tStripWhite.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for StripWhite function
@@ -14,7 +14,7 @@
 //
 // $Id$
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StringUtils.hh>
@@ -108,6 +108,9 @@ tStripWhite( LibTest & tester )
   
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:11  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:27:14  houghton
 // Changed to Release 3
 //

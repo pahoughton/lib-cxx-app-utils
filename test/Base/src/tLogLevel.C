@@ -1,6 +1,6 @@
 //
 // File:        tLogLevel.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for the LogLevel class.
@@ -581,15 +581,15 @@ tLogLevel( LibTest & tester )
 
     TEST( strcmp( t.getClassName(), T_CLASS_NAME ) == 0 );
 
-    TEST( strstr( t.getVersion(), "@(#) libClue - " ) != 0 );
+    TEST( strstr( t.getVersion(), "@(#) libStlUtils - " ) != 0 );
     TEST( strstr( t.getVersion(), T_CLASS_NAME ) != 0 );
     TEST( strstr( t.getVersion(), "Compiled: " ) != 0 );
     
-    TEST( strstr( t.getVersion(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( t.getVersion(true), "@(#) libStlUtils - " ) != 0 );
     TEST( strstr( t.getVersion(true), T_CLASS_NAME ) != 0 );
     TEST( strstr( t.getVersion(true), "Compiled: " ) != 0 );
     
-    TEST( strstr( t.getVersion(false), "@(#) libClue - " ) == 0 );
+    TEST( strstr( t.getVersion(false), "@(#) libStlUtils - " ) == 0 );
     TEST( strstr( t.getVersion(false), T_CLASS_NAME ) != 0 );
     TEST( strstr( t.getVersion(false), "Compiled: " ) != 0 );
 
@@ -610,15 +610,15 @@ tLogLevel( LibTest & tester )
   {
     // static const ClassVersion version
 
-    TEST( strstr( LogLevel::version.getVer(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( LogLevel::version.getVer(true), "@(#) libStlUtils - " ) != 0 );
     TEST( strstr( LogLevel::version.getVer(true), T_CLASS_NAME ) != 0 );
     TEST( strstr( LogLevel::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( strstr( LogLevel::version.getVer(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( LogLevel::version.getVer(true), "@(#) libStlUtils - " ) != 0 );
     TEST( strstr( LogLevel::version.getVer(true), T_CLASS_NAME ) != 0 );
     TEST( strstr( LogLevel::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( strstr( LogLevel::version.getVer(false), "@(#) libClue - " ) == 0 );
+    TEST( strstr( LogLevel::version.getVer(false), "@(#) libStlUtils - " ) == 0 );
     TEST( strstr( LogLevel::version.getVer(false), T_CLASS_NAME ) != 0 );
     TEST( strstr( LogLevel::version.getVer(false), "Compiled: " ) != 0 );
     
@@ -643,6 +643,9 @@ tLogLevel( LibTest & tester )
  
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:09:53  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/03/21 15:41:24  houghton
 // Added test for string conversion +/- flags.
 //

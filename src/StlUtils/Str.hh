@@ -22,7 +22,7 @@
 //  $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <iostream>
 #include <vector>
 #include <pair>
@@ -30,15 +30,15 @@
 
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
-class CLUE_CLASS_T StrStreambuf;
-class CLUE_CLASS_T SubStr;
-class CLUE_CLASS_T RegexScan;
+class STLUTILS_CLASS_T StrStreambuf;
+class STLUTILS_CLASS_T SubStr;
+class STLUTILS_CLASS_T RegexScan;
 
-class CLUE_CLASS_T Str : public iostream
+class STLUTILS_CLASS_T Str : public iostream
 {
 
 public:
@@ -508,7 +508,7 @@ public:
   inline bool	    operator >= ( const SubStr & rhs ) const;
   inline bool	    operator >= ( const char * rhs ) const;
 #endif
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
   
   virtual size_type	getBinSize( void ) const;
     
@@ -1703,6 +1703,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 3.10  1997/09/17 11:08:45  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.9  1997/09/02 13:08:28  houghton
 // Added to( Range )
 // Added to( RangeList )
@@ -1757,7 +1760,7 @@ operator >> ( istream & src, Str & dest );
 // Added some ifndefs for GNU
 //
 // Revision 2.3  1995/12/04 11:18:27  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.2  1995/11/10  14:08:39  houghton
 // Updated documentation comments

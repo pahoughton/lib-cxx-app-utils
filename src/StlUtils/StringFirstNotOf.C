@@ -1,6 +1,6 @@
 //
 // File:        StringFirstNotOf.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for StringFirstNotOf
@@ -21,12 +21,12 @@
 #include <cstring>
 
 
-CLUE_FUNCT_VERSION(
+STLUTILS_FUNCT_VERSION(
   StringFirstNotOf,
   "$Id$" );
 
 size_t
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 StringFirstNotOf(
   const char *  haystack,
   size_t        hayLen,
@@ -76,6 +76,9 @@ StringFirstNotOf(
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:51  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/08/12 11:10:33  houghton
 // Initial Version.
 //

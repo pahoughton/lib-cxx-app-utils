@@ -16,11 +16,14 @@
 // $Id$
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:35  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:23:51  houghton
 // Changed to Release 3
 //
 // Revision 2.4  1996/11/04 14:20:26  houghton
-// Changed to work even if CLUE_THREADS is not defined.
+// Changed to work even if STLUTILS_THREADS is not defined.
 //
 // Revision 2.3  1996/05/03 16:13:29  houghton
 // Cleanup.
@@ -33,15 +36,15 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#if !defined( STLUTILS_SHORT_FN )
+#include <StlUtilsConfig.hh>
 #include <iostream>
 #else
-#include <ClueCfg.hh>
+#include <StlUtilsCfg.hh>
 #include <iostream>
 #endif
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -75,7 +78,7 @@ private:
   Mutex( const Mutex & from );
   Mutex & operator =( const Mutex & from );
 
-#if defined( CLUE_THREADS )
+#if defined( STLUTILS_THREADS )
   pthread_mutex_t   mutex;
 #endif
   int		    errorNum;
@@ -83,7 +86,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <Mutex.ii>
 #else
 #include <Mutex.ii>

@@ -1,6 +1,6 @@
 -*- outline -*-
 
-* Clue.hh
+* StlUtils.hh
 
     ** tArraySize.C
 

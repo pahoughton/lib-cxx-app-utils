@@ -1,4 +1,4 @@
-# -*- makefile -*- for Clue
+# -*- makefile -*- for StlUtils
 #
 # Created: 4/17/96 using MakeConfigs 5.01.00.a.02
 #
@@ -27,7 +27,7 @@ include Make/make.cfg.$(make_cfg_ver)
 # if you want it re-gen'd, just delete the tags
 #
 
-NAME		= Clue
+NAME		= StlUtils
 
 INSTALL_LIBDIR	= $(beta_libdir)
 INSTALL_INCDIR	= $(beta_incdir)
@@ -59,10 +59,10 @@ VPATH		= $(ARCH_VPATH):.
 SRC_DEFINES	= 
 PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
-DEFAULT_DEFINES = -DCLUE_DEFAULT=1
-DEBUG_DEFINES	= -DCLUE_DEBUG=1
-PROFILE_DEFINES	= -DCLUE_PROFILE=1
-SHARED_DEFINES	= -DCLUE_SHARED=1
+DEFAULT_DEFINES = -DSTLUTILS_DEFAULT=1
+DEBUG_DEFINES	= -DSTLUTILS_DEBUG=1
+PROFILE_DEFINES	= -DSTLUTILS_PROFILE=1
+SHARED_DEFINES	= -DSTLUTILS_SHARED=1
 
 ######  I N C L U D E S #####
 #
@@ -172,9 +172,9 @@ USER_HH_INCS	=			\
 	Bit.hh				\
 	Bitmask.hh			\
 	ClassVersion.hh                 \
-	ClueConfig.hh			\
-	ClueVersion.hh			\
-	ClueUtils.hh			\
+	StlUtilsConfig.hh			\
+	StlUtilsVersion.hh			\
+	StlUtilsUtils.hh			\
 	Compare.hh			\
 	DateRange.hh                    \
 	DateRangeDaily.hh               \
@@ -223,7 +223,7 @@ USER_II_INCS	=			\
 	Timer.ii                        \
 	Void.ii                         \
 	ClassVersion.ii                 \
-	ClueUtils.ii			\
+	StlUtilsUtils.ii			\
 	StringUtils.ii			\
 	Bitmask.ii			\
 	FilePath.ii                     \
@@ -245,7 +245,7 @@ C_HEADERS	=			\
 
 CXX_HEADERS	=			\
 	$(USER_HH_INCS)			\
-	_Clue.hh                        \
+	_StlUtils.hh                        \
 	$(ARCH_CXX_HEADERS)             \
 
 CXX_INLINES	=			\
@@ -311,6 +311,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.28  1997/09/17 11:08:33  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.27  1997/09/16 11:23:41  houghton
 # Added IosSeekDirToString.C
 #
@@ -393,7 +396,7 @@ FORCE:
 #     other sources (for distributor).
 #
 # Revision 3.3  1996/11/19 22:02:09  houghton
-# Cleanup install stuff from libClue2.
+# Cleanup install stuff from libStlUtils2.
 #
 # Revision 3.2  1996/11/19 12:22:22  houghton
 # Added -m flag to install includes.
@@ -404,7 +407,7 @@ FORCE:
 # Changed to Release 3
 #
 # Revision 2.26  1996/11/13 16:58:52  houghton
-# Renamed Clue.hh & Clue.ii to ClueUtils.hh & ClueUtils.ii.
+# Renamed StlUtils.hh & StlUtils.ii to StlUtilsUtils.hh & StlUtilsUtils.ii.
 #
 # Revision 2.25  1996/11/08 11:45:08  houghton
 # *** empty log message ***

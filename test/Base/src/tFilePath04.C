@@ -1,4 +1,4 @@
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FilePath.hh>
@@ -19,7 +19,7 @@ tFilePath04( LibTest & tester )
     // write( ostream & ) const
     // read( istream & )
 
-    const FilePath  tw( ":usr:src","libClue.a", '/','.' );
+    const FilePath  tw( ":usr:src","libStlUtils.a", '/','.' );
     FilePath	    tr;
 
     strstream tStrm;
@@ -51,7 +51,7 @@ tFilePath04( LibTest & tester )
     // operator << ( ostream &, const FilePath & )
 
     strstream tStrm;
-    const FilePath  t( ":usr:src","libClue.a", '/','.' );
+    const FilePath  t( ":usr:src","libStlUtils.a", '/','.' );
 
     t.toStream( tStrm );
     tStrm << t;
@@ -78,7 +78,7 @@ tFilePath04( LibTest & tester )
     // dumpInfo( ostream & ) const
     // version
 
-    const FilePath t( "/usr/local/lib", "libClue.a" );
+    const FilePath t( "/usr/local/lib", "libStlUtils.a" );
 
     tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
     t.toStream( tester.getDump() );

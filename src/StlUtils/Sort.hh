@@ -14,11 +14,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:41  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:02  houghton
 // Changed to Release 3
 //
 // Revision 2.2  1995/12/04 11:18:26  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:41:01  houghton
 // Change to Version 2
@@ -28,7 +31,7 @@
 //
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 
 #error Not ready
 

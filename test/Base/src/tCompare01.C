@@ -1,6 +1,6 @@
 //
 // File:        tCompare01.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for Compare functions in Compare.hh
@@ -16,7 +16,7 @@
 //
 
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Compare.hh>
@@ -88,6 +88,9 @@ tCompare01( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:39  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:26:26  houghton
 // Changed to Release 3
 //

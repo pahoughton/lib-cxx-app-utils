@@ -1,6 +1,6 @@
 //
 // File:        tCharToInt.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for CharToInt function.
@@ -14,7 +14,7 @@
 //
 // $Id$
 //
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StringUtils.hh>
@@ -46,6 +46,9 @@ tCharToInt( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:38  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:26:25  houghton
 // Changed to Release 3
 //

@@ -2,7 +2,7 @@
 #define _Log_ii_
 //
 // File:        Log.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Definition for Log class inline functions.
@@ -15,7 +15,7 @@
 // $Id$
 //
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -235,6 +235,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.9  1997/09/17 11:08:28  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.8  1997/07/18 19:22:39  houghton
 // Port(Sun5): changed local variable names to eliminate compiler warnings.
 //
@@ -287,7 +290,7 @@ Log::unlock( void )
 //   at the bottom.
 //
 // Revision 2.3  1995/12/04 11:17:23  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.2  1995/11/12  18:01:54  houghton
 // Added srcFile, srcLine args to level().

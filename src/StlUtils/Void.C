@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.8  1997/09/17 11:08:58  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.7  1997/04/01 13:39:55  houghton
 // Bug-Fix: correctly handle empty data.
 //
@@ -49,11 +52,11 @@
 #include <iomanip>
 #include <cctype>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "Void.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   Void,
   "$Id$");
 
@@ -193,13 +196,13 @@ Void::compare( const Void & rhs ) const
 size_t
 Void::getBinSize( void ) const
 {
-  return( sizeof( CLUE_U32 ) + size() );
+  return( sizeof( STLUTILS_U32 ) + size() );
 }
 
 ostream &
 Void::write( ostream & dest ) const
 {
-  CLUE_U32 len = size();
+  STLUTILS_U32 len = size();
   dest.write( (const char *)&len, sizeof( len ) );
   dest.write( data, size() );
   return( dest );
@@ -208,7 +211,7 @@ Void::write( ostream & dest ) const
 istream &
 Void::read( istream & src )
 {
-  CLUE_U32 len;
+  STLUTILS_U32 len;
   src.read( (char *) &len, sizeof( len ) );
   
   if( len && resize( len ) )

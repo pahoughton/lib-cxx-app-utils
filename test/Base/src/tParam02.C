@@ -1,16 +1,16 @@
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Param.hh>
 #include <Compare.hh>
-#include <ClueUtils.hh>
+#include <StlUtilsUtils.hh>
 #include <cstdio>
 #else
 #include <TestCfg.hh>
 #include <LibTest.hh>
 #include <Param.hh>
 #include <Compare.hh>
-#include <Clue.hh>
+#include <StlUtils.hh>
 #include <cstdio>
 #endif
 
@@ -31,7 +31,7 @@ char * argv02[] =
   "-logmax",	"10240",
   "-logtrim",	"1024",
   "-string",	"test string",
-#if defined( CLUE_USE_STR )
+#if defined( STLUTILS_USE_STR )
   "-str",	"test str",
 #endif
   "-int",	"-123",
@@ -43,7 +43,7 @@ char * argv02[] =
   "-double",	"10.10",
   "-bool",	"yes",
   "-flag",
-#if defined( CLUE_USE_DATETIME )
+#if defined( STLUTILS_USE_DATETIME )
   "-timet",	"7/15/95 08:15:15",
   "-datetime",	"8/1/95 06:00:10",
 #endif
@@ -123,7 +123,7 @@ tParam01( LibTest & tester )
     TEST( t.argStr( string, "argString test args", "string" ) );
     TEST( compare( string, "test string" ) == 0 );
 
-#if defined( CLUE_STR )
+#if defined( STLUTILS_STR )
     Str str( "init" );
     TEST( t.argStr( str, "argStr test args", "str" ) );
     TEST( compare( str, "test str" ) == 0 );
@@ -164,7 +164,7 @@ tParam01( LibTest & tester )
     TEST( t.argFlag( f, "argFlag test args", "flag" ) );
     TEST( f == true );
 
-#if defined( CLUE_HAS_DATETIME )
+#if defined( STLUTILS_HAS_DATETIME )
     time_t tt = 0;
     DateTime tval( "7/15/95 08:15:15" );
     TEST( t.argDateTime( tt, "argDateTime time_t test args", "timet" ) );

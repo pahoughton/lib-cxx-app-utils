@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:50  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:24:14  houghton
 // Changed to Release 3
 //
@@ -21,7 +24,7 @@
 //   at the bottom.
 //
 // Revision 2.2  1995/12/04 11:18:28  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:41:08  houghton
 // Change to Version 2
@@ -31,20 +34,20 @@
 //
 //
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
 inline
 size_t
-StrStreambuf::plen( void ) CLUE_STRBUF_CONST_RDBUF
+StrStreambuf::plen( void ) STLUTILS_STRBUF_CONST_RDBUF
 {
   return( pptr() - pbase() );
 }
 
 inline
 size_t
-StrStreambuf::psize( void ) CLUE_STRBUF_CONST_RDBUF
+StrStreambuf::psize( void ) STLUTILS_STRBUF_CONST_RDBUF
 {
   return( epptr() - pbase() );
 }
@@ -61,7 +64,7 @@ StrStreambuf::cstr( void )
 
 inline
 const char *
-StrStreambuf::strbase( void ) CLUE_STRBUF_CONST_RDBUF
+StrStreambuf::strbase( void ) STLUTILS_STRBUF_CONST_RDBUF
 {
   return( pbase() );
 }

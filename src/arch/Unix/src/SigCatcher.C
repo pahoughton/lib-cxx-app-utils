@@ -1,6 +1,6 @@
 //
 // File:        SigCatcher.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Compiled sources for SigCatcher
@@ -18,7 +18,7 @@
 #include "SigCatcher.hh"
 #include <Str.hh>
 #include <DateTime.hh>
-#include <ClueUtils.hh>
+#include <StlUtilsUtils.hh>
 #include <LibLog.hh>
 #include <algorithm>
 #include <signal.h>
@@ -26,11 +26,11 @@
 
 #include "SignalStrings.h"
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "SigCatcher.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   SigCatcher,
   "$Id$");
 
@@ -302,8 +302,8 @@ SigCatcher::dumpInfo(
 void
 SigCatcher::catchAction(
   int			sig,
-  int			CLUE_UNUSED( code ),
-  struct sigcontext *	CLUE_UNUSED( context )
+  int			STLUTILS_UNUSED( code ),
+  struct sigcontext *	STLUTILS_UNUSED( context )
   )
 {
   if( ! SigCatcher::self )
@@ -319,6 +319,9 @@ SigCatcher::catchAction(
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:09:24  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/08/08 13:26:25  houghton
 // Added name() to return the name of the signal.
 //

@@ -1,8 +1,8 @@
-#ifndef _ClueUtils_hh_
-#define _ClueUtils_hh_
+#ifndef _StlUtilsUtils_hh_
+#define _StlUtilsUtils_hh_
 //
-// File:        ClueUtils.hh
-// Project:	Clue
+// File:        StlUtilsUtils.hh
+// Project:	StlUtils
 // Desc:        
 //
 //  This is a collection of general purpose functions and
@@ -16,7 +16,7 @@
 // $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include "cstdlib"
 
 
@@ -26,7 +26,7 @@
 
 // Functions
 int
-CLUE_FUNCT_T
+STLUTILS_FUNCT_T
 OpenFlags( ios::open_mode openMode );
 
 int
@@ -41,8 +41,8 @@ IosOpenModeToString( ios::open_mode mode );
 const char * 
 IosSeekDirToString( ios::seek_dir dir );
 
-// See ClueUtils.ii for inline Functions
-#include <ClueUtils.ii>
+// See StlUtilsUtils.ii for inline Functions
+#include <StlUtilsUtils.ii>
 
 
 //
@@ -163,7 +163,7 @@ IosSeekDirToString( ios::seek_dir dir );
 //
 // Files:
 //
-//	ClueUtils.hh, ClueUtils.ii
+//	StlUtilsUtils.hh, StlUtilsUtils.ii
 //
 // Documented Ver: 2.4
 // Tested Ver: 2.4
@@ -171,6 +171,9 @@ IosSeekDirToString( ios::seek_dir dir );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:08:42  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/09/16 11:22:26  houghton
 // Added Whence decl.
 // Added IosSeekDirToString decl.
@@ -187,7 +190,7 @@ IosSeekDirToString( ios::seek_dir dir );
 // Changed to Release 3
 //
 // Revision 2.5  1996/11/04 18:21:16  houghton
-// Renamed Clue.hh to ClueUtils.hh.
+// Renamed StlUtils.hh to StlUtilsUtils.hh.
 //
 // Revision 2.4  1996/11/04 13:29:32  houghton
 // Restructure header comments layout.
@@ -206,4 +209,4 @@ IosSeekDirToString( ios::seek_dir dir );
 // Ports and Version ID changes
 //
 //
-#endif // ! def _ClueUtils_hh_ 
+#endif // ! def _StlUtilsUtils_hh_ 

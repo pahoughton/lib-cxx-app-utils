@@ -44,13 +44,13 @@ PROTO_H	= _Client_Proto.h
 # $(SYB_DEF)	    defines for SYB
 # $(MMALLOC_DEF)    defines for libmmalloc
 # $(DATA_DEF)	    defines for libData (C++)
-# $(CLUE_DEF)	    defines for libClue (C++)
+# $(STLUTILS_DEF)	    defines for libStlUtils (C++)
 # $(COMMON_DEF)	    defines for libCommon
 # $(WT_DEF)	    defines for libWt
 # $(WCF_DEF)	    defines for libWcf (CommFabric)
 #
 
-SRCDEFINES	= $(CLUE_DEF)
+SRCDEFINES	= $(STLUTILS_DEF)
 PRJDEFINES	= -DVERSION=\"$(VERSION)\"
 
 DEFINES		= $(PRJDEFINES) $(SRCDEFINES) 
@@ -66,9 +66,9 @@ DEFINES		= $(PRJDEFINES) $(SRCDEFINES)
 # $(DATA_ALPHA_INC)
 # $(DATA_BETA_INC)
 # $(DATA_INC)
-# $(CLUE_ALPHA_INC)
-# $(CLUE_BETA_INC)
-# $(CLUE_INC)
+# $(STLUTILS_ALPHA_INC)
+# $(STLUTILS_BETA_INC)
+# $(STLUTILS_INC)
 # $(COMMON_ALPHA_INC)
 # $(COMMON_BETA_INC)
 # $(COMMON_INC)
@@ -86,7 +86,7 @@ DEFINES		= $(PRJDEFINES) $(SRCDEFINES)
 
 # TOPDIR	=
 
-SRCINCDIR	= -I. $(CLUE_ALPHA_INC)  $(WCF_ALPHA_INC) 
+SRCINCDIR	= -I. $(STLUTILS_ALPHA_INC)  $(WCF_ALPHA_INC) 
 PRJINCDIR	= 
 
 INCDIRS		= $(SRCINCDIR)	\
@@ -120,9 +120,9 @@ INSTALL_BIN_FLAGS   = -m 775
 # $(DATA_ALPHA_LIBS)
 # $(DATA_BETA_LIBS)
 # $(DATA_LIBS)
-# $(CLUE_ALPHA_LIBS)
-# $(CLUE_BETA_LIBS)
-# $(CLUE_LIBS)
+# $(STLUTILS_ALPHA_LIBS)
+# $(STLUTILS_BETA_LIBS)
+# $(STLUTILS_LIBS)
 # $(COMMON_ALPHA_LIBS)
 # $(COMMON_BETA_LIBS)
 # $(COMMON_LIBS)
@@ -139,7 +139,7 @@ INSTALL_BIN_FLAGS   = -m 775
 # $(X11_LDIR)
 #
 
-LDLIBS		= $(CLUE_ALPHA_LIBS) $(WCF_ALPHA_LIBS)
+LDLIBS		= $(STLUTILS_ALPHA_LIBS) $(WCF_ALPHA_LIBS)
 
 #
 # =USE_CURRENT_MAKEFILE=
@@ -240,6 +240,9 @@ include .depend
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.2  1997/09/17 11:10:23  houghton
+# Changed: renamed library to StlUtils.
+#
 # Revision 3.1  1996/11/14 01:27:59  houghton
 # Changed to Release 3
 #

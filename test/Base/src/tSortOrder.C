@@ -1,6 +1,6 @@
 //
 // File:        tSortOrder.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for SortOrder template class.
@@ -143,6 +143,9 @@ tSortOrder( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:57  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/06/09 12:04:21  houghton
 // Changed to match latest modifications.
 //

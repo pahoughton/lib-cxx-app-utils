@@ -1,6 +1,6 @@
 //
 // File:        tLog04.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test the following Log methods:
@@ -440,6 +440,9 @@ tLog04( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:09:51  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1997/07/18 21:43:32  houghton
 // Port(Sun5): Changed ios::app to (ios::open_mode)(ios::app|ios::out).
 //

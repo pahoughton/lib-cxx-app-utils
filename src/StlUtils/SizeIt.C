@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:08:40  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:23:58  houghton
 // Changed to Release 3
 //
@@ -18,7 +21,7 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
+#if !defined( STLUTILS_SHORT_FN )
 #include "SizeIt.hh"
 #include <Str.hh>
 #else
@@ -26,20 +29,20 @@
 #include <Str.hh>
 #endif
 
-#if defined( CLUE_DEBUG )
-#if !defined( CLUE_SHORT_FN )
+#if defined( STLUTILS_DEBUG )
+#if !defined( STLUTILS_SHORT_FN )
 #include "SizeIt.ii"
 #else
 #include "SizeIt.ii"
 #endif
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   SizeIt,
   "$Id$");
 
 
-const size_t	SizeIt::factor = CLUE_SIZEIT_SIZE;
+const size_t	SizeIt::factor = STLUTILS_SIZEIT_SIZE;
 
 SizeIt::~SizeIt( void )
 {

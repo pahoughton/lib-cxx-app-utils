@@ -1,5 +1,5 @@
-#ifndef _ClueExceptinos_hh_
-#define _ClueExceptinos_hh_
+#ifndef _StlUtilsExceptinos_hh_
+#define _StlUtilsExceptinos_hh_
 //
 // File:        Exceptinos.hh
 // Desc:        
@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  1997/09/17 11:09:17  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 1.1  1997/08/18 10:31:33  houghton
 // Initial version.
 //
@@ -26,20 +29,20 @@
 //
 //
 
-#define CLUE_EXCPT_OUT_OF_RANGE( test_, ret_ ) \
+#define STLUTILS_EXCPT_OUT_OF_RANGE( test_, ret_ ) \
   if( (test_) ) return( ret_ );
 
-#define CLUE_EXCPT_BAD_ALLOC( test_, ret_ ) \
+#define STLUTILS_EXCPT_BAD_ALLOC( test_, ret_ ) \
   if( (test_) ) return( ret_ );
 
-#define CLUE_EXCPT_NR_OUT_OF_RANGE( test_ ) \
+#define STLUTILS_EXCPT_NR_OUT_OF_RANGE( test_ ) \
   if( (test_) ) return;
 
-#define CLUE_EXCPT_NR_BAD_ALLOC( test_, ret_ ) \
+#define STLUTILS_EXCPT_NR_BAD_ALLOC( test_, ret_ ) \
   if( (test_) ) return;
 
 
-#endif // ! def _ClueExceptinos_hh_ 
+#endif // ! def _StlUtilsExceptinos_hh_ 
 
 
 

@@ -2,7 +2,7 @@
 #define _SortOrder_hh_
 //
 // File:        SortOrder.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -21,7 +21,7 @@
 //  $Id$
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <vector>
 
 template < class T >
@@ -164,6 +164,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:41  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/07/18 19:26:09  houghton
 // Bug-Fix: added include <vector>
 //

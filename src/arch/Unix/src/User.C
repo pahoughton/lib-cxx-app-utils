@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:09:27  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/03/03 19:12:14  houghton
 // Changed from useing strstream to Str.
 //
@@ -36,7 +39,7 @@
 //   change so the effective() method just returns a new 'User'
 //
 // Revision 2.2  1995/12/04 11:20:20  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:46:56  houghton
 // Change to Version 2
@@ -51,11 +54,11 @@
 #include "LibLog.hh"
 #include <strstream.h>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "User.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   User,
   "$Id$" );
 

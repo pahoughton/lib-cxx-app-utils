@@ -2,7 +2,7 @@
 #define _TimeIt_ii_
 //
 // File:        TimeIt.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Inline source for TimeIt
@@ -19,7 +19,7 @@
 //  $Id$
 //
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -124,6 +124,9 @@ operator >> ( istream & dest, const TimeIt & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.6  1997/09/17 11:09:27  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/08/08 13:25:53  houghton
 // Added getStartRealTime().
 //

@@ -2,7 +2,7 @@
 #define _FilePath_hh_
 //
 // File:        FilePath.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -22,10 +22,10 @@
 //
 
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include "Str.hh"
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -36,21 +36,21 @@ public:
 
   static const char DirDelim;
   
-  inline FilePath( char dirDelim = CLUE_DIR_DELIM, char extDelim = '.' );
+  inline FilePath( char dirDelim = STLUTILS_DIR_DELIM, char extDelim = '.' );
 
   inline FilePath( const char *	fullName,
-		   char		dirDelim = CLUE_DIR_DELIM,
+		   char		dirDelim = STLUTILS_DIR_DELIM,
 		   char		extDelim = '.' );
   
   inline FilePath( const char * dirName,
 		   const char * fileName,
-		   char    	dirDelim = CLUE_DIR_DELIM,
+		   char    	dirDelim = STLUTILS_DIR_DELIM,
 		   char    	extDelim = '.' );
 
   inline FilePath( const char * dirName,
 		   const char * fileName,
 		   const char * fileExt,
-		   char    	dirDelim = CLUE_DIR_DELIM,
+		   char    	dirDelim = STLUTILS_DIR_DELIM,
 		   char    	extDelim = '.' );
 
   inline FilePath( const FilePath & from );
@@ -277,6 +277,9 @@ compare( const FilePath & one, const FilePath & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/09/17 11:08:21  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.7  1997/08/08 12:37:23  houghton
 // Added expand() method.
 //

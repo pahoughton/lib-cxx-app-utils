@@ -1,6 +1,6 @@
 //
 // File:        tStringFirstNotOf.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for StringFirstNotOf function.
@@ -61,6 +61,9 @@ tStringFirstNotOf( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:08  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1997/08/12 11:11:58  houghton
 // Initial Version.
 //

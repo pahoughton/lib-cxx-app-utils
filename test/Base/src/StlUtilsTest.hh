@@ -1,7 +1,7 @@
-#ifndef _ClueTest_hh_
-#define _ClueTest_hh_
+#ifndef _StlUtilsTest_hh_
+#define _StlUtilsTest_hh_
 //
-// File:        ClueTest.hh
+// File:        StlUtilsTest.hh
 // Desc:        
 //
 //
@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:33  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:26:12  houghton
 // Changed to Release 3
 //
@@ -19,7 +22,7 @@
 // Change to Version 2
 //
 // Revision 1.1  1995/02/20  14:33:50  houghton
-// Clue test header
+// StlUtils test header
 //
 //
 
@@ -28,7 +31,7 @@
 #define ERROR \
 { cout << "ERROR: " << __FILE__ << ' ' << __LINE__ << endl; return(1); }
 
-#endif // ! def _ClueTest_hh_ 
+#endif // ! def _StlUtilsTest_hh_ 
 //
 //              This software is the sole property of
 // 

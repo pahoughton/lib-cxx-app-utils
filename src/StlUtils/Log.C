@@ -1,6 +1,6 @@
 //
 // File:        Log.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //              
 //  Compiled source for Log class.
@@ -15,11 +15,11 @@
 #include "DateTime.hh"
 #include <cstdio>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #include "Log.ii"
 #endif
 
-CLUE_VERSION(
+STLUTILS_VERSION(
   Log,
   "$Id$" );
 
@@ -303,7 +303,7 @@ bool
 Log::good( void ) const
 {
   return( rdbuf() != 0 && rdbuf()->good() &&
-#if defined( CLUE_HAS_CONST_IOSGOOD )
+#if defined( STLUTILS_HAS_CONST_IOSGOOD )
 	  ios::good()
 #else
 	  ios::state == 0
@@ -332,7 +332,7 @@ Log::error( void ) const
       if( rdbuf() && ! rdbuf()->good() )
 	errStr << ": " << rdbuf()->error() ;
 
-#if defined( CLUE_HAS_CONST_IOSRDSTATE )
+#if defined( STLUTILS_HAS_CONST_IOSRDSTATE )
       if( ! ios::good() )
 	{
 	  if( ios::rdstate() & ios::eofbit )
@@ -481,8 +481,11 @@ Log::commonLog(
 // Revision Log:
 //
 // $Log$
+// Revision 3.11  1997/09/17 11:08:26  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.10  1997/07/19 19:58:25  houghton
-// Bug-Fix: CLUE_HAS_CONST_IOSGOOD is the correct define name.
+// Bug-Fix: STLUTILS_HAS_CONST_IOSGOOD is the correct define name.
 //
 // Revision 3.9  1997/07/18 19:21:02  houghton
 // Port(Sun5): changed local variable names to eliminate compiler
@@ -552,7 +555,7 @@ Log::commonLog(
 // Added global _LibLog variable.
 //
 // Revision 2.4  1995/12/04 11:17:23  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.3  1995/11/12  18:49:31  houghton
 // Bug fix - current (not lvl).

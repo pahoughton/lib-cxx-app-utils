@@ -19,14 +19,14 @@
 //  $Id$
 //
 
-#include <ClueExceptions.hh>
+#include <StlUtilsExceptions.hh>
 #include <RegexScan.hh>
 #include <StrStreambuf.hh>
 #include <SubStr.hh>
 #include <StringUtils.hh>
 #include <cctype>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -102,7 +102,7 @@ inline
 Str &
 Str::append( const Str & src, size_type srcStart, size_type srcLen )
 {
-  CLUE_EXCPT_OUT_OF_RANGE( srcStart > src.size(), *this );
+  STLUTILS_EXCPT_OUT_OF_RANGE( srcStart > src.size(), *this );
   
   return( append( src.strbase() + srcStart,
 		  min( (src.size() - srcStart ), srcLen ) ) );
@@ -112,7 +112,7 @@ inline
 Str &
 Str::append( const SubStr & src, size_type srcStart, size_type srcLen )
 {
-  CLUE_EXCPT_OUT_OF_RANGE( srcStart > src.size(), *this );
+  STLUTILS_EXCPT_OUT_OF_RANGE( srcStart > src.size(), *this );
   
   return( append( src.strbase() + srcStart,
 		  min( (src.size() - srcStart ), srcLen ) ) );
@@ -471,7 +471,7 @@ Str::at( size_type index )
 {
   static char badChar = 0;
   
-  CLUE_EXCPT_OUT_OF_RANGE( index >= size(), badChar );
+  STLUTILS_EXCPT_OUT_OF_RANGE( index >= size(), badChar );
     
   return( rdbuf()->pbase()[index] );
 }
@@ -480,7 +480,7 @@ inline
 char 
 Str::at( size_type index ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( index >= size(), 0 );
+  STLUTILS_EXCPT_OUT_OF_RANGE( index >= size(), 0 );
     
   return( strbase()[index] );
 }
@@ -490,7 +490,7 @@ SubStr
 Str::substr( size_type start, size_type len )
 {
   
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
 
   SubStr sub(  *this, start, min( size() - start, len ) );
   
@@ -502,7 +502,7 @@ const SubStr
 Str::substr( size_type start, size_type len ) const
 {
 
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
   
   const SubStr sub( *this, start, min( size() - start, len ) );
   return( sub );
@@ -621,7 +621,7 @@ inline
 Str::size_type
 Str::find( const Str & str, size_type start ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * pos = StringSearch( strbase() + start, size() - start,
 				   str.strbase(), str.size() );
@@ -633,7 +633,7 @@ inline
 Str::size_type
 Str::find( const SubStr & str, size_type start ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * pos = StringSearch( strbase() + start, size() - start,
 				   str.strbase(), str.size() );
@@ -645,7 +645,7 @@ inline
 Str::size_type
 Str::find( const RegexScan & exp, size_type start ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   return( exp.search( strbase(), start, size() ) ?
 	  exp.matchStart(0) : npos );
@@ -655,7 +655,7 @@ inline
 Str::size_type
 Str::find( const char * str, size_type start, size_type strLen ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * pos = StringSearch( strbase() + start, size() - start,
 				   str, strLen );
@@ -667,7 +667,7 @@ inline
 Str::size_type
 Str::find( char c, size_type start ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * pos = strchr( cstr() + start, c );
   return( (pos == 0) ? npos : pos - strbase() );  
@@ -722,7 +722,7 @@ inline
 Str::size_type
 Str::ffind( const Str & str, size_type start ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * pos = StringCaseSearch( strbase() + start, size() - start,
 				   str.strbase(), str.size() );
@@ -734,7 +734,7 @@ inline
 Str::size_type
 Str::ffind( const SubStr & str, size_type start ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * pos = StringCaseSearch( strbase() + start, size() - start,
 				   str.strbase(), str.size() );
@@ -746,7 +746,7 @@ inline
 Str::size_type
 Str::ffind( const char * str, size_type start, size_type strLen ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * pos = StringCaseSearch( strbase() + start, size() - start,
 				   str, strLen );
@@ -758,7 +758,7 @@ inline
 Str::size_type
 Str::ffind( char c, size_type start ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   size_type s = start;
   for( ; s < size() && tolower( c ) != tolower( at( s ) ); s++ );
@@ -810,7 +810,7 @@ inline
 Str::size_type
 Str::find_first_of( const Str & str, size_type start ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   return( find_first_of( str.strbase(), start, str.size() ) );
 }
@@ -819,7 +819,7 @@ inline
 Str::size_type
 Str::find_first_of( const SubStr & str, size_type start ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   return( find_first_of( str.strbase(), start, str.size() ) );
 }
@@ -831,7 +831,7 @@ Str::find_first_of(
   size_type start,
   size_type strLen ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * nBeg = str;
   const char * nEnd = str + ( (strLen == npos) ? strlen( str ) : strLen );
@@ -1318,7 +1318,7 @@ inline
 SubStr
 Str::scanMatch( size_type scanNum )
 {
-  CLUE_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), SubStr(*this, 0,0) );
+  STLUTILS_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), SubStr(*this, 0,0) );
 
   SubStr sub( *this, scanMatchStart( scanNum ), scanMatchLength( scanNum ) );
   return( sub );
@@ -1328,7 +1328,7 @@ inline
 Str::size_type
 Str::scanMatch( Str & dest, size_type scanNum ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), 0 );
+  STLUTILS_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), 0 );
 
   dest.assign( *this, scanMatchStart( scanNum ), scanMatchLength( scanNum ) );
 
@@ -1339,7 +1339,7 @@ inline
 Str::size_type
 Str::scanMatchStart( size_type scanNum ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), npos );
 
   return( matches[scanNum].pos );
 }
@@ -1348,7 +1348,7 @@ inline
 Str::size_type
 Str::scanMatchLength( size_type scanNum ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), npos );
+  STLUTILS_EXCPT_OUT_OF_RANGE( scanNum >= scanMatchCount(), npos );
 
   return( matches[scanNum].len );
 }
@@ -1433,7 +1433,7 @@ inline
 StrStreambuf *
 Str::rdbuf( void ) const
 {
-#if defined( CLUE_HAS_CONST_IOSRDBUF )
+#if defined( STLUTILS_HAS_CONST_IOSRDBUF )
   return( (StrStreambuf *)ios::rdbuf() );
 #else
   return( (StrStreambuf *)(bp) );
@@ -1922,7 +1922,7 @@ inline
 Str &
 Str::append( const string & src, size_type srcStart, size_type srcLen )
 {
-  CLUE_EXCPT_OUT_OF_RANGE( srcStart > src.length(), *this );
+  STLUTILS_EXCPT_OUT_OF_RANGE( srcStart > src.length(), *this );
   
   return( append( src.c_str() + srcStart,
 		  min( (src.length() - srcStart ), srcLen ) ) );
@@ -2004,6 +2004,9 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.10  1997/09/17 11:08:47  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.9  1997/08/17 22:35:17  houghton
 // Changed copy(): added support for destlen to be npos.
 //
@@ -2067,7 +2070,7 @@ Str::replace(
 // Added some ifndefs for GNU
 //
 // Revision 2.2  1995/12/04 11:18:27  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:41:06  houghton
 // Change to Version 2

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:12  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:25:14  houghton
 // Changed to Release 3
 //
@@ -22,14 +25,14 @@
 //
 
 #include "BinFile.hh"
-#include <Clue.hh>
+#include <StlUtils.hh>
 
 #include <cerrno>
 
 #include <unistd.h>
 #include <fcntl.h>
 
-#ifdef   CLUE_DEBUG
+#ifdef   STLUTILS_DEBUG
 #define  inline
 #include <BinFile.ii>
 #endif
@@ -39,7 +42,7 @@ extern "C" int fsync( int fd );
 #endif
 
 const char BinFile::version[] =
-LIB_CLUE_VERSION
+LIB_STLUTILS_VERSION
 "$Id$";
 
 BinFile::~BinFile( void )

@@ -2,7 +2,7 @@
 #define _RegexScan_hh_
 //
 // File:        RegexScan.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Regular expresion pattern matcher. This is a wrapper
@@ -197,11 +197,11 @@
 // $Id$
 //
 
-#include "ClueConfig.hh"
+#include "StlUtilsConfig.hh"
 #include <stddef.h>
 
 
-class CLUE_CLASS_T RegexScan 
+class STLUTILS_CLASS_T RegexScan 
 {
 
 public:
@@ -514,7 +514,7 @@ private:
 //
 // Files:
 //
-//	RegexScan.hh, GnuRegex.h, libClue.a
+//	RegexScan.hh, GnuRegex.h, libStlUtils.a
 //
 // Documented Ver: 2.5
 // Tested Ver: 2.5
@@ -522,6 +522,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/17 11:08:40  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.3  1997/04/03 23:23:20  houghton
 // Changed include stddef to stddef.h
 //

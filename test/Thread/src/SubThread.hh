@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:10:24  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:28:08  houghton
 // Changed to Release 3
 //
@@ -22,7 +25,7 @@
 //
 //
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <ThreadBase.hh>
 
 class SubThread : public ThreadBase

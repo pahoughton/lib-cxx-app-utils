@@ -17,7 +17,7 @@
 #include <Compare.hh>
 #include <Bit.hh>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -563,6 +563,9 @@ operator << ( ostream & dest, const Bitmask::bit & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 11:08:10  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.2  1996/11/19 12:20:10  houghton
 // Restructure header comments.
 //
@@ -595,7 +598,7 @@ operator << ( ostream & dest, const Bitmask::bit & obj )
 // Bug fix - Needed cast for AIX.
 //
 // Revision 2.2  1995/12/04 11:16:45  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 // Bug Fix - Now there is a special type for all single 'bit' values.
 //
 // Revision 2.1  1995/11/10  12:40:18  houghton

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/09/17 11:09:14  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.1  1996/11/14 01:25:25  houghton
 // Changed to Release 3
 //
@@ -22,7 +25,7 @@
 //
 #include "MapFile.hh"
 
-#include <Clue.hh>
+#include <StlUtils.hh>
 
 #include <cerrno>
 
@@ -30,7 +33,7 @@
 #include <sys/types.h>
 #include <sys/mman.h>
 
-#ifdef   CLUE_DEBUG
+#ifdef   STLUTILS_DEBUG
 #define  inline
 #include <MapFile.ii>
 #endif
@@ -40,7 +43,7 @@ extern "C" size_t getpagesize( void );
 #endif
 
 const char MapFile::version[] =
-LIB_CLUE_VERSION
+LIB_STLUTILS_VERSION
 "$Id$";
 
 const size_t MapFile::pageSize = getpagesize();

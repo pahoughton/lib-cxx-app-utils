@@ -1,9 +1,9 @@
 //
 // File:        main.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
-//  Entry point for testing libClue classes, functions & macros.
+//  Entry point for testing libStlUtils classes, functions & macros.
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/01/95 12:08 
@@ -191,6 +191,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.9  1997/09/17 11:09:33  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.8  1997/08/12 11:11:49  houghton
 // Added tStringFirstNotOf
 //

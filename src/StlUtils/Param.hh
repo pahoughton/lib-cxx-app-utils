@@ -34,7 +34,7 @@
 // $Id$ 
 // 
 
-#include <ClueConfig.hh>
+#include <StlUtilsConfig.hh>
 #include <Log.hh>
 #include <DateTime.hh>
 #include <LibLog.hh>
@@ -45,7 +45,7 @@
 #include <climits>
 #include <ctime>
 
-#define CLUE_DEFAULT_LOGLEVEL "ERROR | WARNING | INFO"
+#define STLUTILS_DEFAULT_LOGLEVEL "ERROR | WARNING | INFO"
 
 #define ALog( lvl )	LogIf( App->log(), lvl )
 
@@ -56,7 +56,7 @@
 #define AppTest     ALog( LogLevel::Test )
 
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -71,7 +71,7 @@ public:
 	 char *		    mainArgv[],
 	 const char *	    version = 0,
 	 bool		    useDefaultArgFn = false,
-	 const char *	    logLevel = CLUE_DEFAULT_LOGLEVEL,
+	 const char *	    logLevel = STLUTILS_DEFAULT_LOGLEVEL,
 	 bool		    useDefaultLogFn = false,
 	 ios::open_mode	    logOpenMode = (ios::open_mode)(ios::out|ios::app),
 	 int		    logOpenProt = 0664 );
@@ -99,9 +99,9 @@ public:
   inline Args::const_iterator	beginAll( void ) const;
   inline Args::const_iterator	endAll( void ) const;
   
-  inline const char *	arg( size_t which = 1 );
-  inline long		argLong( size_t which = 1 );
-  inline double		argDouble( size_t which = 1 );
+  inline const char *	arg( size_t which = 0 );
+  inline long		argLong( size_t which = 0 );
+  inline double		argDouble( size_t which = 0 );
   
   inline const char *	env( const char * envVar ) const;
 
@@ -193,7 +193,7 @@ public:
 		       long	    srcLine = 0,
 		       ostream &    mesgDest = cerr );
 
-  // libClue Common Class Methods
+  // libStlUtils Common Class Methods
   
   virtual ostream & 	toStream( ostream & dest ) const;
 
@@ -436,7 +436,7 @@ operator << ( ostream & dest, const Param & obj );
 //	       char *		mainArgv[],
 //	       const char *	version = 0,
 //	       bool		useDefaultArgFn = false,
-//	       const char *	logLevel = CLUE_DEFAULT_LOGLEVEL,
+//	       const char *	logLevel = STLUTILS_DEFAULT_LOGLEVEL,
 //	       bool		useDefaultLogfn = false,
 //	       ios::open_mode	logOpenMode = (ios::out|ios::app)
 //	       int		logOpenProt = 0664 );
@@ -905,6 +905,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.16  1997/09/17 11:08:38  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.15  1997/09/16 11:24:19  houghton
 // Added startTime method().
 // Added logStartInfo method().

@@ -1,6 +1,6 @@
 //
 // File:        tClassVersion.C
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  Test for ClassVersion class.
@@ -136,16 +136,16 @@ tClassVersion( LibTest & tester )
 
       // const char * getVersion( void ) const
 
-      TEST( strstr( t.getVersion(), "@(#) libClue - " ) != 0 );
+      TEST( strstr( t.getVersion(), "@(#) libStlUtils - " ) != 0 );
       TEST( strstr( t.getVersion(), "ClassVersion" ) != 0 );
       TEST( strstr( t.getVersion(), "Compiled: " ) != 0 );
 
       // const char * getVersion( bool ) const
-      TEST( strstr( t.getVersion(true), "@(#) libClue - " ) != 0 );
+      TEST( strstr( t.getVersion(true), "@(#) libStlUtils - " ) != 0 );
       TEST( strstr( t.getVersion(true), "ClassVersion" ) != 0 );
       TEST( strstr( t.getVersion(true), "Compiled: " ) != 0 );
 
-      TEST( strstr( t.getVersion(false), "@(#) libClue - " ) == 0 );
+      TEST( strstr( t.getVersion(false), "@(#) libStlUtils - " ) == 0 );
       TEST( strstr( t.getVersion(false), "ClassVersion" ) != 0 );
       TEST( strstr( t.getVersion(false), "Compiled: " ) != 0 );
 
@@ -191,6 +191,9 @@ tClassVersion( LibTest & tester )
   
 //
 // $Log$
+// Revision 3.5  1997/09/17 11:09:38  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.4  1997/06/09 12:04:18  houghton
 // Changed to match latest modifications.
 //

@@ -2,7 +2,7 @@
 #define _AppParam_hh_
 //
 // File:        AppParam.hh
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //
@@ -91,6 +91,9 @@ extern AppParam * App;
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1997/09/17 11:10:19  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 1.1  1997/09/16 11:31:26  houghton
 // Initial Version.
 //

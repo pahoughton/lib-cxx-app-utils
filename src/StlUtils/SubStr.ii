@@ -2,7 +2,7 @@
 #define _SubStr_ii_
 //
 // File:        SubStr.ii
-// Project:	Clue
+// Project:	StlUtils
 // Desc:        
 //
 //  	Inline source for SubStr
@@ -24,7 +24,7 @@
 #include <StringUtils.hh>
 #include <algorithm>
 
-#if defined( CLUE_DEBUG )
+#if defined( STLUTILS_DEBUG )
 #define inline
 #endif
 
@@ -217,7 +217,7 @@ char &
 SubStr::operator [] ( size_t index )
 {
   static char bad = 0;
-  CLUE_EXCPT_OUT_OF_RANGE( index >= size(), bad );
+  STLUTILS_EXCPT_OUT_OF_RANGE( index >= size(), bad );
   return( str[ pos + index ] );
 }
 
@@ -225,7 +225,7 @@ inline
 char 
 SubStr::operator [] ( size_t index ) const
 {
-  CLUE_EXCPT_OUT_OF_RANGE( index >= size(), 0 );  
+  STLUTILS_EXCPT_OUT_OF_RANGE( index >= size(), 0 );  
   return( constStr[ pos + index ] );
 }
 
@@ -658,6 +658,9 @@ SubStr::operator =  ( const string & src )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.6  1997/09/17 11:08:56  houghton
+// Changed: renamed library to StlUtils.
+//
 // Revision 3.5  1997/09/02 21:29:16  houghton
 // Port(Sun5): Changed variable name 'len' to copyLen to avoid compiler warning.
 //
@@ -691,7 +694,7 @@ SubStr::operator =  ( const string & src )
 // Added some ifndefs for GNU
 //
 // Revision 2.2  1995/12/04 11:18:30  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
 //
 // Revision 2.1  1995/11/10  12:41:18  houghton
 // Change to Version 2
