@@ -29,11 +29,17 @@ int
 CLUE_FUNCT_T
 OpenFlags( ios::open_mode openMode );
 
+int
+Whence( ios::seek_dir dir );
+
 ios::open_mode
 IosOpenModeFromString( const char * modeString );
 
 const char * 
 IosOpenModeToString( ios::open_mode mode );
+
+const char * 
+IosSeekDirToString( ios::seek_dir dir );
 
 // See ClueUtils.ii for inline Functions
 #include <ClueUtils.ii>
@@ -165,6 +171,10 @@ IosOpenModeToString( ios::open_mode mode );
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/16 11:22:26  houghton
+// Added Whence decl.
+// Added IosSeekDirToString decl.
+//
 // Revision 3.3  1997/04/04 20:52:12  houghton
 // Added IosOpenModeFromString.
 // Added IosOpenModeToSting.
