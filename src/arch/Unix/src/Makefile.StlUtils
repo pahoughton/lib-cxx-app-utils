@@ -32,6 +32,7 @@ UNIX_CXX_C_SOURCES	=	\
 	FileLock.C		\
 	FileOp.C		\
 	MesgQueue.C		\
+	HotSwap.C		\
 
 UNIX_USER_H_INCS	=	\
 	StrSignal.h		\
@@ -50,6 +51,7 @@ UNIX_USER_HH_INCS	=	\
 	FileLock.hh		\
 	FileOp.hh		\
 	MesgQueue.hh		\
+	HotSwap.hh		\
 
 UNIX_USER_II_INCS	=	\
 	InboundProcessorBase.ii	\
@@ -63,6 +65,7 @@ UNIX_USER_II_INCS	=	\
 	FileLock.ii		\
 	FileOp.ii		\
 	MesgQueue.ii		\
+	HotSwap.ii
 
 
 UNIX_C_HEADERS		=
@@ -76,6 +79,9 @@ $(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 
 #
 # $Log$
+# Revision 4.8  1999/05/09 13:08:01  houghton
+# Added HotSwap.
+#
 # Revision 4.7  1999/03/02 12:51:40  houghton
 # Added MesgQueue.
 #
