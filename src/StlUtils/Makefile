@@ -346,6 +346,8 @@ CXX_INLINES	=			\
 
 include Make/make.cfg.targets.$(makefile_type).$(make_cfg_ver)
 
+vpt:
+	echo $(VPATH)
 time_all: time all time
 
 time:
@@ -390,6 +392,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.16  1996/05/21 10:31:29  houghton
+# Added vpt to show VPATH value.
+#
 # Revision 2.15  1996/05/18 12:56:21  houghton
 # Cleanup & change version number.
 #
