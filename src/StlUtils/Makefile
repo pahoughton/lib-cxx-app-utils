@@ -33,7 +33,7 @@ INSTALL_INCDIR	= $(alpha_incdir)
 
 VER_MAJOR	= 2
 VER_MINOR	= 01
-VER_RELEASE	= 00.a.4
+VER_RELEASE	= 00.a.5
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -41,10 +41,10 @@ LIBRARY_DEBUG	= lib$(NAME)_g.a
 LIBRARY_PROFILE	= lib$(NAME)_pg.a
 LIBRARY_SHARED	= lib$(NAME)$(shlib_ext)
 
-PRJ_TOPDIR	= .
+PRJ_TOPDIR	= ../..
 
 # include any arch specific makefile component
--include ../arch/$(arch)/Makefile.$(NAME)
+-include $(PRJ_TOPDIR)/src/arch/$(arch)/Makefile.$(NAME)
 
 VPATH		= $(ARCH_VPATH):.
 
@@ -71,7 +71,7 @@ SHARED_DEFINES	= -DCLUE_SHARED=1
 #
 
 
-SRC_INC		= $(ARCH_INC) -I. -I$(PRJ_TOPDIR)
+SRC_INC		= $(ARCH_INC) -I. 
 PRJ_INC		= -I$(alpha_incdir)
 
 
@@ -389,6 +389,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.12  1996/05/11 11:01:35  houghton
+# Change Version number and cleanup.
+#
 # Revision 2.11  1996/05/02 11:04:44  houghton
 # Changed version number.
 #
