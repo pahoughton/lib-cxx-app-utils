@@ -19,7 +19,8 @@ include Make/make.cfg.2.1
 BETA_LIB_DIR	= /rating/dev/lib
 BETA_INC_DIR	= /rating/dev/include
 
-PROD_INC_DIR	= 
+PROD_INC_DIR	= /rating/dev/include
+PROD_LIB_DIR	= /rating/dev/lib
 
 LIBRARY		= libClue.a
 
@@ -246,7 +247,10 @@ include .depend.lib
 
 # 
 # $Log$
-# Revision 1.12  1995/08/29 19:36:35  ichudov
+# Revision 1.13  1995/08/30 02:48:28  ichudov
+# Minor change in Makefile
+#
+# Revision 1.12  1995/08/29  19:36:35  ichudov
 # DST and MakeDateFromSybase added.
 #
 # Revision 1.11  1995/07/21  15:43:14  ichudov
