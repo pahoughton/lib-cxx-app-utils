@@ -466,10 +466,16 @@ public:
 			  size_type	    start = 0 );
   
   size_type	    scan( const char *	delimChars,
-			 bool		multiDelim = true,
-			 size_type	start = 0,
-			 size_type	dLen = npos );
+			  bool		multiDelim = true,
+			  size_type	start = 0,
+			  size_type	dLen = npos );
   
+  size_type	    scan( const char *	quoteChars,
+			  char		escChar,
+			  const char *	delimChars,
+			  bool		multiDelim = true,
+			  size_type	start = 0 );
+				
   size_type    scan( char delim, bool multiDelim = true, size_type start = 0 );
 
   size_type    scanPattern( const RegexScan & delimExp, size_type start = 0 );
@@ -1758,6 +1764,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.12  1999/05/01 12:53:36  houghton
+// Added scan( quotechars ) to support delimited files with quoted fields.
+//
 // Revision 4.11  1999/03/02 12:49:27  houghton
 // Cleanup.
 //

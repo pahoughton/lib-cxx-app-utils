@@ -799,6 +799,109 @@ Str::scan( char delim, bool multiDelim, size_type start )
 }
 
 Str::size_type
+Str::scan(
+  const char *	quoteChars,
+  char		escChar,
+  const char *	delimChars,
+  bool		multiDelim,
+  size_type	start
+  )
+{
+  matches.erase( matches.begin(), matches.end() );
+
+  if( start >= size() )
+    return( 0 );
+  
+  matches.push_back( ScanMatch( start, size() - start ) );
+
+  size_type	pos( start );
+  
+  size_type	matchBeg( start );
+
+  for( ; pos < size(); )
+    {
+      if( strchr( quoteChars, at( pos ) ) )
+	{
+	  ++ pos;
+	  matchBeg = pos;
+	      
+	  for( ; pos < size(); ++ pos )
+	    {
+	      if( at( pos ) == escChar )
+		{
+		  remove( pos, 1 );
+		}
+	      else
+		{
+		  if( strchr( quoteChars, at( pos ) ) )
+		    {
+		      matches.push_back( ScanMatch( matchBeg,
+						    pos - matchBeg ) );
+		      ++ pos;
+		      if( pos >= size() )
+			{
+			  break;
+			}
+		      else
+			{
+			  if( strchr( delimChars, at( pos ) ) )
+			    {
+			      ++ pos;
+			      break;
+			    }
+			  else
+			    {
+			      // invalid format - non escaped
+			      // quote in the middle of a field
+			      return( 0 );
+			    }
+			}
+		    }
+		}
+	    }
+	}
+      else
+	{
+      
+	  if( at( pos ) == escChar )
+	    {
+	      remove( pos, 1 );
+	    }
+      
+	  matchBeg = pos;
+	  
+	  for( ; pos < size(); ++ pos )
+	    {
+	      if( at( pos ) == escChar )
+		{
+		  remove( pos, 1 );
+		}
+	      else
+		{
+		  if( strchr( delimChars, at( pos ) ) )
+		    {
+		      matches.push_back( ScanMatch (matchBeg,
+						    pos - matchBeg ) );
+		      ++ pos;
+		      break;
+		    }
+		}
+	    }
+	  
+	  if( pos >= size() )
+	    {
+	      // did not find another delim;
+	      matches.push_back( ScanMatch( matchBeg,
+					    size() - matchBeg ) );
+	      break;
+	    }
+	}
+    }
+  
+  return( matches.size() );
+}
+
+Str::size_type
 Str::scanPattern( const RegexScan & exp, size_type start )
 {
   matches.erase( matches.begin(), matches.end() );
@@ -1290,6 +1393,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.10  1999/05/01 12:53:33  houghton
+// Added scan( quotechars ) to support delimited files with quoted fields.
+//
 // Revision 4.9  1998/10/13 16:22:37  houghton
 // Changed #if def __linux__ to #if def STRSTREAM_HACK.
 //
