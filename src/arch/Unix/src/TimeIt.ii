@@ -19,7 +19,6 @@
 //  $Id$
 //
 
-
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
@@ -118,6 +117,9 @@ operator >> ( istream & dest, const TimeIt & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.4  1997/07/18 21:31:31  houghton
+// Cleanup.
+//
 // Revision 3.3  1997/03/21 12:29:56  houghton
 // Bug-Fix: getUsageDiff was not diffing utime & stime.
 //
