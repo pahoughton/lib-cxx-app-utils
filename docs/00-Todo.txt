@@ -13,8 +13,13 @@
 # See End of file for format specs
 #
 
+ENH Paul Houghton 05/22/96 09:55
+test that Str::to( t, b ) all spaces sets to 0 and returns true
+CODE Paul Houghton 05/24/96 06:45
+
 ENH Paul Houghton 05/10/96 06:09
 add 'of' method to SubStr returns the owning Str
+CODE Paul Houghton 05/24/96 06:48
 
 ENH Paul Houghton 05/06/96 05:25
 LibTest rework args to outputLine progress
@@ -28,14 +33,11 @@ Str::getDelim( ... ) ignore leading delims
 BUG Paul Houghton 11/20/95 09:44
 Bitmask( size_t ) constructore causes unexpected results;
 need Bitmask( unsigned long value )
-
+CODE Paul Houghton 05/24/96 06:49
 
 BUG Chris Boys 11/15/95 07:00 Paul Houghton 11/15/95 07:00
 FilePath error. changePath( getPath(), "new" )
 changes ext. if getPath().size() == 0 only
-
-ADM Paul Houghton 11/12/95 08:59
-Move test to test/Test01 so I can have multible test when I'm ready
 
 ENH Paul Houghton 11/11/95 04:39
 Add a constructer to Heap(Bin,Net)Stream that take a
@@ -50,15 +52,9 @@ ENH Paul Houghton 11/10/95 12:14
 Change default constructor of DateTime to get the current time
 CODE Paul Houghton 11/12/95 09:02
 
-ADM Paul Houghton 11/10/95 10:11
-Compile & test without CLUE_DEBUG defined
-
 BUG Chris Boys 11/08/95 12:00
 Bitmask::toStream on AIX does not detect bits that are set
 CODE Paul Houghton 11/1O/95
-
-ADM Paul Houghton 11/10/95 12:11
-Move 00-Tested from test/ to docs/
 
 ADM Paul Houghton 11/10/95 12:11
 review 00-Tested and create a list of test to write
@@ -78,6 +74,18 @@ FilePath - temp file name - tempnam does not work as expected
 Grab TempFileName from lib Common and use it.
 
 === COMPLETED ===
+
+ADM Paul Houghton 11/10/95 12:11
+Move 00-Tested from test/ to docs/
+COMP Paul Houghton 05/24/96 06:50
+
+ADM Paul Houghton 11/10/95 10:11
+Compile & test without CLUE_DEBUG defined
+COMP Paul Houghton 05/24/96 06:50
+
+ADM Paul Houghton 11/12/95 08:59
+Move test to test/Test01 so I can have multible test when I'm ready
+COMP Paul Houghton 05/24/96 06:46
 
 ADM Paul Houghton 11/10/95 10:13
 run test against installed
@@ -129,6 +137,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 2.8  1996/05/25 12:34:38  houghton
+# *** empty log message ***
+#
 # Revision 2.7  1996/05/11 11:00:34  houghton
 # *** empty log message ***
 #
