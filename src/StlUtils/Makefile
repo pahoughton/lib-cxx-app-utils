@@ -135,6 +135,7 @@ CXX_C_SOURCES =				\
 	FilePath.C                      \
 	IosOpenModeFromString.C		\
 	IosOpenModeToString.C		\
+	IosSeekDirToString.C		\
 	LibTest.C                       \
 	Log.C				\
 	LogBuf.C			\
@@ -310,6 +311,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.27  1997/09/16 11:23:41  houghton
+# Added IosSeekDirToString.C
+#
 # Revision 3.26  1997/09/02 13:05:45  houghton
 # Changed Version number.
 #
