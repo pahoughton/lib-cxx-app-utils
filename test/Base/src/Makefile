@@ -10,7 +10,7 @@
 # Do not modifiy 'makefile_type'
 makefile_type = prog
 # This is the make.cfg version that will be used
-make_cfg_ver	= 5.01
+make_cfg_ver	= 5.02
 # Default target type
 make_target	= default
 # Uncomment 'show_commands' to output compile command.
@@ -28,7 +28,7 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Test
 
-INSTALL_BINDIR	= .
+INSTALL_BINDIR	= $(TOOL_DIR)/bin
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
@@ -303,11 +303,11 @@ CXX_HEADERS	=			\
 
 include Make/make.cfg.targets.$(makefile_type).$(make_cfg_ver)
 
-default debug profile:: proto
+default debug profile:: $(generated_files)
 
 default:: $(PROGRAM_DEFAULT)
 
-debug prifle static::
+debug profile static::
 	$(hide) $(MAKE) make_target=$@ $(PROGRAM_$($@))
 
 all::	default debug profile
@@ -371,6 +371,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.10  1997/08/18 10:33:29  houghton
+# Changed to use MakeConfigs 5.02.
+#
 # Revision 3.9  1997/08/12 11:11:38  houghton
 # Added tStringFirstNotOf.C
 #
