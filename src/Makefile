@@ -55,12 +55,15 @@ install_all install install_default install_debug: install_docs
 	$(hide) $(MAKE) -C StlUtils $@ $(exports)
 
 install_lib_all:
-	$(hide) $(MAKE) -C StlUtils $@ $(exports)
+	$(hide) $(MAKE) -C StlUtils install_all $(exports)
 
 
 
 #
 # $Log$
+# Revision 4.8  2000/02/29 14:37:06  houghton
+# Bug-Fix: install_lib_all target should build install_all.
+#
 # Revision 4.7  1999/11/09 11:00:04  houghton
 # Changed to use Setup.cfg.
 #
