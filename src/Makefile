@@ -45,18 +45,18 @@ exports	    = 					\
 	check_install=$(check_install)		\
 
 depend depend_all depend_test depend_default depend_debug:
-	$(hide) $(MAKE) -C SqlClient $@ $(exports)
+	$(hide) $(MAKE) -C StlUtils $@ $(exports)
 
 all default debug:
-	$(hide) $(MAKE) -C SqlClient $@ $(exports)
+	$(hide) $(MAKE) -C StlUtils $@ $(exports)
 
 clean realclean:
-	$(hide) $(MAKE) -C SqlClient $@ $(exports)
+	$(hide) $(MAKE) -C StlUtils $@ $(exports)
 	$(hide) $(MAKE) -C $(DOC_DIR) $@ $(exports)
 	$(hide) $(MAKE) -C $(TEST_DIR) $@ $(exports)
 
 test:
-	$(hide) $(MAKE) -C SqlClient $@ $(exports)
+	$(hide) $(MAKE) -C StlUtils $@ $(exports)
 
 check: test
 	$(hide) $(MAKE) -C $(TEST_DIR) $@ $(exports)
@@ -65,12 +65,15 @@ install_docs:
 	$(hide) $(MAKE) -C $(DOC_DIR) $@ $(exports)
 
 install_all install install_default install_debug: install_docs
-	$(hide) $(MAKE) -C SqlClient $@ $(exports)
+	$(hide) $(MAKE) -C StlUtils $@ $(exports)
 
 
 
 #
 # $Log$
+# Revision 4.6  1999/10/30 11:20:39  houghton
+# Bug-Fix: src dir is StlUtils
+#
 # Revision 4.5  1999/10/30 10:40:03  houghton
 # Changed (complete rework) to support setup and other new targets.
 #
