@@ -14,6 +14,7 @@
 
 #include "Param.hh"
 #include "StringUtils.hh"
+#include "ClueUtils.hh"
 #include "Str.hh"
 #include "DateTime.hh"
 
@@ -36,14 +37,18 @@ const char * Param::ErrorStrings[] =
 };
 
 Param::Param(
-  int 		mainArgc,
-  char *	mainArgv[],
-  const char *	version,
-  const char *	logLevel,
-  bool		useDefaultArgFn
+  int		    mainArgc,
+  char *	    mainArgv[],
+  const char *	    version,
+  bool		    useDefaultArgFn,
+  const char *	    logLevel,
+  ios::open_mode    logOpenMode,
+  int		    logOpenProt
   )
   : appLog( cout, logLevel ),
     helpFlag( false ),
+    logMode( logOpenMode ),
+    logProt( logOpenProt ),
     logOutputLevel( logLevel ),
     logTee( false ),
     logMaxSize( 0 ),
@@ -93,6 +98,30 @@ Param::~Param( void )
     _LibLog = 0;
 }
 
+const char *
+Param::appName( void ) const
+{
+  return( basename( argv[0].c_str() ) );
+}
+
+const char *
+Param::appFullName( void ) const
+{
+  return( argv[0].c_str() );
+}
+
+const char *
+Param::appVersion( void ) const
+{
+  return( ver.c_str() );
+}
+
+pid_t
+Param::getpid( void ) const
+{
+  return( ::getpid() );
+}
+
 bool
 Param::parseArgs( void )
 {
@@ -117,6 +146,20 @@ Param::parseArgs( void )
 	  "logfile",
 	  "LOG_FILE" );
 
+  Str	  logModeStr = IosOpenModeToString( logMode );
+  
+  argStr( logModeStr,
+	  "log open mode.",
+	  "logmode",
+	  "LOG_MODE" );
+
+  logMode = IosOpenModeFromString( logModeStr );
+  
+  argInt( logProt,
+	  "log protection flag.",
+	  "logprot",
+	  "LOG_PROT" );
+  
   argStr( logOutputLevel,
 	  "log output level.",
 	  "loglevel",
@@ -161,7 +204,9 @@ Param::parseArgs( void )
     appLog.filter( logFilter.c_str() );
 	  
   if( logFile.size() )
-    appLog.setFileName( logFile.c_str() );
+    appLog.setFileName( logFile.c_str(),
+			logMode,
+			logProt );
 
   if( logTrimSize )
     appLog.setTrimSize( logTrimSize );
@@ -752,10 +797,40 @@ Param::getArgFlag( const char * argId, const char * envVar )
   return( value );
 }
 
+void
+Param::abort(
+  int		exitStatus,
+  bool		showArgs,
+  const char *	srcFile,
+  long		srcLine,
+  ostream &	mesgDest )
+{
+  if( showArgs )
+    mesgDest << *this << endl;
+
+  if( exitStatus )
+    mesgDest << "Aborted(" << exitStatus << ")";
+  else
+    mesgDest << "Exited";
+  
+  if( srcFile )
+    mesgDest << ": " << srcFile << ':' << srcLine << ' ';
+
+  if( log().rdbuf()->is_file() )
+    mesgDest << ": see log (" << log().rdbuf()->getLogFileName()
+	     << ") for more info." << endl;
+  else
+    mesgDest << '.' << endl;
+  
+  exit( exitStatus );
+}
+
+
+
 bool
 Param::good( void ) const
 {
-  return( errors.size() == 0 );
+  return( appLog.good() && errors.size() == 0 );
 }
 
 const char *
@@ -772,6 +847,9 @@ Param::error( void ) const
   else
     {
       Str::size_type	errorSize = errStr.size();
+      
+      if( ! appLog.good() )
+	errStr << ": " << appLog.error() << endl;
       
       for( ErrorList::const_iterator them = errors.begin();
 	   them != errors.end();
@@ -849,8 +927,6 @@ Param::toStream( ostream & dest ) const
 	dest << "  " << (*them) << endl;
     }
 
-    
-      
   if( ! good() )
     dest << '\n' << error() << '\n';
   
@@ -1028,6 +1104,11 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.11  1997/04/04 20:54:26  houghton
+// Changed constructor.
+// Added logmode & logprot args.
+// Added log error checking.
+//
 // Revision 3.10  1997/03/26 12:30:23  houghton
 // Added constructor.
 //
