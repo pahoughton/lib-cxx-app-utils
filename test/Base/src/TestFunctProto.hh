@@ -166,10 +166,14 @@ bool	tFileBinStream( LibTest & tester );
 // VectorResync.hh
 bool tVectorResync( LibTest & tester );
 
+bool tCommaNum( LibTest & tester );
 
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2004/04/19 18:17:12  houghton
+// Added tCommaNum proto
+//
 // Revision 6.1  2003/08/09 11:22:49  houghton
 // Changed to version 6
 //
