@@ -215,6 +215,7 @@ USER_HH_INCS	=			\
 	DateTimeUtils.hh                \
 	Directory.hh			\
 	DumpInfo.hh			\
+	FileBatch.hh			\
 	FilePath.hh                     \
 	FileStat.hh			\
 	LibTest.hh                      \
@@ -248,6 +249,7 @@ USER_II_INCS	=			\
 	DateRangeDaily.ii               \
 	DateRangeWeekly.ii              \
 	Directory.ii			\
+	FileBatch.ii			\
 	Param.ii                        \
 	SizeIt.ii                       \
 	SortOrder.ii			\
@@ -346,6 +348,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.19  1999/03/02 12:48:38  houghton
+# Added FileBatch.
+#
 # Revision 4.18  1998/11/02 19:19:41  houghton
 # Changed version number.
 #
