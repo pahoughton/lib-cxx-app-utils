@@ -15,7 +15,11 @@
 //
 // 
 // $Log$
-// Revision 2.2  1995/11/10 14:08:35  houghton
+// Revision 2.3  1995/11/12 17:51:56  houghton
+// New default constructor.
+// Now default sets the value to current local time.
+//
+// Revision 2.2  1995/11/10  14:08:35  houghton
 // Updated documentation comments
 //
 // Revision 2.1  1995/11/10  12:40:31  houghton
@@ -56,7 +60,8 @@ class CLUE_CLASS_T DateTime : public BinObject
 public:
 
       // Constructors;
-  inline DateTime( time_t setTime = 0, bool addLocal = false );
+  inline DateTime( void );
+  inline DateTime( time_t setTime, bool addLocal = false );
   inline DateTime( time_t day, time_t timeOfDay );
   inline DateTime( const char * yymmdd, const char * hhmmss );
   inline DateTime( int year, int month, int day,
@@ -249,7 +254,10 @@ compare( const DateTime & one, const DateTime & two );
 //
 //  Constructors:
 //
-//  	DateTime( time_t setTime = 0, bool addLocal = false );
+//	DateTime( void )
+//	    sets the initial value to current local time.
+//
+//  	DateTime( time_t setTime, bool addLocal = false );
 //  	    use 'setTime' for the initial value. If addLocal is true,
 //  	    the local (according to TZ) time zone offset will be added.
 //
