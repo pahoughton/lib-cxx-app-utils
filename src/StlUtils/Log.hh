@@ -125,6 +125,10 @@ public:
   inline bool		    setTimeStamp( bool stamp );
   inline bool		    setLocStamp( bool stamp );
 
+  inline bool		    getLevelStamp( void ) const;
+  inline bool		    getTimeStamp( void ) const;
+  inline bool		    getLocStamp( void ) const;
+  
   inline LogLevel::Level    setOutputLevel( LogLevel::Level output );
   inline LogLevel::Level    setOutputLevel( const char * output );
 
@@ -619,6 +623,11 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/04/02 13:43:45  houghton
+// Added getLevelStamp().
+// Added getTimeStamp().
+// Added getLocStamp().
+//
 // Revision 3.3  1997/03/21 12:22:07  houghton
 // Cleanup.
 // Changed default output level to be Error|Warn|Info.

@@ -285,6 +285,27 @@ Log::setLocStamp( bool stamp )
 
 inline
 bool
+Log::getLevelStamp( void ) const
+{
+  return( levelStamp );
+}
+
+inline
+bool
+Log::getTimeStamp( void ) const
+{
+  return( timeStamp );
+}
+
+inline
+bool
+Log::getLocStamp( void ) const
+{
+  return( locStamp );
+}
+
+inline
+bool
 Log::filter( const char * regex )
 {
   return( rdbuf()->filter( regex ) );
@@ -351,6 +372,11 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/04/02 13:43:52  houghton
+// Added getLevelStamp().
+// Added getTimeStamp().
+// Added getLocStamp().
+//
 // Revision 3.3  1997/04/01 15:09:06  houghton
 // Bug-Fix: changed to use new LogBuf::willOutput that checks filters.
 //
