@@ -8,14 +8,72 @@
 # $Id$
 #
 
-include Make/make.cfg.3.5
+make_cfg_ver	= 5.05
+show_commands 	= # true
 
-SUBDIRS = src test
+# Include standard MakeConfig configuration for GNU make required
+include Make/make.cfg.$(make_cfg_ver)
 
-include Make/make.cfg.targets.3.5
+
+INSTALL_INC_DIR = $(local_incdir)
+INSTALL_LIB_DIR = $(local_libdir)
+INSTALL_BIN_DIR	= $(local_bindir)
+INSTALL_MAN_DIR = $(local_mandir)
+
+SRC_DIR		= src
+DOC_DIR		= doc
+TEST_DIR	= test
+
+exports	    = 					\
+	INSTALL_BIN_DIR=$(INSTALL_BIN_DIR)	\
+	INSTALL_INC_DIR=$(INSTALL_INC_DIR)	\
+	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)	\
+	INSTALL_MAN_DIR=$(INSTALL_MAN_DIR)	\
+	show_commands=$(show_commands)		\
+	check_install=$(check_install)		\
+
+beta_exports	=				\
+	INSTALL_BIN_DIR=$(INSTALL_BIN_DIR)	\
+	INSTALL_INC_DIR=$(beta_incdir)		\
+	INSTALL_LIB_DIR=$(beta_libdir)		\
+	INSTALL_MAN_DIR=$(INSTALL_MAN_DIR)	\
+	show_commands=$(show_commands)		\
+	check_install=$(check_install)		\
+
+.PHONY: test
+
+depend depend_all depend_test depend_default depend_debug:
+	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+
+all default debug:
+	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+
+clean realclean:
+	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+	$(hide) if ! $(MAKE) -C $(DOC_DIR) $@ $(exports); then exit; fi
+	$(hide) if ! $(MAKE) -C $(TEST_DIR) $@ $(exports); then exit; fi
+
+test:
+	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+	$(hide) if ! $(MAKE) -C $(TEST_DIR) $@ $(exports); then exit; fi
+
+install_doc:
+	$(hide) if ! $(MAKE) -C $(DOC_DIR) $@ $(exports); then exit; fi
+
+install_all install: install_doc
+	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+
+install_beta:
+	$(hide) if ! $(MAKE) -C $(SRC_DIR) install_all $(beta_exports); then exit; fi
+
+install_default install_debug: 
+	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
 
 #
 # $Log$
+# Revision 4.2  1998/10/13 16:11:59  houghton
+# Complete rework.
+#
 # Revision 4.1  1997/09/17 15:11:57  houghton
 # Changed to Version 4
 #
