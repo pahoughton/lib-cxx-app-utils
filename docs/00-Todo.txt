@@ -13,6 +13,11 @@
 # See End of file for format specs
 #
 
+BUG Paul Houghton 11/20/95 09:44
+Bitmask( size_t ) constructore causes unexpected results;
+need Bitmask( unsigned long value )
+
+
 BUG Chris Boys 11/15/95 07:00 Paul Houghton 11/15/95 07:00
 FilePath error. changePath( getPath(), "new" )
 changes ext. if getPath().size() == 0 only
@@ -112,7 +117,10 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
-# Revision 2.4  1995/11/17 16:59:21  houghton
+# Revision 2.5  1995/12/04 11:14:06  houghton
+# *** empty log message ***
+#
+# Revision 2.4  1995/11/17  16:59:21  houghton
 # *** empty log message ***
 #
 # Revision 2.3  1995/11/12  17:51:00  houghton
