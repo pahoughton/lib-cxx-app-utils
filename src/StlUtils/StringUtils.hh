@@ -187,6 +187,33 @@ unsigned long
 CLUE_FUNCT_T
 StringToULong( const char * str, unsigned short base = 0, size_t len = NPOS );
 
+const char *
+CLUE_FUNCT_T
+StringFrom( int num, short base = 10, bool prefix = false );
+
+const char *
+CLUE_FUNCT_T
+StringFrom( short num, short base = 10, bool prefix = false );
+
+const char *
+CLUE_FUNCT_T
+StringFrom( long num, short base = 10, bool prefix = false );
+
+const char *
+CLUE_FUNCT_T
+StringFrom( unsigned int num, short base = 10, bool prefix = false );
+
+const char *
+CLUE_FUNCT_T
+StringFrom( unsigned short num, short base = 10, bool prefix = false );
+
+const char *
+CLUE_FUNCT_T
+StringFrom( unsigned long num, short base = 10, bool prefix = false );
+
+const char *
+CLUE_FUNCT_T
+StringFrom( double num, short precision = 2 );
 
 const char *
 CLUE_FUNCT_T
@@ -483,7 +510,82 @@ basename( char * fn );
 //		       size_t		len = NPOS );
 //	    Uses StringTo to convert the str and returns the
 //	    value. If StringTo returned false, 0 is returned.
-//	
+//
+//	const char *
+//	StringFrom( int	    num,
+//		    short   base = 10,
+//		    bool    prefix = false );
+//	    This function converts num into a null terminated
+//	    string. 'num' is the value to convert. 'base' is the
+//	    base to use in the string. if 'prefix' is true a
+//	    '0' will be prepended for 'base' 8 and a 0x will be
+//	    prepended for base 16. The Return value is an interal
+//	    static buffer used by all the StringFrom functions.
+//
+//	const char *
+//	StringFrom( short   num,
+//		    short   base = 10,
+//		    bool    prefix = false );
+//	    This function converts num into a null terminated
+//	    string. 'num' is the value to convert. 'base' is the
+//	    base to use in the string. if 'prefix' is true a
+//	    '0' will be prepended for 'base' 8 and a 0x will be
+//	    prepended for base 16. The Return value is an interal
+//	    static buffer used by all the StringFrom functions.
+//
+//	const char *
+//	StringFrom( long    num,
+//		    short   base = 10,
+//		    bool    prefix = false );
+//	    This function converts num into a null terminated
+//	    string. 'num' is the value to convert. 'base' is the
+//	    base to use in the string. if 'prefix' is true a
+//	    '0' will be prepended for 'base' 8 and a 0x will be
+//	    prepended for base 16. The Return value is an interal
+//	    static buffer used by all the StringFrom functions.
+//
+//	const char *
+//	StringFrom( unsigned int    num,
+//		    short	    base = 10,
+//		    bool	    prefix = false );
+//	    This function converts num into a null terminated
+//	    string. 'num' is the value to convert. 'base' is the
+//	    base to use in the string. if 'prefix' is true a
+//	    '0' will be prepended for 'base' 8 and a 0x will be
+//	    prepended for base 16. The Return value is an interal
+//	    static buffer used by all the StringFrom functions.
+//
+//	const char *
+//	StringFrom( unsigned short    num,
+//		    short	    base = 10,
+//		    bool	    prefix = false );
+//	    This function converts num into a null terminated
+//	    string. 'num' is the value to convert. 'base' is the
+//	    base to use in the string. if 'prefix' is true a
+//	    '0' will be prepended for 'base' 8 and a 0x will be
+//	    prepended for base 16. The Return value is an interal
+//	    static buffer used by all the StringFrom functions.
+//
+//	const char *
+//	StringFrom( unsigned long    num,
+//		    short	    base = 10,
+//		    bool	    prefix = false );
+//	    This function converts num into a null terminated
+//	    string. 'num' is the value to convert. 'base' is the
+//	    base to use in the string. if 'prefix' is true a
+//	    '0' will be prepended for 'base' 8 and a 0x will be
+//	    prepended for base 16. The Return value is an interal
+//	    static buffer used by all the StringFrom functions.
+//
+//	const char *
+//	StringFrom( double num, short precision = 2 )
+//	    This function converts num into a null terminated
+//	    string. 'num' is the value to convert. 'precision'
+//	    is the number of decimal places to use. The string
+//	    will be a fixed floating point representation.
+//	    The Return value is an internal static buffer
+//	    used by all the StringFrom functions.
+//
 //	const char *
 //	basename( const char * fn );
 //	    Returns a pointer to the filename from part of 'fn'
@@ -522,6 +624,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:26:34  houghton
+// Added StringFrom to convert number types into strings.
+//
 // Revision 3.1  1996/11/14 01:24:21  houghton
 // Changed to Release 3
 //
