@@ -666,7 +666,7 @@ inline
 time_t
 DateTime::fromHHMMSS( const char * hhmmss ) const
 {
-  return( toTimeT( 0,0,0,
+  return( toTimeT( -1, -1, -1,
 		   StringToInt( hhmmss, 10, 2 ),
 		   StringToInt( hhmmss + 2, 10, 2 ),
 		   StringToInt( hhmmss + 4, 10, 2 ) ) );
@@ -700,6 +700,10 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.2  1998/01/22 18:43:40  houghton
+// Bug-Fix: changed all to set() to use -1 for year, month and day so
+//     they will be ignored.
+//
 // Revision 4.1  1997/09/17 15:12:20  houghton
 // Changed to Version 4
 //
