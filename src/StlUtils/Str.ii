@@ -1437,6 +1437,8 @@ Str::copy( char * dest, size_type destLen, size_type start )
 {
   size_type len = min( destLen, size() - start );
   strncpy( dest, strbase() + start, len );
+  if( len < destLen )
+    dest[ len ] = 0;
   return( len );
 }
 
@@ -2010,6 +2012,9 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.5  1997/07/11 15:51:24  houghton
+// Bug-Fix: copy() - null terminate dest if there is room.
+//
 // Revision 3.4  1997/03/15 18:01:43  houghton
 // Changed to find_last_not_of to verify we are not working with any null
 //     strings (was causing segv).
