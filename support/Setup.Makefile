@@ -31,11 +31,11 @@ MAKECONFIGS	= MakeConfigs-$(make_cfg_ver)
 
 common_h	= $(INSTALL_INC_DIR)/Common.h
 gnuregex_h	= $(INSTALL_INC_DIR)/GnuRegex.h
-stdcxx_hh	= $(INSTALL_INC_DIR)/StdCxxConfig.hh
+# stdcxx_hh	= $(INSTALL_INC_DIR)/StdCxxConfig.hh
 
 LIB_COMMON	= libCommon-3
 LIB_GNUREGEX	= libGnuRegex-2
-LIB_STDCXX	= libStdC++-2
+# LIB_STDCXX	= libStdC++-2
 
 tools_archive_dir	= $(TOOL_DIR)/src/Tools
 tools_build_dir		= $(TOOL_DIR)/src/Build/Tools
@@ -161,6 +161,9 @@ setup: 		check_cvs						      \
 
 #
 # $Log$
+# Revision 5.4  2000/08/02 11:05:04  houghton
+# Removed libStdC++
+#
 # Revision 5.3  2000/07/24 09:33:55  houghton
 # Major rework to improve existing target detection (i.e. if it's there
 #      dont rebuild it).
