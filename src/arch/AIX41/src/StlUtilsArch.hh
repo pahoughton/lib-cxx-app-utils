@@ -66,11 +66,15 @@
 #define CLUE_UNUSED( x ) x
 
 #include <AnsiBool.hh>
+#include <unistd.h> // for pid_t
 
 
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/04/04 20:55:33  houghton
+// Added include unistd.h (for pid_t).
+//
 // Revision 3.1  1997/03/21 15:44:05  houghton
 // Changed base version to 3
 //

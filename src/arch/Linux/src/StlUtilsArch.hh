@@ -75,6 +75,7 @@
 
 // #include <climits>
 #include <stddef>   // for NPOS
+#include <unistd.h> // for pid_t
 
 //
 // Detail Documentation
@@ -133,6 +134,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/04/04 20:55:37  houghton
+// Added include unistd.h (for pid_t).
+//
 // Revision 3.3  1997/03/03 19:08:17  houghton
 // Added defines for HAS_USER and HAS_USERGROUP.
 //
@@ -188,6 +192,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/04/04 20:55:37  houghton
+// Added include unistd.h (for pid_t).
+//
 // Revision 3.3  1997/03/03 19:08:17  houghton
 // Added defines for HAS_USER and HAS_USERGROUP.
 //
