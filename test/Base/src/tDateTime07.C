@@ -3,12 +3,14 @@
 #include <LibTest.hh>
 #include <HeapBinStream.hh>
 #include <DateTime.hh>
+#include <functional>
 #include <strstream>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <HBinStrm.hh>
 #include <DateTime.hh>
+#include <functional>
 #include <strstream>
 #endif
 
