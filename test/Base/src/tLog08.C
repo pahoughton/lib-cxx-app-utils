@@ -45,6 +45,67 @@ tLog08( LibTest & tester )
   }
 
   {
+    const char * TestFn = TEST_DATA_DIR "/log.36";
+    {
+    
+      Log	    t( TestFn, LogLevel::All, ios::out, 0644,
+		       true, false, false  );
+
+      t.tieCommonLogger();
+
+      t( LogLevel::Error ) << "test Log Error" << '\n';
+      LOGIT( LOG_ERROR, ( "test Common ERROR(%d)\n", LOG_ERROR ) );
+
+      t( LogLevel::Warn ) << "test Log Warn" << '\n';
+      LOGIT( LOG_WARN, ( "test Common WARN(%d)\n", LOG_WARN ) );
+
+      t( LogLevel::App1 ) << "test Log App1" << '\n';
+      LOGIT( LOG_APP1, ( "test Common APP1(%d)\n", LOG_APP1 ) );
+
+      t( LogLevel::App2 ) << "test Log App2" << '\n';
+      LOGIT( LOG_APP2, ( "test Common APP2(%d)\n", LOG_APP2 ) );
+
+      t( LogLevel::App3 ) << "test Log App3" << '\n';
+      LOGIT( LOG_APP3, ( "test Common APP3(%d)\n", LOG_APP3 ) );
+
+      t( LogLevel::App4 ) << "test Log App4" << '\n';
+      LOGIT( LOG_APP4, ( "test Common APP4(%d)\n", LOG_APP4 ) );
+
+      t( LogLevel::App5 ) << "test Log App5" << '\n';
+      LOGIT( LOG_APP5, ( "test Common APP5(%d)\n", LOG_APP5 ) );
+
+      t( LogLevel::App6 ) << "test Log App6" << '\n';
+      LOGIT( LOG_APP6, ( "test Common APP6(%d)\n", LOG_APP6 ) );
+
+      t( LogLevel::Lib1 ) << "test Log Lib1" << '\n';
+      LOGIT( LOG_LIB1, ( "test Common LIB1(%d)\n", LOG_LIB1 ) );
+
+      t( LogLevel::Lib2 ) << "test Log Lib2" << '\n';
+      LOGIT( LOG_LIB2, ( "test Common LIB2(%d)\n", LOG_LIB2 ) );
+
+      t( LogLevel::Lib3 ) << "test Log Lib3" << '\n';
+      LOGIT( LOG_LIB3, ( "test Common LIB3(%d)\n", LOG_LIB3 ) );
+
+      t( LogLevel::Lib4 ) << "test Log Lib4" << '\n';
+      LOGIT( LOG_LIB4, ( "test Common LIB4(%d)\n", LOG_LIB4 ) );
+
+      t( LogLevel::Info ) << "test Log Info" << '\n';
+      LOGIT( LOG_INFO, ( "test Common INFO(%d)\n", LOG_INFO ) );
+
+      t( LogLevel::Test ) << "test Log Test" << '\n';
+      LOGIT( LOG_TEST, ( "test Common TEST(%d)\n", LOG_TEST ) );
+
+      t( LogLevel::Debug ) << "test Log Debug" << '\n';
+      LOGIT( LOG_DEBUG, ( "test Common DEBUG(%d)\n", LOG_DEBUG ) );
+
+      t( LogLevel::Funct ) << "test Log Funct" << '\n';
+      LOGIT( LOG_FUNCT, ( "test Common FUNCT(%d)\n", LOG_FUNCT ) );
+    }
+    
+    tester.file( __FILE__, __LINE__, TestFn );
+  }
+
+  {
     // lock( void );
     // unlock( void );
 
@@ -58,7 +119,7 @@ tLog08( LibTest & tester )
   {
     // good( void ) const;
     // error( void ) const;
-    const char * TestFn = TEST_DATA_DIR "/log.36";
+    const char * TestFn = TEST_DATA_DIR "/log.37";
     const char * TestBadFn = "BAD_DIR_NAME/BAD_FILENAME";
 
     {
@@ -100,7 +161,7 @@ tLog08( LibTest & tester )
   
   {
     // dumpInfo( ostream & ) const
-    const char * TestFn = TEST_DATA_DIR "/log.37";
+    const char * TestFn = TEST_DATA_DIR "/log.38";
 
     const Log  t( TestFn,
 		  LogLevel::Debug | LogLevel::Warn | LogLevel::Test );
@@ -133,6 +194,10 @@ tLog08( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/04/26 14:12:55  houghton
+// Renamed test file names.
+// Added test for tieCommonLogger().
+//
 // Revision 3.2  1997/03/03 19:10:26  houghton
 // Changed for port to AIX41.
 //
