@@ -25,8 +25,8 @@
 
 // Constants
 #define CLUE_PRJ_NAME	"libClue"
-#define CLUE_PRJ_VER	"2.00.00.a.03"
-#define CLUE_PRJ_VER_NUM    2000003L
+#define CLUE_PRJ_VER	"3.00.00.b.01"
+#define CLUE_PRJ_VER_NUM    3000003L
 
 // Macros
 #define CLUE_VERSION( name_, verId_ ) \
@@ -65,6 +65,9 @@ const char VERID_##name_[] =						      \
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:21:15  houghton
+// Changed to Version 3
+//
 // Revision 3.1  1996/11/14 01:23:30  houghton
 // Changed to Release 3
 //
