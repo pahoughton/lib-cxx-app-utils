@@ -22,6 +22,7 @@
 //
 
 #include <ClueConfig.hh>
+#include <ClueDirent.hh>
 #include <SortOrder.hh>
 #include <FileStat.hh>
 #include <Bitmask.hh>
@@ -34,9 +35,6 @@
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
-
-
-struct DIR;
 
 class Directory
 {
@@ -157,7 +155,7 @@ public:
   public:
 
     inline DirFieldTime( void );
-    inline DirFieldTime( const DirFieldSize & from );
+    inline DirFieldTime( const DirFieldTime & from );
     
     virtual ~DirFieldTime( void );
     
@@ -250,6 +248,7 @@ public:
   
   static const DirFieldName	Name;
   static const DirFieldSize	Size;
+  static const DirFieldTime	Time;
   
   static const DirOrder		SortName;
   static const DirOrder		SortExt;
@@ -452,6 +451,11 @@ operator >> ( istream & src, const Directory & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/06/09 14:36:33  houghton
+// Added include ClueDirent.hh
+// Bug-Fix: DirFieldTime copy constructor arg was wrong.
+// Bug-Fix: forgot to declere 'Time' (DirField).
+//
 // Revision 3.2  1997/06/09 12:03:58  houghton
 // Completed initial coding.
 //
