@@ -72,18 +72,22 @@ public:
   Param( int 		    mainArgc,
 	 char *		    mainArgv[],
 	 const char *	    version = 0,
+	 bool		    useDefaultArgFn = false,
 	 const char *	    logLevel = CLUE_DEFAULT_LOGLEVEL,
-	 bool		    useDefaultArgFn = false);
+	 ios::open_mode	    logOpenMode = (ios::open_mode)(ios::out|ios::app),
+	 int		    logOpenProt = 0664 );
 
   virtual ~Param( void );
   
-  inline Log &     log( void );
-  inline Log &     log( LogLevel::Level lvl );
+  inline Log &	    log( void );
+  inline Log &	    log( LogLevel::Level lvl );
 
-  inline const char *    appName( void ) const ;
-  inline const char *    appFullName( void ) const;
-  inline const char *	 appVersion( void ) const;
+  const char *	    appName( void ) const ;
+  const char *	    appFullName( void ) const;
+  const char *	    appVersion( void ) const;
 
+  pid_t		    getpid( void ) const;
+  
   inline size_t    count( void ) const;
 
   inline Args::const_iterator	begin( void ) const;
@@ -180,7 +184,7 @@ public:
 
   inline bool	allArgs( void ) const;
 
-  inline void	abort( int  	    exitStatus = 1,
+  void		abort( int  	    exitStatus = 1,
 		       bool 	    showArgs = false,
 		       const char * srcFile = 0,
 		       long	    srcLine = 0,
@@ -246,6 +250,9 @@ private:
   bool    	    helpFlag;
 
   Str    	    logFile;
+  ios::open_mode    logMode;
+  int		    logProt;
+  
   Str    	    logOutputLevel;
   Str		    logFilter;
   
@@ -830,6 +837,10 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.12  1997/04/04 20:54:35  houghton
+// Changed constructor.
+// Added logmode & logprot args.
+//
 // Revision 3.11  1997/03/26 12:31:21  houghton
 // Added constructor.
 // Added setArgFileName.
