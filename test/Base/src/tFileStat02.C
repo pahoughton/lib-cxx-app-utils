@@ -88,9 +88,9 @@ tFileStat02( LibTest & tester )
     TEST( ! t.isSetGID() );
   }
 
-#if defined( TEST_SOCKETT_DEVICE )
+#if defined( TEST_SOCKET_DEVICE )
   {
-    const FileStat t("/dev/log" );
+    const FileStat t( TEST_SOCKET_DEVICE );
 
     TEST( ! t.isLink() );
     TEST( ! t.isReg() );
