@@ -35,9 +35,9 @@
 // 
 
 #include "ClueConfig.hh"
+#include <string>
 #include "Log.hh"
 #include "LibLog.hh"
-#include <string>
 #include <iostream>
 #include <cstdlib>
 #include <climits>
@@ -842,6 +842,11 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/01/18 17:33:21  houghton
+// Bug-Fix: Linux - had to change the order of includes. I think this is
+//    due to a bug in gcc 2.7. I should be able to change the order back
+//    when 2.8 is released.
+//
 // Revision 3.4  1996/11/22 12:24:45  houghton
 // Added AppDebug.
 // Changed default log level to include 'Info'.
