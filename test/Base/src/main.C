@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/05/03 16:17:49  houghton
+// Added output for each test.
+//
 // Revision 2.3  1996/05/01 11:05:28  houghton
 // Run all test.
 //
@@ -186,7 +189,7 @@ main( int argc, char * argv[] )
   ofstream  dumpDest( TEST_DUMP_DEST );
 #endif
   
-  LibTest test( TestList, dumpDest, cout, cerr );
+  LibTest test( TestList, TEST_LINE_PROGRESS, dumpDest, cout, cerr );
 
   return( test.run( argc, argv ) );
 }
