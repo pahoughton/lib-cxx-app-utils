@@ -44,6 +44,8 @@
 
 #include "StringUtils.hh"
 #include <cctype>
+
+
 #define MF_NUM_TO_TYPE( type )							\
 bool										\
 MfNumTo(									\
@@ -56,11 +58,17 @@ MfNumTo(									\
 										\
   char	lastDigit = src[ srcLen - 1 ];						\
 										\
-  if( ! StringTo( dest, src, 10, srcLen ) )					\
+  if( src[0] == ' ' && lastDigit == ' ' )					\
+    {										\
+      dest = 0;									\
+      return( true );								\
+    }										\
+  										\
+  if( ! StringTo( dest, src, 10, srcLen - 1 ) )					\
     return( false );								\
 										\
   dest *= 10;									\
-  										\
+										\
   if( ! isdigit( lastDigit ) )							\
     {										\
       if( lastDigit == '{' )							\
@@ -74,13 +82,13 @@ MfNumTo(									\
 										\
       if( lastDigit >= 'A' && lastDigit <= 'I' )				\
 	{									\
-	  dest += lastDigit - 'A';						\
+	  dest += lastDigit - 'A' + 1;						\
 	  return( true );							\
 	}									\
 										\
       if( lastDigit >= 'J' && lastDigit <= 'R' )				\
 	{									\
-	  dest += lastDigit - 'J';						\
+	  dest += lastDigit - 'J' + 1;						\
 	  dest *= -1;								\
 	  return( true );							\
 	}									\
@@ -114,10 +122,122 @@ MF_NUM_TO_TYPE_RET( short, Short );
 MF_NUM_TO_TYPE_RET( int, Int );
 MF_NUM_TO_TYPE_RET( long, Long );
 
+bool
+MfNumTo(
+  char *	dest,
+  size_t	destSize,
+  size_t	decimalPlaces,
+  const char *	src,
+  size_t	srcSize
+  )
+{
+  size_t srcLen = (srcSize == NPOS ? strlen( src ) : srcSize );
+
+  const char *  srcEnd = src + srcLen - 1;
+
+  if( destSize == NPOS || destSize < srcSize + 1 || destSize < decimalPlaces + 2 )
+    return( false );
+
+  bool isNeg = false;
+  
+  if( *src == ' ' && *srcEnd == ' ' )
+    {
+      memset( dest, '0', destSize );
+      if( decimalPlaces )
+	dest[ destSize - decimalPlaces - 1 ] = '.';
+      return( true );
+    }
+  else
+    {
+      if( *srcEnd == '{' )
+	{
+	  dest[ destSize - 1 ] = '0';
+	}
+      else
+	{
+	  if( *srcEnd == '}' )
+	    {
+	      dest[ destSize - 1 ] = '0';
+	      isNeg = true;
+	    }
+	  else
+	    {
+	      if( *srcEnd >= 'A' && *srcEnd <= 'I' )
+		{
+		  dest[ destSize - 1 ] = *srcEnd - 'A' + '1';
+		}
+	      else
+		{
+		  if( *srcEnd >= 'J' && *srcEnd <= 'R' )
+		    {
+		      dest[ destSize - 1 ] = *srcEnd - 'J' + '1';
+		      isNeg = true;
+		    }
+		  else
+		    {
+		      if( isdigit( *srcEnd ) )
+			{
+			  dest[ destSize - 1 ] = *srcEnd;
+			}
+		      else
+			{
+			  return( false );
+			}
+		    }
+		}
+	    }
+	}
+
+      // now for the rest of the digits
+      if( decimalPlaces )
+	{
+	  if( decimalPlaces > 1 )
+	    memcpy( dest + destSize - decimalPlaces,
+		    src + srcSize - decimalPlaces,
+		    decimalPlaces - 1 );
+	  
+	  dest[ destSize - decimalPlaces - 1 ] = '.';
+
+	  if( decimalPlaces < srcSize )
+	    {
+	      size_t destStartPos = destSize - srcSize - 1;
+	      
+	      memcpy( dest + destStartPos,
+		      src,
+		      srcSize - decimalPlaces );
+	      
+	    }
+	  
+	  memset( dest, '0', destSize - srcSize - 1 );
+	  
+	  if( isNeg )
+	    dest[0] = '-';
+	}
+      else
+	{
+	  memcpy( dest + destSize - srcSize,
+		  src,
+		  srcSize - 1 );
+	  
+	  memset( dest, '0', destSize - srcSize );
+	  
+	  if( isNeg )
+	    dest[0] = '-';
+	}
+    }
+  return( true );
+}
+
+
+  
 
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/12/19 12:50:10  houghton
+// Bug-Fix: integral converter was off by 1.
+// Added string converter with decimal support.
+//
 // Revision 4.1  1997/11/18 15:07:42  houghton
 // Initial Version.
 //
