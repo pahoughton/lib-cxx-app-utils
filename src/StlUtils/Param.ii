@@ -98,6 +98,15 @@ Param::endAll( void ) const
 }
 
 inline
+bool
+Param::setArgFileName( const char * name )
+{
+  if( name )
+    argFile = name;
+  return( argFile.size() > 0 );
+}
+
+inline
 const char *
 Param::arg( size_t which )
 {
@@ -218,6 +227,9 @@ Param::abort(
 // 
 //
 // $Log$
+// Revision 3.5  1997/03/26 12:32:18  houghton
+// Added setArgFileName.
+//
 // Revision 3.4  1997/03/21 12:28:22  houghton
 // Cleanup.
 // Added dump().
