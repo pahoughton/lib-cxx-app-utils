@@ -13,7 +13,7 @@
 
 #include "Log.hh"
 #include <rw/rwtime.h>
-#include <strstream>
+#include <rw/cstring.h>
 
 #if defined( CLUE_DEBUG )
 #include <Log.ii>
@@ -96,40 +96,36 @@ Log::good( void ) const
 const char *
 Log::error( void ) const
 {
-  static strstream errStr;
-  errStr.freeze(0);
-  errStr.seekp(0);
-  errStr.seekg(0);
+  static RWCString errStr;
 
-  errStr << getClassName();
+  errStr = getClassName();
 
   if( good() )
     {
-       errStr << ": Ok";
+       errStr += ": Ok";
     }
   else
     {
-      streampos eSize = errStr.tellp();
+      size_t eSize = errStr.length();
 
       if( rdbuf() == 0 )
-	errStr << ": no 'streambuf'";
+	errStr += ": no 'streambuf'";
       
       if( ! ios::good() )
 	{
 	  if( ios::rdstate() & ios::eofbit )
-	    errStr << ": EOF bit set";
+	    errStr += ": EOF bit set";
 	  if( ios::rdstate() & ios::failbit )
-	    errStr << ": FAIL bit set";
+	    errStr += ": FAIL bit set";
 	  if( ios::rdstate() & ios::badbit )
-	    errStr << ": BAD bit set";
+	    errStr += ": BAD bit set";
 	}
       
-      if( eSize == errStr.tellp() )
-	errStr << ": unknown error";
+      if( eSize == errStr.length() )
+	errStr += ": unknown error";
       
     }
 
-  errStr << ends;
   return( errStr.str() );
 }
   
@@ -173,10 +169,13 @@ Log::dumpInfo(
   
   if( rdbuf() )
     {
-      strstream pre;
-      pre << prefix << "rdbuf: " << rdbuf()->getClassName() << "::";
+      RWCString pre;
+      pre = prefix;
+      pre += "rdbuf: " ;
+      pre += rdbuf()->getClassName() ;
+      pre += "::";
+      
       rdbuf()->dumpInfo( dest, pre.str(), false );
-      pre.freeze(0);
     }
   
   dest << '\n';
@@ -188,6 +187,10 @@ Log::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 2.8  1996/11/11 13:33:47  houghton
+// Changed to use RWCString instead of strstream where possible because
+//     of an inconsitancy in the public member of strstream.
+//
 // Revision 2.7  1996/11/04 13:39:33  houghton
 // Restructure header comments layout.
 // Changed to use rwtime instead of DateTime for time stamp output.

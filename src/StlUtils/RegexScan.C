@@ -239,23 +239,21 @@ RegexScan::good( void ) const
 const char *
 RegexScan::error( void ) const
 {
-  static strstream errStr;
-  errStr.freeze(0);
-  errStr.seekp(0);
-  errStr.seekg(0);
+  static RWCString errStr;
 
-  errStr << getClassName();
+  errStr = getClassName();
 
   if( good() )
     {
-       errStr << ": ok";
+       errStr += ": ok";
     }
   else
     {
-      errStr << ": " << re_msg;
+      errStr += ": ";
+      errStr += re_msg;
     }
 
-  return( errStr.str() );
+  return( errStr );
 }
 
 ostream &
@@ -363,6 +361,10 @@ RegexScan::cleanup()
 // Revision Log:
 //
 // $Log$
+// Revision 2.5  1996/11/11 13:35:52  houghton
+// Changed to use RWCString instead of strstream where possible because
+//     of an inconsitancy in the public member of strstream.
+//
 // Revision 2.4  1996/11/04 14:27:05  houghton
 // Restructure header comments layout.
 //

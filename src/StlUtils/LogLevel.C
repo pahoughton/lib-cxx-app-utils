@@ -243,17 +243,22 @@ LogLevel::dumpInfo(
 	 << LogLevel::getVersion() << '\n';
 
   {
-    strstream pre;
-    pre << prefix << "output:  " << output.getClassName() << "::" << ends;
+    RWCString pre;
+    pre = prefix;
+    pre += "output:  " ;
+    pre += output.getClassName() ;
+    pre += "::";
+    
     output.dumpInfo( dest, pre.str(), false ) << '\n';
-    pre.freeze(0);
   }
 
   {
-    strstream pre;
-    pre << prefix << "current: " << current.getClassName() << "::" << ends;
+    RWCString pre;
+    pre =  prefix;
+    pre += "current: ";
+    pre += current.getClassName();
+    pre += "::" ;
     current.dumpInfo( dest, pre.str(), false ) << '\n';
-    pre.freeze(0);
   }
   
   dest << prefix << "output:    " << getLevelNames( output ) << '\n';
@@ -290,6 +295,10 @@ LogLevel::levelFromString( const char * level )
 // Revision Log:
 //
 // $Log$
+// Revision 2.10  1996/11/11 13:34:53  houghton
+// Changed to use RWCString instead of strstream where possible because
+//     of an inconsitancy in the public member of strstream.
+//
 // Revision 2.9  1996/11/04 18:21:40  houghton
 // Chaged include becuase Clue.hh was renamed to ClueUtils.hh.
 //

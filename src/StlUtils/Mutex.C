@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/11/11 13:34:57  houghton
+// Changed to use RWCString instead of strstream where possible because
+//     of an inconsitancy in the public member of strstream.
+//
 // Revision 2.3  1996/11/08 11:45:42  houghton
 // Changed use of Str to strstream.
 //     (as required by Mike Alexander)
@@ -182,29 +186,25 @@ Mutex::good( void ) const
 const char *
 Mutex::error( void ) const
 {
-  static strstream errStr;
-  errStr.freeze(0);
-  errStr.seekp(0);
-  errStr.seekg(0);
+  static RWCString errStr;
 
-  errStr << Mutex::getClassName();
+  errStr = Mutex::getClassName();
 
   if( good() )
     {
-       errStr << ": unsupported";
+       errStr += ": unsupported";
     }
   else
     {
-      streampos eSize = errStr.tellp();
+      streampos eSize = errStr.length();
 
-      errStr << ": unsupported";
+      errStr += ": unsupported";
       
-      if( eSize == errStr.tellp() )
-        errStr << ": unknown error";
+      if( eSize == errStr.length() )
+        errStr += ": unknown error";
     }
 
-  errStr << ends;
-  return( errStr.str() );
+  return( errStr );
 }
 
 const char *
