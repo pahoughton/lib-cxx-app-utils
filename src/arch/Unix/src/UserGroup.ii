@@ -1,0 +1,255 @@
+#ifndef _User_ii_
+#define _User_ii_
+//
+// File:        UserGroup.ii
+// Desc:        
+//
+//  	inlines for User
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/17/95 20:06
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 12:56:03  houghton
+// Initial implementation of Unix Group info Class
+//
+//
+
+#ifndef inline
+#include <User.hh>
+#include <Compare.hh>
+#include <climits>
+#include <cerrno>
+#include <pwd.h>
+#endif
+
+inline
+UserGroup::UserGroup( bool findMemb )
+{
+  gid = bad;
+  osError = 0;
+  set( getgid(), findMemb );
+}
+
+inline
+UserGroup::UserGroup( gid_t group, bool findMemb )
+{
+  gid = bad;
+  osError = 0;
+  set( group, findMemb );
+}
+
+inline
+UserGroup::UserGroup( const char * groupName, bool findMemb )
+{
+  gid = bad;
+  osError = 0;
+  set( groupName, findMemb );
+}
+
+inline
+UserGroup::UserGroup( const struct group * groupEntry, bool findMemb )
+{
+  gid = bad;
+  osError = 0;
+  set( groupEntry, findMemb );
+}
+inline
+UserGroup::UserGroup( istream & src, bool text, bool findMemb )
+{
+  if( text )
+    {
+      char gname[ 50 ];
+      src >> gname;
+      set( gname, findMemb );
+    }
+  else
+    {
+      read( src );
+      if( findMemb )
+	findMembers();
+    }
+}
+
+inline
+gid_t
+UserGroup::getGID( void ) const
+{
+  return( gid );
+}
+
+inline
+const char *
+UserGroup::getName( void ) const
+{
+  return( name.cstr() );
+}
+
+inline
+const UserGroup::Members &
+UserGroup::getMembers( void ) const
+{
+  return( members );
+}
+
+inline
+bool
+UserGroup::isMember( const User & user )
+{
+  if( members.size() == 0 )
+    findMembers();
+
+  return( members.find( user.getName() ) != members.end() );
+}
+
+inline
+bool
+UserGroup::isMember( const User & user ) const
+{
+  if( members.size() == 0 )
+    return( false );
+
+  return( members.find( user.getName() ) != members.end() );
+}
+
+inline
+bool
+UserGroup::isMember( uid_t  user )
+{
+  struct passwd * pw = getpwuid( user );
+
+  if( members.size() == 0 )
+    findMembers();
+  
+  return( pw ? members.find( pw->pw_name ) != members.end() : false );
+}
+
+inline
+bool
+UserGroup::isMember( uid_t  user ) const
+{
+  struct passwd * pw = getpwuid( user );
+
+  if( members.size() == 0 )
+    return( false );
+  
+  return( pw ? members.find( pw->pw_name ) != members.end() : false );
+}
+
+inline
+bool
+UserGroup::isMember( const char * user )
+{
+  if( members.size() == 0 )
+    findMembers();
+  
+  return( members.find( user ) != members.end() );
+}
+
+inline
+bool
+UserGroup::isMember( const char * user ) const
+{
+  if( members.size() == 0 )
+    return( false );
+  
+  return( members.find( user ) != members.end() );
+}
+
+inline
+bool
+UserGroup::set( gid_t group, bool findMemb )
+{
+  return( set( getgrgid( group ), findMemb ) );
+}
+
+inline
+bool
+UserGroup::set( const char * groupName, bool findMemb )
+{
+  return( set( getgrnam( groupName ), findMemb ) );
+}
+
+inline
+size_t
+UserGroup::getStreamSize( void ) const
+{
+  return( sizeof( gid ) );
+}
+
+inline
+istream &
+UserGroup::read( istream & src )
+{
+  gid_t	grp;
+  src.read( &grp, sizeof( grp ) );
+  set( grp );
+  return( src );
+}
+
+inline
+ostream &
+UserGroup::write( ostream & dest ) const
+{
+  dest.write( &gid, sizeof( gid ) );
+  return( dest );
+}
+
+inline
+int
+UserGroup::compare( const UserGroup & two ) const
+{
+  return( ::compare( name, two.name ) );
+}
+
+inline
+bool
+UserGroup::operator == ( const UserGroup & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+UserGroup::operator <  ( const UserGroup & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+UserGroup::operator const char * ( void ) const
+{
+  return( name );
+}
+
+inline
+UserGroup::operator gid_t ( void ) const
+{
+  return( gid );
+}
+
+inline
+ostream &
+UserGroup::toStream( ostream & dest ) const
+{
+  dest << name;
+  return( dest );
+}
+
+inline
+int
+compare( const UserGroup & one, const UserGroup & two )
+{
+  return( one.compare( two ) );
+}
+	  
+inline
+ostream &
+operator <<( ostream & dest, const UserGroup & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+#endif // ! def _User_ii_ 
