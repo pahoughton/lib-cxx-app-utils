@@ -1,0 +1,42 @@
+
+include ../Clue1/src/Makefile.Clue
+
+UNIX_DIR	= ../arch/Unix/src
+
+UNIX_INCDIR	= -I$(UNIX_DIR) $(CLUE1_INCDIR) -I../arch/src 
+
+UNIX_C_SOURCES		=			\
+	$(CLUE1_C_SOURCES)			\
+
+UNIX_CXX_C_SOURCES	=			\
+	../arch/src/basename.C			\
+	../arch/src/FileStat.C			\
+	../arch/src/OpenFlags.C			\
+	$(UNIX_DIR)/User.C			\
+	$(UNIX_DIR)/UserGroup.C			\
+	$(CLUE1_CXX_C_SOURCES)			\
+
+UNIX_USER_H_INCS	=			\
+	$(CLUE1_USER_H_INCS)			\
+
+UNIX_USER_HH_INCS	=			\
+	../arch/src/FileStat.hh			\
+	$(UNIX_DIR)/User.hh			\
+	$(UNIX_DIR)/UserGroup.hh		\
+	$(CLUE1_USER_HH_INCS)			\
+
+UNIX_USER_II_INCS	=			\
+	../arch/src/FileStat.ii			\
+	$(UNIX_DIR)/User.ii			\
+	$(UNIX_DIR)/UserGroup.ii		\
+	$(CLUE1_USER_II_INCS)			\
+
+UNIX_C_HEADERS		=			\
+	$(CLUE1_C_HEADERS)			\
+
+UNIX_CXX_HEADERS	=			\
+	$(CLUE1_CXX_HEADERS)			\
+
+UNIX_CXX_INLINES	=			\
+	$(CLUE1_CXX_INLINES)			\
+
