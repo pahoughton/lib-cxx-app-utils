@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/02/29 19:10:55  houghton
+// Added define for abs(long)
+//
 // Revision 2.1  1995/11/10 12:46:43  houghton
 // Change to Version 2
 //
@@ -26,6 +29,8 @@
 #if defined( CLUE_DEBUG )
 #define CLUE_SAFETY_ON 1
 #endif
+
+#define CLUE_HAVE_LONG_ABS 1
 
 #define CLUE_STRBUF_CONST_RDBUF const
 
