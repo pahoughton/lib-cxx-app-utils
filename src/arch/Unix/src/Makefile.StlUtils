@@ -10,45 +10,38 @@
 
 UNIX_DIR	= ../arch/Unix/src
 
-UNIX_INCDIR	= -I$(UNIX_DIR)
+UNIX_VPATH	= $(UNIX_DIR)
 
-UNIX_C_SOURCES		=		\
+UNIX_DEFINES	=
 
-UNIX_CXX_C_SOURCES	=		\
-	User.C				\
-	UserGroup.C			\
+UNIX_INC	= -I$(UNIX_DIR)
 
-UNIX_USER_H_INCS	=		\
+UNIX_C_SOURCES		=	\
 
-UNIX_USER_HH_INCS	=		\
-	$(UNIX_DIR)/User.hh		\
-	$(UNIX_DIR)/UserGroup.hh	\
+UNIX_CXX_C_SOURCES	=	\
+	User.C			\
+	UserGroup.C		\
 
-UNIX_USER_II_INCS	=		\
-	$(UNIX_DIR)/User.ii		\
-	$(UNIX_DIR)/UserGroup.ii	\
+UNIX_USER_H_INCS	=	\
+
+UNIX_USER_HH_INCS	=	\
+	User.hh			\
+	UserGroup.hh		\
+
+UNIX_USER_II_INCS	=	\
+	User.ii			\
+	UserGroup.ii		\
 
 UNIX_C_HEADERS		=
 UNIX_CXX_HEADERS	=
 UNIX_CXX_INLINES	=
 
-UNIX_CXX_SOURCES	= $(UNIX_CXX_C_SOURCES)
-
-UNIX_OBJECTS_DEFAULT	= $(UNIX_CXX_C_SOURCES:%.C=objects/default/%.o)
-UNIX_OBJECTS_DEBUG	= $(UNIX_CXX_C_SOURCES:%.C=objects/debug/%.o)
-UNIX_OBJECTS_PROFILE	= $(UNIX_CXX_C_SOURCES:%.C=objects/profile/%.o)
-UNIX_OBJECTS_SHARED	= $(UNIX_CXX_C_SOURCES:%.C=objects/shared/%.o)
-
-UNIX_DEPEND_CXX_SOURCES	= $(UNIX_CXX_SOURCES:%=$(UNIX_DIR)/%)
-
-objects/default/%.o 	\
-objects/debug/%.o 	\
-objects/profile/%.o 	\
-objects/shared/%.o : $(UNIX_DIR)/%.C
-	$(CXX_COMPILE)
 
 #
 # $Log$
+# Revision 2.3  1996/04/27 13:18:13  houghton
+# Chagned for MakeConfigs 5
+#
 # Revision 2.2  1995/12/04 11:19:44  houghton
 # Changed to use MakeConfig 4.
 #
