@@ -181,6 +181,22 @@ DateTime::getSysTimeZone( void )
   return( getenv( "TZ" ) );
 }
 
+const char *
+DateTime::getYYYYMMDD( void ) const
+{
+  static char yyyymmdd[10];
+
+  const struct tm * tmTime = ( flags.tmValid ? &tm : gmtime( &seconds ) );
+  
+  sprintf( yyyymmdd, "%04d%02d%02d",
+	   tmTime->tm_year + 1900,
+	   tmTime->tm_mon + 1,
+	   tmTime->tm_mday );
+
+  return( yyyymmdd );
+}
+
+	   
 // setValid - verify input and set 
 time_t
 DateTime::setValid( 
@@ -198,14 +214,12 @@ DateTime::setValid(
   offset = 0;
   timeZoneName = 0;
 
-  // FIXME
-  if( ( ( year > 1970 && year < 2050 ) ||
-	( year >= 0 && year < 50 ) ||
-	( year > 70 && year < 100 ) ) &&
-      ( month > 0 && month <= 12 ) &&
-      ( hour >= 0 && hour < 24 ) &&
-      ( min >= 0 && min < 60 ) &&
-      ( sec >= 0 && sec < 60 ) )
+  if( ( ( year >= 0 && year < 99 )
+	|| ( year <= MaxYear && year >= MinYear ) )
+      && ( month > 0 && month <= 12 )
+      && ( hour >= 0 && hour < 24 )
+      && ( min >= 0 && min < 60 )
+      && ( sec >= 0 && sec < 60 ) )
     {
       if( day  > DaysInMonth[ month-1 ] )
 	{
@@ -261,7 +275,30 @@ DateTime::setValid( const char * dateString, const char * fmt )
 		    tmTime.tm_min,
 		    tmTime.tm_sec ) );
 }      
-    
+
+time_t
+DateTime::setValidYYMMDD( const char * yymmdd )
+{
+  int year;
+  int month;
+  int dom;
+
+  if( StringTo( year, yymmdd, 10, 2 )
+      && StringTo( month, yymmdd + 2, 10, 2 )
+      && StringTo( dom, yymmdd + 4, 10, 2 ) )
+    {
+      return( setValid( year, month, dom, 0, 0, 0 ) );
+    }
+  else
+    {
+      time_t old = seconds;
+      
+      flags.valid = false;
+      seconds = 0;
+      return( old );
+    }  
+}
+
 // setYear - set the year
 time_t
 DateTime::setYear( short year )
@@ -515,22 +552,22 @@ DateTime::fromTm( char * buf, const char * fmt, const struct tm * tmTime ) const
       if( tmTime->tm_year < 50 || tmTime->tm_year > 99 )
 	{
 	  sprintf( str, "%02d/%02d/%04d %02d:%02d:%02d",
-	       tmTime->tm_mon + 1,
-	       tmTime->tm_mday,
-	       1900 + tmTime->tm_year,
-	       tmTime->tm_hour,
-	       tmTime->tm_min,
-	       tmTime->tm_sec );
+		   tmTime->tm_mon + 1,
+		   tmTime->tm_mday,
+		   1900 + tmTime->tm_year,
+		   tmTime->tm_hour,
+		   tmTime->tm_min,
+		   tmTime->tm_sec );
 	}
       else
 	{
 	  sprintf( str, "%02d/%02d/%02d %02d:%02d:%02d",
-	       tmTime->tm_mon + 1,
-	       tmTime->tm_mday,
-	       tmTime->tm_year,
-	       tmTime->tm_hour,
-	       tmTime->tm_min,
-	       tmTime->tm_sec );
+		   tmTime->tm_mon + 1,
+		   tmTime->tm_mday,
+		   tmTime->tm_year,
+		   tmTime->tm_hour,
+		   tmTime->tm_min,
+		   tmTime->tm_sec );
 	}
     }
   return( str );
@@ -766,6 +803,10 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/01/05 13:20:02  houghton
+// Added getYYYYMMDD()
+// Added setValidYYMMDD()
+//
 // Revision 4.1  1997/09/17 15:12:17  houghton
 // Changed to Version 4
 //

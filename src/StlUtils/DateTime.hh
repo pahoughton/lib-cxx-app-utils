@@ -91,7 +91,8 @@ public:
   inline short		getYear( void );
   inline const char *	getString( char * buf = 0, const char * fmt = 0 ) const;
   inline const char *	getString( char * buf = 0, const char * fmt = 0 );
-
+  const char *		getYYYYMMDD( void ) const;
+  
   inline short	    	getOffset( void ) const;
   inline bool	    	isLocal( void ) const;
   bool	    	    	isDST( void ) const;
@@ -112,6 +113,8 @@ public:
   time_t            	setValid( int year, int month, int day,
 				  int hour = 0, int min = 0, int sec = 0 );
   time_t	    	setValid( const char * dateString, const char * fmt = 0 );
+
+  time_t		setValidYYMMDD( const char * yymmdd );
   
   inline time_t		setYYYYMMDD( const char * yyyymmdd);
   inline time_t		setYYMMDD( const char * yymmdd);
@@ -672,6 +675,10 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/01/05 13:19:24  houghton
+// Added getYYYYMMDD()
+// Added setValidYYMMDD()
+//
 // Revision 4.1  1997/09/17 15:12:19  houghton
 // Changed to Version 4
 //
