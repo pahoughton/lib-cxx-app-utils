@@ -92,7 +92,21 @@ TimeIt::getUsageDiff( void ) const
 
   return( diffUsage );
 }  
-  
+
+inline
+time_t
+TimeIt::getRealStartTimeT( void ) const
+{
+  return( realStart.tv_sec );
+}
+
+inline
+time_t
+TimeIt::getRealStopTimeT( void ) const
+{
+  return( realStop.tv_sec );
+}
+
 inline
 DumpInfo<TimeIt>
 TimeIt::dump( const char * prefix, bool showVer ) const
@@ -124,6 +138,9 @@ operator >> ( istream & dest, const TimeIt & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 5.2  2000/07/31 13:39:41  houghton
+// Added getRealStartTimeT() & getRealStopTimeT().
+//
 // Revision 5.1  2000/05/25 10:33:23  houghton
 // Changed Version Num to 5
 //

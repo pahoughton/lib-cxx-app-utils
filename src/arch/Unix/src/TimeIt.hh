@@ -54,6 +54,9 @@ public:
   
   inline timeval    getRealDiff( void ) const;
   inline rusage	    getUsageDiff( void ) const;
+
+  inline time_t	    getRealStartTimeT( void ) const;
+  inline time_t	    getRealStopTimeT( void ) const;
   
   virtual ostream &	toStream( ostream & dest ) const;
   // virtual istream &	fromStream( istream & src );
@@ -367,6 +370,9 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/07/31 13:39:37  houghton
+// Added getRealStartTimeT() & getRealStopTimeT().
+//
 // Revision 5.1  2000/05/25 10:33:23  houghton
 // Changed Version Num to 5
 //
