@@ -32,6 +32,19 @@ CLUE_VERSION(
 
 const Str::size_type Str::npos = NPOS;
 
+#if defined( Sun5 )
+// This is UNBELIEVABLE but ...
+void
+unsafe_ios::operator = ( unsafe_ios & )
+{
+}
+
+void
+ios::operator = ( ios & )
+{
+}
+#endif
+
 inline
 Str::size_type
 Str::length( const char * from )
@@ -412,22 +425,22 @@ Str::substitute( const char * from, const char * to, size_type start, bool globa
   
   if( ! global )
     {
-      size_type beg = find( from, start, fromLen );
+      size_type fromBeg = find( from, start, fromLen );
 
-      if( beg != npos )
+      if( fromBeg != npos )
 	{
-	  replace( beg, fromLen, to );
+	  replace( fromBeg, fromLen, to );
 	}
     }
   else
     {
       size_type toLen = strlen( to );
       
-      for( size_type beg = find( from, start, fromLen );
-	  beg != npos;
-	  beg = find( from, beg + fromLen, fromLen ) )
+      for( size_type fromBeg = find( from, start, fromLen );
+	  fromBeg != npos;
+	  fromBeg = find( from, fromBeg + fromLen, fromLen ) )
 	{
-	  replace( beg, fromLen, to, toLen );
+	  replace( fromBeg, fromLen, to, toLen );
 	}
     }
 
@@ -447,9 +460,9 @@ Str::substitute(
   
   Str repl;
   
-  for( size_type beg = 0;
-      exp.search( base, beg, bLen );
-      beg = exp.matchStart() + repl.size(),
+  for( size_type expBeg = 0;
+      exp.search( base, expBeg, bLen );
+      expBeg = exp.matchStart() + repl.size(),
 	base = strbase() + start,
 	bLen = size() - start )
     {
@@ -596,34 +609,34 @@ Str::scan(
   
   size_type delimLen = (dLen == npos) ? strlen( delim ) : dLen;
   
-  size_type beg = find_first_not_of( delim, start, delimLen );
+  size_type matchBeg = find_first_not_of( delim, start, delimLen );
 
-  if( beg == npos )
+  if( matchBeg == npos )
     return( 0 );
 
-  for( size_type end = find_first_of( delim, beg, delimLen );
-      end != npos;
-      end = find_first_of( delim, beg, delimLen ) )
+  for( size_type matchEnd = find_first_of( delim, matchBeg, delimLen );
+      matchEnd != npos;
+      matchEnd = find_first_of( delim, matchBeg, delimLen ) )
     {
-      matches.push_back( ScanMatch( beg , end - beg) );
+      matches.push_back( ScanMatch( matchBeg , matchEnd - matchBeg) );
 
       if( multiDelim )
 	{
-	  beg = find_first_not_of( delim, end, delimLen );
-	  if( beg == npos )
+	  matchBeg = find_first_not_of( delim, matchEnd, delimLen );
+	  if( matchBeg == npos )
 	    break;
 	}	  
       else
 	{
-	  beg = end + 1;
-	  if( beg >= size() )
+	  matchBeg = matchEnd + 1;
+	  if( matchBeg >= size() )
 	    break;
 	}
     }
 
-  if( beg != start )
+  if( matchBeg != start )
     {
-      matches.push_back( ScanMatch( beg , size() - beg) );
+      matches.push_back( ScanMatch( matchBeg , size() - matchBeg) );
     }
 
   return( matches.size() );
@@ -634,35 +647,39 @@ Str::scan( char delim, bool multiDelim, size_type start )
 {
   matches.erase( matches.begin(), matches.end() );
 
-  size_type beg = start;
+  size_type matchBeg = start;
   
-  for( ; at( beg ) == delim && beg < size(); beg++ );
+  for( ; at( matchBeg ) == delim && matchBeg < size(); matchBeg ++ );
 
-  if( beg >= size() )
+  if( matchBeg >= size() )
     return( 0 );
   
   matches.push_back( ScanMatch( start, size() - start ) );
 
-  for( size_type end = find( delim, beg ); end < size(); end = find( delim, beg ) )
+  for( size_type matchEnd = find( delim, matchBeg );
+       matchEnd < size();
+       matchEnd = find( delim, matchBeg ) )
     {
-      matches.push_back( ScanMatch( beg , end - beg) );
+      matches.push_back( ScanMatch( matchBeg , matchEnd - matchBeg) );
 
       if( multiDelim )
 	{
-	  for( beg = end + 1; at( beg ) == delim && beg < size();  beg++ );
+	  for( matchBeg = matchEnd + 1;
+	       at( matchBeg ) == delim && matchBeg < size();
+	       matchBeg++ );
 	}
       else
 	{
-	  beg = end + 1;
+	  matchBeg = matchEnd + 1;
 	}
       
-      if( beg >= size() )
+      if( matchBeg >= size() )
 	break;
     }
   
-  if( beg != start )
+  if( matchBeg != start )
     {
-      matches.push_back( ScanMatch( beg , size() - beg) );
+      matches.push_back( ScanMatch( matchBeg , size() - matchBeg) );
     }
 
   return( matches.size() );
@@ -867,11 +884,24 @@ Str::toStream( ostream & dest ) const
   return( dest );
 }
 
+istream &
+Str::fromStream( istream & src )
+{
+  return( getDelim( src, " \t\n\r\f" ) );
+}
+
+
 // good - return TRUE if no detected errors
 bool
 Str::good( void ) const
 {
-  return( rdbuf() != 0 && ios::good() );
+  return( rdbuf() != 0 &&
+#if defined( CLUE_HAS_CONST_IOSGOOD )
+	  ios::good()
+#else
+	  ios::state == 0
+#endif
+	  );
 }
 
 // error - return a string describing the current state
@@ -894,15 +924,27 @@ Str::error( void ) const
       if( rdbuf() == 0 )
 	errStr << ": no 'streambuf'";
       
+#if defined( CLUE_HAS_CONST_IOSRDSTATE )
       if( ! ios::good() )
 	{
 	  if( ios::rdstate() & ios::eofbit )
-	    errStr << ": EOF bit set";
+	    errStr += ": EOF bit set";
 	  if( ios::rdstate() & ios::failbit )
-	    errStr << ": FAIL bit set";
+	    errStr += ": FAIL bit set";
 	  if( ios::rdstate() & ios::badbit )
-	    errStr << ": BAD bit set";
+	    errStr += ": BAD bit set";
 	}
+#else
+      if( state != 0 )
+	{
+	  if( ios::state & ios::eofbit )
+	    errStr += ": EOF bit set";
+	  if( ios::state & ios::failbit )
+	    errStr += ": FAIL bit set";
+	  if( ios::state & ios::badbit )
+	    errStr += ": BAD bit set";
+	}
+#endif
       
       if( eSize == errStr.size() )
 	errStr << ": unknown error";
@@ -1059,12 +1101,6 @@ Str::writeNum( unsigned long num, unsigned short base, bool neg )
   return( true );
 }
 
-istream &
-operator >> ( istream & src, Str & dest )
-{
-  return( dest.getDelim( src, " \t\n\r\f" ) );
-}
-
 
 #ifdef STD_STRING
 int
@@ -1100,6 +1136,13 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/07/18 19:15:52  houghton
+// Port(Sun5): had to define ios::operator = (). I was getting link
+//     errors on this. This is a significant bug in Sun's compiler
+//     since it is declared as a 'private' member.
+// Port(Sun5): changed all locale variables named beg and end to
+//     eliminate compiler warnings.
+//
 // Revision 3.4  1997/03/15 18:05:04  houghton
 // Changed append - to prevent inserting nulls (0 char) into the Str even
 //     if the src len is specified.
