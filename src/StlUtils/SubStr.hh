@@ -57,22 +57,48 @@ public:
 				  size_type start = 0 ) const;
 
   inline bool	to( bool &   	     dest ) const;
-  inline bool	to( int &   	     dest, unsigned short base = 0 ) const; 
-  inline bool	to( short & 	     dest, unsigned short base = 0 ) const; 
-  inline bool	to( long &  	     dest, unsigned short base = 0 ) const; 
-  inline bool	to( float & 	     dest, unsigned short base = 0 ) const; 
-  inline bool	to( double & 	     dest, unsigned short base = 0 ) const; 
-  inline bool	to( unsigned int &   dest, unsigned short base = 0 ) const; 
-  inline bool	to( unsigned short & dest, unsigned short base = 0 ) const; 
-  inline bool	to( unsigned long  & dest, unsigned short base = 0 ) const; 
+  inline bool	to( int &   	    	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
+  inline bool	to( short & 	    	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
+  inline bool	to( long &  	    	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
+  inline bool	to( float & 	    	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
+  inline bool	to( double & 	    	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
+  inline bool	to( unsigned int &  	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
+  inline bool	to( unsigned short &  	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
+  inline bool	to( unsigned long  &	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
   
+  inline bool	    	toBool( void ) const;
+  
+  inline int	    	toInt( unsigned short base = 0,
+			       bool	      stopAtNonDigit = false ) const;
+  
+  inline long	    	toLong( unsigned short base = 0,
+				bool	       stopAtNonDigit = false ) const;
+  
+  inline double    	toDouble( unsigned short base = 0,
+				  bool	         stopAtNonDigit = false ) const;
+  
+  inline unsigned int	toUInt( unsigned short base = 0,
+				bool	       stopAtNonDigit = false ) const;
+  
+  inline unsigned long	toULong( unsigned short base = 0,
+				 bool	        stopAtNonDigit = false ) const;
 
-  inline bool	    	toBool( void ) const;	    
-  inline int	    	toInt( unsigned short base = 0 ) const;	    
-  inline long	    	toLong( unsigned short base = 0 ) const;	    
-  inline double    	toDouble( unsigned short base = 0 ) const;	    
-  inline unsigned int	toUInt( unsigned short base = 0 ) const;	    
-  inline unsigned long	toULong( unsigned short base = 0 ) const;	    
 
   int 	    compare( const Str &    two,
 		     size_type      start = 0,
@@ -438,6 +464,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/02/18 13:22:53  houghton
+// Added stopAtNonDigit flag to to() methods.
+//
 // Revision 4.2  1997/09/19 11:21:16  houghton
 // Changed to use new portable types (STLUTILS*_T).
 //
