@@ -12,6 +12,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 13:03:13  houghton
+// Added thread locking support.
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
 // Revision 2.3  1995/12/04 11:17:23  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -284,4 +289,24 @@ Log::rdbuf( void ) const
 }
 
 
+inline
+bool
+Log::lock( void )
+{
+  return( mutex.lock() );
+}
+
+inline
+bool
+Log::unlock( void )
+{
+  return( mutex.unlock() );
+}
+
+#if defined( inline )
+#undef inline
+#endif
+
+
 #endif // ! def _Log_ii_ 
+
