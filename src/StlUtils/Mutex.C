@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/11/08 11:45:42  houghton
+// Changed use of Str to strstream.
+//     (as required by Mike Alexander)
+//
 // Revision 2.2  1996/11/04 14:20:22  houghton
 // Changed to work even if CLUE_THREADS is not defined.
 //
@@ -20,10 +24,10 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include "Mutex.hh"
-#include <Str.hh>
+#include <strstream>
 #else
 #include "Mutex.hh"
-#include <Str.hh>
+#include <strstream>
 #endif
 
 #if defined( CLUE_DEBUG )
@@ -82,9 +86,12 @@ Mutex::good( void ) const
 const char *
 Mutex::error( void ) const
 {
-  static Str errStr;
+  static strstream errStr;
+  errStr.freeze(0);
+  errStr.seekp(0);
+  errStr.seekg(0);
 
-  errStr = Mutex::getClassName();
+  errStr << Mutex::getClassName();
 
   if( good() )
     {
@@ -92,14 +99,15 @@ Mutex::error( void ) const
     }
   else
     {
-      size_t eSize = errStr.size();
+      strstream eSize = errStr.tellp();
 
       errStr << ": " << strerror( errorNum );
       
-      if( eSize == errStr.size() )
+      if( eSize == errStr.tellp() )
         errStr << ": unknown error";
     }
 
+  errStr << ends;
   return( errStr.cstr() );
 }
 
@@ -174,9 +182,12 @@ Mutex::good( void ) const
 const char *
 Mutex::error( void ) const
 {
-  static Str errStr;
+  static strstream errStr;
+  errStr.freeze(0);
+  errStr.seekp(0);
+  errStr.seekg(0);
 
-  errStr = Mutex::getClassName();
+  errStr << Mutex::getClassName();
 
   if( good() )
     {
@@ -184,15 +195,16 @@ Mutex::error( void ) const
     }
   else
     {
-      size_t eSize = errStr.size();
+      streampos eSize = errStr.tellp();
 
       errStr << ": unsupported";
       
-      if( eSize == errStr.size() )
+      if( eSize == errStr.tellp() )
         errStr << ": unknown error";
     }
 
-  return( errStr.cstr() );
+  errStr << ends;
+  return( errStr.str() );
 }
 
 const char *
