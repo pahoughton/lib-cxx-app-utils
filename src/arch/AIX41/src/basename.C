@@ -19,13 +19,8 @@
 // Revision History: (See end of file for Revision Log)
 //
 
-#if !defined( CLUE_SHOR_FN )
 #include "StringUtils.hh"
 #include <cstring>
-#else
-#include "StrUtil.hh"
-#include <cstring>
-#endif
 
 CLUE_FUNCT_VERSION(
   basename,
@@ -62,6 +57,9 @@ basename( char * fn )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/24 19:15:04  houghton
+// Removed support for short file names.
+//
 // Revision 3.1  1996/11/14 01:25:27  houghton
 // Changed to Release 3
 //
