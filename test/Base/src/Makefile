@@ -56,7 +56,7 @@ VPATH		= $(ARCH_VPATH):.
 
 TEST_DATA_DIR	= ../data
 TEST_USER	= houghton
-TEST_GROUP	= tools
+TEST_GROUP	= cirinv# tools
 TEST_UID	= 253
 TEST_GID	= 233
 
@@ -150,8 +150,8 @@ DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
 PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue -lCommon -lpthreads -lm
-DEBUG_LD_LIBS		= -lClue_g -lCommon -lpthreads -lm
+DEFAULT_LD_LIBS		= -lClue_s -lCommon_s 
+DEBUG_LD_LIBS		= -lClue_g -lCommon 
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
 
@@ -332,7 +332,7 @@ debug prifle static::
 all::	default debug profile
 
 test: test_data default 
-	 LD_LIBRARY_PATH=/usr/local/lib/alpha $(NAME)
+	 LD_LIBRARY_PATH=$(TOOL_DIR)/lib/alpha $(NAME)
 
 test_debug: test_data debug
 	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha $(NAME)_g
@@ -388,6 +388,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.11  1996/05/14 14:19:13  houghton
+# Rework libs for AIX. (this will change)
+#
 # Revision 2.10  1996/05/11 11:03:36  houghton
 # Cleanup.
 #
