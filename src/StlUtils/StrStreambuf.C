@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1998/08/13 10:52:44  houghton
+// Port(Hpux10): expaded dumpInfo output.
+//
 // Revision 4.1  1997/09/17 15:12:58  houghton
 // Changed to Version 4
 //
@@ -66,7 +69,19 @@ StrStreambuf::dumpInfo(
     dest << StrStreambuf::getClassName() << ":\n"
 	 << StrStreambuf::getVersion() << '\n';
 
-  dest << prefix << "string:  '" << cstr() << "'\n"
+  dest << prefix << "length:  " << plen() << '\n'
+       << prefix << "base():  " << (void *) base() << '\n'
+       << prefix << "ebuf():  " << (void *) ebuf() << '\n'
+       << prefix << "pbase(): " << (void *) pbase() << '\n'
+       << prefix << "pptr():  " << (void *) pptr() << '\n'
+       << prefix << "epptr(): " << (void *) epptr() << '\n'
+       << prefix << "eback(): " << (void *) eback() << '\n'
+       << prefix << "gptr():  " << (void *) gptr() << '\n'
+       << prefix << "egptr(): " << (void *) egptr() << '\n'
+       << prefix << "n - b:   " << pptr() - pbase() << '\n'
+       << prefix << "string:  '" << (void *)cstr() << "'\n"
+       << prefix << "pbase(): " << (void *) pbase() << '\n'
+       << prefix << "pptr():  " << (void *) pptr() << '\n'
        << prefix << "length:  " << plen() << '\n'
        << prefix << "size:    " << psize() << '\n'
     ;
