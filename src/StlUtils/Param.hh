@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 2.3  1995/11/10 14:11:43  houghton
+// Revision 2.4  1995/11/12 18:32:21  houghton
+// Added logging macros.
+//
+// Revision 2.3  1995/11/10  14:11:43  houghton
 // Cleanup (move final endif)
 //
 // Revision 2.2  1995/11/10  14:08:38  houghton
@@ -46,6 +49,12 @@
 #define DEFAULT_LOGLEVEL "ERROR | WARNING"
 
 #define ALog( lvl )	LogIf( App->log(), lvl )
+
+#define AppWarn	    ALog( LogLevel::Warn )
+#define AppError    ALog( LogLevel::Error )
+#define AppInfo	    ALog( LogLevel::Info )
+#define AppDebug    ALog( LegLevel::Debug )
+
 
 #if defined( CLUE_DEBUG )
 #define inline
