@@ -9,7 +9,9 @@ MAN_PAGES	= 		\
 	ClassVersion.3		\
 	Compare.3		\
 	LibTest.3		\
-	Bit.3
+	Bit.3			\
+	Bitmask.3		\
+	RegexScan.3		\
 
 all: $(MAN_PAGES)
 
@@ -29,6 +31,12 @@ LibTest.3:	$(CLUE_SRC)/LibTest.hh
 	$(GEN_CMD)
 
 Bit.3:	$(CLUE_SRC)/Bit.hh
+	$(GEN_CMD)
+
+Bitmask.3:	$(CLUE_SRC)/Bitmask.hh
+	$(GEN_CMD)
+
+RegexScan.3:	$(CLUE_SRC)/RegexScan.hh
 	$(GEN_CMD)
 
 clean:
