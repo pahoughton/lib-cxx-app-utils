@@ -10,7 +10,7 @@
 # Do not modifiy 'makefile_type'
 makefile_type = prog
 # This is the make.cfg version that will be used
-make_cfg_ver	= 5.01
+make_cfg_ver	= 5.05
 # Default target type
 make_target	= default
 # Uncomment 'show_commands' to output compile command.
@@ -221,6 +221,9 @@ test:	default
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.2  1998/09/29 13:45:59  houghton
+# Changed to use MakeConfigs 5.05.
+#
 # Revision 4.1  1997/09/17 15:15:01  houghton
 # Changed to Version 4
 #
