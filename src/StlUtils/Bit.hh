@@ -25,15 +25,9 @@
 //
 
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#include "ClueConfig.hh"
 #include <cstddef>
 #include <climits>
-#else
-#include <ClueCfg.hh>
-#include <cstddef>
-#include <climits>
-#endif
 
 #if !defined( CHAR_ALL_BITS )
 
@@ -52,7 +46,7 @@
 
 #endif // ! def( CHAR_ALL_BITS )
 
-#include <Bit.ii>
+#include "Bit.ii"
 
 //
 // Detail Documentation:
@@ -189,6 +183,10 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:18:37  houghton
+// Changed include lines to use " " instead of < > to accomidate rpm.
+// Removed support for short file names to accomidate rpm.
+//
 // Revision 3.1  1996/11/14 01:23:25  houghton
 // Changed to Release 3
 //

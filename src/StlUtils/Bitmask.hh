@@ -22,12 +22,8 @@
 //
 
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#include "ClueConfig.hh"
 #include <functional>
-#else
-#include <ClueCfg.hh>
-#endif
 
 
 #if defined( CLUE_DEBUG )
@@ -718,6 +714,10 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:19:40  houghton
+// Changed include lines to use " " instead of < > to accomidate rpm.
+// Removed support for short file names to accomidate rpm.
+//
 // Revision 3.1  1996/11/14 01:23:26  houghton
 // Changed to Release 3
 //

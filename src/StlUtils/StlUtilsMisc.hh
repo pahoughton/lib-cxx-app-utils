@@ -16,13 +16,8 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
-#include <cstdlib>
-#else
-#include <ClueCfg.hh>
-#include <cstdlib>
-#endif
+#include "ClueConfig.hh"
+#include "cstdlib"
 
 
 // Macros
@@ -164,6 +159,10 @@ OpenFlags( ios::open_mode openMode );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:20:51  houghton
+// Changed include lines to use " " instead of < > to accomidate rpm.
+// Removed support for short file names to accomidate rpm.
+//
 // Revision 3.1  1996/11/14 01:23:29  houghton
 // Changed to Release 3
 //
