@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.4  1998/10/13 16:34:09  houghton
+// Change to ensure 'primary' group is included in the user's groups.
+//
 // Revision 4.3  1998/07/20 11:30:20  houghton
 // Port(Hpux): had to specify default function arg.
 //
@@ -94,6 +97,8 @@ size_t
 User::findGroups( void )
 {
   setgrent();
+
+  bool	foundPrime( false );
   
   for( struct group * gr = getgrent();
       gr;
@@ -111,12 +116,19 @@ User::findGroups( void )
 		<< endl;
 	      
 	      _LLgUnLock;
-	      
+
+	      if( g.getGID() == primeGroup.getGID() )
+		{
+		  foundPrime = true;
+		}
 	      groups.insert( g );
 	    }
 	}
     }
-  
+
+  if( ! foundPrime )
+    groups.insert( primeGroup );
+    
   endgrent();
 
   return( groups.size() );
