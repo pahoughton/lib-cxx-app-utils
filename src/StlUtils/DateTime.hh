@@ -17,6 +17,9 @@
 //
 // 
 // $Log$
+// Revision 2.5  1996/05/01 10:59:05  houghton
+// Bug-Fix: gcc did not like the flags being a char changed to int.
+//
 // Revision 2.4  1996/04/27 12:58:55  houghton
 // Removed unneeded includes.
 // Cleanup.
@@ -203,10 +206,10 @@ private:
   
   struct Flags
   {
-    char    	valid 	    : 1;
-    char    	dstKnown    : 1;
-    char    	dst   	    : 1;
-    char    	tmValid	    : 1;
+    int    	valid 	    : 1;
+    int    	dstKnown    : 1;
+    int    	dst   	    : 1;
+    int    	tmValid	    : 1;
   };
 
   const char *	timeZoneName;  

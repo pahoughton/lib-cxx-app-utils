@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/05/01 10:58:59  houghton
+// Bug-Fix: gcc did not like the flags being a char changed to int.
+//
 // Revision 2.3  1996/04/27 12:58:26  houghton
 // Removed unneeded includes.
 //
@@ -444,7 +447,7 @@ DateTime::setTmOffset( void )
 {
   const char * oldZone = getenv( "TZ" );
 
-  if( flags.dstKnown == 1  && flags.dst == 1 )
+  if( flags.dstKnown && flags.dst )
     {
       seconds -= offset;
       offset -= SecPerHour;
