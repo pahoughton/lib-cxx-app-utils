@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:20:59  houghton
+// Changed to use size_type (vs size_t).
+//
 // Revision 4.1  1997/09/17 15:12:25  houghton
 // Changed to Version 4
 //
@@ -219,7 +222,7 @@ FilePath::setPrefix( const char * prefix )
   if( prefix[0] == 0 )
     return( true );
   
-  if( at((size_t)0) == dirDelim )
+  if( at((size_type)0) == dirDelim )
     {
       if( prefix[ strlen( prefix ) - 1 ] == dirDelim )
 	{
@@ -415,10 +418,10 @@ FilePath::toStream( ostream & dest ) const
   return( Str::toStream( dest ) );
 }
 
-size_t
+FilePath::size_type
 FilePath::getBinSize( void ) const
 {
-  return( sizeof( STLUTILS_U32 ) +
+  return( sizeof( size_type ) +
 	  size() +
 	  sizeof( dirDelim ) +
 	  sizeof( extDelim ) );
@@ -428,7 +431,7 @@ FilePath::getBinSize( void ) const
 ostream & 
 FilePath::write( ostream & dest ) const
 {
-  STLUTILS_U32  len = size();
+  size_type  len = size();
   dest.write( (const char *)&len, sizeof( len ) );
   dest.write( c_str(), size() );
   dest.write( &dirDelim, sizeof( dirDelim ) );
@@ -439,7 +442,7 @@ FilePath::write( ostream & dest ) const
 istream &
 FilePath::read( istream & src )
 {
-  STLUTILS_U32  len = 0;
+  size_type  len = 0;
   src.read( (char *)&len, sizeof( len ) );
 
   if( ! len )

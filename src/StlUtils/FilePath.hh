@@ -97,7 +97,7 @@ public:
 
   virtual ostream &	toStream( ostream & dest ) const;
   
-  virtual size_t    	getBinSize( void ) const;
+  virtual size_type    	getBinSize( void ) const;
   
   virtual ostream &	write( ostream & dest ) const;
   virtual istream &	read( istream & src );
@@ -277,6 +277,9 @@ compare( const FilePath & one, const FilePath & two );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:20:55  houghton
+// Changed to use size_type (vs size_t).
+//
 // Revision 4.1  1997/09/17 15:12:25  houghton
 // Changed to Version 4
 //
