@@ -47,13 +47,15 @@
 
 #define STLUTILS_DEFAULT_LOGLEVEL "ERROR | WARNING | INFO"
 
-#define ALog( lvl )	LogIf( App->log(), lvl )
+#define ALog( lvl )	LogIf( (*App).log(), lvl )
 
 #define AppWarn	    ALog( LogLevel::Warn )
 #define AppError    ALog( LogLevel::Error )
 #define AppInfo	    ALog( LogLevel::Info )
 #define AppDebug    ALog( LogLevel::Debug )
 #define AppTest     ALog( LogLevel::Test )
+
+#define AppAbort( exitCode ) (*App).abort( exitCode, true, __FILE__, __LINE__ )
 
 
 #if defined( STLUTILS_DEBUG )
@@ -905,6 +907,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/11/02 15:26:55  houghton
+// Added AppAbort macro.
+//
 // Revision 4.1  1997/09/17 15:12:44  houghton
 // Changed to Version 4
 //
