@@ -39,6 +39,7 @@
 #include <DateTime.hh>
 #include <LibLog.hh>
 #include <DumpInfo.hh>
+#include <FilePath.hh>
 #include <deque>
 #include <iostream>
 #include <cstdlib>
@@ -92,6 +93,7 @@ public:
   pid_t		    getpid( void ) const;
   const DateTime &  startTime( void ) const;
   Log &		    logStartInfo( void );
+  Log &		    logExitInfo( int exitCode );
   
   inline size_t	    count( void ) const;
 
@@ -111,7 +113,11 @@ public:
   
   virtual bool	parseArgs( void );
   virtual bool	parseArgs( int argc, char * argv[] );
- 
+
+  bool	argChar( char &  	 dest,
+		 const char *	 description,
+		 const char *    argId,
+		 const char *    envVar = 0 );
   bool	argStr( char * &  	 dest,
 		const char *	 description,
 		const char *     argId,
@@ -185,7 +191,7 @@ public:
 		 const char *	    argId,
 		 const char *	    envVar = 0 );
   
-  inline bool	help( void ) const;
+  inline bool	help( bool exitApp = true );
 
   inline bool	allArgs( void ) const;
 
@@ -238,20 +244,39 @@ private:
   Param( const Param & copyFrom );
   Param & operator=( const Param & assignFrom );
 
-  Str		    getArgValue( const char * argId, const char * envVar );
+  Str		    getArgValue( const char *	argId,
+				 const char *	envVar,
+				 bool		sNum = false );
+  
   bool		    getArgFlag( const char * argId, const char * envVar );
 
+  size_t    appendArgInfo( const char *	argId,
+			   const char *	desc,
+			   const char *	envVar,
+			   const char *	value,
+			   bool		isflag = false );
+  
+  size_t    appendArgFile( const char *	argId,
+			   size_t	argIdLen,
+			   const char *	desc,
+			   const char *	envVar,
+			   const char *	value,
+			   bool		isflag );
+  
   size_t    appendHelp( const char *	argId,
+			size_t		argIdLen,
 			const char *	desc,
 			const char *	envVar,
 			const char *	value );
+
+  void	    genArgFile( bool exitApp );
 
   DateTime	    appStartTime;
   
   Str		    versionText;
   Str		    helpText;
   Str    	    helpString;
-  
+  Str		    argFileString;
 
   Args		    allArgv;
   Args		    argv;
@@ -260,7 +285,7 @@ private:
   
   Log	    	    appLog;
 
-  Str		    argFile;
+  FilePath	    argFile;
   bool    	    helpFlag;
 
   Str    	    logFile;
@@ -270,7 +295,7 @@ private:
   Str    	    logOutputLevel;
   Str		    logFilter;
 
-  Str		    errorLogName;
+  FilePath	    errorLogName;
   ofstream *	    errorLogFile;
   LogBuf::FilterId  errorLogId;
   Str		    errorLogLevels;
@@ -281,6 +306,8 @@ private:
   bool		    logTimeStamp;
   bool		    logLevelStamp;
   bool		    logLocStamp;
+
+  bool		    generateArgFile;
   
   static const char *	ErrorStrings[];
   
@@ -918,6 +945,12 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/11/09 11:08:35  houghton
+// Added logExitInfo()
+// Added argChar().
+// Added exitApp arg to help.
+// Added generate arg file support.
+//
 // Revision 4.3  1999/10/28 14:21:13  houghton
 // Added errorlog support.
 // Changed arg names.
