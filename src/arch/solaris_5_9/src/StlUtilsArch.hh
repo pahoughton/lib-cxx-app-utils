@@ -107,6 +107,15 @@
 #define STLUTILS_BIG_ENDIAN	1   // ie 1234
 #define STLUTILS_DO_NET_CONV	0   // ie do NOT need to do Net2Host & Host2Net
 
+typedef STLUTILS_S16_T	    type_s16;
+typedef STLUTILS_U16_T	    type_u16;
+
+typedef STLUTILS_S32_T	    type_s32;
+typedef STLUTILS_U32_T	    type_u32;
+
+typedef STLUTILS_S64_T	    type_s64;
+typedef STLUTILS_U64_T	    type_u64;
+
 // Constants
 #define STLUTILS_DIR_DELIM	    '/'
 #define STLUTILS_BAD_FPOS_T	    LONG_MIN
