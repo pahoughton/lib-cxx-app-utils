@@ -101,14 +101,14 @@ CPP_FLAGS		= $(ARCH_CPP_FLAGS)
 
 CC_FLAGS		= $(cc_warn_all) $(ARCH_CC_FLAGS)
 
-DEFAULT_CC_FLAGS	= $(cc_optimize)
+DEFAULT_CC_FLAGS	= $(cc_default) $(cc_optimize)
 DEBUG_CC_FLAGS		= $(cc_debug)
 PROFILE_CC_FLAGS	= $(cc_profile)
 STATIC_CC_FLAGS		= $(cc_optimize)
 
 CXX_FLAGS		= $(arch_cxx_flags) $(cxx_warn_all)
 
-DEFAULT_CXX_FLAGS	= $(cxx_optimize)
+DEFAULT_CXX_FLAGS	= $(cxx_default) $(cxx_optimize)
 DEBUG_CXX_FLAGS		= $(cxx_debug)
 PROFILE_CXX_FLAGS	= $(cxx_profile)
 STATIC_CXX_FLAGS	= $(cxx_optimize)
@@ -134,7 +134,7 @@ INSTALL_BIN_FLAGS	=
 
 LD_FLAGS		= $(ARCH_LD_FLAGS)
 
-DEFAULT_LD_FLAGS	= $(ld_optimize)
+DEFAULT_LD_FLAGS	= $(ld_default) $(ld_optimize)
 DEBUG_LD_FLAGS		= $(ld_debug)
 PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
@@ -372,6 +372,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.3  1997/12/19 14:34:29  houghton
+# Added cc_default cxx_default.
+#
 # Revision 4.2  1997/12/19 12:52:44  houghton
 # Added tMfNumTo.C
 #
