@@ -32,8 +32,8 @@ tFileStat04( LibTest & tester )
     TEST( t.good() );
     TEST( compare( (const char *)t.getName(), TEST_DATA_DIR "/FileStat.01" ) == 0 );
     TEST( compare( t.getModeString(), "-rw-rw-r--" ) == 0 );
-    TEST( compare( t.getUserName(), "houghton" ) == 0 );
-    TEST( compare( t.getGroupName(), "tools" ) == 0 );
+    TEST( compare( t.getUserName(), TEST_USER ) == 0 );
+    TEST( compare( t.getGroupName(), TEST_GROUP ) == 0 );
   }
   
   {
