@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:12:50  houghton
+// Changed strstream to strstream.h because it is not part of the standard.
+//
 // Revision 3.1  1996/11/14 01:24:14  houghton
 // Changed to Release 3
 //
@@ -31,14 +34,9 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#include "ClueConfig.hh"
 #include <stddef>
-#include <strstream>
-#else
-#include <ClueCfg.hh>
-#include <strstream>
-#endif
+#include <strstream.h>
 
 
 #if defined( CLUE_DEBUG )
@@ -82,11 +80,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
 #include <StrStreambuf.ii>
-#else
-#include <StrSbuf.ii>
-#endif
 #else
 #undef inline
 #endif
