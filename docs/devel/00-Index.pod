@@ -15,6 +15,11 @@ Types and functions provided by libStlUtils
 
 How to check in/out the sources from the version control repository
 
+=item L<Prerequisites|Prerequisites>
+
+What you need to use =PROJECT= (note: includes info about supported
+platforms)
+
 =item L<Project Install|PrjInstall>
 
 How to use a specific version of StlUtils with your project. This is
@@ -38,6 +43,9 @@ Last Modified: =LAST_MOD=
 =cut
 
 $Log$
+Revision 1.4  2000/06/11 13:20:27  houghton
+Added Prerequisites.
+
 Revision 1.3  2000/06/11 12:23:23  houghton
 Cleanup.
 

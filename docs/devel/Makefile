@@ -85,8 +85,8 @@ endef
 # 00-Index.html from 00-Index.pod
 #
 
-00-Index_POD_HTML_OPTS	= -noindex
-
+00-Index_POD_HTML_OPTS		= -noindex
+Prerequisites_POD_HTML_OPTS	= -noindex
 #
 # =USE_CURRENT_MAKEFILE=
 #
@@ -98,10 +98,11 @@ SUBDIRS		=
 MAN_PAGES	=
 
 HTML_FILES	=							      \
-	00-Index.html							      \
 	Version.html							      \
 	PrjInstall.html							      \
 	Install.html							      \
+	Prerequisites.html						      \
+	00-Index.html							      \
 	$(GEN_POD_HTML_FILES)
 
 GEN_POD_HTML_FILES	=						      \
@@ -177,6 +178,9 @@ realclean:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 1.3  2000/06/11 13:20:30  houghton
+# Added Prerequisites.
+#
 # Revision 1.2  2000/06/05 13:13:07  houghton
 # Fixed minor problems.
 #
