@@ -1,0 +1,89 @@
+#ifndef _TimeIt_ii_
+#define _TimeIt_ii_
+//
+// File:        TimeIt.ii
+// Project:	Clue
+// Desc:        
+//
+//  	Inline source for TimeIt
+//
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Created:     01/17/97 08:02
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+inline
+void
+TimeIt::start( void )
+{
+  if( getrusage( RUSAGE_SELF, &usageStart ) )
+    osErrnum = (osErrnum ? osErrnum : errno );
+  
+  if( gettimeofday( &realStart, 0 ) )
+    osErrnum = (osErrnum ? osErrnum : errno );
+}
+
+inline
+void
+TimeIt::stop( void )
+{
+  
+  if( gettimeofday( &realStop, 0 ) )
+    osErrnum = (osErrnum ? osErrnum : errno );
+  
+  if( getrusage( RUSAGE_SELF, &usageStop ) )
+    osErrnum = (osErrnum ? osErrnum : errno );
+  
+}
+
+inline
+DumpInfo<TimeIt>
+TimeIt::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo<TimeIt>( *this, prefix, showVer ) );
+}
+	
+
+inline
+ostream &
+operator << ( ostream & dest, const TimeIt & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+#if defined( DO_FROMSTREAM )
+inline
+istream &
+operator >> ( istream & dest, const TimeIt & obj )
+{
+  return( obj.toStream( dest ) );
+}
+#endif
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 3.1  1997/03/03 14:37:42  houghton
+// Initial Version.
+//
+// Revision 1.1  1997/02/26 17:17:26  houghton
+// Initial revision
+//
+//
+#endif // ! def _TimeIt_ii_ 
