@@ -210,6 +210,10 @@ CXX_C_SOURCES	=			\
 	tLog03.C                        \
 	tLog04.C                        \
 	tLog05.C                        \
+	tLog06.C			\
+	tLog07.C			\
+	tLog08.C			\
+	tLog09.C			\
 	tParam.C                        \
 	tParam01.C                      \
 
@@ -382,10 +386,11 @@ debug prifle static::
 all::	default debug profile
 
 test: test_data default 
-	 LD_LIBRARY_PATH=$(TOOL_DIR)/lib/alpha $(NAME)
+	 LD_LIBRARY_PATH=$(TOOL_DIR)/lib/alpha $(NAME) $(TEST)
 
 test_debug: test_data debug
-	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha $(NAME)_g
+	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha \
+	  $(NAME)_g $(TEST)
 
 test_data: 
 	chgrp $(TEST_GROUP) $(TEST_DATA_DIR)/FileStat.01
@@ -438,6 +443,10 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.19  1996/11/13 17:18:35  houghton
+# Added Log test sources.
+# Added var so the test can be specified for the test_debug target.
+#
 # Revision 2.18  1996/11/08 11:46:49  houghton
 # *** empty log message ***
 #
