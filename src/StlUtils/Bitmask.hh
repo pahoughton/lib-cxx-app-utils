@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/05/02 01:27:22  houghton
+// Add missing operators for <= & >= long rhs.
+//
 // Revision 2.4  1996/04/27 12:50:50  houghton
 // Cleanup.
 //
@@ -123,7 +126,9 @@ public:
   inline bool		operator == ( unsigned long rhs ) const;
   inline bool		operator != ( unsigned long rhs ) const;
   inline bool		operator <  ( unsigned long rhs ) const;
+  inline bool		operator <= ( unsigned long rhs ) const;
   inline bool		operator >  ( unsigned long rhs ) const;
+  inline bool		operator >= ( unsigned long rhs ) const;
   
   inline    	    	operator bool ( void ) const;
   inline    	    	operator unsigned long ( void ) const;
