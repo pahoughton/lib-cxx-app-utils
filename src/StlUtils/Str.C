@@ -396,14 +396,14 @@ Str::to( RangeList & range, unsigned short base ) const
   // scan is non const, so we need a temp
   Str	tmp( *this );
 
-  size_type matches = tmp.scan( " \t,;:" );
+  size_type matcheCount = tmp.scan( " \t,;:" );
 
   Range r;
   
-  if( matches > 1 )
+  if( matcheCount > 1 )
     {
       
-      for( size_type m = 1; m < matches; ++ m )
+      for( size_type m = 1; m < matcheCount; ++ m )
 	{
 	  Str   numseq =  tmp.scanMatch( m );
 	  
@@ -1217,6 +1217,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1997/12/19 14:00:42  houghton
+// Port(Sun5): fixed for warning about hiding 'matches'.
+//
 // Revision 4.2  1997/09/19 11:22:21  houghton
 // Changed to use size_type.
 //
