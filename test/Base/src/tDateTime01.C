@@ -89,7 +89,9 @@ tDateTime01( LibTest & tester )
     TEST( ! strcmp( checkStr, dtLocal.getString() ) );
 
     {
-      // verify  1950 < year < 2000 getString uses 4 digit year
+      // DateTime class used to return 4-digit year for dates
+      // < 1950 or > 2000.  Now it only returns 4-digit years
+      // for dates < 1950 and 2-digit years otherwise.
       strcpy( checkStr, "04/28/1945 13:04:40" );
       TEST( strptime( checkStr, "%m/%d/%Y %H:%M:%S", &check ) != 0 );
 
@@ -97,11 +99,10 @@ tDateTime01( LibTest & tester )
 
       TESTR( dt.getString(), ! strcmp( dt.getString(), checkStr ) );
 
-      strcpy( checkStr, "04/28/2025 13:04:40" );
-      TEST( strptime( checkStr, "%m/%d/%Y %H:%M:%S", &check ) != 0 );
+      strcpy( checkStr, "04/28/25 13:04:40" );
+      TEST( strptime( checkStr, "%m/%d/%y %H:%M:%S", &check ) != 0 );
 
       dt.set( check );
-
       TESTR( dt.getString(), ! strcmp( dt.getString(), checkStr ) );
     }
   }
