@@ -2,48 +2,25 @@
 #define _Param_ii_
 //
 // File:        Param.ii
+// Project:	Clue
 // Desc:        
 //
-//  	inlines for Param
+//  	Inline source for Param
 //
-//
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     06/16/95 04:11
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.3  1996/11/19 22:09:37  houghton
-// Bug-Fix: had to move operator << to before Param::abort because
-//     it is used by Param::abort.
-// Bug-Fix: cleanup abort output.
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.2  1996/11/19 12:25:48  houghton
-// Major re-work to use 'string'
-// Major re-work to use vector<string> for managing argv.
-//
-// Revision 3.1  1996/11/14 01:23:54  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/02/29 19:06:48  houghton
-// *** empty log message ***
-//
-// Revision 2.2  1995/12/04 11:18:23  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:55  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  15:28:45  houghton
-// Revised
-//
+//  $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
+
 #include <StringUtils.hh>
-#else
-#include <StrUtil.hh>
-#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -156,6 +133,18 @@ Param::argDouble( size_t which )
 }
 
 inline
+bool
+Param::readArgs( const char * fileName )
+{
+  ifstream  argFile( fileName );
+
+  if( argFile.good() )
+    return( readArgs( argFile ) );
+  else
+    return( false );
+}
+
+inline
 const char *
 Param::env( const char * envVar ) const
 {
@@ -174,6 +163,13 @@ bool
 Param::allArgs( void ) const
 {
   return( count() == 1 );
+}
+
+inline
+DumpInfo< Param >
+Param::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< Param >( *this, prefix, showVer ) );
 }
 
 inline
@@ -218,4 +214,37 @@ Param::abort(
 #undef inline
 #endif
 
+// Revision Log:
+// 
+//
+// $Log$
+// Revision 3.4  1997/03/21 12:28:22  houghton
+// Cleanup.
+// Added dump().
+//
+// Revision 3.3  1996/11/19 22:09:37  houghton
+// Bug-Fix: had to move operator << to before Param::abort because
+//     it is used by Param::abort.
+// Bug-Fix: cleanup abort output.
+//
+// Revision 3.2  1996/11/19 12:25:48  houghton
+// Major re-work to use 'string'
+// Major re-work to use vector<string> for managing argv.
+//
+// Revision 3.1  1996/11/14 01:23:54  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1996/02/29 19:06:48  houghton
+// *** empty log message ***
+//
+// Revision 2.2  1995/12/04 11:18:23  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:55  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  15:28:45  houghton
+// Revised
+//
+//
 #endif // ! def _Param_ii_ 
