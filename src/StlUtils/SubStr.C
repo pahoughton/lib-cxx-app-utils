@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/08/17 22:35:33  houghton
+// Added size_type.
+//
 // Revision 3.3  1997/07/18 19:30:08  houghton
 // Port(Sun5): changed local variable names to eliminate compiler warnings.
 //
@@ -55,7 +58,7 @@ CLUE_VERSION(
   "$Id$" );
 
 
-const size_t SubStr::npos = NPOS;
+const SubStr::size_type SubStr::npos = NPOS;
 
 Str SubStr::dummyStr("dummy");
 
