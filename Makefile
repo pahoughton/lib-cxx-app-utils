@@ -17,9 +17,12 @@ PROJECT		= libStlUtils-4
 PRJ_TOPDIR	= .
 CFG_DIR		= $(PRJ_TOPDIR)/src/config
 
-INSTALL_INC_DIR = $(TOOL_DIR)/include/prod
-INSTALL_LIB_DIR = $(TOOL_DIR)/lib/prod
-INSTALL_MAN_DIR = $(TOOL_DIR)/man
+INSTALL_INC_DIR 	= $(TOOL_DIR)/include/prod
+INSTALL_LIB_DIR 	= $(TOOL_DIR)/lib/prod
+INSTALL_MAN_DIR 	= $(TOOL_DIR)/man
+
+INSTALL_HTML_BASE_DIR	= \
+	/usr/netscape/suitespot/docs/ObjectRepository/StlUtils
 
 common_h	= $(INSTALL_INC_DIR)/Common.h
 gnuregex_h	= $(INSTALL_INC_DIR)/GnuRegex.h
@@ -130,6 +133,9 @@ help_config:
 	    echo "    INSTALL_INC_DIR=$(INSTALL_INC_DIR)" ;		      \
 	    echo "    INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)" ;		      \
 	    echo "    INSTALL_DOC_DIR=$(INSTALL_DOC_DIR)" ;		      \
+	    echo "    INSTALL_HTML_BASE_DIR=";				      \
+	    echo "      $(INSTALL_HTML_BASE_DIR)";			      \
+	    echo ;							      \
 	    echo "    show_commands=$(show_commands)" ;			      \
 	    echo "    check_install=$(check_install)" ;			      \
 	    echo ;							      \
@@ -138,6 +144,9 @@ help_config:
 
 #
 # $Log$
+# Revision 4.10  2000/04/18 13:08:22  houghton
+# Added INSTALL_HTML_BASE_DIR.
+#
 # Revision 4.9  2000/02/29 14:36:27  houghton
 # Added install_lib_all target.
 #
