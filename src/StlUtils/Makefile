@@ -206,6 +206,7 @@ OTHER_USER_HH_INCS	=		\
 	DateRange.hh                    \
 	DateRangeDaily.hh               \
 	DateRangeWeekly.hh              \
+	Net2Host.hh			\
 	Param.hh                        \
 	SizeIt.hh                       \
 	SortOrder.hh			\
@@ -338,6 +339,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.7  1997/03/02 13:19:23  houghton
+# Added Net2Host
+#
 # Revision 3.6  1997/01/18 17:32:14  houghton
 # Changed Ver number.
 # Added Compare.hh, DumpInfo.hh, LibLog.hh, Bit.hh, SortOrder.hh,
