@@ -24,12 +24,12 @@
 
 // Configuration Flags
 
-// #define STDCXX_PARTIAL_SPECIALIZATION	1
 
 #if !defined( __SunOS_5_8 )
-#define STLUTILS_HAVE_LONG_LONG	1
+#define STLUTILS_HAVE_LONG_ABS 1
 #endif
 
+#define STLUTILS_HAVE_LONG_LONG	1
 #define STLUTILS_LOG_WHERE 1
 #define STLUTILS_HAS_STR 1
 #define STLUTILS_HAS_DATETIME 1
@@ -43,10 +43,11 @@
 // #define STLUTILS_STRBUF_PBASE 1
 
 // Standards
+// #define STDCXX_PARTIAL_SPECIALIZATION	1
 #define STLUTILS_HAS_CONST_IOSRDBUF	1 
 #define STLUTILS_HAS_CONST_IOSGOOD	1 
 #define STLUTILS_HAS_CONST_IOSRDSTATE	1 
-#define STLTUTILS_STD_ITERATORS		1
+#define STLUTILS_STD_ITERATORS		1
 #define STLUTILS_STRBUF_CONST_RDBUF	const
 #define STLUTILS_RELOPS_BROKEN		1
 #define STLUTILS_STD_STREAMBUF_STUPID	1
@@ -171,6 +172,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 5.8  2001/08/07 21:47:26  houghton
+// *** empty log message ***
+//
 // Revision 5.7  2001/08/07 19:45:50  houghton
 // *** empty log message ***
 //
