@@ -13,7 +13,10 @@
 //  specifiy white spaces that are to be striped
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:53  houghton
+// Revision 2.1  1995/11/10 12:41:16  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:53  houghton
 // Ports and Version ID changes
 //
 //

@@ -12,7 +12,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/02/20 14:33:50  houghton
+// Revision 2.1  1995/11/10 12:48:35  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/02/20  14:33:50  houghton
 // Clue test header
 //
 //

@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.5  1995/11/05 14:44:26  houghton
+// Revision 2.1  1995/11/10 12:40:24  houghton
+// Change to Version 2
+//
+// Revision 1.5  1995/11/05  14:44:26  houghton
 // Ports and Version ID changes
 //
 //

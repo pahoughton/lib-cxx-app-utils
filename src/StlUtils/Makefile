@@ -420,7 +420,10 @@ include .depend
 # =MAKEFILE_LOG=
 #
 # $Log$
-# Revision 1.20  1995/11/10 12:03:21  houghton
+# Revision 2.1  1995/11/10 12:40:49  houghton
+# Change to Version 2
+#
+# Revision 1.20  1995/11/10  12:03:21  houghton
 # Change install dir from BETA to ALPHA
 #
 # Revision 1.19  1995/11/10  00:30:43  houghton

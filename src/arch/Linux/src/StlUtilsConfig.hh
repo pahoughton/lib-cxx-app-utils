@@ -11,7 +11,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 15:29:33  houghton
+// Revision 2.1  1995/11/10 12:46:43  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  15:29:33  houghton
 // Revised
 //
 //

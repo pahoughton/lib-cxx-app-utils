@@ -295,7 +295,10 @@ include .depend
 
 # 
 # $Log$
-# Revision 1.8  1995/11/05 16:33:15  houghton
+# Revision 2.1  1995/11/10 12:48:37  houghton
+# Change to Version 2
+#
+# Revision 1.8  1995/11/05  16:33:15  houghton
 # Revised
 #
 # Revision 1.3  1995/02/20  14:21:28  houghton

@@ -14,7 +14,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 14:49:28  houghton
+// Revision 2.1  1995/11/10 12:46:54  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  14:49:28  houghton
 // Linux Configuration Headers
 //
 //

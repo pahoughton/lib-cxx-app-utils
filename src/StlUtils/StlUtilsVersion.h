@@ -17,7 +17,10 @@
  * Modification History:
  *
  * $Log$
- * Revision 1.2  1995/11/05 13:51:42  houghton
+ * Revision 2.1  1995/11/10 12:40:22  houghton
+ * Change to Version 2
+ *
+ * Revision 1.2  1995/11/05  13:51:42  houghton
  * Revised implementation
  *
  *

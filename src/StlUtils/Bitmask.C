@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.5  1995/11/10 00:30:24  houghton
+// Revision 2.1  1995/11/10 12:40:16  houghton
+// Change to Version 2
+//
+// Revision 1.5  1995/11/10  00:30:24  houghton
 // Fixec Compile error
 //
 // Revision 1.4  1995/11/09  18:15:18  houghton

@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 12:22:38  houghton
+// Revision 2.1  1995/11/10 12:47:12  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  12:22:38  houghton
 // Initial LockFile
 //
 //

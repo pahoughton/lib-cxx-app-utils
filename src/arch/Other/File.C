@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:12:38  houghton
+// Revision 2.1  1995/11/10 12:47:08  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  13:12:38  houghton
 // Initial implementation of File Class
 //
 //

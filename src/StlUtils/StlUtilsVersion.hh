@@ -14,7 +14,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 14:48:49  houghton
+// Revision 2.1  1995/11/10 12:40:22  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  14:48:49  houghton
 // New Class Version id method
 //
 //

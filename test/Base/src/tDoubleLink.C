@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/02/13 16:12:06  houghton
+// Revision 2.1  1995/11/10 12:49:12  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/02/13  16:12:06  houghton
 // Initial libClue test - This has a long way to go.
 //
 //

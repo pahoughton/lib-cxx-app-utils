@@ -17,7 +17,10 @@
  * Modification History:
  *
  * $Log$
- * Revision 1.1  1995/11/05 12:17:57  houghton
+ * Revision 2.1  1995/11/10 12:46:44  houghton
+ * Change to Version 2
+ *
+ * Revision 1.1  1995/11/05  12:17:57  houghton
  * Initial Misc.h
  *
  *

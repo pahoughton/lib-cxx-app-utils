@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.5  1995/11/05 15:28:50  houghton
+// Revision 2.1  1995/11/10 12:41:19  houghton
+// Change to Version 2
+//
+// Revision 1.5  1995/11/05  15:28:50  houghton
 // Revised
 //
 //
