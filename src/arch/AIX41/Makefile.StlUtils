@@ -72,6 +72,7 @@ ARCH_USER_STD_CXX_INCS	=	\
 	cstring			\
 	ctime			\
 	defalloc.h		\
+	deque			\
 	deque.h			\
 	faralloc.h		\
 	fdeque.h		\
@@ -156,6 +157,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 1.4  1996/07/16 13:53:23  houghton
+# Added deque
+#
 # Revision 1.3  1996/05/21 10:31:58  houghton
 # Add stl directories.
 # Cleanup.
