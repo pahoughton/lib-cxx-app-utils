@@ -26,7 +26,7 @@ CLUE_VERSION(
 
 Log * _LibLog = 0;
 
-LogLevel::CommonLevelMap	    Log::commonLevelMap;
+LogLevel::CommonLevelMap *	    Log::commonLevelMap = 0;
 
 Log::Log(
   ostream & 	    outstr,
@@ -108,7 +108,11 @@ Log::~Log( void )
 }
 
 Log &
-Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
+Log::level(
+  const LogLevel::Level &   current,
+  const char *		    srcFile,
+  long			    srcLine
+  )
 {
   if( rdbuf()->sync() == EOF )
     {
@@ -224,9 +228,9 @@ Log::filter( const char * regex )
 
 LogBuf::FilterId
 Log::addFilter(
-  streambuf *	    dest,
-  LogLevel::Level   outLevel,
-  const char *	    regex
+  streambuf *		    dest,
+  const LogLevel::Level &   outLevel,
+  const char *		    regex
   )
 {
   return( rdbuf()->addFilter( dest, outLevel, regex ) );
@@ -259,26 +263,11 @@ Log::delFilter( LogBuf::FilterId id )
 bool
 Log::tieCommonLogger( bool setStrings )
 {
-  if( commonLevelMap.size() == 0 )
+  if( ! commonLevelMap )
     {
-      commonLevelMap[ LOG_ERROR ] = LogLevel::Error;
-      commonLevelMap[ LOG_WARN  ] = LogLevel::Warn;
-      commonLevelMap[ LOG_APP1  ] = LogLevel::App1;
-      commonLevelMap[ LOG_APP2  ] = LogLevel::App2;
-      commonLevelMap[ LOG_APP3  ] = LogLevel::App3;
-      commonLevelMap[ LOG_APP4  ] = LogLevel::App4;
-      commonLevelMap[ LOG_APP5  ] = LogLevel::App5;
-      commonLevelMap[ LOG_APP6  ] = LogLevel::App6;
-      commonLevelMap[ LOG_LIB1  ] = LogLevel::Lib1;
-      commonLevelMap[ LOG_LIB2  ] = LogLevel::Lib2;
-      commonLevelMap[ LOG_LIB3  ] = LogLevel::Lib3;
-      commonLevelMap[ LOG_LIB4  ] = LogLevel::Lib4;
-      commonLevelMap[ LOG_INFO  ] = LogLevel::Info;
-      commonLevelMap[ LOG_TEST  ] = LogLevel::Test;
-      commonLevelMap[ LOG_DEBUG ] = LogLevel::Debug;
-      commonLevelMap[ LOG_FUNCT ] = LogLevel::Funct;
+      initCommonLevelMap();
     }
-
+  
   if( setStrings )
     {
       LogLevel::setName( LogLevel::Error, LogLevelString( LOG_ERROR ) );
@@ -409,6 +398,32 @@ Log::dumpInfo(
 }
 
 void
+Log::initCommonLevelMap()
+{
+  if( ! commonLevelMap )
+    {
+      commonLevelMap = new LogLevel::CommonLevelMap;
+      
+      (*commonLevelMap)[ LOG_ERROR ] = LogLevel::Error;
+      (*commonLevelMap)[ LOG_WARN  ] = LogLevel::Warn;
+      (*commonLevelMap)[ LOG_APP1  ] = LogLevel::App1;
+      (*commonLevelMap)[ LOG_APP2  ] = LogLevel::App2;
+      (*commonLevelMap)[ LOG_APP3  ] = LogLevel::App3;
+      (*commonLevelMap)[ LOG_APP4  ] = LogLevel::App4;
+      (*commonLevelMap)[ LOG_APP5  ] = LogLevel::App5;
+      (*commonLevelMap)[ LOG_APP6  ] = LogLevel::App6;
+      (*commonLevelMap)[ LOG_LIB1  ] = LogLevel::Lib1;
+      (*commonLevelMap)[ LOG_LIB2  ] = LogLevel::Lib2;
+      (*commonLevelMap)[ LOG_LIB3  ] = LogLevel::Lib3;
+      (*commonLevelMap)[ LOG_LIB4  ] = LogLevel::Lib4;
+      (*commonLevelMap)[ LOG_INFO  ] = LogLevel::Info;
+      (*commonLevelMap)[ LOG_TEST  ] = LogLevel::Test;
+      (*commonLevelMap)[ LOG_DEBUG ] = LogLevel::Debug;
+      (*commonLevelMap)[ LOG_FUNCT ] = LogLevel::Funct;
+    }
+}
+
+void
 Log::commonLog(
    void *	    closure,
    const char *     srcFileName,
@@ -421,7 +436,7 @@ Log::commonLog(
   Log *	    self = (Log *)closure;
 
   static char logMesg[ 4096 ];
-
+      
   vsprintf( logMesg, mesgFmt, mesgArgs );
     
   if( ! self )
@@ -431,10 +446,16 @@ Log::commonLog(
     }
   else
     {
-      self->level( commonLevelMap[ level ],
+      LogLevel::Level cur( self->getCurrent() );
+      
+      self->level( (*commonLevelMap)[ level ],
 		   srcFileName,
 		   srcLineNumber ) << logMesg;
-      self->flush();
+      
+      if( self->rdbuf()->sync() == EOF )
+	self->setstate(failbit|eofbit);
+  
+      self->rdbuf()->setCurrentLevel( cur );
     }
 }
 
@@ -442,6 +463,14 @@ Log::commonLog(
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/05/02 12:14:41  houghton
+// Bug-Fix: changed commonLevelMap to a * to remove any posibilities of
+//     problems with static instanciation.
+// Bug-Fix: changed commonLog to reset the log level after it output's
+//     its log entry. This was causing some log output to be lost if
+//     Logger was being called from within a Log entry statement.
+// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
+//
 // Revision 3.7  1997/04/26 14:11:09  houghton
 // Added tieCommonLogger().
 // Added commonLog().
