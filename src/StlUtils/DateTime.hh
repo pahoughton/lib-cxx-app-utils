@@ -2,55 +2,36 @@
 #define _DateTime_hh_
 //
 // File:        DateTime.hh
+// Project:	Clue
 // Desc:        
 //
 //  The DateTime class provides many methods for managing and converting
 //  date/time values. A time_t value is used inside the class for
 //  storage.
 //
+// Notes:
+//
 //  Most methods do NOT verify the values passed.
 //
-// Author:      Paul Houghton x2309 - (houghton@shoe)
+//  When setting the DateTime (with 'set()' or the constructors), If the
+//  value passed would exceed the range ( 1901 < year < 2038) of legal
+//  values, the DateTime will be set to MinTimeT or MaxTimeT accordingly.
+//
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     02/09/94 12:24
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// 
-// $Log$
-// Revision 3.2  1996/11/20 12:11:57  houghton
-// Removed support for BinStream.
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.1  1996/11/14 01:23:36  houghton
-// Changed to Release 3
-//
-// Revision 2.6  1996/11/04 13:34:20  houghton
-// Added strptime funct proto
-//
-// Revision 2.5  1996/05/01 10:59:05  houghton
-// Bug-Fix: gcc did not like the flags being a char changed to int.
-//
-// Revision 2.4  1996/04/27 12:58:55  houghton
-// Removed unneeded includes.
-// Cleanup.
-//
-// Revision 2.3  1995/11/12 17:51:56  houghton
-// New default constructor.
-// Now default sets the value to current local time.
-//
-// Revision 2.2  1995/11/10  14:08:35  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:40:31  houghton
-// Change to Version 2
-//
-// Revision 1.11  1995/11/05  14:44:30  houghton
-// Ports and Version ID changes
-//
-//
+//  $Id$
 //
 
-
-#include "ClueConfig.hh"
+#include <ClueConfig.hh>
+#include <DateTimeUtils.hh>
+#include <DumpInfo.hh>
 #include <ctime>
 
 #if !defined( CLUE_HAS_STRPTIME )
@@ -90,7 +71,7 @@ public:
   inline short	    getHour( void ) const;
   inline short	    getMinute( void ) const;
   inline short	    getSecond( void ) const;
-  virtual int	    getDayOfWeek( void ) const;
+  virtual DayOfWeek getDayOfWeek( void ) const;
 
   //
   // The non const versions set the internal struct tm so
@@ -181,6 +162,9 @@ public:
   virtual ostream & 	dumpInfo( ostream &	dest = cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
+
+  inline DumpInfo< DateTime >
+  dump( const char * prefix = "    ", bool showVer = true ) const;
   
   static const ClassVersion 	version;
   
@@ -239,7 +223,7 @@ int
 compare( const DateTime & one, const DateTime & two );
 
 #endif
-
+//
 //  Quick Start:
 //
 //  	DateTime    	dt( time(0) );
@@ -258,9 +242,6 @@ compare( const DateTime & one, const DateTime & two );
 //  DataTypes:
 //
 //  	DateTime    class
-//
-//  Detailed method descriptions at end of file
-//
 //
 //  Constructors:
 //
@@ -323,7 +304,7 @@ compare( const DateTime & one, const DateTime & two );
 //  	    return the second of the minute. (0 -> 59)
 //
 //  	virtual
-//  	short
+//  	DateOfWeek
 //  	getDayOfWeek( void ) const;
 //  	    return the day of the week. (sunday = 0) (0->6)
 //
@@ -383,17 +364,21 @@ compare( const DateTime & one, const DateTime & two );
 //  	getString( char * buffer = 0, const char * fmt = 0 )
 //  	    return a string representation of the date/time. If
 //  	    'buffer' is not 0, the string will be placed in it, otherwise
-//  	    a static internal bufferr will be used. If fmt is 0, the default
-//  	    format ( '02/05/95 03:05:05' ) will be used, otherwise strftime
-//  	    will use 'fmt' to determine the format of the string.
+//  	    a static internal bufferr will be used. If fmt is not 0 (i.e. a
+//  	    valid string), strftime will use 'fmt' to format the
+//  	    string. Otherwise, the default format will be used. The default
+//  	    format is '02/05/95 03:15:30' unless the year is < 1950 or >
+//  	    2000, then it is '02/05/2010 03:15:30' (4 digit year).
 //
 //  	const char *
 //  	getString( char * buffer = 0, const char * fmt = 0 ) const
 //  	    return a string representation of the date/time. If
 //  	    'buffer' is not 0, the string will be placed in it, otherwise
 //  	    a static internal bufferr will be used. If fmt is 0, the default
-//  	    format ( '02/05/95 03:05:05' ) will be used, otherwise strftime
-//  	    will use 'fmt' to determine the format of the string.
+//  	    valid string), strftime will use 'fmt' to format the
+//  	    string. Otherwise, the default format will be used. The default
+//  	    format is '02/05/95 03:15:30' unless the year is < 1950 or >
+//  	    2000, then it is '02/05/2010 03:15:30' (4 digit year).
 //
 //  	short
 //  	getOffset( void ) const
@@ -666,6 +651,52 @@ compare( const DateTime & one, const DateTime & two );
 //  	    be returned.  Only the actuall date/time value is used
 //  	    for comparison
 //  	    
+// Example:
 //
-
+// See Also:
+//
+// Files:
+//
+// Documented Ver:
+//
+// Tested Ver:
+//
+// Revision Log:
+//
+// $Log$
+// Revision 3.3  1997/08/24 21:57:33  houghton
+// Cleanup comments.
+// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
+// Added dump().
+//
+// Revision 3.2  1996/11/20 12:11:57  houghton
+// Removed support for BinStream.
+//
+// Revision 3.1  1996/11/14 01:23:36  houghton
+// Changed to Release 3
+//
+// Revision 2.6  1996/11/04 13:34:20  houghton
+// Added strptime funct proto
+//
+// Revision 2.5  1996/05/01 10:59:05  houghton
+// Bug-Fix: gcc did not like the flags being a char changed to int.
+//
+// Revision 2.4  1996/04/27 12:58:55  houghton
+// Removed unneeded includes.
+// Cleanup.
+//
+// Revision 2.3  1995/11/12 17:51:56  houghton
+// New default constructor.
+// Now default sets the value to current local time.
+//
+// Revision 2.2  1995/11/10  14:08:35  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:31  houghton
+// Change to Version 2
+//
+// Revision 1.11  1995/11/05  14:44:30  houghton
+// Ports and Version ID changes
+//
+//
 #endif // ! def _DateTime_hh_ 
