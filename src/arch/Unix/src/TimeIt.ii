@@ -63,6 +63,11 @@ rusage
 TimeIt::getUsageDiff( void ) const
 {
   rusage    diffUsage;
+
+  diffUsage.ru_utime	    = diffTimeVal( usageStop.ru_utime,
+					   usageStart.ru_utime );
+  diffUsage.ru_stime	    = diffTimeVal( usageStop.ru_stime,
+					   usageStart.ru_stime );
   
   diffUsage.ru_maxrss	    = usageStop.ru_maxrss - usageStart.ru_maxrss;
   diffUsage.ru_ixrss	    = usageStop.ru_ixrss - usageStart.ru_ixrss;
@@ -113,6 +118,9 @@ operator >> ( istream & dest, const TimeIt & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.3  1997/03/21 12:29:56  houghton
+// Bug-Fix: getUsageDiff was not diffing utime & stime.
+//
 // Revision 3.2  1997/03/19 16:27:20  houghton
 // Changed start to specify get real time only.
 //
