@@ -18,7 +18,7 @@
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <Clue.hh>
+#include <ClueUtils.hh>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -218,6 +218,9 @@ tUnionOf( LibTest & tester )
 
 //
 // $Log$
+// Revision 2.3  1996/11/04 18:22:54  houghton
+// Chaged include because Clue.hh renamed to ClueUtils.hh.
+//
 // Revision 2.2  1996/11/04 14:53:50  houghton
 // Added header comments.
 // Added more test to verify function.

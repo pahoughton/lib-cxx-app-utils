@@ -19,7 +19,7 @@
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <Clue.hh>
+#include <ClueUtils.hh>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -65,6 +65,9 @@ tArraySize( LibTest & tester )
 
 //
 // $Log$
+// Revision 2.4  1996/11/04 18:22:52  houghton
+// Chaged include because Clue.hh renamed to ClueUtils.hh.
+//
 // Revision 2.3  1996/11/04 14:44:25  houghton
 // Added header comments.
 //

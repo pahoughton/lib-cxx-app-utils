@@ -18,18 +18,7 @@
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <Clue.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Clue.hh>
-#endif
-
-
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Clue.hh>
+#include <ClueUtils.hh>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -62,6 +51,9 @@ tIsBaseDigit( LibTest & tester )
 	  
 //
 // $Log$
+// Revision 2.3  1996/11/04 18:22:53  houghton
+// Chaged include because Clue.hh renamed to ClueUtils.hh.
+//
 // Revision 2.2  1996/11/04 14:48:11  houghton
 // Added header comments.
 // Removed IsBaseDigit( char ) - has been changed to CharIsBaseDigit.
