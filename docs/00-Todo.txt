@@ -13,6 +13,10 @@
 # See End of file for format specs
 #
 
+BUG Paul Houghton 07/27/97 08:25
+StringFrom returns 0 if value is 0 ??
+CODE Paul Houghton 07/28/97 11:35
+
 ENH Paul Houghton 10/30/96 03:49
 Move basename from arch src to Clue
 
@@ -146,6 +150,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 3.2  1997/07/28 16:45:32  houghton
+# *** empty log message ***
+#
 # Revision 3.1  1996/11/14 01:23:12  houghton
 # Changed to Release 3
 #
