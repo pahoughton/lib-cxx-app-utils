@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.7  1997/04/01 13:39:55  houghton
+// Bug-Fix: correctly handle empty data.
+//
 // Revision 3.6  1997/03/16 08:56:50  houghton
 // Cleanup dump output.
 //
@@ -99,6 +102,9 @@ Void::~Void( void )
 Void &
 Void::append( const void * src, size_t srcSize )
 {
+  if( ! src || ! srcSize )
+    return( *this );
+  
   if( ! resize( size() + srcSize ) )
     return( *this );
 
