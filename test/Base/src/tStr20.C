@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#endif
 
 bool
-tStr20( LibTest & test )
+tStr20( LibTest & tester )
 {
   {
     // wrap( void )
@@ -49,19 +56,19 @@ tStr20( LibTest & test )
 
     t.wrap();
 
-    test( t == to );
+    TEST( t == to );
 
     t = from;
     t.wrap( 60 );
-    test( t == to_60 );
+    TEST( t == to_60 );
     
     t = from;
     t.wrap( 60, 4 );
-    test( t == to_60_4 );
+    TEST( t == to_60_4 );
     
     t = from;
     t.wrap( 60, 4, 8 );
-    test( t == to_60_4_8 );
+    TEST( t == to_60_4_8 );
   }
   
   return( true );

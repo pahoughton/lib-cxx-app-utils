@@ -1,6 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
 #include <RegexScan.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <RxScan.hh>
+#endif
 
 // Str::find
 
@@ -9,7 +17,7 @@
 //                     1         2         3         4         5
 
 bool
-tStr13( LibTest & test )
+tStr13( LibTest & tester )
 {
   {
     // ffind( const Str & ) const
@@ -21,17 +29,17 @@ tStr13( LibTest & test )
 
     s = "Hay";
 
-    test( t.ffind( s ) == 16 );
+    TEST( t.ffind( s ) == 16 );
 
     s = "123";
 
-    test( t.ffind( s ) == 12 );
-    test( t.ffind( s, 12 ) == 12 );
-    test( t.ffind( s, 13 ) == 38 );
+    TEST( t.ffind( s ) == 12 );
+    TEST( t.ffind( s, 12 ) == 12 );
+    TEST( t.ffind( s, 13 ) == 38 );
 
     s = "nope";
 
-    test( t.ffind( s ) == Str::npos );
+    TEST( t.ffind( s ) == Str::npos );
   }
 
   {
@@ -42,8 +50,8 @@ tStr13( LibTest & test )
 
     Str s( "xx123xx" );
 
-    test( t.ffind( s.substr( 2,3 ) ) == 12 );
-    test( t.ffind( s.substr( 2,3 ), 13 ) == 38 );
+    TEST( t.ffind( s.substr( 2,3 ) ) == 12 );
+    TEST( t.ffind( s.substr( 2,3 ), 13 ) == 38 );
   }
 
   {
@@ -53,10 +61,10 @@ tStr13( LibTest & test )
 
     Str t( HAY );
 
-    test( t.ffind( ".,?" ) == 42 );
-    test( t.ffind( "no" ) == Str::npos );
-    test( t.ffind( "is", 3 ) == 5 );
-    test( t.ffind( "isnot", 3, 2 ) == 5 );
+    TEST( t.ffind( ".,?" ) == 42 );
+    TEST( t.ffind( "no" ) == Str::npos );
+    TEST( t.ffind( "is", 3 ) == 5 );
+    TEST( t.ffind( "isnot", 3, 2 ) == 5 );
   }
 
   {
@@ -65,9 +73,9 @@ tStr13( LibTest & test )
 
     Str t( HAY );
 
-    test( t.ffind( 'A' ) == 17 );
-    test( t.ffind( 'a', 18 ) == 21 );
-    test( t.ffind( 'x' ) == Str::npos );
+    TEST( t.ffind( 'A' ) == 17 );
+    TEST( t.ffind( 'a', 18 ) == 21 );
+    TEST( t.ffind( 'x' ) == Str::npos );
   }
     
   return( true );

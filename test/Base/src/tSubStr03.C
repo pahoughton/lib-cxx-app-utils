@@ -1,5 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <cstring>
+#endif
 
 #define T1 "first part"
 #define T2 " second part"
@@ -14,7 +23,7 @@
 #define T5u " FIFTH part"
 
 bool
-tSubStr03( LibTest & test )
+tSubStr03( LibTest & tester )
 {
   {
     // compare( const Str & ) const
@@ -22,9 +31,9 @@ tSubStr03( LibTest & test )
     const Str t( T1 T2 T3 T4 );
     const Str s( T1 T2 T3 );
 
-    test( t.substr( 0, strlen( T1 T2 T3 ) ).compare( s ) == 0 );
-    test( t.substr( 0, strlen( T1 T2 ) ).compare( s ) < 0 );
-    test( t.substr( 0, strlen( T1 T2 T3 ) + 2 ).compare( s ) > 0 );
+    TEST( t.substr( 0, strlen( T1 T2 T3 ) ).compare( s ) == 0 );
+    TEST( t.substr( 0, strlen( T1 T2 ) ).compare( s ) < 0 );
+    TEST( t.substr( 0, strlen( T1 T2 T3 ) + 2 ).compare( s ) > 0 );
 
   }
   
@@ -39,19 +48,19 @@ tSubStr03( LibTest & test )
 
     s =  T2 T3 T4;
     
-    test( t.compare( s ) == 0 );
+    TEST( t.compare( s ) == 0 );
 
     s += "a";
-    test( t.compare( s ) < 0 );
+    TEST( t.compare( s ) < 0 );
 
     s = T2 T3;    
-    test( t.compare( s ) > 0 );
+    TEST( t.compare( s ) > 0 );
 
     s = T3 T4;
-    test( t.compare( s, strlen( T2 ) ) == 0 );
+    TEST( t.compare( s, strlen( T2 ) ) == 0 );
 
     s = T3;
-    test( t.compare( s, strlen( T2 ), strlen( T3 ) ) == 0 );    
+    TEST( t.compare( s, strlen( T2 ), strlen( T3 ) ) == 0 );    
   }
   
   {
@@ -62,9 +71,9 @@ tSubStr03( LibTest & test )
 
     const SubStr t( ts, strlen( T1 ), strlen( T2 T3 ) );
 
-    test( t.compare( ss.substr( strlen( T1 ), strlen( T2 T3 ) ) ) == 0 );
-    test( t.compare( ss.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) < 0 );
-    test( t.compare( ss.substr( strlen( T1 ), strlen( T2 T3 ) - 1 ) ) > 0 );
+    TEST( t.compare( ss.substr( strlen( T1 ), strlen( T2 T3 ) ) ) == 0 );
+    TEST( t.compare( ss.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) < 0 );
+    TEST( t.compare( ss.substr( strlen( T1 ), strlen( T2 T3 ) - 1 ) ) > 0 );
   }
 
   {
@@ -76,9 +85,9 @@ tSubStr03( LibTest & test )
 
     const SubStr t( ts, strlen( T1 ), strlen( T2 T3 ) );
 
-    test( t.compare( ss.substr( strlen( T1 T2 ), strlen( T3 ) ),
+    TEST( t.compare( ss.substr( strlen( T1 T2 ), strlen( T3 ) ),
 		     strlen( T2 ) ) == 0 );
-    test( t.compare( ss.substr( strlen( T1 T2 ), strlen( T3 T4 ) ),
+    TEST( t.compare( ss.substr( strlen( T1 T2 ), strlen( T3 T4 ) ),
 		     strlen( T2 ),
 		     strlen( T3 ) ) == 0 );
   }
@@ -88,11 +97,11 @@ tSubStr03( LibTest & test )
     
     Str t( T1 T2 T3 );
 
-    test( t.substr( strlen(T1), strlen(T2) ).compare( T2 ) == 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).compare( T2 "x" ) < 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).compare( "abc" ) < 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).compare( " second par" ) > 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).compare( " recond partxx" ) > 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).compare( T2 ) == 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).compare( T2 "x" ) < 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).compare( "abc" ) < 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).compare( " second par" ) > 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).compare( " recond partxx" ) > 0 );
 
   }
 
@@ -103,13 +112,13 @@ tSubStr03( LibTest & test )
 
     Str t( T1 T2 T3 T4 T5 );
 
-    test( t.substr( 0, strlen( T1 T2 T3 ) ).compare( T2 T3,
+    TEST( t.substr( 0, strlen( T1 T2 T3 ) ).compare( T2 T3,
 						     strlen( T1 ) ) == 0 );
-    test( t.substr( 0, strlen( T1 T2 T3 ) ).compare( T2 T3 "x",
+    TEST( t.substr( 0, strlen( T1 T2 T3 ) ).compare( T2 T3 "x",
 						     strlen(T1) ) < 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).compare( T1 " " T2,
+    TEST( t.substr( strlen(T1), strlen(T2) ).compare( T1 " " T2,
 						      strlen(T1) ) > 0 );
-    test( t.substr( 0, strlen( T1 )  ).compare( T3 T1 T3,
+    TEST( t.substr( 0, strlen( T1 )  ).compare( T3 T1 T3,
 						strlen( T3 ),
 						strlen( T3 ) ) == 0 );
   }
@@ -121,12 +130,12 @@ tSubStr03( LibTest & test )
     const Str	 ts( T1 T2 T3 T4 );
     const SubStr t( ts( strlen( T1 ), strlen( T2 T3 T4 ) ) );
 
-    test( compare( T2 T3 T4, t ) == 0 );
-    test( compare( T2 T3, t ) < 0 );
-    test( compare( T2 T3 T4 "a", t ) > 0 );
+    TEST( compare( T2 T3 T4, t ) == 0 );
+    TEST( compare( T2 T3, t ) < 0 );
+    TEST( compare( T2 T3 T4 "a", t ) > 0 );
 
-    test( compare( T2 T3 T5, t, strlen( T2 T3 ) ) == 0 );
-    test( compare( T2 T3 "z", t, strlen( T2 T3 ) + 1 ) > 0 );
+    TEST( compare( T2 T3 T5, t, strlen( T2 T3 ) ) == 0 );
+    TEST( compare( T2 T3 "z", t, strlen( T2 T3 ) + 1 ) > 0 );
   }
     
   {
@@ -135,9 +144,9 @@ tSubStr03( LibTest & test )
     const Str t( T1 T2 T3 T4 );
     const Str s( T1u T2u T3u );
 
-    test( t.substr( 0, strlen( T1 T2 T3 ) ).fcompare( s ) == 0 );
-    test( t.substr( 0, strlen( T1 T2 ) ).fcompare( s ) < 0 );
-    test( t.substr( 0, strlen( T1 T2 T3 ) + 2 ).fcompare( s ) > 0 );
+    TEST( t.substr( 0, strlen( T1 T2 T3 ) ).fcompare( s ) == 0 );
+    TEST( t.substr( 0, strlen( T1 T2 ) ).fcompare( s ) < 0 );
+    TEST( t.substr( 0, strlen( T1 T2 T3 ) + 2 ).fcompare( s ) > 0 );
 
   }
   
@@ -152,19 +161,19 @@ tSubStr03( LibTest & test )
 
     s =  T2u T3u T4u;
     
-    test( t.fcompare( s ) == 0 );
+    TEST( t.fcompare( s ) == 0 );
 
     s += "a";
-    test( t.fcompare( s ) < 0 );
+    TEST( t.fcompare( s ) < 0 );
 
     s = T2 T3;    
-    test( t.fcompare( s ) > 0 );
+    TEST( t.fcompare( s ) > 0 );
 
     s = T3 T4;
-    test( t.fcompare( s, strlen( T2 ) ) == 0 );
+    TEST( t.fcompare( s, strlen( T2 ) ) == 0 );
 
     s = T3;
-    test( t.fcompare( s, strlen( T2 ), strlen( T3 ) ) == 0 );    
+    TEST( t.fcompare( s, strlen( T2 ), strlen( T3 ) ) == 0 );    
   }
   
   {
@@ -175,9 +184,9 @@ tSubStr03( LibTest & test )
 
     const SubStr t( ts, strlen( T1 ), strlen( T2 T3 ) );
 
-    test( t.fcompare( ss.substr( strlen( T1 ), strlen( T2 T3 ) ) ) == 0 );
-    test( t.fcompare( ss.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) < 0 );
-    test( t.fcompare( ss.substr( strlen( T1 ), strlen( T2 T3 ) - 1 ) ) > 0 );
+    TEST( t.fcompare( ss.substr( strlen( T1 ), strlen( T2 T3 ) ) ) == 0 );
+    TEST( t.fcompare( ss.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) < 0 );
+    TEST( t.fcompare( ss.substr( strlen( T1 ), strlen( T2 T3 ) - 1 ) ) > 0 );
   }
 
   {
@@ -189,9 +198,9 @@ tSubStr03( LibTest & test )
 
     const SubStr t( ts, strlen( T1 ), strlen( T2 T3 ) );
 
-    test( t.fcompare( ss.substr( strlen( T1 T2 ), strlen( T3 ) ),
+    TEST( t.fcompare( ss.substr( strlen( T1 T2 ), strlen( T3 ) ),
 		     strlen( T2 ) ) == 0 );
-    test( t.fcompare( ss.substr( strlen( T1 T2 ), strlen( T3 T4 ) ),
+    TEST( t.fcompare( ss.substr( strlen( T1 T2 ), strlen( T3 T4 ) ),
 		     strlen( T2 ),
 		     strlen( T3 ) ) == 0 );
   }
@@ -201,11 +210,11 @@ tSubStr03( LibTest & test )
     
     Str t( T1u T2u T3u );
 
-    test( t.substr( strlen(T1), strlen(T2) ).fcompare( T2 ) == 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).fcompare( T2 "x" ) < 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).fcompare( "abc" ) < 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).fcompare( " second par" ) > 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).fcompare( " second partx" ) < 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).fcompare( T2 ) == 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).fcompare( T2 "x" ) < 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).fcompare( "abc" ) < 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).fcompare( " second par" ) > 0 );
+    TEST( t.substr( strlen(T1), strlen(T2) ).fcompare( " second partx" ) < 0 );
 
   }
 
@@ -216,13 +225,13 @@ tSubStr03( LibTest & test )
 
     Str t( T1u T2u T3 T4 T5 );
 
-    test( t.substr( 0, strlen( T1 T2 T3 ) ).fcompare( T2 T3,
+    TEST( t.substr( 0, strlen( T1 T2 T3 ) ).fcompare( T2 T3,
 						     strlen( T1 ) ) == 0 );
-    test( t.substr( 0, strlen( T1 T2 T3 ) ).fcompare( T2 T3 "x",
+    TEST( t.substr( 0, strlen( T1 T2 T3 ) ).fcompare( T2 T3 "x",
 						     strlen(T1) ) < 0 );
-    test( t.substr( strlen(T1), strlen(T2) ).fcompare( T1 " " T2,
+    TEST( t.substr( strlen(T1), strlen(T2) ).fcompare( T1 " " T2,
 						      strlen(T1) ) > 0 );
-    test( t.substr( 0, strlen( T1 T2 T3)  ).fcompare( T2 T4,
+    TEST( t.substr( 0, strlen( T1 T2 T3)  ).fcompare( T2 T4,
 						      strlen( T1 ),
 						      strlen( T2 ) ) == 0 );
   }
@@ -234,12 +243,12 @@ tSubStr03( LibTest & test )
     const Str	 ts( T1u T2u T3u T4u );
     const SubStr t( ts( strlen( T1 ), strlen( T2 T3 T4 ) ) );
 
-    test( fcompare( T2 T3 T4, t ) == 0 );
-    test( fcompare( T2 T3, t ) < 0 );
-    test( fcompare( T2 T3 T4 "a", t ) > 0 );
+    TEST( fcompare( T2 T3 T4, t ) == 0 );
+    TEST( fcompare( T2 T3, t ) < 0 );
+    TEST( fcompare( T2 T3 T4 "a", t ) > 0 );
 
-    test( fcompare( T2 T3 T5, t, strlen( T2 T3 ) ) == 0 );
-    test( fcompare( T2 T3 "z", t, strlen( T2 T3 ) + 1 ) > 0 );
+    TEST( fcompare( T2 T3 T5, t, strlen( T2 T3 ) ) == 0 );
+    TEST( fcompare( T2 T3 "z", t, strlen( T2 T3 ) + 1 ) > 0 );
   }
   
   return( true );

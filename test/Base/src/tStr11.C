@@ -1,6 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
 #include <RegexScan.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <RxScan.hh>
+#endif
+
 
 // Str::find
 
@@ -9,7 +18,7 @@
 //                     1         2         3         4         5
 
 bool
-tStr11( LibTest & test )
+tStr11( LibTest & tester )
 {
   {
     // find( const Str & ) const
@@ -21,17 +30,17 @@ tStr11( LibTest & test )
 
     s = "hay";
 
-    test( t.find( s ) == 16 );
+    TEST( t.find( s ) == 16 );
 
     s = "123";
 
-    test( t.find( s ) == 12 );
-    test( t.find( s, 12 ) == 12 );
-    test( t.find( s, 13 ) == 38 );
+    TEST( t.find( s ) == 12 );
+    TEST( t.find( s, 12 ) == 12 );
+    TEST( t.find( s, 13 ) == 38 );
 
     s = "nope";
 
-    test( t.find( s ) == Str::npos );
+    TEST( t.find( s ) == Str::npos );
   }
 
   {
@@ -42,8 +51,8 @@ tStr11( LibTest & test )
 
     Str s( "xx123xx" );
 
-    test( t.find( s.substr( 2,3 ) ) == 12 );
-    test( t.find( s.substr( 2,3 ), 13 ) == 38 );
+    TEST( t.find( s.substr( 2,3 ) ) == 12 );
+    TEST( t.find( s.substr( 2,3 ), 13 ) == 38 );
   }
 
   {
@@ -53,8 +62,8 @@ tStr11( LibTest & test )
 
     RegexScan e( "((is)|(was)) the [1-3]+ ..[a-z]+ to" );
 
-    test( t.find( e ) == 5 );
-    test( t.find( e, 6 ) == Str::npos );
+    TEST( t.find( e ) == 5 );
+    TEST( t.find( e, 6 ) == Str::npos );
   }
 
   {
@@ -64,10 +73,10 @@ tStr11( LibTest & test )
 
     Str t( HAY );
 
-    test( t.find( ".,?" ) == 42 );
-    test( t.find( "no" ) == Str::npos );
-    test( t.find( "is", 3 ) == 5 );
-    test( t.find( "isnot", 3, 2 ) == 5 );
+    TEST( t.find( ".,?" ) == 42 );
+    TEST( t.find( "no" ) == Str::npos );
+    TEST( t.find( "is", 3 ) == 5 );
+    TEST( t.find( "isnot", 3, 2 ) == 5 );
     
   }
 
@@ -77,9 +86,9 @@ tStr11( LibTest & test )
 
     Str t( HAY );
 
-    test( t.find( 'a' ) == 17 );
-    test( t.find( 'a', 18 ) == 21 );
-    test( t.find( 'x' ) == Str::npos );
+    TEST( t.find( 'a' ) == 17 );
+    TEST( t.find( 'a', 18 ) == 21 );
+    TEST( t.find( 'x' ) == Str::npos );
   }
     
   return( true );

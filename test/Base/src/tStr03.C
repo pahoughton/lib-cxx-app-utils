@@ -1,5 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <cstring>
+#endif
 
 // Str::assign( ... )
 
@@ -10,7 +19,7 @@
 #define T5 " fifth part"
 
 bool
-tStr03( LibTest & test )
+tStr03( LibTest & tester )
 {
   {
     // assign( const Str &, size_t, size_t )
@@ -21,15 +30,15 @@ tStr03( LibTest & test )
 
     t.assign( src );
 
-    test( t == T1 T2 T3 );
+    TEST( t == T1 T2 T3 );
 
     t.assign( src, strlen( T1 ) );
 
-    test( t == T2 T3 );
+    TEST( t == T2 T3 );
 
     t.assign( src, strlen( T1 ), strlen( T2 ) );
 
-    test( t == T2 );
+    TEST( t == T2 );
   }
 
   {
@@ -40,16 +49,16 @@ tStr03( LibTest & test )
     
     t.assign( t.substr( strlen( T1 ), strlen( T2 ) ) );
 
-    test( t == T2 );
+    TEST( t == T2 );
 
     t.assign( src.substr( strlen( T1 ), strlen( T2 T3 ) ), strlen( T2 ) );
 
-    test( t == T3 );
+    TEST( t == T3 );
 
     t.assign( src.substr( strlen( T1 ), strlen( T2 T3 T4 ) ),
 	      strlen( T2 ), strlen( T3 ) );
 
-    test( t == T3 );
+    TEST( t == T3 );
 
   }
 
@@ -60,11 +69,11 @@ tStr03( LibTest & test )
 
     t.assign( T2 T3 );
 
-    test( t == T2 T3 );
+    TEST( t == T2 T3 );
 
     t.assign( T2 T3 T4, strlen( T2 T3 ) );
 
-    test( t == T2 T3 );
+    TEST( t == T2 T3 );
   }
 
   {
@@ -74,7 +83,7 @@ tStr03( LibTest & test )
 
     t.assign( 5, 'x' );
 
-    test( t == "xxxxx" );
+    TEST( t == "xxxxx" );
 
   }
 
@@ -85,7 +94,7 @@ tStr03( LibTest & test )
 
     t.assign( 'x' );
 
-    test( t == "x" );
+    TEST( t == "x" );
 
   }
 
@@ -102,19 +111,19 @@ tStr03( LibTest & test )
 
     t = str;
 
-    test( t == str );
+    TEST( t == str );
 
     t = sub.substr( strlen(T1), strlen(T2) );
 
-    test( t == T2 );
+    TEST( t == T2 );
 
     t = T2 T4;
 
-    test( t == T2 T4 );
+    TEST( t == T2 T4 );
 
     t = 'x';
 
-    test( t == "x" );
+    TEST( t == "x" );
 
   }
 

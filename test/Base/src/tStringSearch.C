@@ -1,12 +1,19 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StringUtils.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <StrUtil.hh>
+#endif
 
 #define HAY "this is the 123 haystack to search in 123 .,? aabbbcc 123"
 //           012345678901234567890123456789012345678901234567890123456
 //                     1         2         3         4         5
 
 bool
-tStringSearch( LibTest & test )
+tStringSearch( LibTest & tester )
 {
   {
     // StringSearch( const char *, size_t, const char *, size_t )
@@ -15,11 +22,11 @@ tStringSearch( LibTest & test )
     // StringCaseReverseSearch( const char *, size_t, const char *, size_t )
 
     const char * hay = HAY;
-    test( (StringSearch( hay, 53, "123xx", 3 ) - hay) == 12 );
-    test( (StringReverseSearch( hay, 53, "123xx", 3 ) - hay) == 38 );
-    test( (StringReverseSearch( hay, 0, "123xx", 3 ) - hay) == 54 );
-    test( (StringCaseSearch( hay, 53, "HayStackXXX", 8 ) - hay ) == 16 );
-    test( (StringCaseReverseSearch( hay, 53, "IsXX", 2 ) - hay ) == 5 );
+    TEST( (StringSearch( hay, 53, "123xx", 3 ) - hay) == 12 );
+    TEST( (StringReverseSearch( hay, 53, "123xx", 3 ) - hay) == 38 );
+    TEST( (StringReverseSearch( hay, 0, "123xx", 3 ) - hay) == 54 );
+    TEST( (StringCaseSearch( hay, 53, "HayStackXXX", 8 ) - hay ) == 16 );
+    TEST( (StringCaseReverseSearch( hay, 53, "IsXX", 2 ) - hay ) == 5 );
   }
   return( true );
 }

@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <RegexScan.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <RxScan.hh>
+#endif
 
 bool
-tRegexScan( LibTest & test )
+tRegexScan( LibTest & tester )
 {
   {
     // RegexScan( const char * )
@@ -16,17 +23,17 @@ tRegexScan( LibTest & test )
     
     RegexScan t( "abc" );
 
-    test( t.good() );
+    TEST( t.good() );
 
-    test( t.match( "abc" ) );
-    test( t.matchStart() == 0 );
-    test( t.matchLength() == 3 );
-    test( ! t.match( "xxxabc" ) );
+    TEST( t.match( "abc" ) );
+    TEST( t.matchStart() == 0 );
+    TEST( t.matchLength() == 3 );
+    TEST( ! t.match( "xxxabc" ) );
     
-    test( t.match( "xxxabc", 3 ) );
-    test( t.match( "abcxxx" ) );
-    test( t.matchStart() == 0 );
-    test( t.matchLength() == 3 );
+    TEST( t.match( "xxxabc", 3 ) );
+    TEST( t.match( "abcxxx" ) );
+    TEST( t.matchStart() == 0 );
+    TEST( t.matchLength() == 3 );
   }
   
   {
@@ -34,31 +41,31 @@ tRegexScan( LibTest & test )
     
     RegexScan t( "abc" );
 
-    test( t.search( "abc" ) );
-    test( ! t.search( "xbc" ) );
-    test( ! t.search( "axc" ) );
-    test( ! t.search( "abx" ) );
-    test( t.search( "xabcy" ) );
+    TEST( t.search( "abc" ) );
+    TEST( ! t.search( "xbc" ) );
+    TEST( ! t.search( "axc" ) );
+    TEST( ! t.search( "abx" ) );
+    TEST( t.search( "xabcy" ) );
   }
 
   {
     // search( const char * ) const
     RegexScan t( "^abc" );
 
-    test( t.search( "abcdefg" ) );
-    test( ! t.search( " abc" ) );
-    test( ! t.search( "aabc" ) );
+    TEST( t.search( "abcdefg" ) );
+    TEST( ! t.search( " abc" ) );
+    TEST( ! t.search( "aabc" ) );
   }
 
   {
     // search( const char * ) const
     RegexScan t( "abc$" );
 
-    test( t.search( "this is a test abc" ) );
-    test( t.search( "abc" ) );
-    test( t.search( "abc abc" ) );
-    test( t.matchStart() == 4 );
-    test( ! t.search( "abcc" ) );
+    TEST( t.search( "this is a test abc" ) );
+    TEST( t.search( "abc" ) );
+    TEST( t.search( "abc abc" ) );
+    TEST( t.matchStart() == 4 );
+    TEST( ! t.search( "abcc" ) );
   }
 
   {
@@ -66,38 +73,38 @@ tRegexScan( LibTest & test )
 
     RegexScan t( "^abc$" );
 
-    test( ! t.search( "abbc" ) );
-    test( ! t.search( "aabc" ) );
-    test( t.search( "abc" ) );
+    TEST( ! t.search( "abbc" ) );
+    TEST( ! t.search( "aabc" ) );
+    TEST( t.search( "abc" ) );
   }
 
   {
     // search( const char * ) const
     RegexScan t( "ab+bc" );
 
-    test( ! t.search( "abc" ) );
-    test( ! t.search( "abbq" ) );
-    test( t.search( "abbbbbc" ) );
+    TEST( ! t.search( "abc" ) );
+    TEST( ! t.search( "abbq" ) );
+    TEST( t.search( "abbbbbc" ) );
   }
   
   {
     // search( const char * ) const
     RegexScan t( "ab?bc" );
 
-    test( t.search( "xabcy" ) );
-    test( ! t.search( "abbq" ) );
-    test( t.search( "xabbcy" ) );
-    test( ! t.search( "xabbbc" ) );
+    TEST( t.search( "xabcy" ) );
+    TEST( ! t.search( "abbq" ) );
+    TEST( t.search( "xabbcy" ) );
+    TEST( ! t.search( "xabbbc" ) );
   }
 
   {
     // search( const char * ) const
     RegexScan t( "ab?c" );
 
-    test( t.search( "ac" ) );
-    test( t.search( "\nac\n" ) );
-    test( t.search( "xxabc" ) );
-    test( ! t.search( "abbc" ) );
+    TEST( t.search( "ac" ) );
+    TEST( t.search( "\nac\n" ) );
+    TEST( t.search( "xxabc" ) );
+    TEST( ! t.search( "abbc" ) );
   }
     
 		    
@@ -105,9 +112,9 @@ tRegexScan( LibTest & test )
     // search( const char * ) const
     RegexScan t( "ab*c" );
     
-    test( t.search( "ac" ) );
-    test( t.search( "abc" ) );
-    test( t.search( "abbc" ) );      
+    TEST( t.search( "ac" ) );
+    TEST( t.search( "abc" ) );
+    TEST( t.search( "abbc" ) );      
   }
 
   {
@@ -115,19 +122,19 @@ tRegexScan( LibTest & test )
     
     RegexScan t( "ab*bc" );
 
-    test( t.search( "abc" ) );
-    test( t.search( "abbc" ) );
-    test( t.search( "abbbbbc" ) );
+    TEST( t.search( "abc" ) );
+    TEST( t.search( "abbc" ) );
+    TEST( t.search( "abbbbbc" ) );
   }
 
   {
     // search( const char * ) const
     RegexScan t( "a.*c" );
 
-    test( t.search( "aabbxyzcdecf" ) );
-    test( t.search( "acdefg" ) );
-    test( ! t.search( "xxc" ) );
-    test( ! t.search( "axx" ) );
+    TEST( t.search( "aabbxyzcdecf" ) );
+    TEST( t.search( "acdefg" ) );
+    TEST( ! t.search( "xxc" ) );
+    TEST( ! t.search( "axx" ) );
   }
 
   {
@@ -135,14 +142,14 @@ tRegexScan( LibTest & test )
 
     RegexScan t( "a[]b" );
 
-    test( ! t.good() );
+    TEST( ! t.good() );
   }
 
   {
     // good( void ) const
     RegexScan t( "a[b" );
 
-    test( ! t.good() );
+    TEST( ! t.good() );
   }
       
   {
@@ -150,9 +157,9 @@ tRegexScan( LibTest & test )
     // search( const char * ) const
     RegexScan t( "a]b" );
 
-    test( t.good() );
+    TEST( t.good() );
 
-    test( t.search( "xa]b[" ) );
+    TEST( t.search( "xa]b[" ) );
   }
       
   {
@@ -160,9 +167,9 @@ tRegexScan( LibTest & test )
     // search( const char * ) const
     RegexScan t( "a\\[b" );
 
-    test( t.good() );
+    TEST( t.good() );
 
-    test( t.search( "xa[b]" ) );
+    TEST( t.search( "xa[b]" ) );
   }
       
   {
@@ -171,10 +178,10 @@ tRegexScan( LibTest & test )
     // \[]
     RegexScan t( "a\\[d-f]b" );
 
-    test( t.good() );
+    TEST( t.good() );
 
-    test( ! t.search( "xaeb" ) );
-    test( t.search( "xa[d-f]b" ) );
+    TEST( ! t.search( "xaeb" ) );
+    TEST( t.search( "xa[d-f]b" ) );
   }
       
   {
@@ -182,9 +189,9 @@ tRegexScan( LibTest & test )
     //[ccc]
     RegexScan t( "a[bc]d" );
 
-    test( t.search( "abd" ) );
-    test( t.search( "acd" ) );
-    test( ! t.search( "abc" ) );
+    TEST( t.search( "abd" ) );
+    TEST( t.search( "acd" ) );
+    TEST( ! t.search( "abc" ) );
   }
 
   {
@@ -192,10 +199,10 @@ tRegexScan( LibTest & test )
     //[n-x]
     RegexScan t( "a[b-d]e" );
 
-    test( t.search( "xacex" ) );
-    test( ! t.search( "ab" ) );
-    test( ! t.search( "acd" ) );
-    test( ! t.search( "abd" ) );
+    TEST( t.search( "xacex" ) );
+    TEST( ! t.search( "ab" ) );
+    TEST( ! t.search( "acd" ) );
+    TEST( ! t.search( "abd" ) );
 
   }
 
@@ -204,8 +211,8 @@ tRegexScan( LibTest & test )
     //[n-x]
     RegexScan t( "a[b-d]" );
 
-    test( t.search( "xac" ) );
-    test( ! t.search( "bb" ) );
+    TEST( t.search( "xac" ) );
+    TEST( ! t.search( "bb" ) );
   }
 
   {
@@ -214,10 +221,10 @@ tRegexScan( LibTest & test )
 
     RegexScan t( "a[bf-]d" );
 
-    test( t.search( "abde" ) );
-    test( t.search( "xafde" ) );
-    test( t.search( "a-d" ) );
-    test( ! t.search( "aed" ) );
+    TEST( t.search( "abde" ) );
+    TEST( t.search( "xafde" ) );
+    TEST( t.search( "a-d" ) );
+    TEST( ! t.search( "aed" ) );
   }
 
   {
@@ -226,10 +233,10 @@ tRegexScan( LibTest & test )
 
     RegexScan t( "a[-bf]d" );
 
-    test( t.search( "abde" ) );
-    test( t.search( "xafde" ) );
-    test( t.search( "a-d" ) );
-    test( ! t.search( "aed" ) );
+    TEST( t.search( "abde" ) );
+    TEST( t.search( "xafde" ) );
+    TEST( t.search( "a-d" ) );
+    TEST( ! t.search( "aed" ) );
   }
 
   {
@@ -238,7 +245,7 @@ tRegexScan( LibTest & test )
 
     RegexScan t( "a[]]b" );
 
-    test( t.search( "a]b" ) );
+    TEST( t.search( "a]b" ) );
   }
 
   {
@@ -246,17 +253,17 @@ tRegexScan( LibTest & test )
     //[^xx]
     RegexScan t( "a[^bcd]e" );
 
-    test( t.search( "xaee" ) );
-    test( ! t.search( "abe" ) );
+    TEST( t.search( "xaee" ) );
+    TEST( ! t.search( "abe" ) );
   }
 
   {
     // search( const char * ) const
     RegexScan t( "a.c" ); 
 
-    test( t.search( "abc" ) );
-    test( t.search( "aabcc" ) );
-    test( t.search( "xaxcx" ) );
+    TEST( t.search( "abc" ) );
+    TEST( t.search( "aabcc" ) );
+    TEST( t.search( "xaxcx" ) );
   }
 
   {
@@ -267,11 +274,11 @@ tRegexScan( LibTest & test )
     // ()
     RegexScan t( "a(b)cd(ef.+)z" );
 
-    test( t.search( "xabcdefghiz" ) );
-    test( t.matchStart( 0 ) == 1 );
-    test( t.matchStart( 1 ) == 2 );
-    test( t.matchStart( 2 ) == 5 );
-    test( t.matchLength( 2 ) == 5 );
+    TEST( t.search( "xabcdefghiz" ) );
+    TEST( t.matchStart( 0 ) == 1 );
+    TEST( t.matchStart( 1 ) == 2 );
+    TEST( t.matchStart( 2 ) == 5 );
+    TEST( t.matchLength( 2 ) == 5 );
   }
 
   {
@@ -282,12 +289,12 @@ tRegexScan( LibTest & test )
     // |
     RegexScan t( "a ((dog)|(wolf)) sleeps" );
 
-    test( t.search( "a dog sleeps" ) );
-    test( t.matchStart( 1 ) == 2 );
-    test( t.matchLength( 1 ) == 3 );
-    test( t.search( "a wolf sleeps" ) );
-    test( t.matchStart( 1 ) == 2 );
-    test( t.matchLength( 1 ) == 4 );
+    TEST( t.search( "a dog sleeps" ) );
+    TEST( t.matchStart( 1 ) == 2 );
+    TEST( t.matchLength( 1 ) == 3 );
+    TEST( t.search( "a wolf sleeps" ) );
+    TEST( t.matchStart( 1 ) == 2 );
+    TEST( t.matchLength( 1 ) == 4 );
   }
 
   {
@@ -295,12 +302,42 @@ tRegexScan( LibTest & test )
     // {}
     RegexScan t("ab{2,4}c" );
 
-    test( t.search( "abbc" ) );
-    test( t.search( "abbbc" ) );
-    test( t.search( "abbbbc" ) );
-    test( ! t.search( "abbbbbc" ) );
-    test( ! t.search( "abc" ) );
+    TEST( t.search( "abbc" ) );
+    TEST( t.search( "abbbc" ) );
+    TEST( t.search( "abbbbc" ) );
+    TEST( ! t.search( "abbbbbc" ) );
+    TEST( ! t.search( "abc" ) );
   }
+
+  {
+    // good( void ) const
+    // error( void ) const
+    // getClassName( void ) const
+    // getVersion( bool )
+
+    RegexScan t("ab{2,4}c" );
+    
+    TEST( t.good() );
+    TEST( t.error() != 0 );
+    TEST( t.getClassName() != 0 );
+    TEST( t.getVersion() != 0 );
+  }
+
+  {
+    // dumpInfo( ostream &, const char *, bool ) const
+    // version
+    
+    RegexScan t("ab{2,4}c" );
+        
+    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
+    t.dumpInfo( tester.getDump(), "    ", true );
+    tester.getDump() << '\n' << t.getClassName() << " version:\n";
+    tester.getDump() << t.version;
+    
+    tester.getDump() << '\n' << tester.getCurrentTestName();
+    
+  }
+    
   return( true );
 }
 

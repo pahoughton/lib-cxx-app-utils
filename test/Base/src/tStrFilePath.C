@@ -1,18 +1,23 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
-#include <FilePath.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#endif
 
-bool tFilePath01( LibTest & test );
-bool tFilePath02( LibTest & test );
-bool tFilePath03( LibTest & test );
-bool tFilePath04( LibTest & test );
+bool tFilePath01( LibTest & tester );
+bool tFilePath02( LibTest & tester );
+bool tFilePath03( LibTest & tester );
+bool tFilePath04( LibTest & tester );
 
 bool
-tFilePath( LibTest & test )
+tFilePath( LibTest & tester )
 {
-  test( tFilePath01( test ), true );
-  test( tFilePath02( test ), true );
-  test( tFilePath03( test ), true );
-  test( tFilePath04( test ), true );
+  TESTP( tFilePath01( tester ), true );
+  TESTP( tFilePath02( tester ), true );
+  TESTP( tFilePath03( tester ), true );
+  TESTP( tFilePath04( tester ), true );
 
   return( true );
 }

@@ -1,10 +1,20 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
+#include <HeapBinStream.hh>
 #include <DateRange.hh>
-
 #include <strstream>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <HBinStrm.hh>
+#include <DateRg.hh>
+#include <strstream>
+#endif
+
 
 bool
-tDateRange( LibTest & test )
+tDateRange( LibTest & tester )
 {
   {
     // DateRange( time_t, time_t )
@@ -16,8 +26,8 @@ tDateRange( LibTest & test )
 
     DateRange t( when, dur );
 
-    test( t.getTimeT() == when );
-    test( t.getDur() == dur );
+    TEST( t.getTimeT() == when );
+    TEST( t.getDur() == dur );
   }
 
   {
@@ -29,8 +39,8 @@ tDateRange( LibTest & test )
 
     DateRange	t( dt, dur );
 
-    test( t.getTimeT() == dt.getTimeT() );
-    test( t.getDur() == dur );
+    TEST( t.getTimeT() == dt.getTimeT() );
+    TEST( t.getDur() == dur );
   }
 
   {
@@ -44,8 +54,8 @@ tDateRange( LibTest & test )
 
     DateRange	t( start, stop );
 
-    test( t.getTimeT() == when );
-    test( t.getDur() == dur );
+    TEST( t.getTimeT() == when );
+    TEST( t.getDur() == dur );
   }
 
   {
@@ -56,8 +66,8 @@ tDateRange( LibTest & test )
 
     DateRange t( when, dur );
 
-    test( t.setDur( 60 ) == dur );
-    test( t.getDur() == 60 );
+    TEST( t.setDur( 60 ) == dur );
+    TEST( t.getDur() == 60 );
   }
 
   {
@@ -66,7 +76,7 @@ tDateRange( LibTest & test )
     time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
     const DateRange t( when, 10 );
 
-    test( t.getSecOfDay() == 20750 );
+    TEST( t.getSecOfDay() == 20750 );
   }
     
   {
@@ -78,34 +88,34 @@ tDateRange( LibTest & test )
     DateRange	t( when, dur );
     DateRange	r( when - 120, 60 );
 
-    test( t.secIn( r ) == 0 );
+    TEST( t.secIn( r ) == 0 );
 
     r.setDur( 120 );
-    test( t.secIn( r ) == 0 );
+    TEST( t.secIn( r ) == 0 );
     
     r.setDur( 125 );
-    test( t.secIn( r ) == 5 );
+    TEST( t.secIn( r ) == 5 );
 
     r.setDur( 120 + dur );
-    test( t.secIn( r ) == dur );
+    TEST( t.secIn( r ) == dur );
 
     r.setDur( 120 + dur + 5 );
-    test( t.secIn( r ) == dur );
+    TEST( t.secIn( r ) == dur );
 
     r.set( when );
-    test( t.secIn( r ) == dur );
+    TEST( t.secIn( r ) == dur );
 
     r.setDur( dur );
-    test( t.secIn( r ) == dur );
+    TEST( t.secIn( r ) == dur );
 
     r.setDur( 20 );
-    test( t.secIn( r ) == 20 );
+    TEST( t.secIn( r ) == 20 );
 
     t.set( when + dur );
-    test( t.secIn( r ) == 0 );
+    TEST( t.secIn( r ) == 0 );
 
     t.set( when + dur + 5 );
-    test( t.secIn( r ) == 0 );
+    TEST( t.secIn( r ) == 0 );
   }
 
   {
@@ -117,128 +127,185 @@ tDateRange( LibTest & test )
     DateRange	t( when, dur );
     DateRange	r( when - 120, 60 );
 
-    test( t.startsIn( r ) == 0 );
+    TEST( t.startsIn( r ) == 0 );
 
     r.set( when - 30 );
-    test( t.startsIn( r ) == 0 );
+    TEST( t.startsIn( r ) == 0 );
     
     r.set( when );
-    test( t.startsIn( r ) == 60 );
+    TEST( t.startsIn( r ) == 60 );
 
     r.set( when + 60 );
-    test( t.startsIn( r ) == 60 );
+    TEST( t.startsIn( r ) == 60 );
 
     r.set( when + dur - 30 );
-    test( t.startsIn( r ) == 30 );
+    TEST( t.startsIn( r ) == 30 );
 
     r.set( when + dur );
-    test( t.startsIn( r ) == 0 );
+    TEST( t.startsIn( r ) == 0 );
 
     r.set( when + dur + 5 );
-    test( t.startsIn( r ) == 0 );
+    TEST( t.startsIn( r ) == 0 );
   }
 
   {
-    // getStreamSize( void ) const
-    // write( ostream & ) const
-    // read( istream & )
-    
-    time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
-
-    const DateRange tout( when, 30 );
-    DateRange	    tin( 0, 0 );
-    
-    strstream testStream;
-
-    streampos gpos = testStream.tellg();
-    streampos ppos = testStream.tellp();
-
-#ifdef AIX
-    ppos = 0;
-    gpos = 0;
-#endif
-    
-    test( ppos == 0 );
-    test( gpos == 0 );
-    
-    tout.write( testStream );
-    ppos += tout.getStreamSize();
-    test( ppos == testStream.tellp() );
-
-    tin.read( testStream );
-    gpos += tin.getStreamSize();
-    test( gpos == testStream.tellg() );
-    test( tin.getTimeT() == tout.getTimeT() );
-    test( tin.getDur() == tout.getDur() );
-  }
-
-  {
-    // compare( const DateRange & );
-    // operator == ( const DateRange & )
-    // operator <  ( const DateRange & )
-    // operator >  ( const DateRange & )
+    // compare( const DateRange & ) const
+    // operator == ( const DateRange & ) const
+    // operator <  ( const DateRange & ) const
+    // operator >  ( const DateRange & ) const
     
     time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
 
     const DateRange t1( when, 50 );
     DateRange	    t2( when, 50 );
 
-    test( t1.compare( t2 ) == 0 );
-    test( t1 == t2 );
+    TEST( t1.compare( t2 ) == 0 );
+    TEST( t1 == t2 );
     
     t2.setDur( 49 );
 
-    test( t1.compare( t2 ) >  0 );
-    test( t1 > t2 );
+    TEST( t1.compare( t2 ) >  0 );
+    TEST( t1 > t2 );
     
-    test( t2.compare( t1 ) <  0 );
-    test( t2 < t1 );
+    TEST( t2.compare( t1 ) <  0 );
+    TEST( t2 < t1 );
     
     t2.setDur( 50 );
     t2.setTimeT( when - 1 );
-    test( t1.compare( t2 ) > 0 );
-    test( t1 > t2 );
+    TEST( t1.compare( t2 ) > 0 );
+    TEST( t1 > t2 );
     
-    test( t2.compare( t1 ) < 0 );
-    test( t2 < t1 );
+    TEST( t2.compare( t1 ) < 0 );
+    TEST( t2 < t1 );
+  }
+
+  {
+    // getBinSize( void ) const
+    // write( BinStream & ) const
+    // read( BinStream & )
+    
+    HeapBinStream tStrm;
+    
+    time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
+
+    const DateRange tw( when, 30 );
+    DateRange	    tr( 0, 0 );
+
+    TEST( tw.getBinSize() == (sizeof( time_t ) * 2 ) );
+
+    tw.write( tStrm );
+    tr.read( tStrm );
+
+    TEST( tr == tw );
+    TEST( tr.getTimeT() == tw.getTimeT() );
+    TEST( tr.getDur() == tw.getDur() );
+  }
+
+  {
+    // BinStream::write( const BinObject & );
+    // BinStream::read( BinObject );
+    
+    HeapBinStream tStrm( 4096 );
+    
+    time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
+
+    const DateRange tw( when, 30 );
+    DateRange	    tr( 0, 0 );
+
+    tStrm.write( tw );
+    tStrm.read( tr );
+
+    TEST( tr == tw );
+    TEST( tr.getTimeT() == tw.getTimeT() );
+    TEST( tr.getDur() == tw.getDur() );
+  }
+
+  {
+    // write( ostream & ) const
+    // read( istream & )
+    
+    time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
+
+    const DateRange tw( when, 30 );
+    DateRange	    tr( 0, 0 );
+    
+    strstream tStrm;
+
+    streampos gpos = tStrm.tellg();
+    streampos ppos = tStrm.tellp();
+
+#ifdef AIX
+    ppos = 0;
+    gpos = 0;
+#endif
+    
+    TEST( ppos == 0 );
+    TEST( gpos == 0 );
+    
+    tw.write( tStrm );
+    ppos += tw.getBinSize();
+    TEST( ppos == tStrm.tellp() );
+
+    tr.read( tStrm );
+    gpos += tr.getBinSize();
+    TEST( gpos == tStrm.tellg() );
+    TEST( tr == tw );
+    TEST( tr.getTimeT() == tw.getTimeT() );
+    TEST( tr.getDur() == tw.getDur() );
+  }
+
+  {
+    // toStream( ostream & ) const
+    // operator <<( ostream &, const DateTime & )
+
+    strstream tStrm;
+    
+    time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
+
+    const DateRange  t( when, 30 );
+
+    t.toStream( tStrm );
+    tStrm << t;
   }
 
   {
     // good( void ) const
     // error( void ) const
     // getClassName( void ) const
-    // toStream( ostream & ) const
-    // dumpInfo( ostream & ) const
-    // const char * version[]
+    // getVersion( void ) const
+    // getVersion( bool ) const
 
     time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
 
     const DateRange  t( when, 30 );
 
-    test( t.good() );
-    test( t.error() != 0 );
-    test( t.getClassName() != 0 );
+    TEST( t.good() );
+    TEST( t.error() != 0 );
+    TEST( t.getClassName() != 0 );
+    TEST( t.getVersion() != 0 );
+    TEST( t.getVersion( false ) != 0 );
 
-    strstream  stream;
-
-    t.toStream( stream );
-    t.dumpInfo( stream );
-
-    test( t.version != 0 );
   }
 
   {
-    // operator <<( ostream &, const DateTime & )
+    // dumpInfo( ostream &, const char *, bool ) const
+    // version
 
-    strstream tStream;
-    
     time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
 
     const DateRange  t( when, 30 );
 
-    tStream << t;
+    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
+    t.toStream( tester.getDump() );
+    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
+    t.dumpInfo( tester.getDump(), " -> ", true );
+    tester.getDump() << '\n' << t.getClassName() << " version:\n";
+    tester.getDump() << t.version;
+    
+    tester.getDump() << '\n' << tester.getCurrentTestName();
+    
   }
-
+  
   {
     // ::compare( const DateRange &, const DateRange & )
     
@@ -247,16 +314,16 @@ tDateRange( LibTest & test )
     const DateRange t1( when, 50 );
     DateRange	    t2( when, 50 );
 
-    test( compare( t1, t2 ) == 0 );
+    TEST( compare( t1, t2 ) == 0 );
 
     t2.setDur( 49 );
-    test( compare( t1, t2 ) >  0 );    
-    test( compare( t2, t1 ) <  0 );
+    TEST( compare( t1, t2 ) >  0 );    
+    TEST( compare( t2, t1 ) <  0 );
     
     t2.setDur( 50 );
     t2.setTimeT( when - 1 );
-    test( compare( t1, t2 ) > 0 );    
-    test( compare( t2, t1 ) < 0 );
+    TEST( compare( t1, t2 ) > 0 );    
+    TEST( compare( t2, t1 ) < 0 );
   }
   return( true );
 }

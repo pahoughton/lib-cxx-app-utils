@@ -1,5 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <cstring>
+#endif
 
 // Str::remove( ... )
 
@@ -10,7 +19,7 @@
 #define T5 " fifth part"
 
 bool
-tStr05( LibTest & test )
+tStr05( LibTest & tester )
 {
 
   {
@@ -20,7 +29,7 @@ tStr05( LibTest & test )
 
     t.remove( strlen( T1 T2 ) );
 
-    test( t == T1 T2 );
+    TEST( t == T1 T2 );
   }
 
   {
@@ -30,7 +39,7 @@ tStr05( LibTest & test )
 
     t.remove( strlen( T1 ), strlen( T2 ) );
 
-    test( t == T1 T3 );
+    TEST( t == T1 T3 );
   }
 
   {
@@ -44,7 +53,7 @@ tStr05( LibTest & test )
 
     t.remove( it );
 
-    test( t == "1245" );
+    TEST( t == "1245" );
   }
 
   {
@@ -59,7 +68,7 @@ tStr05( LibTest & test )
     
     t.remove( f, l );
 
-    test( t == "345" );
+    TEST( t == "345" );
   }
 
   return( true );

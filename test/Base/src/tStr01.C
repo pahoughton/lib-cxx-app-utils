@@ -1,15 +1,26 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
-
 #include <vector>
 #include <set>
 #include <functional>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <vector>
+#include <set>
+#include <functional>
+#include <cstring>
+#endif
 
 static const char * Tstr = "This is a test it is only at test ...";
 static const char * TstrJunk = "This is a test it is only at test ... with Junk";
 
 bool
-tStr01( LibTest & test )
+tStr01( LibTest & tester )
 {
   {
     // Str( void ) const
@@ -23,25 +34,25 @@ tStr01( LibTest & test )
     
     Str t;
     
-    test( t.size() == 0 );
-    test( t.length() == t.size() );
-    test( t.empty() );
-    test( t.max_size() > 0 );
+    TEST( t.size() == 0 );
+    TEST( t.length() == t.size() );
+    TEST( t.empty() );
+    TEST( t.max_size() > 0 );
     
     t << Tstr;
 
-    test( ! strcmp( t.cstr(), Tstr ) );
-    test( strcmp( t.cstr(), "diff string" ) );
-    test( t.size() == strlen( Tstr ) );
-    test( t.length() == t.size() );
-    test( ! t.empty() );
+    TEST( ! strcmp( t.cstr(), Tstr ) );
+    TEST( strcmp( t.cstr(), "diff string" ) );
+    TEST( t.size() == strlen( Tstr ) );
+    TEST( t.length() == t.size() );
+    TEST( ! t.empty() );
     
     // Test operator == next so I can use it for the rest of the tests
 
-    test( t == Tstr );
-    test( ! (t == "diff string" ) );
-    test( ! ( t != Tstr ) );
-    test( t != "diff string" );    
+    TEST( t == Tstr );
+    TEST( ! (t == "diff string" ) );
+    TEST( ! ( t != Tstr ) );
+    TEST( t != "diff string" );    
   }
 
   {
@@ -55,17 +66,17 @@ tStr01( LibTest & test )
     
     Str t( s );
 
-    test( s == Tstr );
-    test( t == Tstr );
-    test( t == s );
-    test( ! (t != s) );
+    TEST( s == Tstr );
+    TEST( t == Tstr );
+    TEST( t == s );
+    TEST( ! (t != s) );
 
     Str x;
 
     x << "diff string";
 
-    test( t != x );
-    test( ! (t == x) );
+    TEST( t != x );
+    TEST( ! (t == x) );
   }
 
   {
@@ -75,12 +86,12 @@ tStr01( LibTest & test )
 
     s << "123" << Tstr;
 
-    test( ! (s == Tstr) );
+    TEST( ! (s == Tstr) );
 
     Str t( s, 3 );
 
-    test( t == Tstr );
-    test( ! (t == s) );
+    TEST( t == Tstr );
+    TEST( ! (t == s) );
   }
 
   {
@@ -92,8 +103,8 @@ tStr01( LibTest & test )
 
     Str t( s, 3, strlen( Tstr ) );
 
-    test( t == Tstr );
-    test( ! (t == s) );
+    TEST( t == Tstr );
+    TEST( ! (t == s) );
   }
 
   // 
@@ -112,18 +123,18 @@ tStr01( LibTest & test )
 
     t << "123" << Tstr << "junk";
 
-    test( t.substr( 3, strlen( Tstr ) ) == Tstr );
-    test( t.substr( 3, strlen( Tstr ) ) != "diff string" );
+    TEST( t.substr( 3, strlen( Tstr ) ) == Tstr );
+    TEST( t.substr( 3, strlen( Tstr ) ) != "diff string" );
 
     Str s;
 
     s << Tstr;
 
-    test( s == t.substr( 3, strlen( Tstr ) ) );
-    test( s != t.substr( 2, strlen( Tstr ) ) );
-    test( s != t.substr( 3, strlen( Tstr ) + 1 ) );
-    test( s != t.substr( 4, strlen( Tstr ) ) );
-    test( s != t.substr( 3, strlen( Tstr ) - 1 ) );
+    TEST( s == t.substr( 3, strlen( Tstr ) ) );
+    TEST( s != t.substr( 2, strlen( Tstr ) ) );
+    TEST( s != t.substr( 3, strlen( Tstr ) + 1 ) );
+    TEST( s != t.substr( 4, strlen( Tstr ) ) );
+    TEST( s != t.substr( 3, strlen( Tstr ) - 1 ) );
     
 
   }
@@ -137,8 +148,8 @@ tStr01( LibTest & test )
 
     Str t( s.substr( 3, strlen( Tstr ) ) );
 
-    test( t == Tstr );
-    test( ! (t == s) );
+    TEST( t == Tstr );
+    TEST( ! (t == s) );
 
   }
   
@@ -151,8 +162,8 @@ tStr01( LibTest & test )
 
     Str t( s.substr( 3, strlen( Tstr ) + 5 ), 5 );
 
-    test( t == Tstr );
-    test( ! (t == s) );
+    TEST( t == Tstr );
+    TEST( ! (t == s) );
 
   }
   
@@ -165,8 +176,8 @@ tStr01( LibTest & test )
 
     Str t( s.substr( 3, strlen( Tstr ) + 5 + 10 ), 5, strlen( Tstr ) );
 
-    test( t == Tstr );
-    test( ! (t == s) );
+    TEST( t == Tstr );
+    TEST( ! (t == s) );
 
   }
 
@@ -175,7 +186,7 @@ tStr01( LibTest & test )
     
     Str t( Tstr );
 
-    test( t == Tstr );
+    TEST( t == Tstr );
   }
 
   {
@@ -183,7 +194,7 @@ tStr01( LibTest & test )
     
     Str t( TstrJunk, strlen( Tstr ) );
 
-    test( t == Tstr );
+    TEST( t == Tstr );
   }
 
   {
@@ -191,7 +202,7 @@ tStr01( LibTest & test )
     
     Str t( 5, 'x' );
 
-    test( t == "xxxxx" );
+    TEST( t == "xxxxx" );
   }
 
   {
@@ -199,7 +210,7 @@ tStr01( LibTest & test )
 
     Str t( Tstr, Tstr + strlen( Tstr ) );
 
-    test( t == Tstr );
+    TEST( t == Tstr );
   }
   
   {

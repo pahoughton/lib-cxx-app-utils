@@ -1,5 +1,10 @@
-
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#endif
 
 bool tStr01( LibTest & test ); 
 bool tStr02( LibTest & test ); 
@@ -29,34 +34,34 @@ bool tStr25( LibTest & test );
 bool tStr26( LibTest & test );
 
 bool
-tStr( LibTest & test )
+tStr( LibTest & tester )
 {
-  test( tStr01( test ), true );
-  test( tStr02( test ), true );
-  test( tStr03( test ), true );
-  test( tStr04( test ), true );
-  test( tStr05( test ), true );
-  test( tStr06( test ), true );
-  test( tStr07( test ), true );
-  test( tStr08( test ), true );
-  test( tStr09( test ), true );
-  test( tStr10( test ), true );
-  test( tStr11( test ), true );
-  test( tStr12( test ), true );
-  test( tStr13( test ), true );
-  test( tStr14( test ), true );
-  test( tStr15( test ), true );
-  test( tStr16( test ), true );
-  test( tStr17( test ), true );
-  test( tStr18( test ), true );
-  test( tStr19( test ), true );
-  test( tStr20( test ), true );
-  test( tStr21( test ), true );
-  test( tStr22( test ), true );
-  test( tStr23( test ), true );
-  test( tStr24( test ), true );
-  test( tStr25( test ), true );
-  test( tStr26( test ), true );
+  TESTP( tStr01( tester ), true );
+  TESTP( tStr02( tester ), true );
+  TESTP( tStr03( tester ), true );
+  TESTP( tStr04( tester ), true );
+  TESTP( tStr05( tester ), true );
+  TESTP( tStr06( tester ), true );
+  TESTP( tStr07( tester ), true );
+  TESTP( tStr08( tester ), true );
+  TESTP( tStr09( tester ), true );
+  TESTP( tStr10( tester ), true );
+  TESTP( tStr11( tester ), true );
+  TESTP( tStr12( tester ), true );
+  TESTP( tStr13( tester ), true );
+  TESTP( tStr14( tester ), true );
+  TESTP( tStr15( tester ), true );
+  TESTP( tStr16( tester ), true );
+  TESTP( tStr17( tester ), true );
+  TESTP( tStr18( tester ), true );
+  TESTP( tStr19( tester ), true );
+  TESTP( tStr20( tester ), true );
+  TESTP( tStr21( tester ), true );
+  TESTP( tStr22( tester ), true );
+  TESTP( tStr23( tester ), true );
+  TESTP( tStr24( tester ), true );
+  TESTP( tStr25( tester ), true );
+  TESTP( tStr26( tester ), true );
   
   return( true );
 }

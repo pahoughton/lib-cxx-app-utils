@@ -1,5 +1,12 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#endif
 
 static const char * BaseStrings[] =
 {
@@ -22,7 +29,7 @@ static const char * BaseStrings[] =
 
 
 bool
-tStr17( LibTest & test )
+tStr17( LibTest & tester )
 {
   {
     // to( int & ) const
@@ -33,43 +40,43 @@ tStr17( LibTest & test )
     
     t << "100";
 
-    test( t.to( n ) && n == 100 );
+    TEST( t.to( n ) && n == 100 );
 
     t.reset();
-    t << "  0xabcd  ";
+    t << "  0xbcd  ";
 
-    test( t.to( n ) && n == 0xabcd );
+    TEST( t.to( n ) && n == 0xbcd );
 
     t.reset();
     t << "  077 ";
 
-    test( t.to( n ) && n == 077 );
+    TEST( t.to( n ) && n == 077 );
 
     for( int b = 2; b < 17; b++ )
       {
 	t.reset();
 	t << BaseStrings[b-2];
 	
-	test( t.to( n, b ) && n == 0xfff );
+	TEST( t.to( n, b ) && n == 0xfff );
       }
 
     t.reset();
     t << "-1050";
-    test( t.to(n) && n == -1050 );
+    TEST( t.to(n) && n == -1050 );
 
     t.reset();
     t << "+1050";
-    test( t.to(n) && n == 1050 );
+    TEST( t.to(n) && n == 1050 );
 
     t.reset();
-    test( ! t.to(n) );
+    TEST( ! t.to(n) );
 
     t << "0xtest";
-    test( ! t.to(n) );
+    TEST( ! t.to(n) );
 
     t.reset();
     t << "0";
-    test( t.to(n) && n == 0 );
+    TEST( t.to(n) && n == 0 );
     
   }
 
@@ -81,9 +88,9 @@ tStr17( LibTest & test )
     short n;
 
     t = "0xfff";
-    test( t.to( n ) && n == 0xfff );
+    TEST( t.to( n ) && n == 0xfff );
     t = "10";
-    test( t.to( n, 8 ) && n == 010 );
+    TEST( t.to( n, 8 ) && n == 010 );
   }
 
   {
@@ -94,10 +101,10 @@ tStr17( LibTest & test )
     long n;
 
     t << "0xffffff";
-    test( t.to( n ) && n == 0xffffff );
+    TEST( t.to( n ) && n == 0xffffffL );
 
     t = "123";
-    test( t.to( n, 16 ) && n == 0x123 );
+    TEST( t.to( n, 16 ) && n == 0x123 );
   }
   
   {
@@ -108,20 +115,20 @@ tStr17( LibTest & test )
     double n;
 
     t << "0xf.8";
-    test( t.to( n ) && n == 15.5 );
+    TEST( t.to( n ) && n == 15.5 );
 
     t.reset();
     t << "-1010.15";
 
-    test( t.to( n ) && n == -1010.15 );
+    TEST( t.to( n ) && n == -1010.15 );
 
     t.reset();
     t << ".120";
 
-    test( t.to( n ) && n == .120 );
+    TEST( t.to( n ) && n == .120 );
 
     t = "25.1";
-    test( t.to( n, 8 ) && n == 21.125 );
+    TEST( t.to( n, 8 ) && n == 21.125 );
   }
   
   {
@@ -132,10 +139,10 @@ tStr17( LibTest & test )
     unsigned int n;
 
     t << "0xfff0";
-    test( t.to( n ) && n == 0xfff0 );
+    TEST( t.to( n ) && n == 0xfff0 );
 
     t = "132";
-    test( t.to( n, 16 ) && n == 0x132 );
+    TEST( t.to( n, 16 ) && n == 0x132 );
   }
 
   {
@@ -146,10 +153,10 @@ tStr17( LibTest & test )
     unsigned short n;
 
     t << "0xfff0";
-    test( t.to( n ) && n == 0xfff0 );
+    TEST( t.to( n ) && n == 0xfff0 );
 
     t = "132";
-    test( t.to( n, 8 ) && n == 0132 );
+    TEST( t.to( n, 8 ) && n == 0132 );
   }
 
   {
@@ -160,10 +167,10 @@ tStr17( LibTest & test )
     unsigned long n;
 
     t << "0xfffff00f";
-    test( t.to( n ) && n == 0xfffff00f );
+    TEST( t.to( n ) && n == 0xfffff00fUL );
 
     t = "132";
-    test( t.to( n, 8 ) && n == 0132 );
+    TEST( t.to( n, 8 ) && n == 0132 );
   }
 
   {
@@ -172,73 +179,73 @@ tStr17( LibTest & test )
     Str     t;
 
     t << "0";
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
     
     t.assign( "01" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "500" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "T" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "t" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "F" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
 
     t.assign( "f" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
 
     t.assign( "true" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "TRUE" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "TrUe" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "false" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
 
     t.assign( "FALSE" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
 
     t.assign( "FaLse" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
 
     t.assign( "y" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "Y" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "n" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
 
     t.assign( "N" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
 
     t.assign( "yes" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "no" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
 
     t.assign( "on" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "off" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
 
     t.assign( "ON" );
-    test( t.toBool() );
+    TEST( t.toBool() );
 
     t.assign( "OFF" );
-    test( ! t.toBool() );
+    TEST( ! t.toBool() );
   }
 
   {
@@ -248,16 +255,16 @@ tStr17( LibTest & test )
     Str t;
 
     t.assign( "1150" );
-    test( t.toInt() == 1150 );
+    TEST( t.toInt() == 1150 );
 
     t.assign( "0xfff" );
-    test( t.toInt() == 0xfff );
+    TEST( t.toInt() == 0xfff );
 
     t.assign( "-30" );
-    test( t.toInt() == -30 );
+    TEST( t.toInt() == -30 );
 
     t = "123";
-    test( t.toInt( 16 ) == 0x123 );
+    TEST( t.toInt( 16 ) == 0x123 );
   }
   
   {
@@ -267,13 +274,13 @@ tStr17( LibTest & test )
     Str t;
 
     t.assign( "1123456" );
-    test( t.toLong() == 1123456 );
+    TEST( t.toLong() == 1123456L );
 
     t.assign( "-1123456" );
-    test( t.toLong() == -1123456 );
+    TEST( t.toLong() == -1123456L );
 
     t = "123";
-    test( t.toLong( 16 ) == 0x123 );
+    TEST( t.toLong( 16 ) == 0x123 );
   }
 
   {
@@ -283,10 +290,10 @@ tStr17( LibTest & test )
     Str t;
 
     t.assign( "15.15" );
-    test( t.toDouble() ==  15.15 );
+    TEST( t.toDouble() ==  15.15 );
 
     t = "10.1";
-    test( t.toDouble( 8 ) == 8.125 );
+    TEST( t.toDouble( 8 ) == 8.125 );
 
   }
 
@@ -297,10 +304,10 @@ tStr17( LibTest & test )
     Str t;
 
     t.assign( "0xff0f" );
-    test( t.toUInt() == 0xff0f);
+    TEST( t.toUInt() == 0xff0f);
 
     t = "123";
-    test( t.toUInt( 16 ) == 0x123 );
+    TEST( t.toUInt( 16 ) == 0x123 );
   }
 
   {
@@ -310,10 +317,10 @@ tStr17( LibTest & test )
     Str t;
 
     t.assign( "0xffff0000" );
-    test( t.toULong() == 0xffff0000 );
+    TEST( t.toULong() == 0xffff0000UL );
 
     t = "123";
-    test( t.toULong( 16 ) == 0x123 );
+    TEST( t.toULong( 16 ) == 0x123 );
   }
 
   return( true );

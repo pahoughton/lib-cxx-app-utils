@@ -1,5 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <cstring>
+#endif
 
 // Str::replace( ... )
 
@@ -10,7 +19,7 @@
 #define T5 " fifth part"
 
 bool
-tStr06( LibTest & test )
+tStr06( LibTest & tester )
 {
   {
     // replace( size_t, size_t, const char * )
@@ -20,15 +29,15 @@ tStr06( LibTest & test )
 
     t.replace( 0, strlen( T1 ), T3 );
 
-    test( t == T3 T2 T3 T4 );
+    TEST( t == T3 T2 T3 T4 );
 
     t.replace( strlen( T3 T2 T3 ), strlen( T4 ), T5 T3, strlen( T5 ) );
 
-    test( t == T3 T2 T3 T5 );
+    TEST( t == T3 T2 T3 T5 );
 
     t.replace( strlen( T3 T2 ), strlen( T3 ), (char*)0 );
 
-    test( t == T3 T2 T5 );
+    TEST( t == T3 T2 T5 );
   }
 
   {
@@ -38,7 +47,7 @@ tStr06( LibTest & test )
 
     t.replace( strlen( T1 ), strlen( T2 ), 5, 'x' );
 
-    test( t == T1 "xxxxx" T3 );
+    TEST( t == T1 "xxxxx" T3 );
   }
 
   {
@@ -51,11 +60,11 @@ tStr06( LibTest & test )
 
     t.replace( 0, strlen( T1 ), s );
 
-    test( t == T3 T4 T5 T2 T3 );
+    TEST( t == T3 T4 T5 T2 T3 );
 
     t.replace( strlen( T3 T4 ), strlen( T5 T2 ), s, strlen( T3 ), strlen( T4 ) );
 
-    test( t == T3 T4 T4 T3 );
+    TEST( t == T3 T4 T4 T3 );
   }
 
   {
@@ -68,17 +77,17 @@ tStr06( LibTest & test )
 
     t.replace( strlen( T3 ), strlen( T4 ), s.substr( strlen( T1 ), strlen( T2 ) ) );
 
-    test( t == T3 T2 T5 );
+    TEST( t == T3 T2 T5 );
     
     t.replace( strlen( T3 ), strlen( T2 ),
 	       s.substr( strlen( T1 ), strlen( T2 T3 ) ), strlen( T2 ) );
 
-    test( t == T3 T3 T5 );
+    TEST( t == T3 T3 T5 );
 
     t.replace( strlen( T3 ), strlen( T3 T5 ),
 	       s.substr( 0, strlen( T1 T2 ) ), 0, strlen( T1 ) );
 
-    test( t == T3 T1 );
+    TEST( t == T3 T1 );
   }
 
   {
@@ -88,7 +97,7 @@ tStr06( LibTest & test )
 
     t.replace( 0, 0, 'a' );
 
-    test( t == "a" T1 T2 T3 );
+    TEST( t == "a" T1 T2 T3 );
   }
 
   {
@@ -107,15 +116,15 @@ tStr06( LibTest & test )
 
     t.replace( f, l, s);
 
-    test( t == "12abcdef56" );
+    TEST( t == "12abcdef56" );
 
     t.replace( f, l, s, 3 );
 
-    test( t == "12defcdef56" );
+    TEST( t == "12defcdef56" );
 
     t.replace( f, l, s, 0, 2 );
 
-    test( t == "12abfcdef56" );
+    TEST( t == "12abfcdef56" );
   }
 
   return( true );

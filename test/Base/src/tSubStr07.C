@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#endif
 
 bool
-tSubStr07( LibTest & test )
+tSubStr07( LibTest & tester )
 {
   {
     // StringToBool( const SubStr & )
@@ -11,73 +18,73 @@ tSubStr07( LibTest & test )
     SubStr      t( ts, 3, 5);
 
     t = "0";
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
     
     t = "01" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "500" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "T" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "t" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "F" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t = "f" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t = "true" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "TRUE" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "TrUe" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "false" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t = "FALSE" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t = "FaLse" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t = "y" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "Y" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "n" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t = "N" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t = "yes" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "no" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t = "on" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "off" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t = "ON" ;
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t = "OFF" ;
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
   }
 
   {
@@ -88,16 +95,16 @@ tSubStr07( LibTest & test )
     SubStr      t( ts, 3, 5);
 
     t = "1150" ;
-    test( StringToInt( t ) == 1150 );
+    TEST( StringToInt( t ) == 1150 );
 
     t = "0xfff" ;
-    test( StringToInt( t ) == 0xfff );
+    TEST( StringToInt( t ) == 0xfff );
 
     t = "-30" ;
-    test( StringToInt( t ) == -30 );
+    TEST( StringToInt( t ) == -30 );
 
     t = "123";
-    test( StringToInt( t, 16 ) == 0x123 );
+    TEST( StringToInt( t, 16 ) == 0x123 );
   }
   
   {
@@ -108,13 +115,13 @@ tSubStr07( LibTest & test )
     SubStr      t( ts, 3, 5);
 
     t = "1123456" ;
-    test( StringToLong( t ) == 1123456 );
+    TEST( StringToLong( t ) == 1123456L );
 
     t = "-1123456" ;
-    test( StringToLong( t ) == -1123456 );
+    TEST( StringToLong( t ) == -1123456L );
 
     t = "123";
-    test( StringToLong( t, 16 ) == 0x123 );
+    TEST( StringToLong( t, 16 ) == 0x123L );
   }
 
   {
@@ -125,10 +132,10 @@ tSubStr07( LibTest & test )
     SubStr      t( ts, 3, 5);
 
     t = "15.15" ;
-    test( StringToDouble( t ) ==  15.15 );
+    TEST( StringToDouble( t ) ==  15.15 );
 
     t = "10.1";
-    test( StringToDouble( t, 8 ) == 8.125 );
+    TEST( StringToDouble( t, 8 ) == 8.125 );
 
   }
 
@@ -140,10 +147,10 @@ tSubStr07( LibTest & test )
     SubStr      t( ts, 3, 5);
 
     t = "0xff0f" ;
-    test( StringToUInt( t ) == 0xff0f);
+    TEST( StringToUInt( t ) == 0xff0f);
 
     t = "123";
-    test( StringToUInt( t, 16 ) == 0x123 );
+    TEST( StringToUInt( t, 16 ) == 0x123 );
   }
 
   {
@@ -154,10 +161,10 @@ tSubStr07( LibTest & test )
     SubStr      t( ts, 3, 5);
 
     t = "0xffff0000" ;
-    test( StringToULong( t ) == 0xffff0000 );
+    TEST( StringToULong( t ) == 0xffff0000L );
 
     t = "123";
-    test( StringToULong( t, 16 ) == 0x123 );
+    TEST( StringToULong( t, 16 ) == 0x123 );
   }
 
   return( true );

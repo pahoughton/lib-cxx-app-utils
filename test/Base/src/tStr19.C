@@ -1,8 +1,17 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
 #include <RegexScan.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <RxScan.hh>
+#endif
+
 bool
-tStr19( LibTest & test )
+tStr19( LibTest & tester )
 {
   {
     // substitute( char, char )
@@ -17,15 +26,15 @@ tStr19( LibTest & test )
     Str t( from );
 
     t.substitute( 't', 'x' );
-    test( t == to );
+    TEST( t == to );
 
     t = from;
     t.substitute( 't', 'x', 10 );
-    test( t == tos );
+    TEST( t == tos );
 
     t = from;
     t.substitute( 't', 'x', 10, false );
-    test( t == tosg );
+    TEST( t == tosg );
   }
 
   {
@@ -41,15 +50,15 @@ tStr19( LibTest & test )
     Str t( from );
 
     t.substitute( "is", "was" );
-    test( t == to );
+    TEST( t == to );
 
     t = from;
     t.substitute( "is", "was", 10 );
-    test( t == tos );
+    TEST( t == tos );
 
     t = from;
     t.substitute( "is", "was", 10, false );
-    test( t == tosg );
+    TEST( t == tosg );
   }
   
   {
@@ -69,19 +78,19 @@ tStr19( LibTest & test )
     Str t( from );
 
     t.substitute( pat, "NUM" );
-    test( t == to );
+    TEST( t == to );
     t = from;
     t.substitute( pat, "NUM", 18 );
-    test( t == tos );
+    TEST( t == tos );
 
     t = from;
     t.substitute( pat, "NUM", 18, false );
-    test( t == tosg );
+    TEST( t == tosg );
 
     t = from;
     pat = "test ([0-9]+) to test ([0-9]+)";
     t.substitute( pat,"test \\2 to test \\1" );
-    test( t == tor );
+    TEST( t == tor );
   }
 
   return( true );

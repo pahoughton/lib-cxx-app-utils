@@ -1,5 +1,12 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#endif
 
 // Str::misc
 
@@ -10,21 +17,21 @@
 #define T5 " fifth part"
 
 bool
-tStr09( LibTest & test )
+tStr09( LibTest & tester )
 {
   {
     // at( size_t )
 
     Str t( "0123456789" );
 
-    test( t.at( 4 ) == '4' );
+    TEST( t.at( 4 ) == '4' );
 
-    test( t.at( (size_t)0 ) == '0');
+    TEST( t.at( (size_t)0 ) == '0');
 
     t.at( 3 ) = 'a';
 
-    test( t == "012a456789" );
-    test( t.at(3) == 'a' );
+    TEST( t == "012a456789" );
+    TEST( t.at(3) == 'a' );
 
   }
 
@@ -33,7 +40,7 @@ tStr09( LibTest & test )
 
     const Str t( "012345" );
 
-    test( t.at(2) == '2');
+    TEST( t.at(2) == '2');
   }
 
   {
@@ -41,14 +48,14 @@ tStr09( LibTest & test )
 
     Str t( "0123456789" );
 
-    test( t[ 4 ] == '4' );
+    TEST( t[ 4 ] == '4' );
 
-    test( t[ 0 ] == '0' );
+    TEST( t[ 0 ] == '0' );
 
     t[3] = 'a';
 
-    test( t == "012a456789" );
-    test( t[3] == 'a' );
+    TEST( t == "012a456789" );
+    TEST( t[3] == 'a' );
   }
 
   {
@@ -56,7 +63,7 @@ tStr09( LibTest & test )
 
     const Str t( "012345" );
 
-    test( t[4] == '4' );
+    TEST( t[4] == '4' );
   }
 
   return( true );

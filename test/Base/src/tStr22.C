@@ -1,7 +1,18 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
+#include <HeapBinStream.hh>
 #include <LibTest.hh>
 #include <Str.hh>
-
 #include <fstream>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <HBinStrm.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <fstream>
+#include <cstring>
+#endif
 
 #define T1 "first part"
 #define T2 "second part"
@@ -10,219 +21,329 @@
 #define T5 "fifth part"
 
 bool
-tStr22( LibTest & test )
+tStr22( LibTest & tester )
 {
-  {
-    // good( void ) const
-    // error( void ) const
-    // getClassName( void  ) const
-    // version
-    
-    const Str t( "simple test string" );
-
-    test( t.good() );
-    test( t.error() != 0 );
-    test( t.getClassName() != 0 );
-    test( t.version != 0 );
-  }
-
-  {
-    // toStream( ostream & ) const
-    
-    ofstream out( "data/Str.operator.output" );
-
-    const Str t("This is an output test from Str\n" );
-    t.toStream( out );
-    out.close();
-    test.file( "data/Str.operator.output" );
-  }
-
-  {
-    // dumpInfo( ostream & ) const
-    
-    ofstream out( "data/Str.operator.output" );
-
-    const Str t("This is an output test from Str\n" );
-    t.dumpInfo( out );    
-    out.close();
-  }
-  
-  {
-    // operator << ( ostream &, const Str & )
-    
-    ofstream out( "data/Str.operator.output" );
-
-    Str t("This is an output test from Str\n" );
-    out << t;
-    out.close();
-    test.file( "data/Str.operator.output" );
-  }
-
-  {
-    // operator >> ( istream &, Str & )
-    
-    ifstream in( "data/Str.operator.input" );
-
-    Str t;
-
-    in >> t;
-    test( t == "input" );
-    in >> t;
-    test( t == "string" );
-  }
-
   {
     // getline( istream & )
     
-    ifstream in( "data/Str.getline.input" );
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.getline.input";
+#else
+    const char * fn = TESTDATA_PATH "strgl.in";
+#endif
+
+    ifstream in( fn );
+
+    TEST( in.good() );
 
     Str t;
 
-    test( t.getline( in ).good() );
-    test( t == "first input line" );
-    test( t.getline( in ).good() );
-    test( t == "last input line" );
-    test( ! t.getline( in ).good() );
-    test( t == "last input line" );
+    TEST( t.getline( in ).good() );
+    TEST( t == "first input line" );
+    TEST( t.getline( in ).good() );
+    TEST( t == "last input line" );
+    TEST( ! t.getline( in ).good() );
+    TEST( t == "last input line" );
   }
 
   {
     // getDelim( istream &, const char * )
 
-    Str	t;
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.getDelim.input";
+#else
+    const char * fn = TESTDATA_PATH "strgd.in";
+#endif
 
-    ifstream in( "data/Str.getDelim.input" );
+    ifstream in( fn );
+
+    TEST( in.good() );
+
+    Str	t;
     
-    test( t.getDelim( in, " \t\n" ).good() );
-    test( t == "this" );
-    test( t.getDelim( in, " \t\n" ).good() );
-    test( t == "is" );
-    test( t.getDelim( in, " \t\n" ).good() );
-    test( t == "a" );
-    test( t.getDelim( in, " \t\n" ).good() );
-    test( t == "delimited" );
-    test( t.getDelim( in, " \t\n" ).good() );
-    test( t.empty() );
-    test( t.getDelim( in, " \t\n" ).good() );
-    test( t == "line" );
-    test( t.getDelim( in, " \t\n" ).good() );
-    test( t == "next" );
-    test( t.getDelim( in, " \t\n" ).good() );
-    test( t == "line" );
-    test( ! t.getDelim( in, " \t\n" ).good() );
+    TEST( t.getDelim( in, " \t\n" ).good() );
+    TEST( t == "this" );
+    TEST( t.getDelim( in, " \t\n" ).good() );
+    TEST( t == "is" );
+    TEST( t.getDelim( in, " \t\n" ).good() );
+    TEST( t == "a" );
+    TEST( t.getDelim( in, " \t\n" ).good() );
+    TEST( t == "delimited" );
+    TEST( t.getDelim( in, " \t\n" ).good() );
+    TEST( t.empty() );
+    TEST( t.getDelim( in, " \t\n" ).good() );
+    TEST( t == "line" );
+    TEST( t.getDelim( in, " \t\n" ).good() );
+    TEST( t == "next" );
+    TEST( t.getDelim( in, " \t\n" ).good() );
+    TEST( t == "line" );
+    TEST( ! t.getDelim( in, " \t\n" ).good() );
   }
       
   {
     // getDelim( istream &, const char *, bool )
 
-    Str t;
-    
-    ifstream in( "data/Str.getDelim.input" );
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.getDelim.input";
+#else
+    const char * fn = TESTDATA_PATH "strgd.in";
+#endif
 
-    test( t.getDelim( in, " \t\n", false ).good() );
-    test( t == "this " );
-    test( t.getDelim( in, " \t\n", false ).good() );
-    test( t == "is\t" );
-    test( t.getDelim( in, " \t\n", false ).good() );
-    test( t == "a " );
-    test( t.getDelim( in, " \t\n", false ).good() );
-    test( t == "delimited\t" );
-    test( t.getDelim( in, " \t\n", false ).good() );
-    test( t == " " );
-    test( t.getDelim( in, " \t\n", false ).good() );
-    test( t == "line\n" );
-    test( t.getDelim( in, " \t\n", false ).good() );
-    test( t == "next " );
-    test( t.getDelim( in, " \t\n", false ).good() );
-    test( t == "line\n" );
-    test( ! t.getDelim( in, " \t\n", false ).good() );
+    ifstream in( fn );
+    
+    TEST( in.good() );
+
+    Str t;
+
+    TEST( t.getDelim( in, " \t\n", false ).good() );
+    TEST( t == "this " );
+    TEST( t.getDelim( in, " \t\n", false ).good() );
+    TEST( t == "is\t" );
+    TEST( t.getDelim( in, " \t\n", false ).good() );
+    TEST( t == "a " );
+    TEST( t.getDelim( in, " \t\n", false ).good() );
+    TEST( t == "delimited\t" );
+    TEST( t.getDelim( in, " \t\n", false ).good() );
+    TEST( t == " " );
+    TEST( t.getDelim( in, " \t\n", false ).good() );
+    TEST( t == "line\n" );
+    TEST( t.getDelim( in, " \t\n", false ).good() );
+    TEST( t == "next " );
+    TEST( t.getDelim( in, " \t\n", false ).good() );
+    TEST( t == "line\n" );
+    TEST( ! t.getDelim( in, " \t\n", false ).good() );
   }
 
   {
     // getDelim( istream &, char )
-    Str t;
     
-    ifstream in( "data/Str.getDelim.char.input" );
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.getDelim.char.input";
+#else
+    const char * fn = TESTDATA_PATH "strgdch.in";
+#endif
 
-    test( t.getDelim( in, " " ).good() );
-    test( t == "test" );
-    test( t.getDelim( in, " " ).good() );
-    test( t == "char" );
-    test( ! t.getDelim( in, " " ).good() );
-    test( t == "delim\n" );
-    test( ! t.getDelim( in, " " ).good() );
+    ifstream in( fn );
+
+    TEST( in.good() );
+
+    Str t;
+
+    TEST( t.getDelim( in, " " ).good() );
+    TEST( t == "test" );
+    TEST( t.getDelim( in, " " ).good() );
+    TEST( t == "char" );
+    TEST( ! t.getDelim( in, " " ).good() );
+    TEST( t == "delim\n" );
+    TEST( ! t.getDelim( in, " " ).good() );
   }
   
   {
     // getDelim( istream &, char, bool )
-    Str t;
     
-    ifstream in( "data/Str.getDelim.char.input" );
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.getDelim.char.input";
+#else
+    const char * fn = TESTDATA_PATH "strgdch.in";
+#endif
 
-    test( t.getDelim( in, " ", false ).good() );
-    test( t == "test " );
-    test( t.getDelim( in, " ", false ).good() );
-    test( t == "char " );
-    test( ! t.getDelim( in, " ", false ).good() );
-    test( t == "delim\n" );
-    test( ! t.getDelim( in, " ", false ).good() );
+    ifstream in( fn );
+
+    TEST( in.good() );
+
+    Str t;
+
+    TEST( t.getDelim( in, " ", false ).good() );
+    TEST( t == "test " );
+    TEST( t.getDelim( in, " ", false ).good() );
+    TEST( t == "char " );
+    TEST( ! t.getDelim( in, " ", false ).good() );
+    TEST( t == "delim\n" );
+    TEST( ! t.getDelim( in, " ", false ).good() );
   }
 
   {
-    // getStreamSize( void ) const
+    // getBinSize( void ) const
 
     Str t;
 
     const char * T = "the string to test";
 
     t = T;
-    test( t.getStreamSize() == strlen( T ) + sizeof( size_t ) );
+    TEST( t.getBinSize() == strlen( T ) + sizeof( unsigned long ) );
   }
 
   {
+    // write( BinStream & dest ) const
+    // read( BinStream & src )
+    // BinStream::write( const BinObject & );
+    // BinStream::read( BinObject );
+    
+    HeapBinStream tStrm( 4096 );
+    
+    Str tw;
+    Str tr;
+    
+    tw = "This is a test string";
+
+    tw.write( tStrm );
+    tr.read( tStrm );
+
+    TEST( tStrm.good() );
+    TEST( tr == tw );
+
+    tr.reset();
+    TEST( tr.size() == 0 );
+
+    tStrm.write( tw );
+    tStrm.read( tr );
+    TEST( tStrm.good() );
+    TEST( tr == tw );
+  } 
+    
+  {
     // write( ostream & )
 
-    ofstream out( "data/Str.bin.data" );
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.bin.data";
+#else
+    const char * fn = TESTDATA_PATH "strbin.dat";
+#endif
+
+    ofstream out( fn );
+
+    TEST( out.good() );
 
     Str t;
 
     t = T1;
-    test( t.write( out ).good() );
+    TEST( t.write( out ).good() );
     t = T2;
-    test( t.write( out ).good() );
+    TEST( t.write( out ).good() );
     t = T3;
-    test( t.write( out ).good() );
+    TEST( t.write( out ).good() );
     t = T4;
-    test( t.write( out ).good() );
+    TEST( t.write( out ).good() );
     t = T5;
-    test( t.write( out ).good() );
+    TEST( t.write( out ).good() );
   }
 
   {
     // read( istream & )
 
-    ifstream in( "data/Str.bin.data" );
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.bin.data";
+#else
+    const char * fn = TESTDATA_PATH "strbin.dat";
+#endif
+
+    ifstream in( fn );
+
+    TEST( in.good() );
 
     Str t;
 
-    test( t.read( in ).good() );
-    test( t == T1 );
-    test( t.read( in ).good() );
-    test( t == T2 );
-    test( t.read( in ).good() );
-    test( t == T3 );
-    test( t.read( in ).good() );
-    test( t == T4 );
-    test( t.read( in ).good() );
-    test( t == T5 );
+    TEST( t.read( in ).good() );
+    TEST( t == T1 );
+    TEST( t.read( in ).good() );
+    TEST( t == T2 );
+    TEST( t.read( in ).good() );
+    TEST( t == T3 );
+    TEST( t.read( in ).good() );
+    TEST( t == T4 );
+    TEST( t.read( in ).good() );
+    TEST( t == T5 );
   }
 
+  {
+    // toStream( ostream & ) const
+    
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.operator.output";
+#else
+    const char * fn = TESTDATA_PATH "stropout";
+#endif
+
+    ofstream out( fn );
+
+    TEST( out.good() );
+
+    const Str t("This is an output test from Str\n" );
+    t.toStream( out );
+    out.close();
+    tester.file( __FILE__, __LINE__, fn );
+  }
+
+  {
+    // operator << ( ostream &, const Str & )
+    
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.operator.output";
+#else
+    const char * fn = TESTDATA_PATH "stropout";
+#endif
+
+    ofstream out( fn );
+
+    TEST( out.good() );
+
+    Str t("This is an output test from Str\n" );
+    out << t;
+    out.close();
+    tester.file( __FILE__, __LINE__, fn );
+  }
+
+  {
+    // operator >> ( istream &, Str & )
+    
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "Str.operator.input";
+#else
+    const char * fn = TESTDATA_PATH "strop.in";
+#endif
+
+    ifstream in( fn );
+
+    TEST( in.good() );
+
+    Str t;
+
+    in >> t;
+    TEST( t == "input" );
+    in >> t;
+    TEST( t == "string" );
+  }
+
+  {
+    // good( void ) const
+    // error( void ) const
+    // getClassName( void  ) const
+    
+    const Str t( "simple test string" );
+
+    TEST( t.good() );
+    TEST( t.error() != 0 );
+    TEST( t.getClassName() != 0 );
+    TEST( t.getVersion() != 0 );
+  }
+
+  {
+    // dumpInfo( ostream &, const char *, bool ) const
+    // version
+    
+    const Str t("This is an output test from Str\n" );
+
+    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
+    t.toStream( tester.getDump() );
+    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
+    t.dumpInfo( tester.getDump(), " -> ", true );
+    tester.getDump() << '\n' << t.getClassName() << " version:\n";
+    tester.getDump() << t.version;
+    
+    tester.getDump() << '\n' << tester.getCurrentTestName();
+    
+  }
+  
   return( true );
 }
 
-   
-      
-      
-
-      
-    

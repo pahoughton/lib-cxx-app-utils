@@ -1,8 +1,14 @@
-
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
-
-#include <Clue.hh>
-
+#include <StringUtils.hh>
+#include <cstdio>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <StrUtil.hh>
+#include <cstdio>
+#endif
 
 struct TestVal
 {
@@ -28,11 +34,13 @@ static struct TestVal TestValues[] =
 };
 
 bool
-tStringCaseCompare( LibTest & test )
+tStringCaseCompare( LibTest & tester )
 {
   // StringCaseCompare( const char *, const char * )
   // StringCaseCompare( const char *, const char *, size_t )
   // StringCaseCompare( const char *, size_t, const char *, size_t )
+
+  char reason[1024];
   
   for( int t = 0; TestValues[t].sone; t++ )
     {
@@ -67,14 +75,18 @@ tStringCaseCompare( LibTest & test )
 	case -1:
 	  if( result >= 0 )
 	    {
-	      cerr << " Failed: " << result << " Expected: < 0 "
-		   << " One: " << TestValues[t].sone
-		   << " l: " << TestValues[t].lone
-		   << " Two: " << TestValues[t].stwo
-		   << " l: " << TestValues[t].ltwo
-		   << " using lengths: " << TestValues[t].useLen
-		   << endl;
-	      test( false );
+	      sprintf( reason,
+		       "%d Expected < 0 - "
+		       "One: '%s' l: %d "
+		       "Two: '%s' l: %d "
+		       "UseLen: %d",
+		       result,
+		       TestValues[t].sone,
+		       TestValues[t].lone,
+		       TestValues[t].stwo,
+		       TestValues[t].ltwo,
+		       TestValues[t].useLen );
+	      TESTR( reason, false );
 	      return( false );
 	    }
 	  break;
@@ -82,14 +94,18 @@ tStringCaseCompare( LibTest & test )
 	case 0:
 	  if( result != 0 )
 	    {
-	      cerr << " Failed: " << result << " Expected: 0 "
-		   << " One: " << TestValues[t].sone
-		   << " l: " << TestValues[t].lone
-		   << " Two: " << TestValues[t].stwo
-		   << " l: " << TestValues[t].ltwo
-		   << " using lengths: " << TestValues[t].useLen
-		   << endl;
-	      test( false );
+	      sprintf( reason,
+		       "%d Expected < 0 - "
+		       "One: '%s' l: %d "
+		       "Two: '%s' l: %d "
+		       "UseLen: %d",
+		       result,
+		       TestValues[t].sone,
+		       TestValues[t].lone,
+		       TestValues[t].stwo,
+		       TestValues[t].ltwo,
+		       TestValues[t].useLen );
+	      TESTR( reason, false );
 	      return( false );
 	    }
 	  break;
@@ -97,14 +113,18 @@ tStringCaseCompare( LibTest & test )
 	case 1:
 	  if( result <= 0 )
 	    {
-	      cerr << " Failed: " << result << " Expected: > 0 "
-		   << " One: " << TestValues[t].sone
-		   << " l: " << TestValues[t].lone
-		   << " Two: " << TestValues[t].stwo
-		   << " l: " << TestValues[t].ltwo
-		   << " using lengths: " << TestValues[t].useLen
-		   << endl;
-	      test( false );
+	      sprintf( reason,
+		       "%d Expected < 0 - "
+		       "One: '%s' l: %d "
+		       "Two: '%s' l: %d "
+		       "UseLen: %d",
+		       result,
+		       TestValues[t].sone,
+		       TestValues[t].lone,
+		       TestValues[t].stwo,
+		       TestValues[t].ltwo,
+		       TestValues[t].useLen );
+	      TESTR( reason, false );
 	      return( false );
 	    }
 	  break;

@@ -1,5 +1,17 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <functional>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <functional>
+#include <cstring>
+#endif
+
 
 //           0123456789 123456789 123456789 12345
 #define T1  "T1 Test string to test the Str Class"
@@ -7,14 +19,14 @@
 #define L1  "compare string k"
 
 bool
-tStr23( LibTest & test )
+tStr23( LibTest & tester )
 {
   {
     // operator const char * ( void ) const
 
     const Str t( T1 );
 
-    test( strcmp( t, T1 ) == 0 );
+    TEST( strcmp( t, T1 ) == 0 );
   }
 
   {
@@ -23,14 +35,14 @@ tStr23( LibTest & test )
     Str t( "operator [] test." );
     //      0123456789 123456
     
-    test( t[0] == 'o' );
-    test( t[5] == 't' );
-    test( t[16] == '.' );
+    TEST( t[0] == 'o' );
+    TEST( t[5] == 't' );
+    TEST( t[16] == '.' );
 
     t[0] = 'O';
     t[5] = 'T';
     t[16] = '!';
-    test( t == "OperaTor [] test!" );
+    TEST( t == "OperaTor [] test!" );
     
   }
 
@@ -39,9 +51,9 @@ tStr23( LibTest & test )
 
     const Str t( "operator [] test." );
     //            0123456789 123456
-    test( t[0] == 'o' );
-    test( t[5] == 't' );
-    test( t[16] == '.' );
+    TEST( t[0] == 'o' );
+    TEST( t[5] == 't' );
+    TEST( t[16] == '.' );
 
   }
     
@@ -50,8 +62,8 @@ tStr23( LibTest & test )
 
     Str t( T1 );
 
-    test( t.substr( 0,5 ) == t( 0,5 ) );
-    test( t.substr( 3,6 ).size() == t( 3,6 ).size() );
+    TEST( t.substr( 0,5 ) == t( 0,5 ) );
+    TEST( t.substr( 3,6 ).size() == t( 3,6 ).size() );
   }
 
   {
@@ -59,8 +71,8 @@ tStr23( LibTest & test )
 
     const Str t( T1 );
 
-    test( t.substr( 0,5 ) == t( 0,5 ) );
-    test( t.substr( 3,6 ).size() == t( 3,6 ).size() );
+    TEST( t.substr( 0,5 ) == t( 0,5 ) );
+    TEST( t.substr( 3,6 ).size() == t( 3,6 ).size() );
   }
 
   {
@@ -90,17 +102,17 @@ tStr23( LibTest & test )
     Str ls( "123" L1 "321" );
     Str ms( "123" M1 "321" );
 
-    test( l < m );
-    test( ! ( l < l ) );
-    test( ! ( m < l ) );
+    TEST( l < m );
+    TEST( ! ( l < l ) );
+    TEST( ! ( m < l ) );
 
-    test( l < ms( 3, strlen( M1 ) ) );
-    test( ! ( l < ls( 3, strlen( L1 ) ) ) );
-    test( ! ( m < ls( 3, strlen( L1 ) ) ) );
+    TEST( l < ms( 3, strlen( M1 ) ) );
+    TEST( ! ( l < ls( 3, strlen( L1 ) ) ) );
+    TEST( ! ( m < ls( 3, strlen( L1 ) ) ) );
 
-    test( l < M1 );
-    test( ! ( l < L1 ) );
-    test( ! ( m < L1 ) );
+    TEST( l < M1 );
+    TEST( ! ( l < L1 ) );
+    TEST( ! ( m < L1 ) );
   }
 
   {
@@ -109,22 +121,22 @@ tStr23( LibTest & test )
     // operator >  ( const char * ) const
 
     
-    Str l( L1 );
-    Str m( M1 );
-    Str ls( "123" L1 "321" );
-    Str ms( "123" M1 "321" );
+    const Str l( L1 );
+    const Str m( M1 );
+    const Str ls( "123" L1 "321" );
+    const Str ms( "123" M1 "321" );
 
-    test( m > l );
-    test( ! ( m > m ) );
-    test( ! ( l > m ) );
+    TEST( m > l );
+    TEST( ! ( m > m ) );
+    TEST( ! ( l > m ) );
 
-    test( m > ls( 3, strlen( L1 ) ) );
-    test( ! ( m > ms( 3, strlen( M1 ) ) ) );
-    test( ! ( l > ms( 3, strlen( M1 ) ) ) );
+    TEST( m > ls( 3, strlen( L1 ) ) );
+    TEST( ! ( m > ms( 3, strlen( M1 ) ) ) );
+    TEST( ! ( l > ms( 3, strlen( M1 ) ) ) );
 
-    test( m > L1 );
-    test( ! ( m > M1 ) );
-    test( ! ( l > M1 ) );
+    TEST( m > L1 );
+    TEST( ! ( m > M1 ) );
+    TEST( ! ( l > M1 ) );
   }
 
   {
@@ -137,17 +149,17 @@ tStr23( LibTest & test )
     Str ls( "123" L1 "321" );
     Str ms( "123" M1 "321" );
 
-    test( l <= m );
-    test( l <= l );
-    test( ! ( m <= l ) );
+    TEST( l <= m );
+    TEST( l <= l );
+    TEST( ! ( m <= l ) );
 
-    test( l <= ms( 3, strlen( M1 ) ) );
-    test( l <= ls( 3, strlen( L1 ) ) );
-    test( ! ( m < ls( 3, strlen( L1 ) ) ) );
+    TEST( l <= ms( 3, strlen( M1 ) ) );
+    TEST( l <= ls( 3, strlen( L1 ) ) );
+    TEST( ! ( m < ls( 3, strlen( L1 ) ) ) );
 
-    test( l <= M1 );
-    test( l <= L1 );
-    test( ! ( m <= L1 ) );
+    TEST( l <= M1 );
+    TEST( l <= L1 );
+    TEST( ! ( m <= L1 ) );
   }
 
   {
@@ -161,17 +173,17 @@ tStr23( LibTest & test )
     Str ls( "123" L1 "321" );
     Str ms( "123" M1 "321" );
 
-    test( m >= l );
-    test( m >= m );
-    test( ! ( l >= m ) );
+    TEST( m >= l );
+    TEST( m >= m );
+    TEST( ! ( l >= m ) );
 
-    test( m >= ls( 3, strlen( L1 ) ) );
-    test( m >= ms( 3, strlen( M1 ) ) );
-    test( ! ( l > ms( 3, strlen( M1 ) ) ) );
+    TEST( m >= ls( 3, strlen( L1 ) ) );
+    TEST( m >= ms( 3, strlen( M1 ) ) );
+    TEST( ! ( l > ms( 3, strlen( M1 ) ) ) );
 
-    test( m >= L1 );
-    test( m >= M1 );
-    test( ! ( l > M1 ) );
+    TEST( m >= L1 );
+    TEST( m >= M1 );
+    TEST( ! ( l > M1 ) );
   }
 
   return( true );

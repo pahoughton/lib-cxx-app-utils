@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <DateTime.hh>
+#endif
 
 bool
-tDateTime03( LibTest & test )
+tDateTime03( LibTest & tester )
 {
 
   {
@@ -15,17 +22,17 @@ tDateTime03( LibTest & test )
 
     dt.setTimeZone();
 
-    test( dt.getOffset() == -18000 );
-    test( dt.getTimeT() == when.getTimeT() );
-    test( dt.isLocal() );
-    test( dt.isDST() );
+    TEST( dt.getOffset() == -18000 );
+    TEST( dt.getTimeT() == when.getTimeT() );
+    TEST( dt.isLocal() );
+    TEST( dt.isDST() );
 
     dt.setTimeT( when.getTimeT() );
 
-    test( dt.getTimeT() == when.getTimeT() );
-    test( dt.getOffset() == 0 );
-    test( ! dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getTimeT() == when.getTimeT() );
+    TEST( dt.getOffset() == 0 );
+    TEST( ! dt.isLocal() );
+    TEST( ! dt.isDST() );
 
   }
   
@@ -39,31 +46,31 @@ tDateTime03( LibTest & test )
 
     dt.setTimeZone();
 
-    test( dt.getOffset() == -21600 );
-    test( dt.getTimeT() == when.getTimeT() );
-    test( dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getOffset() == -21600 );
+    TEST( dt.getTimeT() == when.getTimeT() );
+    TEST( dt.isLocal() );
+    TEST( ! dt.isDST() );
 
     dt.set( when.getTimeT() );
 
-    test( dt.getTimeT() == when.getTimeT() );
-    test( dt.getOffset() == 0 );
-    test( ! dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getTimeT() == when.getTimeT() );
+    TEST( dt.getOffset() == 0 );
+    TEST( ! dt.isLocal() );
+    TEST( ! dt.isDST() );
 
     dt.set( when.getTimeT(), true );
     
-    test( dt.getOffset() == -21600 );
-    test( dt.getTimeT() == when.getTimeT() );
-    test( dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getOffset() == -21600 );
+    TEST( dt.getTimeT() == when.getTimeT() );
+    TEST( dt.isLocal() );
+    TEST( ! dt.isDST() );
 
     dt.set( when.getTimeT(), false );
 
-    test( dt.getTimeT() == when.getTimeT() );
-    test( dt.getOffset() == 0 );
-    test( ! dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getTimeT() == when.getTimeT() );
+    TEST( dt.getOffset() == 0 );
+    TEST( ! dt.isLocal() );
+    TEST( ! dt.isDST() );
 
   }
 
@@ -80,36 +87,36 @@ tDateTime03( LibTest & test )
 
     dt.set( dateString );
 
-    test( dt.getTimeT() == when.getTimeT() );
-    test( dt.getOffset() == 0 );
-    test( ! dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getTimeT() == when.getTimeT() );
+    TEST( dt.getOffset() == 0 );
+    TEST( ! dt.isLocal() );
+    TEST( ! dt.isDST() );
 
-    test( dt.getTimeT() == 699420600 );
-    test( dt.getSecOfDay() == 12600 );
-    test( dt.getHour() == 3 );
-    test( dt.getMinute() == 30 );
-    test( dt.getSecond() == 0 );
+    TEST( dt.getTimeT() == 699420600 );
+    TEST( dt.getSecOfDay() == 12600 );
+    TEST( dt.getHour() == 3 );
+    TEST( dt.getMinute() == 30 );
+    TEST( dt.getSecond() == 0 );
     
-    test( dt.getDayOfYear() == 61 );
-    test( dt.getDayOfMonth() == 1 );
-    test( dt.getMonth() == 3 );
-    test( dt.getYearOfCentury() == 92 );
-    test( dt.getYear() == 1992 );
+    TEST( dt.getDayOfYear() == 61 );
+    TEST( dt.getDayOfMonth() == 1 );
+    TEST( dt.getMonth() == 3 );
+    TEST( dt.getYearOfCentury() == 92 );
+    TEST( dt.getYear() == 1992 );
 
     dt.set( "01-Mar-92 03:30:00", "%d-%b-%y %H:%M:%S" );
 
-    test( dt.getTimeT() == 699420600 );
-    test( dt.getSecOfDay() == 12600 );
-    test( dt.getHour() == 3 );
-    test( dt.getMinute() == 30 );
-    test( dt.getSecond() == 0 );
+    TEST( dt.getTimeT() == 699420600 );
+    TEST( dt.getSecOfDay() == 12600 );
+    TEST( dt.getHour() == 3 );
+    TEST( dt.getMinute() == 30 );
+    TEST( dt.getSecond() == 0 );
     
-    test( dt.getDayOfYear() == 61 );
-    test( dt.getDayOfMonth() == 1 );
-    test( dt.getMonth() == 3 );
-    test( dt.getYearOfCentury() == 92 );
-    test( dt.getYear() == 1992 );
+    TEST( dt.getDayOfYear() == 61 );
+    TEST( dt.getDayOfMonth() == 1 );
+    TEST( dt.getMonth() == 3 );
+    TEST( dt.getYearOfCentury() == 92 );
+    TEST( dt.getYear() == 1992 );
 
   }
 
@@ -130,27 +137,27 @@ tDateTime03( LibTest & test )
 
     dt.set( year, month, day );
 
-    test( dt.getOffset() == 0 );
-    test( ! dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getOffset() == 0 );
+    TEST( ! dt.isLocal() );
+    TEST( ! dt.isDST() );
 
-    test( dt.getYear() == year );
-    test( dt.getMonth() == month );
-    test( dt.getDayOfMonth() == day );
-    test( dt.getHour() == 0 );
-    test( dt.getMinute() == 0 );
-    test( dt.getSecond() == 0 );
+    TEST( dt.getYear() == year );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == 0 );
+    TEST( dt.getMinute() == 0 );
+    TEST( dt.getSecond() == 0 );
 
     year = 10;
 
     dt.set( year, month, day, hour, min, sec );
 
-    test( dt.getYear() == 2010 );
-    test( dt.getMonth() == month );
-    test( dt.getDayOfMonth() == day );
-    test( dt.getHour() == hour );
-    test( dt.getMinute() == min );
-    test( dt.getSecond() == sec );
+    TEST( dt.getYear() == 2010 );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == hour );
+    TEST( dt.getMinute() == min );
+    TEST( dt.getSecond() == sec );
         
   }
 
@@ -179,16 +186,16 @@ tDateTime03( LibTest & test )
 
     dt.set( tm );
 
-    test( dt.getOffset() == 0 );
-    test( ! dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getOffset() == 0 );
+    TEST( ! dt.isLocal() );
+    TEST( ! dt.isDST() );
 
-    test( dt.getYear() == 1900 + year );
-    test( dt.getMonth() == month );
-    test( dt.getDayOfMonth() == day );
-    test( dt.getHour() == hour );
-    test( dt.getMinute() == min );
-    test( dt.getSecond() == sec );
+    TEST( dt.getYear() == 1900 + year );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == hour );
+    TEST( dt.getMinute() == min );
+    TEST( dt.getSecond() == sec );
 
   }
 
@@ -209,164 +216,164 @@ tDateTime03( LibTest & test )
 
     dt.setValid( year, month, day );
 
-    test( dt.getOffset() == 0 );
-    test( ! dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getOffset() == 0 );
+    TEST( ! dt.isLocal() );
+    TEST( ! dt.isDST() );
 
-    test( dt.getYear() == year );
-    test( dt.getMonth() == month );
-    test( dt.getDayOfMonth() == day );
-    test( dt.getHour() == 0 );
-    test( dt.getMinute() == 0 );
-    test( dt.getSecond() == 0 );
+    TEST( dt.getYear() == year );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == 0 );
+    TEST( dt.getMinute() == 0 );
+    TEST( dt.getSecond() == 0 );
 
     dt.set( year, month, day, hour, min, sec );
 
-    test( dt.getYear() == year );
-    test( dt.getMonth() == month );
-    test( dt.getDayOfMonth() == day );
-    test( dt.getHour() == hour );
-    test( dt.getMinute() == min );
-    test( dt.getSecond() == sec );
+    TEST( dt.getYear() == year );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == hour );
+    TEST( dt.getMinute() == min );
+    TEST( dt.getSecond() == sec );
 
     dt.setValid( 65, month, day );
 
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( year, month, day );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( -1, month, day);
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 2055, month, day );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 1969, month, day );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( year, 0, day );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( year, 13, day );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( year, -1, day );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( year, month, -1 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( year, month, 0 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 0, 0, 0 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 1, 0 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
     
     dt.setValid( 92, 1, 31 );
-    test( dt.good() );
+    TEST( dt.good() );
     
     dt.setValid( 92, 1, 32 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
     
     dt.setValid( 92, 2, 28 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 2, 29 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 93, 2, 29 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 3, 32 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 3, 31 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 4, 31 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 4, 30 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 5, 32 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 5, 31 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 6, 31 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 6, 30 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 7, 32 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 7, 31 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 8, 32 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 8, 31 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 9, 31 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 9, 30 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 10, 32 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 10, 31 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 11, 31 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 11, 30 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 12, 32 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 12, 31 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 1, 1, -1 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 1, 1, 24 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 1, 1, 0 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 1, 1, 0, -1 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 1, 1, 0, 60 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 1, 1, 0, 0 );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( 92, 1, 1, 0, 0, -1 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 1, 1, 0, 0, 60 );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( 92, 1, 1, 0, 0, 0 );
-    test( dt.good() );
+    TEST( dt.good() );
         
   }
 
@@ -380,80 +387,80 @@ tDateTime03( LibTest & test )
 
     dt.setValid( "2/1/95 06:30:15" );
 
-    test( dt.getOffset() == 0 );
-    test( ! dt.isLocal() );
-    test( ! dt.isDST() );
+    TEST( dt.getOffset() == 0 );
+    TEST( ! dt.isLocal() );
+    TEST( ! dt.isDST() );
 
-    test( dt.getYear() == 1995 );
-    test( dt.getMonth() == 2 );
-    test( dt.getDayOfMonth() == 1 );
-    test( dt.getHour() == 6 );
-    test( dt.getMinute() == 30 );
-    test( dt.getSecond() == 15 );
-    test( dt.good() );
+    TEST( dt.getYear() == 1995 );
+    TEST( dt.getMonth() == 2 );
+    TEST( dt.getDayOfMonth() == 1 );
+    TEST( dt.getHour() == 6 );
+    TEST( dt.getMinute() == 30 );
+    TEST( dt.getSecond() == 15 );
+    TEST( dt.good() );
 
     dt.setValid( "95 01 01 15 30 15", "%y %m %d %H %M %S" );
 
-    test( dt.getYear() == 1995 );
-    test( dt.getMonth() == 1 );
-    test( dt.getDayOfMonth() == 1 );
-    test( dt.getHour() == 15 );
-    test( dt.getMinute() == 30 );
-    test( dt.getSecond() == 15 );
-    test( dt.good() );
+    TEST( dt.getYear() == 1995 );
+    TEST( dt.getMonth() == 1 );
+    TEST( dt.getDayOfMonth() == 1 );
+    TEST( dt.getHour() == 15 );
+    TEST( dt.getMinute() == 30 );
+    TEST( dt.getSecond() == 15 );
+    TEST( dt.good() );
 
     dt.setValid( "0/1/95" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( "13/1/95" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( "1/1/95" );
-    test( dt.good() );
+    TEST( dt.good() );
 
     // This test fails. The strptime routine
     // converts the '0' to 0 which is january!
     
 //    dt.setValid( "95 0 1", "%y %m %d" );
-//    test( ! dt.good() );
+//    TEST( ! dt.good() );
     
     dt.setValid( "13/1/95", "%m/%d/%y" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( "1/1/95", "%m/%d/%y" );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( "2/29/92" );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( "2/29/95" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( "92 2 29", "%y %m %d" );
-    test( dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( "93 2 29", "%y %m %d" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( "1/1/65" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( "1/1/95 24:0:0" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
 #ifndef AIX
     dt.setValid( "1 1 95 24 0 0", "%m %d %y %h %m %s" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 #endif
     
     dt.setValid( "1/1/95 23:60:0" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( "1/1/95 23:59:60" );
-    test( ! dt.good() );
+    TEST( ! dt.good() );
 
     dt.setValid( "1/1/95 23:59:59" );
-    test( dt.good() );
+    TEST( dt.good() );
     
   }
 

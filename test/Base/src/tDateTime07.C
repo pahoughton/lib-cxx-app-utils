@@ -1,16 +1,106 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
+#include <HeapBinStream.hh>
 #include <DateTime.hh>
-
-#include <strstream.h>
+#include <strstream>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <HBinStrm.hh>
+#include <DateTime.hh>
+#include <strstream>
+#endif
 
 bool
-tDateTime07( LibTest & test )
+tDateTime07( LibTest & tester )
 {
   {
-    // operator <<( ostream &, const DateTime & )
+    // getBinSize( void )
+    // write( BinStream & dest ) const;
+    // read( BinStream & src )
+    
+    HeapBinStream tStrm( 4096 );
+    
+    const char * d1String = "02/17/95 11:30:30";
+
+    DateTime	d1w( d1String );
+    DateTime	d2w( "2/17/95 11:30:31" );
+    DateTime	dlw( d1String );
+
+    dlw.setTimeZone();
+    
+    time_t  d1time = d1w;
+    time_t  dltime = dlw;
+
+    TEST( d1w.getBinSize() == sizeof( time_t ) );
+    
+    TEST( (time_t)d1w == d1w.getTimeT() );
+    TEST( d1time == dltime );
+    TEST( d1w != d2w );
+    TEST( ! strcmp( d1String, d1w ) );
+    
+    d1w.write( tStrm );
+    d2w.write( tStrm );
+    dlw.write( tStrm );
+
+    DateTime dr;
+
+    dr.read( tStrm );
+    TEST( dr == d1w );
+
+    dr.read( tStrm );
+    TEST( dr == d2w );
+
+    dr.read( tStrm );
+    TEST( dr == dlw );
+
+  }
+  
+  {
+    // BinStream::write( const BinObject & );
+    // BinStream::read( BinObject );
+    
+    HeapBinStream tStrm;
+    
+    const char * d1String = "02/17/95 11:30:30";
+
+    DateTime	d1w( d1String );
+    DateTime	d2w( "2/17/95 11:30:31" );
+    DateTime	dlw( d1String );
+
+    dlw.setTimeZone();
+    
+    time_t  d1time = d1w;
+    time_t  dltime = dlw;
+
+    TEST( (time_t)d1w == d1w.getTimeT() );
+    TEST( d1time == dltime );
+    TEST( d1w != d2w );
+    TEST( ! strcmp( d1String, d1w ) );
+    
+    tStrm.write( d1w );
+    tStrm.write( d2w );
+    tStrm.write( dlw );
+
+    DateTime dr;
+
+    tStrm.read( dr );
+    TEST( dr == d1w );
+
+    tStrm.read( dr );
+    TEST( dr == d2w );
+
+    tStrm.read( dr );
+    TEST( dr == dlw );
+
+  }
+  
+  {
     // read( istream & )
     // write( ostream & )
-    // getStreamSize( void ) const
+    // toStream( ostream & ) const
+    // operator << ( ostream &, const DateTime & )
     
     const char * d1String = "02/17/95 11:30:30";
 
@@ -23,10 +113,10 @@ tDateTime07( LibTest & test )
     time_t  d1time = d1;
     time_t  dltime = dl;
     
-    test( (time_t)d1 == d1.getTimeT() );
-    test( d1time == dltime );
-    test( d1 != d2 );
-    test( ! strcmp( d1String, d1 ) );
+    TEST( (time_t)d1 == d1.getTimeT() );
+    TEST( d1time == dltime );
+    TEST( d1 != d2 );
+    TEST( ! strcmp( d1String, d1 ) );
     
     strstream testStream;
 
@@ -38,50 +128,57 @@ tDateTime07( LibTest & test )
     gpos = 0;
 #endif
     
-    test( ppos == 0 );
-    test( gpos == 0 );
+    TEST( ppos == 0 );
+    TEST( gpos == 0 );
     
     d1.write( testStream );
-    ppos += d1.getStreamSize();
-    test( ppos == testStream.tellp() );
+    ppos += d1.getBinSize();
+    TEST( ppos == testStream.tellp() );
       
     d2.write( testStream );
-    ppos += d2.getStreamSize();
-    test( ppos == testStream.tellp() );
+    ppos += d2.getBinSize();
+    TEST( ppos == testStream.tellp() );
       
     dl.write( testStream );
-    ppos += d1.getStreamSize();
-    test( ppos == testStream.tellp() );
-      
+    ppos += d1.getBinSize();
+    TEST( ppos == testStream.tellp() );
+
+    d1.toStream( testStream );
     testStream << d1;
     
     DateTime dr;
 
     dr.read( testStream );
-    gpos += dr.getStreamSize();
-    test( testStream.gcount() == dr.getStreamSize() );
-    test( gpos == testStream.tellg() );
-    test( dr == d1 );
+    gpos += dr.getBinSize();
+    TEST( testStream.gcount() == dr.getBinSize() );
+    TEST( gpos == testStream.tellg() );
+    TEST( dr == d1 );
 
     dr.read( testStream );
-    gpos += dr.getStreamSize();
-    test( testStream.gcount() == dr.getStreamSize() );
-    test( gpos == testStream.tellg() );
-    test( dr == d2 );
+    gpos += dr.getBinSize();
+    TEST( testStream.gcount() == dr.getBinSize() );
+    TEST( gpos == testStream.tellg() );
+    TEST( dr == d2 );
 
     dr.read( testStream );
-    gpos += dr.getStreamSize();
-    test( testStream.gcount() == dr.getStreamSize() );
-    test( gpos == testStream.tellg() );
-    test( dr == dl );
+    gpos += dr.getBinSize();
+    TEST( testStream.gcount() == dr.getBinSize() );
+    TEST( gpos == testStream.tellg() );
+    TEST( dr == dl );
 
     char dStr[ 50 ];
 
     testStream.read( dStr, strlen( d1String ) );
-    test( testStream.gcount() == strlen( d1String ) );
+    TEST( testStream.gcount() == strlen( d1String ) );
     dStr[ strlen( d1String ) ] = 0;
 
-    test( ! strcmp( dStr, d1String ) );
+    TEST( ! strcmp( dStr, d1String ) );
+    
+    testStream.read( dStr, strlen( d1String ) );
+    TEST( testStream.gcount() == strlen( d1String ) );
+    dStr[ strlen( d1String ) ] = 0;
+
+    TEST( ! strcmp( dStr, d1String ) );
     
   }
 

@@ -1,5 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <cstring>
+#endif
 
 // Str::insert( ... )
 
@@ -10,7 +19,7 @@
 #define T5 " fifth part"
 
 bool
-tStr04( LibTest & test )
+tStr04( LibTest & tester )
 {
 
   {
@@ -22,27 +31,27 @@ tStr04( LibTest & test )
 
     t.insert( 0, src );
 
-    test( t == src );
+    TEST( t == src );
 
     t.insert( strlen( T1 ), src, strlen( T1 T2 ) );
 
-    test( t == T1 T3 T2 T3 );
+    TEST( t == T1 T3 T2 T3 );
 
     t.insert( strlen( T1 T3 ), src, strlen( T1 ), strlen( T2 ) );
 
-    test( t == T1 T3 T2 T2 T3 );
+    TEST( t == T1 T3 T2 T2 T3 );
     
     t.insert( 0, src );
 
-    test( t == T1 T2 T3 T1 T3 T2 T2 T3 );
+    TEST( t == T1 T2 T3 T1 T3 T2 T2 T3 );
 
     t.insert( t.size(), src );
 
-    test( t == T1 T2 T3 T1 T3 T2 T2 T3 T1 T2 T3 );
+    TEST( t == T1 T2 T3 T1 T3 T2 T2 T3 T1 T2 T3 );
 
     t.insert( strlen( T1 T2 T3 ), t, strlen( T1 T2 ), strlen( T3 ) );
 
-    test( t == T1 T2 T3 T3 T1 T3 T2 T2 T3 T1 T2 T3 );
+    TEST( t == T1 T2 T3 T3 T1 T3 T2 T2 T3 T1 T2 T3 );
   }
 
   {
@@ -54,17 +63,17 @@ tStr04( LibTest & test )
 
     t.insert( strlen( T1 ), src.substr( strlen( T1 ), strlen( T2 ) ) );
 
-    test( t == T1 T2 T2 );
+    TEST( t == T1 T2 T2 );
 
     t.insert( strlen( T1 ), src.substr( strlen( T1 ), strlen( T2 T3 ) ),
 	      strlen( T2 ) );
 
-    test( t == T1 T3 T2 T2 );
+    TEST( t == T1 T3 T2 T2 );
 
     t.insert( 0,  src.substr( strlen( T1 ), strlen( T2 T3 T4 ) ),
 	      strlen( T2 ), strlen( T3 ) );
 
-    test( t == T3 T1 T3 T2 T2 );
+    TEST( t == T3 T1 T3 T2 T2 );
   }
 
   {
@@ -74,11 +83,11 @@ tStr04( LibTest & test )
 
     t.insert( strlen( T1 T2 ), T4 );
 
-    test( t == T1 T2 T4 T3 );
+    TEST( t == T1 T2 T4 T3 );
 
     t.insert( t.size(), T2 T3 T4, strlen( T2 T3 ) );
 
-    test( t == T1 T2 T4 T3 T2 T3 );
+    TEST( t == T1 T2 T4 T3 T2 T3 );
     
   }
 
@@ -89,7 +98,7 @@ tStr04( LibTest & test )
 
     t.insert( strlen( T1 ), 5, 'x' );
 
-    test( t == T1 "xxxxx" T2 T3 );
+    TEST( t == T1 "xxxxx" T2 T3 );
 
   }
 
@@ -100,7 +109,7 @@ tStr04( LibTest & test )
 
     t.insert( 0, 'x' );
 
-    test( t == "x" T1 T2 );
+    TEST( t == "x" T1 T2 );
   }
     
   return( true );

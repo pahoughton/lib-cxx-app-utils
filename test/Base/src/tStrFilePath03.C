@@ -1,5 +1,12 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FilePath.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <FilePath.hh>
+#endif
 
 #define P   "dir"
 #define F   "filename"
@@ -8,7 +15,7 @@
 #define DE  "."
 
 bool
-tFilePath03( LibTest & test )
+tFilePath03( LibTest & tester )
 {
   {
     // setFileName( const char * )
@@ -24,66 +31,69 @@ tFilePath03( LibTest & test )
     FilePath t('/','-');
 
     t.setFileName( F "-" E );
-    test( compare( t.getFullName(), F "-" E ) == 0 );
+    TEST( compare( t.getFullName(), F "-" E ) == 0 );
 
     t.setName( "fn" );
-    test( compare( t.getFullName(), "fn" "-" E ) == 0 );
+    TEST( compare( t.getFullName(), "fn" "-" E ) == 0 );
 
     t.setPath( "dir" );
-    test( compare( t.getFullName(), "dir" "/" "fn" "-" E ) == 0 );
+    TEST( compare( t.getFullName(), "dir" "/" "fn" "-" E ) == 0 );
 
     t.setFileName( F "." "a" "-" "b" );
-    test( compare( t.getFullName(), "dir" "/" F "." "a" "-" "b" ) == 0 );
+    TEST( compare( t.getFullName(), "dir" "/" F "." "a" "-" "b" ) == 0 );
 
     t.setName( "FN", '.' );
-    test( compare( t.getFullName(), "dir" "/" "FN" "." "a" "-" "b" ) == 0 );
+    TEST( compare( t.getFullName(), "dir" "/" "FN" "." "a" "-" "b" ) == 0 );
 	  
     t.setName( "file", ".a-b" );
-    test( compare( t.getFullName(), "dir" "/" "file" "." "a" "-" "b" ) == 0 );
+    TEST( compare( t.getFullName(), "dir" "/" "file" "." "a" "-" "b" ) == 0 );
 
     t.setExt( "bak" );
-    test( compare( t.getFullName(), "dir" "/" "file" "." "a" "-" "bak" ) == 0 );
+    TEST( compare( t.getFullName(), "dir" "/" "file" "." "a" "-" "bak" ) == 0 );
 
     t.setFileName( "file" "-" "bak" "." "exe" );
-    test( compare( t.getFullName(), "dir" "/" "file" "-" "bak" "." "exe" ) == 0 );
+    TEST( compare( t.getFullName(), "dir" "/" "file" "-" "bak" "." "exe" ) == 0 );
 
     t.setExt( "o", '.' );
-    test( compare( t.getFullName(), "dir" "/" "file" "-" "bak" "." "o" ) == 0 );
+    TEST( compare( t.getFullName(), "dir" "/" "file" "-" "bak" "." "o" ) == 0 );
 
     t.setExt( "ak.o", "rown" );
-    test( compare( t.getFullName(), "dir" "/" "file" "-" "brown" ) == 0 );
+    TEST( compare( t.getFullName(), "dir" "/" "file" "-" "brown" ) == 0 );
   }
   
   {
-    // getStreamSize( void ) const
-    // write( void ) const
-    // read( void ) const
+    // compare( const FilePath & ) const
+    // operator == ( const FilePath & ) const
+    // operator <  ( const FilePath & ) const
+    // operator >  ( const FilePath & ) const
 
-    const FilePath  tout( ":usr:src","libClue.a", '/','.' );
-    FilePath	    tin;
+    const FilePath l( "dir/test.oper" );
+    const FilePath re( "dir/test.oper" );
+    const FilePath rl( "c/test.oper" );
+    const FilePath rm( "e/test" );
 
-    strstream testStream;
+    TEST( l.compare( re ) == 0 );
+    TEST( l == re );
+    TEST( ! ( l == rl ) );
 
-    streampos gpos = testStream.tellg();
-    streampos ppos = testStream.tellp();
+    TEST( l.compare( rm ) < 0 );
+    TEST( l < rm );
+    TEST( ! ( l < rl ) );
 
-#ifdef AIX
-    ppos = 0;
-    gpos = 0;
-#endif
+    TEST( l.compare( rl ) > 0 );
+    TEST( l > rl );
+    TEST( ! ( l > rm ) );
     
-    test( ppos == 0 );
-    test( gpos == 0 );
-    
-    tout.write( testStream );
-    ppos += tout.getStreamSize();
-    test( ppos == testStream.tellp() );
-      
-    tin.read( testStream );
-    gpos += tin.getStreamSize();
-    test( gpos == testStream.tellg() );
-    test( tin == tout );
   }
+
+  {
+    // operator const char * ( void ) const
+
+    FilePath	t( ":usr:src", "test.c", ':' );
+
+    TEST( strcmp( ":usr:src:test.c", t ) == 0 );
+  }
+
     
   return( true );
 }

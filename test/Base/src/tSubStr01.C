@@ -1,5 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <cstring>
+#endif
 
 #define T1 "first part"
 #define T2 " second part"
@@ -8,7 +17,7 @@
 #define T5 " fifth part"
 
 bool
-tSubStr01( LibTest & test )
+tSubStr01( LibTest & tester )
 {
   {
     // Str::substr( size_t, size_t )
@@ -21,18 +30,18 @@ tSubStr01( LibTest & test )
 
     t << "123" << T1 << "junk";
 
-    test( t.substr( 3, strlen( T1 ) ) == T1 );
-    test( t.substr( 3, strlen( T1 ) ) != "diff string" );
+    TEST( t.substr( 3, strlen( T1 ) ) == T1 );
+    TEST( t.substr( 3, strlen( T1 ) ) != "diff string" );
 
     Str s;
 
     s << T1;
 
-    test( s == t.substr( 3, strlen( T1 ) ) );
-    test( s != t.substr( 2, strlen( T1 ) ) );
-    test( s != t.substr( 3, strlen( T1 ) + 1 ) );
-    test( s != t.substr( 4, strlen( T1 ) ) );
-    test( s != t.substr( 3, strlen( T1 ) - 1 ) );
+    TEST( s == t.substr( 3, strlen( T1 ) ) );
+    TEST( s != t.substr( 2, strlen( T1 ) ) );
+    TEST( s != t.substr( 3, strlen( T1 ) + 1 ) );
+    TEST( s != t.substr( 4, strlen( T1 ) ) );
+    TEST( s != t.substr( 3, strlen( T1 ) - 1 ) );
   }
     
   {
@@ -41,7 +50,7 @@ tSubStr01( LibTest & test )
     Str	    s( T1 T2 T3 );
     SubStr  t( s );
 
-    test( t == T1 T2 T3 );
+    TEST( t == T1 T2 T3 );
   }
   
   {
@@ -50,7 +59,7 @@ tSubStr01( LibTest & test )
     Str	    s( T1 T2 T3 );
     SubStr  t( s, strlen( T1 ) );
 
-    test( t == T2 T3 );
+    TEST( t == T2 T3 );
   }
 
   {
@@ -59,7 +68,7 @@ tSubStr01( LibTest & test )
     Str	    s( T1 T2 T3 );
     SubStr  t( s, strlen( T1 ), strlen( T2 ) );
 
-    test( t == T2 );
+    TEST( t == T2 );
   }
   
   {
@@ -68,7 +77,7 @@ tSubStr01( LibTest & test )
     const Str	s( T1 T2 T3 );
     SubStr	t( s );
 
-    test( t == T1 T2 T3 );
+    TEST( t == T1 T2 T3 );
   }
   
   {
@@ -77,7 +86,7 @@ tSubStr01( LibTest & test )
     const Str   s( T1 T2 T3 );
     SubStr	t( s, strlen( T1 ) );
 
-    test( t == T2 T3 );
+    TEST( t == T2 T3 );
   }
 
   {
@@ -86,7 +95,7 @@ tSubStr01( LibTest & test )
     const Str	s( T1 T2 T3 );
     SubStr	t( s, strlen( T1 ), strlen( T2 ) );
 
-    test( t == T2 );
+    TEST( t == T2 );
   }
   
   {
@@ -96,10 +105,10 @@ tSubStr01( LibTest & test )
 
     const Str	t( T1 T2 T3 );
 
-    test( t( strlen(T1), strlen( T2 ) ).size() == strlen( T2 ) );
-    test( t( strlen(T1), strlen( T2 ) ).length() == strlen( T2 ) );
-    test( ! t( strlen(T1), strlen( T2 ) ).empty() );
-    test( t( 0, 0 ).empty() );
+    TEST( t( strlen(T1), strlen( T2 ) ).size() == strlen( T2 ) );
+    TEST( t( strlen(T1), strlen( T2 ) ).length() == strlen( T2 ) );
+    TEST( ! t( strlen(T1), strlen( T2 ) ).empty() );
+    TEST( t( 0, 0 ).empty() );
   }
 
   // test operator = ( const char * ) so it can
@@ -113,15 +122,15 @@ tSubStr01( LibTest & test )
 
     t.substr( 0, strlen( T1 ) ) = T5;
 
-    test( t == T5 T2 T3 T4 );
+    TEST( t == T5 T2 T3 T4 );
 
     t.substr( strlen( T5 ), strlen( T2 T3 ) ) = T4 T1 T3 T1;
 
-    test( t == T5 T4 T1 T3 T1 T4 );
+    TEST( t == T5 T4 T1 T3 T1 T4 );
 
     t.substr( strlen( T5 T4 T1 T3 T1 T4 ), 0 ) = T1;
 
-    test( t == T5 T4 T1 T3 T1 T4 T1 );
+    TEST( t == T5 T4 T1 T3 T1 T4 T1 );
   }
 
   return( true );

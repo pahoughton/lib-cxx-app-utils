@@ -1,5 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <cstring>
+#endif
 
 #define T1 "first part"
 #define T2 " second part"
@@ -14,18 +23,18 @@
 #define T5u " FIFTH part"
 
 bool
-tSubStr04( LibTest & test )
+tSubStr04( LibTest & tester )
 {
   {
     // operator [] ( size_t ) 
 
     Str t( "1234567890" );
     
-    test( t.substr( 2, 4 )[2] == '5' );
+    TEST( t.substr( 2, 4 )[2] == '5' );
 
     t.substr( 3, 5 )[1] = 'a';
 
-    test( t == "1234a67890" );
+    TEST( t == "1234a67890" );
 
   }
 
@@ -33,7 +42,7 @@ tSubStr04( LibTest & test )
     // operator [] ( size_t ) const
     const Str t( "1234567890" );
     
-    test( t.substr( 2, 4 )[2] == '5' );
+    TEST( t.substr( 2, 4 )[2] == '5' );
   }
 
   {
@@ -44,7 +53,7 @@ tSubStr04( LibTest & test )
 
     t.substr( strlen(T1), strlen(T2 T3) ) = s.substr( 0, strlen( T1 ) );
 
-    test( t == T1 T1 );
+    TEST( t == T1 T1 );
   }
 
   {
@@ -55,7 +64,7 @@ tSubStr04( LibTest & test )
 
     t.substr( strlen( T1 ), strlen( T2 ) ) = s;
 
-    test( t == T1 T4 T5 T3 );
+    TEST( t == T1 T4 T5 T3 );
   }
 
   {
@@ -65,7 +74,7 @@ tSubStr04( LibTest & test )
 
     t.substr( strlen( T1 ), strlen( T2 ) ) = T4 T5;
 
-    test( t == T1 T4 T5 T3 );
+    TEST( t == T1 T4 T5 T3 );
   }
 
   {
@@ -75,7 +84,7 @@ tSubStr04( LibTest & test )
 
     t.substr( strlen( T1 T2 T3 ), 0 ) = 'a';
 
-    test( t == T1 T2 T3 "a" );
+    TEST( t == T1 T2 T3 "a" );
   }
 
   {
@@ -86,7 +95,7 @@ tSubStr04( LibTest & test )
 
     t.substr( strlen(T1), strlen(T2) ) += s;
 
-    test( t == T1 T2 T4 T5 T3 );
+    TEST( t == T1 T2 T4 T5 T3 );
   }
 
   {
@@ -97,7 +106,7 @@ tSubStr04( LibTest & test )
 
     t.substr( 0, strlen( T1 T2 ) ) += s.substr( strlen(T3), strlen(T4) );
 
-    test( t == T1 T2 T4 T3 );
+    TEST( t == T1 T2 T4 T3 );
   }
 
   {
@@ -107,7 +116,7 @@ tSubStr04( LibTest & test )
 
     t.substr( 0, strlen( T2 ) ) += T5;
 
-    test( t == T2 T5 T3 T4 );
+    TEST( t == T2 T5 T3 T4 );
   }
 
   {
@@ -117,7 +126,7 @@ tSubStr04( LibTest & test )
 
     t.substr( strlen( T1 ), strlen( T2 ) ) += 'x';
 
-    test( t == T1 T2 "x" T3 );
+    TEST( t == T1 T2 "x" T3 );
   }
 
   {
@@ -126,10 +135,10 @@ tSubStr04( LibTest & test )
     const Str t( T1 T2 T3 T4 );
     const Str s( T1 T2 T3 T4 );
 
-    test( t.substr( strlen( T1 ), strlen( T2 T3 ) ) ==
+    TEST( t.substr( strlen( T1 ), strlen( T2 T3 ) ) ==
 	  s.substr( strlen( T1 ), strlen( T2 T3 ) ) );
     
-    test( ! ( t.substr( strlen( T1 ), strlen( T2 T3 ) ) ==
+    TEST( ! ( t.substr( strlen( T1 ), strlen( T2 T3 ) ) ==
 	      s.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) );
   }
 
@@ -139,8 +148,8 @@ tSubStr04( LibTest & test )
     const Str t( T1 T2 T3 T4 );
     const Str s( T2 T3 );
 
-    test( t.substr( strlen(T1), strlen(T2 T3) ) == s );
-    test( ! ( t.substr( strlen( T1 ), strlen(T2 T3) + 1 ) == s ) );
+    TEST( t.substr( strlen(T1), strlen(T2 T3) ) == s );
+    TEST( ! ( t.substr( strlen( T1 ), strlen(T2 T3) + 1 ) == s ) );
   }
   
   {
@@ -148,8 +157,8 @@ tSubStr04( LibTest & test )
 
     const Str t( T1 T2 T3 T4 );
 
-    test( t.substr( 0, strlen( T1 T2 ) ) == T1 T2 );
-    test( ! (t.substr( 0, strlen( T1 T2 ) ) == T1 T2 "x" ) );
+    TEST( t.substr( 0, strlen( T1 T2 ) ) == T1 T2 );
+    TEST( ! (t.substr( 0, strlen( T1 T2 ) ) == T1 T2 "x" ) );
   }
 
   {
@@ -158,9 +167,9 @@ tSubStr04( LibTest & test )
     const Str t( T1 T2 T3 T4 );
     const Str s( T1 T2 T3 );
 
-    test( t.substr( 0, strlen( T1 ) ) < s.substr( 0, strlen( T1 ) + 1 ) );
-    test( t.substr( strlen(T1), strlen(T2) ) < s.substr( 0, strlen(T1 T2) ) );
-    test( ! (t.substr( 0, strlen(T1) ) < s.substr( strlen(T1), strlen(T2) ) ));
+    TEST( t.substr( 0, strlen( T1 ) ) < s.substr( 0, strlen( T1 ) + 1 ) );
+    TEST( t.substr( strlen(T1), strlen(T2) ) < s.substr( 0, strlen(T1 T2) ) );
+    TEST( ! (t.substr( 0, strlen(T1) ) < s.substr( strlen(T1), strlen(T2) ) ));
   }
 
   {
@@ -169,8 +178,8 @@ tSubStr04( LibTest & test )
     Str t( T1 T2 T3 T4 );
     Str s( T2 T3 );
 
-    test( t.substr( strlen(T1), strlen(T2) ) < s );
-    test( ! (t.substr( strlen(T1), strlen(T2 T3) ) < s ) );
+    TEST( t.substr( strlen(T1), strlen(T2) ) < s );
+    TEST( ! (t.substr( strlen(T1), strlen(T2 T3) ) < s ) );
   }
 
   {
@@ -178,9 +187,9 @@ tSubStr04( LibTest & test )
 
     Str t( T1 T2 T3 T4 );
 
-    test( t.substr( 0, strlen( T1 T2 ) ) < T1 T2 T3 );
-    test( t.substr( strlen( T1 ), strlen( T2 ) ) < T1 T2 T3 );
-    test( ! (t.substr( strlen(T1), strlen(T2) ) < T2 ) );
+    TEST( t.substr( 0, strlen( T1 T2 ) ) < T1 T2 T3 );
+    TEST( t.substr( strlen( T1 ), strlen( T2 ) ) < T1 T2 T3 );
+    TEST( ! (t.substr( strlen(T1), strlen(T2) ) < T2 ) );
   }
 
   {
@@ -189,10 +198,10 @@ tSubStr04( LibTest & test )
     Str t( T1 T2 T3 T4 );
     Str s( T1 T2 T3 T4 );
 
-    test( ! (t.substr( strlen( T1 ), strlen( T2 T3 ) ) !=
+    TEST( ! (t.substr( strlen( T1 ), strlen( T2 T3 ) ) !=
 	     s.substr( strlen( T1 ), strlen( T2 T3 ) ) ) );
     
-    test( t.substr( strlen( T1 ), strlen( T2 T3 ) ) !=
+    TEST( t.substr( strlen( T1 ), strlen( T2 T3 ) ) !=
 	  s.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) );
   }
 
@@ -202,8 +211,8 @@ tSubStr04( LibTest & test )
     Str t( T1 T2 T3 T4 );
     Str s( T2 T3 );
 
-    test( ! ( t.substr( strlen(T1), strlen(T2 T3) ) != s ) );
-    test( t.substr( strlen( T1 ), strlen(T2 T3) + 1 ) != s );
+    TEST( ! ( t.substr( strlen(T1), strlen(T2 T3) ) != s ) );
+    TEST( t.substr( strlen( T1 ), strlen(T2 T3) + 1 ) != s );
   }
   
   {
@@ -211,8 +220,8 @@ tSubStr04( LibTest & test )
 
     Str t( T1 T2 T3 T4 );
 
-    test( ! ( t.substr( 0, strlen( T1 T2 ) ) != T1 T2 ) );
-    test( t.substr( 0, strlen( T1 T2 ) ) != T1 T2 "x" );
+    TEST( ! ( t.substr( 0, strlen( T1 T2 ) ) != T1 T2 ) );
+    TEST( t.substr( 0, strlen( T1 T2 ) ) != T1 T2 "x" );
   }
 
   {
@@ -221,8 +230,8 @@ tSubStr04( LibTest & test )
     const Str t( T1 T2 T3 T4 );
     const Str s( T1 T2 T3 );
 
-    test( t.substr( 0, strlen( T1 ) ) > s.substr( 0, strlen( T1 ) - 1 ) );
-    test( ! (t.substr( 0, strlen( T1 ) ) > s.substr( 0, strlen( T1 ) ) ) );
+    TEST( t.substr( 0, strlen( T1 ) ) > s.substr( 0, strlen( T1 ) - 1 ) );
+    TEST( ! (t.substr( 0, strlen( T1 ) ) > s.substr( 0, strlen( T1 ) ) ) );
   }
 
   {
@@ -231,8 +240,8 @@ tSubStr04( LibTest & test )
     Str t( T1 T2 T3 T4 );
     Str s( T2 T3 );
 
-    test( t.substr( strlen(T1), strlen(T2 T3) + 1) > s );
-    test( ! (t.substr( strlen(T1), strlen(T2 T3) ) > s ) );
+    TEST( t.substr( strlen(T1), strlen(T2 T3) + 1) > s );
+    TEST( ! (t.substr( strlen(T1), strlen(T2 T3) ) > s ) );
   }
 
   {
@@ -240,8 +249,8 @@ tSubStr04( LibTest & test )
 
     Str t( T1 T2 T3 T4 );
 
-    test( t.substr( 0, strlen( T1 T2 ) + 1 ) > T1 T2 );
-    test( ! ( t.substr( 0, strlen( T1 T2 ) ) > T1 T2 ) );
+    TEST( t.substr( 0, strlen( T1 T2 ) + 1 ) > T1 T2 );
+    TEST( ! ( t.substr( 0, strlen( T1 T2 ) ) > T1 T2 ) );
   }
 
   {
@@ -250,10 +259,10 @@ tSubStr04( LibTest & test )
     const Str t( T1 T2 T3 T4 );
     const Str s( T1 T2 T3 );
 
-    test( t.substr( 0, strlen( T1 ) ) <= s.substr( 0, strlen( T1 ) + 1 ) );
-    test( t.substr( strlen(T1), strlen(T2) ) <= s.substr( 0, strlen(T1 T2) ) );
-    test( t.substr( 0, strlen( T1 ) ) <= s.substr( 0, strlen( T1 ) ) );
-    test( ! (t.substr( 0, strlen(T1) ) <=
+    TEST( t.substr( 0, strlen( T1 ) ) <= s.substr( 0, strlen( T1 ) + 1 ) );
+    TEST( t.substr( strlen(T1), strlen(T2) ) <= s.substr( 0, strlen(T1 T2) ) );
+    TEST( t.substr( 0, strlen( T1 ) ) <= s.substr( 0, strlen( T1 ) ) );
+    TEST( ! (t.substr( 0, strlen(T1) ) <=
 	     s.substr( strlen(T1), strlen(T2) ) ));
   }
 
@@ -263,9 +272,9 @@ tSubStr04( LibTest & test )
     Str t( T1 T2 T3 T4 );
     Str s( T2 T3 );
 
-    test( t.substr( strlen(T1), strlen(T2) ) <= s );
-    test( t.substr( strlen(T1), strlen(T2 T3) ) <= s );
-    test( ! (t.substr( strlen(T1), strlen(T2 T3) + 1 ) <= s ) );
+    TEST( t.substr( strlen(T1), strlen(T2) ) <= s );
+    TEST( t.substr( strlen(T1), strlen(T2 T3) ) <= s );
+    TEST( ! (t.substr( strlen(T1), strlen(T2 T3) + 1 ) <= s ) );
   }
 
   {
@@ -273,10 +282,10 @@ tSubStr04( LibTest & test )
 
     Str t( T1 T2 T3 T4 );
 
-    test( t.substr( 0, strlen( T1 T2 ) ) <= T1 T2 T3 );
-    test( t.substr( strlen( T1 ), strlen( T2 ) ) <= T1 T2 T3 );
-    test( t.substr( 0, strlen( T1 T2 ) ) <= T1 T2 );
-    test( ! (t.substr( strlen(T1), strlen(T2 T3) ) <= T2 ) );
+    TEST( t.substr( 0, strlen( T1 T2 ) ) <= T1 T2 T3 );
+    TEST( t.substr( strlen( T1 ), strlen( T2 ) ) <= T1 T2 T3 );
+    TEST( t.substr( 0, strlen( T1 T2 ) ) <= T1 T2 );
+    TEST( ! (t.substr( strlen(T1), strlen(T2 T3) ) <= T2 ) );
   }
 
   {
@@ -285,9 +294,9 @@ tSubStr04( LibTest & test )
     const Str t( T1 T2 T3 T4 );
     const Str s( T1 T2 T3 );
 
-    test( t.substr( 0, strlen( T1 ) ) >= s.substr( 0, strlen( T1 ) - 1 ) );
-    test( t.substr( 0, strlen( T1 ) ) >= s.substr( 0, strlen( T1 ) ) );
-    test( ! (t.substr( 0, strlen( T1 ) ) >= s.substr( 0, strlen(T1) + 1 ) ) );
+    TEST( t.substr( 0, strlen( T1 ) ) >= s.substr( 0, strlen( T1 ) - 1 ) );
+    TEST( t.substr( 0, strlen( T1 ) ) >= s.substr( 0, strlen( T1 ) ) );
+    TEST( ! (t.substr( 0, strlen( T1 ) ) >= s.substr( 0, strlen(T1) + 1 ) ) );
   }
 
   {
@@ -296,9 +305,9 @@ tSubStr04( LibTest & test )
     Str t( T1 T2 T3 T4 );
     Str s( T2 T3 );
 
-    test( t.substr( strlen(T1), strlen(T2 T3) + 1) >= s );
-    test( t.substr( strlen(T1), strlen(T2 T3) ) >= s );
-    test( ! (t.substr( strlen(T1), strlen(T2 T3) -1 ) >= s ) );
+    TEST( t.substr( strlen(T1), strlen(T2 T3) + 1) >= s );
+    TEST( t.substr( strlen(T1), strlen(T2 T3) ) >= s );
+    TEST( ! (t.substr( strlen(T1), strlen(T2 T3) -1 ) >= s ) );
   }
 
   {
@@ -306,9 +315,9 @@ tSubStr04( LibTest & test )
 
     Str t( T1 T2 T3 T4 );
 
-    test( t.substr( 0, strlen( T1 T2 ) + 1 ) >= T1 T2 );
-    test( t.substr( 0, strlen( T1 T2 ) ) >= T1 T2 );
-    test( ! ( t.substr( 0, strlen( T1 T2 ) - 1 ) >= T1 T2 ) );
+    TEST( t.substr( 0, strlen( T1 T2 ) + 1 ) >= T1 T2 );
+    TEST( t.substr( 0, strlen( T1 T2 ) ) >= T1 T2 );
+    TEST( ! ( t.substr( 0, strlen( T1 T2 ) - 1 ) >= T1 T2 ) );
   }
 
   return( true );

@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <DateTime.hh>
+#endif
 
 bool
-tDateTime05( LibTest & test )
+tDateTime05( LibTest & tester )
 {
   
   {
@@ -12,7 +19,7 @@ tDateTime05( LibTest & test )
 
     DateTime	value( 100 );
 
-    test( dt.add( value ).getTimeT() == 400 );
+    TEST( dt.add( value ).getTimeT() == 400 );
     
   }
 
@@ -23,7 +30,7 @@ tDateTime05( LibTest & test )
 
     time_t  orig = dt.getTimeT();
       
-    test( dt.add( 100 ).getTimeT() == orig + 100 );
+    TEST( dt.add( 100 ).getTimeT() == orig + 100 );
     
   }
 
@@ -34,7 +41,7 @@ tDateTime05( LibTest & test )
 
     time_t  orig = dt.getTimeT();
       
-    test( dt.addSec( 100 ).getTimeT() == orig + 100 );
+    TEST( dt.addSec( 100 ).getTimeT() == orig + 100 );
     
   }
 
@@ -45,11 +52,11 @@ tDateTime05( LibTest & test )
 
     time_t  orig = dt.getTimeT();
       
-    test( dt.addMin( 30 ).getTimeT() == orig + (30 * 60) );
+    TEST( dt.addMin( 30 ).getTimeT() == orig + (30 * 60) );
 
-    test( dt.getHour() == 12 );
-    test( dt.getMinute() == 0 );
-    test( dt.getSecond() == 30 );
+    TEST( dt.getHour() == 12 );
+    TEST( dt.getMinute() == 0 );
+    TEST( dt.getSecond() == 30 );
     
   }
 
@@ -60,12 +67,12 @@ tDateTime05( LibTest & test )
 
     time_t  orig = dt.getTimeT();
       
-    test( dt.addHour( 30 ).getTimeT() == orig + (30 * 60 * 60) );
+    TEST( dt.addHour( 30 ).getTimeT() == orig + (30 * 60 * 60) );
 
-    test( dt.getDayOfMonth() == 18 );
-    test( dt.getHour() == 17 );
-    test( dt.getMinute() == 30 );
-    test( dt.getSecond() == 30 );
+    TEST( dt.getDayOfMonth() == 18 );
+    TEST( dt.getHour() == 17 );
+    TEST( dt.getMinute() == 30 );
+    TEST( dt.getSecond() == 30 );
     
   }
 
@@ -76,27 +83,14 @@ tDateTime05( LibTest & test )
 
     time_t  orig = dt.getTimeT();
       
-    test( dt.addDay( 30 ).getTimeT() == orig + (24 * 30 * 60 * 60) );
+    TEST( dt.addDay( 30 ).getTimeT() == orig + (24 * 30 * 60 * 60) );
 
-    test( dt.getMonth() == 3 );
-    test( dt.getDayOfMonth() == 19 );
-    test( dt.getHour() == 11 );
-    test( dt.getMinute() == 30 );
-    test( dt.getSecond() == 30 );
+    TEST( dt.getMonth() == 3 );
+    TEST( dt.getDayOfMonth() == 19 );
+    TEST( dt.getHour() == 11 );
+    TEST( dt.getMinute() == 30 );
+    TEST( dt.getSecond() == 30 );
     
   }
   return( true );
 }
-
-
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//

@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StringUtils.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <StrUtil.hh>
+#endif
 
 bool
-tStringLower( LibTest & test )
+tStringLower( LibTest & tester )
 {
   {
     // StringLower( char * )
@@ -17,9 +24,9 @@ tStringLower( LibTest & test )
     StringLower( sml );
     StringLower( sll );
 
-    test( strcmp( sul, sl ) == 0 );
-    test( strcmp( sml, sl ) == 0 );
-    test( strcmp( sll, sl ) == 0 );
+    TEST( strcmp( sul, sl ) == 0 );
+    TEST( strcmp( sml, sl ) == 0 );
+    TEST( strcmp( sll, sl ) == 0 );
   }
 
   {
@@ -36,9 +43,9 @@ tStringLower( LibTest & test )
     StringLower( sml, 9 );
     StringLower( sll, 9 );
 
-    test( strcmp( sul, sl ) == 0 );
-    test( strcmp( sml, sl ) == 0 );
-    test( strcmp( sll, sl ) == 0 );
+    TEST( strcmp( sul, sl ) == 0 );
+    TEST( strcmp( sml, sl ) == 0 );
+    TEST( strcmp( sll, sl ) == 0 );
   }
 
   return( true );

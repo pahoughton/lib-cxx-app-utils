@@ -1,118 +1,153 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
+#include <HeapBinStream.hh>
 #include <Str.hh>
-
 #include <fstream>
-
-#define T1 "first part"
-#define T2 " second part"
-#define T3 " third part"
-#define T4 " forth part"
-#define T5 " fifth part"
-
-#define T1u "FIRST part"
-#define T2u " second PART"
-#define T3u " THIRD part"
-#define T4u " forth PART"
-#define T5u " FIFTH part"
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <HBinStrm.hh>
+#include <Str.hh>
+#include <fstream>
+#include <cstring>
+#endif
 
 #define OutStr "This is an output test from SubStr\n"
 
 bool
-tSubStr05( LibTest & test )
+tSubStr05( LibTest & tester )
 {
 
   {
-    // good( void ) const
-    // error( void ) const
-    // getClassName( void ) const
-    // toStream( ostream & ) const
+    // getBinSize( void )
+    // write( BinStream & dest ) const;
+    // read( BinStream & src )
+    
+    const Str stw( "123" OutStr "junk" );
+    const SubStr tw( stw, 3, strlen( OutStr ) );
 
-    ofstream out( "data/SubStr.operator.output" );
-    
-    const Str t( "123" OutStr "junk" );
+    Str str( "123" "abc" "junk" );
+    SubStr tr( str, 3, 3 );
 
-    test( t.good() );
-    test( t.error() != 0 );
-    test( t.getClassName() != 0 );
+    TEST( tw.getBinSize() == (sizeof(BinObject::ULong) + tw.size() ) );
+
+    HeapBinStream tStrm( 4096 );
     
-    
-    t.substr( 3, strlen( OutStr ) ).toStream( out );
-    out.close();
-    test.file( "data/SubStr.operator.output" );
+    tw.write( tStrm );
+    tr.read( tStrm );
+
+    TEST( tStrm.good() );
+    TEST( tr == tw );
+    TEST( str == stw );
 
   }
   
   {
-    // dumpInfo( ostream & ) const
+    // BinStream::write( const BinObject & );
+    // BinStream::read( BinObject );
     
-    ofstream out( "data/SubStr.operator.output" );
-    const Str t( "123" OutStr "junk" );
+    const Str stw( "123" OutStr "junk" );
+    const SubStr tw( stw, 3, strlen( OutStr ) );
 
-    t.substr( 3, strlen( OutStr ) ).dumpInfo( out );
-    out.close();
+    HeapBinStream tStrm;
+
+    Str str( "123" "abc" "junk" );
+    SubStr tr( str, 3, 3 );
+
+    tStrm.write( tw );
+    tStrm.read( tr );
+    TEST( tStrm.good() );
+    TEST( tr == tw );
+    TEST( str == stw );
   }
+
+  {
+    // write( ostream & dest ) const;
+    // read( istream & src )
+
+    const Str stw( "123" OutStr "junk" );
+    const SubStr tw( stw, 3, strlen( OutStr ) );
+
+    Str str( "123" "abc" "junk" );
+    SubStr tr( str, 3, 3 );
+
+    strstream tStrm;
+
+    tw.write( tStrm );
+    tr.read( tStrm );
     
+    TEST( tr == tw );
+    TEST( str == stw );
+  }
+  
+  {      
+    // toStream( ostream & ) const
+
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "SubStr.operator.output";
+#else
+    const char * fn = TESTDATA_PATH "ssopout.txt";
+#endif
+    ofstream out( fn );
+    
+    const Str t( "123" OutStr "junk" );    
+    
+    t.substr( 3, strlen( OutStr ) ).toStream( out );
+    out.close();
+    tester.file( __FILE__, __LINE__, fn );
+
+  }
+  
   {
     // operator << ( ostream &, const Str & )
 
-    ofstream out( "data/SubStr.operator.output" );
+#if !defined( CLUE_SHORT_FN )
+    const char * fn = TESTDATA_PATH "SubStr.operator.output";
+#else
+    const char * fn = TESTDATA_PATH "ssopout.txt";
+#endif
+    ofstream out( fn );
     
     Str t( "123" OutStr "junk" );
     
     out << t.substr( 3, strlen( OutStr ) );
     out.close();
-    test.file( "data/SubStr.operator.output" );
+    tester.file( __FILE__, __LINE__, fn );
   }
   
   {
-    // ::compare( const SubStr &, const char * )
-    // ::compare( const SubStr &, const char *, size_t )
-
-    Str t( T1 T2 T3 T4 );
+    // good( void ) const
+    // error( void ) const
+    // getClassName( void ) const
+    // getVersion( void ) const;
     
-    test( compare( t.substr( strlen(T1), strlen( T2 T3 ) ), T2 T3 ) == 0 );
-    test( compare( t.substr( strlen(T1), strlen( T2 T3 ) + 1), T2 T3 ) > 0 );
-    test( compare( t.substr( strlen(T1), strlen( T2 T3 ) - 1 ), T2 T3 ) < 0 );
-    test( compare( t.substr( strlen( T1 ), strlen( T2 ) ), T1 ) < 0 );
-
-    test( compare( t.substr( strlen(T1), strlen( T2 T3 ) ),
-		   T2 T3 T4,
-		   strlen( T2 T3 ) ) == 0 );
-    test( compare( t.substr( strlen(T1), strlen( T2 T3 ) + 1),
-		   T2 T3 T4,
-		   strlen( T2 T3 ) ) == 0 );
-    test( compare( t.substr( strlen(T1), strlen( T2 T3 ) - 1 ),
-		   T2 T3 T4,
-		   strlen( T2 T3 ) ) < 0 );
-     test( compare( t.substr( strlen( T1 ), strlen( T2 ) ),
-		    T1 T4,
-		    strlen( T1 ) ) < 0 );
+    const Str st( "123" OutStr "junk" );
+    const SubStr t( st, 3, strlen( OutStr ) );
+    
+    TEST( t.good() );
+    TEST( t.error() != 0 );
+    TEST( t.getClassName() != 0 );
+    TEST( t.getVersion() != 0 );
   }
-      
+
   {
-    // ::fcompare( const SubStr &, const char * )
-    // ::fcompare( const SubStr &, const char *, size_t )
-
-    Str t( T1 T2 T3 T4 );
+    // dumpInfo( ostream &, const char *, bool ) const
+    // version
     
-    test( fcompare( t.substr( strlen(T1), strlen( T2 T3 ) ), T2u T3 ) == 0 );
-    test( fcompare( t.substr( strlen(T1), strlen( T2 T3 ) + 1), T2u T3u ) > 0 );
-    test( fcompare( t.substr( strlen(T1), strlen( T2 T3 ) - 1 ), T2 T3u ) < 0 );
-    test( fcompare( t.substr( strlen(T1), strlen( T2 ) ), T1u ) < 0 );
-
-    test( fcompare( t.substr( strlen(T1), strlen( T2 T3 ) ),
-		   T2u T3 T4,
-		   strlen( T2 T3 ) ) == 0 );
-    test( fcompare( t.substr( strlen(T1), strlen( T2 T3 ) + 1),
-		   T2 T3u T4,
-		   strlen( T2 T3 ) ) == 0 );
-    test( fcompare( t.substr( strlen(T1), strlen( T2 T3 ) - 1 ),
-		   T2u T3u T4u,
-		   strlen( T2 T3 ) ) < 0 );
-    test( fcompare( t.substr( strlen( T1 ), strlen( T2 ) ),
-		    T1u T4,
-		    strlen( T1 ) ) < 0 );
+    const Str st( "123" OutStr "junk" );
+    const SubStr t( st, 3, strlen( OutStr ) );
+    
+    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
+    t.toStream( tester.getDump() );
+    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
+    t.dumpInfo( tester.getDump(), " -> ", true );
+    tester.getDump() << '\n' << t.getClassName() << " version:\n";
+    tester.getDump() << t.version;
+    
+    tester.getDump() << '\n' << tester.getCurrentTestName();
+    
   }
-
   return( true );
 }

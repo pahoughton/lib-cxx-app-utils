@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#endif
 
 bool
-tStr18( LibTest & test )
+tStr18( LibTest & tester )
 {
   {
     // upcase( void )
@@ -13,7 +20,7 @@ tStr18( LibTest & test )
 
     t.assign( from );
     t.upcase();
-    test( t == to );
+    TEST( t == to );
   }
 
   {
@@ -25,7 +32,7 @@ tStr18( LibTest & test )
 
     t.assign( from );
     t.downcase();
-    test( t == to );
+    TEST( t == to );
   }
 
   {
@@ -37,7 +44,7 @@ tStr18( LibTest & test )
 
     t.assign( from );
     t.capitalize();
-    test( t == to );
+    TEST( t == to );
   }
 
   {
@@ -50,7 +57,7 @@ tStr18( LibTest & test )
 
     t.assign( from );
     t.strip( "-.(#%$+=" );
-    test( t == to );
+    TEST( t == to );
   }
 
   {
@@ -62,7 +69,7 @@ tStr18( LibTest & test )
 
     t.assign( from );
     t.stripLeading( "123 \t\n" );
-    test( t == to );
+    TEST( t == to );
 
   }
 
@@ -75,7 +82,7 @@ tStr18( LibTest & test )
 
     t.assign( from );
     t.stripTrailing( "123 \t\n" );
-    test( t == to );
+    TEST( t == to );
 
   }
 
@@ -88,11 +95,9 @@ tStr18( LibTest & test )
 
     t.assign( from );
     t.stripEnds( "123 \t\n" );
-    test( t == to );
+    TEST( t == to );
 
   }
-
   
-
   return( true );
 }

@@ -10,14 +10,20 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 13:43:59  houghton
-// Revised Test sources
+// Revision 1.3  1995/11/05 14:45:48  houghton
+// Ports and Test method changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
-
-#include <iostream.h>
+#include <iostream>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <iostream>
+#endif
 
 // Utils.hh
 bool	tArraySize( LibTest & tester );
@@ -42,6 +48,10 @@ bool	tStringUpper( LibTest & tester );
 bool	tStringCapitalize( LibTest & tester );
 bool	tStringTo( LibTest & tester );
 bool	tbasename( LibTest & tester );
+// BinStream.hh
+// RandomBinStream.hh
+// HeapBinStream.hh
+bool	tHeapBinStream( LibTest & tester );
 // Str.hh
 bool	tStr( LibTest & tester );
 // SubStr.hh
@@ -74,9 +84,10 @@ bool	tFileStat( LibTest & tester );
 bool	tLog( LibTest & tester );
 // Param.hh
 bool	tParam( LibTest & tester );
-// Directory
-bool	tDirectory( LibTest & tester );
 
+// Components
+bool tCompare01( LibTest & test );
+bool tCompare02( LibTest & test );
 bool tStr01( LibTest & test ); 
 bool tStr02( LibTest & test ); 
 bool tStr03( LibTest & test ); 
@@ -103,11 +114,90 @@ bool tStr23( LibTest & test );
 bool tStr24( LibTest & test );
 bool tStr25( LibTest & test );
 bool tStr26( LibTest & test );
+bool tSubStr01( LibTest & test );
+bool tSubStr02( LibTest & test );
+bool tSubStr03( LibTest & test );
+bool tSubStr04( LibTest & test );
+bool tSubStr05( LibTest & test );
+bool tSubStr06( LibTest & test );
+bool tSubStr07( LibTest & test );
+bool tDateTime01( LibTest & tester );
+bool tDateTime02( LibTest & tester );
+bool tDateTime03( LibTest & tester );
+bool tDateTime04( LibTest & tester );
+bool tDateTime05( LibTest & tester );
+bool tDateTime06( LibTest & tester );
+bool tDateTime07( LibTest & tester );
+bool tDateTime08( LibTest & tester );
+bool tFilePath01( LibTest & tester );
+bool tFilePath02( LibTest & tester );
+bool tFilePath03( LibTest & tester );
+bool tFilePath04( LibTest & tester );
+
 
 
 LibTest::TestItem   TestList[] =
 {
+  { "ArraySize",    	    tArraySize },
+  { "DwordAlign",   	    tDwordAlign },
+  { "MemOverlap",   	    tMemOverlap },
+  { "AbsLong",	    	    tAbsLong },
+  { "IsBaseDigit",  	    tIsBaseDigit },
+  { "UnionOf",	    	    tUnionOf },
+  { "Round",	    	    tRound },
+  { "Bit",    	    	    tBit },
+  { "Compare", 	    	    tCompare },
+  { "SafeStrcpy",   	    tSafeStrcpy },
+  { "CharToInt",    	    tCharToInt },
+  { "StripWhite",   	    tStripWhite },
+  { "StringSearch", 	    tStringSearch },
+  { "StringCaseCompare",    tStringCaseCompare },
+  { "StringLower",  	    tStringLower },
+  { "StringUpper",  	    tStringUpper },
+  { "StringCapitalize",	    tStringCapitalize },
+  { "StringTo",  	    tStringTo },
+  { "basename",     	    tbasename },
+  { "HeapBinStream",	    tHeapBinStream },
+  { "Str",  	    	    tStr },
+  { "SubStr",  	    	    tSubStr },
+  { "RegexScan",    	    tRegexScan },  
+  { "DateTimeUtils",        tDateTimeUtils },  
+  { "DateTime",		    tDateTime },
+  { "DateRange",	    tDateRange },
+  { "DateRangeDaily",	    tDateRangeDaily },
+  { "DateRangeWeekly",	    tDateRangeWeekly },
+  { "FilePath",		    tFilePath },
+#if 0
+  { "Bitmask",		    tBitmask },
+  { "SortOrder",	    tSortOrder },
+  { "User",		    tUser },
+  { "UserGroup",	    tUserGroup },
+  { "FileStat",		    tFileStat },
+  { "Log",		    tLog },
+  { "Param",		    tParam },
+#endif
 #ifdef COMPONENT_TEST
+  { "ArraySize",    	    tArraySize },
+  { "DwordAlign",   	    tDwordAlign },
+  { "MemOverlap",   	    tMemOverlap },
+  { "AbsLong",	    	    tAbsLong },
+  { "IsBaseDigit",  	    tIsBaseDigit },
+  { "UnionOf",	    	    tUnionOf },
+  { "Round",	    	    tRound },
+  { "Bit",    	    	    tBit },
+  { "Compare01",	    tCompare01 },
+  { "Compare02",	    tCompare02 },
+  { "SafeStrcpy",   	    tSafeStrcpy },
+  { "CharToInt",    	    tCharToInt },
+  { "StripWhite",   	    tStripWhite },
+  { "StringSearch", 	    tStringSearch },
+  { "StringCaseCompare",    tStringCaseCompare },
+  { "StringLower",  	    tStringLower },
+  { "StringUpper",  	    tStringUpper },
+  { "StringCapitalize",	    tStringCapitalize },
+  { "StringTo",  	    tStringTo },
+  { "basename",     	    tbasename },
+  { "BinStream",	    tBinStream },
   { "Str01",  	    	    tStr01 },
   { "Str02",  	    	    tStr02 },
   { "Str03",  	    	    tStr03 },
@@ -134,43 +224,32 @@ LibTest::TestItem   TestList[] =
   { "Str24",  	    	    tStr24 },
   { "Str25",  	    	    tStr25 },
   { "Str26",  	    	    tStr26 },
-#endif  
-  { "ArraySize",    	    tArraySize },
-  { "DwordAlign",   	    tDwordAlign },
-  { "MemOverlap",   	    tMemOverlap },
-  { "AbsLong",	    	    tAbsLong },
-  { "IsBaseDigit",  	    tIsBaseDigit },
-  { "UnionOf",	    	    tUnionOf },
-  { "Round",	    	    tRound },
-  { "Bit",    	    	    tBit },
-  { "Compare", 	    	    tCompare },
-  { "SafeStrcpy",   	    tSafeStrcpy },
-  { "CharToInt",    	    tCharToInt },
-  { "StripWhite",   	    tStripWhite },
-  { "StringSearch", 	    tStringSearch },
-  { "StringCaseCompare",    tStringCaseCompare },
-  { "StringLower",  	    tStringLower },
-  { "StringUpper",  	    tStringUpper },
-  { "StringCapitalize",	    tStringCapitalize },
-  { "StringTo",  	    tStringTo },
-  { "basename",     	    tbasename },
-  { "Str",  	    	    tStr },
-  { "SubStr",  	    	    tSubStr },
+  { "SubStr01",		    tSubStr01 },
+  { "SubStr02",		    tSubStr02 },
+  { "SubStr03",		    tSubStr03 },
+  { "SubStr04",		    tSubStr04 },
+  { "SubStr05",		    tSubStr05 },
+  { "SubStr06",		    tSubStr06 },
+  { "SubStr07",		    tSubStr07 },
   { "RegexScan",    	    tRegexScan },  
   { "DateTimeUtils",        tDateTimeUtils },  
-  { "DateTime",		    tDateTime },
+  { "DateTime01",	    tDateTime01 },
+  { "DateTime02",	    tDateTime02 },
+  { "DateTime03",	    tDateTime03 },
+  { "DateTime04",	    tDateTime04 },
+  { "DateTime05",	    tDateTime05 },
+  { "DateTime06",	    tDateTime06 },
+  { "DateTime07",	    tDateTime07 },
+  { "DateTime08",	    tDateTime08 },
   { "DateRange",	    tDateRange },
   { "DateRangeDaily",	    tDateRangeDaily },
   { "DateRangeWeekly",	    tDateRangeWeekly },
-  { "FilePath",		    tFilePath },
-  { "Bitmask",		    tBitmask },
-  { "SortOrder",	    tSortOrder },
-  { "User",		    tUser },
-  { "UserGroup",	    tUserGroup },
-  { "FileStat",		    tFileStat },
-  { "Log",		    tLog },
-  { "Param",		    tParam },
-  { "Directory",	    tDirectory },
+  { "FilePath01",	    tFilePath01 },
+  { "FilePath02",	    tFilePath02 },
+  { "FilePath03",	    tFilePath03 },
+  { "FilePath04",	    tFilePath04 },
+  
+#endif  
   { 0, 0 }
 };
 
@@ -178,7 +257,13 @@ LibTest::TestItem   TestList[] =
 int
 main( int argc, char * argv[] )
 {
-  LibTest test( TestList, cout, cerr );
+#if TEST_DUMPINFO_SCREEN
+  ostream & dumpDest( cout );
+#else
+  ofstream  dumpDest( TEST_DUMP_DEST );
+#endif
+  
+  LibTest test( TestList, dumpDest, cout, cerr );
 
   return( test.run( argc, argv ) );
 }

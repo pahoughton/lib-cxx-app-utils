@@ -1,30 +1,17 @@
-//
-// File:        tDateTimeUtils.C
-// Desc:        
-//
-//  
-//  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
-// Created:     05/10/95 05:19 
-//
-// Revision History:
-//
-// $Log$
-// Revision 1.1  1995/11/05 13:44:16  houghton
-// Revised Test sources
-//
-//
-static const char * RcsId =
-"$Id$";
-
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
-
 #include <DateTimeUtils.hh>
-
-#include <time.h>
+#include <ctime>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <DtTmUtil.hh>
+#include <ctime>
+#endif
 
 bool
-tDateTimeUtils( LibTest & test )
+tDateTimeUtils( LibTest & tester )
 {
   {
     // SecIntTimeT( time_t )
@@ -41,26 +28,26 @@ tDateTimeUtils( LibTest & test )
 
     memcpy( &gmt, gmtime( &now ), sizeof( struct tm ) );
 
-    test( SecInTimeT( now ) == gmt.tm_sec );
-    test( SecOfDay( now ) == ( (gmt.tm_hour * 60 * 60) +
+    TEST( SecInTimeT( now ) == gmt.tm_sec );
+    TEST( SecOfDay( now ) == ( (gmt.tm_hour * 60 * 60) +
 			       (gmt.tm_min * 60) +
 			       gmt.tm_sec ));
-    test( MinInTimeT( now ) == gmt.tm_min );
-    test( HourInTimeT( now ) == gmt.tm_hour );
-    test( HoursInTimeT( now ) == (now / (60 * 60) ) );
-    test( DaysInTimeT( now ) == ( now / (60 * 60 * 24 ) ) );
-    test( DateInTimeT( now ) == (now - ( ( gmt.tm_hour * 60 * 60 ) +
+    TEST( MinInTimeT( now ) == gmt.tm_min );
+    TEST( HourInTimeT( now ) == gmt.tm_hour );
+    TEST( HoursInTimeT( now ) == (now / (60 * 60) ) );
+    TEST( DaysInTimeT( now ) == ( now / (60 * 60 * 24 ) ) );
+    TEST( DateInTimeT( now ) == (now - ( ( gmt.tm_hour * 60 * 60 ) +
 					 ( gmt.tm_min * 60 ) +
 					 gmt.tm_sec ) ) );
 
-    test( IsLeapYear( 2000 ) );
-    test( IsLeapYear( 1996 ) );
-    test( IsLeapYear( 1980 ) );
-    test( IsLeapYear( 1984 ) );
-    test( ! IsLeapYear( 1995 ) );
-    test( ! IsLeapYear( 1994 ) );
-    test( ! IsLeapYear( 1993 ) );
-    test( ! IsLeapYear( 1900 ) );
+    TEST( IsLeapYear( 2000 ) );
+    TEST( IsLeapYear( 1996 ) );
+    TEST( IsLeapYear( 1980 ) );
+    TEST( IsLeapYear( 1984 ) );
+    TEST( ! IsLeapYear( 1995 ) );
+    TEST( ! IsLeapYear( 1994 ) );
+    TEST( ! IsLeapYear( 1993 ) );
+    TEST( ! IsLeapYear( 1900 ) );
   }
 
   return( true );

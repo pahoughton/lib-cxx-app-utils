@@ -1,5 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <cstring>
+#endif
 
 #define T1 "first part"
 #define T2 " second part"
@@ -14,7 +23,7 @@
 #define T5u " FIFTH part"
 
 bool
-tStr24( LibTest & test )
+tStr24( LibTest & tester )
 {
   {
     // ::compare( const Str &, const Str & )
@@ -23,23 +32,23 @@ tStr24( LibTest & test )
     Str t( "abcdefg" );
     Str s( "abcdefg" );
 
-    test( compare( t, s ) == 0 );
+    TEST( compare( t, s ) == 0 );
 
     s += 'h';
-    test( compare( t, s ) < 0 );
+    TEST( compare( t, s ) < 0 );
     
     t += "hi";
 
-    test( compare( t, s ) > 0 );
+    TEST( compare( t, s ) > 0 );
 
     s = "b";
 
-    test( compare( t, s ) < 0 );
+    TEST( compare( t, s ) < 0 );
 
     s = "abcdef";
     t = "abcyyydef";
     
-    test( compare( t, s, 3 ) == 0 );
+    TEST( compare( t, s, 3 ) == 0 );
 
   }
 
@@ -50,11 +59,11 @@ tStr24( LibTest & test )
     Str t( T2 T3 );
     Str s( T1 T2 T3 T4 );
 
-    test( compare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) ) ) == 0 );
-    test( compare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) < 0 );
-    test( compare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) - 1 ) ) > 0 );
+    TEST( compare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) ) ) == 0 );
+    TEST( compare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) < 0 );
+    TEST( compare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) - 1 ) ) > 0 );
 
-    test( compare( t, s.substr( strlen(T1), strlen(T2 T3) ), strlen( T2 ) ) == 0 );
+    TEST( compare( t, s.substr( strlen(T1), strlen(T2 T3) ), strlen( T2 ) ) == 0 );
   }
 
   {
@@ -63,13 +72,13 @@ tStr24( LibTest & test )
 
     Str t( T1 T2 T3 );
 
-    test( compare( t, T1 T2 T3 ) == 0 );
-    test( compare( t, "zz" ) < 0 );
-    test( compare( t, "aa" ) > 0 );
-    test( compare( t, T1 T2 T3 "a" ) < 0 );
-    test( compare( t, T1 T2 ) > 0 );
+    TEST( compare( t, T1 T2 T3 ) == 0 );
+    TEST( compare( t, "zz" ) < 0 );
+    TEST( compare( t, "aa" ) > 0 );
+    TEST( compare( t, T1 T2 T3 "a" ) < 0 );
+    TEST( compare( t, T1 T2 ) > 0 );
 
-    test( compare( t, T1 T3, strlen( T1 ) ) == 0 );
+    TEST( compare( t, T1 T3, strlen( T1 ) ) == 0 );
   }
   
   {
@@ -79,23 +88,23 @@ tStr24( LibTest & test )
     Str t( "ABCDEFG" );
     Str s( "abcdefg" );
 
-    test( fcompare( t, s ) == 0 );
+    TEST( fcompare( t, s ) == 0 );
 
     s += 'h';
-    test( fcompare( t, s ) < 0 );
+    TEST( fcompare( t, s ) < 0 );
     
     t += "hi";
 
-    test( fcompare( t, s ) > 0 );
+    TEST( fcompare( t, s ) > 0 );
 
     s = "b";
 
-    test( fcompare( t, s ) < 0 );
+    TEST( fcompare( t, s ) < 0 );
 
     s = "ABCDEF";
     t = "abcyyydef";
     
-    test( fcompare( t, s, 3 ) == 0 );
+    TEST( fcompare( t, s, 3 ) == 0 );
 
   }
 
@@ -106,11 +115,11 @@ tStr24( LibTest & test )
     Str t( T2 T3 );
     Str s( T1u T2u T3u T4u );
 
-    test( fcompare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) ) ) == 0 );
-    test( fcompare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) < 0 );
-    test( fcompare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) - 1 ) ) > 0 );
+    TEST( fcompare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) ) ) == 0 );
+    TEST( fcompare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) < 0 );
+    TEST( fcompare( t, s.substr( strlen( T1 ), strlen( T2 T3 ) - 1 ) ) > 0 );
 
-    test( fcompare( t, s.substr( strlen(T1), strlen(T2 T3) ), strlen( T2 ) ) == 0 );
+    TEST( fcompare( t, s.substr( strlen(T1), strlen(T2 T3) ), strlen( T2 ) ) == 0 );
   }
 
   {
@@ -119,13 +128,13 @@ tStr24( LibTest & test )
 
     Str t( T1 T2 T3 );
 
-    test( fcompare( t, T1 T2u T3 ) == 0 );
-    test( fcompare( t, "zz" ) < 0 );
-    test( fcompare( t, "aa" ) > 0 );
-    test( fcompare( t, T1u T2u T3u "a" ) < 0 );
-    test( fcompare( t, T1 T2 ) > 0 );
+    TEST( fcompare( t, T1 T2u T3 ) == 0 );
+    TEST( fcompare( t, "zz" ) < 0 );
+    TEST( fcompare( t, "aa" ) > 0 );
+    TEST( fcompare( t, T1u T2u T3u "a" ) < 0 );
+    TEST( fcompare( t, T1 T2 ) > 0 );
 
-    test( fcompare( t, T1u T3, strlen( T1 ) ) == 0 );
+    TEST( fcompare( t, T1u T3, strlen( T1 ) ) == 0 );
   }
 
   return( true );

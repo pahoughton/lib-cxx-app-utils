@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StringUtils.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <StrUtil.hh>
+#endif
 
 bool
-tStringCapitalize( LibTest & test )
+tStringCapitalize( LibTest & tester )
 {
   {
     // StringCapialize( char * )
@@ -17,9 +24,9 @@ tStringCapitalize( LibTest & test )
     StringCapitalize( sm );
     StringCapitalize( sl );
 
-    test( strcmp( su, sc ) == 0 );
-    test( strcmp( sm, sc ) == 0 );
-    test( strcmp( sl, sc ) == 0 );
+    TEST( strcmp( su, sc ) == 0 );
+    TEST( strcmp( sm, sc ) == 0 );
+    TEST( strcmp( sl, sc ) == 0 );
 
   }
 
@@ -36,9 +43,9 @@ tStringCapitalize( LibTest & test )
     StringCapitalize( sm, 10 );
     StringCapitalize( sl, 10 );
 
-    test( strcmp( su, sc ) == 0 );
-    test( strcmp( sm, sc ) == 0 );
-    test( strcmp( sl, sc ) == 0 );
+    TEST( strcmp( su, sc ) == 0 );
+    TEST( strcmp( sm, sc ) == 0 );
+    TEST( strcmp( sl, sc ) == 0 );
 
   }
 

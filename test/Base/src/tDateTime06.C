@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <DateTime.hh>
+#endif
 
 bool
-tDateTime06( LibTest & test )
+tDateTime06( LibTest & tester )
 {
     // void setTm( void ) - NO TEST (tested by other test)
 
@@ -12,27 +19,27 @@ tDateTime06( LibTest & test )
     DateTime	d1( "2/17/95 11:30:30" );
     DateTime	d2( d1 );
 
-    test( d1 == d2 );
-    test( ! d1.compare( d2 ) );
-    test( ! compare( d1, d2 ) );
+    TEST( d1 == d2 );
+    TEST( ! d1.compare( d2 ) );
+    TEST( ! compare( d1, d2 ) );
 
     d1.setTimeZone();
 
-    test( d1 == d2 );
-    test( ! d1.compare( d2 ) );
-    test( ! compare( d1, d2 ) );
+    TEST( d1 == d2 );
+    TEST( ! d1.compare( d2 ) );
+    TEST( ! compare( d1, d2 ) );
 
     d2.setTimeZone();
 
-    test( d1 == d2 );
-    test( ! d1.compare( d2 ) );
-    test( ! compare( d1, d2 ) );
+    TEST( d1 == d2 );
+    TEST( ! d1.compare( d2 ) );
+    TEST( ! compare( d1, d2 ) );
 
     d1.addMin();
 
-    test( d1.compare( d2 ) > 0 );
-    test( d1 > d2 );
-    test( compare( d1, d2 ) > 0 );
+    TEST( d1.compare( d2 ) > 0 );
+    TEST( d1 > d2 );
+    TEST( compare( d1, d2 ) > 0 );
     
   }
 
@@ -41,7 +48,7 @@ tDateTime06( LibTest & test )
 
     DateTime	dt( "2/17/95 11:30:30" );
 
-    test( (time_t)dt == dt.getTimeT() );
+    TEST( (time_t)dt == dt.getTimeT() );
 
   }
 
@@ -54,7 +61,7 @@ tDateTime06( LibTest & test )
 
     dt.getString( dtBuf );
 
-    test( ! strcmp( (const char *)dt, dtBuf ) );
+    TEST( ! strcmp( (const char *)dt, dtBuf ) );
     
   }
 
@@ -64,9 +71,9 @@ tDateTime06( LibTest & test )
     DateTime	d1( "2/17/95 11:30:30" );
     DateTime	d2( "2/17/95 11:30:30" );
 
-    test( d1 == d2 );
+    TEST( d1 == d2 );
     d2.addSec();
-    test( d1 != d2 );
+    TEST( d1 != d2 );
     
   }
 
@@ -76,9 +83,9 @@ tDateTime06( LibTest & test )
     DateTime	d1( "2/17/95 11:30:30" );
     DateTime	d2( "2/17/95 11:30:30" );
 
-    test( d1 == d2 );
+    TEST( d1 == d2 );
     d2.addSec();
-    test( d1 != d2 );
+    TEST( d1 != d2 );
     
   }
 

@@ -1,6 +1,18 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
 #include <RegexScan.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <RxScan.hh>
+#include <cstring>
+#endif
+
+
 
 // Str::iterators
 
@@ -17,7 +29,7 @@
 #define T5u " FIFTH part"
 
 bool
-tStr10( LibTest & test )
+tStr10( LibTest & tester )
 {
   {
     // substr( void )
@@ -30,20 +42,20 @@ tStr10( LibTest & test )
     
     Str t( T1 T2 T3 );
 
-    test( t.substr() == T1 T2 T3 );
+    TEST( t.substr() == T1 T2 T3 );
 
-    test( t.substr( strlen( T1 ) ) == T2 T3 );
+    TEST( t.substr( strlen( T1 ) ) == T2 T3 );
 
-    test( t.substr( 0, strlen( T1 ) ) == T1 );
+    TEST( t.substr( 0, strlen( T1 ) ) == T1 );
 
-    test( t.substr( strlen(T1), strlen(T2) ).length() == strlen( T2 ) );
+    TEST( t.substr( strlen(T1), strlen(T2) ).length() == strlen( T2 ) );
 
-    test( t.substr( strlen(T1), strlen(T2) ).size() == strlen( T2 ) );
+    TEST( t.substr( strlen(T1), strlen(T2) ).size() == strlen( T2 ) );
 
-    test( t.substr( strlen(T1), strlen(T2) ) ==
+    TEST( t.substr( strlen(T1), strlen(T2) ) ==
 	  t.at( strlen(T1), strlen(T2) ) );
 
-    test( t.substr( 0, 0 ).empty() );
+    TEST( t.substr( 0, 0 ).empty() );
 
   }
   
@@ -58,20 +70,20 @@ tStr10( LibTest & test )
     
     const Str t( T1 T2 T3 );
 
-    test( t.substr() == T1 T2 T3 );
+    TEST( t.substr() == T1 T2 T3 );
 
-    test( t.substr( strlen( T1 ) ) == T2 T3 );
+    TEST( t.substr( strlen( T1 ) ) == T2 T3 );
 
-    test( t.substr( 0, strlen( T1 ) ) == T1 );
+    TEST( t.substr( 0, strlen( T1 ) ) == T1 );
 
-    test( t.substr( strlen(T1), strlen(T2) ).length() == strlen( T2 ) );
+    TEST( t.substr( strlen(T1), strlen(T2) ).length() == strlen( T2 ) );
 
-    test( t.substr( strlen(T1), strlen(T2) ).size() == strlen( T2 ) );
+    TEST( t.substr( strlen(T1), strlen(T2) ).size() == strlen( T2 ) );
 
-    test( t.substr( strlen(T1), strlen(T2) ) ==
+    TEST( t.substr( strlen(T1), strlen(T2) ) ==
 	  t.at( strlen(T1), strlen(T2) ) );
 
-    test( t.substr( 0, 0 ).empty() );
+    TEST( t.substr( 0, 0 ).empty() );
 
   }
 
@@ -82,16 +94,16 @@ tStr10( LibTest & test )
 
     Str t( T1 T2 T3 );
 
-    test( t.at( T1 ) == T1 );
-    test( t.at( T2 ) == T2 );
-    test( t.at( T3 ) == T3 );
+    TEST( t.at( T1 ) == T1 );
+    TEST( t.at( T2 ) == T2 );
+    TEST( t.at( T3 ) == T3 );
 
     t = T1 T2 T3 T1 T4;
-    test( t.at( T1, strlen( T1 T2 ) ) == T1 );
-    test( t.at( T1 T2, strlen( T1 T2 ), strlen( T1 ) ) == T1 );
+    TEST( t.at( T1, strlen( T1 T2 ) ) == T1 );
+    TEST( t.at( T1 T2, strlen( T1 T2 ), strlen( T1 ) ) == T1 );
 
     t.at( T1, strlen( T1 T2 ) ) = T3;
-    test( t == T1 T2 T3 T3 T4 );
+    TEST( t == T1 T2 T3 T3 T4 );
   }
   
   {
@@ -101,13 +113,13 @@ tStr10( LibTest & test )
 
     Str t( T1 T2 T3 );
 
-    test( t.at( T1 ) == T1 );
-    test( t.at( T2 ) == T2 );
-    test( t.at( T3 ) == T3 );
+    TEST( t.at( T1 ) == T1 );
+    TEST( t.at( T2 ) == T2 );
+    TEST( t.at( T3 ) == T3 );
 
     t = T1 T2 T3 T1 T4;
-    test( t.at( T1, strlen( T1 T2 ) ) == T1 );
-    test( t.at( T1 T2, strlen( T1 T2 ), strlen( T1 ) ) == T1 );
+    TEST( t.at( T1, strlen( T1 T2 ) ) == T1 );
+    TEST( t.at( T1 T2, strlen( T1 T2 ), strlen( T1 ) ) == T1 );
   }
 
   {
@@ -117,15 +129,15 @@ tStr10( LibTest & test )
     RegexScan exp( T2 );
     Str t( T1 T2 T3 );
 
-    test( t.at( exp ) == T2 );
+    TEST( t.at( exp ) == T2 );
 
     t = T1 T2 T1 T3;
     exp = T1;
-    test( t.at( exp, strlen( T1 T2 ) ) == T1 );
+    TEST( t.at( exp, strlen( T1 T2 ) ) == T1 );
 
     exp = T2;
     t.at( exp ) = T4;
-    test( t == T1 T4 T1 T3 );
+    TEST( t == T1 T4 T1 T3 );
   }
 
   {
@@ -135,11 +147,11 @@ tStr10( LibTest & test )
     RegexScan exp( T2 );
     Str t( T1 T2 T3 );
 
-    test( t.at( exp ) == T2 );
+    TEST( t.at( exp ) == T2 );
 
     t = T1 T2 T1 T3;
     exp = T1;
-    test( t.at( exp, strlen( T1 T2 ) ) == T1 );
+    TEST( t.at( exp, strlen( T1 T2 ) ) == T1 );
   }
 
   {
@@ -150,13 +162,13 @@ tStr10( LibTest & test )
     Str pat;
 
     pat = T1;
-    test( t.at( pat ) == T1 );
+    TEST( t.at( pat ) == T1 );
 
     t = T1 T2 T3 T1 T4;    
-    test( t.at( pat, strlen( T1 T2 ) ) == T1 );
+    TEST( t.at( pat, strlen( T1 T2 ) ) == T1 );
 
     t.at( pat, strlen( T1 T2 ) ) = T3;
-    test( t == T1 T2 T3 T3 T4 );
+    TEST( t == T1 T2 T3 T3 T4 );
   }
   
   {
@@ -167,10 +179,10 @@ tStr10( LibTest & test )
     Str pat;
 
     pat = T1;
-    test( t.at( pat ) == T1 );
+    TEST( t.at( pat ) == T1 );
 
     t = T1 T2 T3 T1 T4;    
-    test( t.at( pat, strlen( T1 T2 ) ) == T1 );
+    TEST( t.at( pat, strlen( T1 T2 ) ) == T1 );
   }
 
   {
@@ -181,13 +193,13 @@ tStr10( LibTest & test )
     Str pat;
 
     pat = T1 T2;
-    test( t.at( pat.substr( 0, strlen( T1 ) ) ) == T1 );
+    TEST( t.at( pat.substr( 0, strlen( T1 ) ) ) == T1 );
 
     t = T1 T2 T3 T1 T4;    
-    test( t.at( pat.substr( 0, strlen( T1 ) ), strlen( T1 T2 ) ) == T1 );
+    TEST( t.at( pat.substr( 0, strlen( T1 ) ), strlen( T1 T2 ) ) == T1 );
 
     t.at( pat.substr( 0, strlen( T1 ) ), strlen( T1 T2 ) ) = T3;
-    test( t == T1 T2 T3 T3 T4 );
+    TEST( t == T1 T2 T3 T3 T4 );
   }
   
   {
@@ -198,38 +210,38 @@ tStr10( LibTest & test )
     Str pat;
 
     pat = T1 T2;
-    test( t.at( pat.substr( 0, strlen( T1 ) ) ) == T1 );
+    TEST( t.at( pat.substr( 0, strlen( T1 ) ) ) == T1 );
 
     t = T1 T2 T3 T1 T4;    
-    test( t.at( pat.substr( 0, strlen( T1 ) ), strlen( T1 T2 ) ) == T1 );
+    TEST( t.at( pat.substr( 0, strlen( T1 ) ), strlen( T1 T2 ) ) == T1 );
   }
   
   {
     // before( size_t )
     Str t( T1 T2 T3 );
 
-    test( t.before( strlen( T1 T2 ) ) == T1 T2 );
+    TEST( t.before( strlen( T1 T2 ) ) == T1 T2 );
   }
 
   {
     // before( size_t ) const
     const Str t( T1 T2 T3 );
 
-    test( t.before( strlen( T1 T2 ) ) == T1 T2 );
+    TEST( t.before( strlen( T1 T2 ) ) == T1 T2 );
   }
 
   {
     // after( size_t )
     Str t( T1 T2 T3 );
 
-    test( t.after( strlen( T1 ) ) == T2 T3 );
+    TEST( t.after( strlen( T1 ) ) == T2 T3 );
   }
   
   {
     // after( size_t ) const
     const Str t( T1 T2 T3 );
 
-    test( t.after( strlen( T1 ) ) == T2 T3 );
+    TEST( t.after( strlen( T1 ) ) == T2 T3 );
   }
   
   return( true );

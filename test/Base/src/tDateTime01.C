@@ -1,16 +1,25 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
-
-// stl
 #include <vector>
 #include <set>
 #include <functional>
-
 #include <cstring>
 #include <cstdio>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <DateTime.hh>
+#include <vector>
+#include <set>
+#include <functional>
+#include <cstring>
+#include <cstdio>
+#endif
 
 bool
-tDateTime01( LibTest & test )
+tDateTime01( LibTest & tester )
 {
   
   {
@@ -20,9 +29,9 @@ tDateTime01( LibTest & test )
     
     const DateTime dt;
 
-    test( dt.getTimeT() == 0 );
+    TEST( dt.getTimeT() == 0 );
 
-    test( ! strcmp( "01/01/70 00:00:00", dt.getString() ) );
+    TEST( ! strcmp( "01/01/70 00:00:00", dt.getString() ) );
   }
 
   {
@@ -48,8 +57,8 @@ tDateTime01( LibTest & test )
 	     check->tm_sec );
 
 
-    test( ! strcmp( checkStr, dtGmt.getString() ) );
-    test( dtGmt == dtOneArg );
+    TEST( ! strcmp( checkStr, dtGmt.getString() ) );
+    TEST( dtGmt == dtOneArg );
       
     check = localtime( &when );
     
@@ -61,7 +70,7 @@ tDateTime01( LibTest & test )
 	     check->tm_min,
 	     check->tm_sec );
     
-    test( ! strcmp( checkStr, dtLocal.getString() ) );
+    TEST( ! strcmp( checkStr, dtLocal.getString() ) );
   }
   
   {
@@ -85,14 +94,14 @@ tDateTime01( LibTest & test )
     
     const DateTime	dt(datePart, timePart);
 
-    test( dt.getTimeT() == (datePart + timePart) );
+    TEST( dt.getTimeT() == (datePart + timePart) );
 
-    test( dt.getYear() == 1995 );
-    test( dt.getMonth() == 2 );
-    test( dt.getDayOfMonth() == 1 );
-    test( dt.getHour() == 5 );
-    test( dt.getMinute() == 45 );
-    test( dt.getSecond() == 50 );
+    TEST( dt.getYear() == 1995 );
+    TEST( dt.getMonth() == 2 );
+    TEST( dt.getDayOfMonth() == 1 );
+    TEST( dt.getHour() == 5 );
+    TEST( dt.getMinute() == 45 );
+    TEST( dt.getSecond() == 50 );
   }
 	  
   {
@@ -103,12 +112,12 @@ tDateTime01( LibTest & test )
     
     DateTime	dt( yymmdd, hhmmss );
 
-    test( dt.getYear() == 1995 );
-    test( dt.getMonth() == 2 );
-    test( dt.getDayOfMonth() == 5 );
-    test( dt.getHour() == 15 );
-    test( dt.getMinute() == 5 );
-    test( dt.getSecond() == 50 );
+    TEST( dt.getYear() == 1995 );
+    TEST( dt.getMonth() == 2 );
+    TEST( dt.getDayOfMonth() == 5 );
+    TEST( dt.getHour() == 15 );
+    TEST( dt.getMinute() == 5 );
+    TEST( dt.getSecond() == 50 );
     
   }
   
@@ -131,18 +140,18 @@ tDateTime01( LibTest & test )
       
     DateTime	dt( year, month, day, hour, min, sec );
 
-    test( dt.getYearOfCentury() == year );
-    test( dt.getMonth() == month );
-    test( dt.getDayOfMonth() == day );
-    test( dt.getHour() == hour );
-    test( dt.getMinute() == min );
-    test( dt.getSecond() == sec );
+    TEST( dt.getYearOfCentury() == year );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == hour );
+    TEST( dt.getMinute() == min );
+    TEST( dt.getSecond() == sec );
 
     char check[50];
     sprintf( check, "%02d/%02d/%02d %02d:%02d:%02d",
 	     month, day, year, hour, min, sec );
 
-    test( ! strcmp( check, dt.getString() ) );
+    TEST( ! strcmp( check, dt.getString() ) );
     
   }
 
@@ -168,12 +177,12 @@ tDateTime01( LibTest & test )
 
     const DateTime	dt( tm );
 
-    test( dt.getYearOfCentury() == year );
-    test( dt.getMonth() == month );
-    test( dt.getDayOfMonth() == day );
-    test( dt.getHour() == hour );
-    test( dt.getMinute() == min );
-    test( dt.getSecond() == sec );
+    TEST( dt.getYearOfCentury() == year );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == hour );
+    TEST( dt.getMinute() == min );
+    TEST( dt.getSecond() == sec );
   }
 
   {
@@ -183,7 +192,7 @@ tDateTime01( LibTest & test )
 
     DateTime dt( dateString );
 
-    test( ! strcmp( dateString, dt.getString() ) );
+    TEST( ! strcmp( dateString, dt.getString() ) );
   }
 
   {

@@ -1,5 +1,12 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#endif
 
 // Str::iterators
 
@@ -10,7 +17,7 @@
 #define T5 " fifth part"
 
 bool
-tStr07( LibTest & test )
+tStr07( LibTest & tester )
 {
   {
     // begin( void )
@@ -26,18 +33,18 @@ tStr07( LibTest & test )
 	  t != s.end();
 	  t++ )
 	{
-	  test( *t == str[i] );
+	  TEST( *t == str[i] );
 	  i++;
 	}
     }
-    test( i == 6 );
+    TEST( i == 6 );
 
     Str::iterator t = s.begin();
 
     t++; t++;
     *t = 'a';
 
-    test( s == "12a456" );
+    TEST( s == "12a456" );
     
   }
 
@@ -54,10 +61,10 @@ tStr07( LibTest & test )
 	t != s.end();
 	t++ )
       {
-	test( *t == str[i] );
+	TEST( *t == str[i] );
 	i++;
       }
-    test( i == 6 );
+    TEST( i == 6 );
   }
 
   {
@@ -74,19 +81,19 @@ tStr07( LibTest & test )
 	  t != s.rend();
 	  t++ )
 	{
-	  test( *t == str[i] );
+	  TEST( *t == str[i] );
 	  i--;
 	}
     }
     
-    test( i == -1 );
+    TEST( i == -1 );
 
     Str::reverse_iterator t = s.rbegin();
 
     t++; t++;
     *t = 'a';
 
-    test( s == "123a56" );
+    TEST( s == "123a56" );
   }
     
   {
@@ -102,11 +109,11 @@ tStr07( LibTest & test )
 	t != s.rend();
 	t++ )
       {
-	test( *t == str[i] );
+	TEST( *t == str[i] );
 	i--;
       }
     
-    test( i == -1 );
+    TEST( i == -1 );
   }
   
   return( true );

@@ -1,17 +1,24 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Clue.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Clue.hh>
+#endif
 
 bool
-tAbsLong( LibTest & test )
+tAbsLong( LibTest & tester )
 {
   {
-    long  t = -12341234;
+    long  t = -12341234L;
     
-    test( abs( t ) == 12341234 );
+    TEST( abs( t ) == 12341234L );
 
-    t = 43214321;
+    t = 43214321L;
     
-    test( abs( t ) == 43214321 );
+    TEST( abs( t ) == 43214321L );
   }
 
   return( true );

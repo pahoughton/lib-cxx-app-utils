@@ -1,19 +1,25 @@
-
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
-#include <limits.h>
+#include <climits>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <climits>
+#endif
 
-bool tCompare1( LibTest & test );
-bool tCompare2( LibTest & test );
+bool tCompare01( LibTest & test );
+bool tCompare02( LibTest & test );
 
 int CompCount;
 
 bool
-tCompare( LibTest & test )
+tCompare( LibTest & tester )
 {
   CompCount = 7;
   
-  test( tCompare1( test ), true );
-  test( tCompare2( test ), true );
+  TESTP( tCompare01( tester ), true );
+  TESTP( tCompare02( tester ), true );
 
   return( true );
 }

@@ -1,3 +1,4 @@
+
 #
 # Makefile for t
 #
@@ -38,8 +39,8 @@ CXX_SOURCES	=			\
 	tRound.C			\
 	tBit.C	    	    	    	\
 	tCompare.C			\
-	tCompare1.C			\
-	tCompare2.C			\
+	tCompare01.C			\
+	tCompare02.C			\
 	tSafeStrcpy.C			\
 	tCharToInt.C			\
 	tStripWhite.C			\
@@ -50,6 +51,7 @@ CXX_SOURCES	=			\
 	tStringCapitalize.C		\
 	tStringTo.C			\
 	tbasename.C			\
+	tHeapBinStream.C		\
 	tStr.C				\
 	tStr01.C			\
 	tStr02.C			\
@@ -104,6 +106,8 @@ CXX_SOURCES	=			\
 	tFilePath02.C			\
 	tFilePath03.C			\
 	tFilePath04.C			\
+
+hold = \
 	tBitmask.C			\
 	tBitmask01.C			\
 	tBitmask02.C			\
@@ -127,8 +131,6 @@ CXX_SOURCES	=			\
 	tLog05.C			\
 	tParam.C			\
 	tParam01.C			\
-	tDirectory.C			\
-	tDirectory01.C			\
 
 
 
@@ -241,8 +243,8 @@ include .depend.prog
 
 # 
 # $Log$
-# Revision 1.3  1995/11/05 13:43:58  houghton
-# Revised Test sources
+# Revision 1.4  1995/11/05 14:45:46  houghton
+# Ports and Test method changes
 #
 # Revision 1.2  1995/02/13  17:35:10  houghton
 # Major enhancements much cleaner

@@ -1,5 +1,12 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StringUtils.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <StrUtil.hh>
+#endif
 
 #ifndef TRUE
 #define FALSE 0
@@ -166,43 +173,43 @@ struct LongTestVal
 
 static struct LongTestVal LongTestValues[] =
 {
-  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5 },
-  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010 },
-  {"-15",   	    FALSE, FALSE,  0,  0, TRUE,      -15 },
-  {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
-  {"\t-033abc",	    FALSE, FALSE,  0,  0, TRUE,     -033 },
-  {"-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -0xabcd },
-  
-  { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
-  { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
-  { "-15", 	    TRUE,  FALSE, 10,  0, TRUE,      -15 },
-  { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23 },
-  { "\t-033abc",    TRUE,  FALSE,  8,  0, TRUE,     -033 },
-  { "-abcd",	    TRUE,  FALSE, 16,  0, TRUE,  -0xabcd },
-  { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22 },
+  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5L },
+  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010L },
+  {"-15",   	    FALSE, FALSE,  0,  0, TRUE,      -15L },
+  {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23L },
+  {"\t-033abc",	    FALSE, FALSE,  0,  0, TRUE,     -033L },
+  {"-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -0xabcdL },
 
-  { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5 },
-  { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010 },
-  { "-1500123",     TRUE,  TRUE,   0,  5, TRUE,    -1500 },
-  { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23 },
-  { "-0xabcd",      TRUE,  TRUE,   0,  5, TRUE,    -0xab },
-  { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
+  { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5L },
+  { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010L },
+  { "-15", 	    TRUE,  FALSE, 10,  0, TRUE,      -15L },
+  { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23L },
+  { "\t-033abc",    TRUE,  FALSE,  8,  0, TRUE,     -033L },
+  { "-abcd",	    TRUE,  FALSE, 16,  0, TRUE,  -0xabcdL },
+  { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22L },
+
+  { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5L },
+  { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010L },
+  { "-1500123",     TRUE,  TRUE,   0,  5, TRUE,    -1500L },
+  { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23L },
+  { "-0xabcd",      TRUE,  TRUE,   0,  5, TRUE,    -0xabL },
+  { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110L },
+
+  { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5L },
+  { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10L },
+  { "-1500123",     TRUE,  TRUE,  16,  5, TRUE,    -5376L },
+  { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23L },
+  { "-0xabcd", 	    TRUE,  TRUE,  16,  5, TRUE,    -0xabL },
+  { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110L },
+  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      -1L },
+  { "test", 	    FALSE, FALSE,  0,  0, FALSE,      -1L },
+  { "099",  	    FALSE, FALSE,  0,  0, FALSE,      -1L },
+
+  { "0x0fffffff",   FALSE, FALSE,  0,  0, TRUE,	0x0fffffffL },
+  { "-99999999",    FALSE, FALSE,  0,  0, TRUE,	-99999999L },
+  { "99999999",     FALSE, FALSE,  0,  0, TRUE,	 99999999L },
   
-  { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5 },
-  { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10 },
-  { "-1500123",     TRUE,  TRUE,  16,  5, TRUE,    -5376 },
-  { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23 },
-  { "-0xabcd", 	    TRUE,  TRUE,  16,  5, TRUE,    -0xab },
-  { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110 },
-  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      -1 },
-  { "test", 	    FALSE, FALSE,  0,  0, FALSE,      -1 },
-  { "099",  	    FALSE, FALSE,  0,  0, FALSE,      -1 },
-  
-  { "0x0fffffff",   FALSE, FALSE,  0,  0, TRUE,	0x0fffffff },
-  { "-99999999",    FALSE, FALSE,  0,  0, TRUE,	-99999999 },
-  { "99999999",     FALSE, FALSE,  0,  0, TRUE,	 99999999 },
-  
-  {0, FALSE, FALSE, 0, 0, 0}
+  {0, FALSE, FALSE, 0, 0, 0L}
 };
 
 struct DoubleTestVal
@@ -349,36 +356,36 @@ struct ULongTestVal
 
 static struct ULongTestVal ULongTestValues[] =
 {
-  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5 },
-  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010 },
-  {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
-  
-  { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
-  { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
-  { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23 },
-  { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22 },
+  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5L },
+  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010L },
+  {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23L },
 
-  { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5 },
-  { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010 },
-  { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23 },
-  { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
+  { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5L },
+  { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010L },
+  { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23L },
+  { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22L },
+
+  { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5L },
+  { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010L },
+  { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23L },
+  { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110L },
+
+  { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5L },
+  { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10L },
+  { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23L },
+  { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110L },
+  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0L },
+  { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0L },
+  { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0L },
   
-  { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5 },
-  { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10 },
-  { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23 },
-  { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110 },
-  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0 },
-  { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0 },
-  { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0 },
-  
-  { "0xffffffff",   FALSE, FALSE,  0,  0, TRUE,	0xffffffff },
-  { "99999999",     FALSE, FALSE,  0,  0, TRUE,	 99999999 },
+  { "0xffffffff",   FALSE, FALSE,  0,  0, TRUE,	0xffffffffL },
+  { "99999999",     FALSE, FALSE,  0,  0, TRUE,	 99999999L },
   
   {0, FALSE, FALSE, 0, 0, 0}
 };
 
 bool
-tStringTo( LibTest & test )
+tStringTo( LibTest & tester )
 {
 
   {
@@ -390,18 +397,18 @@ tStringTo( LibTest & test )
 	if( ! BoolTestValues[t].useLen )
 	  {
 	    bool result = FALSE;
-	    test( StringToBool( result, BoolTestValues[t].str ) ==
+	    TEST( StringToBool( result, BoolTestValues[t].str ) ==
 		  BoolTestValues[t].good );
-	    test( result == BoolTestValues[t].value );
+	    TEST( result == BoolTestValues[t].value );
 	  }
 	else
 	  {
 	    bool result = FALSE;
-	    test( StringToBool( result, BoolTestValues[t].str,
+	    TEST( StringToBool( result, BoolTestValues[t].str,
 					BoolTestValues[t].len ) ==
 		  BoolTestValues[t].good );
 	    
-	    test( result == BoolTestValues[t].value );
+	    TEST( result == BoolTestValues[t].value );
 	  }
       }
   }
@@ -416,30 +423,30 @@ tStringTo( LibTest & test )
 	if( ! IntTestValues[t].useBase && ! IntTestValues[t].useLen )
 	  {
 	    int result = -1;
-	    test( StringTo( result, IntTestValues[t].str ) ==
+	    TEST( StringTo( result, IntTestValues[t].str ) ==
 		  IntTestValues[t].good );
-	    test( result == IntTestValues[t].value );
+	    TEST( result == IntTestValues[t].value );
 	  }
 
 	if( IntTestValues[t].useBase && ! IntTestValues[t].useLen )
 	  {
 	    int result = -1;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    IntTestValues[t].str,
 			    IntTestValues[t].base ) ==
 		  IntTestValues[t].good );
-	    test( result == IntTestValues[t].value );
+	    TEST( result == IntTestValues[t].value );
 	  }
 
 	if( IntTestValues[t].useBase && IntTestValues[t].useLen )
 	  {
 	    int result = -1;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    IntTestValues[t].str,
 			    IntTestValues[t].base,
 			    IntTestValues[t].len ) ==
 		  IntTestValues[t].good );
-	    test( result == IntTestValues[t].value );
+	    TEST( result == IntTestValues[t].value );
 	  }
       }
   }
@@ -454,30 +461,30 @@ tStringTo( LibTest & test )
 	if( ! ShortTestValues[t].useBase && ! ShortTestValues[t].useLen )
 	  {
 	    short result = -1;
-	    test( StringTo( result, ShortTestValues[t].str ) ==
+	    TEST( StringTo( result, ShortTestValues[t].str ) ==
 		  ShortTestValues[t].good );
-	    test( result == ShortTestValues[t].value );
+	    TEST( result == ShortTestValues[t].value );
 	  }
 
 	if( ShortTestValues[t].useBase && ! ShortTestValues[t].useLen )
 	  {
 	    short result = -1;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    ShortTestValues[t].str,
 			    ShortTestValues[t].base ) ==
 		  ShortTestValues[t].good );
-	    test( result == ShortTestValues[t].value );
+	    TEST( result == ShortTestValues[t].value );
 	  }
 
 	if( ShortTestValues[t].useBase && ShortTestValues[t].useLen )
 	  {
 	    short result = -1;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    ShortTestValues[t].str,
 			    ShortTestValues[t].base,
 			    ShortTestValues[t].len ) ==
 		  ShortTestValues[t].good );
-	    test( result == ShortTestValues[t].value );
+	    TEST( result == ShortTestValues[t].value );
 	  }
       }
   }
@@ -492,30 +499,30 @@ tStringTo( LibTest & test )
 	if( ! LongTestValues[t].useBase && ! LongTestValues[t].useLen )
 	  {
 	    long result = -1;
-	    test( StringTo( result, LongTestValues[t].str ) ==
+	    TEST( StringTo( result, LongTestValues[t].str ) ==
 		  LongTestValues[t].good );
-	    test( result == LongTestValues[t].value );
+	    TEST( result == LongTestValues[t].value );
 	  }
 
 	if( LongTestValues[t].useBase && ! LongTestValues[t].useLen )
 	  {
 	    long result = -1;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    LongTestValues[t].str,
 			    LongTestValues[t].base ) ==
 		  LongTestValues[t].good );
-	    test( result == LongTestValues[t].value );
+	    TEST( result == LongTestValues[t].value );
 	  }
 
 	if( LongTestValues[t].useBase && LongTestValues[t].useLen )
 	  {
 	    long result = -1;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    LongTestValues[t].str,
 			    LongTestValues[t].base,
 			    LongTestValues[t].len ) ==
 		  LongTestValues[t].good );
-	    test( result == LongTestValues[t].value );
+	    TEST( result == LongTestValues[t].value );
 	  }
       }
   }
@@ -530,30 +537,30 @@ tStringTo( LibTest & test )
 	if( ! DoubleTestValues[t].useBase && ! DoubleTestValues[t].useLen )
 	  {
 	    double result = -1;
-	    test( StringTo( result, DoubleTestValues[t].str ) ==
+	    TEST( StringTo( result, DoubleTestValues[t].str ) ==
 		  DoubleTestValues[t].good );
-	    test( result == DoubleTestValues[t].value );
+	    TEST( result == DoubleTestValues[t].value );
 	  }
 
 	if( DoubleTestValues[t].useBase && ! DoubleTestValues[t].useLen )
 	  {
 	    double result = -1;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    DoubleTestValues[t].str,
 			    DoubleTestValues[t].base ) ==
 		  DoubleTestValues[t].good );
-	    test( result == DoubleTestValues[t].value );
+	    TEST( result == DoubleTestValues[t].value );
 	  }
 
 	if( DoubleTestValues[t].useBase && DoubleTestValues[t].useLen )
 	  {
 	    double result = -1;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    DoubleTestValues[t].str,
 			    DoubleTestValues[t].base,
 			    DoubleTestValues[t].len ) ==
 		  DoubleTestValues[t].good );
-	    test( result == DoubleTestValues[t].value );
+	    TEST( result == DoubleTestValues[t].value );
 	  }
       }
   }
@@ -568,30 +575,30 @@ tStringTo( LibTest & test )
 	if( ! UIntTestValues[t].useBase && ! UIntTestValues[t].useLen )
 	  {
 	    unsigned int result = 0;
-	    test( StringTo( result, UIntTestValues[t].str ) ==
+	    TEST( StringTo( result, UIntTestValues[t].str ) ==
 		  UIntTestValues[t].good );
-	    test( result == UIntTestValues[t].value );
+	    TEST( result == UIntTestValues[t].value );
 	  }
 
 	if( UIntTestValues[t].useBase && ! UIntTestValues[t].useLen )
 	  {
 	    unsigned int result = 0;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    UIntTestValues[t].str,
 			    UIntTestValues[t].base ) ==
 		  UIntTestValues[t].good );
-	    test( result == UIntTestValues[t].value );
+	    TEST( result == UIntTestValues[t].value );
 	  }
 
 	if( UIntTestValues[t].useBase && UIntTestValues[t].useLen )
 	  {
 	    unsigned int result = 0;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    UIntTestValues[t].str,
 			    UIntTestValues[t].base,
 			    UIntTestValues[t].len ) ==
 		  UIntTestValues[t].good );
-	    test( result == UIntTestValues[t].value );
+	    TEST( result == UIntTestValues[t].value );
 	  }
       }
   }
@@ -606,30 +613,30 @@ tStringTo( LibTest & test )
 	if( ! UShortTestValues[t].useBase && ! UShortTestValues[t].useLen )
 	  {
 	    unsigned short result = 0;
-	    test( StringTo( result, UShortTestValues[t].str ) ==
+	    TEST( StringTo( result, UShortTestValues[t].str ) ==
 		  UShortTestValues[t].good );
-	    test( result == UShortTestValues[t].value );
+	    TEST( result == UShortTestValues[t].value );
 	  }
 
 	if( UShortTestValues[t].useBase && ! UShortTestValues[t].useLen )
 	  {
 	    unsigned short result = 0;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    UShortTestValues[t].str,
 			    UShortTestValues[t].base ) ==
 		  UShortTestValues[t].good );
-	    test( result == UShortTestValues[t].value );
+	    TEST( result == UShortTestValues[t].value );
 	  }
 
 	if( UShortTestValues[t].useBase && UShortTestValues[t].useLen )
 	  {
 	    unsigned short result = 0;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    UShortTestValues[t].str,
 			    UShortTestValues[t].base,
 			    UShortTestValues[t].len ) ==
 		  UShortTestValues[t].good );
-	    test( result == UShortTestValues[t].value );
+	    TEST( result == UShortTestValues[t].value );
 	  }
       }
   }
@@ -644,30 +651,30 @@ tStringTo( LibTest & test )
 	if( ! ULongTestValues[t].useBase && ! ULongTestValues[t].useLen )
 	  {
 	    unsigned long result = 0;
-	    test( StringTo( result, ULongTestValues[t].str ) ==
+	    TEST( StringTo( result, ULongTestValues[t].str ) ==
 		  ULongTestValues[t].good );
-	    test( result == ULongTestValues[t].value );
+	    TEST( result == ULongTestValues[t].value );
 	  }
 
 	if( ULongTestValues[t].useBase && ! ULongTestValues[t].useLen )
 	  {
 	    unsigned long result = 0;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    ULongTestValues[t].str,
 			    ULongTestValues[t].base ) ==
 		  ULongTestValues[t].good );
-	    test( result == ULongTestValues[t].value );
+	    TEST( result == ULongTestValues[t].value );
 	  }
 
 	if( ULongTestValues[t].useBase && ULongTestValues[t].useLen )
 	  {
 	    unsigned long result = 0;
-	    test( StringTo( result,
+	    TEST( StringTo( result,
 			    ULongTestValues[t].str,
 			    ULongTestValues[t].base,
 			    ULongTestValues[t].len ) ==
 		  ULongTestValues[t].good );
-	    test( result == ULongTestValues[t].value );
+	    TEST( result == ULongTestValues[t].value );
 	  }
       }
   }
@@ -681,13 +688,13 @@ tStringTo( LibTest & test )
 	if( ! BoolTestValues[t].useLen )
 	  {
 	    bool result = StringToBool( BoolTestValues[t].str );
-	    test( result == BoolTestValues[t].value );
+	    TEST( result == BoolTestValues[t].value );
 	  }
 	else
 	  {
 	    bool result = StringToBool( BoolTestValues[t].str,
 					BoolTestValues[t].len );
-	    test( result == BoolTestValues[t].value );
+	    TEST( result == BoolTestValues[t].value );
 	  }
       }
   }
@@ -702,14 +709,14 @@ tStringTo( LibTest & test )
 	if( ! IntTestValues[t].useBase && ! IntTestValues[t].useLen )
 	  {
 	    int result = StringToInt( IntTestValues[t].str );
-	    test( result == IntTestValues[t].value );
+	    TEST( result == IntTestValues[t].value );
 	  }
 
 	if( IntTestValues[t].useBase && ! IntTestValues[t].useLen )
 	  {
 	    int result = StringToInt( IntTestValues[t].str,
 				      IntTestValues[t].base );
-	    test( result == IntTestValues[t].value );
+	    TEST( result == IntTestValues[t].value );
 	  }
 
 	if( IntTestValues[t].useBase && IntTestValues[t].useLen )
@@ -717,7 +724,7 @@ tStringTo( LibTest & test )
 	    int result = StringToInt( IntTestValues[t].str,
 				      IntTestValues[t].base,
 				      IntTestValues[t].len );
-	    test( result == IntTestValues[t].value );
+	    TEST( result == IntTestValues[t].value );
 	  }
       }
   }
@@ -732,14 +739,14 @@ tStringTo( LibTest & test )
 	if( ! ShortTestValues[t].useBase && ! ShortTestValues[t].useLen )
 	  {
 	    short result = StringToShort( ShortTestValues[t].str );
-	    test( result == ShortTestValues[t].value );
+	    TEST( result == ShortTestValues[t].value );
 	  }
 
 	if( ShortTestValues[t].useBase && ! ShortTestValues[t].useLen )
 	  {
 	    short result = StringToShort( ShortTestValues[t].str,
 				      ShortTestValues[t].base );
-	    test( result == ShortTestValues[t].value );
+	    TEST( result == ShortTestValues[t].value );
 	  }
 
 	if( ShortTestValues[t].useBase && ShortTestValues[t].useLen )
@@ -747,7 +754,7 @@ tStringTo( LibTest & test )
 	    short result = StringToShort( ShortTestValues[t].str,
 				      ShortTestValues[t].base,
 				      ShortTestValues[t].len );
-	    test( result == ShortTestValues[t].value );
+	    TEST( result == ShortTestValues[t].value );
 	  }
       }
   }
@@ -762,14 +769,14 @@ tStringTo( LibTest & test )
 	if( ! LongTestValues[t].useBase && ! LongTestValues[t].useLen )
 	  {
 	    long result = StringToLong( LongTestValues[t].str );
-	    test( result == LongTestValues[t].value );
+	    TEST( result == LongTestValues[t].value );
 	  }
 
 	if( LongTestValues[t].useBase && ! LongTestValues[t].useLen )
 	  {
 	    long result = StringToLong( LongTestValues[t].str,
 				      LongTestValues[t].base );
-	    test( result == LongTestValues[t].value );
+	    TEST( result == LongTestValues[t].value );
 	  }
 
 	if( LongTestValues[t].useBase && LongTestValues[t].useLen )
@@ -777,7 +784,7 @@ tStringTo( LibTest & test )
 	    long result = StringToLong( LongTestValues[t].str,
 				      LongTestValues[t].base,
 				      LongTestValues[t].len );
-	    test( result == LongTestValues[t].value );
+	    TEST( result == LongTestValues[t].value );
 	  }
       }
   }
@@ -792,14 +799,14 @@ tStringTo( LibTest & test )
 	if( ! DoubleTestValues[t].useBase && ! DoubleTestValues[t].useLen )
 	  {
 	    double result = StringToDouble( DoubleTestValues[t].str );
-	    test( result == DoubleTestValues[t].value );
+	    TEST( result == DoubleTestValues[t].value );
 	  }
 
 	if( DoubleTestValues[t].useBase && ! DoubleTestValues[t].useLen )
 	  {
 	    double result = StringToDouble( DoubleTestValues[t].str,
 				      DoubleTestValues[t].base );
-	    test( result == DoubleTestValues[t].value );
+	    TEST( result == DoubleTestValues[t].value );
 	  }
 
 	if( DoubleTestValues[t].useBase && DoubleTestValues[t].useLen )
@@ -807,7 +814,7 @@ tStringTo( LibTest & test )
 	    double result = StringToDouble( DoubleTestValues[t].str,
 				      DoubleTestValues[t].base,
 				      DoubleTestValues[t].len );
-	    test( result == DoubleTestValues[t].value );
+	    TEST( result == DoubleTestValues[t].value );
 	  }
       }
   }
@@ -822,14 +829,14 @@ tStringTo( LibTest & test )
 	if( ! UIntTestValues[t].useBase && ! UIntTestValues[t].useLen )
 	  {
 	    unsigned int result = StringToUInt( UIntTestValues[t].str );
-	    test( result == UIntTestValues[t].value );
+	    TEST( result == UIntTestValues[t].value );
 	  }
 
 	if( UIntTestValues[t].useBase && ! UIntTestValues[t].useLen )
 	  {
 	    unsigned int result = StringToUInt( UIntTestValues[t].str,
 				      UIntTestValues[t].base );
-	    test( result == UIntTestValues[t].value );
+	    TEST( result == UIntTestValues[t].value );
 	  }
 
 	if( UIntTestValues[t].useBase && UIntTestValues[t].useLen )
@@ -837,7 +844,7 @@ tStringTo( LibTest & test )
 	    unsigned int result = StringToUInt( UIntTestValues[t].str,
 				      UIntTestValues[t].base,
 				      UIntTestValues[t].len );
-	    test( result == UIntTestValues[t].value );
+	    TEST( result == UIntTestValues[t].value );
 	  }
       }
   }
@@ -852,14 +859,14 @@ tStringTo( LibTest & test )
 	if( ! UShortTestValues[t].useBase && ! UShortTestValues[t].useLen )
 	  {
 	    unsigned short result = StringToUShort( UShortTestValues[t].str );
-	    test( result == UShortTestValues[t].value );
+	    TEST( result == UShortTestValues[t].value );
 	  }
 
 	if( UShortTestValues[t].useBase && ! UShortTestValues[t].useLen )
 	  {
 	    unsigned short result = StringToUShort( UShortTestValues[t].str,
 				      UShortTestValues[t].base );
-	    test( result == UShortTestValues[t].value );
+	    TEST( result == UShortTestValues[t].value );
 	  }
 
 	if( UShortTestValues[t].useBase && UShortTestValues[t].useLen )
@@ -867,7 +874,7 @@ tStringTo( LibTest & test )
 	    unsigned short result = StringToUShort( UShortTestValues[t].str,
 				      UShortTestValues[t].base,
 				      UShortTestValues[t].len );
-	    test( result == UShortTestValues[t].value );
+	    TEST( result == UShortTestValues[t].value );
 	  }
       }
   }
@@ -882,14 +889,14 @@ tStringTo( LibTest & test )
 	if( ! ULongTestValues[t].useBase && ! ULongTestValues[t].useLen )
 	  {
 	    unsigned long result = StringToULong( ULongTestValues[t].str );
-	    test( result == ULongTestValues[t].value );
+	    TEST( result == ULongTestValues[t].value );
 	  }
 
 	if( ULongTestValues[t].useBase && ! ULongTestValues[t].useLen )
 	  {
 	    unsigned long result = StringToULong( ULongTestValues[t].str,
 				      ULongTestValues[t].base );
-	    test( result == ULongTestValues[t].value );
+	    TEST( result == ULongTestValues[t].value );
 	  }
 
 	if( ULongTestValues[t].useBase && ULongTestValues[t].useLen )
@@ -897,7 +904,7 @@ tStringTo( LibTest & test )
 	    unsigned long result = StringToULong( ULongTestValues[t].str,
 				      ULongTestValues[t].base,
 				      ULongTestValues[t].len );
-	    test( result == ULongTestValues[t].value );
+	    TEST( result == ULongTestValues[t].value );
 	  }
       }
   }

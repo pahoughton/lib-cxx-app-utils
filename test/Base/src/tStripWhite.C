@@ -1,6 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
-
-#include <Clue.hh>
+#include <StringUtils.hh>
+#include <cstdio>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <StrUtil.hh>
+#include <cstdio>
+#endif
 
 struct TestVals
 {
@@ -12,7 +20,7 @@ struct TestVals
 static TestVals TestValues[] =
 {
   { { "no white in me" 	            }, { "no white in me"         }, 0 },
-  { { "\t leading"  	    	    }, { "leading",  	    	  }, 0 },
+  { { "\t leading"  	    	    }, { "leading"  	    	  }, 0 },
   { { "\nnewlines\n"	    	    }, { "newlines" 	    	  }, 0 },
   { { "trailing \t\n\r   "  	    }, { "trailing"               }, 0 },
   { { "    both lead & trail    "   }, { "both lead & trail" 	  }, 0 },
@@ -24,11 +32,13 @@ static TestVals TestValues[] =
 static char SizeTest[50] = "   cleanup this mess  ";
 
 bool
-tStripWhite( LibTest & test )
+tStripWhite( LibTest & tester )
 {
   // StripWhite( char *, const char *, size_t )
   
   char * result;
+  char reason[1024];
+  
   for( int t = 0; TestValues[t].from[0]; t++ )
     {
       if( TestValues[t].stripChars )
@@ -43,10 +53,11 @@ tStripWhite( LibTest & test )
       if( result != TestValues[t].from ||
 	  strcmp( TestValues[t].from, TestValues[t].to ) )
 	{
-	  cerr << " Failed: '" << TestValues[t].from
-	       << "' should be: " << TestValues[t].to << '\''
-	       << endl;
-	  test( false );
+	  sprintf( reason, "'%s' should be '%s'",
+		   TestValues[t].from,
+		   TestValues[t].to );
+	  
+	  TESTR( reason, false );
 	  return( false );
 	}
     }
@@ -57,10 +68,8 @@ tStripWhite( LibTest & test )
   
   if( result != SizeTest || strcmp( SizeTest, "cleanup" ) )
     {
-      cerr << " Failed: '" << SizeTest
-	   << "' should be: '" << "cleanup"  << '\''
-	   << endl;
-      test( false );
+      sprintf( reason, "'%s' should be 'cleanup'", SizeTest );
+      TESTR( reason, false );
       return( false );
     }
 

@@ -1,4 +1,10 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#endif
 
 bool tSubStr01( LibTest & tester );
 bool tSubStr02( LibTest & tester );
@@ -9,15 +15,15 @@ bool tSubStr06( LibTest & tester );
 bool tSubStr07( LibTest & tester );
 
 bool
-tSubStr( LibTest & test )
+tSubStr( LibTest & tester )
 {
-  test( tSubStr01( test ), true );
-  test( tSubStr02( test ), true );
-  test( tSubStr03( test ), true );
-  test( tSubStr04( test ), true );
-  test( tSubStr05( test ), true );
-  test( tSubStr06( test ), true );
-  test( tSubStr07( test ), true );
+  TESTP( tSubStr01( tester ), true );
+  TESTP( tSubStr02( tester ), true );
+  TESTP( tSubStr03( tester ), true );
+  TESTP( tSubStr04( tester ), true );
+  TESTP( tSubStr05( tester ), true );
+  TESTP( tSubStr06( tester ), true );
+  TESTP( tSubStr07( tester ), true );
 
   return( true );
 }

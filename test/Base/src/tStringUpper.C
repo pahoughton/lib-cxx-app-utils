@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StringUtils.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <StrUtil.hh>
+#endif
 
 bool
-tStringUpper( LibTest & test )
+tStringUpper( LibTest & tester )
 {
   {
     const char su[] = "THIS IS A 1234567890-=!@#$%^&*()_+[]{};':\",./<>? TEST";
@@ -15,9 +22,9 @@ tStringUpper( LibTest & test )
     StringUpper( sml );
     StringUpper( sll );
 
-    test( strcmp( sul, su ) == 0 );
-    test( strcmp( sml, su ) == 0 );
-    test( strcmp( sll, su ) == 0 );
+    TEST( strcmp( sul, su ) == 0 );
+    TEST( strcmp( sml, su ) == 0 );
+    TEST( strcmp( sll, su ) == 0 );
   }
 
   {
@@ -32,9 +39,9 @@ tStringUpper( LibTest & test )
     StringUpper( smu, 9 );
     StringUpper( suu, 9 );
 
-    test( strcmp( slu, su ) == 0 );
-    test( strcmp( smu, su ) == 0 );
-    test( strcmp( suu, su ) == 0 );
+    TEST( strcmp( slu, su ) == 0 );
+    TEST( strcmp( smu, su ) == 0 );
+    TEST( strcmp( suu, su ) == 0 );
   }
 
   return( true );

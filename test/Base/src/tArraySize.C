@@ -1,7 +1,12 @@
-
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Clue.hh>
-
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Clue.hh>
+#endif
 
 struct TestValue
 {
@@ -25,14 +30,14 @@ static TestValue TestArray[] =
   { 5, 'e', 5 }
 };
 
-bool tArraySize( LibTest & test )
+bool tArraySize( LibTest & tester )
 {
-  test( ArraySize( CharArray ) 	 == 4 );
-  test( ArraySize( IntArray )  	 == 6 );
-  test( ArraySize( ShortArray )  == 7 );
-  test( ArraySize( LongArray ) 	 == 9 );
-  test( ArraySize( StringArray ) == 6 );
-  test( ArraySize( TestArray ) 	 == 5 );
+  TEST( ArraySize( CharArray ) 	 == 4 );
+  TEST( ArraySize( IntArray )  	 == 6 );
+  TEST( ArraySize( ShortArray )  == 7 );
+  TEST( ArraySize( LongArray ) 	 == 9 );
+  TEST( ArraySize( StringArray ) == 6 );
+  TEST( ArraySize( TestArray ) 	 == 5 );
   
   return( true );
 }

@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#endif
 
 bool
-tStr26( LibTest & test )
+tStr26( LibTest & tester )
 {
   {
     // StringToBool( const Str & )
@@ -10,73 +17,73 @@ tStr26( LibTest & test )
     Str     t;
 
     t << "0";
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
     
     t.assign( "01" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "500" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "T" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "t" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "F" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t.assign( "f" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t.assign( "true" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "TRUE" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "TrUe" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "false" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t.assign( "FALSE" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t.assign( "FaLse" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t.assign( "y" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "Y" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "n" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t.assign( "N" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t.assign( "yes" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "no" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t.assign( "on" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "off" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
 
     t.assign( "ON" );
-    test( StringToBool( t ) );
+    TEST( StringToBool( t ) );
 
     t.assign( "OFF" );
-    test( ! StringToBool( t ) );
+    TEST( ! StringToBool( t ) );
   }
 
   {
@@ -86,16 +93,16 @@ tStr26( LibTest & test )
     Str t;
 
     t.assign( "1150" );
-    test( StringToInt( t ) == 1150 );
+    TEST( StringToInt( t ) == 1150 );
 
     t.assign( "0xfff" );
-    test( StringToInt( t ) == 0xfff );
+    TEST( StringToInt( t ) == 0xfff );
 
     t.assign( "-30" );
-    test( StringToInt( t ) == -30 );
+    TEST( StringToInt( t ) == -30 );
 
     t = "123";
-    test( StringToInt( t, 16 ) == 0x123 );
+    TEST( StringToInt( t, 16 ) == 0x123 );
   }
   
   {
@@ -105,13 +112,13 @@ tStr26( LibTest & test )
     Str t;
 
     t.assign( "1123456" );
-    test( StringToLong( t ) == 1123456 );
+    TEST( StringToLong( t ) == 1123456L );
 
     t.assign( "-1123456" );
-    test( StringToLong( t ) == -1123456 );
+    TEST( StringToLong( t ) == -1123456L );
 
     t = "123";
-    test( StringToLong( t, 16 ) == 0x123 );
+    TEST( StringToLong( t, 16 ) == 0x123 );
   }
 
   {
@@ -121,10 +128,10 @@ tStr26( LibTest & test )
     Str t;
 
     t.assign( "15.15" );
-    test( StringToDouble( t ) ==  15.15 );
+    TEST( StringToDouble( t ) ==  15.15 );
 
     t = "10.1";
-    test( StringToDouble( t, 8 ) == 8.125 );
+    TEST( StringToDouble( t, 8 ) == 8.125 );
 
   }
 
@@ -135,10 +142,10 @@ tStr26( LibTest & test )
     Str t;
 
     t.assign( "0xff0f" );
-    test( StringToUInt( t ) == 0xff0f);
+    TEST( StringToUInt( t ) == 0xff0f);
 
     t = "123";
-    test( StringToUInt( t, 16 ) == 0x123 );
+    TEST( StringToUInt( t, 16 ) == 0x123 );
   }
 
   {
@@ -148,10 +155,10 @@ tStr26( LibTest & test )
     Str t;
 
     t.assign( "0xffff0000" );
-    test( StringToULong( t ) == 0xffff0000 );
+    TEST( StringToULong( t ) == 0xffff0000L );
 
     t = "123";
-    test( StringToULong( t, 16 ) == 0x123 );
+    TEST( StringToULong( t, 16 ) == 0x123 );
   }
 
   return( true );

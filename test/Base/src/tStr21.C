@@ -1,11 +1,19 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
 #include <RegexScan.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <RxScan.hh>
+#endif
 
 // Str::scan
 
 bool
-tStr21( LibTest & test )
+tStr21( LibTest & tester )
 {
   {
     // scan( const RegexScan & )
@@ -20,24 +28,24 @@ tStr21( LibTest & test )
     Str t( "This is a test it is only a test no other value implied" );
     //      0123456789 123456789 123456789 123456789 12345678901234567890
     
-    test( t.scan( e ) );
+    TEST( t.scan( e ) );
 
-    test( t.scanMatchCount() == 1 );
-    test( t.scanMatchStart() == 2 );
-    test( t.scanMatchLength() == 32 - 2 );
-    test( t.scanMatch( 0 ) == "is is a test it is only a test" );
+    TEST( t.scanMatchCount() == 1 );
+    TEST( t.scanMatchStart() == 2 );
+    TEST( t.scanMatchLength() == 32 - 2 );
+    TEST( t.scanMatch( 0 ) == "is is a test it is only a test" );
 
-    test( t.scan( e, 6 ) );
-    test( t.scanMatchCount() == 1 );
-    test( t.scanMatchStart() == 18 );
-    test( t.scanMatchLength() == 32 - 18 );
-    test( t.scanMatch( 0 ) == "is only a test" );
+    TEST( t.scan( e, 6 ) );
+    TEST( t.scanMatchCount() == 1 );
+    TEST( t.scanMatchStart() == 18 );
+    TEST( t.scanMatchLength() == 32 - 18 );
+    TEST( t.scanMatch( 0 ) == "is only a test" );
 
     
     t = "This! isn't a test that will be true";
 
-    test( ! t.scan(e) );
-    test( t.scanMatchCount() == 0 );
+    TEST( ! t.scan(e) );
+    TEST( t.scanMatchCount() == 0 );
   }
 
   {
@@ -50,16 +58,16 @@ tStr21( LibTest & test )
     Str t( "a :string: to tst 1234 regist and THE the scanner" );
     //      0123456789 123456789 123456789 123456789 12345678901234567890
 
-    test( t.scan( re ) == 5 );
-    test( t.scanMatch(0) == ":string: to tst 1234 regist and THE the scanner" );
-    test( t.scanMatch(1) == "string" );
-    test( t.scanMatchStart(2) == 15 );
-    test( t.scanMatchLength(2) == 0 );
-    test( t.scanMatch(3) == "1234" );
-    test( t.scanMatch(4) == "scanner" );
+    TEST( t.scan( re ) == 5 );
+    TEST( t.scanMatch(0) == ":string: to tst 1234 regist and THE the scanner" );
+    TEST( t.scanMatch(1) == "string" );
+    TEST( t.scanMatchStart(2) == 15 );
+    TEST( t.scanMatchLength(2) == 0 );
+    TEST( t.scanMatch(3) == "1234" );
+    TEST( t.scanMatch(4) == "scanner" );
 
     t.scanMatch(3) = "no more numbers";
-    test( t == "a :string: to tst no more numbers regist and THE the scanner" );
+    TEST( t == "a :string: to tst no more numbers regist and THE the scanner" );
   }
 
   {
@@ -70,59 +78,59 @@ tStr21( LibTest & test )
     Str t( "this:is : a ; test - it ; is :-; only : a:test" );
     //      0123456789 123456789 123456789 123456789 12345678901234567890
 
-    test( t.scan( ":;-" ) == 10 );
-    test( t.scanMatchStart(0) == 0 );
-    test( t.scanMatchLength(0) == t.size() );
-    test( t.scanMatch(1) == "this" );
-    test( t.scanMatch(2) == "is " );
-    test( t.scanMatch(3) == " a " );
-    test( t.scanMatch(4) == " test " );
-    test( t.scanMatch(5) == " it " );
-    test( t.scanMatch(6) == " is " );
-    test( t.scanMatch(7) == " only " );
-    test( t.scanMatch(8) == " a" );
-    test( t.scanMatch(9) == "test" );
+    TEST( t.scan( ":;-" ) == 10 );
+    TEST( t.scanMatchStart(0) == 0 );
+    TEST( t.scanMatchLength(0) == t.size() );
+    TEST( t.scanMatch(1) == "this" );
+    TEST( t.scanMatch(2) == "is " );
+    TEST( t.scanMatch(3) == " a " );
+    TEST( t.scanMatch(4) == " test " );
+    TEST( t.scanMatch(5) == " it " );
+    TEST( t.scanMatch(6) == " is " );
+    TEST( t.scanMatch(7) == " only " );
+    TEST( t.scanMatch(8) == " a" );
+    TEST( t.scanMatch(9) == "test" );
 
-    test( t.scan( "@#$" ) == 1 );
+    TEST( t.scan( "@#$" ) == 1 );
     
-    test( t.scan( "@#$:;-" ) == 10 );
-    test( t.scanMatchStart(0) == 0 );
-    test( t.scanMatchLength(0) == t.size() );
-    test( t.scanMatch(1) == "this" );
-    test( t.scanMatch(2) == "is " );
-    test( t.scanMatch(3) == " a " );
-    test( t.scanMatch(4) == " test " );
-    test( t.scanMatch(5) == " it " );
-    test( t.scanMatch(6) == " is " );
-    test( t.scanMatch(7) == " only " );
-    test( t.scanMatch(8) == " a" );
-    test( t.scanMatch(9) == "test" );
+    TEST( t.scan( "@#$:;-" ) == 10 );
+    TEST( t.scanMatchStart(0) == 0 );
+    TEST( t.scanMatchLength(0) == t.size() );
+    TEST( t.scanMatch(1) == "this" );
+    TEST( t.scanMatch(2) == "is " );
+    TEST( t.scanMatch(3) == " a " );
+    TEST( t.scanMatch(4) == " test " );
+    TEST( t.scanMatch(5) == " it " );
+    TEST( t.scanMatch(6) == " is " );
+    TEST( t.scanMatch(7) == " only " );
+    TEST( t.scanMatch(8) == " a" );
+    TEST( t.scanMatch(9) == "test" );
     
-    test( t.scan( "@#$:;-",13 ) == 7 );
-    test( t.scanMatchStart(0) == 13 );
-    test( t.scanMatchLength(0) == t.size() - 13 );
-    test( t.scanMatch(1) == " test " );
-    test( t.scanMatch(2) == " it " );
-    test( t.scanMatch(3) == " is " );
-    test( t.scanMatch(4) == " only " );
-    test( t.scanMatch(5) == " a" );
-    test( t.scanMatch(6) == "test" );
+    TEST( t.scan( "@#$:;-",13 ) == 7 );
+    TEST( t.scanMatchStart(0) == 13 );
+    TEST( t.scanMatchLength(0) == t.size() - 13 );
+    TEST( t.scanMatch(1) == " test " );
+    TEST( t.scanMatch(2) == " it " );
+    TEST( t.scanMatch(3) == " is " );
+    TEST( t.scanMatch(4) == " only " );
+    TEST( t.scanMatch(5) == " a" );
+    TEST( t.scanMatch(6) == "test" );
     
     t =  "---this:is : a ; test - it ; is :-; only : a:test";
     //    0123456789 123456789 123456789 123456789 12345678901234567890
 
-    test( t.scan( ":;-" ) == 10 );
-    test( t.scanMatchStart(0) == 0 );
-    test( t.scanMatchLength(0) == t.size() );
-    test( t.scanMatch(1) == "this" );
-    test( t.scanMatch(2) == "is " );
-    test( t.scanMatch(3) == " a " );
-    test( t.scanMatch(4) == " test " );
-    test( t.scanMatch(5) == " it " );
-    test( t.scanMatch(6) == " is " );
-    test( t.scanMatch(7) == " only " );
-    test( t.scanMatch(8) == " a" );
-    test( t.scanMatch(9) == "test" );
+    TEST( t.scan( ":;-" ) == 10 );
+    TEST( t.scanMatchStart(0) == 0 );
+    TEST( t.scanMatchLength(0) == t.size() );
+    TEST( t.scanMatch(1) == "this" );
+    TEST( t.scanMatch(2) == "is " );
+    TEST( t.scanMatch(3) == " a " );
+    TEST( t.scanMatch(4) == " test " );
+    TEST( t.scanMatch(5) == " it " );
+    TEST( t.scanMatch(6) == " is " );
+    TEST( t.scanMatch(7) == " only " );
+    TEST( t.scanMatch(8) == " a" );
+    TEST( t.scanMatch(9) == "test" );
 
   }
   
@@ -134,64 +142,64 @@ tStr21( LibTest & test )
     //      0123456789 123456789 123456789 123456789 12345678901234567890
 
     Str d( ":;-" );
-    test( t.scan( d ) == 10 );
-    test( t.scanMatchStart(0) == 0 );
-    test( t.scanMatchLength(0) == t.size() );
-    test( t.scanMatch(1) == "this" );
-    test( t.scanMatch(2) == "is " );
-    test( t.scanMatch(3) == " a " );
-    test( t.scanMatch(4) == " test " );
-    test( t.scanMatch(5) == " it " );
-    test( t.scanMatch(6) == " is " );
-    test( t.scanMatch(7) == " only " );
-    test( t.scanMatch(8) == " a" );
-    test( t.scanMatch(9) == "test" );
+    TEST( t.scan( d ) == 10 );
+    TEST( t.scanMatchStart(0) == 0 );
+    TEST( t.scanMatchLength(0) == t.size() );
+    TEST( t.scanMatch(1) == "this" );
+    TEST( t.scanMatch(2) == "is " );
+    TEST( t.scanMatch(3) == " a " );
+    TEST( t.scanMatch(4) == " test " );
+    TEST( t.scanMatch(5) == " it " );
+    TEST( t.scanMatch(6) == " is " );
+    TEST( t.scanMatch(7) == " only " );
+    TEST( t.scanMatch(8) == " a" );
+    TEST( t.scanMatch(9) == "test" );
 
     d = "@#$";
-    test( t.scan( d ) == 1 );
+    TEST( t.scan( d ) == 1 );
 
     d = "@#$:;-";
-    test( t.scan( d ) == 10 );
-    test( t.scanMatchStart(0) == 0 );
-    test( t.scanMatchLength(0) == t.size() );
-    test( t.scanMatch(1) == "this" );
-    test( t.scanMatch(2) == "is " );
-    test( t.scanMatch(3) == " a " );
-    test( t.scanMatch(4) == " test " );
-    test( t.scanMatch(5) == " it " );
-    test( t.scanMatch(6) == " is " );
-    test( t.scanMatch(7) == " only " );
-    test( t.scanMatch(8) == " a" );
-    test( t.scanMatch(9) == "test" );
+    TEST( t.scan( d ) == 10 );
+    TEST( t.scanMatchStart(0) == 0 );
+    TEST( t.scanMatchLength(0) == t.size() );
+    TEST( t.scanMatch(1) == "this" );
+    TEST( t.scanMatch(2) == "is " );
+    TEST( t.scanMatch(3) == " a " );
+    TEST( t.scanMatch(4) == " test " );
+    TEST( t.scanMatch(5) == " it " );
+    TEST( t.scanMatch(6) == " is " );
+    TEST( t.scanMatch(7) == " only " );
+    TEST( t.scanMatch(8) == " a" );
+    TEST( t.scanMatch(9) == "test" );
 
     d = "@#$:;-";
-    test( t.scan( d, 13 ) == 7 );
-    test( t.scanMatchStart(0) == 13 );
-    test( t.scanMatchLength(0) == t.size() - 13 );
-    test( t.scanMatch(1) == " test " );
-    test( t.scanMatch(2) == " it " );
-    test( t.scanMatch(3) == " is " );
-    test( t.scanMatch(4) == " only " );
-    test( t.scanMatch(5) == " a" );
-    test( t.scanMatch(6) == "test" );
+    TEST( t.scan( d, 13 ) == 7 );
+    TEST( t.scanMatchStart(0) == 13 );
+    TEST( t.scanMatchLength(0) == t.size() - 13 );
+    TEST( t.scanMatch(1) == " test " );
+    TEST( t.scanMatch(2) == " it " );
+    TEST( t.scanMatch(3) == " is " );
+    TEST( t.scanMatch(4) == " only " );
+    TEST( t.scanMatch(5) == " a" );
+    TEST( t.scanMatch(6) == "test" );
     
     t =  "---this:is : a ; test - it ; is :-; only : a:test";
     //    0123456789 123456789 123456789 123456789 12345678901234567890
 
     d = ":;-";
     
-    test( t.scan( d ) == 10 );
-    test( t.scanMatchStart(0) == 0 );
-    test( t.scanMatchLength(0) == t.size() );
-    test( t.scanMatch(1) == "this" );
-    test( t.scanMatch(2) == "is " );
-    test( t.scanMatch(3) == " a " );
-    test( t.scanMatch(4) == " test " );
-    test( t.scanMatch(5) == " it " );
-    test( t.scanMatch(6) == " is " );
-    test( t.scanMatch(7) == " only " );
-    test( t.scanMatch(8) == " a" );
-    test( t.scanMatch(9) == "test" );
+    TEST( t.scan( d ) == 10 );
+    TEST( t.scanMatchStart(0) == 0 );
+    TEST( t.scanMatchLength(0) == t.size() );
+    TEST( t.scanMatch(1) == "this" );
+    TEST( t.scanMatch(2) == "is " );
+    TEST( t.scanMatch(3) == " a " );
+    TEST( t.scanMatch(4) == " test " );
+    TEST( t.scanMatch(5) == " it " );
+    TEST( t.scanMatch(6) == " is " );
+    TEST( t.scanMatch(7) == " only " );
+    TEST( t.scanMatch(8) == " a" );
+    TEST( t.scanMatch(9) == "test" );
 
   }
 
@@ -201,23 +209,23 @@ tStr21( LibTest & test )
     Str t( "this:is : a ; test - it ; is :-; only : a:test" );
     //      0123456789 123456789 123456789 123456789 12345678901234567890
 
-    test( t.scan( ':' ) == 7 );
-    test( t.scanMatchStart(0) == 0 );
-    test( t.scanMatchLength(0) == t.size() );
-    test( t.scanMatch(1) == "this" );
-    test( t.scanMatch(2) == "is " );
-    test( t.scanMatch(3) == " a ; test - it ; is " );
-    test( t.scanMatch(4) == "-; only " );
-    test( t.scanMatch(5) == " a" );
-    test( t.scanMatch(6) == "test" );
+    TEST( t.scan( ':' ) == 7 );
+    TEST( t.scanMatchStart(0) == 0 );
+    TEST( t.scanMatchLength(0) == t.size() );
+    TEST( t.scanMatch(1) == "this" );
+    TEST( t.scanMatch(2) == "is " );
+    TEST( t.scanMatch(3) == " a ; test - it ; is " );
+    TEST( t.scanMatch(4) == "-; only " );
+    TEST( t.scanMatch(5) == " a" );
+    TEST( t.scanMatch(6) == "test" );
 
-    test( t.scan( ':', 13 ) == 5 );
-    test( t.scanMatchStart(0) == 13 );
-    test( t.scanMatchLength(0) == t.size() - 13 );
-    test( t.scanMatch(1) == " test - it ; is " );
-    test( t.scanMatch(2) == "-; only " );
-    test( t.scanMatch(3) == " a" );
-    test( t.scanMatch(4) == "test" );
+    TEST( t.scan( ':', 13 ) == 5 );
+    TEST( t.scanMatchStart(0) == 13 );
+    TEST( t.scanMatchLength(0) == t.size() - 13 );
+    TEST( t.scanMatch(1) == " test - it ; is " );
+    TEST( t.scanMatch(2) == "-; only " );
+    TEST( t.scanMatch(3) == " a" );
+    TEST( t.scanMatch(4) == "test" );
 
   }
 
@@ -229,15 +237,15 @@ tStr21( LibTest & test )
 
     RegexScan exp( "[0-9]+" );
 
-    test( t.scanPattern( exp ) == 7 );
-    test( t.scanMatchStart(0) == 0 );
-    test( t.scanMatchLength(0) == t.size() );
-    test( t.scanMatch(1) == "this" );
-    test( t.scanMatch(2) == "is" );
-    test( t.scanMatch(3) == "a test" );
-    test( t.scanMatch(4) == "it is " );
-    test( t.scanMatch(5) == ". only a" );
-    test( t.scanMatch(6) == "test" );
+    TEST( t.scanPattern( exp ) == 7 );
+    TEST( t.scanMatchStart(0) == 0 );
+    TEST( t.scanMatchLength(0) == t.size() );
+    TEST( t.scanMatch(1) == "this" );
+    TEST( t.scanMatch(2) == "is" );
+    TEST( t.scanMatch(3) == "a test" );
+    TEST( t.scanMatch(4) == "it is " );
+    TEST( t.scanMatch(5) == ". only a" );
+    TEST( t.scanMatch(6) == "test" );
 
   }
 
@@ -246,16 +254,14 @@ tStr21( LibTest & test )
     
     Str t( "ThisDELIM is a testDELIMitDELIM might work" );
 
-    test( t.scanString( "DELIM" ) == 5 );
-    test( t.scanMatchStart(0) == 0 );
-    test( t.scanMatchLength(0) == t.size() );
-    test( t.scanMatch(1) == "This" );
-    test( t.scanMatch(2) == " is a test" );
-    test( t.scanMatch(3) == "it" );
-    test( t.scanMatch(4) == " might work" );
+    TEST( t.scanString( "DELIM" ) == 5 );
+    TEST( t.scanMatchStart(0) == 0 );
+    TEST( t.scanMatchLength(0) == t.size() );
+    TEST( t.scanMatch(1) == "This" );
+    TEST( t.scanMatch(2) == " is a test" );
+    TEST( t.scanMatch(3) == "it" );
+    TEST( t.scanMatch(4) == " might work" );
   }
-    
-  
     
   return( true );
 }

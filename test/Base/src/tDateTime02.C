@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <DateTime.hh>
+#endif
 
 bool
-tDateTime02( LibTest & test )
+tDateTime02( LibTest & tester )
 {
   {
     // getTimeT( void ) const
@@ -13,11 +20,11 @@ tDateTime02( LibTest & test )
     
     const DateTime 	dt( "3/1/92 03:30" );
     
-    test(  dt.getTimeT()  ==  699420600  );
-    test(  dt.getSecOfDay()  ==  12600  );
-    test(  dt.getHour()  ==  3  );
-    test(  dt.getMinute()  ==  30  );
-    test(  dt.getSecond()  ==  0  );
+    TEST(  dt.getTimeT()  ==  699420600  );
+    TEST(  dt.getSecOfDay()  ==  12600  );
+    TEST(  dt.getHour()  ==  3  );
+    TEST(  dt.getMinute()  ==  30  );
+    TEST(  dt.getSecond()  ==  0  );
   }
 
   {
@@ -32,13 +39,13 @@ tDateTime02( LibTest & test )
     const DateTime  friday(    "3/6/92 03:30" );
     const DateTime  saturday(  "3/7/92 03:30" );
     
-    test(  sunday.getDayOfWeek()     ==  Sunday  );
-    test(  monday.getDayOfWeek()     ==  Monday  );
-    test(  tuesday.getDayOfWeek()    ==  Tuesday  );
-    test(  wednesday.getDayOfWeek()  ==  Wednesday  );
-    test(  thursday.getDayOfWeek()   ==  Thursday  );
-    test(  friday.getDayOfWeek()     ==  Friday  );
-    test(  saturday.getDayOfWeek()   ==  Saturday  );
+    TEST(  sunday.getDayOfWeek()     ==  Sunday  );
+    TEST(  monday.getDayOfWeek()     ==  Monday  );
+    TEST(  tuesday.getDayOfWeek()    ==  Tuesday  );
+    TEST(  wednesday.getDayOfWeek()  ==  Wednesday  );
+    TEST(  thursday.getDayOfWeek()   ==  Thursday  );
+    TEST(  friday.getDayOfWeek()     ==  Friday  );
+    TEST(  saturday.getDayOfWeek()   ==  Saturday  );
     
   }
 
@@ -56,26 +63,26 @@ tDateTime02( LibTest & test )
     
     DateTime  	    dt( "3/1/92 03:30" );
 
-    test(  dt.getDayOfYear()  ==  61  );
-    test(  dt.getDayOfMonth()  ==  1  );
-    test(  dt.getMonth()  ==  3  );
-    test(  dt.getYearOfCentury()  ==  92  );
-    test(  dt.getYear()  ==  1992  );
+    TEST(  dt.getDayOfYear()  ==  61  );
+    TEST(  dt.getDayOfMonth()  ==  1  );
+    TEST(  dt.getMonth()  ==  3  );
+    TEST(  dt.getYearOfCentury()  ==  92  );
+    TEST(  dt.getYear()  ==  1992  );
 
-    test( ! strcmp( "03/01/92 03:30:00", dt.getString() ) );
+    TEST( ! strcmp( "03/01/92 03:30:00", dt.getString() ) );
 	
     char    dtStrBuf[50];
 
     dt.getString( dtStrBuf );
 
-    test( ! strcmp( "03/01/92 03:30:00", dtStrBuf ) );
+    TEST( ! strcmp( "03/01/92 03:30:00", dtStrBuf ) );
 
-    test( ! strcmp( "Sun 01-Mar-92 03:30:00",
+    TEST( ! strcmp( "Sun 01-Mar-92 03:30:00",
 		     dt.getString( 0, "%a %d-%b-%y %H:%M:%S" ) ) );
     
     dt.getString( dtStrBuf, "%a %d-%b-%y %H:%M:%S" );
 
-    test( ! strcmp( "Sun 01-Mar-92 03:30:00", dtStrBuf ) );
+    TEST( ! strcmp( "Sun 01-Mar-92 03:30:00", dtStrBuf ) );
     
   }
   
@@ -91,27 +98,27 @@ tDateTime02( LibTest & test )
 
     const DateTime  dt( "3/1/92 03:30" );
 
-    test(  dt.getDayOfYear()  ==  61  );
-    test(  dt.getDayOfMonth()  ==  1  );
-    test(  dt.getMonth()  ==  3  );
-    test(  dt.getYearOfCentury()  ==  92  );
-    test(  dt.getYear()  ==  1992  );
+    TEST(  dt.getDayOfYear()  ==  61  );
+    TEST(  dt.getDayOfMonth()  ==  1  );
+    TEST(  dt.getMonth()  ==  3  );
+    TEST(  dt.getYearOfCentury()  ==  92  );
+    TEST(  dt.getYear()  ==  1992  );
 
 
-    test( ! strcmp( "03/01/92 03:30:00", dt.getString() ) );
+    TEST( ! strcmp( "03/01/92 03:30:00", dt.getString() ) );
 	
     char    dtStrBuf[50];
 
     dt.getString( dtStrBuf );
 
-    test( ! strcmp( "03/01/92 03:30:00", dtStrBuf ) );
+    TEST( ! strcmp( "03/01/92 03:30:00", dtStrBuf ) );
 
-    test( ! strcmp( "Sun 01-Mar-92 03:30:00",
+    TEST( ! strcmp( "Sun 01-Mar-92 03:30:00",
 		     dt.getString( 0, "%a %d-%b-%y %H:%M:%S" ) ) );
     
     dt.getString( dtStrBuf, "%a %d-%b-%y %H:%M:%S" );
 
-    test( ! strcmp( "Sun 01-Mar-92 03:30:00", dtStrBuf ) );
+    TEST( ! strcmp( "Sun 01-Mar-92 03:30:00", dtStrBuf ) );
     
   }
 
@@ -125,12 +132,12 @@ tDateTime02( LibTest & test )
     DateTime	    	dt( "2/14/95 07:26:35" );
     const DateTime	dtConst( "2/14/95 07:26:35" );
 
-    test(   dt.getOffset()  ==  0  );
-    test( ! dt.isLocal() );
-    test( ! dt.isDST() );
-    test( ! dtConst.isDST() );
+    TEST(   dt.getOffset()  ==  0  );
+    TEST( ! dt.isLocal() );
+    TEST( ! dt.isDST() );
+    TEST( ! dtConst.isDST() );
 
-    test( ! strcmp( dt.getTimeZone(), "GMT" ) );
+    TEST( ! strcmp( dt.getTimeZone(), "GMT" ) );
 
   }
 
@@ -147,19 +154,19 @@ tDateTime02( LibTest & test )
     DateTime	    	dt( when.getTimeT(), true );
     const DateTime	dtConst( when.getTimeT(), true );
 
-    test( dt.getOffset()  ==  -21600  );
-    test( dt.isLocal() );
-    test( ! dt.isDST() );
-    test( ! dtConst.isDST() );
+    TEST( dt.getOffset()  ==  -21600  );
+    TEST( dt.isLocal() );
+    TEST( ! dt.isDST() );
+    TEST( ! dtConst.isDST() );
 
     DateTime	summerWhen( "6/1/95 08:00:00" );
     DateTime 	summer( summerWhen.getTimeT(), true );
     const DateTime 	summerConst( summerWhen.getTimeT(), true );
 
-    test( summer.isDST() );
-    test( summerConst.isDST() );
+    TEST( summer.isDST() );
+    TEST( summerConst.isDST() );
     
-    test( ! strcmp( dt.getTimeZone(), "CST6CDT" ) );
+    TEST( ! strcmp( dt.getTimeZone(), "CST6CDT" ) );
   }
 
   {
@@ -168,10 +175,10 @@ tDateTime02( LibTest & test )
     // getGmtOffset( void )
     // getGmtOffset( const char * )
     
-    test( ! strcmp( DateTime::getSysTimeZone(), "CST6CDT" ) );
-    test(  DateTime::getGmtOffset()  ==  -21600  );
-    test(  DateTime::getGmtOffset( "CST6CDT" )  ==  -21600  );
-    test(  DateTime::getGmtOffset( "MST7MDT" )  ==  -25200  );
+    TEST( ! strcmp( DateTime::getSysTimeZone(), "CST6CDT" ) );
+    TEST(  DateTime::getGmtOffset()  ==  -21600  );
+    TEST(  DateTime::getGmtOffset( "CST6CDT" )  ==  -21600  );
+    TEST(  DateTime::getGmtOffset( "MST7MDT" )  ==  -25200  );
   }
 
 

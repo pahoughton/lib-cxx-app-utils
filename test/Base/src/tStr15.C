@@ -1,5 +1,12 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#endif
 
 // Str::find_*
 
@@ -10,7 +17,7 @@ static const char * Hay =
 //            1         2         3         4         5         6         7
 
 bool
-tStr15( LibTest & test )
+tStr15( LibTest & tester )
 {
   {
     // find_first_of( const Str & ) const
@@ -21,9 +28,9 @@ tStr15( LibTest & test )
     Str pat;
 
     pat = ":w1234";
-    test( t.find_first_of( pat ) == 26 );
+    TEST( t.find_first_of( pat ) == 26 );
     pat = ":123";
-    test( t.find_first_of( pat, 28 ) == 41 );
+    TEST( t.find_first_of( pat, 28 ) == 41 );
   }
   
   {
@@ -35,9 +42,9 @@ tStr15( LibTest & test )
     Str pat;
 
     pat = "###:w1234";
-    test( t.find_first_of( pat.after( 3 ) ) == 26 );
+    TEST( t.find_first_of( pat.after( 3 ) ) == 26 );
     pat = "###:123";
-    test( t.find_first_of( pat.after( 3 ), 28 ) == 41 );
+    TEST( t.find_first_of( pat.after( 3 ), 28 ) == 41 );
   }
   
   {
@@ -47,13 +54,13 @@ tStr15( LibTest & test )
 
     const Str t( Hay );
     
-    test( t.find_first_of( ":w1234" ) == 26 );
-    test( t.find_first_of( "!@#$:w1234" ) == 26 );
-    test( t.find_first_of( "!@#$w:" ) == 26 );
-    test( t.find_first_of( ":iea" ) == 2 );
-    test( t.find_first_of( ":123", 28 ) == 41 );
-    test( t.find_first_of( "!@#$" ) == Str::npos );
-    test( t.find_first_of( "!@#$:123", 0, 4 ) == Str::npos );
+    TEST( t.find_first_of( ":w1234" ) == 26 );
+    TEST( t.find_first_of( "!@#$:w1234" ) == 26 );
+    TEST( t.find_first_of( "!@#$w:" ) == 26 );
+    TEST( t.find_first_of( ":iea" ) == 2 );
+    TEST( t.find_first_of( ":123", 28 ) == 41 );
+    TEST( t.find_first_of( "!@#$" ) == Str::npos );
+    TEST( t.find_first_of( "!@#$:123", 0, 4 ) == Str::npos );
 
   }
 
@@ -66,11 +73,11 @@ tStr15( LibTest & test )
     Str pat;
 
     pat = ":w1234";
-    test( t.find_last_of( pat ) == 69 );
+    TEST( t.find_last_of( pat ) == 69 );
     pat = ":123";
-    test( t.find_last_of( pat, 69 ) == 68 );
+    TEST( t.find_last_of( pat, 69 ) == 68 );
     pat = "!@#$";
-    test( t.find_last_of( pat ) == Str::npos );
+    TEST( t.find_last_of( pat ) == Str::npos );
   }
 
   {
@@ -82,11 +89,11 @@ tStr15( LibTest & test )
     Str pat;
 
     pat = "###:w1234";
-    test( t.find_last_of( pat.after( 3 ) ) == 69 );
+    TEST( t.find_last_of( pat.after( 3 ) ) == 69 );
     pat = "###:123";
-    test( t.find_last_of( pat.after( 3 ), 69 ) == 68 );
+    TEST( t.find_last_of( pat.after( 3 ), 69 ) == 68 );
     pat = "123!@#$";
-    test( t.find_last_of( pat.after( 3 ) ) == Str::npos );
+    TEST( t.find_last_of( pat.after( 3 ) ) == Str::npos );
   }
 
   {
@@ -96,12 +103,12 @@ tStr15( LibTest & test )
     
     const Str t( Hay );    
   
-    test( t.find_last_of( ":w1234" ) == 69 );
-    test( t.find_last_of( "!@#$:w1234" ) == 69 );
-    test( t.find_last_of( "!@#$w:" ) == 69 );
-    test( t.find_last_of( ":iea" ) == 71 );
-    test( t.find_last_of( ":123", 69 ) == 68 );
-    test( t.find_last_of( "!@#$:123", 0, 4 ) == Str::npos );
+    TEST( t.find_last_of( ":w1234" ) == 69 );
+    TEST( t.find_last_of( "!@#$:w1234" ) == 69 );
+    TEST( t.find_last_of( "!@#$w:" ) == 69 );
+    TEST( t.find_last_of( ":iea" ) == 71 );
+    TEST( t.find_last_of( ":123", 69 ) == 68 );
+    TEST( t.find_last_of( "!@#$:123", 0, 4 ) == Str::npos );
 
   }
 
@@ -114,9 +121,9 @@ tStr15( LibTest & test )
     Str pat;
 
     pat = "iTsh etay";
-    test( t.find_first_not_of( pat ) == 17 );
+    TEST( t.find_first_not_of( pat ) == 17 );
     pat = "the ay";
-    test( t.find_first_not_of( pat, 10 ) == 17 );
+    TEST( t.find_first_not_of( pat, 10 ) == 17 );
   }
   
   {
@@ -128,9 +135,9 @@ tStr15( LibTest & test )
     Str pat;
 
     pat = "###iTsh etay";
-    test( t.find_first_not_of( pat.after( 3 ) ) == 17 );
+    TEST( t.find_first_not_of( pat.after( 3 ) ) == 17 );
     pat = "###the ay";
-    test( t.find_first_not_of( pat.after( 3 ), 10 ) == 17 );
+    TEST( t.find_first_not_of( pat.after( 3 ), 10 ) == 17 );
   }
 
   {
@@ -140,9 +147,9 @@ tStr15( LibTest & test )
     
     const Str t( Hay );    
 
-    test( t.find_first_not_of( "This teay" ) == 17 );
-    test( t.find_first_not_of( "the ay", 10 ) == 17 );
-    test( t.find_first_not_of( "This teayo", 0, 9 ) == 17 );
+    TEST( t.find_first_not_of( "This teay" ) == 17 );
+    TEST( t.find_first_not_of( "the ay", 10 ) == 17 );
+    TEST( t.find_first_not_of( "This teayo", 0, 9 ) == 17 );
   }
 
   {
@@ -154,9 +161,9 @@ tStr15( LibTest & test )
     Str pat;
 
     pat = "_Str:find ";
-    test( t.find_last_not_of( pat ) == 62 );
+    TEST( t.find_last_not_of( pat ) == 62 );
     pat = "to es";
-    test( t.find_last_not_of( pat, 64 ) == 55 );
+    TEST( t.find_last_not_of( pat, 64 ) == 55 );
   }
   
   {
@@ -168,9 +175,9 @@ tStr15( LibTest & test )
     Str pat;
 
     pat = "s_Str:find ";
-    test( t.find_last_not_of( pat.after( 1 ) ) == 62 );
+    TEST( t.find_last_not_of( pat.after( 1 ) ) == 62 );
     pat = "dto es";
-    test( t.find_last_not_of( pat.after( 1 ), 64 ) == 55 );
+    TEST( t.find_last_not_of( pat.after( 1 ), 64 ) == 55 );
   }
 
   {
@@ -180,9 +187,9 @@ tStr15( LibTest & test )
     
     const Str t( Hay );    
     
-    test( t.find_last_not_of( "_Str:find " ) == 62 );
-    test( t.find_last_not_of( "to es", 64 ) == 55 );
-    test( t.find_last_not_of( "to esd", 64, 5 ) == 55 );
+    TEST( t.find_last_not_of( "_Str:find " ) == 62 );
+    TEST( t.find_last_not_of( "to es", 64 ) == 55 );
+    TEST( t.find_last_not_of( "to esd", 64, 5 ) == 55 );
   }
 
   return( true );

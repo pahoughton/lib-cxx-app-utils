@@ -1,5 +1,12 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FilePath.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <FilePath.hh>
+#endif
 
 #define D   "dir"
 #define F   "filename"
@@ -8,7 +15,7 @@
 #define DE  "."
 
 bool
-tFilePath02( LibTest & test )
+tFilePath02( LibTest & tester )
 {
   {
     // getPath( void ) const
@@ -18,28 +25,28 @@ tFilePath02( LibTest & test )
 
     FilePath	t( D DD F DE E );
 
-    test( compare( t.getPath(), D ) == 0 );
-    test( compare( t.getFileName(), F DE E ) == 0 );
-    test( compare( t.getName(), F ) == 0 );
-    test( compare( t.getExt(), E ) == 0 );
+    TEST( compare( t.getPath(), D ) == 0 );
+    TEST( compare( t.getFileName(), F DE E ) == 0 );
+    TEST( compare( t.getName(), F ) == 0 );
+    TEST( compare( t.getExt(), E ) == 0 );
   }
   
   {
     FilePath	t( D DD D DD D DD F DE E );
 
-    test( compare( t.getPath(), D DD D DD D ) == 0 );
-    test( compare( t.getFileName(), F DE E ) == 0 );
-    test( compare( t.getName(), F ) == 0 );
-    test( compare( t.getExt(), E ) == 0 );
+    TEST( compare( t.getPath(), D DD D DD D ) == 0 );
+    TEST( compare( t.getFileName(), F DE E ) == 0 );
+    TEST( compare( t.getName(), F ) == 0 );
+    TEST( compare( t.getExt(), E ) == 0 );
   }
   
   {
     FilePath	t( D DD D DD D DD F DE "abc" DE E );
 
-    test( compare( t.getPath(), D DD D DD D ) == 0 );
-    test( compare( t.getFileName(), F DE "abc" DE E ) == 0 );
-    test( compare( t.getName(), F DE "abc" ) == 0 );
-    test( compare( t.getExt(), E ) == 0 );
+    TEST( compare( t.getPath(), D DD D DD D ) == 0 );
+    TEST( compare( t.getFileName(), F DE "abc" DE E ) == 0 );
+    TEST( compare( t.getName(), F DE "abc" ) == 0 );
+    TEST( compare( t.getExt(), E ) == 0 );
   }
 
   {
@@ -49,10 +56,10 @@ tFilePath02( LibTest & test )
 
     t.set( D DD D DD D DD F DE "abc" DE E );
 
-    test( compare( t.getPath(), D DD D DD D ) == 0 );
-    test( compare( t.getFileName(), F DE "abc" DE E ) == 0 );
-    test( compare( t.getName(), F DE "abc" ) == 0 );
-    test( compare( t.getExt(), E ) == 0 );
+    TEST( compare( t.getPath(), D DD D DD D ) == 0 );
+    TEST( compare( t.getFileName(), F DE "abc" DE E ) == 0 );
+    TEST( compare( t.getName(), F DE "abc" ) == 0 );
+    TEST( compare( t.getExt(), E ) == 0 );
   }
 
   {
@@ -62,12 +69,12 @@ tFilePath02( LibTest & test )
 
     t.setPrefix( D );
 
-    test( compare( t.getPath(), D DD D ) == 0 );
-    test( compare( t.getFileName(), F DE E ) == 0 );
+    TEST( compare( t.getPath(), D DD D ) == 0 );
+    TEST( compare( t.getFileName(), F DE E ) == 0 );
 
     t.setPrefix( D DE );
-    test( compare( t.getPath(), D DE DD D DD D ) == 0 );
-    test( compare( t.getFileName(), F DE E ) == 0 );
+    TEST( compare( t.getPath(), D DE DD D DD D ) == 0 );
+    TEST( compare( t.getFileName(), F DE E ) == 0 );
   }
   
   {
@@ -76,8 +83,8 @@ tFilePath02( LibTest & test )
 
     t.setPath( D );
 
-    test( compare( t.getFullName(), D DD F ) == 0 );
-    test( compare( t.getPath(), D ) == 0 );    
+    TEST( compare( t.getFullName(), D DD F ) == 0 );
+    TEST( compare( t.getPath(), D ) == 0 );    
   }
 
   {
@@ -86,8 +93,8 @@ tFilePath02( LibTest & test )
 
     t.setPath( D DD );
 
-    test( compare( t.getFullName(), D DD F ) == 0 );
-    test( compare( t.getPath(), D ) == 0 );    
+    TEST( compare( t.getFullName(), D DD F ) == 0 );
+    TEST( compare( t.getPath(), D ) == 0 );    
   }
 
   {
@@ -96,8 +103,8 @@ tFilePath02( LibTest & test )
 
     t.setPath( D );
 
-    test( compare( t.getFullName(), D DD F ) == 0 );
-    test( compare( t.getPath(), D ) == 0 );    
+    TEST( compare( t.getFullName(), D DD F ) == 0 );
+    TEST( compare( t.getPath(), D ) == 0 );    
   }
 
   {
@@ -107,10 +114,10 @@ tFilePath02( LibTest & test )
 
     t.changePath( "d2/d3", "other" );
 
-    test( compare( t.getFullName(), "d1/other/d4/filename" ) == 0 );
+    TEST( compare( t.getFullName(), "d1/other/d4/filename" ) == 0 );
 
     t.changePath( "d1/", "/new/base/" );
-    test( compare( t.getFullName(), "/new/base/other/d4/filename" ) == 0 );
+    TEST( compare( t.getFullName(), "/new/base/other/d4/filename" ) == 0 );
   }
 
   return( true );

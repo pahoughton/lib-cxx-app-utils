@@ -1,6 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
 #include <RegexScan.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <RxScan.hh>
+#endif
 
 // Str::rfind
 
@@ -9,7 +17,7 @@
 //                     1         2         3         4         5
 
 bool
-tStr12( LibTest & test )
+tStr12( LibTest & tester )
 {
   {
     // rfind( const Str & ) const
@@ -21,16 +29,16 @@ tStr12( LibTest & test )
 
     s = "hay";
 
-    test( t.rfind( s ) == 16 );
+    TEST( t.rfind( s ) == 16 );
 
     s = "123";
 
-    test( t.rfind( s ) == 38 );
-    test( t.rfind( s, 37 ) == 12 );
+    TEST( t.rfind( s ) == 38 );
+    TEST( t.rfind( s, 37 ) == 12 );
 
     s = "nope";
 
-    test( t.rfind( s ) == Str::npos );
+    TEST( t.rfind( s ) == Str::npos );
   }
 
   {
@@ -41,8 +49,8 @@ tStr12( LibTest & test )
 
     Str s( "xx123xx" );
 
-    test( t.rfind( s.substr( 2,3 ) ) == 38 );
-    test( t.rfind( s.substr( 2,3 ), 37 ) == 12 );
+    TEST( t.rfind( s.substr( 2,3 ) ) == 38 );
+    TEST( t.rfind( s.substr( 2,3 ), 37 ) == 12 );
   }
 
   {
@@ -52,12 +60,12 @@ tStr12( LibTest & test )
 
     Str t( HAY );
 
-    test( t.rfind( ".,?" ) == 42 );
-    test( t.rfind( "no" ) == Str::npos );
-    test( t.rfind( "c" ) == 52 );
-    test( t.rfind( "th" ) == 8 );
-    test( t.rfind( "th", 7 ) == 0 );
-    test( t.rfind( "thXX", 7, 2 ) == 0 );
+    TEST( t.rfind( ".,?" ) == 42 );
+    TEST( t.rfind( "no" ) == Str::npos );
+    TEST( t.rfind( "c" ) == 52 );
+    TEST( t.rfind( "th" ) == 8 );
+    TEST( t.rfind( "th", 7 ) == 0 );
+    TEST( t.rfind( "thXX", 7, 2 ) == 0 );
   }
 
   {
@@ -66,11 +74,11 @@ tStr12( LibTest & test )
 
     Str t( HAY );
 
-    test( t.rfind( 'c' ) == 52 );
-    test( t.rfind( 'a' ) == 47 );
-    test( t.rfind( 'a', 40 ) == 30 );
-    test( t.rfind( 'x' ) == Str::npos );
-    test( t.rfind( 't', 7 ) == 0 );
+    TEST( t.rfind( 'c' ) == 52 );
+    TEST( t.rfind( 'a' ) == 47 );
+    TEST( t.rfind( 'a', 40 ) == 30 );
+    TEST( t.rfind( 'x' ) == Str::npos );
+    TEST( t.rfind( 't', 7 ) == 0 );
   }
     
   return( true );

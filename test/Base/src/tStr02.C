@@ -1,5 +1,14 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#include <cstring>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#include <cstring>
+#endif
 
 // Str::append( ... )
 
@@ -9,7 +18,7 @@
 #define T4 " forth part"
 
 bool
-tStr02( LibTest & test )
+tStr02( LibTest & tester )
 {
   {
     // append( const Str & )
@@ -21,7 +30,7 @@ tStr02( LibTest & test )
     
       t.append( src );
 
-      test( t == src );
+      TEST( t == src );
     }
 
     {
@@ -29,14 +38,14 @@ tStr02( LibTest & test )
     
       t.append( src );
 
-      test( t == T1 T2 );
+      TEST( t == T1 T2 );
     }
 
     // overlap test
 
     t.append( t );
 
-    test( t == T1 T2 T1 T2 );    
+    TEST( t == T1 T2 T1 T2 );    
   }
 
   {
@@ -48,7 +57,7 @@ tStr02( LibTest & test )
 
     t.append( src, 3 );
     
-    test( t == T1 );
+    TEST( t == T1 );
 
   }
 
@@ -61,7 +70,7 @@ tStr02( LibTest & test )
 
     t.append( src, 3, strlen( T1 ) );
 
-    test( t == T1 );
+    TEST( t == T1 );
   }
 
   {
@@ -71,7 +80,7 @@ tStr02( LibTest & test )
 
     t.append( t.substr( strlen( T1 ), strlen( T2 ) ) );
 
-    test( t == T1 T2 T3 T2 );
+    TEST( t == T1 T2 T3 T2 );
   }
 
   {
@@ -80,7 +89,7 @@ tStr02( LibTest & test )
 
     t.append( t.substr( 0, strlen( T1 T2 ) ), strlen( T1 ) );
 
-    test( t == T1 T2 T3 T2 );
+    TEST( t == T1 T2 T3 T2 );
   }
 
   {
@@ -89,7 +98,7 @@ tStr02( LibTest & test )
 
     t.append( t.substr( 0, strlen( T1 T2 T3 ) ), strlen( T1 ), strlen( T2 ) );
 
-    test( t == T1 T2 T3 T4 T2 );
+    TEST( t == T1 T2 T3 T4 T2 );
   }
   
   {
@@ -99,11 +108,11 @@ tStr02( LibTest & test )
 
     t.append( T1 );
 
-    test( t == T1 );
+    TEST( t == T1 );
 
     t.append( T2 ).append( T3 ).append( T4 );
 
-    test( t == T1 T2 T3 T4 );
+    TEST( t == T1 T2 T3 T4 );
     
   }
 
@@ -114,7 +123,7 @@ tStr02( LibTest & test )
 
     t.append( T1 T2, strlen( T1 ) );
 
-    test( t == T1 );
+    TEST( t == T1 );
   }
 
   {
@@ -124,7 +133,7 @@ tStr02( LibTest & test )
 
     t.append( 5, 'x' );
 
-    test( t == "xxxxx" );
+    TEST( t == "xxxxx" );
   }
 
   {
@@ -134,7 +143,7 @@ tStr02( LibTest & test )
 
     t.append( '1' ).append( '2' ).append( '3' );
 
-    test( t == "123" );
+    TEST( t == "123" );
   }
 
   {
@@ -142,7 +151,7 @@ tStr02( LibTest & test )
 
     t.append( t.begin(), t.end() );
 
-    test( t == T1 T1 );
+    TEST( t == T1 T1 );
   }
 
   {
@@ -159,23 +168,23 @@ tStr02( LibTest & test )
 
     t += str;
 
-    test( t == T1 );
+    TEST( t == T1 );
 
     t += sub.substr( strlen( T1 ), strlen( T2 ) );
 
-    test( t == T1 T2 );
+    TEST( t == T1 T2 );
 
     t += T3;
 
-    test( t == T1 T2 T3 );
+    TEST( t == T1 T2 T3 );
 
     t += 'x';
 
-    test( t == T1 T2 T3 "x" );
+    TEST( t == T1 T2 T3 "x" );
 
     (t += T2) += T3;
 
-    test( t == T1 T2 T3 "x" T2 T3 );
+    TEST( t == T1 T2 T3 "x" T2 T3 );
   }
   
   return( true );

@@ -1,5 +1,12 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Str.hh>
+#endif
 
 // Str::from( number)
 
@@ -23,7 +30,7 @@ static const char * BaseStrings[] =
 };
 
 bool
-tStr16( LibTest & test )
+tStr16( LibTest & tester )
 {
   {
     // from( int )
@@ -33,14 +40,14 @@ tStr16( LibTest & test )
     int num = 0;
     t.from( num );
 
-    test(  t == "0" );
+    TEST(  t == "0" );
 
     t = "number: ";
 
     num = 10;
     t.from( num );
 
-    test( t == "number: 10" );
+    TEST( t == "number: 10" );
 
     t.reset();
     num = 4096;
@@ -48,35 +55,35 @@ tStr16( LibTest & test )
 
     t << " - 4096";
 
-    test( t == "4096 - 4096" );
+    TEST( t == "4096 - 4096" );
 
     t.reset();
     t.width( 5 );
     num = -21;
     t.from( num );
 
-    test( t == "  -21" );
+    TEST( t == "  -21" );
 
     t.reset();
     t.width( 3 );
     num = 19999;
     t.from( num ).append( " number" );
 
-    test( t == "19999 number" );
+    TEST( t == "19999 number" );
 
     t.reset();
     num = 50;
     long was = t.setf( ios::showpos );
     t.from( num );
 
-    test( t == "+50" );
+    TEST( t == "+50" );
     
     t.reset();
     t.width( 5 );
     num = 15;
     t.from( num );
 
-    test( t == "  +15" );
+    TEST( t == "  +15" );
 
     t.reset();
     t.flags( was );
@@ -85,7 +92,7 @@ tStr16( LibTest & test )
     t.width( 5 );
     t.from( num );
 
-    test( t == "15   " );
+    TEST( t == "15   " );
 
     t.reset();
     t.flags( was );
@@ -95,7 +102,7 @@ tStr16( LibTest & test )
     t.width( 8 );
     t.from( num );
 
-    test( t == "+100    " );
+    TEST( t == "+100    " );
 
   }
 
@@ -107,13 +114,13 @@ tStr16( LibTest & test )
     num = 077;
     t.from( num );
 
-    test( t == "63" );
+    TEST( t == "63" );
 
-    num = 0xff00;
+    num = 0x0ff0;
     t.reset();
     t.from( num );
     
-    test( t == "65280" );
+    TEST( t == "4080" );
 
     num = 0xfff;
 
@@ -121,10 +128,10 @@ tStr16( LibTest & test )
       {
 	t.reset();
 	t.from( num, b );
-	test( t == BaseStrings[b-2] );
+	TEST( t == BaseStrings[b-2] );
       }
     
-    num = -43981;
+    num = -3981;
 
     t.reset();
     t.setf( ios::showbase );
@@ -132,31 +139,31 @@ tStr16( LibTest & test )
     t.width( 10 );
     t.from( num, 8 );
     
-    test( t == "  -0125715" );
+    TEST( t == "    -07615" );
 
     t.reset();
     t.from( num, 16 );
     
-    test( t == "-0xabcd" );
+    TEST( t == "-0xf8d" );
 
     t.reset();
     t.setf( ios::uppercase );
     t.from( num, 16 );
     
-    test( t == "-0XABCD" );
+    TEST( t == "-0XF8D" );
 
     t.reset();
     num = -num;
     t.width( 10 );
     t.from( num, 8 );
     
-    test( t == "  +0125715" );
+    TEST( t == "    +07615" );
 
     t.reset();
     t.width( 10 );
     t.from( num, 16 );
     
-    test( t == "   +0XABCD" );
+    TEST( t == "    +0XF8D" );
 
 
     t.reset();
@@ -164,7 +171,7 @@ tStr16( LibTest & test )
     t.width( 10 );
     t.from( num, 16 );
     
-    test( t == "+0XABCD   " );
+    TEST( t == "+0XF8D    " );
 
   }
 
@@ -175,7 +182,7 @@ tStr16( LibTest & test )
     short num = -550;
     t.from( num );
 
-    test( t == "-550" );
+    TEST( t == "-550" );
   }
     
   {
@@ -188,7 +195,7 @@ tStr16( LibTest & test )
       {
 	t.reset();
 	t.from( num, b );
-	test( t == BaseStrings[b-2] );
+	TEST( t == BaseStrings[b-2] );
       }    
   }
 
@@ -200,17 +207,17 @@ tStr16( LibTest & test )
     long num = -550;
     t.from( num );
 
-    test( t == "-550" );
+    TEST( t == "-550" );
 
     t.reset();
-    num = 999999999;
+    num = 999999999L;
     t.from( num );
-    test( t == "999999999" );
+    TEST( t == "999999999" );
     
     t.reset();
-    num = 111111111;
+    num = 111111111L;
     t.from( num );
-    test( t == "111111111" );
+    TEST( t == "111111111" );
     
   }
 
@@ -224,7 +231,7 @@ tStr16( LibTest & test )
       {
 	t.reset();
 	t.from( num, b );
-	test( t == BaseStrings[b-2] );
+	TEST( t == BaseStrings[b-2] );
       }    
   }
 
@@ -238,11 +245,11 @@ tStr16( LibTest & test )
     
     if( sizeof( int ) == sizeof( long ) )
       {
-	test( t == "ffffffff" );
+	TEST( t == "ffffffff" );
       }
     else
       {
-	test( t == "ffff" );
+	TEST( t == "ffff" );
       }
   }
     
@@ -256,7 +263,7 @@ tStr16( LibTest & test )
       {
 	t.reset();
 	t.from( num, b );
-	test( t == BaseStrings[b-2] );
+	TEST( t == BaseStrings[b-2] );
       }    
   }
 
@@ -268,14 +275,14 @@ tStr16( LibTest & test )
     unsigned short num = 1234;
 
     t.from( num );
-    test( t == "1234" );
+    TEST( t == "1234" );
     
     t.reset();
     num = USHRT_MAX;
     
     t.from( num, 16 );
     
-    test( t == "ffff" );    
+    TEST( t == "ffff" );    
   }
     
   {
@@ -287,13 +294,13 @@ tStr16( LibTest & test )
     unsigned long num = 1234;
 
     t.from( num );
-    test( t == "1234" );
+    TEST( t == "1234" );
     
     num = ULONG_MAX;
     t.reset();
     t.from( num, 16 );
     
-    test( t == "ffffffff" );    
+    TEST( t == "ffffffff" );    
   }
     
   return( true );
