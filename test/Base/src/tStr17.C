@@ -362,7 +362,7 @@ tStr17( LibTest & tester )
       TEST( (*them).second == 0 );
     }
 
-    r = "3-200";
+    r = "3:200";
     TEST( r.to( t ) == 1 );
     
     {
@@ -376,7 +376,7 @@ tStr17( LibTest & tester )
       
     }
 
-    r = "4-8,10:20.23  30..35\t50;1025-";
+    r = "4:8,10:20.23  30..35\t50;1025-";
     TEST( r.to( t ) == 6 );
     
     {
