@@ -67,8 +67,10 @@ Param::Param(
       allArgv.push_back( tmp );
     }
   
+  argv = allArgv;
+  
   helpString += "\n";
-  helpString += appName();
+  helpString += mainArgv[0];
   helpString += " help: \n\n";
 
   if( ver.size() )
@@ -89,7 +91,16 @@ bool
 Param::parseArgs( void )
 {
   argv	    = allArgv;
-  fileArgs  = allFileArgs;
+  
+  argStr( argFile,
+	  "Name of file to read args from.",
+	  "argfile" );
+
+  if( argFile.size() )
+    {
+      readArgs( argFile.cstr() );
+      fileArgs = allFileArgs;
+    }
   
   argFlag( helpFlag,
 	   "show usage help.",
@@ -187,7 +198,7 @@ Param::readArgs( istream & src )
 {
   Str    line;
 
-  fileArgs.erase( fileArgs.begin(), fileArgs.end() );
+  allFileArgs.erase( fileArgs.begin(), fileArgs.end() );
   
   while( getline( src, line ).good() )
     {
@@ -202,21 +213,19 @@ Param::readArgs( istream & src )
 
       if( delimPos != Str::npos )
 	{
-	  fileArgs.push_back( line.substr( pos, delimPos - 1 ) );
+	  allFileArgs.push_back( line.substr( pos, delimPos - pos ) );
 	  
 	  Str::size_type valuePos = line.find_first_not_of( " \t",
 							    delimPos );
 	  if( valuePos != Str::npos )
-	    fileArgs.push_back( line.substr( valuePos ) );
+	    allFileArgs.push_back( line.substr( valuePos ) );
 	}
       else
 	{
-	  fileArgs.push_back( line.substr( pos ) );
+	  allFileArgs.push_back( line.substr( pos ) );
 	}
     }
 
-  parseArgs();
-  
   return( good() );
 }
 
@@ -596,6 +605,7 @@ Param::getArgValue( const char * argId, const char * envVar )
 	      {
 		if( (*them).size() && (*them)[0] != '-' )
 		  {
+		    foundArg = true;
 		    value = *them;
 		    fileArgs.erase( them );
 		    break;
@@ -643,6 +653,7 @@ Param::getArgValue( const char * argId, const char * envVar )
 		if( (*them).size() &&
 		    (*them)[0] != '-' )
 		  {
+		    foundArg = true;
 		    value = *them;
 		    argv.erase( them );
 		    break;
@@ -813,7 +824,7 @@ Param::toStream( ostream & dest ) const
 
   if( fileArgs.size() )
     {
-      dest << "Unprocessed file args:\n" ;
+      dest << "\nUnprocessed file args:\n" ;
 
       for( Args::const_iterator them = fileArgs.begin();
 	   them != fileArgs.end();
@@ -823,7 +834,7 @@ Param::toStream( ostream & dest ) const
 	  
   if( count() > 1 )
     {
-      dest << "Unprocessed command line args:\n";
+      dest << "\nUnprocessed command line args:\n";
       
       Args::const_iterator them = argv.begin();
       for( ++ them ; them != argv.end(); ++ them )
@@ -870,6 +881,16 @@ Param::dumpInfo(
 	dest << "   '";
       dest << allArgv[i] << "'\n";
     }
+
+  for( Args::size_type f = 0; f < allFileArgs.size() ; ++ f )
+    {
+      dest << prefix << "fileArg[" << f << "]:";
+      if( f > 9 )
+	dest << "  '";
+      else
+	dest << "   '";
+      dest << allFileArgs[f] << "'\n";
+    }
   
   dest << '\n';
 
@@ -880,6 +901,25 @@ Param::dumpInfo(
     ;
   
   dest << prefix << "helpString: \n" << helpString << '\n';
+
+  if( fileArgs.size() )
+    {
+      dest << "\nUnprocessed file args:\n" ;
+
+      for( Args::const_iterator them = fileArgs.begin();
+	   them != fileArgs.end();
+	   ++ them )
+	dest << "  " << (*them) << endl;
+    }
+	  
+  if( count() > 1 )
+    {
+      dest << "\nUnprocessed command line args:\n";
+      
+      Args::const_iterator them = argv.begin();
+      for( ++ them ; them != argv.end(); ++ them )
+	dest << "  " << (*them) << endl;
+    }
 
   dest << '\n';
     
@@ -898,9 +938,7 @@ Param::appendHelp(
 
   argHelp.setf( ios::left, ios::adjustfield );
 
-  argHelp << "-" << setw(8) << argId << " " ;
-
-  size_t    contLinePadSize = 8 + 3 + 3;
+  size_t    contLinePadSize = max( (size_t)10, strlen( argId ))  + 3 + 1;
 
   argHelp << desc ;
 
@@ -910,8 +948,12 @@ Param::appendHelp(
   if( value && strlen( value ) )
     argHelp << " '" << value << "'\n" ;
 
-  argHelp.wrap( 79, contLinePadSize, 2 );
+  argHelp.wrap( 79, contLinePadSize );
 
+  argHelp[2] = '-';
+  
+  argHelp.replace( 3, strlen( argId ), argId );
+  
   helpString += argHelp;
   
 #if defined( OLD_WAY )
@@ -978,6 +1020,11 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.9  1997/03/21 15:39:41  houghton
+// Added argfile arg.
+// Bug-Fix: readargs was not working correctly.
+// Changed readargs is now a protected member.
+//
 // Revision 3.8  1997/03/21 12:26:01  houghton
 // Changed file arg processing. Now file args will be overridden by
 //     command line values
