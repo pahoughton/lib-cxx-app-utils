@@ -2,62 +2,33 @@
 #define _Compare_hh_
 //
 // File:        Compare.hh
+// Project:	Clue
 // Desc:        
 //
-//  This file defines inline functions to compare values
+//  This file defines inline functions to two compare values of the
+//  same type. They are all named 'compare' and return an int.
 //
-//      int compare( number, number )
-//      int compare( char, char )
-//      int compare( signed char, signed char )
-//      int compare( unsigned char, unsigned char )
-//      int compare( short, short )
-//      int compare( unsigned short, unsigned short )
-//      int compare( int, int )
-//      int compare( unsigned int, unsigned int )
-//      int compare( long, long )
-//      int compare( unsigned long, unsigned long )
-//      int compare( float, float )
-//      int compare( double, double )
-//      int compare( char *, char * );
-//      int compare( char *, const char * )
-//      int compare( const char *, char * )
-//      int compare( char **, char ** )
-//      int compare( char **, const char ** )
-//      int compare( char **, char * const * )
-//      int compare( char **, const char * const * )
-//      int compare( const char **, char ** )
-//      int compare( const char **, const char ** )
-//      int compare( const char **, char * const * )
-//      int compare( const char **, const char * const * )
-//      int compare( char * const *, char ** )
-//      int compare( char * const *, const char ** )
-//      int compare( char * const *, char * const * )
-//      int compare( char * const *, const char * const * )
-//      int compare( const char * const *, char ** )
-//      int compare( const char * const *, const char ** )
-//      int compare( const char * const *, char * const * )
-//      int compare( const char * const *, const char * const * )
+//  The return value is one of <0, 0 or >0 depending on the difference
+//  of the arguments.
 //
+//  .nf
+//    if a1 <  a2 then compare( a1, a2 ) <  0;
+//    if a1 == a2 then compare( a1, a2 ) == 0;
+//    if a1 >  a2 then compare( a1, a2 ) >  0;
+//  .fn
 //
-// Author:      Paul Houghton x2309 - (houghton@shoe.wiltel.com)
+//  All 'char *' fucntions (i.e. * **) check the actual
+//  characters and not the pointers.
+// 
+// Author:      Paul Houghton (paul_houghton@wcom.com)
 // Created:     05/01/95 9:00
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// 
-// $Log$
-// Revision 2.2  1996/04/27 12:53:36  houghton
-// Removed unneeded includes.
-//
-// Revision 2.1  1995/11/10 12:40:23  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  14:44:25  houghton
-// Ports and Version ID changes
-//
-//
+// $Id$
 //
 
+#include <cstring>	// needed for strcmp calls
 
 #if defined( _compare_h )
 #error "GNU's compare.h has been include"
@@ -119,7 +90,158 @@ Compare_NCMP( unsigned long );
 
 #endif // defined( Compare_SCMP_ ) ...
 
-/* 
+// Detail Documentation
+//
+//  Functions: 
+// 
+//	inline
+//	int
+//	compare( const char * one, const char * two );
+//
+//	inline
+//	int
+//	compare( const char * one, char * two );
+//
+//	inline
+//	int
+//	compare( char * one, const char * two );
+//
+//	inline
+//	int
+//	compare( char * one, char * two );
+//
+//	inline
+//	int
+//	compare( const char * const * one, const char * const * two );
+//
+//	inline
+//	int
+//	compare( const char * const * one, const char * * two );
+//
+//	inline
+//	int
+//	compare( const char * const * one, char * const * two );
+//
+//	inline
+//	int
+//	compare(const char * const * one, char * * two );
+//
+//	inline
+//	int
+//	compare(const char * * one, const char * const * two );
+//
+//	inline
+//	int
+//	compare(const char * * one, const char * * two );
+//
+//	inline
+//	int
+//	compare( const char * * one, char * const * two );
+//
+//	inline
+//	int
+//	compare( const char * * one, char * * );
+//
+//	inline
+//	int
+//	compare( char * const * one, const char * const * two );
+//
+//	inline
+//	int
+//	compare( char * const * one, const char * * two );
+//
+//	inline
+//	int
+//	compare( char * const * one, char * const * two );
+//
+//	inline
+//	int
+//	compare( char * const * one, char * * two );
+//
+//	inline
+//	int
+//	compare( char * * one, const char * const * two );
+//
+//	inline
+//	int
+//	compare( char * * one, const char * * two );
+//
+//	inline
+//	int
+//	compare( char * * one, char * const * two );
+//
+//	inline
+//	int
+//	compare( char * * one, char * * two );
+//
+//	inline
+//	int
+//	compare( char one, char two );
+//
+//	inline
+//	int
+//	compare( short one, short two );
+//
+//	inline
+//	int
+//	compare( int one, int two );
+//
+//	inline
+//	int
+//	compare( long one, long two );
+//
+//	inline
+//	int
+//	compare( float one, float two );
+//
+//	inline
+//	int
+//	compare( double one, double two );
+//
+//	inline
+//	int
+//	compare( unsigned char one, unsigned char two );
+//
+//	inline
+//	int
+//	compare( unsigned short one, unsigned short two );
+//
+//	inline
+//	int
+//	compare( unsigned int one, unsigned int two );
+//
+//	inline
+//	int
+//	compare( unsigned long one, unsigned long two );
+//
+// Files:
+//
+//  Compare.hh
+//
+// Documented Ver:  2.2
+// Tested Ver:	    
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.3  1996/10/27 11:12:32  houghton
+// Cleanup documentation.
+//
+// Revision 2.2  1996/04/27 12:53:36  houghton
+// Removed unneeded includes.
+//
+// Revision 2.1  1995/11/10 12:40:23  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  14:44:25  houghton
+// Ports and Version ID changes
+//
+//
+//
+
+/*
+  Some of this code was stolen from:
+  
 Copyright (C) 1988 Free Software Foundation
     written by Doug Lea (dl@rocky.oswego.edu)
 
