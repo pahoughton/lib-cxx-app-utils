@@ -1,37 +1,16 @@
 //
 // File:        main.C
+// Project:	Clue
 // Desc:        
 //
-//  
+//  Entry point for testing libClue classes, functions & macros.
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/01/95 12:08 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 2.6  1996/08/12 17:50:12  houghton
-// Added test for FileBinStream.
-//
-// Revision 2.5  1996/06/09 09:47:01  houghton
-// Added tHeapNetStream.
-// Added LibLog.
-//
-// Revision 2.4  1996/05/03 16:17:49  houghton
-// Added output for each test.
-//
-// Revision 2.3  1996/05/01 11:05:28  houghton
-// Run all test.
-//
-// Revision 2.2  1996/02/29 19:11:09  houghton
-// *** empty log message ***
-//
-// Revision 2.1  1995/11/10 12:48:40  houghton
-// Change to Version 2
-//
-// Revision 1.5  1995/11/05  16:04:21  houghton
-// Revised
-//
+// $Id$
 //
 
 #if !defined( CLUE_SHORT_FN )
@@ -53,6 +32,8 @@
 LibTest::TestItem   TestList[] =
 {
   { "ArraySize",    	    tArraySize },
+  { "OpenFlags",	    tOpenFlags },
+  { "Align",		    tAlign },
   { "DwordAlign",   	    tDwordAlign },
   { "MemOverlap",   	    tMemOverlap },
   { "AbsLong",	    	    tAbsLong },
@@ -63,6 +44,7 @@ LibTest::TestItem   TestList[] =
   { "Compare", 	    	    tCompare },
   { "CharToInt",    	    tCharToInt },
   { "SafeStrcpy",   	    tSafeStrcpy },
+  { "CharIsBaseDigit",	    tCharIsBaseDigit },
   { "StringCapitalize",	    tStringCapitalize },
   { "StringCaseCompare",    tStringCaseCompare },
   { "StringLower",  	    tStringLower },
@@ -71,21 +53,28 @@ LibTest::TestItem   TestList[] =
   { "StringUpper",  	    tStringUpper },
   { "StripWhite",   	    tStripWhite },
   { "basename",     	    tbasename },
+  { "ClassVersion",	    tClassVersion },
+  { "Bitmask",		    tBitmask },
+#if defined( DONT_DO )
   { "HeapBinStream",	    tHeapBinStream },
   { "HeapNetStream",	    tHeapNetStream },
   { "Str",  	    	    tStr },
   { "SubStr",  	    	    tSubStr },
+#endif
   { "RegexScan",    	    tRegexScan },  
+#if defined( DONT_DO )
   { "DateTimeUtils",        tDateTimeUtils },  
   { "DateTime",		    tDateTime },
   { "DateRange",	    tDateRange },
   { "DateRangeDaily",	    tDateRangeDaily },
   { "DateRangeWeekly",	    tDateRangeWeekly },
-  { "Bitmask",		    tBitmask },
   { "FilePath",		    tFilePath },
   { "User",		    tUser },
   { "UserGroup",	    tUserGroup },
   { "FileStat",		    tFileStat },
+#endif
+  { "LogLevel",		    tLogLevel },
+#if defined( DONT_DO )
   { "Log",		    tLog },
   { "Param",		    tParam },
   { "SortOrder",	    tSortOrder },
@@ -94,8 +83,9 @@ LibTest::TestItem   TestList[] =
   { "WithCommon",	    tWithCommon },
   { "WithWcf",		    tWithWcf },
 #endif
+#endif
   
-#ifdef COMPONENT_TEST
+#if defined( COMPONENT_TEST )
   { "ArraySize",    	    tArraySize },
   { "DwordAlign",   	    tDwordAlign },
   { "MemOverlap",   	    tMemOverlap },
@@ -195,11 +185,11 @@ int
 main( int argc, char * argv[] )
 {
   
-  Log   log;
+  // Log   log;
 
-  _LibLog = &log;
+  // _LibLog = &log;
 
-  log.setOutputLevel( LogLevel::All );
+  // log.setOutputLevel( LogLevel::All );
 
 #if TEST_DUMPINFO_SCREEN
   ostream & dumpDest( cout );
@@ -211,3 +201,35 @@ main( int argc, char * argv[] )
 
   return( test.run( argc, argv ) );
 }
+
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.7  1996/11/04 14:43:32  houghton
+// Restructure header comments layout.
+// Changed to only run test on the classes/functions that are ready.
+//
+// Revision 2.6  1996/08/12 17:50:12  houghton
+// Added test for FileBinStream.
+//
+// Revision 2.5  1996/06/09 09:47:01  houghton
+// Added tHeapNetStream.
+// Added LibLog.
+//
+// Revision 2.4  1996/05/03 16:17:49  houghton
+// Added output for each test.
+//
+// Revision 2.3  1996/05/01 11:05:28  houghton
+// Run all test.
+//
+// Revision 2.2  1996/02/29 19:11:09  houghton
+// *** empty log message ***
+//
+// Revision 2.1  1995/11/10 12:48:40  houghton
+// Change to Version 2
+//
+// Revision 1.5  1995/11/05  16:04:21  houghton
+// Revised
+//
+//
