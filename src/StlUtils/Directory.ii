@@ -2,32 +2,42 @@
 #define _Directory_ii_
 //
 // File:        Directory.ii
+// Project:	Clue
 // Desc:        
 //
-//  	inlines for Directory
+//  	Inline source for Directory
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
 // Created:     09/19/95 07:59
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.1  1996/11/14 01:25:20  houghton
-// Changed to Release 3
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 2.1  1995/11/10 12:47:08  houghton
-// Change to Version 2
+//  $Id$
 //
-// Revision 1.2  1995/11/05  13:48:12  houghton
-// New implementation
-//
-//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+// Directory::DirField inlines
 
 inline
 Directory::DirField::DirField( void )
+  : comp( Equal ),
+    refCount( 1 )
 {
-  refCount = 1;
-  comp = Equal;
+}
+
+inline
+Directory::DirField::DirField( CompareType compType )
+  : comp( compType ),
+    refCount( 1 )
+{
 }
 
 inline
@@ -46,27 +56,376 @@ Directory::DirField::delRef( void )
   return( refCount == 0 );
 }
 
+// Directory::DirFieldName inlines
+
 inline
-Directory::Directory( const char * path, Options options )
+Directory::DirFieldName::DirFieldName( void )
 {
-  set( path, options );
 }
 
 inline
-Directory::Directory(
-  const char *			path,
-  const SortOrder< FileStat > & order,
-  bool				recurs
+Directory::DirFieldName::DirFieldName( const DirFieldName & from )
+  : DirField( from ),
+    value( from.value )
+{
+}
+
+inline
+Directory::DirFieldName
+Directory::DirFieldName::operator == ( const char * rhs ) const
+{
+  return( DirFieldName( Equal, rhs ) );
+}
+
+inline
+Directory::DirFieldName
+Directory::DirFieldName::operator != ( const char * rhs ) const
+{
+  return( DirFieldName( NotEqual, rhs ) );
+}
+
+inline
+Directory::DirFieldName
+Directory::DirFieldName::operator < ( const char * rhs ) const
+{
+  return( DirFieldName( Less, rhs ) );
+}
+
+inline
+Directory::DirFieldName
+Directory::DirFieldName::operator > ( const char * rhs ) const
+{
+  return( DirFieldName( More, rhs ) );
+}
+
+inline
+Directory::DirFieldName
+Directory::DirFieldName::operator <= ( const char * rhs ) const
+{
+  return( DirFieldName( LessEqual, rhs ) );
+}
+
+inline
+Directory::DirFieldName
+Directory::DirFieldName::operator >= ( const char * rhs ) const
+{
+  return( DirFieldName( MoreEqual, rhs ) );
+}
+
+inline
+Directory::DirFieldName::DirFieldName(
+  CompareType	compType,
+  const char *	compValue
   )
+  : DirField( compType ),
+    value( compValue )
 {
-  set( path, order, recurs );
+}
+
+// Directory::DirFieldSize inlines
+
+inline
+Directory::DirFieldSize::DirFieldSize( void )
+  : value( 0 )
+{
 }
 
 inline
-Directory::Directory( const Directory & from )
+Directory::DirFieldSize::DirFieldSize( const DirFieldSize & from )
+  : DirField( from ),
+    value( from.value )
 {
-  list = from.list;
 }
+
+inline
+Directory::DirFieldSize
+Directory::DirFieldSize::operator == ( size_type rhs ) const
+{
+  return( DirFieldSize( Equal, rhs ) );
+}
+
+inline
+Directory::DirFieldSize
+Directory::DirFieldSize::operator != ( size_type rhs ) const
+{
+  return( DirFieldSize( NotEqual, rhs ) );
+}
+
+inline
+Directory::DirFieldSize
+Directory::DirFieldSize::operator < ( size_type rhs ) const
+{
+  return( DirFieldSize( Less, rhs ) );
+}
+
+inline
+Directory::DirFieldSize
+Directory::DirFieldSize::operator > ( size_type rhs ) const
+{
+  return( DirFieldSize( More, rhs ) );
+}
+
+inline
+Directory::DirFieldSize
+Directory::DirFieldSize::operator <= ( size_type rhs ) const
+{
+  return( DirFieldSize( LessEqual, rhs ) );
+}
+
+inline
+Directory::DirFieldSize
+Directory::DirFieldSize::operator >= ( size_type rhs ) const
+{
+  return( DirFieldSize( MoreEqual, rhs ) );
+}
+
+inline
+Directory::DirFieldSize::DirFieldSize(
+  CompareType	compType,
+  size_type	compValue
+  )
+  : DirField( compType ),
+    value( compValue )
+{
+}
+
+// Directory::DirFieldTime inlines
+
+inline
+Directory::DirFieldTime::DirFieldTime( void )
+  : value( 0 )
+{
+}
+
+inline
+Directory::DirFieldTime::DirFieldTime( const DirFieldTime & from )
+  : DirField( from ),
+    value( from.value )
+{
+}
+
+inline
+Directory::DirFieldTime
+Directory::DirFieldTime::operator == ( time_t rhs ) const
+{
+  return( DirFieldTime( Equal, rhs ) );
+}
+
+inline
+Directory::DirFieldTime
+Directory::DirFieldTime::operator != ( time_t rhs ) const
+{
+  return( DirFieldTime( NotEqual, rhs ) );
+}
+
+inline
+Directory::DirFieldTime
+Directory::DirFieldTime::operator < ( time_t rhs ) const
+{
+  return( DirFieldTime( Less, rhs ) );
+}
+
+inline
+Directory::DirFieldTime
+Directory::DirFieldTime::operator > ( time_t rhs ) const
+{
+  return( DirFieldTime( More, rhs ) );
+}
+
+inline
+Directory::DirFieldTime
+Directory::DirFieldTime::operator <= ( time_t rhs ) const
+{
+  return( DirFieldTime( LessEqual, rhs ) );
+}
+
+inline
+Directory::DirFieldTime
+Directory::DirFieldTime::operator >= ( time_t rhs ) const
+{
+  return( DirFieldTime( MoreEqual, rhs ) );
+}
+
+inline
+Directory::DirFieldTime::DirFieldTime(
+  CompareType	compType,
+  time_t	compValue
+  )
+  : DirField( compType ),
+    value( compValue )
+{
+}
+
+// Directory::Where inlines
+
+inline
+Directory::Where::Where( void )
+  : fld( 0 ),
+    left( 0 ),
+    and( false ),
+    right( 0 ),
+    refCount( 1 ),
+    leftDepth( 0 ),
+    rightDepth( 0 )
+{
+}
+
+inline
+Directory::Where::Where( const DirField & fld )
+  : fld( fld.newCopy() ),
+    left( 0 ),
+    and( false ),
+    right( 0 ),
+    refCount( 1 ),
+    leftDepth( 0 ),
+    rightDepth( 0 )
+{
+}
+
+inline
+Directory::Where::Where( const Where & from )
+  : fld( from.fld ),
+    left( from.left ),
+    and( from.and ),
+    right( from.right ),
+    refCount( 1 ),
+    leftDepth( from.leftDepth ),
+    rightDepth( from.rightDepth )
+{
+  if( fld )
+    fld->addRef();
+
+  if( left )
+    left->addRef();
+
+  if( right )
+    right->addRef();
+}
+
+inline
+Directory::Where::Where( const Where & left, bool andLR, const Where & right )
+  : fld( 0 ),
+    left( new Where( left ) ),
+    and( andLR ),
+    right( new Where( right ) ),
+    refCount( 1 ),
+    leftDepth( left.leftDepth + 1 ),
+    rightDepth( right.rightDepth + 1 )
+{
+}
+
+inline
+Directory::Where
+Directory::Where::operator && ( const Where & rhs ) const
+{
+  Where w( *this, true, rhs );
+  return( w );
+}
+
+inline
+Directory::Where
+Directory::Where::operator || ( const Where & rhs ) const
+{
+  Where w( *this, false, rhs );
+  return( w );
+}
+
+inline
+Directory::Where
+operator && ( const Directory::DirField & lhs, const Directory::Where & rhs )
+{
+  Directory::Where lw( lhs );
+  Directory::Where w( lw, true, rhs );
+  return( w );
+}
+
+inline
+Directory::Where
+operator || ( const Directory::DirField & lhs, const Directory::Where & rhs )
+{
+  Directory::Where lw( lhs );
+  Directory::Where w( lw, false, rhs );
+  return( w );
+}
+
+inline
+void
+Directory::Where::addRef( void )
+{
+  ++ refCount;
+}
+
+inline
+bool
+Directory::Where::delRef( void )
+{
+  if( refCount )
+    -- refCount;
+  return( refCount == 0 );
+}
+
+inline
+bool
+Directory::Where::isField( void ) const
+{
+  return( fld != 0 );
+}
+
+inline
+bool
+Directory::Where::isAnd( void ) const
+{
+  return( and );
+}
+
+inline
+const Directory::DirField &
+Directory::Where::getField( void ) const
+{
+  return( *fld );
+}
+
+inline
+const Directory::Where &
+Directory::Where::getFirst( void ) const
+{
+  if( and )
+    {
+      if( rightDepth > leftDepth )
+	return( *right );
+      else
+	return( *left );
+    }
+  else
+    {
+      if( rightDepth < leftDepth )
+	return( *right );
+      else
+	return( *left );
+    }
+}
+
+inline
+const Directory::Where &
+Directory::Where::getSecond( void ) const
+{
+  if( and )
+    {
+      if( rightDepth > leftDepth )
+	return( *left );
+      else
+	return( *right );
+    }
+  else
+    {
+      if( rightDepth < leftDepth )
+	return( *left );
+      else
+	return( *right );
+    }
+}
+
+// Directory inlines
 
 inline
 Directory::iterator
@@ -82,9 +441,52 @@ Directory::end( void )
   return( list.end() );
 }
 
+inline
+Directory::const_iterator
+Directory::begin( void ) const
+{
+  return( list.begin() );
+}
+
+inline
+Directory::const_iterator
+Directory::end( void ) const
+{
+  return( list.end() );
+}
+
+inline
+Directory::size_type
+Directory::size( void ) const
+{
+  return( list.size() );
+}
+
+inline
+bool
+Directory::empty( void ) const
+{
+  return( size() == 0 );
+}
 
 
+#if defined( inline )
+#undef inline
+#endif
 
-  
-
+// Revision Log:
+// 
+// $Log$
+// Revision 3.2  1997/06/09 12:04:01  houghton
+// Completed initial coding.
+//
+// Revision 3.1  1996/11/14 01:25:20  houghton
+// Changed to Release 3
+//
+// Revision 2.1  1995/11/10 12:47:08  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  13:48:12  houghton
+// New implementation
+//
 #endif // ! def _Directory_ii_ 
