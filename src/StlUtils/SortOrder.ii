@@ -24,7 +24,7 @@ inline
 bool
 SortOrder<T>::operator () ( const T & one, const T & two ) const
 {
-  for( Order::const_iterator them = order.begin();
+  for( typename Order::const_iterator them = order.begin();
        them != order.end();
        them++ )
     {
@@ -53,6 +53,9 @@ SortOrder<T>::operator + ( const SortOrder<T> & rhs ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 4.2  1998/07/20 11:26:16  houghton
+// Port(Hpux): Had to use new typename keyword.
+//
 // Revision 4.1  1997/09/17 15:12:49  houghton
 // Changed to Version 4
 //
