@@ -254,6 +254,7 @@ USER_HH_INCS	=			\
 	Bitmask.hh                      \
 	ClassVersion.hh                 \
 	Compare.hh                      \
+	CommaNum.hh			\
 	DateRange.hh                    \
 	DateRangeDaily.hh               \
 	DateRangeWeekly.hh              \
