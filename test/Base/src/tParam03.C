@@ -32,7 +32,7 @@ char * argv01[] =
   "-log-file",	TEST_LOGFILE,
   "-gen-argfile",
   "-log-level",	"TEST | INFO",
-  "-log-mode",  "ios::in | ios::out",
+  "-log-mode",  "ios::out",
   "-log-max",	"10240",
   "-log-trim",	"1024",
   "-string",	"test string",
@@ -54,6 +54,9 @@ char * argv01[] =
 bool
 tParam03( LibTest & tester )
 {
+  remove( TEST_LOGFILE );
+  errno = 0;
+  
   {
 #if defined( STLUTILS_TEST )
     extern int Stlutils_Prama_Gen_NoDate;
@@ -183,6 +186,9 @@ tParam03( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2000/05/30 15:12:49  houghton
+// Changed: remove TEST_LOGFILE before running test.
+//
 // Revision 5.2  2000/05/25 17:11:50  houghton
 // Port: Sun CC 5.0.
 //
