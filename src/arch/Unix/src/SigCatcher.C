@@ -51,6 +51,8 @@ const SigCatcher::Flag	    SigCatcher::NoChildWait( SA_NOCLDWAIT );
 const SigCatcher::Flag	    SigCatcher::NoChildStop( SA_NOCLDSTOP );
 const SigCatcher::Flag	    SigCatcher::WaitSig( SA_WAITSIG );
 
+SigCatcher::CaughtQueue	    SigCatcher::caughtSigList;
+
 const char *
 SigCatcher::Caught::name( void ) const
 {
@@ -354,6 +356,9 @@ c_catchAction( int sig )
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2000/05/31 10:51:57  houghton
+// Bug-Fix: caughtSigList was not defined.
+//
 // Revision 5.2  2000/05/25 17:07:31  houghton
 // Port: Sun CC 5.0.
 //
