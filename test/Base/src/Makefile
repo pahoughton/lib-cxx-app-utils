@@ -116,6 +116,7 @@ PRJ_INC		= -I$(beta_incdir)
 
 DEFAULT_PRJ_INC	= 
 DEBUG_PRJ_INC	= $(STLUTILS_SRC_INC)
+TEST_PRJ_INC	= $(STLUTILS_SRC_INC)
 PROFILE_PRJ_INC = $(STLUTILS_SRC_INC)
 STATIC_PRJ_INC	= 
 
@@ -193,7 +194,8 @@ SHARED_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
 DEFAULT_LD_LIBS		= -lStlUtils -lCommon -lGnuRegex $(ARCH_DEFAULT_LIBS)
 DEBUG_LD_LIBS		= -lStlUtils_g -lCommon_g -lGnuRegex $(ARCH_DEBUG_LIBS)
-TEST_LD_LIBS		= $(DEBUG_LD_LIBS)
+TEST_LD_LIBS		= -lStlUtils_tg -lCommon_g -lGnuRegex 	\
+			  $(ARCH_DEBUG_LIBS)
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
 SHARED_LD_LIBS		= $(DEFAULT_LD_LIBS)
@@ -202,7 +204,7 @@ SHARED_LD_LIBS		= $(DEFAULT_LD_LIBS)
 
 DEFAULT_DEP_LIBS	= 
 DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/StlUtils/libStlUtils_g.a
-TEST_DEP_LIBS		= $(DEBUG_DEP_LIBS)
+TEST_DEP_LIBS		= $(PRJ_TOPDIR)/src/StlUtils/libStlUtils_tg.a
 PROFILE_DEP_LIBS	= 
 STATIC_DEP_LIBS		= 
 SHARED_DEP_LIBS		= 
@@ -404,14 +406,17 @@ install_profile:: profile $(INSTALL_BIN_DIR)/$(PROGRAM_PROFILE)
 install_static::  static  $(INSTALL_BIN_DIR)/$(PROGRAM_STATIC)
 install_shared::  shared  $(INSTALL_BIN_DIR)/$(PROGRAM_SHARED)
 
-test_default: test_data default 
-	 LD_LIBRARY_PATH=$(beta_libdir) $(NAME) $(TEST)
+check_default: test_data default 
+	LD_LIBRARY_PATH=$(beta_libdir) $(PROGRAM_DEFAULT) $(TEST)
 
-test_debug: test_data debug
-	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/StlUtils:$(beta_libdir) \
-	  $(NAME)_g $(TEST)
+check: test_data test
+	LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/StlUtils:$(beta_libdir) \
+	  $(PROGRAM_TEST) $(TEST)
 
-test_data: 
+check_debug: test_debug
+
+test_data:
+	chmod g+s $(TEST_DATA_DIR)
 	chgrp $(TEST_GROUP) $(TEST_DATA_DIR)/FileStat.01
 	chmod 664 $(TEST_DATA_DIR)/FileStat.01
 	(cd $(TEST_DATA_DIR); ln -s FileStat.01 FileStat.l1)
@@ -463,6 +468,10 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.10  1998/10/13 16:35:58  houghton
+# Added check targets.
+# Changed test target to compile 'test' version.
+#
 # Revision 4.9  1998/10/13 15:20:59  houghton
 # Added LruMap tests.
 #
