@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 2.3  1995/11/10 14:11:42  houghton
+// Revision 2.4  1995/11/12 18:02:42  houghton
+// Change LogLevel::XXXX to LogLevel::Xxxxx.
+//
+// Revision 2.3  1995/11/10  14:11:42  houghton
 // Cleanup (move final endif)
 //
 // Revision 2.2  1995/11/10  14:08:37  houghton
@@ -57,7 +60,7 @@ public:
 		 streambuf * 	outStream );
 
   inline LogBuf( const char *	    fileName,
-		 LogLevel::Level    outLevel = LogLevel::ERROR, 
+		 LogLevel::Level    outLevel = LogLevel::Error, 
 		 ios::open_mode	    mode = ios::app,
 		 int		    prot = filebuf::openprot,
 		 size_t		    maxSize = 0,
