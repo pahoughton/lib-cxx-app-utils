@@ -361,6 +361,7 @@ CXX_C_SOURCES	=			\
 	tLruMap01.C			\
 	tLruSash.C			\
 	tLruSash01.C			\
+	tCommaNum.C			\
 	$(ARCH_CXX_C_SOURCES)           \
 
 CXX_CC_SOURCES	=			\
@@ -868,6 +869,9 @@ clean_test_data:
 # %PL%
 #
 # $Log$
+# Revision 6.2  2004/04/19 18:17:00  houghton
+# Added tCommaNum.C
+#
 # Revision 6.1  2003/08/09 11:22:49  houghton
 # Changed to version 6
 #
