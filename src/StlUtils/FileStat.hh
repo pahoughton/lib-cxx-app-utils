@@ -20,7 +20,7 @@
 #include "ClueConfig.hh"
 #include "Bitmask.hh"
 #include "ClueSysStat.hh"
-#include "Str.hh"
+#include "FilePath.hh"
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -31,6 +31,8 @@ class FileStat
 
 public:
 
+  typedef CLUE_STAT_SIZE_TYPE	size_type;
+  
   typedef Bitmask   Who;
   typedef Bitmask   What;
   
@@ -52,7 +54,7 @@ public:
   inline gid_t	    	getGID( void ) const;
 
   inline mode_t   	getMode( void ) const;
-  inline off_t	    	getSize( void ) const;
+  inline size_type    	getSize( void ) const;
   
   inline dev_t	    	getDevice( void ) const;
   inline dev_t		getDeviceType( void ) const;
@@ -85,10 +87,11 @@ public:
   inline bool	    	canWrite( Who who ) const;
   inline bool	    	canExec( Who who ) const;
 
-  inline const char *   getName( void ) const;
-  inline const char *	getModeString( void ) const;
-  inline const char *	getUserName( void ) const;
-  inline const char * 	getGroupName( void ) const;
+  inline const FilePath &   getName( void ) const;
+  inline const char *	    getFileName( void ) const;
+  inline const char *	    getModeString( void ) const;
+  inline const char *	    getUserName( void ) const;
+  inline const char *	    getGroupName( void ) const;
   
   inline FileStat & 	stat( const char * fileName );
   inline FileStat & 	stat( int fd, bool keepName = false );
@@ -149,10 +152,10 @@ private:
   
   int	fd;
   
-  Str  name;
-  Str  userName;
-  Str  groupName;
-  Str  modeString;
+  FilePath	name;
+  Str		userName;
+  Str		groupName;
+  Str		modeString;
 
   struct stat	st;
   
@@ -570,6 +573,10 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/06/09 12:02:10  houghton
+// Changed 'getName' to return a FilePath.
+// Changed to use size_type (vs size_t).
+//
 // Revision 3.3  1997/03/03 14:36:18  houghton
 // Removed support for RW Tools++
 //

@@ -86,7 +86,7 @@ FileStat::getMode( void ) const
 
 
 inline
-off_t
+FileStat::size_type
 FileStat::getSize( void ) const
 {
   return( st.st_size );
@@ -302,8 +302,15 @@ FileStat::canExec( Who who ) const
 }
 
 inline
-const char *
+const FilePath &
 FileStat::getName( void ) const
+{
+  return( name );
+}
+
+inline
+const char *
+FileStat::getFileName( void ) const
 {
   return( name );
 }
@@ -473,6 +480,10 @@ operator << ( ostream & dest, const FileStat & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/06/09 12:02:17  houghton
+// Changed 'getName' to return a FilePath.
+// Changed to use size_type (vs size_t).
+//
 // Revision 3.1  1996/11/14 01:25:23  houghton
 // Changed to Release 3
 //
