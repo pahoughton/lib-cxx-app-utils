@@ -59,6 +59,14 @@ tStr19( LibTest & tester )
     t = from;
     t.substitute( "is", "was", 10, false );
     TEST( t == tosg );
+
+    const char * from2 = "if this don''t work, fixem.";
+    const char * to2 = "if this don''''''t work, fixem.";
+
+    t = from2;
+    t.substitute( "'", "'''" );
+    TEST( t == to2 );
+    
   }
   
   {
