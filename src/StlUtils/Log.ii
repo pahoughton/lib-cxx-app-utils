@@ -50,14 +50,18 @@ Log::operator () ( void )
 
 inline
 Log &
-Log::operator () ( LogLevel::Level lvl )
+Log::operator () ( const LogLevel::Level & lvl )
 {
   return( level( lvl ) );
 }
 
 inline
 Log &
-Log::operator () ( LogLevel::Level lvl, const char * srcFile, long srcLine )
+Log::operator () (
+  const LogLevel::Level &   lvl,
+  const char *		    srcFile,
+  long			    srcLine
+  )
 {
   return( level( lvl, srcFile, srcLine ) );
 }
@@ -78,7 +82,7 @@ Log::operator () ( const char * lvl, const char * srcFile, long srcLine )
 
 inline
 void
-Log::on( LogLevel::Level out )
+Log::on( const LogLevel::Level & out )
 {
   rdbuf()->sync();
   rdbuf()->setOutputLevel( getOutput() | out );
@@ -86,7 +90,7 @@ Log::on( LogLevel::Level out )
 
 inline
 void
-Log::off( LogLevel::Level out )
+Log::off( const LogLevel::Level & out )
 {
   rdbuf()->sync();
   rdbuf()->setOutputLevel( getOutput() & ~out );
@@ -108,7 +112,7 @@ Log::getOutput( void  ) const
 
 inline
 bool
-Log::willOutput( LogLevel::Level outLevel ) const
+Log::willOutput( const LogLevel::Level & outLevel ) const
 {
   return( rdbuf()->willOutput( outLevel ) );
 }
@@ -123,7 +127,7 @@ Log::setOutputLevel( const char * level )
 
 inline
 LogLevel::Level
-Log::setOutputLevel( LogLevel::Level level )
+Log::setOutputLevel( const LogLevel::Level & level )
 {
   rdbuf()->sync();
   return( rdbuf()->setOutputLevel( level ) );
@@ -201,9 +205,12 @@ Log::rdbuf( void ) const
 
 inline
 const LogLevel::CommonLevelMap &
-Log::getCommonLevelMap( void ) const
+Log::getCommonLevelMap( void )
 {
-  return( commonLevelMap );
+  if( ! commonLevelMap )
+    initCommonLevelMap();
+  
+  return( *commonLevelMap );
 }
 
 inline
@@ -228,6 +235,11 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/05/02 12:15:35  houghton
+// Bug-Fix: changed commonLevelMap to a * to remove any posibilities of
+//     problems with static instanciation.
+// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
+//
 // Revision 3.6  1997/04/26 14:11:35  houghton
 // Added getCommonLevelMap().
 //

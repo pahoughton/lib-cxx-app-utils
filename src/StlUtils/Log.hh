@@ -100,17 +100,17 @@ public:
   inline LogLevel::Level    getCurrent( void  ) const;
   inline LogLevel::Level    getOutput( void ) const;
 
-  inline bool	    	    willOutput( LogLevel::Level outLevel ) const;
+  inline bool	    willOutput( const LogLevel::Level & outLevel ) const;
   
-  Log &		    level( LogLevel::Level  current = LogLevel::Error,
-			   const char *	    srcFile = 0,
-			   long		    srcLine = 0 );
+  Log &		    level( const LogLevel::Level &  current = LogLevel::Error,
+			   const char *		    srcFile = 0,
+			   long			    srcLine = 0 );
   
   inline Log &	    operator () ( void );
-  inline Log &	    operator () ( LogLevel::Level   current );
-  inline Log &	    operator () ( LogLevel::Level   current,
-				  const char *	    srcFile,
-				  long		    srcLine );
+  inline Log &	    operator () ( const LogLevel::Level &   current );
+  inline Log &	    operator () ( const LogLevel::Level &   current,
+				  const char *		    srcFile,
+				  long			    srcLine );
 
   Log &		    level( const char *	    current,
 			   const char *	    srcFile = 0,
@@ -129,11 +129,11 @@ public:
   inline bool		    getTimeStamp( void ) const;
   inline bool		    getLocStamp( void ) const;
   
-  inline LogLevel::Level    setOutputLevel( LogLevel::Level output );
+  inline LogLevel::Level    setOutputLevel( const LogLevel::Level & output );
   inline LogLevel::Level    setOutputLevel( const char * output );
 
-  inline void		    on( LogLevel::Level output );
-  inline void		    off( LogLevel::Level output );
+  inline void		    on( const LogLevel::Level & output );
+  inline void		    off( const LogLevel::Level & output );
   
   inline void 	    	    tee( ostream & teeStream = cerr );
 
@@ -155,9 +155,9 @@ public:
 
   bool		    filter( const char * regex );
   
-  LogBuf::FilterId  addFilter( streambuf *     destBuf,
-			       LogLevel::Level outputLevel,
-			       const char *    regex = 0 );
+  LogBuf::FilterId  addFilter( streambuf *		destBuf,
+			       const LogLevel::Level &	outputLevel,
+			       const char *		regex = 0 );
 
   streambuf *	    getFilterStream( LogBuf::FilterId filter );
   LogLevel::Level   getFilterLogLevel( LogBuf::FilterId filter );
@@ -171,7 +171,7 @@ public:
 
   bool				tieCommonLogger( bool setStrings = false );
   
-  inline const LogLevel::CommonLevelMap & getCommonLevelMap( void ) const;
+  inline const LogLevel::CommonLevelMap & getCommonLevelMap( void );
   
   // mutex locking
 
@@ -190,6 +190,8 @@ public:
   
 protected:
 
+  void	initCommonLevelMap( void );
+  
 private:
 
   Log( const Log & copyFrom );
@@ -207,7 +209,7 @@ private:
 			   const char * mesgFmt,
 			   va_list	mesgArgs );
   
-  static LogLevel::CommonLevelMap	    commonLevelMap;
+  static LogLevel::CommonLevelMap *	    commonLevelMap;
   
   
   Mutex		mutex;
@@ -644,6 +646,11 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/05/02 12:15:00  houghton
+// Bug-Fix: changed commonLevelMap to a * to remove any posibilities of
+//     problems with static instanciation.
+// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
+//
 // Revision 3.7  1997/04/26 14:11:21  houghton
 // Added tieCommonLogger().
 // Added commonLog().
