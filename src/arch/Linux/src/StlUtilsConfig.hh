@@ -11,6 +11,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/05/18 12:57:47  houghton
+// Added CLUE_FLOAT
+// Cleanup.
+//
 // Revision 2.3  1996/04/27 13:17:16  houghton
 // Changed to use threads.
 // Added macro CLUE_UNUSED to eliminate g++ compile errors for unused
@@ -33,6 +37,11 @@
 
 #define CLUE_THREADS	1
 
+#if defined( CLUE_THREADS )
+#define _MIT_POSIX_THREADS  1
+#include <pthread.h>
+#endif
+
 #define CLUE_CLASS_T
 #define CLUE_FUNCT_T
 #define CLUE_GVAR_T
@@ -54,6 +63,7 @@
 #define CLUE_UINT   unsigned int
 #define CLUE_32	    long
 #define CLUE_U32    unsigned long
+#define CLUE_FLOAT  float
 #define CLUE_DOUBLE double
 #define CLUE_BOOL   bool
 
@@ -63,10 +73,10 @@
 
 #define CLUE_UNUSED( x )
 
-#if defined( CLUE_THREADS )
-#define _MIT_POSIX_THREADS  1
-#include <pthread.h>
-#endif
+#include <climits>
+
+#define CLUE_BAD_FPOS_T	    LONG_MIN
+
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClueVersion.hh>
