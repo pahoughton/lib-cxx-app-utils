@@ -27,6 +27,8 @@
 
 #define CLUE_HAVE_LONG_ABS 1
 #define CLUE_LOG_WHERE 1
+#define CLUE_HAS_STR 1
+#define CLUE_HAS_DATETIME 1
 /* #define CLUE_THREADS	1 */
 
 #define CLUE_STRBUF_CONST_RDBUF const
@@ -128,6 +130,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/02 13:20:51  houghton
+// Added defineds for Str and DateTime.
+//
 // Revision 3.1  1997/01/18 17:40:59  houghton
 // Inital Version based on old ClueConfig.hh. Now ClueConfig.hh is not
 //     arch specific and has been moved to 'Clue/'. It includes this header
@@ -177,6 +182,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/02 13:20:51  houghton
+// Added defineds for Str and DateTime.
+//
 // Revision 3.1  1997/01/18 17:40:59  houghton
 // Inital Version based on old ClueConfig.hh. Now ClueConfig.hh is not
 //     arch specific and has been moved to 'Clue/'. It includes this header
