@@ -2,33 +2,24 @@
 #define _TestFunctProto_hh_
 //
 // File:        TestFunctProto.hh
+// Project:	Clue
 // Desc:        
 //
+//  Function prototypes for test functions
 //
-//
-//  Quick Start: - short example of class usage
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     04/29/96 07:42
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
 // $Id$
-//
-// $Log$
-// Revision 2.3  1996/08/12 17:50:11  houghton
-// Added test for FileBinStream.
-//
-// Revision 2.2  1996/06/09 09:46:43  houghton
-// Added tHeapNetStream.
-//
-// Revision 2.1  1996/05/01 11:04:50  houghton
-// Initial version.
-//
 //
 
 // Utils.hh
 bool	tArraySize( LibTest & tester );
+bool	tOpenFlags( LibTest & tester );
+bool	tAlign( LibTest & tester );
 bool	tDwordAlign( LibTest & tester );
 bool	tMemOverlap( LibTest & tester );
 bool	tAbsLong( LibTest & tester );
@@ -42,6 +33,7 @@ bool	tCompare( LibTest & tester );
 // StringUtils.hh
 bool	tSafeStrcpy( LibTest & tester );
 bool	tCharToInt( LibTest & tester );
+bool	tCharIsBaseDigit( LibTest & tester );
 bool	tStripWhite( LibTest & tester );
 bool	tStringSearch( LibTest & tester );
 bool	tStringCaseCompare( LibTest & tester );
@@ -50,6 +42,8 @@ bool	tStringUpper( LibTest & tester );
 bool	tStringCapitalize( LibTest & tester );
 bool	tStringTo( LibTest & tester );
 bool	tbasename( LibTest & tester );
+// ClassVersion.hh
+bool	tClassVersion( LibTest & tester );
 // BinStream.hh
 // RandomBinStream.hh
 // HeapBinStream.hh
@@ -154,5 +148,26 @@ bool tLog05( LibTest & tester );
 // FileBinStream.hh
 bool	tFileBinStream( LibTest & tester );
 
+// Revision Log:
+//
+// $Log$
+// Revision 2.4  1996/11/04 14:42:59  houghton
+// Restructure header comments layout.
+// Added the following test function prototypes.
+//     bool	tOpenFlags( LibTest & tester );
+//     bool	tAlign( LibTest & tester );
+//     bool	tCharIsBaseDigit( LibTest & tester );
+//     bool	tClassVersion( LibTest & tester );
+//
+// Revision 2.3  1996/08/12 17:50:11  houghton
+// Added test for FileBinStream.
+//
+// Revision 2.2  1996/06/09 09:46:43  houghton
+// Added tHeapNetStream.
+//
+// Revision 2.1  1996/05/01 11:04:50  houghton
+// Initial version.
+//
+//
 #endif // ! def _TestFunctProto_hh_ 
 
