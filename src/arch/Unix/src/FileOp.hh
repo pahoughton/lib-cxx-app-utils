@@ -62,6 +62,9 @@ public:
   bool		move( const char * dest );
   inline bool	move( const char * src, const char * dest );
 
+  inline const FileStat &   getSrc( void ) const;
+  inline const FileStat &   getDest( void ) const;
+  
   virtual bool		clear( void );
   
   virtual bool	    	good( void ) const;
@@ -80,6 +83,8 @@ public:
 protected:
 
   bool		moveFile( void );
+  bool		setDestStat( void );
+  
   size_type	readfd( int fd, void * dest, size_t destSize );
   size_type	writefd( int fd, const void * src, size_t srcLen );
   
@@ -198,6 +203,10 @@ operator >> ( istream & src, const File & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1998/03/11 16:09:13  houghton
+// Added setDestStat.
+// Added getDest and getSrc.
+//
 // Revision 1.1  1998/03/08 18:08:28  houghton
 // Initial Version.
 //
