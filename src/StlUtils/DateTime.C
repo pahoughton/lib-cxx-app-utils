@@ -9,6 +9,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/01/18 17:28:12  houghton
+// Minor cleanup. changed a local var name from offset to tzOffset. There
+//   is a class var with the name 'offset'.
+//
 // Revision 3.2  1996/11/20 12:11:46  houghton
 // Removed support for BinStream.
 //
@@ -179,7 +183,7 @@ DateTime::getGmtOffset( const char * timeZone )
 
 	  tzset();
 
-	  long offset = - timezone;
+	  long tzOffset = - timezone;
 	  
 	  strcpy( zone, "TZ=" );
 	  strcat( zone, oldZone );
@@ -189,7 +193,7 @@ DateTime::getGmtOffset( const char * timeZone )
 	  
 	  if( delZone ) delete delZone;
 
-	  return( offset );
+	  return( tzOffset );
 	}
     }
 
