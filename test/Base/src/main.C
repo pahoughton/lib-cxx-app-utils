@@ -66,7 +66,9 @@ LibTest::TestItem   TestList[] =
   { "Log",		    tLog },
   { "Param",		    tParam },
   { "SortOrder",	    tSortOrder },
+#if defined( TEST_TIMEIT )
   { "TimeIt",		    tTimeIt },
+#endif
   { "VectorResync",	    tVectorResync },
   
 #if defined( ALL )
@@ -195,6 +197,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1998/02/13 23:33:30  houghton
+// Changed to skip timer test (unless TEST_TIMEIT is defined).
+//
 // Revision 4.4  1998/01/05 13:09:29  houghton
 // Added tVectorResync
 //
