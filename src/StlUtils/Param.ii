@@ -150,7 +150,7 @@ inline
 bool
 Param::allArgs( void ) const
 {
-  return( count() == 0 );
+  return( count() == 0 && fileArgs.size() == 0 );
 }
 
 inline
@@ -176,6 +176,9 @@ operator<<( ostream & dest, const Param & obj )
 // 
 //
 // $Log$
+// Revision 4.2  1998/05/19 15:27:26  houghton
+// Chagned to return false if all file args are not processed.
+//
 // Revision 4.1  1997/09/17 15:12:46  houghton
 // Changed to Version 4
 //
