@@ -3,6 +3,7 @@
 .depend_profile
 .depend_shared
 .depend_test
+.installed.soundwave
 StlUtils.exp
 Templates.DB
 _StlUtils_Proto.h
