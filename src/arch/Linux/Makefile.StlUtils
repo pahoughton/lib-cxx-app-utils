@@ -40,6 +40,7 @@ ARCH_USER_H_INCS	=	\
 
 ARCH_USER_HH_INCS	=		\
 	ClueArch.hh			\
+	ClueDirent.hh			\
 	ClueSysStat.hh			\
 	ClueExceptions.hh		\
 	Directory.hh			\
@@ -61,6 +62,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 3.8  1997/06/09 14:29:51  houghton
+# Added ClueDirent.hh
+#
 # Revision 3.7  1997/06/09 12:02:56  houghton
 # Added 'Directory'
 #
