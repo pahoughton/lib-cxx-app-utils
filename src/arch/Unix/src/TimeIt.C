@@ -71,9 +71,9 @@ TimeIt::toStream( ostream & dest ) const
       char ofill = dest.fill('0');
       
       dest << "Times: "
-	   << "real: " << rDiff.tv_sec << '.' << setw(6) << rDiff.tv_usec
-	   << "user: " << uDiff.tv_sec << '.' << setw(6) << uDiff.tv_usec
-	   << "sys: " << sDiff.tv_sec << '.' << setw(6) << sDiff.tv_usec
+	   << " real: " << rDiff.tv_sec << '.' << setw(6) << rDiff.tv_usec
+	   << " user: " << uDiff.tv_sec << '.' << setw(6) << uDiff.tv_usec
+	   << " sys: "  << sDiff.tv_sec << '.' << setw(6) << sDiff.tv_usec
 	;
       dest.fill(ofill);
     }
@@ -239,6 +239,9 @@ TimeIt::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/03/21 12:28:52  houghton
+// Cleanup toStream output.
+//
 // Revision 3.3  1997/03/19 16:25:43  houghton
 // Added constructor.
 //
