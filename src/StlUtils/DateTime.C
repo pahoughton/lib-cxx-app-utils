@@ -698,26 +698,27 @@ DateTime::fromTm( char * buf, const char * fmt, const struct tm * tmTime ) const
     }
   else
     {
-      if( tmTime->tm_year < 50 || tmTime->tm_year > 99 )
-	{
-	  sprintf( str, "%02d/%02d/%04d %02d:%02d:%02d",
+      // use 4-digit year for year < 1950, otherwise 2-digit
+      if( tmTime->tm_year < 50 )
+  	{
+  	  sprintf( str, "%02d/%02d/%04d %02d:%02d:%02d",
 		   tmTime->tm_mon + 1,
 		   tmTime->tm_mday,
 		   1900 + tmTime->tm_year,
 		   tmTime->tm_hour,
 		   tmTime->tm_min,
 		   tmTime->tm_sec );
-	}
+  	}
       else
-	{
-	  sprintf( str, "%02d/%02d/%02d %02d:%02d:%02d",
-		   tmTime->tm_mon + 1,
-		   tmTime->tm_mday,
-		   tmTime->tm_year,
-		   tmTime->tm_hour,
-		   tmTime->tm_min,
-		   tmTime->tm_sec );
-	}
+  	{
+  	  sprintf( str, "%02d/%02d/%02d %02d:%02d:%02d",
+  		   tmTime->tm_mon + 1,
+  		   tmTime->tm_mday,
+  		   (tmTime->tm_year % 100),
+  		   tmTime->tm_hour,
+  		   tmTime->tm_min,
+  		   tmTime->tm_sec );
+  	}
     }
   return( str );
 }
@@ -960,6 +961,10 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.10  2000/01/05 22:45:17  mroberds
+// Changed getString to return a 4 digit year for years before 1950 and
+// a 2 digit year otherwise.
+//
 // Revision 4.9  1999/06/10 11:43:47  houghton
 // changed output format of getHHMMSS from 02:04:05 to 020405.
 //
