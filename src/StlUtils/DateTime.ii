@@ -2,53 +2,26 @@
 #define _DateTime_ii_
 //
 // File:        DateTime.ii
+// Project:	Clue
 // Desc:        
 //
-//  	inlines for DateTime
+//  	Inline source for DateTime
 //
-//
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     06/15/95 03:39
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.2  1997/08/24 21:59:52  houghton
-// Cleanup comments.
-// Bug-Fix: set( const struct tm & ) the range of the year would not be
-//     verified. Fixed.
-// Added dump().
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.1  1996/11/14 01:23:37  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/04/27 12:59:13  houghton
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
-//
-// Revision 2.3  1995/12/04 11:17:21  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.2  1995/11/12  17:52:35  houghton
-// New default constructor that sets the value to current local time.
-//
-// Revision 2.1  1995/11/10  12:40:32  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:31  houghton
-// Ports and Version ID changes
-//
+//  $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include <DateTimeUtils.hh>
 #include <StringUtils.hh>
 #include <cstdlib>
-#else
-#include <DtTmUtil.hh>
-#include <StrUtil.hh>
-#include <cstdlib>
-#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -613,7 +586,7 @@ DateTime::operator const char * () const
 
 // operator ==  - return true if I am equal to 'two'
 inline
-int
+bool
 DateTime::operator ==( const DateTime & two ) const
 {
   return( getTimeT() == two.getTimeT() );
@@ -621,10 +594,24 @@ DateTime::operator ==( const DateTime & two ) const
 
 // operator < - return true if I less than 'two'
 inline
-int
+bool
 DateTime::operator < ( const DateTime & two ) const
 {
   return( getTimeT() < two.getTimeT() );
+}
+
+inline
+time_t
+DateTime::operator - ( const DateTime & rhs ) const
+{
+  return( getTimeT() - rhs.getTimeT() );
+}
+
+inline
+time_t
+DateTime::operator - ( const time_t rhs ) const
+{
+  return( getTimeT() - rhs );
 }
 
 inline
@@ -694,6 +681,13 @@ compare( const DateTime & one, const DateTime & two )
 }
 
 inline
+time_t
+operator - ( const time_t lhs, const DateTime & rhs )
+{
+  return( lhs - rhs.getTimeT() );
+}
+
+inline
 ostream & operator<<( ostream & dest, const DateTime & obj )
 {
   return( obj.toStream( dest ) );
@@ -703,4 +697,38 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 #undef inline
 #endif
 
+// Revision Log:
+// 
+// $Log$
+// Revision 3.3  1997/08/28 21:21:43  houghton
+// Cleanup comment header.
+// Changed operator == and operator < to return 'bool'.
+// Added operator - .
+//
+// Revision 3.2  1997/08/24 21:59:52  houghton
+// Cleanup comments.
+// Bug-Fix: set( const struct tm & ) the range of the year would not be
+//     verified. Fixed.
+// Added dump().
+//
+// Revision 3.1  1996/11/14 01:23:37  houghton
+// Changed to Release 3
+//
+// Revision 2.4  1996/04/27 12:59:13  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.3  1995/12/04 11:17:21  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.2  1995/11/12  17:52:35  houghton
+// New default constructor that sets the value to current local time.
+//
+// Revision 2.1  1995/11/10  12:40:32  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:31  houghton
+// Ports and Version ID changes
+//
+//
 #endif // ! def _DateTime_ii_ 
