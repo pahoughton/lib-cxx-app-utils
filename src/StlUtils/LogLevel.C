@@ -9,7 +9,11 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:46  houghton
+// Revision 2.2  1995/11/12 18:04:21  houghton
+// Change LogLevel::XXXX to LogLevel::Xxxxx.
+// Bug fix - setOutput( const char * ) was not detecting 'ALL' correctly.
+//
+// Revision 2.1  1995/11/10  12:40:46  houghton
 // Change to Version 2
 //
 // Revision 1.4  1995/11/05  15:28:40  houghton
@@ -45,30 +49,42 @@ CLUE_VERSION(
   LogLevel,
   "$Id$" );
 
-const LogLevel::Level	LogLevel::NONE;
-const LogLevel::Level	LogLevel::ERROR( 0 );
-const LogLevel::Level	LogLevel::ERR( 0 );
-const LogLevel::Level	LogLevel::WARNING( 1 );
-const LogLevel::Level	LogLevel::WARN( 1 );
-const LogLevel::Level	LogLevel::USER_1( 2 );
-const LogLevel::Level	LogLevel::USER_2( 3 );
-const LogLevel::Level	LogLevel::USER_3( 4 );
-const LogLevel::Level	LogLevel::USER_4( 5 );
-const LogLevel::Level	LogLevel::INFO( 6 );
-const LogLevel::Level	LogLevel::TEST( 7 );
-const LogLevel::Level	LogLevel::DEBUG( 8 );
-const LogLevel::Level	LogLevel::FUNCT( 9 );
-const LogLevel::Level	LogLevel::ALL( 0, true );
+const LogLevel::Level	LogLevel::None;
+const LogLevel::Level	LogLevel::Error( 0 );
+const LogLevel::Level	LogLevel::Err( 0 );
+const LogLevel::Level	LogLevel::Warning( 1 );
+const LogLevel::Level	LogLevel::Warn( 1 );
+const LogLevel::Level	LogLevel::App1( 2 );
+const LogLevel::Level	LogLevel::App2( 3 );
+const LogLevel::Level	LogLevel::App3( 4 );
+const LogLevel::Level	LogLevel::App4( 5 );
+const LogLevel::Level	LogLevel::App5( 6 );
+const LogLevel::Level	LogLevel::App6( 7 );
+const LogLevel::Level	LogLevel::Lib1( 8 );
+const LogLevel::Level	LogLevel::Lib2( 9 );
+const LogLevel::Level	LogLevel::Lib3( 10 );
+const LogLevel::Level	LogLevel::Lib4( 11 );
+const LogLevel::Level	LogLevel::Info( 12 );
+const LogLevel::Level	LogLevel::Test( 13 );
+const LogLevel::Level	LogLevel::Debug( 14 );
+const LogLevel::Level	LogLevel::Funct( 15 );
+const LogLevel::Level	LogLevel::All( 0, true );
 
 const char * LogLevel::LevelNames[] =
 {
   "NONE",
   "ERROR",
   "WARNING",
-  "USER 1",
-  "USER 2",
-  "USER 3",
-  "USER 4",
+  "APP1",
+  "APP2",
+  "APP3",
+  "APP4",
+  "APP5",
+  "APP6",
+  "LIB1",
+  "LIB2",
+  "LIB3",
+  "LIB4",
   "INFO",
   "TEST",
   "DEBUG",
@@ -81,16 +97,16 @@ const char *
 LogLevel::getName( const Level level ) const
 {
   // NONE is always first
-  if( level == NONE ) return( LevelNames[0] );
+  if( level == None ) return( LevelNames[0] );
   
   // all is always the last name
-  if( level == ALL ) return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
+  if( level == All ) return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
     
 
   for( size_t l = 0; l < (ArraySize( LevelNames )  - 1); l++ )
     {
-      if( level.isSet( l ) )
-	return( LevelNames[l + 1] );
+      if( level( l ) )
+	return( LevelNames[ l + 1 ] );
     }
   
   return( "unknown" );
@@ -103,10 +119,11 @@ LogLevel::getLevelNames( const Level level ) const
   names[0] = 0;
   
   // NONE is always first
-  if( level == NONE ) return( LevelNames[0] );
+  if( level == None ) return( LevelNames[0] );
   
   // all is always the last name
-  if( level == ALL ) return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
+  if( level == All ) return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
+
 
   names[0] = 0;
   
@@ -125,14 +142,21 @@ LogLevel::getLevelNames( const Level level ) const
 }    
 
 LogLevel::Level
-LogLevel::setOutput( const char * lvl )
+LogLevel::setOutput( const char * level )
 {
   Level old = output;
-  output = NONE;
+  output = None;
 
-  for( size_t l = 0; LevelNames[l] != 0; l++ )
+  // check for ALL
+  if( strstr( level, LevelNames[ ArraySize( LevelNames ) - 2 ] ) != 0 )
     {
-      if( strstr( lvl, LevelNames[l] ) != 0 )
+      setOutput( All );
+      return( old );
+    }
+  
+  for( size_t l = 0; l < (ArraySize( LevelNames ) - 2 ); l++ )
+    {
+      if( strstr( level, LevelNames[l] ) != 0 )
 	{
 	  Level  n( l - 1 );
 	  setOutput( n | output );
@@ -156,6 +180,44 @@ LogLevel::setCurrent( const char * lvl )
     }
   
   return( old );
+}
+
+inline
+bool
+LogLevel::setName( const Level level, const char * name )
+{
+  // NONE is always first
+  if( level == None )
+    {
+      LevelNames[0] = name;
+      return( true );
+    }
+  
+  // all is always the last name
+  if( level == All )
+    {
+      LevelNames[ ArraySize( LevelNames ) - 2 ] = name;
+      return( true );
+    }
+    
+
+  for( size_t l = 0; l < (ArraySize( LevelNames )  - 1); l++ )
+    {
+      if( level( l ) )
+	return( LevelNames[ l + 1 ] );
+    }
+  
+  return( "unknown" );
+  for( size_t pos = 0; pos < ArraySize( LevelNames ); pos++ )
+    {
+      if( level( pos ) )
+	{
+	  LevelNames[ pos + 1 ] = name;
+	  return( true );
+	}
+    }
+
+  return( false );
 }
 
 size_t
