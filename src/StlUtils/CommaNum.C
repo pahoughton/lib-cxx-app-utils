@@ -58,8 +58,8 @@ CommaNum(
     
   }
 
-  if( value = 0 ) {
-    buf[ -- pos ] = '0';
+  if( value == 0 ) {
+    buf[ pos -- ] = '0';
   } else {
     
     for( ; value > 0;
