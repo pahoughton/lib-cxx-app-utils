@@ -1,20 +1,41 @@
-# -*- makefile -*- for StlUtils
 #
-# Created: 4/17/96 using MakeConfigs 5.01.00.a.02
+# Title:        Makefile
+# Project:	StlUtils
+# Desc:
+# 
+#   
+# 
+# Notes:
+# 
+# Author:	Paul A. Houghton - (paul.houghton@wcom.com)
+# Created:	06/06/1994 using MakeConfigs 5.01.00.a.02
 #
-# $Id$
+# Revision History: (See end of file for Revision Log)
 #
-# (see end of file for Log info)
+#   Last Mod By:    $Author$
+#   Last Mod:	    $Date$
+#   Version:	    $Revision$
+#
+#   $Id$
+# 
 
 #
-# Do not modifiy 'makefile_type'
+# The following variables control the behavior of MakeConfigs.
+#   makefile_type   is the type of object being build (do NOT change)
+#   make_cfg_ver    is the version of MakeConfigs to use
+#   make_target	    is the default target to build
+#   show_commands   if this is true, the commands  will be output
+#   proto_dep	    if this is true, the proto header will be rebuild when
+#		    one of it's dependancies changes (ie a .c source)
+#   check_install   if this is true, install and install_all will NOT
+#		    overwrite an installed version.
+#
+
 makefile_type   = lib
-# This is the make.cfg version that will be used
 make_cfg_ver	= 5.02
-# Default target type
 make_target	= default
-# Uncomment 'show_compile_command' to output compile command.
 show_commands 	= # true
+proto_dep	= true
 check_install	= true
 
 # Include standard MakeConfig configuration for GNU make required
@@ -311,6 +332,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.3  1997/09/19 11:22:53  houghton
+# Cleanup.
+#
 # Revision 4.2  1997/09/17 15:45:17  houghton
 # Changed ver num.
 # Renamed StlUtilsUtils to StlUtilsMisc.
@@ -477,6 +501,6 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 
-
-
-
+# Local Variables:
+# mode:makefile
+# End:
