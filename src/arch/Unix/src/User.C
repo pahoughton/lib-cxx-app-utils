@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/03/03 19:12:14  houghton
+// Changed from useing strstream to Str.
+//
 // Revision 3.3  1997/03/03 14:38:21  houghton
 // Removed support for RW Tools++.
 //
@@ -178,12 +181,9 @@ User::good( void ) const
 const char *
 User::error( void ) const
 {
-  static strstream errStr;
-  errStr.freeze(0);
-  errStr.seekp(0);
-  errStr.seekg(0);
+  static Str errStr;
   
-  errStr << getClassName();
+  errStr = User::getClassName();
 
   if( good() )
     {
@@ -194,8 +194,7 @@ User::error( void ) const
       errStr << ": uid not set";
     }
 
-  errStr << ends;
-  return( errStr.str() );
+  return( errStr.cstr() );
 }
 
 // getClassName - return the name of this class
@@ -208,19 +207,16 @@ User::getClassName( void ) const
 const char *
 User::getVersion( bool withPrjVer ) const
 {
-  static strstream ver;
-  ver.freeze(0);
-  ver.seekp(0);
-  ver.seekg(0);
+  static Str ver;
+  
+  ver = version.getVer( withPrjVer );
 
-  ver << version.getVer( withPrjVer ) << '\n'
-    ;
+  ver << '\n';
   
   if( withPrjVer )
     ver << "    " << primeGroup.getVersion( false ) << '\n';
 
-  ver << ends;
-  return( ver.str() );
+  return( ver.cstr() );
 }
 
 

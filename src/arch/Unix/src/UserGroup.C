@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/03/03 19:12:26  houghton
+// Changed from useing strstream to Str.
+//
 // Revision 3.3  1997/03/03 14:38:22  houghton
 // Removed support for RW Tools++.
 //
@@ -217,22 +220,19 @@ UserGroup::good( void ) const
 const char *
 UserGroup::error( void ) const
 {
-  static strstream errStr;
-  errStr.freeze(0);
-  errStr.seekp(0);
-  errStr.seekg(0);
+  static Str errStr;
 
-  errStr << getClassName();
+  errStr = UserGroup::getClassName();
 
   if( good() )
     {
-       errStr << ": Ok";
+       errStr << ": ok";
     }
   else
     {
       if( osError )
 	{
-	  errStr << strerror( osError );
+	  errStr << ": " << strerror( osError );
 	}
       else
 	{
@@ -240,8 +240,7 @@ UserGroup::error( void ) const
 	}
     }
 
-  errStr << ends;
-  return( errStr.str() );
+  return( errStr.cstr() );
 }
 
 // getClassName - return the name of this class
