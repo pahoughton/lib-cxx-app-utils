@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:06:44  houghton
+// Changed: Major rework to change base class from Str to string.
+//
 // Revision 3.1  1996/11/14 01:23:43  houghton
 // Changed to Release 3
 //
@@ -63,7 +66,7 @@ FilePath::FilePath(
   extDelim = e;
 
   if( at( size() - 1 ) != dirDelim )
-    append( dirDelim );
+    append( 1, dirDelim );
 
   append( fn );
 }
@@ -77,51 +80,51 @@ FilePath::FilePath( const FilePath & from )
 }
 
 inline
-Str
+string
 FilePath::getFullName( void ) const
 {
-  return( cstr() );
+  return( c_str() );
 }
 
 inline
-Str
+string
 FilePath::getPath( void ) const
 {
-  Str path = ".";
+  string path = ".";
 
   size_t end = rfind( dirDelim );
 
-  if( end != Str::npos )
-    path = at( (size_t)0, end );
+  if( end != npos )
+    path = substr( (size_type)0, end );
 
   return( path );
 }
 
 inline
-Str
+string
 FilePath::getFileName( void ) const
 {
-  Str name;
+  string name;
   
   size_t beg = rfind( dirDelim );
 
-  if( beg != Str::npos )
-    name = after( beg + 1 );
+  if( beg != npos )
+    name = substr( beg + 1 );
 
   return( name );
 }
 
 
 inline
-Str
+string
 FilePath::getExt( void ) const
 {
-  Str ext;
+  string ext;
   
   size_t beg = rfind( extDelim );
 
-  if( beg != Str::npos )
-    ext = after( beg + 1 );
+  if( beg != npos )
+    ext = substr( beg + 1 );
 
   return( ext );
 }
@@ -132,7 +135,7 @@ FilePath::getDepth( void ) const
 {
   size_t depth = 0;
   for( size_t start = 0;
-       start != Str::npos;
+       start != npos;
        start = find( DirDelim, start + 1 ) )
     depth++;
 
@@ -149,7 +152,7 @@ FilePath::set( const char * fullPath )
 
 inline
 bool
-FilePath::set( const Str & fullPath )
+FilePath::set( const string & fullPath )
 {
   assign( fullPath );
   return( true );
@@ -157,10 +160,16 @@ FilePath::set( const Str & fullPath )
 
 inline
 bool
-FilePath::set( const SubStr & fullPath )
+FilePath::operator == ( const FilePath & rhs ) const
 {
-  assign( fullPath );
-  return( true );
+  return( compare( rhs ) == 0);
+}
+
+inline
+bool
+FilePath::operator <  ( const FilePath & rhs ) const
+{
+  return( compare( rhs ) < 0 );
 }
 
 inline

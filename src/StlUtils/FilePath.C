@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:06:10  houghton
+// Changed: Major rework to change base class from Str to string.
+//
 // Revision 3.1  1996/11/14 01:23:41  houghton
 // Changed to Release 3
 //
@@ -46,29 +49,29 @@ CLUE_VERSION(
 
 const char FilePath::DirDelim = CLUE_DIR_DELIM;
 
-Str
+string
 FilePath::getName( void ) const
 {
-  Str name;
+  string name;
   
-  size_t beg = rfind( dirDelim );
-  size_t end = rfind( extDelim );
+  size_type beg = rfind( dirDelim );
+  size_type end = rfind( extDelim );
 
-  if( beg == Str::npos )
+  if( beg == npos )
     {
-      if( end == Str::npos )
+      if( end == npos )
 	{
 	  return( *this );
 	}
       else
 	{
-	  name = before( end );
+	  name = substr( 0, end );
 	  return( name );
 	}
     }
       
-  if( end == Str::npos )
-    name = after( beg + 1 );
+  if( end == npos )
+    name = substr( beg + 1 );
   else
     name = substr( beg + 1, end  - (beg + 1) );
 
@@ -78,7 +81,7 @@ FilePath::getName( void ) const
 bool
 FilePath::match( const char * pattern )
 {
-  return( fnmatch( pattern, cstr(), 0 ) == 0 );
+  return( fnmatch( pattern, c_str(), 0 ) == 0 );
 }
 
 bool
@@ -106,7 +109,7 @@ FilePath::setPrefix( const char * prefix )
 	}
       else
 	{
-	  insert( 0, dirDelim );
+	  insert( (size_type)0, 1, dirDelim );
 	  insert( 0, prefix );
 	}
     }
@@ -118,7 +121,7 @@ FilePath::setPath( const char * path )
 {
   size_t end = rfind( dirDelim );
 
-  if( end == Str::npos )
+  if( end == npos )
     {
       if( path[ strlen( path ) - 1 ] == dirDelim )
 	{
@@ -126,7 +129,7 @@ FilePath::setPath( const char * path )
 	}
       else
 	{
-	  insert( 0, dirDelim );
+	  insert( (size_type)0, 1, dirDelim );
 	  insert( 0, path );
 	}
     }
@@ -134,11 +137,11 @@ FilePath::setPath( const char * path )
     {
       if( path[ strlen( path ) - 1 ] == dirDelim )
 	{
-	  before( end + 1 ) = path;
+	  replace( 0, end + 1, path );
 	}
       else
 	{
-	  before( end ) = path;
+	  replace( 0, end, path );
 	}
     }
   return( true );
@@ -147,10 +150,13 @@ FilePath::setPath( const char * path )
 bool
 FilePath::changePath( const char * oldDirs, const char * newDirs )
 {
-  if( ! at( oldDirs ).size() )
+  size_type beg = find( oldDirs );
+
+  if( beg == npos )
     return( false );
+
+  replace( beg, strlen( oldDirs ), newDirs );
   
-  at( oldDirs ) = newDirs;
   return( true );
 }
 
@@ -159,13 +165,13 @@ FilePath::setFileName( const char * name )
 {
   size_t beg = rfind( dirDelim );
 
-  if( beg == Str::npos )
+  if( beg == npos )
     {
       assign( name );
     }
   else
     {
-      after( beg + 1 ) = name;
+      replace( beg + 1, npos, name );
     }
   return( true );
 }
@@ -182,15 +188,15 @@ FilePath::setName( const char * name, char ext )
   size_t beg = rfind( dirDelim );
   size_t end = rfind( ext );
 
-  if( beg == Str::npos )
+  if( beg == npos )
     beg = 0;
   else
     beg++;
   
-  if( end == Str::npos )
+  if( end == npos )
     end = size();
-  
-  at( beg, end - beg ) = name;
+
+  replace( beg, end - beg, name );
 
   return( true );
 }
@@ -201,15 +207,16 @@ FilePath::setName( const char * name, const char * ext )
   size_t beg = rfind( dirDelim );
   size_t end = find( ext);
 
-  if( beg == Str::npos )
+  if( beg == npos )
     beg = 0;
   else
     beg++;
   
-  if( end == Str::npos )
+  if( end == npos )
     end = size();
 
-  at( beg, end - beg ) = name;
+  replace( beg, end - beg, name );
+  
   return( true );
 }
 
@@ -224,14 +231,14 @@ FilePath::setExt( const char * ext, char delim )
 {
   size_t beg = rfind( delim );
 
-  if( beg == Str::npos )
+  if( beg == npos )
     {
-      append( extDelim );
+      append( 1, extDelim );
       append( ext );
     }
   else
     {
-      after( beg + 1 ) = ext;
+      replace( beg + 1, npos, ext );
     }
   return( true );
 }
@@ -241,74 +248,61 @@ FilePath::setExt( const char * oldExt, const char * newExt )
 {
   size_t beg = rfind( oldExt );
 
-  if( beg == Str::npos || (beg + strlen( oldExt )) != size() )
+  if( beg == npos || (beg + strlen( oldExt )) != size() )
     return( false );
 
-  at( beg, size() - beg ) = newExt;
+  replace( beg, size() - beg, newExt );
   return( true );
 }
 
 bool
 FilePath::setTempName( const char * prefix )
 {
-  Str fnPrefix;
-
-  if( prefix != 0 )
-    fnPrefix = prefix;
-  else
-    fnPrefix = getName().cstr();
-
-  if( fnPrefix.size() )
-    fnPrefix = fnPrefix.before(5);
-  else
-    fnPrefix = "tmp";
-
-  
-  assign( tempnam( (char *)getPath().cstr(), (char *)fnPrefix.cstr() ) );
-  return( size() != 0 );
+  return( setTempName( getPath().c_str(), prefix ) );
 }
 
 bool
 FilePath::setTempName( const char * path, const char * prefix )
 {
-  Str fnPrefix = prefix;
-  if( fnPrefix.size() > 5 )
-    fnPrefix = fnPrefix.before( 5 );
+  string fnPrefix;
+  
+  if( prefix != 0 )
+    fnPrefix = prefix;
+  else
+    fnPrefix = getName();
 
-  assign( tempnam( (char *)path, (char *)fnPrefix.cstr() ) );
+  if( fnPrefix.size() )
+    fnPrefix = fnPrefix.substr(0,5);
+  else
+    fnPrefix = "tmp";
+
+  assign( tempnam( (char *)path, (char *)fnPrefix.c_str() ) );
   return( size() != 0 );
+}
+
+ostream &
+FilePath::toStream( ostream & dest ) const
+{
+  dest << (const string &)*this;
+  return( dest );
 }
 
 size_t
 FilePath::getBinSize( void ) const
 {
-  return( Str::getBinSize() +
+  return( sizeof( CLUE_U32 ) +
+	  size() +
 	  sizeof( dirDelim ) +
 	  sizeof( extDelim ) );
 }
 
-BinStream & 
-FilePath::write( BinStream & dest ) const
-{
-  Str::write( dest );
-  dest.write( dirDelim );
-  dest.write( extDelim );
-  return( dest );
-}
-
-BinStream &
-FilePath::read( BinStream & src )
-{
-  Str::read( src );
-  src.read( dirDelim );
-  src.read( extDelim );
-  return( src );
-}
 	    
 ostream & 
 FilePath::write( ostream & dest ) const
 {
-  Str::write( dest );
+  CLUE_U32  len = size();
+  dest.write( &len, sizeof( len ) );
+  dest.write( c_str(), size() );
   dest.write( &dirDelim, sizeof( dirDelim ) );
   dest.write( &extDelim, sizeof( extDelim ) );
   return( dest );
@@ -317,7 +311,18 @@ FilePath::write( ostream & dest ) const
 istream &
 FilePath::read( istream & src )
 {
-  Str::read( src );
+  CLUE_U32  len = 0;
+  src.read( &len, sizeof( len ) );
+
+  if( ! len )
+    return( src );
+
+  char * buf = new char[ len + 5];
+  src.read( buf, len );
+  buf[len] = 0;
+  assign( buf );
+  delete buf;
+
   src.read( &dirDelim, sizeof( dirDelim ) );
   src.read( &extDelim, sizeof( extDelim ) );
   return( src );
@@ -327,34 +332,30 @@ FilePath::read( istream & src )
 bool
 FilePath::good( void ) const
 {
-  return( Str::good() );
+  return( true );
 }
 
 // error - return a string describing the current state
 const char *
 FilePath::error( void ) const
 {
-  static Str errStr;
-  errStr.reset();
-
-  errStr << getClassName() << ':' ;
+  static string errStr;
+  
+  errStr = getClassName();
 
   if( good() )
     {
-       errStr << " Ok";
+       errStr += ": ok.";
     }
   else
     {
-      size_t eSize = errStr.size();
+      size_type eSize = errStr.size();
 
-      if( ! Str::good() )
-	errStr << ": " << Str::error();
-      
       if( eSize == errStr.size() )
-	errStr << ": unknown error";
+	errStr += ": unknown error.";
     }
 
-  return( errStr.cstr() );
+  return( errStr.c_str() );
 }
 
 // getClassName - return the name of this class
@@ -367,7 +368,7 @@ FilePath::getClassName( void ) const
 const char *
 FilePath::getVersion( bool withPrjVer ) const
 {
-  return( version.getVer( withPrjVer, Str::getVersion( false ) ) );
+  return( version.getVer( withPrjVer ) );
 }
 
 ostream &
@@ -386,16 +387,8 @@ FilePath::dumpInfo(
   else
     dest << prefix << "Good!" << '\n';
 
-  dest << prefix << "path: ";
-  FilePath::toStream( dest );
-  dest << '\n';
-  
-  Str pre;
-  pre << prefix << Str::getClassName() << "::";
-
-  Str::dumpInfo( dest, pre, false );
-
-  dest << prefix << "dirDelim:   " << dirDelim << '\n'
+  dest << prefix << "file path:  " << *this << '\n'
+       << prefix << "dirDelim:   " << dirDelim << '\n'
        << prefix << "extDelim:   " << extDelim << '\n'
     ;
   

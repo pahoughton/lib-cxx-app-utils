@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:06:27  houghton
+// Changed: Major rework to change base class from Str to string.
+//
 // Revision 3.1  1996/11/14 01:23:42  houghton
 // Changed to Release 3
 //
@@ -30,19 +33,14 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
-#include <Str.hh>
-#else
-#include <ClueCfg.hh>
-#include <Str.hh>
-#endif
+#include "ClueConfig.hh"
+#include <string>
 
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
 
-class FilePath : public Str
+class FilePath : public string
 {
 
 public:
@@ -62,18 +60,17 @@ public:
 
   inline FilePath( const FilePath & from );
   
-  inline Str 	    getFullName( void ) const;
-  inline Str  	    getPath( void ) const;
-  inline Str  	    getFileName( void ) const;
-  Str		    getName( void ) const;
-  inline Str  	    getExt( void ) const;
+  inline string	    getFullName( void ) const;
+  inline string	    getPath( void ) const;
+  inline string	    getFileName( void ) const;
+  string	    getName( void ) const;
+  inline string	    getExt( void ) const;
   inline size_t	    getDepth( void ) const;
   
   bool		    match( const char * pattern );
   
   inline bool	    set( const char * fullPath );
-  inline bool	    set( const Str & fullPath );
-  inline bool	    set( const SubStr & fullPath );
+  inline bool	    set( const string & fullPath );
   bool		    setPrefix( const char * prefix );
   bool		    setPath( const char * path );
   bool		    setFileName( const char * name );
@@ -88,15 +85,16 @@ public:
   
   bool		    changePath( const char * oldDirs, const char * newDirs );
 
+  virtual ostream &	toStream( ostream & dest ) const;
+  
   virtual size_t    	getBinSize( void ) const;
-  virtual BinStream & 	write( BinStream & dest ) const;
-  virtual BinStream & 	read( BinStream & src );
   
   virtual ostream &	write( ostream & dest ) const;
   virtual istream &	read( istream & src );
-  
-  friend inline ostream & operator << ( ostream & dest, const FilePath & obj );
 
+  inline bool	    operator == ( const FilePath & rhs ) const;
+  inline bool	    operator <  ( const FilePath & rhs ) const;
+  
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
@@ -121,6 +119,9 @@ private:
 #include <FilePath.ii>
 #else
 #undef inline
+
+ostream &
+operator << ( ostream & dest, const FilePath & obj );
 
 int
 compare( const FilePath & one, const FilePath & two );
