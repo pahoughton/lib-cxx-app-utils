@@ -227,6 +227,38 @@ LogBuf::getLogFileName( void ) const
     return( "" );
 }
 
+inline
+LogBuf::Filter::Filter( void )
+  : dest(0), outputLevel( LogLevel::None ), regex( 0 )
+{
+};
+
+inline
+LogBuf::Filter::Filter( const Filter & from )
+  : dest( from.dest ), outputLevel( from.outputLevel )
+{
+  if( from.regex )
+    regex = new RegexScan( *from.regex );
+}
+      
+inline
+LogBuf::Filter::~Filter( void )
+{
+  if( regex ) delete regex;
+};
+
+inline
+LogBuf::Filter &
+LogBuf::Filter::operator = ( const Filter & rhs )
+{
+  dest = rhs.dest;
+  outputLevel = rhs.outputLevel;
+  if( regex ) delete regex;
+  regex = new RegexScan( *regex );
+  return( *this );
+}
+      
+
 #if defined( inline )
 #undef inline
 #endif
@@ -235,6 +267,12 @@ LogBuf::getLogFileName( void ) const
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/03 19:02:05  houghton
+// Added code for Filter default constructor.
+// Added code for Filter copy constructor.
+// Added code Filter destructor.
+// Added code Filter operator =.
+//
 // Revision 3.2  1996/11/19 12:21:40  houghton
 // Added getLogFileName method.
 //
