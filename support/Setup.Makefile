@@ -24,12 +24,29 @@ SHELL		= /bin/ksh
 PROJECT		= libStlUtils-5
 CFG_DIR		= $(PROJECT)/src/config
 
+make_cfg_ver	= 5.06
+make_cfg_file	= $(TOOL_DIR)/include/Make/make.cfg.$(make_cfg_ver)
+
+MAKECONFIGS	= MakeConfigs-$(make_cfg_ver)
+
 common_h	= $(INSTALL_INC_DIR)/Common.h
 gnuregex_h	= $(INSTALL_INC_DIR)/GnuRegex.h
 stdcxx_hh	= $(INSTALL_INC_DIR)/StdCxxConfig.hh
 
+LIB_COMMON	= libCommon-3
+LIB_GNUREGEX	= libGnuRegex-2
+LIB_STDCXX	= libStdC++-2
+
+tools_archive_dir	= $(TOOL_DIR)/src/Tools
 tools_build_dir		= $(TOOL_DIR)/src/Build/Tools
 libs_build_dir		= $(TOOL_DIR)/src/Build/Libs
+
+anon_ftp		= $(tools_bin_dir)/AnonFtp.ksh
+
+cvs_ver			= 1.10
+tools_cvs_pkg		= cvs-$(cvs_ver).tar.gz
+tools_gzip_pkg		= gzip-1.2.4.tar
+tools_host		= sideswipe.wcom.com
 
 exports	    = 							\
 	INSTALL_INC_DIR=$(INSTALL_INC_DIR)			\
@@ -39,25 +56,53 @@ exports	    = 							\
 	show_commands=$(show_commands)				\
 	check_install=$(check_install)
 
-no_target:
+no_default:
+	$(hide) echo "++ ERROR: no default target available"
+	$(hide) exit 1
 
-$(tools_archive_dir)/$(tools_cvs):
-	cd $(libs_build_dir)						      \
-	&& $(PROJECT)/support/AnonFtp.ksh				      \
-	      $(tools_host)						      \
-	      pub/tools/$(tools_cvs)					      \
-	      $(tools_archive_dir)
+$(tools_bin_dir) $(tools_build_dir) $(tools_archive_dir):
+	$(hide) $(SHELL) $(PROJECT)/support/mkdirhier.sh $@
 
-$(TOOL_DIR)/bin/cvs: $(tools_archive_dir)/$(tools_cvs)			      \
-		$(TOOL_DIR)/bin/gzip
-	cd $(tools_build_dir)						      \
-	&& zcat $(tools_archive_dir)/$(tools_cvs) | tar xf -
-	cd $(tools_build_dir)/cvs*					      \
+$(anon_ftp):
+	$(hide) cp $(PROJECT)/support/AnonFtp.ksh $@
+	$(hide) chmod 775 $@
+
+$(TOOL_DIR)/bin/gzip:
+	$(hide)								      \
+	pkg=$(tools_gzip_pkg);						      \
+	[ -f $(tools_archive_dir)/$$pkg ]				      \
+	  || $(anon_ftp) $(tools_host)					      \
+	         pub/tools/$$pkg					      \
+	         $(tools_archive_dir) || exit 1;			      \
+	$(hide) cd $(tools_build_dir)					      \
+	&& tar xf $(tools_archive_dir)/$$pkg				      \
+	&& cd gzip*							      \
 	&& ./configure --prefix=$(TOOL_DIR)				      \
 	&& make								      \
 	&& make install
 
-cvs: $(TOOL_DIR)/bin/cvs
+$(TOOL_DIR)/bin/cvs:
+	$(hide)								      \
+	pkg=$(tools_cvs_pkg);						      \
+	[ -f $(tools_archive_dir)/$$pkg ]				      \
+	  || $(anon_ftp) $(tools_host)					      \
+	         pub/tools/$$pkg					      \
+	         $(tools_archive_dir) || exit 1; 			      \
+	$(hide) cd $(tools_build_dir)					      \
+	&& $(TOOL_DIR)/bin/zcat $(tools_archive_dir)/$$pkg | tar xf -	      \
+	&& cd cvs-$(cvs_ver)						      \
+	&& ./configure --prefix=$(TOOL_DIR)				      \
+	&& make								      \
+	&& make install
+
+
+cvs: 		$(tools_archive_dir)					      \
+		$(tools_bin_dir)					      \
+		$(tools_build_dir)					      \
+		$(anon_ftp)						      \
+		$(TOOL_DIR)/bin/gzip					      \
+		$(TOOL_DIR)/bin/cvs
+	$(hide) echo; echo " + CVS installation complete."; echo
 
 check_cvs:
 	@if type cvs ; then						      \
@@ -68,38 +113,31 @@ check_cvs:
 	  exit 1;							      \
 	fi
 
-$(libs_build_dir)/libCommon-3:
+$(make_cfg_file): 
+	cd $(tools_build_dir)						      \
+	&& ( [ -d $(MAKECONFIGS) ] || cvs co $(MAKECONFIGS) )		      \
+	&& $(MAKE) -f $(MAKECONFIGS)/Makefile setup			      \
+	&& $(TOOL_DIR)/bin/make -C $(MAKECONFIGS) install
+
+
+$(common_h):
 	cd $(libs_build_dir)						      \
-	&& cvs $(tools_cvsroot) co libCommon-3
+	&& ( [ -d $(LIB_COMMON) ] || cvs co $(LIB_COMMON) )		      \
+	&& $(TOOL_DIR)/bin/make -f $(LIB_COMMON)/Makefile setup	$(exports)    \
+	&& $(TOOL_DIR)/bin/make -C $(LIB_COMMON) install_lib_all
 
-
-$(common_h): $(libs_build_dir)/libCommon-3
+$(gnuregex_h):
 	cd $(libs_build_dir)						      \
-	&& $(MAKE) -f libCommon-3/Makefile setup $(exports)
-	$(TOOL_DIR)/bin/make -C $(libs_build_dir)/libCommon-3		      \
-	    install_lib_all $(exports) 
+	&& ( [ -d $(LIB_GNUREGEX) ] || cvs co $(LIB_GNUREGEX) )		      \
+	&& $(TOOL_DIR)/bin/make -f $(LIB_GNUREGEX)/Makefile setup $(exports)  \
+	&& $(TOOL_DIR)/bin/make -C $(LIB_GNUREGEX) install_lib_all
 
-$(libs_build_dir)/libGnuRegex-2:
+$(stdcxx_hh):
 	cd $(libs_build_dir)						      \
-	&& cvs $(tools_cvsroot) co libGnuRegex-2
+	&& ( [ -d $(LIB_STDCXX) ] || cvs co $(LIB_STDCXX) )		      \
+	&& $(TOOL_DIR)/bin/make -f $(LIB_STDCXX)/Makefile setup $(exports)  \
+	&& $(TOOL_DIR)/bin/make -C $(LIB_STDCXX) install_lib_all
 
-
-$(gnuregex_h): $(libs_build_dir)/libGnuRegex-2
-	cd $(libs_build_dir)						      \
-	&& $(MAKE) -f libGnuRegex-2/Makefile setup $(exports)
-	$(TOOL_DIR)/bin/make -C $(libs_build_dir)/libGnuRegex-2		      \
-	    install_lib_all $(exports) 
-
-$(libs_build_dir)/libStdC++-2:
-	cd $(libs_build_dir)						      \
-	&& cvs $(tools_cvsroot) co libStdC++-2
-
-
-$(stdcxx_hh): $(libs_build_dir)/libStdC++-2
-	cd $(libs_build_dir)						      \
-	&& $(MAKE) -f libStdC++-2/Makefile setup $(exports)
-	$(TOOL_DIR)/bin/make -C $(libs_build_dir)/libStdC++-2		      \
-	    install_lib_all $(exports) 
 
 gen_setup_cfg:
 	rm -f $(CFG_DIR)/Setup.cfg
@@ -113,11 +151,20 @@ gen_setup_cfg:
 	chmod 444 $(CFG_DIR)/Setup.cfg
 
 
-setup: check_cvs $(common_h) $(gnuregex_h) $(stdcxx_hh) gen_setup_cfg
+setup: 		check_cvs						      \
+		$(libs_build_dir)					      \
+		$(common_h)						      \
+		$(gnuregex_h)						      \
+		$(stdcxx_hh)						      \
+		gen_setup_cfg
 
 
 #
 # $Log$
+# Revision 5.3  2000/07/24 09:33:55  houghton
+# Major rework to improve existing target detection (i.e. if it's there
+#      dont rebuild it).
+#
 # Revision 5.2  2000/05/25 17:07:48  houghton
 # Changed project version.
 #
