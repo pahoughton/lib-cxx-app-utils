@@ -13,6 +13,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 13:09:00  houghton
+// Cleanup includes.
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
 // Revision 2.3  1996/02/29 19:07:22  houghton
 // Added some ifndefs for GNU
 //
@@ -30,13 +35,17 @@
 #if !defined( CLUE_SHORT_FN )
 #include <ClueExceptions.hh>
 #include <RegexScan.hh>
+#include <StrStreambuf.hh>
 #include <SubStr.hh>
 #include <StringUtils.hh>
+#include <cctype>
 #else
 #include <ClueExcp.hh>
 #include <RxScan.hh>
+#include <StrSbuf.hh>
 #include <SubStr.hh>
 #include <StrUtil.hh>
+#include <cctype>
 #endif
 
 #if defined( CLUE_DEBUG )
@@ -2004,5 +2013,8 @@ Str::replace(
 }
 #endif
 
+#if defined( inline )
+#undef inline
+#endif
 
 #endif // ! def _Str_ii_ 
