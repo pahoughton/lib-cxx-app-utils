@@ -69,8 +69,8 @@ public:
   DumpInfo<TimeIt> dump( const char *   prefix = "    ",
 			 bool		showVer = true ) const;
 
-  timeval diffTimeVal( const timeval & t1,
-		       const timeval & t2 ) const;
+  timeval diffTimeVal( const timeval & stopTime,
+		       const timeval & startTime ) const;
   
 protected:
 
@@ -109,30 +109,16 @@ TimeItAverage( TimeItIterator first, TimeItIterator last )
   timeval   accumReal;
   rusage    accumUsage;
 
-  accumReal.tv_usec	= 0;
-  accumReal.tv_sec	= 0;
-
-  accumUsage.ru_maxrss	    = 0;
-  accumUsage.ru_ixrss	    = 0;
-  accumUsage.ru_idrss	    = 0;
-  accumUsage.ru_isrss	    = 0;
-  accumUsage.ru_minflt	    = 0;
-  accumUsage.ru_majflt	    = 0;
-  accumUsage.ru_nswap	    = 0;
-  accumUsage.ru_inblock	    = 0;
-  accumUsage.ru_oublock	    = 0;
-  accumUsage.ru_msgsnd	    = 0;
-  accumUsage.ru_msgrcv	    = 0;
-  accumUsage.ru_nsignals    = 0;
-  accumUsage.ru_nvcsw	    = 0;
-  accumUsage.ru_nivcsw	    = 0;
+  memset( &accumReal, 0, sizeof( accumReal ) );
+  memset( &accumUsage, 0, sizeof( accumUsage ) );
     
   long counter = 0;
   
   for( TimeItIterator it = first; it != last; ++ it )
     {
       ++ counter;
-      
+
+      // real time
       accumReal.tv_usec += (*it).getRealDiff().tv_usec;
      
       if( accumReal.tv_usec > 1000000 )
@@ -142,6 +128,32 @@ TimeItAverage( TimeItIterator first, TimeItIterator last )
 	}
 	  
       accumReal.tv_sec += (*it).getRealDiff().tv_sec;
+
+      // user time
+      accumUsage.ru_utime.tv_usec += (*it).getUsageDiff().ru_utime.tv_usec;
+     
+      if( accumUsage.ru_utime.tv_usec > 1000000 )
+	{
+	  accumUsage.ru_utime.tv_sec +=
+	    (accumUsage.ru_utime.tv_usec / 1000000);
+	  accumUsage.ru_utime.tv_usec =
+	    (accumUsage.ru_utime.tv_usec % 1000000);
+	}
+	  
+      accumUsage.ru_utime.tv_sec += (*it).getUsageDiff().ru_utime.tv_sec;
+
+      // sys time
+      accumUsage.ru_stime.tv_usec += (*it).getUsageDiff().ru_stime.tv_usec;
+     
+      if( accumUsage.ru_stime.tv_usec > 1000000 )
+	{
+	  accumUsage.ru_stime.tv_sec +=
+	    (accumUsage.ru_stime.tv_usec / 1000000);
+	  accumUsage.ru_stime.tv_usec =
+	    (accumUsage.ru_stime.tv_usec % 1000000);
+	}
+	  
+      accumUsage.ru_stime.tv_sec += (*it).getUsageDiff().ru_stime.tv_sec;
       
       accumUsage.ru_maxrss	+= (*it).getUsageDiff().ru_maxrss;
       accumUsage.ru_ixrss	+= (*it).getUsageDiff().ru_ixrss;
@@ -321,6 +333,9 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/21 12:29:19  houghton
+// Cleanup.
+//
 // Revision 3.2  1997/03/19 16:26:48  houghton
 // Added constructor.
 // Added TimeItAverate template funct.
