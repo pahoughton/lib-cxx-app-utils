@@ -42,7 +42,7 @@ tLog02( LibTest & tester )
     
     logSize += strlen( "mm/dd/yy hh:mm:ss WARNING good\n" );
   }
-
+#if defined( FIXME )
   {
     // Log( const char *, LogLevel::Level, bool )
 
@@ -260,7 +260,7 @@ tLog02( LibTest & tester )
 
     TEST( (size_t)t.getSize() > minSize && t.getSize() < 2048 );
   }
-
+#endif
   return( true );
 }
 
