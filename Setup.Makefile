@@ -55,6 +55,8 @@ PROJECT_EXTRACT_DIR	= src/Build/Libs
 
 WWW_TOP_DIR		= ../../..
 WWW_TOOLS_ROOT		= $(WWW_TOP_DIR)/Tools
+WWW_OBJECT_REP_ROOT	= $(WWW_TOP_DIR)/ObjectRep
+WWW_PROJECTS_ROOT	= $(WWW_TOP_DIR)/Projects
 
 RUN_BASE_DIR		=
 
@@ -80,6 +82,8 @@ CONFIG_VARS	=		\
 	INSTALL_DOC_MAN_DIR	\
 	WWW_TOP_DIR		\
 	WWW_TOOLS_ROOT		\
+	WWW_OBJECT_REP_ROOT	\
+	WWW_PROJECTS_ROOT	\
 				\
 	INSTALL_RUN_BASE_DIR
 
@@ -139,6 +143,8 @@ setup_exports	=						\
 	INSTALL_RUN_BASE_DIR='$(INSTALL_RUN_BASE_DIR)'		\
 	WWW_TOP_DIR=$(WWW_TOP_DIR)				\
 	WWW_TOOLS_ROOT=$(WWW_TOOLS_ROOT)			\
+	WWW_OBJECT_REP_ROOT=$(WWW_OBJECT_REP_ROOT)		\
+	WWW_PROJECTS_ROOT=$(WWW_PROJECTS_ROOT)			\
 	hide='$(hide)'
 
 config_help	=							\
@@ -152,6 +158,8 @@ config_help	=							\
 	echo "    INSTALL_RUN_BASE_DIR=$(INSTALL_RUN_BASE_DIR) ";
 	echo "    WWW_TOP_DIR=$(WWW_TOP_DIR) ";				\
 	echo "    WWW_TOOLS_ROOT=$(WWW_TOOLS_ROOT) ";			\
+	echo "    WWW_OBJECT_REP_ROOT=$(WWW_OBJECT_REP_ROOT) ";		\
+	echo "    WWW_PROJECTS_ROOT=$(WWW_PROJECTS_ROOT) ";		\
 
 #
 # Targets

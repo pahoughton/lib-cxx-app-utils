@@ -639,6 +639,52 @@ DateTime::operator >= ( const DateTime & rhs ) const
 #endif 
 
 inline
+bool
+DateTime::operator == ( time_t rhs ) const
+{
+  return( getTimeT() == rhs );
+}
+
+// operator < - return true if I less than 'two'
+inline
+bool
+DateTime::operator < ( time_t rhs ) const
+{
+  return( getTimeT() < rhs );
+}
+
+#if defined( STLUTILS_RELOPS_BROKEN )
+inline
+bool
+DateTime::operator != ( time_t rhs ) const
+{
+  return( ! (*this == rhs) );
+}
+
+inline
+bool
+DateTime::operator > ( time_t rhs ) const
+{
+  return( rhs < *this );
+}
+
+inline
+bool
+DateTime::operator <= ( time_t rhs ) const
+{
+  return( ! (rhs < *this) );
+}
+
+inline
+bool
+DateTime::operator >= ( time_t rhs ) const
+{
+  return( ! (*this < rhs) );
+}
+#endif 
+
+
+inline
 time_t
 DateTime::operator - ( const DateTime & rhs ) const
 {
@@ -741,6 +787,9 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/08/02 16:34:20  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

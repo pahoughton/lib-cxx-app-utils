@@ -152,6 +152,16 @@ public:
   inline bool		operator >= ( const DateTime & rhs ) const;
 #endif
 
+  inline bool 	operator == ( time_t rhs ) const;
+  inline bool 	operator <  ( time_t rhs ) const;
+
+#if defined( STLUTILS_RELOPS_BROKEN )
+  inline bool		operator != ( time_t rhs ) const;
+  inline bool		operator >  ( time_t rhs ) const;
+  inline bool		operator <= ( time_t rhs ) const;
+  inline bool		operator >= ( time_t rhs ) const;
+#endif
+
   // note: time_t IS a signed value.
   
   inline time_t	operator -  ( const DateTime & rhs ) const;
@@ -677,6 +687,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/08/02 16:34:20  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //
