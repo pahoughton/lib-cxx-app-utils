@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 2.2  1996/06/09 09:46:43  houghton
+// Added tHeapNetStream.
+//
 // Revision 2.1  1996/05/01 11:04:50  houghton
 // Initial version.
 //
@@ -48,6 +51,8 @@ bool	tbasename( LibTest & tester );
 // RandomBinStream.hh
 // HeapBinStream.hh
 bool	tHeapBinStream( LibTest & tester );
+// HeapNetStream.hh
+bool	tHeapNetStream( LibTest & tester );
 // Str.hh
 bool	tStr( LibTest & tester );
 // SubStr.hh
