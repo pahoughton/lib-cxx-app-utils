@@ -1,0 +1,123 @@
+#ifndef _SizeIt_ii_
+#define _SizeIt_ii_
+//
+// File:        SizeIt.ii
+// Desc:        
+//
+//  	inlines for SizeIt
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     03/11/96 06:04
+//
+// Revision History:
+//
+// $Id$
+//
+// $Log$
+// Revision 2.1  1996/03/13 11:28:13  houghton
+// Initial Version
+//
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+
+inline
+SizeIt::SizeIt( size_t size )
+  : it( 0 )
+{
+  setSize( size );
+}
+
+inline
+SizeIt::SizeIt( const SizeIt & from )
+  : it( from.it )
+{
+}
+
+inline
+SizeIt::operator size_t ( void ) const
+{
+  return( it );
+}
+  
+inline
+size_t
+SizeIt::operator () ( void ) const
+{
+  return( it );
+}
+
+inline
+size_t
+SizeIt::operator () ( size_t size )
+{
+  return( setSize( size ) );
+}
+
+inline
+bool
+SizeIt::operator == ( const SizeIt & rhs ) const
+{
+  return( it == rhs.it );
+}
+
+inline
+bool
+SizeIt::operator == ( size_t rhs ) const
+{
+  return( it == rhs );
+}
+
+inline
+bool
+SizeIt::operator <  ( const SizeIt & rhs ) const
+{
+  return( it < rhs.it );
+}
+
+inline
+bool
+SizeIt::operator <  ( size_t rhs ) const
+{
+  return( it < rhs );
+}
+  
+inline
+bool
+SizeIt::operator >  ( size_t rhs ) const
+{
+  return( it > rhs );
+}
+  
+inline
+bool
+SizeIt::operator <= ( size_t rhs ) const
+{
+  return( it <= rhs );
+}
+  
+inline
+bool
+SizeIt::operator >= ( size_t rhs ) const
+{
+  return( it >= rhs );
+}
+  
+
+
+inline
+ostream &
+operator << ( ostream & dest, const SizeIt & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+#if defined( inline )
+#undef inline
+#endif
+
+#endif // ! def _SizeIt_ii_ 
