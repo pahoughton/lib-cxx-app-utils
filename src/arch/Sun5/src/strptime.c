@@ -273,7 +273,7 @@ strptime(
 	case 'I':
 	  /* Match hour in 12-hour clock.  */
 	  get_number (1, 12);
-	  tm->tm_hour = val - 1;
+	  tm->tm_hour = val;
 	  have_I = 1;
 	  break;
 	case 'j':
@@ -368,8 +368,19 @@ strptime(
 	}
     }
 
-  if (have_I && is_pm)
-    tm->tm_hour += 12;
+  if (have_I)
+    {
+      if( tm->tm_hour == 12 )
+	{
+	  if( ! is_pm )
+	    tm->tm_hour -= 12;
+	}
+      else
+	{
+	  if( is_pm )
+	    tm->tm_hour += 12;
+	}
+    }
   
   return (char *) rp;
 }
@@ -399,6 +410,9 @@ Boston, MA 02111-1307, USA.  */
  * Revision Log:
  *
  * $Log$
+ * Revision 1.2  1998/05/19 15:27:52  houghton
+ * Bug-Fix: '%I' was off by 1.
+ *
  * Revision 1.1  1997/12/20 16:11:08  houghton
  * Intial version.
  *
