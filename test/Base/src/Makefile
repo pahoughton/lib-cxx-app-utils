@@ -144,7 +144,7 @@ DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
 PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue_s -lCommon_s $(ARCH_LIBS)
+DEFAULT_LD_LIBS		= -lClue -lCommon_s $(ARCH_LIBS)
 DEBUG_LD_LIBS		= -lClue_g -lCommon  $(ARCH_LIBS)
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
@@ -384,6 +384,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.15  1996/07/09 11:35:16  houghton
+# Change Libs
+#
 # Revision 2.14  1996/06/20 15:26:00  houghton
 # Changed default target to use src dirs instead of installed dirs.
 #
