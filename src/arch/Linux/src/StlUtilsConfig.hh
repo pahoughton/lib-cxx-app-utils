@@ -122,9 +122,15 @@
 //			args inside it.
 //
 //			Example: void doit( int need, char CLUE_UNSED( c ) )
-//	    
+//
+// Documented Ver:  2.7
+// 
+// Revision Log:
 //
 // $Log$
+// Revision 2.7  1996/10/28 12:12:27  houghton
+// Edit Documentation.
+//
 // Revision 2.6  1996/10/28 12:10:50  houghton
 // Cleanup: reorder defines and macros.
 // Added Documentation.
