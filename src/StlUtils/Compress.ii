@@ -1,0 +1,46 @@
+#ifndef _Compress_ii_
+#define _Compress_ii_
+//
+// File:        Compress.ii
+// Project:	StlUtils
+// Desc:        
+//
+//  	Inline source for Compress
+//
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Created:     10/07/99 05:43
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( STLUTILS_DEBUG )
+#define inline
+#endif
+
+inline
+DumpInfo< Compress >
+Compress::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< Compress >( *this, prefix, showVer ) );
+}
+
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 1.1  1999/10/07 13:10:00  houghton
+// Initial Version.
+//
+//
+#endif // ! def _Compress_ii_ 
