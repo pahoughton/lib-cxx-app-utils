@@ -114,17 +114,17 @@ CPP_FLAGS		= $(ARCH_CPP_FLAGS)
 
 CC_FLAGS		= $(cc_warn) $(ARCH_CC_FLAGS)
 
-DEFAULT_CC_FLAGS	= $(cc_default) $(cc_optimize)
-DEBUG_CC_FLAGS		= $(cc_debug)
-PROFILE_CC_FLAGS	= $(cc_profile)
-SHARED_CC_FLAGS		= $(cc_shared) $(cc_optimize)
+DEFAULT_CC_FLAGS	= $(cc_default) $(cc_optimize_flags)
+DEBUG_CC_FLAGS		= $(cc_debug) $(cc_debug_flags)
+PROFILE_CC_FLAGS	= $(cc_profile) $(cc_profile_flags)
+SHARED_CC_FLAGS		= $(cc_shared) $(cc_shared_flags) $(cc_optimize_flags)
 
 CXX_FLAGS		= $(cxx_warn) $(ARCH_CXX_FLAGS)
 
-DEFAULT_CXX_FLAGS	= $(cxx_default) $(cxx_optimize)
-DEBUG_CXX_FLAGS		= $(cxx_debug)
-PROFILE_CXX_FLAGS	= $(cxx_profile)
-SHARED_CXX_FLAGS	= $(cxx_shared) $(cxx_optimize)
+DEFAULT_CXX_FLAGS	= $(cxx_default) $(cxx_optimize_flags)
+DEBUG_CXX_FLAGS		= $(cxx_debug) $(cxx_debug_flags)
+PROFILE_CXX_FLAGS	= $(cxx_profile) $(cxx_profile_flags)
+SHARED_CXX_FLAGS	= $(cxx_shared) $(cxx_shared_flags) $(cxx_optimize_flags)
 
 # **** S H A R E D   D E P   L I B S *****
 
@@ -335,6 +335,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.11  1998/02/02 15:22:38  houghton
+# Fixed to work with MakeConfigs 5.04 correctly.\
+#
 # Revision 4.10  1998/01/30 12:40:10  houghton
 # Changed to use MakeConfigs 5.04.
 #
