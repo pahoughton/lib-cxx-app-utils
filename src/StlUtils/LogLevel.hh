@@ -22,15 +22,12 @@
 //
 
 
-#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <Bitmask.hh>
 #include <iostream>
-#else
-#include <ClueCfg.hh>
-#include <Bitmask.hh>
-#include <iostream>
-#endif
+#include <map>
+
+#include <Common.h>
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -42,7 +39,9 @@ class LogLevel
 public:
 
   typedef Bitmask Level;
-
+  
+  typedef map< LogLevelBit, Level, less< LogLevelBit > >  CommonLevelMap;
+  
   static const Level	None;
   static const Level	Error;
   static const Level	Err;
@@ -124,11 +123,10 @@ private:
 
   static const Name2Level Name2LevelList[];
   static const char * LevelNames[];
-
   
   Level	    output;
   Level     current;
-  
+
 };
 
 #if !defined( inline )
@@ -377,6 +375,10 @@ operator << ( ostream & dest, const LogLevel & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/04/26 14:10:33  houghton
+// Cleanup.
+// Added CommonLevelMap to support Log::tieCommonLogger().
+//
 // Revision 3.2  1997/03/21 12:24:05  houghton
 // Changed string to log level converter to support +level and
 //     -level. These will turn the level on or off respectivly without
