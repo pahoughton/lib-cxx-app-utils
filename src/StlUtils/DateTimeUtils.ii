@@ -2,6 +2,7 @@
 #define _DateTimeUtils_ii_
 //
 // File:        DateTimeUtils.ii
+// Project:	StlUtils
 // Desc:        
 //
 //  	long
@@ -29,32 +30,19 @@
 //  	    return the date portion only.
 //
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     05/02/95 06:32
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 4.1  1997/09/17 15:12:21  houghton
-// Changed to Version 4
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.2  1997/09/17 11:08:18  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:23:39  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1995/12/04 11:17:21  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:34  houghton
-// Change to Version 2
-//
-// Revision 1.1  1995/11/05  13:23:22  houghton
-// Initaial implementation
-//
+//  $Id$
 //
 
+#include <cctype>
 
 //
 // Generic time_t manipulators
@@ -121,6 +109,51 @@ IsLeapYear( int year)
 
 #endif
 
+inline
+void
+YYMMDDtoYYYYMMDD( char * dest, const char * src )
+{
+  if( isdigit( src[0] )  )
+    {
+      if( src[0] < 5 )
+	memcpy( dest, "20", 2 );
+      else
+	memcpy( dest, "19", 2 );
+      memcpy( dest + 2, src, 6 );
+    }
+  else
+    {
+      memset( dest, ' ', 8 );
+    }
+}
+
+
+// Revision Log:
+// 
+// $Log$
+// Revision 4.2  1997/12/19 12:48:59  houghton
+// Cleanup
+// Added YYMMDDtoYYYYMMDD.
+//
+// Revision 4.1  1997/09/17 15:12:21  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:18  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:23:39  houghton
+// Changed to Release 3
+//
+// Revision 2.2  1995/12/04 11:17:21  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:34  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  13:23:22  houghton
+// Initaial implementation
+//
+//
 
 #endif // ! def _DateTimeUtils_ii_ 
 
