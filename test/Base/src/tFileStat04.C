@@ -40,7 +40,7 @@ tFileStat04( LibTest & tester )
     // stat( const char * )
 
     FileStat t( "data" );
-    User     h( "houghton" );
+    User     h( TEST_USER );
 
     t.stat( TEST_DATA_DIR "/FileStat.01" );
     
@@ -82,7 +82,7 @@ tFileStat04( LibTest & tester )
     TEST( fd >= 0 );
 
     FileStat t( "data" );
-    User     h( "houghton" );
+    User     h( TEST_USER );
 
     t.stat( fd );
     
@@ -121,7 +121,7 @@ tFileStat04( LibTest & tester )
 
     
     FileStat t( "data" );
-    User     h( "houghton" );
+    User     h( TEST_USER );
 
     
     t.lstat( TEST_DATA_DIR "/FileStat.l1" );
@@ -157,7 +157,7 @@ tFileStat04( LibTest & tester )
     // operator () ( const char * )
 
     FileStat t( "data" );
-    User     h( "houghton" );
+    User     h( TEST_USER );
 
     t( TEST_DATA_DIR "/FileStat.01" );
     
@@ -199,7 +199,7 @@ tFileStat04( LibTest & tester )
     TEST( fd >= 0 );
 
     FileStat t( "data" );
-    static const User     h( "houghton" );
+    static const User     h( TEST_USER );
 
     t( fd );
     

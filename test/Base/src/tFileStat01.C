@@ -72,7 +72,7 @@ tFileStat01( LibTest & tester )
     // getStatusChangeTime( void ) const
 
     FileStat t( TEST_DATA_DIR "/FileStat.01" );
-    User     h( "houghton" );
+    User     h( TEST_USER );
     
     struct stat fstat;
 
@@ -106,7 +106,7 @@ tFileStat01( LibTest & tester )
 
   {
     FileStat t( TEST_DATA_DIR "/FileStat.l1", true );
-    User     h( "houghton" );
+    User     h( TEST_USER );
     
     struct stat fstat;
 
@@ -139,7 +139,7 @@ tFileStat01( LibTest & tester )
   {
  
     FileStat t( TEST_DATA_DIR "/FileStat.l1" );
-    User     h( "houghton" );
+    User     h( TEST_USER );
     
     struct stat fstat;
 
