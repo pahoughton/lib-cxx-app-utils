@@ -15,16 +15,10 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StringUtils.hh>
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include "StringUtils.hh"
 #include <cstdio>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StrUtil.hh>
-#endif
 
 #ifndef TRUE
 #define FALSE 0
@@ -980,6 +974,10 @@ tStringTo( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:37:24  houghton
+// Changed include lines to use " " instead of < > to accomidate rpm.
+// Removed support for short file names to accomidate rpm.
+//
 // Revision 3.1  1996/11/14 01:27:13  houghton
 // Changed to Release 3
 //

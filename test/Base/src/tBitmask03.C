@@ -43,16 +43,10 @@
 // $Id$ 
 
 
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Bitmask.hh>
-#include <strstream>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Bitmask.hh>
-#endif
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include "Bitmask.hh"
+#include <strstream.h>
 
 bool
 tBitmask03( LibTest & tester )
@@ -276,6 +270,10 @@ tBitmask03( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:34:04  houghton
+// Changed include lines to use " " instead of < > to accomidate rpm.
+// Removed support for short file names to accomidate rpm.
+//
 // Revision 3.1  1996/11/14 01:26:23  houghton
 // Changed to Release 3
 //

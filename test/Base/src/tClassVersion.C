@@ -15,15 +15,10 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <strstream>
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include <strstream.h>
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#endif
 
 			
 #define CLASS_NAME	"TestClass"
@@ -187,6 +182,10 @@ tClassVersion( LibTest & tester )
   
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:34:17  houghton
+// Changed include lines to use " " instead of < > to accomidate rpm.
+// Removed support for short file names to accomidate rpm.
+//
 // Revision 3.1  1996/11/14 01:26:25  houghton
 // Changed to Release 3
 //

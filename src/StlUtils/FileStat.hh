@@ -17,17 +17,10 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
-#include <Bitmask.hh>
-#include <ClueSysStat.hh>
+#include "ClueConfig.hh"
+#include "Bitmask.hh"
+#include "ClueSysStat.hh"
 #include <rw/cstring.h>
-#else
-#include <ClueCfg.hh>
-#include <Str.hh>
-#include <FilePath.hh>
-#include <Bitmask.hh>
-#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -577,6 +570,10 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:32:02  houghton
+// Changed include lines to use " " instead of < > to accomidate rpm.
+// Removed support for short file names to accomidate rpm.
+//
 // Revision 3.1  1996/11/14 01:25:22  houghton
 // Changed to Release 3
 //

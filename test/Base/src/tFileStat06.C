@@ -1,14 +1,7 @@
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FileStat.hh>
-#include <strstream>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <FileStat.hh>
-#include <strstream>
-#endif
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include "FileStat.hh"
+#include <strstream.h>
 
 bool
 tFileStat06( LibTest & tester )

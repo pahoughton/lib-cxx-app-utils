@@ -1,22 +1,10 @@
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <HeapBinStream.hh>
-#include <User.hh>
-#include <Compare.hh>
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include "User.hh"
+#include "Compare.hh"
 #include <rw/cstring.h>
 #include <fstream>
-#include <strstream>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <HBinStrm.hh>
-#include <User.hh>
-#include <Str.hh>
-#include <Compare.hh>
-#include <fstream>
-#include <strstream>
-#endif
+#include <strstream.h>
 
 
 int
