@@ -59,6 +59,7 @@ InboundProcessorBase::InboundProcessorBase(
 	{
 	  FilePath  tmp;
 	  tmp.assign( fnPattern.scanMatch( p ) );
+	  tmp.stripEnds( "\t \n" );
 	  fnPatList.push_back( tmp );
 	}
     }
@@ -313,6 +314,9 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  2000/03/10 11:40:04  houghton
+// Bug-Fix: strip white space from multi filename patterns.
+//
 // Revision 4.5  1999/10/28 14:19:44  houghton
 // Added support for multiple file name patterns.
 //
