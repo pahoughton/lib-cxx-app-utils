@@ -109,17 +109,18 @@ public:
   
   static const ClassVersion version;
 
-protected:
-  
-  Level	    levelFromString( const char * level, Level curLevel );
-  
-private:
-
+  // do NOT use this.
   struct Name2Level
   {
     const char **   name;
     const Level *   level;
   };
+
+protected:
+  
+  Level	    levelFromString( const char * level, Level curLevel );
+  
+private:
 
   static const Name2Level Name2LevelList[];
   static const char * LevelNames[];
@@ -375,6 +376,10 @@ operator << ( ostream & dest, const LogLevel & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/07/18 19:24:26  houghton
+// Port(Sun5): had to make 'struct Name2Level' a public member to eliminate
+//     compiler errors.
+//
 // Revision 3.4  1997/05/02 12:17:19  houghton
 // Changed all LogLevel::Level args to const & to avoid copy constructor calls.
 //
