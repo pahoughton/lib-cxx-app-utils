@@ -36,9 +36,11 @@ class Semaphore
 public:
 
   Semaphore( void );
+  
   Semaphore( key_t  semKey,
 	     int    numSems = 1,
 	     int    flags = (IPC_CREAT | 0664) );
+
   Semaphore( const char *   keyPath,
 	     char	    proj = ' ',
 	     int	    numSems = 1,
@@ -53,7 +55,7 @@ public:
   bool	    create( const char *    keyPath,
 		    char	    proj = ' ',
 		    int		    numSems = 1,
-		    int		    flags = IPC_CREAT );
+		    int		    flags = (IPC_CREAT | 0664) );
 
   bool	    remove( void );
   
@@ -185,6 +187,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/07/20 18:51:23  houghton
+// Bug-Fix: forgot to set default file mode in create( const char *).
+//
 // Revision 3.1  1997/06/10 13:54:25  houghton
 // Initial Version.
 //
