@@ -48,8 +48,7 @@ Param::Param(
   int 		mainArgc,
   char *	mainArgv[],
   const char *	version,
-  const char *	logLevel,
-  bool		parse
+  const char *	logLevel
   )
   : appLog( cout, logLevel ),
     helpFlag( false ),
@@ -85,9 +84,6 @@ Param::Param(
       helpString += ver;
       helpString += "\n\n";
     }
-
-  if( parse )
-    parseArgs();
 }
 
 Param::~Param( void )
@@ -267,7 +263,7 @@ Param::argStr(
   if( arg.size() )
     dest = arg;
 
-  appendHelp( argId, desc, envVar, dest.data() );
+  appendHelp( argId, desc, envVar, dest.c_str() );
 
   return( arg.size() != 0 );
 }
@@ -873,7 +869,7 @@ Param::getArgValue( const char * argId, const char * envVar )
 		    }
 		}
 
-	      if( them == argv.end() )
+	      if( ! value.size() )
 		{
 		  // no value for argId
 		  setError( E_NO_VALUE, argId, envVar, 0 );
@@ -1104,7 +1100,7 @@ Param::appendHelp(
     }
   else
     {
-      helpString += "''\n";
+      helpString += " ''\n";
     }
   
   return( helpString.size() );
@@ -1121,9 +1117,10 @@ Param::setError(
   Error	e;
   
   e.errorNum	= err;
-  e.argId	= argId;
-  e.envVar	= envVar;
-  e.desc	= desc;
+  
+  if( argId )   e.argId	    = argId;
+  if( envVar )	e.envVar    = envVar;
+  if( desc )    e.desc	    = desc;
 
   errors.push_back( e );
 
@@ -1318,6 +1315,18 @@ Param::argULong(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1996/11/19 22:07:08  houghton
+// Bug-Fix: remove parse flag from constructor - calling a virtual
+//     from the constructor does NOT call the sub class's method.
+//     so parseArgs has to be call from the app or sub class.
+// Bug-Fix: argStr( string ) - string::data did not give expected
+//     results so change to string::c_str
+// Bug-Fix: getArgValue - It may be ok that we reached the end
+//     of the args. The proper check is if value has anything in it.
+// Bug-Fix: appendHelp - cleanup helpString apperance.
+// Bug-Fix: setError - core dumps where assigning to a string from
+//     a 'const char * 0' changed to check first.
+//
 // Revision 3.2  1996/11/19 12:24:30  houghton
 // Restructure header comments.
 // Changed include lines to use " " instead of < > to accomidate rpm.
