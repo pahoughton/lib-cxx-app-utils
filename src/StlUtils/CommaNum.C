@@ -25,7 +25,7 @@
 #include <iomanip>
 
 ostream &
-CommaNum(
+CommaNumber(
   ostream &	dest,
   long		num,
   size_t	width,
