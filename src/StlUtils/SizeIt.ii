@@ -2,30 +2,21 @@
 #define _SizeIt_ii_
 //
 // File:        SizeIt.ii
+// Project:	StlUtils
 // Desc:        
 //
-//  	inlines for SizeIt
+//  	Inline source for SizeIt
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     03/11/96 06:04
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// $Log$
-// Revision 4.1  1997/09/17 15:12:48  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:41  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:24:00  houghton
-// Changed to Release 3
-//
-// Revision 2.1  1996/03/13 11:28:13  houghton
-// Initial Version
-//
+//  $Id$
 //
 
 
@@ -33,9 +24,8 @@
 #define inline
 #endif
 
-
 inline
-SizeIt::SizeIt( size_t size )
+SizeIt::SizeIt( size_type size )
   : it( 0 )
 {
   setSize( size );
@@ -48,21 +38,35 @@ SizeIt::SizeIt( const SizeIt & from )
 }
 
 inline
-SizeIt::operator size_t ( void ) const
+SizeIt::size_type
+SizeIt::grow( void )
+{
+  return( setSize( it + 1 ) );
+}
+
+inline
+SizeIt::size_type
+SizeIt::shrink( void )
+{
+  return( setSize( (it << 1) - 1 ) );
+}
+
+inline
+SizeIt::operator SizeIt::size_type ( void ) const
 {
   return( it );
 }
   
 inline
-size_t
+SizeIt::size_type
 SizeIt::operator () ( void ) const
 {
   return( it );
 }
 
 inline
-size_t
-SizeIt::operator () ( size_t size )
+SizeIt::size_type
+SizeIt::operator () ( size_type size )
 {
   return( setSize( size ) );
 }
@@ -76,13 +80,6 @@ SizeIt::operator == ( const SizeIt & rhs ) const
 
 inline
 bool
-SizeIt::operator == ( size_t rhs ) const
-{
-  return( it == rhs );
-}
-
-inline
-bool
 SizeIt::operator <  ( const SizeIt & rhs ) const
 {
   return( it < rhs.it );
@@ -90,33 +87,52 @@ SizeIt::operator <  ( const SizeIt & rhs ) const
 
 inline
 bool
-SizeIt::operator <  ( size_t rhs ) const
+SizeIt::operator == ( size_type rhs ) const
+{
+  return( it == rhs );
+}
+
+inline
+bool
+SizeIt::operator != ( size_type rhs ) const
+{
+  return( !(it == rhs) );
+}
+
+inline
+bool
+SizeIt::operator <  ( size_type rhs ) const
 {
   return( it < rhs );
 }
   
 inline
 bool
-SizeIt::operator >  ( size_t rhs ) const
+SizeIt::operator >  ( size_type rhs ) const
 {
   return( it > rhs );
 }
   
 inline
 bool
-SizeIt::operator <= ( size_t rhs ) const
+SizeIt::operator <= ( size_type rhs ) const
 {
   return( it <= rhs );
 }
   
 inline
 bool
-SizeIt::operator >= ( size_t rhs ) const
+SizeIt::operator >= ( size_type rhs ) const
 {
   return( it >= rhs );
 }
-  
 
+inline
+DumpInfo< SizeIt >
+SizeIt::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< SizeIt >( *this, prefix, showVer ) );
+}
 
 inline
 ostream &
@@ -125,8 +141,36 @@ operator << ( ostream & dest, const SizeIt & obj )
   return( obj.toStream( dest ) );
 }
 
+inline
+istream &
+operator >> ( istream & src, SizeIt & obj )
+{
+  return( obj.fromStream( src ) );
+}
+
+
 #if defined( inline )
 #undef inline
 #endif
 
+// Revision Log:
+// 
+// $Log$
+// Revision 4.2  1998/11/02 15:28:11  houghton
+// Added SizeIt::size_type type.
+// Cleanup.
+//
+// Revision 4.1  1997/09/17 15:12:48  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:41  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:24:00  houghton
+// Changed to Release 3
+//
+// Revision 2.1  1996/03/13 11:28:13  houghton
+// Initial Version
+//
+//
 #endif // ! def _SizeIt_ii_ 

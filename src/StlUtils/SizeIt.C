@@ -1,43 +1,25 @@
 //
 // File:        SizeIt.C
+// Project:	StlUtils
 // Desc:        
 //
+//  Compiled sources for SizeIt
 //  
-//  
-// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     03/11/96 06:03
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 4.1  1997/09/17 15:12:47  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:40  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:23:58  houghton
-// Changed to Release 3
-//
-// Revision 2.1  1996/03/13 11:28:12  houghton
-// Initial Version
-//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
 
-#if !defined( STLUTILS_SHORT_FN )
 #include "SizeIt.hh"
 #include <Str.hh>
-#else
-#include "SizeIt.hh"
-#include <Str.hh>
-#endif
 
 #if defined( STLUTILS_DEBUG )
-#if !defined( STLUTILS_SHORT_FN )
 #include "SizeIt.ii"
-#else
-#include "SizeIt.ii"
-#endif
 #endif
 
 STLUTILS_VERSION(
@@ -51,22 +33,30 @@ SizeIt::~SizeIt( void )
 {
 }
 
-size_t
-SizeIt::setSize( size_t size )
+ostream &
+SizeIt::toStream( ostream & dest ) const
 {
+  dest << it;
+  return( dest );
+}
 
-  if( ! size )
-    {
-      it = 0;
-    }
-  else
-    {
-      if( it < factor )
-	it = factor;
-      for( ; it > size; it >>= 1 );
-      for( ; it < size; it <<= 1 );
-    }
-  return( it );
+istream &
+SizeIt::fromStream( istream & src )
+{
+  src >> it;
+  return( src );
+}
+
+ostream &
+SizeIt::write( ostream & dest ) const
+{
+  return( dest.write( (const char *)&it, sizeof( it ) ) );
+}
+
+istream &
+SizeIt::read( istream & src )
+{
+  return( src.read( (char *)&it, sizeof( it ) ) );
 }
 
 bool
@@ -84,7 +74,7 @@ SizeIt::error( void ) const
 
   if( good() )
     {
-       errStr << ": ok";
+      errStr << ": ok";
     }
   else
     {
@@ -94,7 +84,7 @@ SizeIt::error( void ) const
         errStr << ": unknown error";
     }
 
-  return( errStr.cstr() );
+  return( errStr.c_str() );
 }
 
 const char *
@@ -109,12 +99,6 @@ SizeIt::getVersion( bool withPrjVer ) const
   return( version.getVer( withPrjVer ) );
 }
 
-ostream &
-SizeIt::toStream( ostream & dest ) const
-{
-  dest << it;
-  return( dest );
-}
 
 ostream &
 SizeIt::dumpInfo(
@@ -132,7 +116,47 @@ SizeIt::dumpInfo(
   else
     dest << prefix << "Good" << '\n';
 
-
+  dest << prefix << "size:   " << it << '\n';
+  
   return( dest );
 }
+
+SizeIt::size_type
+SizeIt::setSize( size_type size )
+{
+
+  if( ! size )
+    {
+      it = 0;
+    }
+  else
+    {
+      if( it < factor )
+	it = factor;
+      for( ; it > size; it >>= 1 );
+      for( ; it < size; it <<= 1 );
+    }
+  return( it );
+}
+
+
+// Revision Log:
+//
+// $Log$
+// Revision 4.2  1998/11/02 15:28:15  houghton
+// Added SizeIt::size_type type.
+// Cleanup.
+//
+// Revision 4.1  1997/09/17 15:12:47  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:40  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:23:58  houghton
+// Changed to Release 3
+//
+// Revision 2.1  1996/03/13 11:28:12  houghton
+// Initial Version
+//
 
