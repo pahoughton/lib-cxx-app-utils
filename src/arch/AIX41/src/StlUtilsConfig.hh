@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  1996/05/03 16:14:55  houghton
+// AIX port fixes.
+//
 // Revision 1.2  1996/04/27 13:15:29  houghton
 // Changed to make sure pthreads.h is included first.
 //
@@ -24,6 +27,10 @@
 // Revised
 //
 //
+
+#define _ALL_SOURCE_
+
+#define CLUE_THREADS	1
 
 #if defined( CLUE_THREADS )
 #include <pthread.h>
@@ -52,6 +59,8 @@
 #define CLUE_UCHAR  unsigned char
 #define CLUE_16	    short
 #define CLUE_U16    unsigned short
+#define CLUE_INT    int
+#define CLUE_UINT   unsigned int
 #define CLUE_32	    long
 #define CLUE_U32    unsigned long
 #define CLUE_DOUBLE double
@@ -60,6 +69,8 @@
 #if !defined( CLUE_DIR_DELIM )
 #define CLUE_DIR_DELIM '/'
 #endif
+
+#define CLUE_UNUSED( x ) x
 
 #include <AnsiBool.hh>
 #include <ClueVersion.hh>
