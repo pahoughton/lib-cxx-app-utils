@@ -262,6 +262,8 @@ public:
   static const Option		All;
 
   // Mehtods
+
+  Directory( void );
   
   Directory( const char * path, const Option & opts = Default );
 
@@ -286,7 +288,7 @@ public:
   inline iterator		end( void );
   inline const_iterator		begin( void ) const;
   inline const_iterator		end( void ) const;
-  
+
   inline size_type		size( void ) const;
   inline bool			empty( void ) const;
   
@@ -301,6 +303,9 @@ public:
 		     const Where &	where,
   		     const DirOrder &   order,
 		     const Option &	opt = Default );
+  
+  inline bool			reread( void );
+  inline bool			reread( const Where & where );
   
   bool		sort( const DirOrder & order );
 
@@ -451,6 +456,10 @@ operator >> ( istream & src, const Directory & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/07/11 15:54:13  houghton
+// Added Directory( void )
+// Added reread().
+//
 // Revision 3.3  1997/06/09 14:36:33  houghton
 // Added include ClueDirent.hh
 // Bug-Fix: DirFieldTime copy constructor arg was wrong.
