@@ -77,11 +77,13 @@ tStr18( LibTest & tester )
     // stripTrailing( const char * )
     Str t;
 
-    const char * from = "123\t \n   " "strip only trailing stuff" "123\t \n   ";
+#define TRAIL_STR "123\t \n   "
+    
+    const char * from = "123\t \n   " "strip only trailing stuff" TRAIL_STR;
     const char * to   = "123\t \n   " "strip only trailing stuff";
 
     t.assign( from );
-    t.stripTrailing( "123 \t\n" );
+    TEST( t.stripTrailing( "123 \t\n" ) == strlen( TRAIL_STR ) );
     TEST( t == to );
 
   }
