@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.4  1998/03/08 18:07:45  houghton
+// Changed BLOCK_DEVICE.
+//
 // Revision 4.3  1998/02/14 13:54:45  houghton
 // Changed block device.
 //
@@ -63,7 +66,11 @@
 #define TEST_DUMP_DEST TESTDATA_PATH "TestOuput.txt"
 #endif
 
-#if !defined( TEST_BLOCK_DEVICE )
+#if defined( HOST_BLURR ) && !defined( TEST_BLOCK_DEVICE )
+#define TEST_BLOCK_DEVICE "/dev/dsk/c0t0d0s0"
+#endif
+
+#if defined( HOST_SIDESWIPE ) && !defined( TEST_BLOCK_DEVICE )
 #define TEST_BLOCK_DEVICE "/dev/vx/dsk/rootdg/rootvol"
 #endif
 
