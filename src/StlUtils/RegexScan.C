@@ -19,8 +19,9 @@ extern "C" {
 #include "GnuRegex.h"
 };
 #include "RegexScan.hh"
+#include "Str.hh"
 #include <algorithm>
-#include <rw/cstring.h>
+
 
 CLUE_VERSION(
   RegexScan,
@@ -228,7 +229,7 @@ RegexScan::good( void ) const
 const char *
 RegexScan::error( void ) const
 {
-  static RWCString errStr;
+  static Str errStr;
 
   errStr = getClassName();
 
@@ -350,6 +351,9 @@ RegexScan::cleanup()
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/03 14:37:24  houghton
+// Removed support for RW Tools++.
+//
 // Revision 3.1  1996/11/14 01:23:55  houghton
 // Changed to Release 3
 //

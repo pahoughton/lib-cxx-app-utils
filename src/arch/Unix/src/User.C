@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/03/03 14:38:21  houghton
+// Removed support for RW Tools++.
+//
 // Revision 3.2  1996/11/19 12:29:58  houghton
 // Changed include from strstream to strstream.h because strstream
 //     is not part of the standard.
@@ -158,7 +161,7 @@ User::toStream( ostream & dest ) const
 istream &
 User::fromStream( istream & src )
 {
-  RWCString inName;
+  Str inName;
   src >> inName;
   set( inName );
   return( src );

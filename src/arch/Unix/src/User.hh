@@ -15,20 +15,10 @@
 // $Id$ 
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <UserGroup.hh>
-#include <rw/cstring.h>
 #include <set>
 #include <pwd.h>
-#else
-#include <ClueCfg.hh>
-#include <BinStrm.hh>
-#include <UserGrp.hh>
-#include <Str.hh>
-#include <set>
-#include <pwd.h>
-#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -118,11 +108,11 @@ private:
   
   UserGroup 	primeGroup;
 
-  RWCString	    	name;
-  RWCString	    	passwd;
-  RWCString	    	gecos;
-  RWCString	    	home;
-  RWCString	    	shell;
+  Str	    	name;
+  Str	    	passwd;
+  Str	    	gecos;
+  Str	    	home;
+  Str	    	shell;
 
   Groups    	groups;
 
@@ -188,6 +178,9 @@ compare( const User & one, const User & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/03 14:38:21  houghton
+// Removed support for RW Tools++.
+//
 // Revision 3.1  1996/11/14 01:25:10  houghton
 // Changed to Release 3
 //

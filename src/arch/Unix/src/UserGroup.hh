@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/03/03 14:38:22  houghton
+// Removed support for RW Tools++.
+//
 // Revision 3.1  1996/11/14 01:25:12  houghton
 // Changed to Release 3
 //
@@ -35,24 +38,13 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-#include <rw/cstring.h>
-#include <set>
-#include <functional>
-#include <cstddef>
-#include <unistd.h>
-#include <grp.h>
-#else
-#include <ClueCfg.hh>
-#include <BinStrm.hh>
 #include <Str.hh>
 #include <set>
 #include <functional>
 #include <cstddef>
 #include <unistd.h>
 #include <grp.h>
-#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -65,7 +57,7 @@ class UserGroup
 
 public:
 
-  typedef set< RWCString, less<RWCString> >	    Members;
+  typedef set< Str, less<Str> >	    Members;
     
   inline UserGroup( bool findMembers = false );
   inline UserGroup( gid_t group, bool findMembers = false );
@@ -131,7 +123,7 @@ private:
 
   gid_t	    	gid;
 
-  RWCString    	name;
+  Str    	name;
   Members   	members;
 
   int	    	osError;

@@ -15,5 +15,6 @@ CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src \
 
 CLUE_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/Clue
 
-ARCH_LIBS	= -lGnuRegex -lrwtool 
+ARCH_DEBUG_LIBS	=  -lGnuRegex # -lrwtool
+ARCH_DEFAULT_LIBS = -lGnuRegex
 # ARCH_LIBS	= -lpthreads

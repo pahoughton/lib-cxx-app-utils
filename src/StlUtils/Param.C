@@ -14,17 +14,8 @@
 
 #include "Param.hh"
 #include "StringUtils.hh"
-
-#if defined( CLUE_HAS_STR )
-#include <Str.hh>
-#endif
-
-#if defined( CLUE_HAS_DATETIME )
-#include <DateTime.hh>
-#endif
-
-#include <rw/rwdate.h>
-#include <rw/rwtime.h>
+#include "Str.hh"
+#include "DateTime.hh"
 
 CLUE_VERSION(
   Param,
@@ -68,7 +59,7 @@ Param::Param(
 
   for( int a = 0; a < mainArgc; ++a )
     {
-      string tmp = mainArgv[a];
+      Str tmp = mainArgv[a];
 
       allArgv.push_back( tmp );
       argv.push_back( tmp );
@@ -176,7 +167,7 @@ Param::parseArgs( int argCount, char * argValue[] )
   
   for( int a = 0; a < argCount; ++a )
     {
-      string	tmp = argValue[a];
+      Str	tmp = argValue[a];
       
       allArgv.push_back( tmp );
       argv.push_back( tmp );
@@ -194,26 +185,26 @@ Param::readArgs( istream & src )
   
   allArgv.erase( allArgv.begin(), allArgv.end() );
 
-  string    line;
+  Str    line;
 
   while( getline( src, line ).good() )
     {
       // look for the first non white space char 
-      string::size_type	pos = line.find_first_not_of( " \t" );
+      Str::size_type	pos = line.find_first_not_of( " \t" );
 
       // comment or blank line
-      if( pos == string::npos || line[pos] == '#' )
+      if( pos == Str::npos || line[pos] == '#' )
 	continue;
 
-      string::size_type	delimPos = line.find_first_of( " \t", pos );
+      Str::size_type	delimPos = line.find_first_of( " \t", pos );
 
-      if( delimPos != string::npos )
+      if( delimPos != Str::npos )
 	{
 	  allArgv.push_back( line.substr( pos, delimPos - 1 ) );
 	  
-	  string::size_type valuePos = line.find_first_not_of( " \t",
+	  Str::size_type valuePos = line.find_first_not_of( " \t",
 							    delimPos );
-	  if( valuePos != string::npos )
+	  if( valuePos != Str::npos )
 	    allArgv.push_back( line.substr( valuePos ) );
 	}
       else
@@ -236,7 +227,7 @@ Param::argStr(
   const char * 	envVar
   )
 {
-  string    arg	    = getArgValue( argId, envVar );
+  Str    arg	    = getArgValue( argId, envVar );
 
   if( arg.size() )
     {
@@ -252,51 +243,13 @@ Param::argStr(
 
 bool
 Param::argStr(
-  string &	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  string    arg	    = getArgValue( argId, envVar );
-
-  if( arg.size() )
-    dest = arg;
-
-  appendHelp( argId, desc, envVar, dest.c_str() );
-
-  return( arg.size() != 0 );
-}
-
-bool
-Param::argStr(
-  RWCString &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  string    arg	    = getArgValue( argId, envVar );
-
-  if( arg.size() )
-    dest = arg.c_str();
-
-  appendHelp( argId, desc, envVar, dest );
-
-  return( arg.size() != 0 );
-}
-
-#if defined( CLUE_HAS_STR )
-
-bool
-Param::argStr(
   Str &  	dest,
   const char * 	desc,
   const char *  argId,
   const char * 	envVar
   )
 {
-  string    arg	     = getArgValue( argId, envVar );
+  Str    arg	     = getArgValue( argId, envVar );
 
   if( arg.size() )
     dest = arg.c_str();
@@ -305,44 +258,16 @@ Param::argStr(
 
   return( arg.size() != 0 );
 }
-#else // !def CLUE_HAS_STR
-
-class Str
-{
-private:
-  int dummy;
-};
-
-bool
-Param::argStr(
-  Str &  	CLUE_UNUSED( dest ),
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  _LLgLock;
-  _LLg( LogLevel::Error )
-    << Param::getClassName()
-    << "::argStr( Str &, const char *, const char *, const char * ) - "
-    << "called but CLUE_HAS_STR is undefined!"
-    << endl;
-  _LLgUnLock;
-  
-  appendHelp( argId, desc, envVar, "CLUE STR ERROR!!!" );
-  return( false );
-}
-#endif // def CLUE_HAS_STR
 
 template< class NumT >
 inline
 bool
 _ClueParamArgNum(
-  string &	arg,
+  Str &	arg,
   NumT &  	dest,
   NumT	    	minVal,
   NumT	    	maxVal,
-  string &	errDesc
+  Str &	errDesc
   )
 {
   NumT	    tmp  = 0;
@@ -381,7 +306,7 @@ Param::Name(								      \
   NumType    	maxVal							      \
   )									      \
 {									      \
-  string    arg	 = getArgValue( argId, envVar );			      \
+  Str    arg	 = getArgValue( argId, envVar );			      \
   bool	    conv = false;						      \
   									      \
   if( arg.size() )							      \
@@ -398,7 +323,7 @@ Param::Name(								      \
 	    }								      \
 	  else								      \
 	    {								      \
-	      string tmpErrDesc;					      \
+	      Str tmpErrDesc;					      \
 									      \
 	      tmpErrDesc = ": '";					      \
 	      tmpErrDesc += StringFrom( tmp );				      \
@@ -414,7 +339,7 @@ Param::Name(								      \
 	}								      \
       else								      \
 	{								      \
-	  string tmpErrDesc;						      \
+	  Str tmpErrDesc;						      \
 									      \
 	  tmpErrDesc = "'";						      \
 	  tmpErrDesc += arg;						      \
@@ -446,7 +371,7 @@ Param::argDouble(
   const char * 	envVar
   )
 {
-  string    arg	 = getArgValue( argId, envVar );
+  Str    arg	 = getArgValue( argId, envVar );
   bool	    conv = false;
 
   if( arg.size() )
@@ -461,7 +386,7 @@ Param::argDouble(
 	}
       else
 	{
-	  string tmpErrDesc;
+	  Str tmpErrDesc;
 
 	  tmpErrDesc = "'";
 	  tmpErrDesc += arg;
@@ -485,7 +410,7 @@ Param::argBool(
   const char * 	envVar
   )
 {
-  string    arg	 = getArgValue( argId, envVar );
+  Str    arg	 = getArgValue( argId, envVar );
   bool	    conv = false;
 
   if( arg.size() )
@@ -500,7 +425,7 @@ Param::argBool(
 	}
       else
 	{
-	  string tmpErrDesc;
+	  Str tmpErrDesc;
 
 	  tmpErrDesc = "'";
 	  tmpErrDesc += arg;
@@ -540,21 +465,16 @@ Param::argDateTime(
   const char * 	envVar
   )
 {
-  RWTime    tmp;
+  DateTime  tmp;
   bool	    conv = argDateTime( tmp, desc, argId, envVar );
 
   if( conv )
     {
-      struct tm tmTime;
-      tmp.extract( &tmTime, RWZone::utc() );
-      
-      dest = mktime( &tmTime );
+      dest = tmp.getTimeT();
     }
 
   return( conv );
 }
-
-#if defined( CLUE_HAS_DATETIME )
 
 bool
 Param::argDateTime(
@@ -566,7 +486,7 @@ Param::argDateTime(
 {
   bool	    conv = false;
   
-  string    arg	 = getArgValue( argId, envVar );
+  Str    arg	 = getArgValue( argId, envVar );
 
   if( arg.size() )
     {
@@ -579,7 +499,7 @@ Param::argDateTime(
 	}
       else
 	{
-	  string tmpErrDesc;
+	  Str tmpErrDesc;
 
 	  tmpErrDesc = "'";
 	  tmpErrDesc += arg;
@@ -594,163 +514,6 @@ Param::argDateTime(
   return( conv );
 }
 
-#else // def CLUE_HAS_DATETIME
-
-class DateTime
-{
-private:
-  int dummy;
-};
-
-bool
-Param::argDateTime(
-  DateTime &  	CLUE_UNUSED( dest ),
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  _LLgLock;
-  _LLg( LogLevel::Error )
-    << Param::getClassName()
-    << "::argDateTime( DateTime &, const char *, const char *, const char * ) - "
-    << "called but CLUE_HAS_DATETIME is undefined!"
-    << endl;
-  _LLgUnLock;
-  
-  appendHelp( argId, desc, envVar, "CLUE DATETIME ERROR!!!" );
-  
-  return( false );
-}
-#endif // def CLUE_HAS_DATETIME
-
-
-bool
-Param::argDateTime(
-  RWTime &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  bool	    conv = false;
-  
-  string    arg	 = getArgValue( argId, envVar );
-
-  if( arg.size() )
-    {
-      bool	    convError = false;
-      RWDate    dt;
-      bool	dtIsSet = false;
-  
-      if( arg.find( '/' ) != string::npos )
-	{
-	  RWCString dtStr( arg.c_str() );
-	  RWDate	dtTmp( dtStr );
-
-	  if( dtTmp.isValid() )
-	    dt = dtTmp;
-	  else
-	    convError = true;
-
-	  dtIsSet = true;
-	}
-
-      RWTime    tm( 0, 0, 0 );
-  
-      if( ! convError )
-	{
-	  string::size_type	tPos = arg.find( ':' );
-
-	  if( tPos != string::npos )
-	    {
-	      string::size_type begTimePos;
-	  
-	      if( isdigit( arg[ tPos - 2 ] ) )
-		begTimePos = tPos - 2;
-	      else
-		begTimePos = tPos - 1;
-
-	      RWCString tmStr( arg.c_str() + begTimePos );
-
-	      RWTime tmTmp( dt, tmStr );
-
-	      if( tmTmp.isValid() )
-		tm = tmTmp;
-	      else
-		convError = true;
-	    }
-	  else
-	    {
-	      if( dtIsSet )
-		tm = dt;
-	      else
-		convError = true;
-	    }
-	}
-
-      if( ! convError )
-	{
-	  dest = tm;
-	  conv = true;
-	}
-      else
-	{
-	  string tmpErrDesc;
-	  
-	  tmpErrDesc = "'";
-	  tmpErrDesc += arg;
-	  tmpErrDesc += "'";
-	  
-	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );
-	}
-    }
-
-  appendHelp( argId, desc, envVar, dest.asString() );
-
-  return( conv );
-}
-
-bool
-Param::argDate(
-  RWDate &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  bool	    conv = false;
-  
-  string    arg	 = getArgValue( argId, envVar );
-
-  if( arg.size() )
-    {
-      RWCString dtStr( arg.c_str() );
-      RWDate	dtTmp( dtStr );
-
-      if( dtTmp.isValid() )
-	{
-	  dest = dtTmp;
-	  conv = true;
-	}
-      else
-	{
-	  string tmpErrDesc;
-	  
-	  tmpErrDesc = "'";
-	  tmpErrDesc += arg;
-	  tmpErrDesc += "'";
-	  
-	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );
-	}
-    }
-  
-  appendHelp( argId, desc, envVar, dest.asString() );
-
-  return( true );
-}
-
-#if defined( CLUE_HAS_DATETIME )
 
 bool
 Param::argDate(
@@ -762,7 +525,7 @@ Param::argDate(
 {
   bool	    conv = false;
   
-  string    arg	 = getArgValue( argId, envVar );
+  Str    arg	 = getArgValue( argId, envVar );
 
   if( arg.size() )
     {
@@ -775,7 +538,7 @@ Param::argDate(
 	}
       else
 	{
-	  string tmpErrDesc;
+	  Str tmpErrDesc;
 
 	  tmpErrDesc = "'";
 	  tmpErrDesc += arg;
@@ -788,42 +551,6 @@ Param::argDate(
   appendHelp( argId, desc, envVar, dest );
 
   return( conv );
-}
-
-#else // def CLUE_HAS_DATETIME
-
-bool
-Param::argDate(
-  DateTime &  	CLUE_UNUSED( dest ),
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  _LLgLock;
-  _LLg( LogLevel::Error )
-    << Param::getClassName()
-    << "::argDate( DateTime &, const char *, const char *, const char * ) - "
-    << "called but CLUE_HAS_DATETIME is undefined!"
-    << endl;
-  _LLgUnLock;
-  
-  appendHelp( argId, desc, envVar, "CLUE DATETIME ERROR!!!" );
-  
-  return( false );
-}
-
-#endif // def CLUE_HAS_DATETIME
-
-bool
-Param::argTime(
-  RWTime &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  return( argDateTime( dest, desc, argId, envVar ) );
 }
 
 bool
@@ -838,11 +565,11 @@ Param::argTime(
 }
 
 
-string
+Str
 Param::getArgValue( const char * argId, const char * envVar )
 {
   const char *	envValue = env( envVar );
-  string	value;
+  Str	value;
 
   if( envValue )
     value = envValue;
@@ -939,7 +666,7 @@ Param::good( void ) const
 const char *
 Param::error( void ) const
 {
-  static string errStr;
+  static Str errStr;
 
   errStr = getClassName();
   
@@ -949,7 +676,7 @@ Param::error( void ) const
     }
   else
     {
-      string::size_type	errorSize = errStr.size();
+      Str::size_type	errorSize = errStr.size();
       
       for( ErrorList::const_iterator them = errors.begin();
 	   them != errors.end();
@@ -1030,7 +757,7 @@ Param::dumpInfo(
   else
     dest << prefix << "Good!" << '\n';
 
-  string pre;
+  Str pre;
   pre = prefix;
   pre += "appLog:";
   pre += appLog.getClassName();
@@ -1070,7 +797,7 @@ Param::appendHelp(
   const char * value
   )
 {
-  string::size_type len = helpString.size();
+  Str::size_type len = helpString.size();
   
   size_t    argIdSize = strlen( argId );
   
@@ -1316,6 +1043,9 @@ Param::argULong(
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/03/03 14:37:17  houghton
+// Removed support for RW Tools++.
+//
 // Revision 3.4  1997/03/02 13:19:49  houghton
 // Cleanup.
 //

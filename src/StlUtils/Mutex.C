@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/03/03 14:37:11  houghton
+// Removed support for RW Tools++.
+//
 // Revision 3.1  1996/11/14 01:23:51  houghton
 // Changed to Release 3
 //
@@ -35,8 +38,8 @@
 //
 
 #include "Mutex.hh"
+#include "Str.hh"
 #include <strstream.h>
-#include <rw/cstring.h>
 
 #if defined( CLUE_DEBUG )
 #include "Mutex.ii"
@@ -186,7 +189,7 @@ Mutex::good( void ) const
 const char *
 Mutex::error( void ) const
 {
-  static RWCString errStr;
+  static Str errStr;
 
   errStr = Mutex::getClassName();
 

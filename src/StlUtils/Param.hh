@@ -35,7 +35,6 @@
 // 
 
 #include "ClueConfig.hh"
-#include <string>
 #include "Log.hh"
 #include "LibLog.hh"
 #include <iostream>
@@ -59,17 +58,13 @@
 
 class Str;
 class DateTime;
-class RWCString;
-class RWTime;
-class RWDate;
-class RWDBDateTime;
 
 class Param
 {
 
 public:
 
-  typedef vector< string >	Args;
+  typedef vector< Str >	Args;
   
   Param( int 		    mainArgc,
 	 char *		    mainArgv[],
@@ -109,14 +104,6 @@ public:
 		const char *	 description,
 		const char *     argId,
 		const char *     envVar = 0 );
-  bool	argStr( string &	dest,
-		const char *	description,
-		const char *    argId,
-		const char *    envVar = 0 );  
-  bool	argStr( RWCString &	dest,
-		const char *	description,
-		const char *    argId,
-		const char *    envVar = 0 );
   bool	argStr( Str & 	    	dest,
 		const char *	description,
 		const char *    argId,
@@ -177,22 +164,10 @@ public:
 		     const char *   description,
 		     const char *   argId,
 		     const char *   envVar = 0 );
-  bool	argDateTime( RWTime &	    dest,
-		     const char *   description,
-		     const char *   argId,
-		     const char *   envVar = 0 );
-  bool	argDate( RWDate &	    dest,
-		 const char *       description,
-		 const char *       argId,
-		 const char *       envVar = 0 );
   bool	argDate( DateTime &	    dest,
 		 const char *	    description,
 		 const char *	    argId,
 		 const char *	    envVar = 0 );
-  bool	argTime( RWTime &	    dest,
-		 const char *	    description,
-		 const char *	    argId,
-		 const char *	    envVar = 0 );  
   bool	argTime( DateTime &	    dest,
 		 const char *	    description,
 		 const char *	    argId,
@@ -229,7 +204,7 @@ private:
   Param( const Param & copyFrom );
   Param & operator=( const Param & assignFrom );
 
-  string	    getArgValue( const char * argId, const char * envVar );
+  Str		    getArgValue( const char * argId, const char * envVar );
   bool		    getArgFlag( const char * argId, const char * envVar );
 
   size_t    appendHelp( const char *	argId,
@@ -237,20 +212,20 @@ private:
 			const char *	envVar,
 			const char *	value );
 
-  string    	    helpString;
+  Str    	    helpString;
 
   Args		    allArgv;
   Args		    argv;
   
-  string	    ver;
+  Str		    ver;
   
   Log	    	    appLog;
 
   bool    	    helpFlag;
 
-  string    	    logFile;
-  string    	    logOutputLevel;
-  string	    logFilter;
+  Str    	    logFile;
+  Str    	    logOutputLevel;
+  Str		    logFilter;
   
   bool	    	    logTee;
   unsigned long	    logMaxSize;
@@ -273,9 +248,9 @@ private:
   struct Error
   {
     ErrorNum	errorNum;
-    string	argId;
-    string	envVar;
-    string	desc;
+    Str		argId;
+    Str		envVar;
+    Str		desc;
   };
 
   bool	setError( ErrorNum err,
@@ -842,6 +817,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/03/03 14:37:21  houghton
+// Removed support for RW Tools++.
+//
 // Revision 3.5  1997/01/18 17:33:21  houghton
 // Bug-Fix: Linux - had to change the order of includes. I think this is
 //    due to a bug in gcc 2.7. I should be able to change the order back
