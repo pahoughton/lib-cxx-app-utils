@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.5  1997/08/28 16:35:01  houghton
+// Bug-Fix: added toStream (was inline) and added support
+//     for setw(n) (the width was being ignored).
+//
 // Revision 3.4  1997/08/17 22:35:33  houghton
 // Added size_type.
 //
@@ -194,6 +198,40 @@ SubStr::read( istream & src )
   return( src );
 }
 
+ostream &
+SubStr::toStream( ostream & dest ) const
+{
+  if( ! dest.opfx() )
+    return( dest );
+  
+  if( dest.width()
+      && (dest.flags() & (ios::right | ios::internal ))
+      || ! (dest.flags() & ios::adjustfield) )
+    {
+      for( int fcnt = size(); fcnt < dest.width(); ++ fcnt )
+	{
+	  if( ! dest.put( dest.fill() ).good() )
+	      return( dest );
+	}
+    }
+  
+  if( dest.write( strbase(), size() ).good() )
+    {
+      if( dest.width() && ( dest.flags() & ios::left) )
+	{
+	  for( int fcnt = size(); fcnt < dest.width(); ++ fcnt )
+	    {
+	      if( ! dest.put( dest.fill() ).good() )
+		return( dest );
+	    }
+	}
+    }
+  dest.width(0);
+  dest.osfx();
+  
+  return( dest );
+}
+    
 const char *
 SubStr::error( void ) const
 {
