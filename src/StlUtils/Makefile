@@ -371,7 +371,6 @@ CXX_HEADERS	=			\
 	StlUtilsMisc.hh                 \
 	StlUtilsVersion.hh              \
 	Str.hh                          \
-	StrFilePath.hh                  \
 	StrStreambuf.hh                 \
 	StringUtils.hh                  \
 	SubStr.hh                       \

@@ -1,27 +1,28 @@
 #ifndef _LruMap_hh_
 #define _LruMap_hh_
-//
-// File:        LruMap.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
-// Desc:        
-//
-//  Provides a Least Recently used object manager.
-//
-// Quick Start: - short example of class usage
-//
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
-// Created:     09/08/98 09:08
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
-//
-//  %PID%
-//
+/**
+   File:        LruMap.hh
+   Project:	StlUtils (%PP%)
+   Item:   	%PI% (%PF%)
+   Desc:        
+  
+    Provides a Least Recently used object manager.
+  
+   Quick Start: - short example of class usage
+  
+   Author:      Paul Houghton - (paul.houghton@wcom.com)
+   Created:     09/08/98 09:08
+  
+   Revision History: (See end of file for Revision Log)
+  
+    Last Mod By:    %PO%
+    Last Mod:	    %PRT%
+    Version:	    %PIV%
+    Status: 	    %PS%
+  
+    %PID%
+
+**/
 
 #include <StlUtilsConfig.hh>
 #include <DumpInfo.hh>
@@ -174,86 +175,49 @@ private:
 #include <LruMap.ii>
 
 
-//
-// Detail Documentation
-//
-//  Data Types: - data types defined by this header
-//
-//  	LruMap	class
-//
-//  Constructors:
-//
-//  	LruMap( );
-//
-//  Destructors:
-//
-//  Public Interface:
-//
-//	virtual ostream &
-//	write( ostream & dest ) const;
-//	    write the data for this class in binary form to the ostream.
-//
-//	virtual istream &
-//	read( istream & src );
-//	    read the data in binary form from the istream. It is
-//	    assumed it stream is correctly posistioned and the data
-//	    was written to the istream with 'write( ostream & )'
-//
-//	virtual ostream &
-//	toStream( ostream & dest ) const;
-//	    output class as a string to dest (used by operator <<)
-//
-//	virtual istream &
-//	fromStream( istream & src );
-//	    Set this class be reading a string representation from
-//	    src. Returns src.
-//
-//  	virtual Bool
-//  	good( void ) const;
-//  	    Return true if there are no detected errors associated
-//  	    with this class, otherwise false.
-//
-//  	virtual const char *
-//  	error( void ) const;
-//  	    Return a string description of the state of the class.
-//
-//  	virtual const char *
-//  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. LruMap )
-//
-//  	virtual const char *
-//  	getVersion( bool withPrjVer = true ) const;
-//  	    Return the version string of this class.
-//
-//	virtual ostream &
-//	dumpInfo( ostream & dest, const char * prefix, bool showVer );
-//	    output detail info to dest. Includes instance variable
-//	    values, state info & version info.
-//
-//	static const ClassVersion version
-//	    Class and project version information. (see ClassVersion.hh)
-//
-//  Protected Interface:
-//
-//  Private Methods:
-//
-//  Associated Functions:
-//
-//  	ostream &
-//  	operator <<( ostream & dest, const LruMap & src );
-//
-//	istream &
-//	operator >> ( istream & src, LruMap & dest );
-//
-// Example:
-//
-// See Also:
-//
-// Files:
-//
-// Documented Ver:
-//
-// Tested Ver:
+/**
+   
+   Detail Documentation
+  
+    Data Types: - data types defined by this header
+  
+    	LruMap	class
+  
+    Constructors:
+    
+    Destructors:
+  
+    Public Interface:
+  
+    	virtual const char *
+    	getClassName( void ) const;
+    	    Return the name of this class (i.e. LruMap )
+  
+  	virtual
+  	ostream &
+  	dumpInfo( ostream &	dest = cerr,
+  		  const char *	prefix = "    ",
+  		  bool		showVer = true ) const;
+  	    Output detailed information about the current
+  	    state of the Log. 
+  
+    Protected Interface:
+  
+    Private Methods:
+  
+    Associated Functions:
+  
+   Example:
+  
+   See Also:
+  
+   Files:
+  
+   Documented Ver:
+  
+   Tested Ver:
+   
+**/
 //
 // Revision Log:
 //
@@ -261,6 +225,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2001/07/29 19:56:38  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

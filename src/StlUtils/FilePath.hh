@@ -2,7 +2,7 @@
 #define _FilePath_hh_
 /**
    File:        FilePath.hh
-   Project:	StlUtils (%PP%) (%PP%)
+   Project:	StlUtils (%PP%)
    Item:   	%PI% (%PF%)
    Item:   	%PI% (%PF%)
    Desc:        
@@ -185,15 +185,15 @@ compare( const FilePath & one, const FilePath & two );
   
     Constructors:
   
-    	FilePath( char dirDelim = DIR_DELIM, char extDelim = '.' );
+    	FilePath( char dirDelim = STLUTILS_DIR_DELIM, char extDelim = '.' );
   
     	FilePath( const char * fullName,
-    		  char dirDelim = DIR_DELIM,
+    		  char dirDelim = STLUTILS_DIR_DELIM,
     	    	  char extDelim = '.' );
     
     	FilePath( const char *    dirName,
     	    	  const char *    fileName,
-    	    	  char    	  dirDelim = DIR_DELIM,
+    	    	  char    	  dirDelim = STLUTILS_DIR_DELIM,
     	    	  char    	  extDelim = '.' );
     	    
     Destructors:
@@ -279,7 +279,7 @@ compare( const FilePath & one, const FilePath & two );
     	changePath( const char * oldDirs, const char * newDirs );
     
     	size_t
-    	getStreamSize( void ) const;
+    	getBinSize( void ) const;
   
     	ostream &
     	write( ostream & dest ) const;
@@ -287,17 +287,11 @@ compare( const FilePath & one, const FilePath & two );
     	istream &
     	read( istream & src );
     
-    	int
-    	compare( const FilePath & two ) const;
-    
     	bool
     	operator == ( const FilePath & rhs ) const;
   
     	bool
     	operator <  ( const FilePath & rhs ) const;
-  
-    	FilePath &
-    	operator =  ( const char * );
   
     	operator const char * ( void ) const;
   
@@ -318,8 +312,14 @@ compare( const FilePath & one, const FilePath & two );
     	virtual ostream &
     	toStream( ostream & dest ) const;
   
-    	virtual ostream &
-    	dumpInfo( ostream & dest ) const;
+  	virtual
+  	ostream &
+  	dumpInfo( ostream &	dest = cerr,
+  		  const char *	prefix = "    ",
+  		  bool		showVer = true ) const;
+  	    Output detailed information about the current
+  	    state of the Log. 
+  
   
     Protected Interface:
   
@@ -352,6 +352,9 @@ compare( const FilePath & one, const FilePath & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/07/29 19:56:38  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

@@ -11,10 +11,10 @@
 // Quick Start: - short example of usage
 //
 //  class Test { publie: static const ClassVersion version; };
-//  STLUTILS_VERSION( Test, "Id:" );
+//  STLUTILS_VERSION( Test, versionIdTag );
 //
 //  int DoThis( int i );
-//  STLUTILS_FUNCT_VERSION( DoThis, "Id:" );
+//  STLUTILS_FUNCT_VERSION( DoThis, versionIdTag );
 // 
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     10/05/95 04:47
@@ -81,6 +81,9 @@ const char VERID_##name_[] =						\
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/07/29 19:56:38  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

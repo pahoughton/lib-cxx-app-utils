@@ -62,7 +62,7 @@ _LibTest_tf = (tf_); if( ! TESTITR( tester, (r_), (_LibTest_tf) ) ) return( fals
 
 class Str;
 
-class STLUTILS_CLASS_T LibTest
+class LibTest
 {
 
 public:
@@ -75,7 +75,7 @@ public:
     bool    	    (*test)( LibTest & );
   };
   
-  class STLUTILS_CLASS_T Results
+  class Results
   {
   public:
     virtual void	start( LibTest &	tester,
@@ -422,7 +422,7 @@ private:
 //	Results::failed( LibTest &	tester,
 //			 const char *   testName,
 //			 size_t		testNum,
-//			 long		passNum,
+//			 size_t		passNum,
 //			 const char *	reason,
 //			 const char *	srcFile,
 //			 long		srcLine ) = 0;
@@ -436,7 +436,7 @@ private:
 //	Results::passed( LibTest &	tester,
 //			 const char *   testName,
 //			 size_t		testNum,
-//			 long		passNum,
+//			 size_t		passNum,
 //			 const char *	srcFile,
 //			 long		srcLine,
 //			 bool		progress ) = 0;
@@ -506,6 +506,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/07/29 19:56:38  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

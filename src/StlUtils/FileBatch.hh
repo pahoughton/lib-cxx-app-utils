@@ -381,61 +381,11 @@ private:
 //
 //  Public Interface:
 //
-//	virtual ostream &
-//	write( ostream & dest ) const;
-//	    write the data for this class in binary form to the ostream.
-//
-//	virtual istream &
-//	read( istream & src );
-//	    read the data in binary form from the istream. It is
-//	    assumed it stream is correctly posistioned and the data
-//	    was written to the istream with 'write( ostream & )'
-//
-//	virtual ostream &
-//	toStream( ostream & dest ) const;
-//	    output class as a string to dest (used by operator <<)
-//
-//	virtual istream &
-//	fromStream( istream & src );
-//	    Set this class be reading a string representation from
-//	    src. Returns src.
-//
-//  	virtual Bool
-//  	good( void ) const;
-//  	    Return true if there are no detected errors associated
-//  	    with this class, otherwise false.
-//
-//  	virtual const char *
-//  	error( void ) const;
-//  	    Return a string description of the state of the class.
-//
-//  	virtual const char *
-//  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. FileBatch )
-//
-//  	virtual const char *
-//  	getVersion( bool withPrjVer = true ) const;
-//  	    Return the version string of this class.
-//
-//	virtual ostream &
-//	dumpInfo( ostream & dest, const char * prefix, bool showVer );
-//	    output detail info to dest. Includes instance variable
-//	    values, state info & version info.
-//
-//	static const ClassVersion version
-//	    Class and project version information. (see ClassVersion.hh)
-//
 //  Protected Interface:
 //
 //  Private Methods:
 //
 //  Associated Functions:
-//
-//  	ostream &
-//  	operator <<( ostream & dest, const FileBatch & src );
-//
-//	istream &
-//	operator >> ( istream & src, FileBatch & dest );
 //
 // Example:
 //
@@ -453,6 +403,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2001/07/29 19:56:38  houghton
+// *** empty log message ***
+//
 // Revision 5.4  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //
@@ -460,7 +413,7 @@ private:
 // Port to Sun CC 5.0.
 //
 // Revision 5.2  2000/06/27 10:46:05  houghton
-// Port(Sun C++ 5.0): change to use 'std' iterator classes.
+// Port Sun C++ 5.0 - change to use 'std' iterator classes.
 //
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5

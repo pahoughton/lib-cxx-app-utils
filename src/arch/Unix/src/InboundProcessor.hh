@@ -15,7 +15,7 @@
 //  The application needs to call run() method (from InboundProcessorBase)
 //  to start watching for files. It will not return unless the Proc
 //  returns false, a signal is caught (with SigCatcher) or an
-//  error occures (See InboundProcessorBase::run()).
+//  error occures (See InboundProcessorBase run()).
 //
 //  Files are processed in order of oldest to newest.
 //
@@ -179,7 +179,7 @@ private:
 //		'fileProcessor' is the object that will process the files
 //		    that have been moved to the 'procDirName'.
 //
-//  Public Interface: See InboundProcessorBase
+//  Public Interface:
 //
 // Example:
 //	
@@ -253,6 +253,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2001/07/29 19:57:16  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2001/07/26 19:28:57  houghton
 // *** empty log message ***
 //

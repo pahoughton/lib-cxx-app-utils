@@ -311,16 +311,6 @@ public:
   
   bool		sort( const DirOrder & order );
 
-#if defined( NOT_READY_FIXME )
-  bool		exclude( const char * name );
-  bool		excludeDir( const char * path );
-  bool		excludeUser( const char * user );
-  bool		excludeGroup( const char * group );
-  bool		excludeMode( mode_t mode );
-  
-  bool		resetExclude( void );
-#endif
-  
   virtual ostream &	    toStream( ostream & dest ) const;
 
   virtual bool	    	good( void ) const;
@@ -371,9 +361,6 @@ private:
 ostream &
 operator << ( ostream & dest, const Directory & src );
 
-istream &
-operator >> ( istream & src, const Directory & dest );
-
 
 #endif
 
@@ -394,23 +381,8 @@ operator >> ( istream & src, const Directory & dest );
 //  Public Interface:
 //
 //	virtual ostream &
-//	write( ostream & dest ) const;
-//	    write the data for this class in binary form to the ostream.
-//
-//	virtual istream &
-//	read( istream & src );
-//	    read the data in binary form from the istream. It is
-//	    assumed it stream is correctly posistioned and the data
-//	    was written to the istream with 'write( ostream & )'
-//
-//	virtual ostream &
 //	toStream( ostream & dest ) const;
 //	    output class as a string to dest (used by operator <<)
-//
-//	virtual istream &
-//	fromStream( istream & src );
-//	    Set this class be reading a string representation from
-//	    src. Returns src.
 //
 //  	virtual Bool
 //  	good( void ) const;
@@ -467,6 +439,9 @@ operator >> ( istream & src, const Directory & dest );
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2001/07/29 19:56:38  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

@@ -116,56 +116,6 @@ Host2Net( unsigned long num )
 //
 // Detail Documentation
 //
-//  Data Types: - data types defined by this header
-//
-//  	Net2Host	class
-//
-//  Constructors:
-//
-//  	Net2Host( );
-//
-//  Destructors:
-//
-//  Public Interface:
-//
-//	virtual ostream &
-//	toStream( ostream & dest ) const
-//	    output class as a string to dest (used by operator <<)
-//
-//  	virtual Bool
-//  	good( void ) const;
-//  	    Return true if there are no detected errors associated
-//  	    with this class, otherwise false.
-//
-//  	virtual const char *
-//  	error( void ) const
-//  	    Return a string description of the state of the class.
-//
-//  	virtual const char *
-//  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. Net2Host )
-//
-//  	virtual const char *
-//  	getVersion( bool withPrjVer = true ) const;
-//  	    Return the version string of this class.
-//
-//	virtual ostream &
-//	dumpInfo( ostream & dest, const char * prefix, bool showVer )
-//	    output detail info to dest. Includes instance variable
-//	    values, state info & version info.
-//
-//	static const ClassVersion
-//	version
-//	    class & project version information. (see ClassVersion.hh)
-//
-//  Protected Interface:
-//
-//  Private Methods:
-//
-//  Other Associated Functions:
-//
-//  	ostream &
-//  	operator <<( ostream & dest, const Net2Host & obj );
 //
 // Revision Log
 //
@@ -173,6 +123,9 @@ Host2Net( unsigned long num )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2001/07/29 19:56:38  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

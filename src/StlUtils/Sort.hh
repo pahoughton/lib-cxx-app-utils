@@ -37,7 +37,7 @@ public:
   
 			      
 template < class T >
-class 
+class Sort
 {
 
 public:
@@ -107,6 +107,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2001/07/29 19:56:38  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //
