@@ -58,7 +58,17 @@ public:
       qLast( 0 ),
       qSize( 0 ) {};
 
-  virtual ~LruMap( void );
+  virtual ~LruMap( void ) {
+    Rec * r;
+    Rec *	n;
+    
+    for( r = qFirst;  r; r = n )
+      {
+	n = (*r).next;
+	delete r;
+      }
+  };
+  
   
   Obj &		obj( const ObjKey & objKey ) {
 
@@ -246,6 +256,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  2000/01/26 15:35:12  houghton
+// Moved destructor code from .ii to here.
+//
 // Revision 4.2  1998/10/23 13:05:14  houghton
 // Changed: the 'map' class no longer defines the type 'pair_iterator_bool'.
 //
