@@ -26,7 +26,7 @@
 
 // #define STDCXX_PARTIAL_SPECIALIZATION	1
 
-// #define STLUTILS_HAVE_LONG_ABS 1
+#define STLUTILS_HAVE_LONG_ABS 1
 #define STLUTILS_LOG_WHERE 1
 #define STLUTILS_HAS_STR 1
 #define STLUTILS_HAS_DATETIME 1
@@ -170,6 +170,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 5.5  2001/08/06 21:09:12  houghton
+// *** empty log message ***
+//
 // Revision 5.4  2001/07/28 01:15:00  houghton
 // *** empty log message ***
 //
