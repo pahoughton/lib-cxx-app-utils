@@ -3,11 +3,13 @@
 #include <LibTest.hh>
 #include <StringUtils.hh>
 #include <climits>
+#include <cctype>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StrUtil.hh>
 #include <climits>
+#include <cctype>
 #endif
 
 
