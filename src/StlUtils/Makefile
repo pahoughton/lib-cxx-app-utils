@@ -14,7 +14,7 @@ makefile_type   = library
 show_commands = # true
 
 # Include standard MakeConfig configuration for GNU make required
-include Make/make.cfg.4.00
+include Make/make.cfg.4.01
 
 # 
 # =USE_CURRENT_MAKEFILE=
@@ -30,13 +30,13 @@ INSTALL_INCDIR	= $(LOCAL_ALPHA_INCDIR)
 
 VER_MAJOR	= 2
 VER_MINOR	= 00
-VER_RELEASE	= 00.a.06
+VER_RELEASE	= 00.a.10
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
 LIBRARY_DEBUG	= lib$(NAME)g.a
 LIBRARY_PROFILE	= lib$(NAME)pg.a
-LIBRARY_SHARED	= lib$(NAME).so
+LIBRARY_SHARED	= lib$(NAME)$(SHLIB_EXT)
 
 include ../arch/$(arch)/src/Makefile.Clue
 
@@ -55,7 +55,8 @@ include ../arch/$(arch)/src/Makefile.Clue
 #
 
 
-SRCDEFINES	= 
+SRCDEFINES	=
+
 PRJDEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFINES		= $(PRJDEFINES) $(SRCDEFINES) 
@@ -161,6 +162,7 @@ CXX_C_SOURCES	=			\
 	StringUpper.C                   \
 	StripWhite.C                    \
 	SubStr.C                        \
+	Thread.C			\
 	Timer.C                         \
 	Void.C                          \
 	$(ARCH_CXX_C_SOURCES)           \
@@ -202,6 +204,7 @@ USER_HH_INCS	=			\
 	StrStreambuf.hh                 \
 	StringUtils.hh                  \
 	SubStr.hh                       \
+	Thread.hh			\
 	Timer.hh                        \
 	Void.hh                         \
 	$(ARCH_USER_HH_INCS)            \
@@ -230,6 +233,7 @@ USER_II_INCS	=			\
 	StrStreambuf.ii                 \
 	StringUtils.ii                  \
 	SubStr.ii                       \
+	Thread.ii			\
 	Timer.ii                        \
 	Void.ii                         \
 	$(ARCH_USER_II_INCS)            \
@@ -277,6 +281,7 @@ CXX_HEADERS	=			\
 	StrStreambuf.hh                 \
 	StringUtils.hh                  \
 	SubStr.hh                       \
+	Thread.hh			\
 	Timer.hh                        \
 	Void.hh                         \
 	_Clue.hh                        \
@@ -306,6 +311,7 @@ CXX_INLINES	=			\
 	StrStreambuf.ii                 \
 	StringUtils.ii                  \
 	SubStr.ii                       \
+	Thread.ii			\
 	Timer.ii                        \
 	Void.ii                         \
 	$(ARCH_CXX_INLINES)             \
@@ -340,7 +346,7 @@ debug:: objects/debug
 			PRJDEFINES='$(PRJDEFINES) -DCLUE_DEBUG=1' \
 			$(LIBRARY_DEBUG)
 
-profile:: objects/debug
+profile:: objects/profile
 	$(HIDE) $(MAKE) CCDEBUG='$(CC_PROFILE)' CXXDEBUG='$(CXX_PROFILE)' \
 			$(LIBRARY_PROFILE)
 
@@ -380,6 +386,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.5  1996/02/29 19:05:52  houghton
+# Changed to use MakeConfigs 4.01
+#
 # Revision 2.4  1995/12/04 11:18:02  houghton
 # Changed to use MakeConfig 4.
 #
