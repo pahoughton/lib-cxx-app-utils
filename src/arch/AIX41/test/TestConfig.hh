@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/07/21 10:24:31  houghton
+// Added defines for various types of files (used in tFileStat02.C).
+//
 // Revision 3.1  1996/11/14 01:25:02  houghton
 // Changed to Release 3
 //
@@ -45,6 +48,25 @@
 #define TEST_DUMP_DEST TESTDATA_PATH "TestOuput.txt"
 #endif
 
+#if !defined( TEST_BLOCK_DEVICE )
+#define TEST_BLOCK_DEVICE "/dev/fd0"
+#endif
+
+#if !defined( TEST_CHAR_DEVICE )
+#define TEST_CHAR_DEVICE  "/dev/tty"
+#endif
+
+#if !defined( TEST_SOCKET_DEVICE )
+#define TEST_SOCKET_DEVICE  "/dev/log"
+#endif
+
+#if !defined( TEST_SETUID_FILE )
+#define TEST_SETUID_FILE    "/bin/su"
+#endif
+
+#if !defined( TEST_SETGID_FILE )
+#define TEST_SETGID_FILE    "/usr/bin/chsh"
+#endif
 
 //
 // Detail Documentation
