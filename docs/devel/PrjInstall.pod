@@ -16,7 +16,7 @@ as part of your project.
 Befor you use =PROJECT= you wil have to have the correct compiler
 installed for your host. See
 B<MakeConfigs Platforms>
-(L<|http://sideswipe.wcom.com/Tools/MakeConfigs/user/Platforms.html>)
+(L<|http://soundwave.mcilink.com/Tools/MakeConfigs/user/Platforms.html>)
 for details.
 
 You will also have to have cvs installed and login to the cvs
@@ -69,7 +69,7 @@ targets and variables.
     INSTALL_DOC_MAN_DIR	    = $(PROJECT)/docs/man/StlUtils
     INSTALL_DOC_HTML_DIR    = $(PROJECT)/docs/html/StlUtils
 
-    cvsroot   = :pserver:cvsguest@sideswipe.wcom.com:/Tools/src/CvsRepository
+    cvsroot   = :pserver:cvsguest@soundwave.mcilink.com:/Tools/src/CvsRepository
 
     libs_build_dir  = $(TOOL_DIR)/src/Build/Libs
 
@@ -109,6 +109,9 @@ Last Modified: =LAST_MOD=
 =cut
 
 $Log$
+Revision 6.2  2003/09/08 15:13:03  ptpogue
+change sideswipe to soundwave
+
 Revision 6.1  2003/08/09 11:22:39  houghton
 Changed to version 6
 

@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2003/09/08 15:13:44  ptpogue
+// change sideswipe to soundwave
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //
@@ -76,7 +79,7 @@
 #define TEST_BLOCK_DEVICE "/dev/dsk/c0t0d0s0"
 #endif
 
-#if defined( HOST_SIDESWIPE ) && !defined( TEST_BLOCK_DEVICE )
+#if defined( HOST_SOUNDWAVE ) && !defined( TEST_BLOCK_DEVICE )
 #define TEST_BLOCK_DEVICE "/dev/vx/dsk/rootdg/rootvol"
 #endif
 

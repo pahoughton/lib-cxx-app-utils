@@ -45,7 +45,7 @@
 #define TEST_BLOCK_DEVICE "/dev/dsk/c0t0d0s0"
 #endif
 
-#if defined( HOST_SIDESWIPE ) && !defined( TEST_BLOCK_DEVICE )
+#if defined( HOST_SOUNDWAVE ) && !defined( TEST_BLOCK_DEVICE )
 #define TEST_BLOCK_DEVICE "/dev/vx/dsk/rootdg/rootvol"
 #endif
 
