@@ -200,10 +200,6 @@ private:
   };
 
   bool	testit( size_t tNum, size_t passNum );
-  void  failed( const char * name,
-		const char * reason,
-		const char * srcFn,
-		long         srcLine );
   
   LibTest( const LibTest & from );
   LibTest & operator =( const LibTest & from );
@@ -494,6 +490,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 2.4  1996/10/28 12:09:39  houghton
+// Cleanup: removed unused 'failed' function.
+//
 // Revision 2.3  1996/10/28 12:04:23  houghton
 // Changed: TESTP to only take one arg and pass progress as true
 // Changed: Added progress arg to Results::passed
