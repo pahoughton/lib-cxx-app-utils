@@ -5,10 +5,8 @@
 // Project:	StlUtils
 // Desc:        
 //
-//  	A 'SubStr' is a section of a 'Str'. Any modifications to
-//  	the 'SubStr' modify the 'Str' it is a section of.
-//
-//  	Detail documentation is at the end of this header file.
+//  A 'SubStr' is a section of a 'Str'. Any modifications to
+//  the 'SubStr' modify the 'Str' it is a section of.
 //
 // Author:      Paul A. Houghton - (paul.houghton@wcom.com)
 // Created:     05/30/95 14:59
@@ -482,6 +480,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2000/06/04 17:58:05  houghton
+// Updated documentation.
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

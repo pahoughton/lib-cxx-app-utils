@@ -7,187 +7,7 @@
 //
 //  Regular expresion pattern matcher. This is a wrapper
 //  around Gnu's regex 'c' functions. The following description
-//  is specific to the default syntax of RE_SYNTAX_EGREP (see 
-//  'setDefaultSyntax' below).
-//
-//  A Regular expression  pattern is a sequence of special and
-//  ordinary characters. An ordinary character is a simple regular
-//  expression which matches that character and nothing else. The special
-//  characters are `.', `*', `+', `?', `[', `]', `$', `^', '\', '|'
-//  '(', ')', and '{', '}'.
-//  
-// `.'	    is a special character that matches anything except a newline. 
-//	    Using concatenation, we can make regular expressions like `a.b'
-//	    which matches any three-character string which begins with `a'
-//	    and ends with `b'.
-//
-// `*'	    is not a construct by itself; it is a suffix, which means the
-//	    preceding regular expression is to be repeated as many times as
-//	    possible.  In `fo*', the `*' applies to the `o', so `fo*'
-//	    matches `f' followed by any number of `o''s.
-//
-//	    The case of zero `o''s is allowed: `fo*' does match `f'.
-//
-//	    `*' always applies to the *smallest* possible preceding
-//	    expression.  Thus, `fo*' has a repeating `o', not a repeating
-//	    `fo'.
-//
-//	    The matcher processes a `*' construct by matching, immediately,
-//	    as many repetitions as can be found.  Then it continues with the
-//	    rest of the pattern.  If that fails, backtracking occurs,
-//	    discarding some of the matches of the `*''d construct in case
-//	    that makes it possible to match the rest of the pattern.  For
-//	    example, matching `c[ad]*ar' against the string `caddaar', the
-//	    `[ad]*' first matches `addaa', but this does not allow the next
-//	    `a' in the pattern to match.  So the last of the matches of
-//	    `[ad]' is undone and the following `a' is tried again.  Now it
-//	    succeeds.
-//
-// `+'	    `+' is like `*' except that at least one match for the preceding
-//	    pattern is required for `+'.  Thus, `c[ad]+r' does not match
-//	    `cr' but does match anything else that `c[ad]*r' would match.
-//
-// `?'	    `?' is like `*' except that it allows either zero or one match
-//	    for the preceding pattern.  Thus, `c[ad]?r' matches `cr' or
-//	    `car' or `cdr', and nothing else.
-//
-// `[ ... ]' `[' begins a "character set", which is terminated by a `]'.  In
-//	    the simplest case, the characters between the two form the set. 
-//	    Thus, `[ad]' matches either `a' or `d', and `[ad]*' matches any
-//	    string of `a''s and `d''s (including the empty string), from
-//	    which it follows that `c[ad]*r' matches `car', etc.
-//
-//	    Character ranges can also be included in a character set, by
-//	    writing two characters with a `-' between them.  Thus, `[a-z]'
-//	    matches any lower-case letter.  Ranges may be intermixed freely
-//	    with individual characters, as in `[a-z$%.]', which matches any
-//	    lower case letter or `$', `%' or period.
-//
-//	    Note that the usual special characters are not special any more
-//	    inside a character set.  A completely different set of special
-//	    characters exists inside character sets: `]', `-' and `^'.
-//
-//	    To include a `]' in a character set, you must make it the first
-//	    character.  For example, `[]a]' matches `]' or `a'.  To include
-//	    a `-', you must use it in a context where it cannot possibly
-//	    indicate a range: that is, as the first character, or
-//	    immediately after a range.
-//
-//	    Finally, certain named classes of characters are predefined.
-//	    Their names are self explanatory, and they are [:alpha:],
-//	    [:upper:], [:lower:],  [:digit:], [:alnum:], [:xdigit:],
-//	    [:space:], [:blank:], [:print:], [:punct:], [:graph:],
-//	    and [:cntrl:]. Note, this construct is only availabe
-//	    inside a '[ ... ]'. Example " [[:lower:][:digit:]]+ " is
-//	    the same as " [a-z0-9] "
-//
-// `[^ ... ]' `[^' begins a "complement character set", which matches any
-//	    character except the ones specified.  Thus, `[^a-z0-9A-Z]'
-//	    matches all characters *except* letters and digits.
-//
-//	    `^' is not special in a character set unless it is the first
-//	    character.  The character following the `^' is treated as if it
-//	    were first (it may be a `-' or a `]').
-//
-// `^'	    is a special character that matches the empty string -- but only
-//	    if at the beginning of a line in the text being matched. 
-//	    Otherwise it fails to match anything.  Thus, `^foo' matches a
-//	    `foo' which occurs at the beginning of a line.
-//
-// `$'	    is similar to `^' but matches only at the end of a line.  Thus,
-//	    `xx*$' matches a string of one or more `x''s at the end of a line.
-//
-// `\'	    has two functions: it quotes the above special characters
-//	    (including `\'), and it introduces additional special constructs.
-//
-//	    Because `\' quotes special characters, `\$' is a regular
-//	    expression which matches only `$', and `\[' is a regular
-//	    expression which matches only `[', and so on.
-//
-//	    For the most part, `\' followed by any character matches only
-//	    that character.  However, there are several exceptions:
-//	    characters which, when preceded by `\', are special constructs. 
-//	    Such characters are always ordinary when encountered on their own.
-//
-//	    No new special characters will ever be defined.  All extensions
-//	    to the regular expression syntax are made by defining new
-//	    two-character constructs that begin with `\'.
-//
-// `|'	    specifies an alternative.  Two regular expressions A and B with
-//	    `|' in between form an expression that matches anything that
-//	    either A or B will match.
-//
-//	    Thus, `foo|bar' matches either `foo' or `bar' but no other
-//	    string.
-//
-//	    `|' applies to the largest possible surrounding expressions. 
-//	    Only a surrounding `( ... )' grouping can limit the grouping
-//	    power of `|'.
-//
-//	    Full backtracking capability exists when multiple `|''s are used.
-//
-// `( ... )' is a grouping construct that serves three purposes:
-//
-//	      1. To enclose a set of `|' alternatives for other operations.
-//	         Thus, `(foo|bar)x' matches either `foox' or `barx'.
-//
-//	      2. To enclose a complicated expression for the postfix `*' to
-//	         operate on.  Thus, `ba(na)*' matches `bananana', etc.,
-//	         with any (zero or more) number of `na''s.
-//
-//	      3. To mark a matched substring for future reference.
-//
-//	    This last application is not a consequence of the idea of a
-//	    parenthetical grouping; it is a separate feature which happens
-//	    to be assigned as a second meaning to the same `( ... )'
-//	    construct because there is no conflict in practice between the
-//	    two meanings.  Here is an explanation of this feature:
-//
-// `\DIGIT' After the end of a `( ... )' construct, the matcher remembers
-//	    the beginning and end of the text matched by that construct. 
-//	    Then, later on in the regular expression, you can use `\'
-//	    followed by DIGIT to mean "match the same text matched the
-//	    DIGIT'th time by the `( ... )' construct."  The `( ... )'
-//	    constructs are numbered in order of commencement in the regexp.
-//
-//	    The strings matching the first nine `( ... )' constructs
-//	    appearing in a regular expression are assigned numbers 1 through
-//	    9 in order of their beginnings.  `\1' through `\9' may be used
-//	    to refer to the text matched by the corresponding `( ... )'
-//	    construct.
-//
-//	    For example, `(.*)\1' matches any string that is composed of
-//	    two identical halves.  The `(.*)' matches the first half,
-//	    which may be anything, but the `\1' that follows must match the
-//	    same exact text.
-//
-// '{ ... }' specifies the number of times to match the preceding item.
-//	    There are 4 valid forms.
-//
-//		1. {n}   match exactly n times.
-//		2. {n,}  match n or more times.
-//		3. {,m}  match 0 to m times.
-//		4. {n,m} match n to m times.
-//
-//	    For example, `ab{2,4}c' will only match `abbc', `abbbc' and
-//	    `abbbbc'.
-//
-// `\b'     matches the empty string, but only if it is at the beginning or
-//	    end of a word.  Thus, `\bfoo\b' matches any occurrence of `foo'
-//	    as a separate word.  `\bball\(s\|\)\b' matches `ball' or `balls'
-//	    as a separate word.
-//
-// `\B'     matches the empty string, provided it is *not* at the beginning
-//	    or end of a word.
-//
-// `\<'	    matches the empty string, but only if it is at the beginning of
-//	    a word.
-//
-// `\>'	    matches the empty string, but only if it is at the end of a word.
-//
-// `\w'	    matches any word-constituent character.
-//
-// `\W'     matches any character that is not a word-constituent.
+//  is specific to the default syntax of RE_SYNTAX_EGREP.
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     04/28/95 11:20
@@ -285,12 +105,231 @@ private:
 
 };
 
-
-//  Data Types: - data types defined by this header
 //
-//  	RegexScan	class
+// Types: - data types defined by this header
 //
-//  Constructors:
+//	class RegexScan
+//
+// Usage:
+//
+//  A Regular expression  pattern is a sequence of special and
+//  ordinary characters. An ordinary character is a simple regular
+//  expression which matches that character and nothing else. The special
+//  characters are `.', `*', `+', `?', `[', `]', `$', `^', '\', '|'
+//  '(', ')', and '{', '}'.
+//  
+//	`.'	    is a special character that matches anything
+//		    except a newline.  Using concatenation, we can
+//		    make regular expressions like `a.b' which matches
+//		    any three-character string which begins with `a'
+//		    and ends with `b'.
+//
+//	`*'	    is not a construct by itself; it is a suffix,
+//		    which means the preceding regular expression is to
+//		    be repeated as many times as possible.  In `fo*',
+//		    the `*' applies to the `o', so `fo*' matches `f'
+//		    followed by any number of `o''s.
+//
+//		    The case of zero `o''s is allowed: `fo*' does
+//		    match `f'.
+//
+//		    `*' always applies to the *smallest* possible
+//		    preceding expression.  Thus, `fo*' has a repeating
+//		    `o', not a repeating `fo'.
+//
+//		    The matcher processes a `*' construct by matching,
+//		    immediately, as many repetitions as can be found.
+//		    Then it continues with the rest of the pattern.
+//		    If that fails, backtracking occurs, discarding
+//		    some of the matches of the `*''d construct in case
+//		    that makes it possible to match the rest of the
+//		    pattern.  For example, matching `c[ad]*ar' against
+//		    the string `caddaar', the `[ad]*' first matches
+//		    `addaa', but this does not allow the next `a' in
+//		    the pattern to match.  So the last of the matches
+//		    of `[ad]' is undone and the following `a' is tried
+//		    again.  Now it succeeds.
+//
+//	`+'	    `+' is like `*' except that at least one match for
+//		    the preceding pattern is required for `+'.  Thus,
+//		    `c[ad]+r' does not match `cr' but does match
+//		    anything else that `c[ad]*r' would match.
+//
+//	`?'	    `?' is like `*' except that it allows either zero
+//		    or one match for the preceding pattern.  Thus,
+//		    `c[ad]?r' matches `cr' or `car' or `cdr', and
+//		    nothing else.
+//
+//	`[ ... ]'  `[' begins a "character set", which is terminated
+//		    by a `]'.  In the simplest case, the characters
+//		    between the two form the set.  Thus, `[ad]'
+//		    matches either `a' or `d', and `[ad]*' matches any
+//		    string of `a''s and `d''s (including the empty
+//		    string), from which it follows that `c[ad]*r'
+//		    matches `car', etc.
+//
+//		    Character ranges can also be included in a
+//		    character set, by writing two characters with a
+//		    `-' between them.  Thus, `[a-z]' matches any
+//		    lower-case letter.  Ranges may be intermixed
+//		    freely with individual characters, as in
+//		    `[a-z$%.]', which matches any lower case letter or
+//		    `$', `%' or period.
+//
+//		    Note that the usual special characters are not
+//		    special any more inside a character set.  A
+//		    completely different set of special characters
+//		    exists inside character sets: `]', `-' and `^'.
+//
+//		    To include a `]' in a character set, you must make
+//		    it the first character.  For example, `[]a]'
+//		    matches `]' or `a'.  To include a `-', you must
+//		    use it in a context where it cannot possibly
+//		    indicate a range: that is, as the first character,
+//		    or immediately after a range.
+//
+//		    Finally, certain named classes of characters are
+//		    predefined.  Their names are self explanatory, and
+//		    they are [:alpha:], [:upper:], [:lower:],
+//		    [:digit:], [:alnum:], [:xdigit:], [:space:],
+//		    [:blank:], [:print:], [:punct:], [:graph:], and
+//		    [:cntrl:]. Note, this construct is only availabe
+//		    inside a '[ ... ]'. Example
+//		    "[[:lower:][:digit:]]+" is the same as "[a-z0-9]"
+//
+//	`[^ ... ]'  `[^' begins a "complement character set", which
+//		    matches any character except the ones specified.
+//		    Thus, `[^a-z0-9A-Z]' matches all characters
+//		    *except* letters and digits.
+//
+//		    `^' is not special in a character set unless it is
+//		    the first character.  The character following the
+//		    `^' is treated as if it were first (it may be a
+//		    `-' or a `]').
+//
+//	`^'	    is a special character that matches the empty
+//		    string -- but only if at the beginning of a line
+//		    in the text being matched.  Otherwise it fails to
+//		    match anything.  Thus, `^foo' matches a `foo'
+//		    which occurs at the beginning of a line.
+//
+//	`$'	    is similar to `^' but matches only at the end of a
+//		    line.  Thus, `xx*$' matches a string of one or
+//		    more `x''s at the end of a line.
+//
+//	`\'	    has two functions: it quotes the above special
+//		    characters (including `\'), and it introduces
+//		    additional special constructs.
+//
+//		    Because `\' quotes special characters, `\$' is a
+//		    regular expression which matches only `$', and
+//		    `\[' is a regular expression which matches only
+//		    `[', and so on.
+//
+//		    For the most part, `\' followed by any character
+//		    matches only that character.  However, there are
+//		    several exceptions: characters which, when
+//		    preceded by `\', are special constructs.  Such
+//		    characters are always ordinary when encountered on
+//		    their own.
+//
+//		    No new special characters will ever be defined.
+//		    All extensions to the regular expression syntax
+//		    are made by defining new two-character constructs
+//		    that begin with `\'.
+//
+//	`|'	    specifies an alternative.  Two regular expressions
+//		    A and B with `|' in between form an expression
+//		    that matches anything that either A or B will
+//		    match.
+//
+//		    Thus, `foo|bar' matches either `foo' or `bar' but
+//		    no other string.
+//
+//		    `|' applies to the largest possible surrounding
+//		    expressions.  Only a surrounding `( ... )'
+//		    grouping can limit the grouping power of `|'.
+//
+//		    Full backtracking capability exists when multiple
+//		    `|''s are used.
+//
+//	`()'
+//
+//		    is a grouping construct that serves three
+//		    purposes:
+//
+//		    1. To enclose a set of `|' alternatives for other
+//		       operations. Thus, `(foo|bar)x' matches either
+//		       `foox' or `barx'.
+//
+//		    2. To enclose a complicated expression for the
+//		       postfix `*' to operate on.  Thus, `ba(na)*'
+//		       matches `bananana', etc., with any (zero or more)
+//		       number of `na''s.
+//
+//		    3. To mark a matched substring for future
+//			reference.
+//
+//		    This last application is not a consequence of the
+//		    idea of a parenthetical grouping; it is a separate
+//		    feature which happens to be assigned as a second
+//		    meaning to the same `( ... )' construct because
+//		    there is no conflict in practice between the two
+//		    meanings.
+//
+//	`\DIGIT'    After the end of a `( ... )' construct, the
+//		    matcher remembers the beginning and end of the
+//		    text matched by that construct.  Then, later on in
+//		    the regular expression, you can use `\' followed
+//		    by DIGIT to mean "match the same text matched the
+//		    DIGIT'th time by the `( ... )' construct."  The `(
+//		    ... )' constructs are numbered in order of
+//		    commencement in the regexp.
+//
+//		    The strings matching the first nine `( ... )'
+//		    constructs appearing in a regular expression are
+//		    assigned numbers 1 through 9 in order of their
+//		    beginnings.  `\1' through `\9' may be used to
+//		    refer to the text matched by the corresponding `(
+//		    ... )' construct.
+//
+//		    For example, `(.*)\1' matches any string that is
+//		    composed of two identical halves.  The `(.*)'
+//		    matches the first half, which may be anything, but
+//		    the `\1' that follows must match the same exact
+//		    text.
+//
+//	'{}'	    specifies the number of times to match the
+//		    preceding item.  There are 4 valid forms.
+//
+//		      1. {n}   match exactly n times.
+//		      2. {n,}  match n or more times.
+//		      3. {,m}  match 0 to m times.
+//		      4. {n,m} match n to m times.
+//
+//		    For example, `ab{2,4}c' will only match `abbc',
+//		    `abbbc' and `abbbbc'.
+//
+//	`\b'	    matches the empty string, but only if it is at the
+//		    beginning or end of a word.  Thus, `\bfoo\b'
+//		    matches any occurrence of `foo' as a separate
+//		    word.  `\bball\(s\|\)\b' matches `ball' or `balls'
+//		    as a separate word.
+//
+//	`\B'	    matches the empty string, provided it is *not* at
+//		    the beginning or end of a word.
+//
+//	`\<'	    matches the empty string, but only if it is at the
+//		    beginning of a word.
+//
+//	`\>'	    matches the empty string, but only if it is at the
+//		    end of a word.
+//
+//	`\w'	    matches any word-constituent character.
+//
+//	`\W'	    matches any character that is not a word-constituent.
+//
+// Constructors:
 //
 //  	RegexScan( const char *   pattern,
 //  	    	   bool   	  fast = false,
@@ -522,6 +561,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/06/04 17:58:05  houghton
+// Updated documentation.
+//
 // Revision 5.1  2000/05/25 10:33:17  houghton
 // Changed Version Num to 5
 //

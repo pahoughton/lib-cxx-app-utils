@@ -229,11 +229,11 @@ private:
 
 // Detail Documentation:
 //
-//  Types:
+// Types:
 //
-//  	Log : public ostream
+//  	class Log : public ostream
 //
-//  Constructors:
+// Constructors:
 //
 //	inline
 //  	Log( ostream &		outStream = cout,
@@ -601,7 +601,7 @@ private:
 //
 //  Example:
 //
-//	Source file name: tLog.C
+//	Source file name - tLog.C
 //
 //	#include <Log.hh>  // includes LogBuf.hh & LogLevel.hh for you
 //
@@ -635,11 +635,11 @@ private:
 //	11/11/96 12:10:59 ERROR tLog.C:15 This is an error entry
 //	This is more of the same error entry
 //
-//  See Also:
+// See Also:
 //
-//	LogLevel(3), LogBuf(3), ostream(3), RegexScan(3)
+//  LogLevel(3), LogBuf(3), RegexScan(3), ostream(3)
 //
-//  Files:
+// Files:
 //
 //	Log.hh, Log.ii, LogBuf.hh, LogBuf.ii, LogLevel.hh, LogLevel.ii,
 //	libStlUtils.a
@@ -650,6 +650,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2000/06/04 17:58:04  houghton
+// Updated documentation.
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

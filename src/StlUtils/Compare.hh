@@ -11,11 +11,9 @@
 //  The return value is one of <0, 0 or >0 depending on the difference
 //  of the arguments.
 //
-//  .nf
 //    if a1 <  a2 then compare( a1, a2 ) <  0;
 //    if a1 == a2 then compare( a1, a2 ) == 0;
 //    if a1 >  a2 then compare( a1, a2 ) >  0;
-//  .fn
 //
 //  All 'char *' functions (i.e. * **) check the actual
 //  characters and not the pointers.
@@ -228,6 +226,9 @@ Compare_NCMP( double );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/06/04 17:58:04  houghton
+// Updated documentation.
+//
 // Revision 5.1  2000/05/25 10:33:14  houghton
 // Changed Version Num to 5
 //

@@ -5,13 +5,13 @@
 // Project:	StlUtils
 // Desc:        
 //              
-//	A LogLevel should be used in conjuntion with a Log and LogBuf.
-//	The LogBuf contains a LogLevel to determine which log messages
-//	it should output.
+//  A LogLevel should be used in conjuntion with a Log and LogBuf.
+//  The LogBuf contains a LogLevel to determine which log messages
+//  it should output.
 //
-//	The LogLevel has two states. The first is the 'output'. It is a
-//	mask of all levels that should be output. The second is 'current',
-//	which is the level for the current log message.
+//  The LogLevel has two states. The first is the 'output'. It is a
+//  mask of all levels that should be output. The second is 'current',
+//  which is the level for the current log message.
 //	
 // Author:      Paul Houghton x2309 - (houghton@shoe.wiltel.com)
 // Created:     01/29/95 12:27
@@ -155,9 +155,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 //
 //  Types:
 //
-//	LogLevel
+//	class LogLevel
 //
-//	LogLevel::Level
+//	class LogLevel::Level : public Bitmask
 //	    This is a Bitmask for the current or output level
 //
 //  Constructors:
@@ -368,11 +368,11 @@ operator << ( ostream & dest, const LogLevel & obj );
 //	    Uses LogLevel::toStream to write the LogLevel as a string
 //	    to the ostream.
 //
-//  See Also:
+// See Also:
 //
-//	Log(3), LogBuf(3), Bitmask(3)
+//  Log(3), LogBuf(3), Bitmask(3)
 //
-//  Files:
+// Files:
 //
 //	LogLevel.hh, LogLevel.ii, libStlUtils.a
 //
@@ -382,6 +382,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2000/06/04 17:58:04  houghton
+// Updated documentation.
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

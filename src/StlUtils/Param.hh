@@ -7,18 +7,19 @@
 //  This is the base class for providing command line argument parsing.
 //  It lets you identify arguemntes and/or environment varaibles
 //  to be parsed and converted in to program variables. It
-//  also create a help message that documentes the
+//  also create a help message that documents the
 //  arguments and environment varaibles.
 //
-//  There are a number of flags and enviroment varaibles already
-//  defined for control of the log and help. They are described below.
+//  Param also contains an instance of the L<Log|Log> class that
+//  can be used for application logging by your program.
 //
+//  Param defines a number of common command line arguments and
+//  environment variables please see the L</Usage> section for more
+//  information
 //
-//  It also contains a Log that can be used by the application.
-//  
 //  The most effective way to utilize this class is to create
 //  a subclass called 'AppParam' and customize it for your
-//  application (see Example: at end of file).
+//  application (see L</Example> section).
 //
 // Notes:
 //
@@ -342,7 +343,63 @@ operator << ( ostream & dest, const Param & obj );
 
 // Detail Documentation:
 //
-// Desc:
+//  Types:
+//
+//  	class Param
+//
+//	    There are many methods in this class that process and
+//	    convert command line arguments to program variables
+//	    (i.e. arg*(...)). They all expect a 'dest' variable, a
+//	    'description', an 'argId' and an optional 'envVar'
+//	    parameters. The numeric methods can also get a 'min' and
+//	    max value parameters.
+//
+//	    The 'dest' parameter is the program variable to be set
+//	    from the argId or the environment variable. First it is
+//	    set to the envirnment variable's value (if one is found),
+//	    then it is set to the argument's value (again if one is
+//	    found). So, the command line overides any enveronment
+//	    variable settings. If any errors occure trying to process
+//	    the arg, dest will not be modified.
+//
+//	    The 'description' parameter is the description that will
+//	    be ised for the help output. It should be a short
+//	    description of how the arg is used by the application.
+
+//	    The 'argId' is the string identifier for the command line
+//	    argument. The command line args are searched for an exact
+//	    match with a preceiding '-' character. So, if 'argId' is
+//	    "file" then the corisponding command line arg would be
+//	    "-file". The argId's and there corrisponding values are
+//	    treated as indepenant sequences.
+//
+//		prog -a a_value -b b_value -c c_value
+//		    is the same as
+//		prog -a -b -c a_value b_value c_value
+//
+//	    The argFlag method is the only one that does not look for
+//	    a corrispondig value. So if -x was a flag then the
+//	    following would examples would all produce the same
+//	    results.
+//
+//		prog -x -a a_value -b b_value -c c_value
+//		prog -a a_value -b -x b_value -c c_value
+//		prog -a a_value -b b_value -x -c c_value
+//		prog -x -a -b -c a_value b_value c_value
+//		prog -a -b -x -c a_value b_value c_value
+//		prog -a -b -c a_value -x b_value c_value
+//
+//	    The 'envVar' parameter specifies an envronment variable to
+//	    be used for the value.
+//
+//	    The 'min' and 'max' parameters specificy the numeric
+//	    limits for the arg. If min <= value <= max is not true,
+//	    then dest is not set an good() will return false.
+// 
+//	class Param::Args
+//	    This type is used to access the args through iterators.
+//
+// Usage:
 //
 //  These are the default args defined by the Param class.
 //
@@ -429,60 +486,6 @@ operator << ( ostream & dest, const Param & obj );
 //		    of the log entries that should be written to the
 //		    -error-log file. Default: "WARN | ERROR"
 //		    
-//
-//  There are many methods in this class that process and convert
-//  command line arguments to program variables (i.e. arg*(...)). They
-//  all expect a 'dest' variable, a 'description', an 'argId' and
-//  an optional 'envVar' parameters. The numeric methods can also get
-//  a 'min' and max value parameters.
-//
-//  The 'dest' parameter is the program variable to be set from the
-//  argId or the environment variable. First it is set to the
-//  envirnment variable's value (if one is found), then it is set
-//  to the argument's value (again if one is found). So, the command
-//  line overides any enveronment variable settings. If any errors
-//  occure trying to process the arg, dest will not be modified.
-//
-//  The 'description' parameter is the description that will be
-//  ised for the help output. It should be a short description
-//  of how the arg is used by the application.
-//
-//  The 'argId' is the string identifier for the command line
-//  argument. The command line args are searched for an exact
-//  match with a preceiding '-' character. So, if 'argId' is "file"
-//  then the corisponding command line arg would be "-file". The
-//  argId's and there corrisponding values are treated as indepenant
-//  sequences.
-//
-//      prog -a a_value -b b_value -c c_value
-//	    is the same as
-//	prog -a -b -c a_value b_value c_value
-//
-//  The argFlag method is the only one that does not look for
-//  a corrispondig value. So if -x was a flag then the following
-//  would examples would all produce the same results.
-//
-//      prog -x -a a_value -b b_value -c c_value
-//      prog -a a_value -b -x b_value -c c_value
-//      prog -a a_value -b b_value -x -c c_value
-//	prog -x -a -b -c a_value b_value c_value
-//	prog -a -b -x -c a_value b_value c_value
-//	prog -a -b -c a_value -x b_value c_value
-//
-//  The 'envVar' parameter specifies an envronment variable to
-//  be used for the value.
-//
-//  The 'min' and 'max' parameters specificy the numeric limits
-//  for the arg. If min <= value <= max is not true, then
-//  dest is not set an good() will return false.
-//  
-//
-//  Data Types: - data types defined by this header
-//
-//  	Param
-//
-//	Param::Args
-//	    This type is used to access the args through iterators.
 //
 //  Constructors:
 //
@@ -859,7 +862,7 @@ operator << ( ostream & dest, const Param & obj );
 //	* AppParam.hh * START * 
 //	
 //	#include <Param.hh>
-//	#include <string
+//	#include <FilePath.hh>
 //	
 //	class AppParam : public Param
 //	{
@@ -869,28 +872,45 @@ operator << ( ostream & dest, const Param & obj );
 //	  AppParam( int & argv, char ** argc, const char * ver = 0 );
 //	  ~AppParam( void );
 //	
-//	  bool parseArgs( void );
-//
-//	  const string & inputFileName() { return( vInputFileName ); };
+//	  const FilePath & inFn() { return( inFnV ); };
 //	  
+//	  bool parseArgs( void );
+//	  bool parseArgs( int argc, char * argv[] );
+//
 //	protected:
-//	
+//
+//	  FilePath  inFnV;
+//
 //	private:
 //	
 //	  AppParam( const AppParam & copyFrom );
 //	  AppParam & operator=( const AppParam & assignFrom );
 //	
-//	  string  vInputFileName;
-//	  
 //	};
 //	
 //	extern AppParam * App;
-//	
-//	inline
-//	AppParam::AppParam( int & argc, char ** argv, const char * ver )
-//	  : Param( argc, argv, ver ),
-//	    vInputFileName( "./inputfile.data" )
+//
+//	* AppParam.hh * END *
+//
+//	* AppParam.C * START *
+//
+//	AppParam::AppParam(
+//	  int &        mainArgc,
+//	  char **      mainArgv,
+//	  const char * mainVer
+//	  )
+//	  : Param( mainArgc, ,mainArgv, mainVer, true, "ERROR | WARN | INFO" ),
+//	    inFnV( "inputfile.data" )
 //	{
+//
+//	  Str usageText;
+//
+//	  usageText << "  " << appName() << " [options]\n\n"
+//	            << "    do something with infile.\n"
+//	    ;
+//
+//	  appendHelp( usageText );
+//
 //	  parseArgs();
 //	}
 //	
@@ -899,23 +919,21 @@ operator << ( ostream & dest, const Param & obj );
 //	{
 //	}
 //	
-//	* AppParam.hh * END *
-//
-//      * AppParam.C * END *
+//	bool
+//	AppParam::parseArgs( int pArgc, char * pArgv[] )
+//	{
+//	  bool status = Param::parseArgs( pArgc, pArgv );
+//	
+//	  return( status ? parseArgs() : status );
+//	}
 //
 //	bool
 //	AppParam::parseArgs( void )
 //	{
 //	  bool status = Param::parseArgs();
 //
-//	  status &= argStr( vInputFileName, "input file name", "in" );
+//	  status &= argStr( inFnV, "input file name", "infile" );
 //	
-//	  string dataDir;
-//	  status &= argStr( dataDir, "input directory", "dir", "DATA_DIR" );
-//	
-//	  if( dataDir.size() )
-//	    vInputFileName.replace( 0, 1, dataDir );
-//
 //	  return( status );
 //      }
 //
@@ -937,20 +955,45 @@ operator << ( ostream & dest, const Param & obj );
 //	       cerr << "Can't new AppParam!" << endl;
 //	       exit( 1 );
 //	    }
+//	  if( ! (*App).good() || (*App).help() || ! (*App).allArgs() )
+//	    (*App).abort( AppMgr::getExitCode( AppMgr::ExitInit ),
+//			  true, __FILE__, __LINE__ );
 //	
-//	  if( App->help() || ! App->good() )
+//	  AppInfo << (*App).appName() << "(" << (*App).getpid()
+//		  << ") started." << endl; 
+//
+//	  bool status( true );
+//
+//	  cout << "Input is: " << App->inFn() << endl;
+//
+//	  if( status )
 //	    {
-//	       App->abort( 0, true );
+//	      AppInfo << (*App).appName() << "(" << (*App).getpid()
+//		      << ") completed."
+//		      << endl;
 //	    }
+//	  else
+//	    {
+//	      AppError << (*App).appName() << "(" << (*App).getpid()
+//		       << ") ABORTED!."
+//		       << endl;
+//	    }
+//	  
+//	  if( App ) delete App;
 //	
-//	  cout << "Input is: " << App->inputFileName() << endl;
+//	  return( status ? 0 : 1 );
+//	
 //	}
 //	
 //	* main.C * END *
 //
 // See Also:
 //
+//  Log(3)
+//
 // Files:
+//
+//  Param.hh, Param.ii, libStlUtils.a
 //
 // Documented Ver: 3.14
 //
@@ -959,6 +1002,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/06/04 17:58:04  houghton
+// Updated documentation.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

@@ -1,7 +1,7 @@
 #ifndef _StlUtilsUtils_hh_
 #define _StlUtilsUtils_hh_
 //
-// File:        StlUtilsUtils.hh
+// File:        StlUtilsMisc.hh
 // Project:	StlUtils
 // Desc:        
 //
@@ -195,6 +195,9 @@ ArchiveFile( const FilePath &	srcFn,
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2000/06/04 17:58:05  houghton
+// Updated documentation.
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

@@ -4,11 +4,9 @@
 // File:        Str.hh
 // Desc:        
 //
-//  	A 'Str' provides many methods to manipulate sequences
-//  	of characters. It is a 'iostream' so you can use the '<<'
-//  	and '>>' operators.
-//
-//  	Detailed documentation is at the end of the file
+//  A 'Str' provides many methods to manipulate sequences
+//  of characters (i.e. strings). It is a 'iostream' so you
+//  can use the '<<' and '>>' operators.
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/30/95 15:04
@@ -1821,6 +1819,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2000/06/04 17:58:05  houghton
+// Updated documentation.
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

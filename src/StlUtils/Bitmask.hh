@@ -261,12 +261,12 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //
 //  Types:
 //
-//  	Bitmask
+//  	class Bitmask
 //
-//	value_type
+//	scalar Bitmask::value_type
 //	    An unsigned 32 bit type used to contain the bit data.
 //
-//	bit	    class
+//	class Bitmask::bit
 //	    A bit is a single bit of a Bitmask. It knows both the
 //	    position and value from the original Binmask. It
 //	    contains a reference to the original Bitmask, so if
@@ -717,6 +717,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/06/04 17:58:04  houghton
+// Updated documentation.
+//
 // Revision 5.1  2000/05/25 10:33:14  houghton
 // Changed Version Num to 5
 //
