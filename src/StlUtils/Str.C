@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/06/09 09:44:49  houghton
+// Bug-Fix: compare( const char * ) if both strings are empty, return 0.
+// Bug-Fix: read( BinStream & ) if len was 0, was not reseting string.
+//
 // Revision 2.3  1996/04/27 13:08:39  houghton
 // Cleanup.
 //
@@ -244,6 +248,11 @@ int
 Str::compare( const char * two, size_t start, size_t len ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
+
+  // no string I have 1 or more chars from start, return 1 (I'm bigger)
+  //  I have no chars (we are both empty, return 0
+  if( ! two )
+    return( size() - start ? 1 : 0  );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( strlen( two ), len );
@@ -822,13 +831,14 @@ Str::read( BinStream & src )
 {
   ULong len = 0;
 
-  src.read( len );
+  if( ! src.read( len ).good() )
+    return( src );
 
-  if( ! src.good() || len < 1 )
+  reset();
+  
+  if( len < 1 )
     return( src );
   
-  reset();
-
   // if the put buffer is not big enough read
   // the string the hard way
 
