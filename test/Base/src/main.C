@@ -67,8 +67,8 @@ LibTest::TestItem   TestList[] =
   { "DateRange",	    tDateRange },
   { "DateRangeDaily",	    tDateRangeDaily },
   { "DateRangeWeekly",	    tDateRangeWeekly },
-  { "FilePath",		    tFilePath },
 #endif
+  { "FilePath",		    tFilePath },
   { "User",		    tUser },
   { "UserGroup",	    tUserGroup },
   { "FileStat",		    tFileStat },
@@ -204,6 +204,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1996/11/22 12:26:18  houghton
+// Added FilePath test.
+//
 // Revision 3.3  1996/11/20 12:15:26  houghton
 // Added test for other souces.
 //
