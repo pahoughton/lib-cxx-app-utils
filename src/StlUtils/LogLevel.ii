@@ -2,33 +2,17 @@
 #define _LogLevel_ii_
 //
 // File:        LogLevel.ii
+// Proejct:	Clue
 // Desc:        
 //
-//  	inlines for LogLevel
+//  	Source for LogLevel inline methods
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     07/20/95 09:50
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 2.4  1996/04/27 13:03:41  houghton
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
-//
-// Revision 2.3  1995/12/04 11:17:25  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.2  1995/11/12  18:05:44  houghton
-// Change LogLevel::XXXX to LogLevel::Xxxxx.
-// Move setName to LogLevel.C.
-//
-// Revision 2.1  1995/11/10  12:40:48  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  15:28:41  houghton
-// Revised
-//
+// $Id$
 //
 
 #if defined( CLUE_DEBUG )
@@ -36,10 +20,10 @@
 #endif
 
 inline
-LogLevel::LogLevel( const Level out )
+LogLevel::LogLevel( const Level out, const Level cur )
+  : output( out ),
+    current( cur )
 {
-  setCurrent( Error );
-  setOutput( out );
 }
 
 inline
@@ -47,6 +31,13 @@ LogLevel::LogLevel( const char * out )
 {
   setCurrent( Error );
   setOutput( out );
+}
+
+inline
+LogLevel::LogLevel( const LogLevel & from )
+  : output( from.output ),
+    current( from.current )
+{
 }
 
 inline
@@ -60,6 +51,13 @@ LogLevel::setOutput( const Level out )
 
 inline
 LogLevel::Level
+LogLevel::setOutput( const char * level )
+{
+  return( setOutput( levelFromString( level ) ) );
+}
+      
+inline
+LogLevel::Level
 LogLevel::setCurrent( const Level cur )
 {
   Level	old = current;
@@ -67,6 +65,12 @@ LogLevel::setCurrent( const Level cur )
   return( old );
 }
 
+inline
+LogLevel::Level
+LogLevel::setCurrent( const char * lvl )
+{
+  return( setCurrent( levelFromString( lvl ) ) );
+}
 
 inline
 LogLevel::Level
@@ -109,6 +113,15 @@ LogLevel::compare( const LogLevel & two ) const
 }
 
 inline
+LogLevel &
+LogLevel::operator =  ( const LogLevel & rhs )
+{
+  output  = rhs.output;
+  current = rhs.current;
+  return( *this );
+}
+
+inline
 bool
 LogLevel::operator == ( const LogLevel & rhs ) const
 {
@@ -134,4 +147,32 @@ operator << ( ostream & dest, const LogLevel & obj )
 #undef inline
 #endif
 
+// Revision Log:
+//
+// $Log$
+// Revision 2.5  1996/11/04 14:19:08  houghton
+// Restructure header comments layout.
+// Added Copy Construtor.
+// Added setOutput( const char * ).
+// Added setCurrent( const char * ).
+// Added operator = ( const LogLevel & rhs ).
+//
+// Revision 2.4  1996/04/27 13:03:41  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.3  1995/12/04 11:17:25  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.2  1995/11/12  18:05:44  houghton
+// Change LogLevel::XXXX to LogLevel::Xxxxx.
+// Move setName to LogLevel.C.
+//
+// Revision 2.1  1995/11/10  12:40:48  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  15:28:41  houghton
+// Revised
+//
+//
 #endif // ! def _LogLevel_ii_ 
