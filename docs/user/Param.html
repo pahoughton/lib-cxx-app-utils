@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>StlUtils Param Class User Documentation</title>
+  </head>
+
+  <body>
+    <h1>StlUtils Param Class User Documentation</h1>
+      <strong>
+      StlUtils Library Version 4
+      <br>
+      Param.C CVS Version 4.11
+      <br>
+      April 18, 2000
+      <br>
+      Paul Houghton (<a	href="mailto:paul.houghton@wcom.com">Paul Houghton</a>)
+    </strong>
+    
+    <h2>Contents</h2>
+    <dl>
+      <dt><a href="#Sec_Desc"><strong>Description</strong></a>
+      <dt><a href="#Sec_CommonArgs"><strong>Common Arguments</strong></a>
+    </dl>
+
+    <h2><a name="Sec_Desc">Description</a></h2>
+    <p>
+      Param is the base class for providing command line argument
+      parsing. It lets you identify arguemntes and/or environment
+      varaibles to be parsed and converted in to program variables. It
+      also create a help message that documentes the arguments and
+      environment varaibles.
+    <p>
+      There are a number of flags and enviroment varaibles already
+      defined for control of the log and help. They are described
+      under <a href="#Sec_CommonArgs">Common Arguments</a> below.
+    <p>
+      It also contains a <a href="Log.html">Log</a> that can be used
+      by the application.
+    <p>
+      For detailed documentation on how to implement this class in
+      your application, see the developers documentation in
+      <a href="../devel/Param.html">
+	StlUtils Param Class Developer Documentation</a>.
+    <p>
+      
+    <h2><a name="Sec_CommonArgs">Common Arguments</a></h2>
+    <p>
+      Each of the following command line arguments is provided by the
+      Param Class. Any application that uses this class will have
+      these arguments available. For each argument below, first the
+      argument and type are given (i.e. -log-level (string)) then the
+      detailed description is given. 
+    <p>
+      The type of an argument can be one of the following:
+    <p>
+    <dl>
+      <dt>flag
+      <dd>This type of argument is not passed a value. If it is given
+	on the command line, it is turned on.
+      <dt>string
+      <dd>This argument expects a string of characters.
+      <dt>bool
+      <dd>This is a true/false argument. It can be specified with any
+	of the following: true, false, yes, no, 1, 0.
+      <dt>int, short, long, unsigned int, unsigned short, unsigned long
+      <dd>These arguments expects a number in range of thier data types.
+    </dl>
+    <p>
+      Now for the arguments themselves:
+    <p>
+	  
+    <dl>
+      <dt>-argfile (string)
+      <dd>
+	the name of the argument file to read for all other
+	arguments. This file is read before any other arguments are
+	processed, so any values set in it will be overriden by both
+	environment variables and command line arguments. The format
+	of the file is:
+	<p>
+	<blockquote>
+	  <code>
+	    # this is a comment
+	    <br>
+	    -arg    opt value string      # comment
+	    <br>
+	  </code>
+	</blockquote>
+	<p>
+	  Where arg is a whole word arguement and 'opt value string'
+	  will be the next argument.  Usually this would be the value
+	  for -arg, but There is no restrictions placed on this.  The
+	  only syntactical restrictions is that the first sequence of
+	  non whitespace characters on a line is treated as a single
+	  argument. All other non white space characts are treated as
+	  another single argument.
+	<p>
+      <dt>-help (flag)
+      <dd>
+	show usage help. Each command line argument is output along
+	with a description, optional environment variable and its
+	current value. For example:
+	<p>
+	  <table>
+	    <tr>
+	      <td>
+		-argfile
+	      </td>
+	      <td>
+		Name of file to read args from. (DESTLOADER_ARGFILE)
+		'DestLoader.args'
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		-help
+	      </td>
+	      <td>
+		show usage help. 'flag 
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		-version
+	      </td>
+	      <td>
+		show version and exit 'flag'
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		-gen-argfile
+	      </td>
+	      <td>
+		generate an args file. 'flag'
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		-log-file
+	      </td>
+	      <td>
+		log file name. (LOG_FILE)
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		-log-mode
+	      </td>
+	      <td>
+		log open mode. (LOG_MODE) 'ios::out | ios::app'
+	      </td>
+	    </tr>
+	  </table>	    
+	<p>
+      <dt>-version (flag)
+      <dd>
+	output the version info to stdout (cout)
+	then exit(0). If the -help flag is also set, this flag
+	is ignored (the version info is included in the help).
+	<p>
+      <dt>-gen-argfile (flag)
+      <dd>
+	generate an argfile into the file named by
+	the -argfile argument. This file can then modified
+	and used as the application's argfile.
+	<p>
+      <dt>-log-file (string)
+      <dd>
+	log file name. File name that should be used
+	for log output. Env: LOG_FILE. Default: cout
+	<p>
+      <dt>-log-mode (string)
+      <dd>
+	this is the 'ios::open_mode' for the
+	log file. It should be either 'ios::app|ios::out' or
+	'ios::out'. (note: the ios:: and the | are ignored,
+	so 'app out' will also work.
+	<p>
+      <dt>-log-prot (int)
+      <dd>
+	this is the protection for a new log file.
+	The leading 0 is significant, so you should
+	set it with something like 0644.
+	<p>
+	  
+      <dt>-log-level (stirng)
+      <dd>
+	output log level. The type of log entries
+	that will be output to the log.
+	Env: LOG_LEVEL. Default: "INFO | ERROR | WARING";
+	<p>
+      <dt>-log-filter (string)
+      <dd>
+	filter log entries through this
+	regex pattern. Only entries that contain
+	the pattern will be output.
+	Env: LOG_FILTER. Default: none.
+	<p>
+      <dt>-log-tee (flag)
+      <dd>
+	tee log output to cerr.
+	<p>
+      <dt>-log-show-time (bool)
+      <dd>
+	write a time stamp to each
+	log entry. Env: LOG_TIME. Default: true
+	<p>
+      <dt>-log-show-level (bool)
+      <dd>
+	output the level with each log entry
+	Env: LOG_STAMP_LEVEL. Default: true.
+	<p>
+      <dt>-log-show-loc (bool)
+      <dd>
+	output source file and line with each
+	log entry. Env: LOG_LOC. Default: true
+	<p>
+      <dt>-log-max (long)
+      <dd>
+	max size of log file.
+	Env: LOG_MAX. Default: 0 (unlimited)
+	<p>
+      <dt>-log-trim (long)
+      <dd>log file trim size.
+	Env: LOG_TRIM. Default: 0 ( 25% of max ).
+	<p>
+      <dt>-error-log (string)
+      <dd>
+	an additional log file to write log entries
+	to. Only those entries with the log level specified
+	by -error-log-level will be written to this file.
+	Default: none
+	<p>
+      <dt>-error-log-level (string)
+      <dd>
+	this is the log level
+	of the log entries that should be written to the
+	-error-log file. Default: "WARN | ERROR"
+	<p>
+    </dl>
+		    
+      
+    <hr>
+    <address><a href="mailto:paul.houghton@wcom.com">Paul Houghton</a></address>
+<!-- Created: Tue Apr 18 07:06:55 CDT 2000 -->
+<!-- hhmts start -->
+Last modified: Tue Apr 18 07:59:21 CDT 2000
+<!-- hhmts end -->
+  </body>
+</html>
