@@ -60,7 +60,7 @@ setup: $(PROJECT_DIR)/support/Support.Items.Makefile
 	$(hide) $(MAKE) -f $< $@			\
 		SUPPORT_ITEMS='$(SUPPORT_ITEMS)'	\
 		PROJECT_DIR=$(PROJECT_DIR)		\
-y		support_vars_file=$(support_vars_file)	\
+		support_vars_file=$(support_vars_file)	\
 		config_vars_file=$(config_vars_file)
 
 #
