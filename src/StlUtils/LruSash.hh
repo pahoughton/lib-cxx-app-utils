@@ -58,10 +58,10 @@ public:
   public:
 
     typedef vector< Rec * >	Table;
-    typedef Table::size_type	size_type;
-    typedef Table::iterator	iterator;
-    typedef Table::reference	reference;
-    typedef Table::value_type	value_type;
+    typedef typename Table::size_type	size_type;
+    typedef typename Table::iterator	iterator;
+    typedef typename Table::reference	reference;
+    typedef typename Table::value_type	value_type;
     
     Sash( size_type initSize ) : size( initSize ), table( size(),
 							  value_type(0) ) {};
@@ -288,6 +288,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2004/04/19 18:16:09  houghton
+// Fixed warning msgs
+//
 // Revision 6.1  2003/08/09 11:22:42  houghton
 // Changed to version 6
 //
