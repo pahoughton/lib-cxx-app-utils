@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.1  1995/02/13 16:08:53  houghton
+// Revision 1.2  1995/07/21 15:43:20  ichudov
+// DAVLs
+//
+// Revision 1.1  1995/02/13  16:08:53  houghton
 // New Style Avl an memory management. Many New Classes
 //
 //
@@ -99,6 +102,8 @@ public:
   Bool	    	help( void ) const;
 
   Bool	    	allArgs( void ) const;
+
+  void	    	abort( int exitStatus = 1, ostream & dest = cerr );
   
   virtual const char *	getClassName( void ) const { return "Param"; };
   
@@ -606,6 +611,14 @@ const char *
 Param::env( const char * envVar )
 {
   return( getenv( envVar ) );
+}
+
+inline
+void
+Param::abort( int exitStatus, ostream & dest )
+{
+  dest << "Aborted - see log for more info" << endl;
+  exit( exitStatus );
 }
 
 #endif // ! def _Param_hh_ 

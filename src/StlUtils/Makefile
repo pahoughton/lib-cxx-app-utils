@@ -16,8 +16,8 @@
 
 include Make/make.cfg.2.1
 
-BETA_LIB_DIR	= 
-BETA_INC_DIR	= 
+BETA_LIB_DIR	= /rating/dev/lib
+BETA_INC_DIR	= /rating/dev/include
 
 PROD_INC_DIR	= 
 
@@ -55,7 +55,6 @@ USER_INCS	=			\
 	LogLevel.hh			\
 	LogBuf.hh			\
 	Log.hh                          \
-	MCRtypes.h                      \
 	MapFile.hh                      \
 	MapMem.hh                       \
 	MapMemFixedDynamic.hh           \
@@ -75,10 +74,12 @@ USER_INCS	=			\
 	Str.hh                          \
 	StringList.hh                   \
 	SybaseParam.hh			\
+	SybTable.hh			\
 	TableMapFixedDynamic.hh		\
 	Tbcd.hh	    	    	    	\
 	TeleNum.h                       \
 	TeleNum.hh                      \
+	CdrBillNum.hh			\
 	Timer.hh                        \
 
 #	gnustd.h                        \
@@ -120,20 +121,25 @@ LIB_CXX_SOURCES	=			\
 	MapFile.C                       \
 	MapMem.C                        \
 	MapMemFixedDynamic.C            \
+	Mcr.C				\
 	MultiMem.C			\
 	MultiMemOffset.C		\
 	MultiMemOffsetMapFixed.C	\
 	Param.C				\
 	Password.C                      \
 	Pind.C	    	    	    	\
+	PrefixFileDir.C			\
 	Record.C			\
 	SLList.C                        \
 	State.C                         \
 	StateToStateCode.C              \
 	StringList.C                    \
+	SybTable.C			\
 	TableMapFixedDynamic.C		\
 	Tbcd.C	    	    	    	\
 	TeleNum.C                       \
+	CdrBillNum.C			\
+	error.C				\
 
 #	Mcr.C                           \
 
@@ -161,7 +167,9 @@ ARCHINCDIR = -Ignuinc
 endif
 
 SRCINCDIR	= -I. 
-PRJINCDIR	= -I../../libCommon/src -I../../libmmalloc
+PRJINCDIR	= -I../../libCommon/src \
+		  -I../../libmmalloc \
+		  -I$(SYBASE)/include
 
 INCDIRS		= $(SRCINCDIR)	\
 		  $(ARCHINCDIR) \
@@ -174,8 +182,8 @@ CPPOTHER 	=
 CCDEBUG		= -g
 CCOTHER		=
 
-INSTALL_LIB_FLAGS = -m 664 -g tools
-INSTALL_INC_FLAGS = -m 664 -g tools
+INSTALL_LIB_FLAGS = -m 664
+INSTALL_INC_FLAGS = -m 664
 
 # ***** D E P E N D A N C I E S *****
 
@@ -197,8 +205,8 @@ realclean:
 install:
 	mkdirhier $(BETA_LIB_DIR)/old
 	mkdirhier $(BETA_INC_DIR)/old
-	-( cd $(BETA_LIB_DIR)/old; rm -f $(LIBRARY); cd ..; mv $(LIBRARY) old )
-	-( cd $(BETA_INC_DIR)/old; rm -f $(USER_INCS); cd ..; mv $(USER_INCS) old )
+	-( cd $(BETA_LIB_DIR)/old; rm -f $(LIBRARY); cd ..; mv -f $(LIBRARY) old)
+	-( cd $(BETA_INC_DIR)/old; rm -f $(USER_INCS); cd ..; mv -f $(USER_INCS) old)
 	$(INSTALL) $(INSTALL_LIB_FLAGS) $(LIBRARY) $(BETA_LIB_DIR)
 	$(INSTALL) $(INSTALL_INC_FLAGS) $(USER_INCS) $(BETA_INC_DIR)
 	echo 'Beta Install Complete!'
@@ -234,7 +242,10 @@ include .depend.lib
 
 # 
 # $Log$
-# Revision 1.10  1995/03/02 16:35:35  houghton
+# Revision 1.11  1995/07/21 15:43:14  ichudov
+# DAVLs
+#
+# Revision 1.10  1995/03/02  16:35:35  houghton
 # Linux ports & new Classes
 #
 # Revision 1.9  1995/02/20  14:24:27  houghton

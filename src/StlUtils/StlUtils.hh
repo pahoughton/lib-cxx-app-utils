@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.4  1995/02/13 16:08:33  houghton
+// Revision 1.5  1995/07/21 15:43:11  ichudov
+// DAVLs
+//
+// Revision 1.4  1995/02/13  16:08:33  houghton
 // New Style Avl an memory management. Many New Classes
 //
 // Revision 1.3  1994/09/27  16:58:39  houghton
@@ -174,7 +177,11 @@ Round( long value, long factor )
 	
 char * ChangeFileDir( const char * path,
 		      const char * newDir,
-		      Bool usePath = 0 );
+		      Bool usePath = FALSE );
+
+char * PrefixFileDir( const char * path,
+		      const char * newDir,
+		      Bool usePath = FALSE );
 
 #endif // ! def _Common_plus_hh_ 
 //

@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.2  1994/08/15 20:54:59  houghton
+// Revision 1.3  1995/07/21 15:43:23  ichudov
+// DAVLs
+//
+// Revision 1.2  1994/08/15  20:54:59  houghton
 // Split Mapped out of mapped avl.
 // Fixed a bunch of bugs.
 // Fixed for ident of object modules.
@@ -40,7 +43,7 @@ public:
   const char *  cstr( void );
 
   void		reset( void );
-  
+
 protected:
 
 private:
@@ -51,7 +54,8 @@ private:
 };
 
 
-inline const char *
+inline
+const char *
 Str::cstr( void )
 {
   rdbuf()->sputc(0);
@@ -61,7 +65,8 @@ Str::cstr( void )
   return( cstring );
 }
 
-inline void
+inline
+void
 Str::reset( void )
 {
   rdbuf()->seekoff( 0, ios::beg, ios::out );
