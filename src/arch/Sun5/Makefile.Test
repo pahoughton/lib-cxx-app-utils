@@ -22,10 +22,11 @@
 
 TEST_DATA_DIR	= ../data
 TEST_USER	= $(LOGNAME)
-TEST_GROUP	= staff
-TEST_UID	= 10148
-TEST_GID	= 10
+TEST_GROUP	= softdev
+TEST_UID	= 223
+TEST_GID	= 103
 
+ARCH_DEFINES	= -DCLUE_TEST_NO_GROUPS=1
 ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
 CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src 		\
 		  -I$(PRJ_TOPDIR)/src/arch/Unix/src 		\
@@ -39,6 +40,9 @@ ARCH_DEFAULT_LIBS 	= -lGnuRegex
 
 #
 # $Log$
+# Revision 3.2  1997/08/18 10:30:58  houghton
+# Changed uid and group (I really need a better solution to this).
+#
 # Revision 3.1  1997/07/25 12:26:21  houghton
 # Changed version number to 3.
 #
