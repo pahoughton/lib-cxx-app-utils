@@ -10,7 +10,11 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/12 18:33:33  houghton
+// Revision 2.2  1995/11/13 11:30:45  houghton
+// Added compare function.
+// Changed date type from void * to char *.
+//
+// Revision 2.1  1995/11/12  18:33:33  houghton
 // Initial Version.
 //
 //
@@ -18,10 +22,12 @@
 #if !defined( CLUE_SHORT_FN )
 #include "Void.hh"
 #include <Str.hh>
+#include <Compare.hh>
 #include <iomanip>
 #else
 #include "Void.hh"
 #include <Str.hh>
+#include <Compare.hh>
 #include <iomanip>
 #endif
 
@@ -123,7 +129,7 @@ Void::resize( size_t newSize, bool trunc )
   if( newSize < dataBufSize && ! trunc )
     return( true );
 
-  void * buf = new char[ newSize + (newSize / 2 ) ];
+  char * buf = new char[ newSize + (newSize / 2 ) ];
   
   if( ! buf )
     return( false );
@@ -136,7 +142,24 @@ Void::resize( size_t newSize, bool trunc )
   return( true );
 }
 
+int
+Void::compare( const Void & rhs ) const
+{
   
+  if( data && rhs.data )
+    {
+      int diff = memcmp( data, rhs.data, min( size(), rhs.size() ) );
+
+      if( diff )
+	return( diff );
+      else
+	return( ::compare( size(), rhs.size() ) );
+    }
+  else
+    {
+      return( data ? 1 : ( rhs.data ) ? -1 : 0 );
+    }
+}
 
 size_t
 Void::getBinSize( void ) const
@@ -168,7 +191,7 @@ ostream &
 Void::write( ostream & dest ) const
 {
   ULong len = size();
-  dest.write( &len, sizeof( len ) );
+  dest.write( (const char *)&len, sizeof( len ) );
   dest.write( data, size() );
   return( dest );
 }
@@ -177,7 +200,7 @@ istream &
 Void::read( istream & src )
 {
   ULong len;
-  src.read( &len, sizeof( len ) );
+  src.read( (char *) &len, sizeof( len ) );
   if( len && resize( len ) )
     src.read( data, len );
   dataSize = len;
