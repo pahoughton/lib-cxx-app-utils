@@ -48,6 +48,7 @@ PRJ_TOPDIR	= ../..
 
 VPATH		= $(ARCH_VPATH):.
 
+TEST_DATA_DIR	= ../data
 ###### D E F I N E S  #####
 # 
 # Config defines avalable
@@ -55,7 +56,7 @@ VPATH		= $(ARCH_VPATH):.
 #
 
 
-SRC_DEFINES	= 
+SRC_DEFINES	= -DTEST_DATA_DIR=\"$(TEST_DATA_DIR)\"
 PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFAULT_DEFINES = -DTEST_DEFAULT=1
@@ -74,7 +75,7 @@ STATIC_DEFINES	= -DTCLUE_STATIC=1
 SRC_INC		= $(ARCH_INC) -I. 
 PRJ_INC		= $($($(make_target))_PRJ_INC)
 
-DEFAULT_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
+DEFAULT_PRJ_INC	= -I$(alpha_incdir)
 DEBUG_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
 PROFILE_PRJ_INC = $(CLUE_SRC_INC) -I$(alpha_incdir)
 STATIC_PRJ_INC	= -I$(alpha_incdir)
@@ -134,7 +135,7 @@ DEBUG_LD_FLAGS		= $(ld_debug)
 PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
-DEFAULT_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
+DEFAULT_LD_LIBDIRS	= -L$(alpha_libdir)
 DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
 PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
@@ -323,12 +324,12 @@ all::	default debug profile
 install:: default $(INSTALL_DIR)/$(PROGRAM_DEFAULT)
 
 test: test_data default 
-	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha $(NAME)
+	 LD_LIBRARY_PATH=/usr/local/lib/alpha $(NAME)
 
 test_debug: test_data debug
 	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha $(NAME)_g
 
-test_data: clean_test_data
+test_data: data/FileStat.h.t.nnn.yyy.nnn
 	chgrp tools data/FileStat.01
 	(cd data; ln -s FileStat.01 FileStat.l1)
 	-touch data/FileStat.set
@@ -377,6 +378,10 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.7  1996/05/01 11:34:33  houghton
+# Restructure directories to Test01/src and Test01/data
+# Added TEST_DATA_DIR define.
+#
 # Revision 2.6  1996/05/01 11:05:07  houghton
 # Changed to use MakeConfigs 5
 #

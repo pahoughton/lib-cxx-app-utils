@@ -33,7 +33,7 @@ INSTALL_INCDIR	= $(alpha_incdir)
 
 VER_MAJOR	= 2
 VER_MINOR	= 01
-VER_RELEASE	= 00.a.1
+VER_RELEASE	= 00.a.2
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -389,6 +389,10 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.10  1996/05/01 11:34:23  houghton
+# Restructure directories to Test01/src and Test01/data
+# Added TEST_DATA_DIR define.
+#
 # Revision 2.9  1996/05/01 11:00:00  houghton
 # Bug-Fix: Added c*shared flags to SHARED_C*FLAGS.
 # Changed version number.
