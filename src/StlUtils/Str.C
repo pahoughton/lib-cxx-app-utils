@@ -1094,6 +1094,8 @@ Str::read( istream & src )
 istream &
 Str::read( char * dest, int size )
 {
+  rdbuf()->readPrep();
+  
   return( istream::read( dest, size ) );
 }
 
@@ -1412,6 +1414,10 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/06/25 08:51:35  houghton
+// Change: read() - added call to rdbuf() readPrep - still need to
+// improve this.
+//
 // Revision 5.3  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //
