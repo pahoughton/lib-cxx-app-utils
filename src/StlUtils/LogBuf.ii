@@ -114,13 +114,10 @@ LogBuf::is_open( void ) const
 }
 
 inline
-const char *
+const FilePath &
 LogBuf::getLogFileName( void ) const
 {
-  if( is_file() )
-    return( logFileName );
-  else
-    return( "" );
+  return( logFileName );
 }
 
 inline
@@ -183,6 +180,10 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/03/02 12:48:05  houghton
+// Added getLogFileName().
+// Cleanup.
+//
 // Revision 4.2  1998/10/13 16:20:36  houghton
 // Bug-Fix: the Filter constructor was not initializing regex to 0 if
 //     there was no pattern.

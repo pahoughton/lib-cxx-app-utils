@@ -16,9 +16,11 @@
 // $Id$
 //
 
-#include "StlUtilsConfig.hh"
-#include "LogLevel.hh"
-#include "Str.hh"
+#include <StlUtilsConfig.hh>
+
+#include <LogLevel.hh>
+#include <FilePath.hh>
+
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -76,7 +78,7 @@ public:
   
   inline streambuf *	tee( streambuf * teeStreambuf );
   
-  inline const char *	getLogFileName( void ) const;
+  inline const FilePath &	getLogFileName( void ) const;
 
   filebuf *		open( const char *	name,
 			      ios::open_mode    mode,
@@ -153,7 +155,7 @@ protected:
 
   typedef vector< Filter > FilterList;
 
-  Str		    logFileName;
+  FilePath	    logFileName;
   size_t	    maxSize;
   size_t	    trimSize;
   ios::open_mode    openMode;
@@ -291,6 +293,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/03/02 12:47:59  houghton
+// Added getLogFileName().
+// Cleanup.
+//
 // Revision 4.1  1997/09/17 15:12:36  houghton
 // Changed to Version 4
 //
