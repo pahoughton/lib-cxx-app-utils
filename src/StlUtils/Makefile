@@ -128,6 +128,7 @@ CXX_C_SOURCES =				\
 	DateRangeWeekly.C               \
 	DateTime.C                      \
 	DateTimeUtils.C                 \
+	Directory.C			\
 	FileStat.C			\
 	FilePath.C                      \
 	IosOpenModeFromString.C		\
@@ -176,6 +177,7 @@ USER_HH_INCS	=			\
 	DateRangeWeekly.hh              \
 	DateTime.hh                     \
 	DateTimeUtils.hh                \
+	Directory.hh			\
 	DumpInfo.hh			\
 	FilePath.hh                     \
 	FileStat.hh			\
@@ -206,6 +208,7 @@ USER_II_INCS	=			\
 	DateRange.ii                    \
 	DateRangeDaily.ii               \
 	DateRangeWeekly.ii              \
+	Directory.ii			\
 	Param.ii                        \
 	SizeIt.ii                       \
 	SortOrder.ii			\
@@ -304,6 +307,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.21  1997/07/19 18:15:53  houghton
+# Added Directory.
+#
 # Revision 3.20  1997/05/02 12:18:08  houghton
 # Added libCommon_s to shdep libs.
 #
