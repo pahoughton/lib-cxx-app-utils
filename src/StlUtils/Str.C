@@ -437,9 +437,34 @@ Str::strip( const char * stripChars )
 {
   const char * bufStart = cstr();
   char * destStart = rdbuf()->pbase();
-  char * srcStart =  destStart + find_first_not_of( stripChars );
-  char * srcEnd = strpbrk( srcStart, stripChars );
 
+  size_type firstNonStrip = find_first_not_of( stripChars );
+
+  if( firstNonStrip == NPOS )
+    {
+      // strip all
+      reset();
+      return( size() );
+    }
+  
+  char * srcStart =  destStart + firstNonStrip;
+  char * srcEnd   = strpbrk( srcStart, stripChars );
+
+  if( ! srcEnd )
+    {
+      if( destStart != srcStart )
+	{
+	  memmove( destStart, srcStart, size() - firstNonStrip );
+	  seekp( size() - firstNonStrip );
+	  return( size() );
+	}
+      else
+	{
+	  // do NOT strip any
+	  return( size() );
+	}
+    }
+  
   if( destStart != srcEnd )
     {
       if( destStart != srcStart )
@@ -1217,6 +1242,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1997/12/29 14:00:32  houghton
+// Bug-Fix: strip() was not handling all cases correctly.
+//
 // Revision 4.3  1997/12/19 14:00:42  houghton
 // Port(Sun5): fixed for warning about hiding 'matches'.
 //
