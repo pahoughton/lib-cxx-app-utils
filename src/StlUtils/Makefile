@@ -196,6 +196,7 @@ C_SOURCES	=			\
 CXX_C_SOURCES	=			\
 	Bitmask.C                       \
 	ClassVersion.C                  \
+	CommaNum.C			\
 	DateRange.C                     \
 	DateRangeDaily.C                \
 	DateRangeWeekly.C               \
