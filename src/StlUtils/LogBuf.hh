@@ -37,20 +37,20 @@ public:
 
   typedef long	FilterId;
   
-  inline LogBuf( LogLevel::Level   outLevel,
+  LogBuf( LogLevel::Level   outLevel,
 		 streambuf * 	   outStream );
 
-  inline LogBuf( const char * 	outLevel,
+  LogBuf( const char * 	outLevel,
 		 streambuf * 	outStream );
 
-  inline LogBuf( const char *	    fileName,
+  LogBuf( const char *	    fileName,
 		 LogLevel::Level    outLevel = LogLevel::Error, 
 		 ios::open_mode	    mode = ios::app,
 		 int		    prot = filebuf::openprot,
 		 size_t		    maxSize = 0,
 		 size_t		    trimSize = 0 );
   
-  inline LogBuf( const char *	    fileName,
+  LogBuf( const char *	    fileName,
 		 const char *	    outLevel,
 		 ios::open_mode	    mode = ios::app,
 		 int		    prot = filebuf::openprot,
@@ -89,14 +89,18 @@ public:
   inline bool		is_file( void ) const;
   inline bool		is_open( void ) const;
   
-  inline bool		filter( const char * regex );
-  inline const char *	getFilter( void ) const;
+  bool		    filter( const char * regex );
+  const char *	    getFilter( void ) const;
   
-  FilterId		addFilter( streambuf *     destBuf,
-				   LogLevel::Level outputLevel,
-				   const char *    regex = 0 );
+  FilterId	    addFilter( streambuf *     destBuf,
+			       LogLevel::Level outputLevel,
+			       const char *    regex = 0 );
 
-  inline streambuf *	delFilter( FilterId id );
+  streambuf *	    getFilterStream( LogBuf::FilterId filter );
+  LogLevel::Level   getFilterLogLevel( LogBuf::FilterId filter );
+  const char *	    getFilterRegex( LogBuf::FilterId filter );
+  
+  streambuf *	    delFilter( FilterId id );
 
   inline bool		willOutput( LogLevel::Level lvl ) const;
   
@@ -283,6 +287,12 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/04/04 03:10:28  houghton
+// Changed constructors (and some other methods) to non-inline.
+// Added getFilterStream
+// Added getFilterLogLevel
+// Added getFilterRegex
+//
 // Revision 3.6  1997/04/02 13:44:33  houghton
 // Added getMaxSize().
 // Added getTrimSize().

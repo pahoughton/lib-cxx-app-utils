@@ -59,43 +59,43 @@ class Log : public ostream
 
 public:
 
-  inline Log( ostream & 	outStream = cout,
-	      LogLevel::Level 	outLevel = ( LogLevel::Error |
-					     LogLevel::Warn |
-					     LogLevel::Info ),
-	      bool		stampLevel = true,
-	      bool		stampTime = true,
-	      bool		stampLoc = true );
-
-  inline Log( ostream & 	outStream,
-	      const char *      outLevel,
-	      bool		stampLevel = true,
-	      bool		stampTime = true,
-	      bool		stampLoc = true ); 
+  Log( ostream & 	outStream = cout,
+       LogLevel::Level 	outLevel = ( LogLevel::Error |
+				     LogLevel::Warn |
+				     LogLevel::Info ),
+       bool		stampLevel = true,
+       bool		stampTime = true,
+       bool		stampLoc = true );
   
-  inline Log( const char * 	fileName,
-	      LogLevel::Level 	outLevel = ( LogLevel::Error |
-					     LogLevel::Warn |
-					     LogLevel::Info ),
-	      ios::open_mode	mode = ios::app,
-	      int		prot = filebuf::openprot,
-	      bool		stampLevel = true,
-	      bool		stampTime = true,
-	      bool		stampLoc = true,
-	      size_t		maxSize = 0,
-	      size_t		trimSize = 0 );
-	      
-  inline Log( const char * 	fileName,
-	      const char *	outLevel,
-	      ios::open_mode	mode = ios::app,
-	      int		prot = filebuf::openprot,
-	      bool		stampLevel = true,
-	      bool		stampTime = true,
-	      bool		stampLoc = true,
-	      size_t		maxSize = 0,
-	      size_t		trimSize = 0 );
+  Log( ostream & 	outStream,
+       const char *      outLevel,
+       bool		stampLevel = true,
+       bool		stampTime = true,
+       bool		stampLoc = true ); 
+  
+  Log( const char * 	fileName,
+       LogLevel::Level 	outLevel = ( LogLevel::Error |
+				     LogLevel::Warn |
+				     LogLevel::Info ),
+       ios::open_mode	mode = ios::app,
+       int		prot = filebuf::openprot,
+       bool		stampLevel = true,
+       bool		stampTime = true,
+       bool		stampLoc = true,
+       size_t		maxSize = 0,
+       size_t		trimSize = 0 );
+  
+  Log( const char * 	fileName,
+       const char *	outLevel,
+       ios::open_mode	mode = ios::app,
+       int		prot = filebuf::openprot,
+       bool		stampLevel = true,
+       bool		stampTime = true,
+       bool		stampLoc = true,
+       size_t		maxSize = 0,
+       size_t		trimSize = 0 );
 
-  inline ~Log( void );
+  ~Log( void );
 
   inline LogLevel::Level    getCurrent( void  ) const;
   inline LogLevel::Level    getOutput( void ) const;
@@ -140,23 +140,27 @@ public:
   inline size_t		    setTrimSize( size_t trimSize );
   inline size_t		    setMaxSize( size_t maxSize );
   
-  inline size_t		    trim( size_t maxSize = 0 );
+  size_t	    trim( size_t maxSize = 0 );
   
-  inline void		    open( const char *	    fileName,
-				  ios::open_mode    mode = ios::app );
+  void		    open( const char *	    fileName,
+			  ios::open_mode    mode = ios::app );
   
-  inline void		    setFileName( const char *	    fileName,
-					 ios::open_mode	    mode = ios::app );
+  void		    setFileName( const char *	    fileName,
+				 ios::open_mode	    mode = ios::app );
   
-  inline void		    close( void );
+  void		    close( void );
 
-  inline bool		    filter( const char * regex );
+  bool		    filter( const char * regex );
   
-  inline LogBuf::FilterId   addFilter( streambuf *     destBuf,
-				       LogLevel::Level outputLevel,
-				       const char *    regex = 0 );
+  LogBuf::FilterId  addFilter( streambuf *     destBuf,
+			       LogLevel::Level outputLevel,
+			       const char *    regex = 0 );
 
-  inline streambuf *	    delFilter( LogBuf::FilterId id );
+  streambuf *	    getFilterStream( LogBuf::FilterId filter );
+  LogLevel::Level   getFilterLogLevel( LogBuf::FilterId filter );
+  const char *	    getFilterRegex( LogBuf::FilterId filter );
+  
+  streambuf *	    delFilter( LogBuf::FilterId id );
 
   
   inline LogBuf *	    rdbuf( void );
@@ -623,6 +627,12 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/04/04 03:09:35  houghton
+// Changed constructors (and some other methods) to non-inline.
+// Added getFilterStream
+// Added getFilterLogLevel
+// Added getFilterRegex
+//
 // Revision 3.4  1997/04/02 13:43:45  houghton
 // Added getLevelStamp().
 // Added getTimeStamp().

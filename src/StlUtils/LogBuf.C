@@ -37,6 +37,82 @@ const LogBuf::FilterId    LogBuf::badFilterId = -1;
 // LogBuf is the streambuf for the log
 //
 
+LogBuf::LogBuf(
+  LogLevel::Level   outLevel,
+  streambuf *	    outStream
+  )
+  : maxSize( 0 ),
+    trimSize( 0 ),
+    streamIsFile( false ),
+    buffer( 0 ),
+    stream( 0 ),
+    teeStream( 0 ),
+    logLevel( outLevel ),
+    regex( 0 ),
+    newMesg( true )
+{
+  initbuf( outStream );
+}
+
+LogBuf::LogBuf(
+  const char * 	outLevel,
+  streambuf *	outStream
+  )
+  : maxSize( 0 ),
+    trimSize( 0 ),
+    streamIsFile( false ),
+    buffer( 0 ),
+    stream( 0 ),
+    teeStream( 0 ),
+    logLevel( outLevel ),
+    regex( 0 ),
+    newMesg( true )
+{
+  initbuf( outStream );
+}
+
+LogBuf::LogBuf(
+  const char *	    fileName,
+  LogLevel::Level   outLevel,
+  ios::open_mode    mode,
+  int		    prot,
+  size_t	    logMaxSize,
+  size_t	    logTrimSize
+  )
+  : maxSize( 0 ),
+    trimSize( 0 ),
+    streamIsFile( false ),
+    buffer( 0 ),
+    stream( 0 ),
+    teeStream( 0 ),
+    logLevel( outLevel ),
+    regex( 0 ),
+    newMesg( true )
+{
+  initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
+}
+  
+LogBuf::LogBuf(
+  const char *	    fileName,
+  const char *      outLevel,
+  ios::open_mode    mode,
+  int		    prot,
+  size_t	    logMaxSize,
+  size_t	    logTrimSize
+  )
+  : maxSize( 0 ),
+    trimSize( 0 ),
+    streamIsFile( false ),
+    buffer( 0 ),
+    stream( 0 ),
+    teeStream( 0 ),
+    logLevel( outLevel ),
+    regex( 0 ),
+    newMesg( true )
+{
+  initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
+}
+
 LogBuf::~LogBuf( void )
 {
   close();
@@ -170,6 +246,75 @@ LogBuf::addFilter(
   return( f );
 }
 	  
+bool
+LogBuf::filter( const char * regexStr )
+{
+  sync();
+  if( regex )
+    {     
+      delete regex;
+      regex = 0;
+    }
+
+  if( regexStr )
+    {
+      regex = new RegexScan( regexStr, true );
+      newMesg = false;
+    }
+  
+  return( regex != 0 && regex->good() );
+}
+
+const char *
+LogBuf::getFilter( void ) const
+{
+  return( regex ? regex->getPattern() : 0 );
+}
+
+streambuf *
+LogBuf::getFilterStream( LogBuf::FilterId id )
+{
+  if( id < (long)filters.size() )
+    return( filters[id].dest );
+  else
+    return( 0 );
+}
+
+LogLevel::Level
+LogBuf::getFilterLogLevel( LogBuf::FilterId id )
+{
+  if( id < (long)filters.size() )
+    return( filters[id].outputLevel );
+  else
+    return( LogLevel::None );
+}
+
+const char *
+LogBuf::getFilterRegex( LogBuf::FilterId id )
+{
+  if( id < (long)filters.size() )
+    return( filters[id].regex ?
+	    filters[id].regex->getPattern() : 0 );
+  else
+    return( 0 );
+}
+  
+streambuf *
+LogBuf::delFilter( FilterId id )
+{
+  sync();
+  streambuf * dest = 0;
+  if( id < (long)filters.size() && filters[id].dest != 0 )
+    {
+      dest = filters[id].dest;
+      filters[id].dest = 0;
+      if( filters[id].regex )
+	delete filters[id].regex;
+      filters[id].regex = 0;
+    }
+  return( dest );
+}
+
 int 
 LogBuf::overflow( int c )
 {
@@ -528,6 +673,12 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/04/04 03:10:09  houghton
+// Changed constructors (and some other methods) to non-inline.
+// Added getFilterStream
+// Added getFilterLogLevel
+// Added getFilterRegex
+//
 // Revision 3.4  1997/03/03 19:00:06  houghton
 // Cleanup sync funct (while tracking a bug under AIX).
 //
