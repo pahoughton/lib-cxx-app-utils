@@ -1,7 +1,9 @@
 .depend_debug
 .depend_default
 .depend_profile
+Templates.DB
 Test
 Test_g
+ir.out
 objects
 test_data
