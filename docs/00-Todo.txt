@@ -13,6 +13,10 @@
 # See End of file for format specs
 #
 
+ENH Paul A. Houghton 08/11/97 09:02
+also verify performance of current implementation against
+using memchr.
+
 ENH Paul A. Houghton 08/08/97 06:48
 Test Param arg file processing.
 
@@ -97,6 +101,11 @@ Grab TempFileName from lib Common and use it.
 
 === COMPLETED ===
 
+ENH Paul A. Houghton 08/11/97 09:02
+test StringFirstNotOf.
+document StringFirstNotOf.
+COMP Paul A. Houghton 08/12/97 05:05
+
 ADM Paul Houghton 11/10/95 12:11
 Move 00-Tested from test/ to docs/
 COMP Paul Houghton 05/24/96 06:50
@@ -159,6 +168,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 3.5  1997/08/12 11:11:23  houghton
+# *** empty log message ***
+#
 # Revision 3.4  1997/08/08 13:29:35  houghton
 # *** empty log message ***
 #
