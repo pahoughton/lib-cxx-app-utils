@@ -57,7 +57,7 @@ install_lib_all:
 
 install install_all::
 
-check::
+check:: test
 	$(call make_subdirs,$@,$(PRJ_TOPDIR)/test,$($(@)_exports) $(exports))
 
 
