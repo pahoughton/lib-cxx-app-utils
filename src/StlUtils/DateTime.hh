@@ -92,6 +92,7 @@ public:
   inline const char *	getString( char * buf = 0, const char * fmt = 0 ) const;
   inline const char *	getString( char * buf = 0, const char * fmt = 0 );
   const char *		getYYYYMMDD( void ) const;
+  const char *		getHHMMSS( void ) const;
   
   inline short	    	getOffset( void ) const;
   inline bool	    	isLocal( void ) const;
@@ -676,6 +677,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/10/13 15:17:04  houghton
+// Added getHHMMSS( void ).
+//
 // Revision 4.3  1998/01/22 18:30:17  houghton
 // Added setValidYYYYMMDD().
 //

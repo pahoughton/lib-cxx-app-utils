@@ -196,6 +196,21 @@ DateTime::getYYYYMMDD( void ) const
   return( yyyymmdd );
 }
 
+const char *
+DateTime::getHHMMSS( void ) const
+{
+  static char hhmmss[ 8 ];
+
+  const struct tm * tmTime = ( flags.tmValid ? &tm : gmtime( &seconds ) );
+  
+  sprintf( hhmmss, "%02d:%02d:%02d",
+	   tmTime->tm_hour,
+	   tmTime->tm_min,
+	   tmTime->tm_sec );
+
+  return( hhmmss );
+
+}
 	   
 // setValid - verify input and set 
 time_t
@@ -837,6 +852,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1998/10/13 15:16:55  houghton
+// Added getHHMMSS( void ).
+//
 // Revision 4.5  1998/01/22 18:42:56  houghton
 // Bug-Fix: changed set() to verify month and day are > 0.
 //
