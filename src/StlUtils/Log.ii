@@ -82,18 +82,18 @@ Log::operator () ( const char * lvl, const char * srcFile, long srcLine )
 
 inline
 void
-Log::on( const LogLevel::Level & out )
+Log::on( const LogLevel::Level & outLvl )
 {
   rdbuf()->sync();
-  rdbuf()->setOutputLevel( getOutput() | out );
+  rdbuf()->setOutputLevel( getOutput() | outLvl );
 }
 
 inline
 void
-Log::off( const LogLevel::Level & out )
+Log::off( const LogLevel::Level & outLvl )
 {
   rdbuf()->sync();
-  rdbuf()->setOutputLevel( getOutput() & ~out );
+  rdbuf()->setOutputLevel( getOutput() & ~outLvl );
 }
 
 inline
@@ -194,11 +194,11 @@ inline
 const LogBuf *
 Log::rdbuf( void ) const
 {
-#ifdef AIX
+#if defined( AIX41 ) || defined( Sun5 )
   // aix does not have a const rdbuf
   return( (const LogBuf *)(bp) );
 #else
-  return( (LogBuf *)(ios::rdbuf()) );
+  return( (const LogBuf *)(ios::rdbuf()) );
 #endif
   
 }
@@ -235,6 +235,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/07/18 19:22:39  houghton
+// Port(Sun5): changed local variable names to eliminate compiler warnings.
+//
 // Revision 3.7  1997/05/02 12:15:35  houghton
 // Bug-Fix: changed commonLevelMap to a * to remove any posibilities of
 //     problems with static instanciation.

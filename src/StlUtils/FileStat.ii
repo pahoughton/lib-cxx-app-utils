@@ -422,9 +422,9 @@ FileStat::operator () ( const char * fileName )
 
 inline
 FileStat &
-FileStat::operator () ( int fd, bool keepName )
+FileStat::operator () ( int f, bool keepName )
 {
-  return( stat( fd, keepName ) );
+  return( stat( f, keepName ) );
 }
 
 inline
@@ -480,6 +480,9 @@ operator << ( ostream & dest, const FileStat & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/07/18 19:17:40  houghton
+// Port(Sun5): changed local variable names to eliminate compiler warnings.
+//
 // Revision 3.2  1997/06/09 12:02:17  houghton
 // Changed 'getName' to return a FilePath.
 // Changed to use size_type (vs size_t).

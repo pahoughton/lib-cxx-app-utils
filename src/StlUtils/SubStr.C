@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/07/18 19:30:08  houghton
+// Port(Sun5): changed local variable names to eliminate compiler warnings.
+//
 // Revision 3.2  1996/11/20 12:13:02  houghton
 // Removed support for BinStream.
 //
@@ -60,12 +63,12 @@ Str SubStr::dummyStr("dummy");
 
 
 int
-SubStr::compare( const Str & two, size_t start, size_t len ) const
+SubStr::compare( const Str & two, size_t start, size_t compLen ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_t oneLen = min( size() - start, compLen );
+  size_t twoLen = min( two.size(), compLen );
 
   int diff = strncmp( strbase() + start, two.strbase(), min( oneLen, twoLen ) );
 
@@ -73,12 +76,12 @@ SubStr::compare( const Str & two, size_t start, size_t len ) const
 }
 
 int
-SubStr::compare( const SubStr & two, size_t start, size_t len ) const
+SubStr::compare( const SubStr & two, size_t start, size_t compLen ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_t oneLen = min( size() - start, compLen );
+  size_t twoLen = min( two.size(), compLen );
 
   int diff = strncmp( strbase() + start, two.strbase(), min( oneLen, twoLen ) );
 
@@ -87,12 +90,12 @@ SubStr::compare( const SubStr & two, size_t start, size_t len ) const
 
 
 int
-SubStr::compare( const char * two, size_t start, size_t len ) const
+SubStr::compare( const char * two, size_t start, size_t compLen ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( strlen( two ), len );
+  size_t oneLen = min( size() - start, compLen );
+  size_t twoLen = min( strlen( two ), compLen );
 
   int diff = strncmp( strbase() + start, two, min( oneLen, twoLen ) );
 
@@ -100,12 +103,12 @@ SubStr::compare( const char * two, size_t start, size_t len ) const
 }
 
 int
-SubStr::fcompare( const Str & two, size_t start, size_t len ) const
+SubStr::fcompare( const Str & two, size_t start, size_t compLen ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_t oneLen = min( size() - start, compLen );
+  size_t twoLen = min( two.size(), compLen );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				min( oneLen, twoLen ) );
@@ -114,12 +117,12 @@ SubStr::fcompare( const Str & two, size_t start, size_t len ) const
 }
 
 int
-SubStr::fcompare( const SubStr & two, size_t start, size_t len ) const
+SubStr::fcompare( const SubStr & two, size_t start, size_t compLen ) const
 {
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( two.size(), len );
+  size_t oneLen = min( size() - start, compLen );
+  size_t twoLen = min( two.size(), compLen );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				min( oneLen, twoLen ) );
@@ -128,10 +131,10 @@ SubStr::fcompare( const SubStr & two, size_t start, size_t len ) const
 }  
 
 int
-SubStr::fcompare( const char * two, size_t start, size_t len ) const
+SubStr::fcompare( const char * two, size_t start, size_t compLen ) const
 {
-  size_t oneLen = min( size() - start, len );
-  size_t twoLen = min( strlen( two ), len );
+  size_t oneLen = min( size() - start, compLen );
+  size_t twoLen = min( strlen( two ), compLen );
 
   int diff = StringCaseCompare( strbase() + start, two,
 				min( oneLen, twoLen ) );

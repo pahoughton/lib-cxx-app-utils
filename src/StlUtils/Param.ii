@@ -124,10 +124,10 @@ inline
 bool
 Param::readArgs( const char * fileName )
 {
-  ifstream  argFile( fileName );
+  ifstream  in( fileName );
 
-  if( argFile.good() )
-    return( readArgs( argFile ) );
+  if( in.good() )
+    return( readArgs( in ) );
   else
     return( false );
 }
@@ -176,6 +176,9 @@ operator<<( ostream & dest, const Param & obj )
 // 
 //
 // $Log$
+// Revision 3.7  1997/07/18 19:25:48  houghton
+// Port(Sun5): changed local variable names to eliminate compiler warnings.
+//
 // Revision 3.6  1997/04/04 20:54:54  houghton
 // Cleanup.
 //
