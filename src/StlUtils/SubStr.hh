@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/05/03 16:13:49  houghton
+// AIX Port cleanup.
+//
 // Revision 2.4  1996/02/29 19:07:29  houghton
 // Added some ifndefs for GNU
 //
@@ -224,15 +227,12 @@ operator + ( const char * lhs, const SubStr & rhs );
 bool
 operator == ( const char * lhs, const SubStr & rhs );
 
-#if !defined( __GNUC__ )
 bool
 operator != ( const char * lhs, const SubStr & rhs );
-#endif
 
 bool
 operator <  ( const char * lhs, const SubStr & rhs );
 
-#if !defined( __GNUC__ )
 bool
 operator >  ( const char * lhs, const SubStr & rhs );
 
@@ -241,7 +241,6 @@ operator <= ( const char * lhs, const SubStr & rhs );
 
 bool
 operator >= ( const char * lhs, const SubStr & rhs );
-#endif
 
 
 bool	    	StringToBool( const SubStr & str );

@@ -16,6 +16,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/05/03 16:13:41  houghton
+// AIX Port cleanup.
+//
 // Revision 2.5  1996/04/27 13:08:50  houghton
 // Cleanup includes.
 //
@@ -499,9 +502,7 @@ public:
 
   inline bool       operator !=  ( const Str & rhs ) const;
   inline bool	    operator !=  ( const SubStr & rhs ) const;
-#if !defined(__GNUC__)
   inline bool	    operator !=  ( const char * rhs ) const;
-#endif
   
   inline bool       operator >  ( const Str & rhs ) const;
   inline bool	    operator >  ( const SubStr & rhs ) const;
@@ -513,9 +514,7 @@ public:
   
   inline bool       operator >= ( const Str & rhs ) const;
   inline bool	    operator >= ( const SubStr & rhs ) const;
-#if !defined( __GNUC__ )
   inline bool	    operator >= ( const char * rhs ) const;
-#endif
   
   // libClue Common Class Methods
   
@@ -620,15 +619,12 @@ operator + ( const char * lhs, const Str & rhs );
 bool
 operator == ( const char * lhs, const Str & rhs );
 
-#if !defined( __GNUC__ )
 bool
 operator != ( const char * lhs, const Str & rhs );
-#endif
 
 bool
 operator <  ( const char * lhs, const Str & rhs );
 
-#if !defined( __GNUC__ )
 bool
 operator >  ( const char * lhs, const Str & rhs );
 
@@ -637,7 +633,6 @@ operator <= ( const char * lhs, const Str & rhs );
 
 bool
 operator >= ( const char * lhs, const Str & rhs );
-#endif
 
 istream &
 getline( istream & src, Str & dest, char delim = '\n' );
