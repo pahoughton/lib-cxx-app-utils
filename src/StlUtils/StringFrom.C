@@ -19,8 +19,12 @@
 // Revision History: (See end of file for Revision Log)
 //
 
+#if defined( CLUE_THREADS )
+#error Mutex needed
+#endif
+
 #include "StringUtils.hh"
-#include "Mutex.hh"
+// #include "Mutex.hh"
 #include <strstream.h>
 #include <cstring>
 #include <cctype>
@@ -30,7 +34,7 @@ CLUE_FUNCT_VERSION(
   "$Id$" );
 
 static char	NumBuf[ 129 ];
-static Mutex	NumBufMutex;
+//static Mutex	NumBufMutex;
 
 
 template< class NumT >
@@ -46,7 +50,7 @@ _ClueStringUnsignedFrom(
   // We work from back to front!
   // and return front. So start by null terminating the string.
 
-  NumBufMutex.lock();
+  //  NumBufMutex.lock();
   
   *end = 0;
   
@@ -83,7 +87,7 @@ _ClueStringUnsignedFrom(
   else
     ++end; // one to far;
 
-  NumBufMutex.unlock();
+  // NumBufMutex.unlock();
   
   return( end ); // which is now the front.
 }
@@ -153,15 +157,18 @@ StringFrom( double num, short prec )
   tmp.precision( prec );
 
   tmp << num << ends;
-  NumBufMutex.lock();
+  //  NumBufMutex.lock();
   strcpy( NumBuf, tmp.str() );
-  NumBufMutex.unlock();
-  tmp.freeze(0);
+  //  NumBufMutex.unlock();
+  tmp.rdbuf()->freeze(0);
   return( NumBuf );
 }
 
 //
 // $Log$
+// Revision 1.2  1996/11/24 19:06:58  houghton
+// Commented out mutex support for rpm (temporary).
+//
 // Revision 1.1  1996/11/19 12:26:58  houghton
 // Initial Version.
 //
