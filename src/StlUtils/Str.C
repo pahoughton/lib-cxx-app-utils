@@ -1015,11 +1015,13 @@ Str::write( const unsigned char * src, int size )
   return( ostream::write( src, size ) );
 }
 
+#if !defined( Hpux10 )
 ostream &
 Str::write( const wchar_t * src, int size )
 {
   return( ostream::write( src, size ) );
 }
+#endif
 
 ostream &
 Str::write( const void * src, size_type size )
@@ -1288,6 +1290,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.7  1998/07/20 11:26:47  houghton
+// Port(Hpux): wchar not supported.
+//
 // Revision 4.6  1998/03/23 10:45:23  houghton
 // Changed to eliminate Sun5 compiler warnings.
 //

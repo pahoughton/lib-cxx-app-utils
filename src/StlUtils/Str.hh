@@ -556,7 +556,9 @@ public:
   // from ostream
   virtual ostream &	write( const char * src, int size );
   virtual ostream &	write( const unsigned char * src, int size );
+#if !defined( Hpux10 )
   virtual ostream &	write( const wchar_t * src, int size );
+#endif
   virtual ostream &	write( const void * src, size_type size );
   
   virtual istream & 	read( istream & src );
@@ -1754,6 +1756,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.7  1998/07/20 11:26:53  houghton
+// Port(Hpux): wchar not supported.
+//
 // Revision 4.6  1998/04/02 14:18:13  houghton
 // Port(Linux): functional.h implements != operator.
 //
