@@ -82,9 +82,13 @@ public:
 
   filebuf *		open( const char *	name,
 			      ios::open_mode    mode,
-			      int	        prot = 0664,
-			      size_t	        maxSize = 0,
-			      size_t	        trimSize = 0 );
+			      int	        prot,
+			      size_t	        maxSize,
+			      size_t	        trimSize );
+  
+  filebuf *		open( const char *	name,
+			      ios::open_mode    mode,
+			      int	        prot = 0664 );
   
   void			close (void);
   
@@ -293,6 +297,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/11/09 11:01:33  houghton
+// Added open( name, mode, prot ).
+//
 // Revision 4.3  1999/05/01 12:52:45  houghton
 // Cleanup.
 //

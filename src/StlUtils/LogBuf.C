@@ -181,14 +181,29 @@ LogBuf::open(
 
  maxSize = logMaxSize;
  trimSize = logTrimSize;
+ return( open( name, mode, prot ) );
+}
+
+filebuf *
+LogBuf::open(
+    const char *    name,
+    ios::open_mode  mode,
+    int		    prot
+    )
+{
+  if( stream != 0 && is_file() )
+    {
+      close();
+    }
+
  logFileName = name;
  openMode = mode;
  openProt = prot;
 
  FileStat  stat( logFileName );
   
- if( logMaxSize && stat.good() && ( (size_t)stat.getSize() > logMaxSize ) )
-   trimLog( stat.getSize(), logMaxSize );
+ if( maxSize && stat.good() && ( (size_t)stat.getSize() > maxSize ) )
+   trimLog( stat.getSize(), maxSize );
  else
    openLog( mode );
  
@@ -703,6 +718,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/11/09 11:01:30  houghton
+// Added open( name, mode, prot ).
+//
 // Revision 4.1  1997/09/17 15:12:34  houghton
 // Changed to Version 4
 //
