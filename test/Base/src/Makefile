@@ -132,6 +132,10 @@ CXX_SOURCES	=			\
 	tWithCommon.C			\
 	tWithCommon01.C			\
 	tWithCommon02.C			\
+	tWithWcf.C			\
+	tWithWcf01.C			\
+	tWithWcf02.C			\
+
 
 
 hold = \
@@ -170,7 +174,8 @@ PRJINCDIR	= -I../src \
 		  -I../arch/$(arch)/src \
 		  -I../arch/$(arch)/stdc++ \
 		  -I../arch/Unix/src \
-		  -I/home/houghton/prj/generic/libCommon/src
+		  -I/home/houghton/prj/generic/libCommon/src \
+		  -I/home/houghton/prj/CommFabric/src 
 
 
 INCDIRS		= $(SRCINCDIR)	\
@@ -191,7 +196,7 @@ INSTALL_BIN_FLAGS   = -m 775
 #
 
 LDLIBS		= -L../src -lClue \
-		  -I/home/houghton/prj/generic/libCommon/src -lCommon \
+		  -L/home/houghton/prj/generic/libCommon/src -lCommon \
 		  -lm
 
 ifeq ($(arch),Linux)
@@ -250,7 +255,7 @@ include .depend.prog
 
 # 
 # $Log$
-# Revision 1.5  1995/11/05 15:29:35  houghton
+# Revision 1.6  1995/11/05 16:04:20  houghton
 # Revised
 #
 # Revision 1.2  1995/02/13  17:35:10  houghton

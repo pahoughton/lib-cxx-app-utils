@@ -12,7 +12,7 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.4  1995/11/05 15:49:26  houghton
+// Revision 1.5  1995/11/05 16:04:15  houghton
 // Revised
 //
 //
@@ -113,6 +113,8 @@ public:
   bool			setUser( uid_t uid );
   bool			setGroup( gid_t gid );
   bool			setOwner( uid_t uid, gid_t gid );
+
+  inline int		getSysError( void ) const;
   
   inline FileStat & 	operator () ( const char * fileName );
   inline FileStat & 	operator () ( int fd, bool keepName = false );

@@ -10,7 +10,7 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.4  1995/11/05 15:29:37  houghton
+// Revision 1.5  1995/11/05 16:04:21  houghton
 // Revised
 //
 //
@@ -87,6 +87,8 @@ bool	tParam( LibTest & tester );
 
 // libClue works with LibCommon
 bool	tWithCommon( LibTest & tester );
+// libClue works with Wcf
+bool	tWithWcf( LibTest & tester );
 
 // Components
 bool tCompare01( LibTest & test );
@@ -187,6 +189,7 @@ LibTest::TestItem   TestList[] =
   { "Log",		    tLog },
   { "Param",		    tParam },
   { "WithCommon",	    tWithCommon },
+  { "WithWcf",		    tWithWcf },
 #if 0
 #endif
 #ifdef COMPONENT_TEST

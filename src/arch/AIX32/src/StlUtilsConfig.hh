@@ -11,7 +11,7 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 15:29:30  houghton
+// Revision 1.3  1995/11/05 16:04:10  houghton
 // Revised
 //
 //
@@ -27,29 +27,6 @@
 
 #define CLUE_STRBUF_CONST_RDBUF
 #define CLUE_STRBUF_PBASE
-
-#if defined( HAVE_BOOL )
-#error "HAVE_BOOL already defined"
-#else
-#define HAVE_BOOL
-
-class bool
-{
-public:
-
-  bool( int v = 0 ) { value = v; }
-  operator int ( void ) const { return( value ); }
-  bool & operator = ( int v ) { value = v; return(*this); }
-  
-private:
-  
-  int  value;
-};
-
-extern bool true;
-extern bool false;
-
-#endif
 
 #if defined( NPOS )
 #error "NPOS already defined"
@@ -71,7 +48,7 @@ extern bool false;
 #define CLUE_DIR_DELIM '/'
 #endif
 
-
+#include <AnsiBool.hh>
 #include <ClueVersion.hh>
 #include <ClassVersion.hh>
 #include <ClueExceptions.hh>

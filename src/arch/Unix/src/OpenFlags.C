@@ -10,16 +10,24 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 12:23:03  houghton
-// Initial OpenFlags Implementation
+// Revision 1.2  1995/11/05 16:04:16  houghton
+// Revised
 //
 //
-static const char * RcsId =
-"$Id$";
 
-
+#if !defined( CLUE_SHORT_FN )
+#include <ClueConfig.hh>
 #include <iostream>
 #include <fcntl.h>
+#else
+#include <ClueCfg.hh>
+#include <iostream>
+#include <fcntl.h>
+#endif
+
+CLUE_FUNCT_VERSION(
+  OpenFlags,
+  "$Id$" );
 
 int
 OpenFlags( ios::open_mode openMode )

@@ -10,7 +10,7 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 15:28:49  houghton
+// Revision 1.4  1995/11/05 16:04:05  houghton
 // Revised
 //
 //
@@ -34,10 +34,6 @@ CLUE_VERSION(
   StrStreambuf,
   "$Id$" );
 
-
-StrStreambuf::StrStreambuf( void )
-{
-}
 
 const char *
 StrStreambuf::getClassName( void ) const

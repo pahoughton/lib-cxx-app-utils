@@ -12,8 +12,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:52  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 16:04:06  houghton
+// Revised
 //
 //
 
@@ -26,7 +26,11 @@ inline
 char * 
 SafeStrcpy( char * dest, const char * src, size_t size )
 {
-  strncpy( dest, src, size );
+  if( src )
+    strncpy( dest, src, size );
+  else
+    dest[0] = 0;
+  
   dest[size-1] = 0;
   return( dest );
 }
