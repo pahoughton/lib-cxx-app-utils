@@ -1,24 +1,23 @@
+# -*- makefile -*- for tClue
 #
-# -*- Makefile -*- for t
-#
-# Created: 1/4/96 using MakeConfigs 4.00.00.a.12
+# Created: 4/28/96 using MakeConfigs 5.01.00.a.03
 #
 # $Id$
 #
 # (see end of file for Log info)
 
 #
-# Include standard MakeConfig configuration for GNU make required
-#
-
-#
 # Do not modifiy 'makefile_type'
-makefile_type = program
+makefile_type = prog
+# This is the make.cfg version that will be used
+make_cfg_ver	= 5.01
+# Default target type
+make_target	= default
 # Uncomment 'show_commands' to output compile command.
 show_commands = # true
 
 # Include standard MakeConfig configuration for GNU make required
-include Make/make.cfg.4.00
+include Make/make.cfg.$(make_cfg_ver)
 
 # 
 # =USE_CURRENT_MAKEFILE=
@@ -27,7 +26,7 @@ include Make/make.cfg.4.00
 # if you want it re-gen'd, just delete the tags
 #
 
-NAME		= t
+NAME		= Test
 
 INSTALL_BINDIR	= $(LOCAL_BIN_DIR)
 
@@ -37,74 +36,77 @@ VER_RELEASE	= 00.a.01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 PROGRAM_DEFAULT	= $(NAME)
-PROGRAM_DEBUG	= $(NAME)g
-PROGRAM_PROFILE	= $(NAME)pg
+PROGRAM_DEBUG	= $(NAME)_g
+PROGRAM_PROFILE	= $(NAME)_pg
+PROGRAM_STATIC	= $(NAME)_static
 
-include ../../src/arch/$(arch)/test/Makefile.Test
 
+PRJ_TOPDIR	= ../..
+
+# include any arch specific makefile component
+-include $(PRJ_TOPDIR)/src/arch/$(arch)/Makefile.$(NAME)
+
+VPATH		= $(ARCH_VPATH):.
 
 ###### D E F I N E S  #####
 # 
 # Config defines avalable
 #
-# $(X11_DEF)	    defines for X11
-# $(SYB_DEF)	    defines for SYB
 #
 
 
-SRCDEFINES	= 
-PRJDEFINES	= -DVERSION=\"$(VERSION)\"
+SRC_DEFINES	= 
+PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
-DEFINES		= $(PRJDEFINES) $(SRCDEFINES) 
+DEFAULT_DEFINES = -DTEST_DEFAULT=1
+DEBUG_DEFINES	= -DTEST_DEBUG=1 -DCLUE_DEBUG=1
+PROFILE_DEFINES	= -DTCLUE_PROFILE=1
+STATIC_DEFINES	= -DTCLUE_STATIC=1
 
 ######  I N C L U D E S #####
 #
-# Config includes available
+# Config includes available (need to use -I)
 #
-# $(X11_INC)
-# $(SYB_INC)
-# $(MALLOC_ALPHA_INC)	$(MMALLOC_BETA_INC)	$(MMALLOC_INC)
-# $(DATA_ALPHA_INC) 	$(DATA_BETA_INC) 	$(DATA_INC)
-# $(CLUE_ALPHA_INC)	$(CLUE_BETA_INC) 	$(CLUE_INC)
-# $(COMMON_ALPHA_INC)	$(COMMON_BETA_INC) 	$(COMMON_INC)
-# $(WT_ALPHA_INC) 	$(WT_BETA_INC) 		$(WT_INC)
-# $(WCF_ALPHA_INC) 	$(WCF_BETA_INC) 	$(WCF_INC)
-#
-# $(LOCAL_ALPHA_INC) 	$(LOCAL_BETA_INC) 	$(LOCAL_INC)
+# $(alpha_incdir) 	$(beta_incdir) 	$(local_incdir)
 #
 
 
-# TOPDIR	=
+SRC_INC		= $(ARCH_INC) -I. 
+PRJ_INC		= $($($(make_target))_PRJ_INC)
 
-CLUE_SRC_DIR	= ../../src/Clue 
-CLUE_INCDIR	= -I$(CLUE_SRC_DIR) \
-		  -I../../src/Clue1/src \
-		  -I../../src/arch/$(arch)/test
+DEFAULT_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
+DEBUG_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
+PROFILE_PRJ_INC = $(CLUE_SRC_INC) -I$(alpha_incdir)
+STATIC_PRJ_INC	= -I$(alpha_incdir)
 
-SRCINCDIR	= -I. $(CLUE_INCDIR) $(WCF_ALPHA_INC)
-PRJINCDIR	= 
+# Any other cpp flags to use on for all targets
 
-INCDIRS		= $(SRCINCDIR)	\
-		  $(PRJINCDIR)
+CPP_FLAGS		= $(ARCH_CPP_FLAGS)
 
 ###### C O M P I L E / C P P #####
 #
 # Config flags available
 #
-# $(CC_OPTIMIZE) $(CXX_OPTIMIZE)
-# $(CC_DEBUG)	 $(CXX_DEBUG)
-# $(CC_PROFILE)	 $(CXX_PROFILE)
-# $(CC_WARN)	 $(CXX_WARN)
+# $(cc_optimize) $(cxx_optimize)
+# $(cc_debug)	 $(cxx_debug)
+# $(cc_profile)	 $(cxx_profile)
+# $(cc_warn)	 $(cxx_warn)
 #
 
 
-CPPOTHER 	=
+CC_FLAGS		= $(cc_warn_all) $(ARCH_CC_FLAGS)
 
-CCDEBUG		= $(CC_OPTIMIZE)
-CCOTHER		= $(CC_WARN)
+DEFAULT_CC_FLAGS	= $(cc_optimize)
+DEBUG_CC_FLAGS		= $(cc_debug)
+PROFILE_CC_FLAGS	= $(cc_profile)
+STATIC_CC_FLAGS		= $(cc_optimize)
 
-CXXDEBUG	= $(CXX_OPTIMIZE)
-CXXOTHER	= $(CXX_WARN)
+CXX_FLAGS		= $(arch_cxx_flags) $(cxx_warn_all)
+
+DEFAULT_CXX_FLAGS	= $(cxx_optimize)
+DEBUG_CXX_FLAGS		= $(cxx_debug)
+PROFILE_CXX_FLAGS	= $(cxx_profile)
+STATIC_CXX_FLAGS	= $(cxx_optimize)
 
 # ##### I N S T A L L #####
 
@@ -114,38 +116,40 @@ INSTALL_BIN_FLAGS	=
 #
 # Config flags available
 #
-# $(LD_OPTIMIZE)
-# $(LD_DEBUG)
-# $(LD_PROFILE)
+# $(ld_optimize)
+# $(ld_debug)
+# $(ld_profile)
+# $(ld_static)
 #
-# Config libraryies available
+# Config library directories available (need to use -L)
 #
-# $(X11_LIBS)
-# $(XAW_LIBS)
-# $(XM_LIBS)
-# $(SYB_LIBS)
-# $(MALLOC_ALPHA_LIBS)	$(MMALLOC_BETA_LIBS)	$(MMALLOC_LIBS)
-# $(DATA_ALPHA_LIBS)	$(DATA_BETA_LIBS)	$(DATA_LIBS)
-# $(CLUE_ALPHA_LIBS)	$(CLUE_BETA_LIBS)	$(CLUE_LIBS)
-# $(COMMON_ALPHA_LIBS)	$(COMMON_BETA_LIBS)	$(COMMON_LIBS)
-# $(WT_ALPHA_LIBS)	$(WT_BETA_LIBS)		$(WT_LIBS)
-# $(WCF_ALPHA_LIBS)	$(WCF_BETA_LIBS)	$(WCF_LIBS)
-#
-# $(LOCAL_ALPHA_LDIR)	$(LOCAL_BETA_LDIR)	$(LOCAL_LDIR)
-#
-# $(X11_LDIR)
+# $(alpha_libdir)	$(beta_libdir)	$(local_libdir)
 #
 
 
-# remove comment on next line to use libraries with debuging info
-DEBUG_LIBS	= g
+LD_FLAGS		= $(ARCH_LD_FLAGS)
 
-LDDEBUG		= 
-LDOTHER		=
+DEFAULT_LD_FLAGS	= $(ld_optimize)
+DEBUG_LD_FLAGS		= $(ld_debug)
+PROFILE_LD_FLAGS	= $(ld_profile)
+STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
-LDLIBDIRS	= -L$(CLUE_SRC_DIR) -lClue$(DEBUG_LIBS) \
-                  $(COMMON_ALPHA_LIBS) -lm
-LDLIBS		= 
+DEFAULT_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
+DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
+PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
+STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
+
+DEFAULT_LD_LIBS		= -lClue -lCommon -lpthreads -lm
+DEBUG_LD_LIBS		= -lClue_g -lCommon -lpthreads -lm
+PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
+STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
+
+# DEP_LIBS - rebuild target if DEP_LIBS newer than target
+
+DEFAULT_DEP_LIBS	=
+DEBUG_DEP_LIBS		=
+PROFILE_DEP_LIBS	=
+STATIC_DEP_LIBS		=
 
 #
 # =USE_CURRENT_MAKEFILE=
@@ -155,76 +159,28 @@ LDLIBS		=
 
 CXX_C_SOURCES	=			\
 	main.C                          \
-	tBitmask.C                      \
-	tBitmask01.C                    \
-	tBitmask02.C                    \
-	tBitmask03.C                    \
-	tLog.C                          \
-	tLog01.C                        \
-	tLog02.C                        \
-	tLog03.C                        \
-	tLog04.C                        \
-	tLog05.C                        \
-	tLogLevel.C                     \
-	tParam.C                        \
-	tParam01.C                      \
-	tStrSet.C			\
-
-hold = \
-	main.C                          \
-	tAbsLong.C                      \
 	tArraySize.C                    \
+	tDwordAlign.C                   \
+	tMemOverlap.C                   \
+	tAbsLong.C                      \
+	tIsBaseDigit.C                  \
+	tUnionOf.C                      \
+	tRound.C                        \
 	tBit.C                          \
-	tBitmask.C                      \
-	tBitmask01.C                    \
-	tBitmask02.C                    \
-	tBitmask03.C                    \
-	tCharToInt.C                    \
 	tCompare.C                      \
 	tCompare01.C                    \
 	tCompare02.C                    \
-	tDateRange.C                    \
-	tDateRangeDaily.C               \
-	tDateRangeWeekly.C              \
-	tDateTime.C                     \
-	tDateTime01.C                   \
-	tDateTime02.C                   \
-	tDateTime03.C                   \
-	tDateTime04.C                   \
-	tDateTime05.C                   \
-	tDateTime06.C                   \
-	tDateTime07.C                   \
-	tDateTime08.C                   \
-	tDateTimeUtils.C                \
-	tDwordAlign.C                   \
-	tFilePath.C                     \
-	tFilePath01.C                   \
-	tFilePath02.C                   \
-	tFilePath03.C                   \
-	tFilePath04.C                   \
-	tFileStat.C                     \
-	tFileStat01.C                   \
-	tFileStat02.C                   \
-	tFileStat03.C                   \
-	tFileStat04.C                   \
-	tFileStat05.C                   \
-	tFileStat06.C                   \
-	tHeapBinStream.C                \
-	tIsBaseDigit.C                  \
-	tLog.C                          \
-	tLog01.C                        \
-	tLog02.C                        \
-	tLog03.C                        \
-	tLog04.C                        \
-	tLog05.C                        \
-	tLogLevel.C                     \
-	tMemOverlap.C                   \
-	tParam.C                        \
-	tParam01.C                      \
-	tRegexScan.C                    \
-	tRound.C                        \
+	tCharToInt.C                    \
 	tSafeStrcpy.C                   \
-	tSortOrder.C                    \
+	tStringCapitalize.C             \
+	tStringCaseCompare.C            \
+	tStringLower.C                  \
+	tStringSearch.C                 \
+	tStringTo.C                     \
+	tStringUpper.C                  \
+	tStripWhite.C                   \
+	tbasename.C                     \
+	tHeapBinStream.C		\
 	tStr.C                          \
 	tStr01.C                        \
 	tStr02.C                        \
@@ -252,13 +208,6 @@ hold = \
 	tStr24.C                        \
 	tStr25.C                        \
 	tStr26.C                        \
-	tStringCapitalize.C             \
-	tStringCaseCompare.C            \
-	tStringLower.C                  \
-	tStringSearch.C                 \
-	tStringTo.C                     \
-	tStringUpper.C                  \
-	tStripWhite.C                   \
 	tSubStr.C                       \
 	tSubStr01.C                     \
 	tSubStr02.C                     \
@@ -267,16 +216,57 @@ hold = \
 	tSubStr05.C                     \
 	tSubStr06.C                     \
 	tSubStr07.C                     \
-	tUnionOf.C                      \
+	tRegexScan.C                    \
+	tDateTimeUtils.C                \
+	tDateTime.C                     \
+	tDateTime01.C                   \
+	tDateTime02.C                   \
+	tDateTime03.C                   \
+	tDateTime04.C                   \
+	tDateTime05.C                   \
+	tDateTime06.C                   \
+	tDateTime07.C                   \
+	tDateTime08.C                   \
+	tDateRange.C                    \
+	tDateRangeDaily.C               \
+	tDateRangeWeekly.C              \
+	tBitmask.C                      \
+	tBitmask01.C                    \
+	tBitmask02.C                    \
+	tBitmask03.C                    \
+	tFilePath.C                     \
+	tFilePath01.C                   \
+	tFilePath02.C                   \
+	tFilePath03.C                   \
+	tFilePath04.C                   \
 	tUser.C                         \
 	tUserGroup.C                    \
+	tFileStat.C                     \
+	tFileStat01.C                   \
+	tFileStat02.C                   \
+	tFileStat03.C                   \
+	tFileStat04.C                   \
+	tFileStat05.C                   \
+	tFileStat06.C                   \
+	tLogLevel.C                     \
+	tLog.C                          \
+	tLog01.C                        \
+	tLog02.C                        \
+	tLog03.C                        \
+	tLog04.C                        \
+	tLog05.C                        \
+	tParam.C                        \
+	tParam01.C                      \
+	tSortOrder.C                    \
+
+hold = \
+	tStrSet.C                       \
 	tWithCommon.C                   \
 	tWithCommon01.C                 \
 	tWithCommon02.C                 \
 	tWithWcf.C                      \
 	tWithWcf01.C                    \
 	tWithWcf02.C                    \
-	tbasename.C                     \
 	$(ARCH_CXX_C_SOURCES)           \
 
 
@@ -310,7 +300,7 @@ CXX_HEADERS	=			\
 # Targets defined in make.cfg.targets.
 #
 # default: 	all
-# depend:	create .depend
+# depend:	create .depend_default
 # profile:	MAKE CCDEBUG=CC_PROFILE all
 # proto:	create $(PROTO_H)
 # clean:  	rm -f LIB_OBJECTS LIBRARY
@@ -319,52 +309,76 @@ CXX_HEADERS	=			\
 #
 
 
-include Make/make.cfg.targets.4.00
+include Make/make.cfg.targets.$(makefile_type).$(make_cfg_ver)
 
 default debug profile:: proto
 
-default:: objects/default $(PROGRAM_DEFAULT)
+default:: $(PROGRAM_DEFAULT)
+
+debug prifle static::
+	$(hide) $(MAKE) make_target=$@ $(PROGRAM_$($@))
 
 all::	default debug profile
 
-debug:: objects/debug
-	$(HIDE) $(MAKE) SRCDEFINES='-DCLUE_DEBUG=1' \
-			CCDEBUG='$(CC_DEBUG)' \
-			CXXDEBUG='$(CXX_DEBUG)' \
-			LDDEBUG='$(LD_DEBUG)' \
-			$(PROGRAM_DEBUG)
-
-profile:: objects/profile
-	$(HIDE) $(MAKE) CCDEBUG='$(CC_PROFILE)' \
-			CXXDEBUG='$(CXX_PROFILE)' \
-			LDDEBUG='$(LD_PROFILE)'
-			$(PROGRAM_PROFILE)
-
-$(PROGRAM_DEFAULT):: $(OBJECTS:%=objects/default/%)
-	$(LDXX) $(LDXX_FLAGS) $^ $(LDXX_LIBS) -o $@
-
-$(PROGRAM_DEBUG):: $(OBJECTS:%=objects/debug/%) ../../src/Clue/libClueg.a
-	$(LDXX) $(LDXX_FLAGS) $^ $(LDXX_LIBS) -o $@
-
-$(PROGRAM_PROFILE):: $(OBJECTS:%=objects/profile/%)
-	$(LDXX) $(LDXX_FLAGS) $^ $(LDXX_LIBS) -o $@
-
 install:: default $(INSTALL_DIR)/$(PROGRAM_DEFAULT)
 
+test: test_data default 
+	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha $(NAME)
 
-test:	default
+test_debug: test_data debug
+	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha $(NAME)_g
+
+test_data: clean_test_data
+	chgrp tools data/FileStat.01
+	(cd data; ln -s FileStat.01 FileStat.l1)
+	-touch data/FileStat.set
+	chmod 6 data/FileStat.set
+	-touch data/FileStat.h.t.yyy.yyy.yyy
+	chmod 777 data/FileStat.h.t.yyy.yyy.yyy
+	-touch data/FileStat.h.t.nnn.nnn.nnn
+	chmod 000 data/FileStat.h.t.nnn.nnn.nnn
+	-touch data/FileStat.h.t.nnn.yyy.nnn
+	chmod 070 data/FileStat.h.t.nnn.yyy.nnn
+
+clean:: clean_test_data
+
+clean_test_data: 
+	rm -f data/Str.bin.data			\
+		data/Str.operator.output	\
+		data/SubStr.operator.output	\
+		data/FileStat.l1		\
+		data/FileStat.set		\
+		data/FileStat.h.t.yyy.yyy.yyy	\
+		data/FileStat.h.t.nnn.nnn.nnn	\
+		data/FileStat.h.t.nnn.yyy.nnn	\
+		data/log.stream.test		\
+		data/logfile.01			\
+		data/logfile.02			\
+		data/logfile.03			\
+		data/logfile.04			\
+		data/logfile.05			\
+		data/logfile.05.tee		\
+		data/logfile.06			\
+		data/logfile.07			\
+		data/logfile.08			\
+		data/logfile.09			\
+		data/logfile.10			\
+		data/logfile.11			\
+		data/logfile.12			\
+		data/param.log.01		\
+
 
 #
 # include dependancies generated by 'make depend'
 #
--include .depend
+-include .depend_$(make_target)
 
 #
 # =MAKEFILE_LOG=
 #
 # $Log$
-# Revision 2.5  1996/02/29 19:11:04  houghton
-# *** empty log message ***
+# Revision 2.6  1996/05/01 11:05:07  houghton
+# Changed to use MakeConfigs 5
 #
 #
 # =MAKEFILE_LOG=
