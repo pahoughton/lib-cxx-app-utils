@@ -1,56 +1,24 @@
 //
-// File:        DateTime.cc
+// File:        DateTime.C
+// Project:	Clue
 // Desc:        
-//              
 //
-// Author:      Paul Houghton x2309 - (houghton@shoe)
+//  Compiled sources for DateTime
+//  
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     02/24/94 06:46 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.4  1997/03/21 15:37:08  houghton
-// Bug-Fix: setTimeZone was not resetting the localOffset.
-//
-// Revision 3.3  1997/01/18 17:28:12  houghton
-// Minor cleanup. changed a local var name from offset to tzOffset. There
-//   is a class var with the name 'offset'.
-//
-// Revision 3.2  1996/11/20 12:11:46  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:23:36  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/05/01 10:58:59  houghton
-// Bug-Fix: gcc did not like the flags being a char changed to int.
-//
-// Revision 2.3  1996/04/27 12:58:26  houghton
-// Removed unneeded includes.
-//
-// Revision 2.2  1995/12/04 11:17:20  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:30  houghton
-// Change to Version 2
-//
-// Revision 1.9  1995/11/05  14:44:29  houghton
-// Ports and Version ID changes
-//
-//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "DateTime.hh"
 #include "RegexScan.hh"
 #include "Str.hh"
 #include <cstdio>
-#else
-#include "DateTime.hh"
-#include "RxScan.hh"
-#include "Str.hh"
-#include <cstdio>
-#endif
 
 #if defined( CLUE_DEBUG )
 #include <DateTime.ii>
@@ -77,10 +45,10 @@ DateTime::~DateTime( void )
 //
 // Note: the epoch (1/1/1970) was a thursday
 //
-int
+DayOfWeek
 DateTime::getDayOfWeek( void ) const
 {
-  return( ((seconds / SecPerDay) + 4) % 7  );
+  return( (DayOfWeek)( ((seconds / SecPerDay) + Thursday) % 7 ));
 }
 
 // isDST - return true if Daylight Savings Time is in effect
@@ -229,7 +197,8 @@ DateTime::setValid(
 
   offset = 0;
   timeZoneName = 0;
-  
+
+  // FIXME
   if( ( ( year > 1970 && year < 2050 ) ||
 	( year >= 0 && year < 50 ) ||
 	( year > 70 && year < 100 ) ) &&
@@ -543,13 +512,26 @@ DateTime::fromTm( char * buf, const char * fmt, const struct tm * tmTime ) const
     }
   else
     {
-      sprintf( str, "%02d/%02d/%02d %02d:%02d:%02d",
+      if( tmTime->tm_year < 50 || tmTime->tm_year > 99 )
+	{
+	  sprintf( str, "%02d/%02d/%04d %02d:%02d:%02d",
+	       tmTime->tm_mon + 1,
+	       tmTime->tm_mday,
+	       1900 + tmTime->tm_year,
+	       tmTime->tm_hour,
+	       tmTime->tm_min,
+	       tmTime->tm_sec );
+	}
+      else
+	{
+	  sprintf( str, "%02d/%02d/%02d %02d:%02d:%02d",
 	       tmTime->tm_mon + 1,
 	       tmTime->tm_mday,
 	       tmTime->tm_year,
 	       tmTime->tm_hour,
 	       tmTime->tm_min,
 	       tmTime->tm_sec );
+	}
     }
   return( str );
 }
@@ -564,8 +546,7 @@ DateTime::toTm( struct tm & tmTime, const char * str, const char * fmt ) const
 
   if( fmt )
     {
-      strptime( (char *)str, fmt, &tmTime );
-      return( true );
+      return( strptime( (char *)str, fmt, &tmTime ) != 0 );
     }
   else
     {
@@ -573,21 +554,25 @@ DateTime::toTm( struct tm & tmTime, const char * str, const char * fmt ) const
 	{
 	  if( strPattern.matchLength( 1 ) )
 	    {
-	      tmTime.tm_mon = StringToInt( str + strPattern.matchStart( 1 ), 10,
+	      tmTime.tm_mon = StringToInt( str + strPattern.matchStart( 1 ),
+					   10,
 					   strPattern.matchLength( 1 ) );
 	      tmTime.tm_mon--;
 	    }
 
 	  if( strPattern.matchLength( 2 ) )
 	    {
-	      tmTime.tm_mday = StringToInt( str + strPattern.matchStart( 2 ), 10,
+	      tmTime.tm_mday = StringToInt( str + strPattern.matchStart( 2 ),
+					    10,
 					    strPattern.matchLength( 2 ) );
 	    }
 
 	  if( strPattern.matchLength( 3 ) )
 	    {
-	      tmTime.tm_year = StringToInt( str + strPattern.matchStart( 3 ), 10,
+	      tmTime.tm_year = StringToInt( str + strPattern.matchStart( 3 ),
+					    10,
 					    strPattern.matchLength( 3 ) );
+	      
 	      tmTime.tm_year = ( ( tmTime.tm_year > 1900 ) ?
 				 tmTime.tm_year - 1900 :
 				 tmTime.tm_year < 50 ?
@@ -597,21 +582,24 @@ DateTime::toTm( struct tm & tmTime, const char * str, const char * fmt ) const
 
 	  if( strPattern.matchLength( 4 ) )
 	    {
-	      tmTime.tm_hour = StringToInt( str + strPattern.matchStart( 4 ), 10,
+	      tmTime.tm_hour = StringToInt( str + strPattern.matchStart( 4 ),
+					    10,
 					     strPattern.matchLength( 4 ) );
 	    }
 
 	  
 	  if( strPattern.matchLength( 5 ) )
 	    {
-	      tmTime.tm_min = StringToInt( str + strPattern.matchStart( 5 ), 10,
+	      tmTime.tm_min = StringToInt( str + strPattern.matchStart( 5 ),
+					   10,
 					   strPattern.matchLength( 5 ) );
 	    }
 
 	  
 	  if( strPattern.matchLength( 6 ) )
 	    {
-	      tmTime.tm_sec = StringToInt( str + strPattern.matchStart( 6 ), 10,
+	      tmTime.tm_sec = StringToInt( str + strPattern.matchStart( 6 ),
+					   10,
 					   strPattern.matchLength( 6 ) );
 	    }
 	  return( true );
@@ -630,12 +618,12 @@ DateTime::toTimeT( const char * str, const char * fmt ) const
   
   if( toTm( tmTime, str, fmt ) )
     {
-      return( toTimeT( tmTime.tm_year,
-		      tmTime.tm_mon + 1,
-		      tmTime.tm_mday,
-		      tmTime.tm_hour,
-		      tmTime.tm_min,
-		      tmTime.tm_sec ) );
+      return( toTimeT( 1900 + tmTime.tm_year,
+		       tmTime.tm_mon + 1,
+		       tmTime.tm_mday,
+		       tmTime.tm_hour,
+		       tmTime.tm_min,
+		       tmTime.tm_sec ) );
     }
   else
     {
@@ -654,30 +642,46 @@ DateTime::toTimeT(
   ) const
 {
   long  secs = 0;
-  int	leapCount = 0;
-  
+  long	leapCount = 0;
+
   if( year )
-    {      
-      if( year > 1900 )
-	{
-	  year = year - 1900;
-	}
+    {
+      // this is a best guess for 2 digit years
+      if( year > 100 )
+	year = year;
       else
-	{
-	  if( year < 50 )
-	    {
-	      year = year + 100;
-	    }
-	}
+	year = 1900 + ( year < 50 ? year + 100 : year );
 
-      leapCount = ((year - 70) + 2) / 4;
+      // safty valve - if year is out of range, use min/max
+      // posible time_t value
+      if( year > MaxYear )
+	return( MaxTimeT );
+      else
+	if( year < MinYear )
+	  return( MinTimeT );
+      
+		
+      // 1968 was a leap year
+      // leap years are every 4 years except centuries unless the centruy
+      // is divisable by 400 (i.e. 1600 & 2000 are leap years and
+      // 1700, 1800, 1900 are not leap years).
+      // 
+      leapCount = ( ((abs( year - 1970 ) + 2) / 4)
+		    - (abs( year - 1900 ) / 100)
+		    );
 
-      if( IsLeapYear( year ) )
-	{
-	  leapCount--;
-	}
-  
-      secs = ((year - 70) * SecPerYear) + (leapCount * SecPerDay );
+      leapCount += ( ( year < 2000  ?
+			abs( year - 2000 ) / 400 :
+			abs( year - 1600 ) / 400 ));
+
+      if( IsLeapYear( year ) && year > 1970 )
+	-- leapCount;
+      
+      if( year < 1970 )
+	leapCount *= -1;
+      
+      secs = ((year - 1970) * SecPerYear) + (leapCount * SecPerDay);
+      
     }
 
   if( month )
@@ -696,6 +700,7 @@ DateTime::toTimeT(
   
       secs += SecPerDay * day;
     }
+
   
   secs += ( (hour * 60 * 60 ) + (min * 60) + sec );
 
@@ -757,3 +762,51 @@ DateTime::getVersion( bool withPrjVer ) const
 {
   return( version.getVer( withPrjVer ) );
 }
+
+// Revision Log:
+//
+// $Log$
+// Revision 3.5  1997/08/24 22:07:42  houghton
+// Cleanup comments.
+// Changed getDayOfWeek to return a DayOfWeek.
+// Changed getString to return a 4 digit year if the year is before 1950
+//     or after 1999.
+// Bug-Fix: toTm( struct tm &, const char * str, const char * fmt ) const
+//     if 'fmt' was used, would return true even if an error occured.
+// Bug-Fix: toTimeT(  const char * str, const char * fmt ) const
+//     the range of the year was not being verified. Fixed.
+// Bug-Fix: toTimeT( year, month, day, hour, min, sec ) const
+//     complete rework now verifies the year is in range and returns
+//     either MinTimeT or MaxTimeT if it is not. Also dates prior to 1970
+//     were not being handled correctly.
+//
+// Revision 3.4  1997/03/21 15:37:08  houghton
+// Bug-Fix: setTimeZone was not resetting the localOffset.
+//
+// Revision 3.3  1997/01/18 17:28:12  houghton
+// Minor cleanup. changed a local var name from offset to tzOffset. There
+//   is a class var with the name 'offset'.
+//
+// Revision 3.2  1996/11/20 12:11:46  houghton
+// Removed support for BinStream.
+//
+// Revision 3.1  1996/11/14 01:23:36  houghton
+// Changed to Release 3
+//
+// Revision 2.4  1996/05/01 10:58:59  houghton
+// Bug-Fix: gcc did not like the flags being a char changed to int.
+//
+// Revision 2.3  1996/04/27 12:58:26  houghton
+// Removed unneeded includes.
+//
+// Revision 2.2  1995/12/04 11:17:20  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:30  houghton
+// Change to Version 2
+//
+// Revision 1.9  1995/11/05  14:44:29  houghton
+// Ports and Version ID changes
+//
+//
+//
