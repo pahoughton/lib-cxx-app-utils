@@ -1,0 +1,192 @@
+#ifndef _Utils_ii_
+#define _Utils_ii_
+//
+// File:        Utils.ii
+// Desc:        
+//
+//
+//
+// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Created:     05/02/95 06:32
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:18  houghton
+// Initaial implementation
+//
+//
+
+#include <algorithm>
+
+// tArraySize
+#define ArraySize( _a_ ) ( sizeof( _a_ ) / sizeof( _a_[0] ) )
+
+
+template< class NumberType >
+inline
+NumberType
+Align( NumberType value, size_t alignSize )
+{
+  return( ((value % alignSize) == 0) ?
+	  value :
+	  ( value + ( alignSize - ( value % alignSize ) ) ) );
+}
+
+template< class NumberType >
+inline
+NumberType
+Align( NumberType value )
+{
+  return( Align( value, sizeof( value ) ) );
+}
+
+  
+// tDwordAlign
+inline
+unsigned long
+DwordAlign( unsigned long value )
+{
+  return( Align( value, (size_t)4 ) );
+}
+
+// tDwordAlign
+inline
+void *
+DwordAlign( void * addr )
+{
+  if( sizeof( unsigned long ) != sizeof( void * ) ) return( 0 );
+  
+  unsigned long value = (unsigned long)addr;
+  return( (void *)( DwordAlign( value ) ) );
+}
+
+
+// tMemOverlap
+inline
+bool
+MemOverlap( const void * one, size_t lenOne, const void * two, size_t lenTwo )
+{
+  const char * o = (const char *)one;
+  const char * t = (const char *)two;
+
+  return( ( ( lenOne && lenTwo ) ?
+	    ( ( o <= t ) ?
+	      ( ((o + lenOne)-1) >= t ) :
+	      ( ((t + lenTwo)-1) >= o ) ) :
+	    0 ) );
+}
+
+inline
+long
+abs( long value )
+{
+  return( value < 0 ? (value * -1) : value );
+}
+
+// tIsBaseDigit
+inline
+bool
+IsBaseDigit( int d, unsigned short base )
+{
+  return( ( d >= 0 && d < base ) );
+}
+
+
+inline
+unsigned long
+UnionOf( long startOne, long endOne, long startTwo, long endTwo )
+{
+  if( startTwo <= endOne &&
+      endTwo >= startOne )
+    {
+      return( ( (endTwo - startTwo) + (endOne - startOne) -
+		( abs( startOne - startTwo ) +
+		  abs( endTwo - endOne ) ) ) / 2 );
+    }
+  return( 0 );
+}
+
+inline
+unsigned long
+UnionOfDur( long startOne, long durOne, long startTwo, long durTwo )
+{
+  if( startTwo <= startOne + durOne &&
+      startTwo + durTwo >= startOne )
+    {
+      return( ( (durTwo + durOne) -
+		( abs( startOne - startTwo ) +
+		  abs( (startTwo + durTwo ) - (startOne + durOne) ) ) ) / 2 );
+    }
+
+  return( 0 );
+}
+
+inline
+unsigned long
+UnionOfDur(
+  unsigned long startOne,
+  unsigned long durOne,
+  unsigned long startTwo,
+  unsigned long durTwo,
+  unsigned long frequency
+  )
+{
+  unsigned long	    unionSum = 0;
+
+  for( unsigned long startOfOne = startOne;
+       startOfOne < (startTwo + durTwo );
+       startOfOne += frequency )
+    {
+      unionSum += UnionOfDur( startOfOne, durOne, startTwo, durTwo );
+    }
+
+  return( unionSum );
+}      
+
+template< class NumberType >
+inline
+NumberType
+Round( NumberType value, int factor )
+{
+  NumberType remain = value % factor;
+
+  if( remain < ((factor + 1) / 2) )
+    {
+      return( value - remain );
+    }
+  else
+    {
+      return( value + ( factor - remain ) );
+    }
+}
+
+template< class NumberType >
+inline
+NumberType
+RoundUp( NumberType value, int factor  )
+{
+  NumberType remain = value % factor;
+
+  if( remain == 0 )
+    {
+      remain = factor;
+    }
+
+  return( (value - remain) + factor );
+}
+
+template< class NumberType >
+inline
+NumberType
+RoundDown( NumberType value, int factor  )
+{
+
+  NumberType remain = value % factor;
+
+  return( value - remain );
+}
+
+#endif // ! def _Utils_ii_ 
+
+

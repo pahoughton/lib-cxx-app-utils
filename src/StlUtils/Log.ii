@@ -1,0 +1,262 @@
+#ifndef _Log_ii_
+#define _Log_ii_
+//
+// File:        Log.ii
+// Desc:        
+//
+//  	inlines for Log
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/21/95 12:52
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:26  houghton
+// Initaial implementation
+//
+//
+
+
+inline
+Log::Log(
+    ostream & 		outstr,
+    LogLevel::Level 	out,
+    bool		stampLevel,
+    bool		stampTime
+    )
+  : ios( new LogBuf( out, outstr.rdbuf() ) )
+{
+  tie( &outstr );
+        
+  timeStamp = stampTime;
+  levelStamp = stampLevel;
+}
+
+inline
+Log::Log(
+    ostream & 		outstr,
+    const char *	out,
+    bool		stampLevel,
+    bool		stampTime
+    )
+  : ios( new LogBuf( out, outstr.rdbuf() ) )
+{
+
+  tie( &outstr );
+          
+  timeStamp = stampTime;
+  levelStamp = stampLevel;
+}
+
+inline
+Log::Log(
+    const char * 	fileName,
+    LogLevel::Level 	out,
+    bool		stampLevel,
+    bool		stampTime,
+    ios::open_mode	mode,
+    int			prot,
+    size_t		maxSize,
+    size_t		trimSize
+    )
+  : ios( new LogBuf(fileName, out, mode, prot, maxSize, trimSize ) )
+{
+  timeStamp = stampTime;
+  levelStamp = stampLevel;
+  
+}
+
+inline
+Log::Log(
+    const char * 	fileName,
+    const char *	out,
+    bool		stampLevel,
+    bool		stampTime,
+    ios::open_mode	mode,
+    int			prot,
+    size_t		maxSize,
+    size_t		trimSize
+    )
+  : ios( new LogBuf(fileName, out, mode, prot, maxSize, trimSize ) )
+{
+  timeStamp = stampTime;
+  levelStamp = stampLevel;
+}
+
+inline
+Log::~Log( void )
+{
+  delete rdbuf();
+}
+
+inline
+void
+Log::tee( ostream & teeStream )
+{
+  rdbuf()->tee( teeStream.rdbuf() );
+}
+
+inline
+size_t
+Log::trim( size_t maxSize )
+{
+  return( rdbuf()->trim( maxSize ) );
+}
+
+inline
+size_t
+Log::setMaxSize( size_t max )
+{
+  return( rdbuf()->setMaxSize( max ) );
+}
+
+inline
+size_t
+Log::setTrimSize( size_t size )
+{
+  return( rdbuf()->setTrimSize( size ) );
+}
+
+
+inline
+Log &
+Log::operator () ( LogLevel::Level lvl )
+{
+  return( level( lvl ) );
+}
+
+inline
+Log &
+Log::operator () ( const char * lvl )
+{
+  return( level( lvl ) );
+}
+
+inline
+void
+Log::on( LogLevel::Level out )
+{
+  rdbuf()->sync();
+  rdbuf()->level().setOutput( (LogLevel::Level) (getOutput() | out) );
+}
+
+inline
+void
+Log::off( LogLevel::Level out )
+{
+  rdbuf()->sync();
+  rdbuf()->level().setOutput( (LogLevel::Level) (getOutput() & ~out) );
+}
+
+inline
+LogLevel::Level
+Log::getCurrent( void ) const
+{
+  return( rdbuf()->level().getCurrent() );
+}
+
+inline
+LogLevel::Level
+Log::getOutput( void  ) const
+{
+  return( rdbuf()->level().getOutput() );
+}
+
+inline
+bool
+Log::willOutput( LogLevel::Level outLevel ) const
+{
+  return( rdbuf()->willOutput( outLevel ) );
+}
+
+inline
+void
+Log::setFileName( const char * outFn, int mode )
+{
+  open( outFn, mode );
+}
+
+inline
+void
+Log::open( const char * outFn, int mode )
+{
+  rdbuf()->close();
+  clear();
+  if( rdbuf()->open( outFn, (ios::open_mode)mode ) == 0 )
+    {
+      setstate( failbit );
+    }
+}
+
+inline
+void
+Log::close( void )
+{
+  if( rdbuf()->sync() == EOF )
+    {
+      setstate( eofbit | failbit );
+    }
+  
+  rdbuf()->close();
+}
+
+inline
+LogLevel::Level
+Log::setOutputLevel( const char * level )
+{
+  rdbuf()->sync();
+  return( rdbuf()->level().setOutput( level ) );
+}
+
+inline
+LogLevel::Level
+Log::setOutputLevel( LogLevel::Level level )
+{
+  rdbuf()->sync();
+  return( rdbuf()->level().setOutput( level ) );
+}
+
+
+inline
+bool
+Log::setLevelStamp( bool stamp )
+{
+  bool old = levelStamp;
+  levelStamp = stamp;
+  return( old );
+}
+
+inline
+bool
+Log::setTimeStamp( bool stamp )
+{
+  bool old = timeStamp;
+  timeStamp = stamp;
+  return( old );
+}
+
+inline
+LogBuf *
+Log::rdbuf( void )
+{
+  return( (LogBuf *)(ios::rdbuf()) );
+}
+
+inline
+const LogBuf *
+Log::rdbuf( void ) const
+{
+#ifdef AIX
+  // aix does not have a const rdbuf
+  return( (const LogBuf *)(bp) );
+#else
+  return( (LogBuf *)(ios::rdbuf()) );
+#endif
+  
+}
+
+
+  
+
+#endif // ! def _Log_ii_ 

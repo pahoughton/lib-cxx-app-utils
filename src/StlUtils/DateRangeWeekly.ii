@@ -1,0 +1,48 @@
+#ifndef _DateRangeWeekly_ii_
+#define _DateRangeWeekly_ii_
+//
+// File:        DateRangeWeekly.ii
+// Desc:        
+//
+//  	inlines for DateRangeWeekly
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/20/95 07:17
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:20  houghton
+// Initaial implementation
+//
+//
+
+
+inline
+DateRangeWeekly::DateRangeWeekly(
+  short   dayOfWeek,
+  time_t  startTime,
+  time_t  durSec
+  )
+  : DateRangeDaily( (dayOfWeek * SecPerDay) + startTime, durSec )
+{
+}
+
+inline
+int
+compare( const DateRangeWeekly & one, const DateRangeWeekly & two )
+{
+  return( one.compare( two ) );
+}
+
+
+inline
+ostream &
+operator << ( ostream & dest, const DateRangeWeekly & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+
+
+#endif // ! def _DateRangeWeekly_ii_ 

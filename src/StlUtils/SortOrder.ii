@@ -1,0 +1,95 @@
+#ifndef _SortOrder_ii_
+#define _SortOrder_ii_
+//
+// File:        SortOrder.ii
+// Desc:        
+//
+//  	inlines for SortOrder
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     09/19/95 09:09
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:31  houghton
+// Initaial implementation
+//
+//
+
+template< class T >
+inline
+SortCompare<T>::SortCompare( void )
+{
+  compareT = 0;
+}
+
+template< class T >
+inline
+SortCompare<T>::SortCompare( const SortCompareBase<T> & cmp )
+{
+  compareT = &cmp;
+}
+
+template< class T >
+inline
+SortCompare<T>::compare( const T & one, const T & two ) const
+{
+  if( compareT )
+    return( (*compareT)( one, two ) );
+  else
+    return( 0 );
+}
+
+template< class T >
+inline
+SortOrder<T>::SortOrder( const SortCompareBase<T> & comp )
+{
+  SortCompare<T>  c( comp );
+  order.push_back( c );
+}
+
+template< class T >
+inline
+SortOrder<T>::SortOrder( const SortCompare<T> & comp )
+{
+  order.push_back( comp );
+}
+
+template< class T >
+inline
+bool
+SortOrder<T>::operator () ( const T & one, const T & two ) const
+{
+  for( Order::const_iterator them = order.begin();
+       them != order.end();
+       them++ )
+    {
+      int result = (*them).compare( one, two );
+
+      if( result < 0 )
+	return( true );
+
+      if( result > 0 )
+	return( false );
+    }
+  return( false );
+}
+
+template< class T >
+inline
+SortOrder<T>
+SortOrder<T>::operator + ( const SortOrder<T> & rhs ) const
+{
+  SortOrder<T> l( *this );
+
+  l.order.insert( l.order.end(), rhs.order.begin(), rhs.order.end() );
+  return( l );
+}
+
+
+	     
+
+
+
+#endif // ! def _SortOrder_ii_ 

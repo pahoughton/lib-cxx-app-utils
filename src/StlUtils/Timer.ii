@@ -1,0 +1,131 @@
+#ifndef _Timer_ii_
+#define _Timer_ii_
+//
+// File:        Timer.ii
+// Desc:        
+//
+//  	inlines for Timer
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/28/95 06:56
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:43  houghton
+// Initaial implementation
+//
+//
+
+#ifndef inline
+#include <DateTimeUtils.hh>
+#include <iomanip>
+#endif
+
+inline
+Timer::Timer( time_t startTime )
+{
+  startSec = (startTime ? startTime : time(0) );
+  stopSec = 0;
+}
+
+inline
+time_t
+Timer::start( time_t startTime )
+{
+  time_t old = startSec;
+  
+  if( startTime == 0 )
+    {
+      startSec = time(0);
+    }
+  else
+    {
+      startSec = startTime;
+    }
+  return( old );
+}
+
+inline
+time_t
+Timer::stop( time_t stopTime )
+{
+  time_t old = stopSec;
+  
+  if( stopTime == 0 )
+    {
+      stopSec = time(0);
+    }
+  else
+    {
+      stopSec = stopTime;
+    }
+
+  return( old );
+}
+
+inline
+time_t
+Timer::getDur( void ) const
+{
+  return( stopSec - startSec );
+}
+
+inline
+time_t
+Timer::getStart( void ) const
+{
+  return( startSec );
+}
+
+
+inline
+time_t
+Timer::getStop( void ) const
+{
+  return( stopSec );
+}
+
+
+inline
+const char *
+Timer::getClassName( void ) const
+{
+  return( "Timer" );
+}
+
+inline
+ostream &
+Timer::toStream( ostream & dest ) const
+{
+  if( getStart() == 0 || getStop() == 0 )
+    {
+      dest << "no duration";
+    }
+
+  int hours = getDur() / (60 * 60);
+  int minutes = MinInTimeT( getDur() );
+  int seconds = SecInTimeT( getDur() );
+
+  dest << setfill('0') << setw(2) << hours << ':'
+       << setw(2) << minutes << ':'
+       << setw(2) << seconds
+    ;
+
+  dest << setfill(' ');
+
+  return( dest );
+}
+
+  
+inline
+ostream &
+operator<<( ostream & dest, const Timer & timer )
+{
+  return( timer.toStream( dest ) );
+}
+
+
+
+
+#endif // ! def _Timer_ii_ 

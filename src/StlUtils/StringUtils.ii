@@ -1,0 +1,54 @@
+#ifndef _StringUtils_ii_
+#define _StringUtils_ii_
+//
+// File:        StringUtils.ii
+// Desc:        
+//
+//
+//
+// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Created:     05/02/95 06:32
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:40  houghton
+// Initaial implementation
+//
+//
+
+#include <cstddef>
+#include <cstring>
+#include <cctype>
+
+#include <Clue.hh>
+
+inline
+char * 
+SafeStrcpy( char * dest, const char * src, size_t size )
+{
+  strncpy( dest, src, size );
+  dest[size-1] = 0;
+  return( dest );
+}
+
+extern const int _CharToNumber[];
+
+inline
+int
+CharToInt( char c )
+{
+  return( _CharToNumber[ c ] );  
+}
+
+
+inline
+bool
+IsBaseDigit( char c, unsigned short base )
+{
+  return( IsBaseDigit( CharToInt(c), base ) );
+}
+
+  
+
+#endif // ! def _StringUtils_ii_ 

@@ -1,0 +1,126 @@
+#ifndef _LogBuf_ii_
+#define _LogBuf_ii_
+//
+// File:        LogBuf.ii
+// Desc:        
+//
+//  	inlines for Bitmask
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/21/95 12:26
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:26  houghton
+// Initaial implementation
+//
+//
+
+inline
+LogBuf::LogBuf(
+  LogLevel::Level   outLevel,
+  streambuf *	    outStream
+  )
+  : logLevel( outLevel )
+{
+  initbuf( outStream );
+}
+
+inline
+LogBuf::LogBuf(
+  const char * 	outLevel,
+  streambuf *	outStream
+  )
+  : logLevel( outLevel )
+{
+  initbuf( outStream );
+}
+
+
+inline
+LogBuf::LogBuf(
+  const char *	    fileName,
+  LogLevel::Level   outLevel,
+  ios::open_mode    mode,
+  int		    prot,
+  size_t	    logMaxSize,
+  size_t	    logTrimSize
+  )
+  : logLevel( outLevel )
+{
+  initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
+}
+  
+inline
+LogBuf::LogBuf(
+  const char *	    fileName,
+  const char *      outLevel,
+  ios::open_mode    mode,
+  int		    prot,
+  size_t	    logMaxSize,
+  size_t	    logTrimSize
+  )
+  : logLevel( outLevel )
+{
+  initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
+}
+  
+  
+inline
+bool
+LogBuf::willOutput( LogLevel::Level outLevel ) const
+{
+  return( logLevel.willOutput( outLevel ) );
+}
+
+inline
+streambuf *
+LogBuf::tee( streambuf * teeStreambuf )
+{
+  streambuf * old = teeStream;
+  teeStream = teeStreambuf;
+  return( old );
+}
+
+inline
+size_t
+LogBuf::setMaxSize( size_t size )
+{
+  size_t old = maxSize;
+  maxSize = size;
+  trim();
+  return( old );
+}
+
+inline
+size_t
+LogBuf::setTrimSize( size_t size )
+{
+  size_t old = trimSize;
+  trimSize = size;
+  return( old );
+}
+
+inline
+bool
+LogBuf::isFile( void ) const
+{
+  return( streamIsFile );
+}
+
+inline
+LogLevel &
+LogBuf::level( void )
+{
+  return( logLevel );
+}
+
+inline
+const LogLevel &
+LogBuf::level( void ) const
+{
+  return( logLevel );
+}
+
+#endif // ! def _LogBuf_ii_ 

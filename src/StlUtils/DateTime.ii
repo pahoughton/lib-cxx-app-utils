@@ -1,0 +1,704 @@
+#ifndef _DateTime_ii_
+#define _DateTime_ii_
+//
+// File:        DateTime.ii
+// Desc:        
+//
+//  	inlines for DateTime
+//
+//
+// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Created:     06/15/95 03:39
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:21  houghton
+// Initaial implementation
+//
+//
+
+#ifndef inline
+#include <File.hh>
+#endif
+
+// Constructor - initialize to setTime value
+inline
+DateTime::DateTime( time_t setTime, bool addLocal )
+{
+  timeZoneName = 0;
+  resetFlags();
+  set( setTime, addLocal );
+}
+
+// Constructor - initialize to day + timeOfDay
+inline
+DateTime::DateTime( time_t day, time_t timeOfDay )
+{
+  timeZoneName = 0;
+  resetFlags();
+  seconds = day + timeOfDay;
+}
+
+// Constructor - initialize from yymmdd & hhmmss strings
+inline
+DateTime::DateTime( const char * yymmdd, const char * hhmmss )
+{
+  timeZoneName = 0;
+  resetFlags();
+  setHHMMSS( hhmmss );
+  setYYMMDD( yymmdd );
+}
+
+// Constructor - initialize from year, month, day, hour, min sec
+inline
+DateTime::DateTime(
+    int 	year,
+    int 	month,
+    int 	day,
+    int 	hour,
+    int 	min,
+    int 	sec
+    )
+{  
+  timeZoneName = 0;
+  resetFlags();
+  set( year, month, day, hour, min, sec );
+}
+
+
+// Constructor - initialize from setTime tm struct
+inline
+DateTime::DateTime( const struct tm & setTime )
+{
+  timeZoneName = 0;
+  resetFlags();
+  set( setTime );
+}
+
+// Constructor - initialize from dateString
+inline
+DateTime::DateTime( const char * dateString )
+{
+  timeZoneName = 0;
+  resetFlags();
+  set( dateString, 0 );
+}
+
+// getTimeT - return current time_t value
+inline
+time_t
+DateTime::getTimeT( void ) const
+{
+  return( seconds - offset );
+}
+
+// getSecOfDay - return the number of seconds since midnight 
+inline
+long
+DateTime::getSecOfDay( void ) const
+{
+  return( SecOfDay( seconds ) );
+}
+
+// getHour - return the hour of the day (2pm = 14)
+inline
+short
+DateTime::getHour( void ) const
+{
+  return( HourInTimeT( seconds ) );
+}
+
+// getMinute - return the minute of the hour
+inline
+short
+DateTime::getMinute( void ) const
+{
+  return( MinInTimeT( seconds ) );
+}
+
+// getSecond - return the second of the minute
+inline
+short
+DateTime::getSecond( void ) const
+{
+  return( SecInTimeT( seconds ) );
+}
+
+// getDayOfYear - return the julian date (1 -> 366)
+inline
+short
+DateTime::getDayOfYear( void ) const
+{
+  if( flags.tmValid )
+    {
+      return( tm.tm_yday + 1);
+    }
+  else
+    {
+      return( gmtime( &seconds )->tm_yday + 1);
+    }
+}
+
+// getDayOfYear - return the julian date (1 -> 366)
+inline
+short
+DateTime::getDayOfYear( void )
+{
+  setTm();
+  return( tm.tm_yday + 1);
+}
+
+// getDayOfMonth - return day of the month (1 -> 31)
+inline
+short
+DateTime::getDayOfMonth( void ) const
+{
+  if( flags.tmValid )
+    {
+      return( tm.tm_mday );
+    }
+  else
+    {
+      return( gmtime( &seconds )->tm_mday );
+    }
+}
+
+// getDayOfMonth - return day of the month (1 -> 31)
+inline
+short
+DateTime::getDayOfMonth( void )
+{
+  setTm();
+  return( tm.tm_mday );
+}
+
+// getMonth - return month of year (1 -> 12)
+inline
+short
+DateTime::getMonth( void ) const
+{
+  if( flags.tmValid )
+    {
+      return( tm.tm_mon + 1 );
+    }
+  else
+    {
+      return( gmtime( &seconds )->tm_mon + 1 );
+    }
+}
+
+// getMonth - return month of year (1 -> 12)
+inline
+short
+DateTime::getMonth( void )
+{
+  setTm();
+  return( tm.tm_mon + 1 );
+}
+
+// getYearOfCentury - ( 1995 return 95, 2005 retun 5 )
+inline
+short
+DateTime::getYearOfCentury( void ) const
+{
+  return( getYear() % 100 );
+}
+
+// getYearOfCentury - ( 1995 return 95, 2005 retun 5 )
+inline
+short
+DateTime::getYearOfCentury( void )
+{
+  return( getYear() % 100 );
+}
+
+// getYear - return the current year (1995, 2010)
+inline
+short
+DateTime::getYear( void ) const
+{
+  if( flags.tmValid )
+    {
+      return( tm.tm_year + 1900 );
+    }
+  else
+    {
+      return( gmtime( &seconds )->tm_year + 1900 );
+    }
+}
+
+// getYear - return the current year (1995, 2010)
+inline
+short
+DateTime::getYear( void )
+{
+  setTm();
+  return( tm.tm_year + 1900 );	
+}
+
+// getString - return a formated string of the current time value
+inline
+const char *
+DateTime::getString( char * buffer, const char * fmt ) const
+{
+  if( flags.tmValid )
+    {
+      return( fromTm( buffer, fmt, &tm ) );
+    }
+  else
+    {
+      return( fromTm( buffer, fmt, gmtime( &seconds ) ) );
+    }
+}
+
+// getString - return a formated string of the current time value
+inline
+const char *
+DateTime::getString( char * buffer, const char * fmt )
+{
+  if( ! flags.tmValid )
+    {
+      setTm();
+    }
+  return( fromTm( buffer, fmt, &tm ) );
+}
+
+
+// getOffset - return the offset from GMT of the current value
+inline
+short
+DateTime::getOffset( void ) const
+{
+  return( offset );
+}
+
+// isLocal - return true if the current value is a local time
+inline
+bool
+DateTime::isLocal( void ) const
+{
+  return( (offset) ? true : false );
+}
+
+// getTimeZone - return the time zone name
+inline
+const char *
+DateTime::getTimeZone( void ) const
+{
+  if( offset )
+    {
+      return( (timeZoneName) ? timeZoneName : getenv( "TZ" ) );
+    }
+  else
+    {
+      return( "GMT" );
+    }
+}
+
+// setTimeT - set the time from timeSec return old value
+inline
+time_t
+DateTime::setTimeT( time_t timeSec )
+{
+  time_t    old = seconds;
+  resetFlags();
+  seconds = timeSec;
+  
+  return( old );
+}
+
+// set - set the time from timeSec return old value
+inline
+time_t
+DateTime::set( time_t timeSec, bool addLocal )
+{
+  time_t    old = seconds;
+  resetFlags();
+  seconds = timeSec;
+  
+  if( addLocal )
+    {
+      setTimeZone();
+    }
+  
+  return( old );
+}
+
+// set - set date/time from string
+inline
+time_t
+DateTime::set( const char * dateStr, const char * fmt )
+{
+  time_t old = seconds;
+  resetFlags();
+  seconds = toTimeT( dateStr, fmt );
+  return( old );
+}
+
+// set - set from year, month, day, hour, min, second
+inline
+time_t
+DateTime::set( 
+  int year,
+  int month,
+  int day,
+  int hour,
+  int min,
+  int sec
+  )
+{
+  time_t old = seconds;
+  resetFlags();
+
+  seconds = toTimeT( year, month, day, hour, min, sec );
+
+  return( old );
+}
+
+// set - set from tm struct ( assumed to be gmt )
+inline
+time_t
+DateTime::set( const struct tm & tmTime )
+{
+  return( set( tmTime.tm_year,
+	       tmTime.tm_mon+1,
+	       tmTime.tm_mday,
+	       tmTime.tm_hour,
+	       tmTime.tm_min,
+	       tmTime.tm_sec ) );
+}
+
+// setYYYYMMDD - set the date from the string ( ie 19950131 )
+inline
+time_t
+DateTime::setYYYYMMDD( const char * yyyymmdd )
+{
+  time_t old = seconds;
+  seconds = fromYYYYMMDD( yyyymmdd ) + (seconds % SecPerDay );
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( old );
+}
+
+// setYYMMDD - set the date from the string (ie 950131 )
+inline
+time_t
+DateTime::setYYMMDD( const char * yymmdd )
+{
+  time_t old = seconds;
+  seconds = fromYYMMDD( yymmdd ) + (seconds % SecPerDay );
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( old );
+}
+
+// setHHMMSS - set the time from the string ( 130550 = 1:05:50 pm )
+inline
+time_t
+DateTime::setHHMMSS( const char * hhmmss )
+{
+  time_t old = seconds;
+  seconds = (seconds - (seconds % SecPerDay)) + fromHHMMSS( hhmmss );
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( old );
+}
+
+// setDayOfYear - set the day of the year
+inline
+time_t
+DateTime::setDayOfYear( short dayOfYear )
+{
+  time_t old = seconds;
+  seconds -= getDayOfYear() * SecPerDay;
+  seconds += dayOfYear * SecPerDay;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( old );
+}
+
+// setDayOfMonth - set the day of the month
+inline
+time_t
+DateTime::setDayOfMonth( short dayOfMonth )
+{
+  time_t old = seconds;
+  seconds -= getDayOfMonth() * SecPerDay;
+  seconds += dayOfMonth * SecPerDay;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( old );
+}
+
+// setHour - set the our of day ( 13 = 1pm )
+inline
+time_t
+DateTime::setHour( short hour )
+{
+  time_t old = seconds;
+  seconds -= getHour() * SecPerHour;
+  seconds += hour * SecPerHour;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( old );
+}
+
+// setMinute - set the minute of the hour
+inline
+time_t
+DateTime::setMinute( short minute )
+{
+  time_t old = seconds;
+  seconds -= getMinute() * SecPerMin;
+  seconds += minute * SecPerMin;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( old );
+}
+
+// setSecond - set the second of minute
+inline
+time_t
+DateTime::setSecond( short sec )
+{
+  time_t old = seconds;
+  seconds -= getSecond();
+  seconds += sec;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( old );
+}
+
+// add - add the seconds in dt to me
+inline
+DateTime &
+DateTime::add( const DateTime & dt )
+{
+  seconds += dt.getTimeT();
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( *this );
+}
+
+// add - add the 'sec' to me
+inline
+DateTime &
+DateTime::add( long sec )
+{
+  seconds += sec;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( *this );
+}
+
+// addSec - add the 'sec' to me
+inline
+DateTime &
+DateTime::addSec( long sec )
+{
+  seconds += sec;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( *this );
+}
+
+// addMin - add the minutes to me
+inline
+DateTime &
+DateTime::addMin( long minutes )
+{
+  seconds += minutes * SecPerMin;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( *this );
+}
+
+// addHour - add the hours to me
+inline
+DateTime &
+DateTime::addHour( long hours )
+{
+  seconds += hours * SecPerHour;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( *this );
+}
+
+// addDay - add the days to me
+inline
+DateTime &
+DateTime::addDay( long days )
+{
+  seconds += days * SecPerDay;
+  flags.tmValid = false;
+  if( offset ) setTm();
+  return( *this );
+}
+
+// setTm - set the internal struct tm for the current value
+inline
+void
+DateTime::setTm( void )
+{
+  if( ! flags.tmValid )
+    {
+      if( offset )
+	{
+	  setTmOffset();
+	}
+      else
+	{
+	  memcpy( &tm, gmtime( &seconds ), sizeof( struct tm ) );
+	}
+      flags.tmValid = true;
+    }
+}
+
+inline
+size_t
+DateTime::getStreamSize( void ) const
+{
+  return( sizeof( time_t ) );
+}
+
+inline
+istream &
+DateTime::read( istream & src )
+{
+  resetFlags();
+  if( ! src.read( (char *)&seconds, getStreamSize() ).good() )
+    {
+      flags.valid = false;
+    }
+  return( src );
+}  
+
+inline
+ostream &
+DateTime::write( ostream & dest ) const
+{
+  time_t  value = seconds - offset;
+  
+  dest.write( (char *)&value, sizeof( value ) );
+  return( dest );
+}
+
+inline
+File &
+DateTime::read( File & src )
+{
+  resetFlags();
+  if( ! src.read( &seconds, getStreamSize() ).good() )
+    {
+      flags.valid = false;
+    }
+  return( src );
+}  
+
+inline
+File &
+DateTime::write( File & dest ) const
+{
+  time_t  value = seconds - offset;
+  
+  dest.write( &value, sizeof( value ) );
+  return( dest );
+}
+
+// operator time_t - return the current time_t value
+inline
+DateTime::operator time_t () const
+{
+  return( getTimeT() );
+}
+
+// operator const char * - return a string for the current value
+inline
+DateTime::operator const char * () const
+{
+  return( getString() );
+}
+
+// operator ==  - return true if I am equal to 'two'
+inline
+int
+DateTime::operator ==( const DateTime & two ) const
+{
+  return( getTimeT() == two.getTimeT() );
+}
+
+// operator < - return true if I less than 'two'
+inline
+int
+DateTime::operator < ( const DateTime & two ) const
+{
+  return( getTimeT() < two.getTimeT() );
+}
+
+// resetFlags - reset all state related variables
+inline
+void
+DateTime::resetFlags( void )
+{
+  flags.valid = true;
+  flags.dstKnown = false;
+  flags.tmValid = false;
+  offset = 0;
+  timeZoneName = 0;
+}
+
+inline
+const char *
+DateTime::fromTimeT( char * buffer, const char * fmt ) const
+{
+  struct tm * tmTime;
+
+  tmTime = gmtime( &seconds );
+
+  return( fromTm( buffer, fmt, tmTime ) );
+}	   
+
+inline
+time_t
+DateTime::fromYYYYMMDD( const char * yyyymmdd ) const
+{
+  return( toTimeT( StringToInt( yyyymmdd, 10, 4 ),
+		   StringToInt( yyyymmdd + 4, 10, 2 ),
+		   StringToInt( yyyymmdd + 6, 10, 2 ) ) );
+}
+
+inline
+time_t
+DateTime::fromYYMMDD( const char * yymmdd ) const
+{
+  return( toTimeT( StringToInt( yymmdd, 10, 2 ),
+		   StringToInt( yymmdd + 2, 10, 2 ),
+		   StringToInt( yymmdd + 4, 10, 2 ) ) );
+}
+
+inline
+time_t
+DateTime::fromHHMMSS( const char * hhmmss ) const
+{
+  return( toTimeT( 0,0,0,
+		   StringToInt( hhmmss, 10, 2 ),
+		   StringToInt( hhmmss + 2, 10, 2 ),
+		   StringToInt( hhmmss + 4, 10, 2 ) ) );
+}
+
+// Compare - return the diff beween 2 DateTime values
+inline
+int
+compare( const DateTime & one, const DateTime & two )
+{
+  return( one.compare( two ) );
+}
+
+inline
+ostream & operator<<( ostream & dest, const DateTime & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+#endif // ! def _DateTime_ii_ 

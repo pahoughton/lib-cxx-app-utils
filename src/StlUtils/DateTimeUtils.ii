@@ -1,0 +1,107 @@
+#ifndef _DateTimeUtils_ii_
+#define _DateTimeUtils_ii_
+//
+// File:        DateTimeUtils.ii
+// Desc:        
+//
+//  	long
+//  	SecInTimeT( long sec );
+//  	    return the second of the minute.
+//
+//  	long
+//  	MinInTimeT( long sec )
+//  	    return the minute of the hour.
+//
+//  	long
+//  	HourInTimeT( long sec )
+//  	    return the hour of the day.
+//
+//  	long
+//  	HoursInTimeT( long sec )
+//  	    return the number of hours.
+//
+//  	long
+//  	DaysInTimeT( long sec )
+//  	    return the number of days.
+//
+//  	long
+//  	DateInTimeT( long sec )
+//  	    return the date portion only.
+//
+//
+// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Created:     05/02/95 06:32
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:22  houghton
+// Initaial implementation
+//
+//
+
+
+//
+// Generic time_t manipulators
+//
+
+inline
+long
+SecInTimeT( long sec )
+{
+  return(sec % 60 );
+}
+
+inline
+long
+SecOfDay( long sec )
+{
+  return( sec % (60 * 60 * 24) );
+}
+
+inline
+long
+MinInTimeT( long sec )
+{
+  return( (sec % (60 * 60)) / 60 );
+}
+
+inline
+long
+HourInTimeT( long sec )
+{
+  return( (sec % (60 * 60 * 24)) / (60 * 60) );
+}
+
+inline
+long
+HoursInTimeT( long sec )
+{
+  return( sec / (60 * 60) );
+}
+
+inline
+long
+DaysInTimeT( long sec )
+{
+  return( (sec / (60 * 60 * 24) ) );
+}
+
+inline
+time_t
+DateInTimeT( time_t sec )
+{
+  return( sec - (sec % (60 * 60 * 24) ) );
+}
+
+inline
+bool
+IsLeapYear( int year)
+{
+  return( ( ( !(year % 4) ) && ( (year % 100) || !(year % 400) ) ));
+}
+
+
+
+#endif // ! def _DateTimeUtils_ii_ 
+

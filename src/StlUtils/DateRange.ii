@@ -1,0 +1,99 @@
+#ifndef _DateRange_ii_
+#define _DateRange_ii_
+//
+// File:        DateRange.ii
+// Desc:        
+//
+//  	inlines for DateRange
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/17/95 21:30
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:19  houghton
+// Initaial implementation
+//
+//
+
+inline
+DateRange::DateRange( time_t startTime, time_t durSec )
+  : DateTime( startTime ),
+    dur( durSec )
+{
+}
+
+inline
+DateRange::DateRange( const DateTime & startTime, time_t durSec )
+  : DateTime( startTime ),
+    dur( durSec )
+{
+}
+
+inline
+DateRange::DateRange( const DateTime & startTime, const DateTime & stopTime )
+  : DateTime( startTime ),
+    dur( stopTime.getTimeT() - startTime.getTimeT() )
+{
+}
+
+inline
+size_t
+DateRange::getStreamSize( void ) const
+{
+  return( DateTime::getStreamSize() + sizeof( dur ) );
+}
+
+inline
+ostream &
+DateRange::write( ostream & dest ) const
+{
+  DateTime::write( dest );
+  dest.write( (const char *)&dur, sizeof( dur ) );
+  return( dest );
+}
+
+inline
+istream &
+DateRange::read( istream & src )
+{
+  DateTime::read( src );
+
+  time_t    rDur;
+  src.read( (char *)&rDur, sizeof( rDur ) );
+  setDur( rDur );
+  return( src );
+}
+
+inline
+bool
+DateRange::operator == ( const DateRange & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+DateRange::operator <  ( const DateRange & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+  
+inline
+ostream &
+operator << ( ostream & dest, const DateRange & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+inline
+int
+compare( const DateRange & one, const DateRange & two )
+{
+  return( one.compare( two ) );
+}
+
+
+#endif // ! def _DateRange_ii_ 

@@ -1,0 +1,192 @@
+#ifndef _FilePath_ii_
+#define _FilePath_ii_
+//
+// File:        FilePath.ii
+// Desc:        
+//
+//  	inlines for FilePath
+//
+//
+// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Created:     06/15/95 07:47
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:24  houghton
+// Initaial implementation
+//
+//
+
+
+inline
+FilePath::FilePath( char d, char e )
+{
+  dirDelim = d;
+  extDelim = e;
+}
+
+inline
+FilePath::FilePath( const char * fullName, char d, char e  )
+{
+  dirDelim = d;
+  extDelim = e;
+  fileName = fullName;
+}
+
+inline
+FilePath::FilePath(
+  const char * 	dir,
+  const char * 	fn,
+  char 	    	d,
+  char 	    	e
+  )
+{
+  dirDelim = d;
+  extDelim = e;
+  fileName = dir;
+
+  if( fileName[ fileName.length() - 1 ] != dirDelim )
+    fileName += dirDelim;
+
+  fileName += fn;
+}
+
+inline
+Str
+FilePath::getFullName( void ) const
+{
+  return( fileName );
+}
+
+inline
+Str
+FilePath::getPath( void ) const
+{
+  Str path = ".";
+
+  size_t end = fileName.rfind( dirDelim );
+
+  if( end != Str::npos )
+    path = fileName.at( (size_t)0, end );
+
+  return( path );
+}
+
+inline
+Str
+FilePath::getFileName( void ) const
+{
+  Str name;
+  
+  size_t beg = fileName.rfind( dirDelim );
+
+  if( beg != Str::npos )
+    name = fileName.after( beg + 1 );
+
+  return( name );
+}
+
+
+inline
+Str
+FilePath::getExt( void ) const
+{
+  Str ext;
+  
+  size_t beg = fileName.rfind( extDelim );
+
+  if( beg != Str::npos )
+    ext = fileName.after( beg + 1 );
+
+  return( ext );
+}
+
+inline
+bool
+FilePath::set( const char * fullPath )
+{
+  fileName = fullPath;
+  return( true );
+}
+
+inline
+size_t
+FilePath::getStreamSize( void ) const
+{
+  return( fileName.getStreamSize() +
+	  sizeof( dirDelim ) +
+	  sizeof( extDelim ) );
+}
+
+inline
+ostream & 
+FilePath::write( ostream & dest ) const
+{
+  dest.write( &dirDelim, sizeof( dirDelim ) );
+  dest.write( &extDelim, sizeof( extDelim ) );
+  fileName.write( dest );
+  return( dest );
+}
+
+inline
+istream &
+FilePath::read( istream & src )
+{
+  src.read( &dirDelim, sizeof( dirDelim ) );
+  src.read( &extDelim, sizeof( extDelim ) );
+  fileName.read( src );
+  return( src );
+}
+	    
+inline
+int
+FilePath::compare( const FilePath & two ) const
+{
+  return( fileName.compare( two.fileName ) );
+}
+
+inline
+bool
+FilePath::operator == ( const FilePath & rhs ) const
+{
+  return( compare( rhs ) == 0 );
+}
+
+inline
+bool
+FilePath::operator <  ( const FilePath & rhs ) const
+{
+  return( compare( rhs ) < 0 );
+}
+
+inline
+FilePath::operator const char * ( void ) const
+{
+  return( fileName.cstr() );
+}
+
+inline
+FilePath &
+FilePath::operator = ( const char * fullName )
+{
+  set( fullName );
+  return( *this );
+}
+
+inline
+int
+compare( const FilePath & one, const FilePath & two )
+{
+  return( one.compare( two ) );
+}
+
+inline
+ostream &
+operator << ( ostream & dest, const FilePath & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+#endif // ! def _FilePath_ii_ 
+

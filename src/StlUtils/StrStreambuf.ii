@@ -1,0 +1,52 @@
+#ifndef _StrStreambuf_ii_
+#define _StrStreambuf_ii_
+//
+// File:        StrStreambuf.ii
+// Desc:        
+//
+//  	inlines for StrStreambuf
+//
+//
+// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Created:     06/06/95 05:38
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:34  houghton
+// Initaial implementation
+//
+//
+
+inline
+size_t
+StrStreambuf::plen( void ) STR_CONST_RDBUF
+{
+  return( pptr() - pbase() );
+}
+
+inline
+size_t
+StrStreambuf::psize( void ) STR_CONST_RDBUF
+{
+  return( epptr() - pbase() );
+}
+
+inline
+const char *
+StrStreambuf::cstr( void )
+{
+  sputc(0);
+  seekoff( -1, ios::cur, ios::out );
+
+  return( pbase() );
+}
+
+inline
+const char *
+StrStreambuf::strbase( void ) STR_CONST_RDBUF
+{
+  return( pbase() );
+}
+
+#endif // ! def _StrStreambuf_ii_ 

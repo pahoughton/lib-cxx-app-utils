@@ -1,0 +1,86 @@
+#ifndef _DateRangeDaily_h_
+#define _DateRangeDaily_h_
+//
+// File:        DateRangeDaily.ii
+// Desc:        
+//
+//  	inlines for DateRangeDaily
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/17/95 22:31
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:20  houghton
+// Initaial implementation
+//
+//
+
+inline
+DateRangeDaily::DateRangeDaily( time_t startTime, time_t durSec )
+  : DateRange( 0, durSec ),
+    start( startTime )
+{
+}
+
+inline
+size_t
+DateRangeDaily::getStreamSize( void ) const
+{
+  return( sizeof( time_t ) + sizeof( start ) );
+}
+
+inline
+ostream &
+DateRangeDaily::write( ostream & dest ) const
+{  
+  time_t wDur = getDur();
+  dest.write( (const char *)&wDur, sizeof( wDur ) );
+  dest.write( (const char *)&start, sizeof( start ) );
+  return( dest );
+}
+
+inline
+istream &
+DateRangeDaily::read( istream & src )
+{
+  time_t rDur;
+  src.read( (char *)&rDur, sizeof( rDur ) );
+  setDur( rDur );
+  src.read( (char *)&start, sizeof( start ) );
+  return( src );
+}
+
+inline
+bool
+DateRangeDaily::operator == ( const DateRangeDaily & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+DateRangeDaily::operator <  ( const DateRangeDaily & two ) const
+{
+  return( compare( two ) < 0 );
+}
+ 
+			      
+inline
+int
+compare( const DateRangeDaily & one, const DateRangeDaily & two )
+{
+  return( one.compare( two ) );
+}
+
+inline
+ostream &
+operator << ( ostream & dest, const DateRangeDaily & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+
+
+#endif // ! def _DateRangeDaily_h_ 

@@ -1,0 +1,93 @@
+#ifndef _LogLevel_ii_
+#define _LogLevel_ii_
+//
+// File:        LogLevel.ii
+// Desc:        
+//
+//  	inlines for LogLevel
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/20/95 09:50
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:27  houghton
+// Initaial implementation
+//
+//
+
+
+inline
+LogLevel::LogLevel( const Level out )
+{
+  setCurrent( ERROR );
+  setOutput( out );
+}
+
+inline
+LogLevel::LogLevel( const char * out )
+{
+  setCurrent( ERROR );
+  setOutput( out );
+}
+
+inline
+LogLevel::Level
+LogLevel::setOutput( const Level out )
+{
+  Level	old = output;
+  output = out;
+  return( old );
+}
+
+inline
+LogLevel::Level
+LogLevel::setCurrent( const Level cur )
+{
+  Level	old = current;
+  current = cur;
+  return( old );
+}
+
+
+inline
+LogLevel::Level
+LogLevel::getOutput( void ) const
+{
+  return( output );
+}
+
+inline
+LogLevel::Level
+LogLevel::getCurrent( void  ) const
+{
+  return( current );
+}
+
+
+inline
+bool
+LogLevel::shouldOutput( void ) const
+{
+  return( output & current );
+}
+
+inline
+void
+LogLevel::setName( const Level lvl, const char * name )
+{
+  if( lvl & USER_1 ) 	LevelNames[3] = name;
+  if( lvl & USER_2 ) 	LevelNames[4] = name;
+  if( lvl & USER_3 ) 	LevelNames[5] = name;
+  if( lvl & USER_4 ) 	LevelNames[6] = name;
+}
+
+inline
+bool
+LogLevel::willOutput( const Level level ) const
+{
+  return( level & output );
+}
+
+#endif // ! def _LogLevel_ii_ 

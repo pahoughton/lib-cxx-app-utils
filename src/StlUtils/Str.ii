@@ -1,0 +1,1962 @@
+#ifndef _Str_ii_
+#define _Str_ii_
+//
+// File:        Str.ii
+// Desc:        
+//
+//  	inlines for Str
+//
+//
+// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Created:     06/01/95 07:53
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:23:32  houghton
+// Initaial implementation
+//
+//
+
+#ifndef inline
+#include <RegexScan.hh>
+#include <ClueExceptions.hh>
+#endif
+
+// constructors  * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+Str::Str( void )
+  : ios( new StrStreambuf )
+{
+  ;
+}
+
+inline
+Str::Str( const Str & src, size_t srcStart, size_t srcLen )
+  : ios( new StrStreambuf )
+{
+  append( src, srcStart, srcLen );
+}
+
+inline
+Str::Str( const SubStr & src, size_t srcStart, size_t srcLen )
+  : ios( new StrStreambuf )
+{
+  append( src, srcStart, srcLen );
+}
+
+inline
+Str::Str( const char * src, size_t srcLen )
+  : ios( new StrStreambuf )
+{
+  append( src, srcLen );
+}
+
+inline
+Str::Str( size_t count, char src )
+  : ios( new StrStreambuf )
+{
+  append( count, src );
+}
+
+inline
+Str::Str( InputIterator first, InputIterator last )
+  : ios( new StrStreambuf )
+{
+  append( first, last );
+}
+
+inline
+Str::Str( istream & src, bool text, bool line )
+  : ios( new StrStreambuf )
+{
+  if( line )
+    {
+      getDelim( src, '\n', true );
+      return;
+    }
+
+  if( text )
+    {
+      getDelim( src, " \t\r\n\f", true );
+    }
+  else
+    {
+      read( src );
+    }
+}
+
+    
+inline
+Str::~Str( void )
+{
+  delete rdbuf();
+}
+
+
+// append  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+Str &
+Str::append( const Str & src, size_t srcStart, size_t srcLen )
+{
+  OUT_OF_RANGE( srcStart > src.size(), *this );
+  
+  return( append( src.strbase() + srcStart,
+		  min( (src.size() - srcStart ), srcLen ) ) );
+}
+
+inline
+Str &
+Str::append( const SubStr & src, size_t srcStart, size_t srcLen )
+{
+  OUT_OF_RANGE( srcStart > src.size(), *this );
+  
+  return( append( src.strbase() + srcStart,
+		  min( (src.size() - srcStart ), srcLen ) ) );
+}
+
+inline
+Str &
+Str::append( size_t count, char src )
+{
+  for( size_t c = 0; c < count; c++ )
+    rdbuf()->sputc( src );
+  return( *this );
+}
+
+inline
+Str &
+Str::append( char src )
+{
+  rdbuf()->sputc( src );
+  return( *this );
+}
+
+inline
+Str &
+Str::append( InputIterator first, InputIterator last )
+{
+  for( InputIterator n = first; n != last; n++ )
+    append( *n );
+  return( *this );
+}
+
+// assignment  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+inline
+Str &
+Str::assign( const Str & src, size_t srcStart, size_t srcLen )
+{
+  seekp( 0, ios::beg );
+
+  if( ! good() ) 
+    clear();
+
+  return( append( src, srcStart, srcLen ) );
+}
+
+inline
+Str &
+Str::assign( const SubStr & src, size_t srcStart, size_t srcLen )
+{
+  seekp( 0, ios::beg );
+
+  if( ! good() ) 
+    clear();
+
+  return( append( src, srcStart, srcLen ) );
+}
+
+inline
+Str &
+Str::assign( const char * src, size_t srcLen )
+{
+  seekp( 0, ios::beg );
+
+  if( ! good() ) 
+    clear();
+
+  return( append( src, srcLen ) );
+}
+
+inline
+Str &
+Str::assign( size_t count, char src )
+{
+  seekp( 0, ios::beg );
+
+  if( ! good() ) 
+    clear();
+
+  return( append( count, src ) );
+}
+
+inline
+Str &
+Str::assign( char src )
+{
+  seekp( 0, ios::beg );
+
+  if( ! good() ) 
+    clear();
+
+  return( append( src ) );
+}
+
+inline
+Str &
+Str::assign( InputIterator first, InputIterator last )
+{
+  seekp( 0, ios::beg );
+
+  if( ! good() ) 
+    clear();
+
+  return( append( first, last ) );
+}
+
+
+// insert  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+inline
+Str &
+Str::insert(
+  size_t    	start,
+  const Str & 	src,
+  size_t    	srcStart,
+  size_t    	srcLen
+  )
+{
+  return( replace( start, 0, src, srcStart, srcLen ) );
+}
+
+inline
+Str &
+Str::insert(
+  size_t    	    start,
+  const SubStr &    src,
+  size_t    	    srcStart,
+  size_t    	    srcLen
+  )
+{
+  return( replace( start, 0, src, srcStart, srcLen ) );
+}
+
+inline
+Str &
+Str::insert(
+  size_t    	    start,
+  const char *      src,
+  size_t    	    srcLen
+  )
+{
+  return( replace( start, 0, src, srcLen ) );
+}
+
+inline
+Str &
+Str::insert( size_t start, size_t count, char src )
+{
+  return( replace( start, 0, count, src ) );
+}
+
+inline
+Str &
+Str::insert( size_t start, char src )
+{
+  return( replace( start, 0, src ) );
+}
+
+inline
+Str &
+Str::insert( iterator before, InputIterator first, InputIterator last )
+{
+  return( replace( before, before, first, last ) );
+}
+
+// remove  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+inline
+Str &
+Str::remove( size_t start, size_t len )
+{
+  return( replace( start, len, (const char *)0, 0 ) );
+}
+
+inline
+Str &
+Str::remove( iterator which )
+{
+  return( replace( which - begin(), 1, (const char *)0, 0 ) );
+}
+
+inline
+Str &
+Str::remove( iterator first, iterator last )
+{
+  return( replace( first - begin(), last - first, (const char *)0, 0 ) );
+}
+
+
+// replace * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+Str &
+Str::replace(
+  size_t    	start,
+  size_t    	len,
+  const Str &  	src,
+  size_t    	srcStart,
+  size_t    	srcLen
+  )
+{
+
+  return( replace( start,
+		   len,
+		   src.strbase() + srcStart,
+		   min( srcLen, src.size() - srcStart ) ) );
+}
+
+inline
+Str &
+Str::replace(
+  size_t    	    start,
+  size_t    	    len,
+  const SubStr &    src,
+  size_t    	    srcStart,
+  size_t    	    srcLen
+  )
+{
+
+  return( replace( start,
+		   len, 
+		   src.strbase() + srcStart,
+		   min( srcLen, src.size() - srcStart ) ) );
+}
+
+inline
+Str &
+Str::replace(
+  size_t    start,
+  size_t    len,
+  char 	    src
+  )
+{
+  return( replace( start, len, &src, 1 ) );
+}
+  
+inline
+Str &
+Str::replace(
+  iterator  	first,
+  iterator  	last,
+  const Str &  	src,
+  size_t    	srcStart,
+  size_t    	srcLen
+  )
+{
+
+  return( replace( first - begin(),
+		   last - first,
+		   src.strbase() + srcStart,
+		   min( srcLen, src.size() - srcStart ) ) );
+}
+
+inline
+Str &
+Str::replace(
+  iterator  	    first,
+  iterator  	    last,
+  const SubStr &    src,
+  size_t    	    srcStart,
+  size_t    	    srcLen
+  )
+{
+
+  return( replace( first - begin(),
+		   last - first,
+		   src.strbase() + srcStart,
+		   min( srcLen, src.size() - srcStart ) ) );
+}
+
+
+inline
+Str &
+Str::replace(
+  iterator  	first,
+  iterator  	last,
+  const char *  src,
+  size_t    	srcLen
+  )
+{
+
+  return( replace( first - begin(),
+		   last - first,
+		   src,
+		   srcLen ) );
+}
+
+
+// iterators * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+inline
+Str::iterator
+Str::begin( void )
+{
+  return( rdbuf()->pbase() );
+}
+
+inline
+Str::iterator
+Str::end( void )
+{
+  return( begin() + size() );
+}
+
+inline
+Str::const_iterator
+Str::begin( void ) const
+{
+  return( strbase() );
+}
+
+inline
+Str::const_iterator
+Str::end( void ) const
+{
+  return( begin() + size() );
+}
+
+inline
+Str::reverse_iterator
+Str::rbegin( void )
+{
+  return( reverse_iterator( end() ) );
+}
+
+inline
+Str::reverse_iterator
+Str::rend( void )
+{
+  return( reverse_iterator( begin() ) );
+}
+
+inline
+Str::const_reverse_iterator
+Str::rbegin( void ) const
+{
+  return( const_reverse_iterator( end() ) );
+}
+
+inline
+Str::const_reverse_iterator
+Str::rend( void ) const
+{
+  return( const_reverse_iterator( begin() ) );
+}
+
+
+// substr  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+char &
+Str::at( size_t index )
+{
+  static char badChar = 0;
+  
+  OUT_OF_RANGE( index >= size(), badChar );
+    
+  return( rdbuf()->pbase()[index] );
+}
+
+inline
+char 
+Str::at( size_t index ) const
+{
+  OUT_OF_RANGE( index >= size(), 0 );
+    
+  return( strbase()[index] );
+}
+
+inline
+SubStr
+Str::substr( size_t start, size_t len )
+{
+  
+  OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
+
+  SubStr sub(  *this, start, min( size() - start, len ) );
+  
+  return( sub );
+}
+
+inline
+const SubStr
+Str::substr( size_t start, size_t len ) const
+{
+
+  OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
+  
+  const SubStr sub( *this, start, min( size() - start, len ) );
+  return( sub );
+}
+
+inline
+SubStr
+Str::at( size_t start, size_t len )
+{
+  return( substr( start, len ) );
+}
+
+inline
+const SubStr
+Str::at( size_t start, size_t len ) const
+{
+  return( substr( start, len ) );
+}
+
+inline
+SubStr
+Str::at( const char * pat, size_t start, size_t patLen )
+{
+  size_t pLen = (patLen == npos) ? (pat) ? strlen( pat ) : 0 : patLen;
+
+  SubStr sub( *this, find( pat, start, pLen ), pLen );
+  return( sub );
+}
+
+inline
+const SubStr
+Str::at( const char * pat, size_t start, size_t patLen ) const 
+{
+  const SubStr sub( *this, find( pat, start, patLen ), patLen );
+  return( sub );
+}
+
+inline
+SubStr
+Str::at( const RegexScan & pat, size_t start )
+{
+  size_t beg = find( pat, start );
+
+  SubStr sub( *this, beg, (beg == npos) ? 0 : pat.matchLength() );
+  return( sub );
+}
+
+inline
+const SubStr
+Str::at( const RegexScan & pat, size_t start ) const
+{
+  size_t    	beg = find( pat, start );
+  const SubStr  sub( *this, beg, (beg == npos) ? 0 : pat.matchLength() );
+  return( sub );
+}
+
+inline
+SubStr
+Str::at( const Str & pat, size_t start )
+{
+  return( at( pat.strbase(), start, pat.size() ) );
+}
+
+inline
+const SubStr
+Str::at( const Str & pat, size_t start ) const
+{
+  return( at( pat.strbase(), start, pat.size() ) );
+}
+
+inline
+SubStr
+Str::at( const SubStr & pat, size_t start )
+{
+  return( at( pat.strbase(), start, pat.size() ) );
+}
+
+inline
+const SubStr
+Str::at( const SubStr & pat, size_t start ) const
+{
+  return( at( pat.strbase(), start, pat.size() ) );
+}
+
+inline
+SubStr
+Str::before( size_t end )
+{
+  return( at( (size_t)0, end ) );
+}
+
+inline
+const SubStr
+Str::before( size_t end ) const
+{
+  return( at( (size_t)0, end ) );
+}
+
+inline
+SubStr
+Str::after( size_t start )
+{
+  return( at( start, size() - start ) );
+}
+
+inline
+const SubStr
+Str::after( size_t start ) const
+{
+  return( at( start, size() - start ) );
+}
+
+// searching * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+size_t
+Str::find( const Str & str, size_t start ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  const char * pos = StringSearch( strbase() + start, size() - start,
+				   str.strbase(), str.size() );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::find( const SubStr & str, size_t start ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  const char * pos = StringSearch( strbase() + start, size() - start,
+				   str.strbase(), str.size() );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::find( const RegexScan & exp, size_t start ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  return( exp.search( strbase(), start, size() ) ?
+	  exp.matchStart(0) : npos );
+}
+
+inline
+size_t
+Str::find( const char * str, size_t start, size_t strLen ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  const char * pos = StringSearch( strbase() + start, size() - start,
+				   str, strLen == npos ? 0 : strLen );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::find( char c, size_t start ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  const char * pos = strchr( cstr() + start, c );
+  return( (pos == 0) ? npos : pos - strbase() );  
+}
+
+
+inline
+size_t
+Str::rfind( const Str & str, size_t end ) const
+{
+  const char * pos = StringReverseSearch( strbase(), min( end, size() ),
+				   str.strbase(), str.size() );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::rfind( const SubStr & str, size_t end ) const
+{
+  const char * pos = StringReverseSearch( strbase(), min( end, size() ),
+				   str.strbase(), str.size() );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::rfind( const char * str, size_t end, size_t strLen ) const
+{
+  const char * pos = StringReverseSearch( strbase(), min( end, size() ),
+				   str, strLen == npos ? 0 : strLen );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::rfind( char c, size_t end ) const
+{
+  if( ! size() )
+    return( npos );
+  
+  size_t e = min( end, size() ) - 1;
+  for( ; e > 0 && c != at( e ); e-- );
+  return( (c == at(e)) ? e :
+	  (c == at((size_t)0)) ? 0 : npos );
+}
+
+
+inline
+size_t
+Str::ffind( const Str & str, size_t start ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  const char * pos = StringCaseSearch( strbase() + start, size() - start,
+				   str.strbase(), str.size() );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::ffind( const SubStr & str, size_t start ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  const char * pos = StringCaseSearch( strbase() + start, size() - start,
+				   str.strbase(), str.size() );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::ffind( const char * str, size_t start, size_t strLen ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  const char * pos = StringCaseSearch( strbase() + start, size() - start,
+				   str, strLen == npos ? 0 : strLen );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::ffind( char c, size_t start ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  size_t s = start;
+  for( ; s < size() && tolower( c ) != tolower( at( s ) ); s++ );
+  return( (tolower( c ) == tolower( at(s) )) ? s : npos );
+}
+
+
+inline
+size_t
+Str::rffind( const Str & str, size_t end ) const
+{
+  const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
+				   str.strbase(), str.size() );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::rffind( const SubStr & str, size_t end ) const
+{
+  const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
+				   str.strbase(), str.size() );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::rffind( const char * str, size_t end, size_t strLen ) const
+{
+  const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
+				   str, strLen == npos ? 0 : strLen );
+
+  return( (pos == 0) ? npos : pos - strbase() );
+}
+
+inline
+size_t
+Str::rffind( char c, size_t end ) const
+{
+  size_t e = min( end, size() ) - 1;
+  for( ; e > 0 && tolower( c ) != tolower( at( e ) ); e-- );
+  return( (tolower( c ) == tolower( at(e) )) ? e :
+	  (tolower( c ) == tolower( at((size_t)0) )) ? 0 : npos );
+}
+
+inline
+size_t
+Str::find_first_of( const Str & str, size_t start ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  return( find_first_of( str.strbase(), start, str.size() ) );
+}
+
+inline
+size_t
+Str::find_first_of( const SubStr & str, size_t start ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  return( find_first_of( str.strbase(), start, str.size() ) );
+}
+  
+inline
+size_t
+Str::find_first_of(
+  const char * str,
+  size_t start,
+  size_t strLen ) const
+{
+  OUT_OF_RANGE( start > size(), npos );
+  
+  const char * nBeg = str;
+  const char * nEnd = str + ( (strLen == npos) ? strlen( str ) : strLen );
+
+  size_t  pos = size();
+  
+  for( const char * n = nBeg; n < nEnd; n++ )
+    {
+      const char * curPos;
+      curPos = (const char *)memchr( (const void *)(strbase() + start),
+				       *n ,
+				       pos - start );
+      
+      if( curPos && (size_t)(curPos - strbase()) < pos )
+	{
+	  pos = curPos - strbase();
+	}
+    }
+  
+  return( pos < size() ? pos : npos );
+}  
+
+inline
+size_t
+Str::find_last_of( const Str & s, size_t end ) const
+{
+  return( find_last_of( s.strbase(), end, s.size() ) );
+}
+
+inline
+size_t
+Str::find_last_of( const SubStr & s, size_t end ) const
+{
+  return( find_last_of( s.strbase(), end, s.size() ) );
+}
+
+inline
+size_t
+Str::find_last_of( const char * str, size_t end, size_t strLen ) const
+{
+  const char * hBeg = strbase();
+  const char * hEnd = strbase() + ((end == npos) ? size() : end);
+
+  const char * nBeg = str;
+  const char * nEnd = nBeg + ((strLen == npos) ? strlen( str ) : strLen);
+
+  for( const char * h = hEnd - 1 ; h >= hBeg; h-- )
+    {
+      for( const char * n = nBeg; n < nEnd; n++ )
+	{
+	  if( *h == *n )
+	    {
+	      return( h - strbase() );
+	    }
+	}
+    }
+
+  return( npos );
+}  
+
+inline
+size_t
+Str::find_first_not_of( const Str & str, size_t start ) const
+{
+  return( find_first_not_of( str.strbase(), start, str.size() ) );  
+}
+
+inline
+size_t
+Str::find_first_not_of( const SubStr & str, size_t start ) const
+{
+  return( find_first_not_of( str.strbase(), start, str.size() ) );
+}
+
+inline
+size_t
+Str::find_first_not_of( const char * str, size_t start, size_t strLen ) const
+{
+  const char * hBeg = strbase() + start;
+  const char * hEnd = strbase() + size();
+
+  const char * nBeg = str;
+  const char * nEnd = nBeg + ((strLen == npos) ? strlen( str ) : strLen);
+  
+  for( const char * h = hBeg; h < hEnd; h++ )
+    {
+      const char * n = nBeg;
+      for( ; n < nEnd ; n++ )
+	{
+	  if( *h == *n )
+	    {
+	      break;
+	    }
+	}
+      if( n == nEnd )
+	{
+	  return( h - strbase() );
+	}
+    }
+
+  return( npos );
+
+}
+
+inline
+size_t
+Str::find_last_not_of( const Str & str, size_t end ) const
+{
+  return( find_last_not_of( str.strbase(), end, str.size() ) );
+}
+ 
+inline
+size_t
+Str::find_last_not_of( const SubStr & str, size_t end ) const
+{
+  return( find_last_not_of( str.strbase(), end, str.size() ) );
+}
+  
+inline
+size_t
+Str::find_last_not_of( const char * str, size_t end, size_t strLen ) const
+{
+  const char * hBeg = strbase();
+  const char * hEnd = strbase() + ((end == npos) ? size() : end);
+
+  const char * nBeg = str;
+  const char * nEnd = nBeg + ((strLen == npos) ? strlen( str ) : strLen);
+  
+  for( const char * h = hEnd - 1; h >= hBeg; h-- )
+    {
+      const char * n = nBeg;
+      for( ; n < nEnd ; n++ )
+	{
+	  if( *h == *n )
+	    {
+	      break;
+	    }
+	}
+      if( n == nEnd )
+	{
+	  return( h - strbase() );
+	}
+    }
+
+  return( npos );
+}
+
+  
+
+// from  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+Str &
+Str::from( int src, unsigned short base )
+{
+  if( base == 0 )
+    {
+      *this << src;
+    }
+  else
+    {
+      writeNum( ((src < 0 ) ? src * -1 : src) , base, (src < 0) );
+    }
+  return( *this );
+}
+
+inline
+Str &
+Str::from( short src, unsigned short base )
+{
+  if( base == 0 )
+    {
+      *this << src;
+    }
+  else
+    {
+      writeNum( ((src < 0 ) ? src * -1 : src) , base, (src < 0) );
+    }
+  return( *this );
+}
+
+inline
+Str &
+Str::from( long src, unsigned short base )
+{
+  if( base == 0 )
+    {
+      *this << src;
+    }
+  else
+    {
+      writeNum( ((src < 0 ) ? src * -1 : src) , base, (src < 0) );
+    }
+  return( *this );
+}
+
+inline
+Str &
+Str::from( unsigned int src, unsigned short base )
+{
+  if( base == 0 )
+    {
+      *this << src;
+    }
+  else
+    {
+      writeNum( src , base, false );
+    }
+  return( *this );
+}
+
+inline
+Str &
+Str::from( unsigned short src, unsigned short base )
+{
+  if( base == 0 )
+    {
+      *this << src;
+    }
+  else
+    {
+      writeNum( src , base, false );
+    }
+  return( *this );
+}
+
+inline
+Str &
+Str::from( unsigned long src, unsigned short base )
+{
+  if( base == 0 )
+    {
+      *this << src;
+    }
+  else
+    {
+      writeNum( src , base, false );
+    }
+  return( *this );
+}
+
+
+// to  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+bool
+Str::to( int & dest, unsigned short base ) const
+{
+  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+}
+
+inline
+bool
+Str::to( short & dest, unsigned short base ) const
+{
+  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+}
+
+inline
+bool
+Str::to( long & dest, unsigned short base ) const
+{
+  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+}
+
+inline
+bool
+Str::to( float & dest, unsigned short base ) const
+{
+  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+}
+
+inline
+bool
+Str::to( double & dest, unsigned short base ) const
+{
+  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+}
+
+inline
+bool
+Str::to( unsigned int & dest, unsigned short base ) const
+{
+  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+}
+
+inline
+bool
+Str::to( unsigned short & dest, unsigned short base ) const
+{
+  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+}
+
+inline
+bool
+Str::to( unsigned long & dest, unsigned short base ) const
+{
+  return( size() ? StringTo( dest, strbase(), base,  length() ) : false );
+}
+
+inline
+bool
+Str::toBool( void ) const
+{
+  bool dest = false;
+  StringToBool( dest, strbase(), length());
+  return( dest );
+}
+
+inline
+int
+Str::toInt( unsigned short base ) const
+{
+  int dest = 0;
+  to( dest, base );
+  return( dest );
+}
+
+inline
+long
+Str::toLong( unsigned short base ) const
+{
+  long dest = 0;
+  to( dest, base );
+  return( dest );
+}
+
+inline
+double
+Str::toDouble( unsigned short base ) const
+{
+  double dest = 0;
+  to( dest, base );
+  return( dest );
+}
+
+inline
+unsigned int
+Str::toUInt( unsigned short base ) const
+{
+  unsigned int dest = 0;
+  to( dest, base );
+  return( dest );
+}
+
+inline
+unsigned long
+Str::toULong( unsigned short base ) const
+{
+  unsigned long dest = 0;
+  to( dest, base );
+  return( dest );
+}
+
+// modifiers * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+void
+Str::upcase( void )
+{
+  StringUpper( rdbuf()->pbase(), length() );
+}
+
+inline
+void
+Str::downcase( void )
+{
+  StringLower( rdbuf()->pbase(), length() );
+}
+
+inline
+void
+Str::capitalize( void )
+{
+  StringCapitalize( rdbuf()->pbase(), length() );
+}
+
+size_t
+Str::stripLeading( const char * stripChars )
+{
+  cstr();
+  char * destStart = rdbuf()->pbase();
+  char * srcStart =  destStart + find_first_not_of( stripChars );
+
+  size_t count = length() - (srcStart - destStart );
+  
+  if( destStart != srcStart )
+    {
+      memmove( destStart, srcStart, count );
+      seekp( count );
+      count = length() - count;
+      return( count );
+    }
+  else
+    {
+      if( find_first_of( stripChars ) == 0 )
+	{
+	  size_t origSize = size();
+	  seekp(0);
+	  return( origSize );
+	}
+      else
+	{
+	  return( 0 );
+	}
+    }
+}
+
+size_t
+Str::stripTrailing( const char * stripChars )
+{
+  size_t last = find_last_not_of( stripChars );
+
+  if( last != npos )
+    {
+      size_t count = length() - ( last + 1 );
+  
+      if( count )
+	{
+	  seekp( last + 1 );
+	}
+      return( count );
+    }
+  else
+    {
+      if( find_first_of( stripChars ) == 0 )
+	{
+	  size_t origSize = size();
+	  seekp( 0 );
+	  return( origSize );
+	}
+      else
+	{
+	  return( 0 );
+	}
+    }
+}
+
+size_t
+Str::stripEnds( const char * stripChars )
+{
+  size_t count = stripLeading( stripChars );
+  count += stripTrailing( stripChars );
+  return( count );
+}
+
+
+// scan  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+size_t
+Str::scan( const Str & delimChars, size_t start )
+{
+  return( scan( delimChars.strbase(), start,
+		delimChars.size() ) );
+}
+
+inline
+size_t
+Str::scan( const SubStr & delimChars, size_t start )
+{
+  return( scan( delimChars.strbase(), start,
+		delimChars.size() ) );
+}
+
+inline
+size_t
+Str::scanString( const Str & delimStr, size_t start )
+{
+  return( scanString( delimStr.strbase(), start,
+		      delimStr.size() ) );
+}
+
+inline
+size_t
+Str::scanString( const SubStr & delimStr, size_t start )
+{
+  return( scanString( delimStr.strbase(), start,
+		      delimStr.size() ) );
+}
+
+	   
+inline
+size_t
+Str::scanMatchCount( void ) const
+{
+  return( matches.size() );
+}
+
+inline
+SubStr
+Str::scanMatch( size_t scanNum )
+{
+  OUT_OF_RANGE( scanNum >= scanMatchCount(), SubStr(*this, 0,0) );
+
+  SubStr sub( *this, scanMatchStart( scanNum ), scanMatchLength( scanNum ) );
+  return( sub );
+}
+
+inline
+size_t
+Str::scanMatch( Str & dest, size_t scanNum ) const
+{
+  OUT_OF_RANGE( scanNum >= scanMatchCount(), 0 );
+
+  dest.assign( *this, scanMatchStart( scanNum ), scanMatchLength( scanNum ) );
+
+  return( dest.size() );
+}
+
+inline
+size_t
+Str::scanMatchStart( size_t scanNum ) const
+{
+  OUT_OF_RANGE( scanNum >= scanMatchCount(), npos );
+
+  return( matches[scanNum].pos );
+}
+  
+inline
+size_t
+Str::scanMatchLength( size_t scanNum ) const
+{
+  OUT_OF_RANGE( scanNum >= scanMatchCount(), npos );
+
+  return( matches[scanNum].len );
+}
+
+
+// io helpers  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+ostream &
+operator << ( ostream & dest, const Str & str )
+{
+  dest.write( str.strbase(), str.size() );
+  return( dest );
+}
+
+inline
+istream &
+operator >> ( istream & src, Str & dest )
+{
+  return( dest.getDelim( src, " \t\n\r\f" ) );
+}
+
+inline
+istream &
+Str::getline( istream & src )
+{
+  return( getDelim( src, '\n', true ) );
+}
+
+inline
+size_t
+Str::getStreamSize( void ) const
+{
+  return( sizeof( size_t ) + size() );
+}
+
+
+// misc support  * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+void
+Str::reset( void )
+{
+  seekp(0);
+}
+
+inline
+size_t
+Str::size( void ) const
+{
+  return( rdbuf()->plen() );
+}
+
+inline
+size_t
+Str::length( void ) const
+{
+  return( size() );
+}
+
+inline
+bool
+Str::empty( void ) const
+{
+  return( size() == 0 );
+}
+
+inline
+size_t
+Str::max_size( void ) const
+{
+  return( npos - 1 );
+}
+
+inline
+const char *
+Str::cstr( void ) const
+{
+  return( rdbuf()->cstr() );
+}
+
+inline
+size_t
+Str::copy( char * dest, size_t destLen, size_t start )
+{
+  size_t len = min( destLen, size() - start );
+  strncpy( dest, strbase() + start, len );
+  return( len );
+}
+
+inline
+StrStreambuf *
+Str::rdbuf( void ) const
+{
+#ifdef AIX
+  // aix does not have a const rdbuf
+  return( (StrStreambuf *)(bp) );
+#else
+  return( (StrStreambuf *)ios::rdbuf() );
+#endif
+}
+
+inline
+StrStreambuf *
+Str::rdbuf( void )
+{
+  return( (StrStreambuf *)ios::rdbuf() );
+}
+
+
+
+inline
+Str::operator const char * ( void ) const
+{
+  return( cstr() );
+}
+
+inline
+char &
+Str::operator [] ( size_t index )
+{
+  return( at(index) );
+}
+
+inline
+char 
+Str::operator [] ( size_t index ) const
+{
+  return( at(index) );
+}
+
+inline
+SubStr
+Str::operator () ( size_t start, size_t len )
+{
+  return( at( start, len ) );
+}
+
+inline
+const SubStr
+Str::operator () ( size_t start, size_t len ) const
+{
+  return( at( start, len ) );
+}
+
+inline
+Str &
+Str::operator =  ( const Str & src )
+{
+  return( assign( src ) );
+}
+
+inline
+Str &
+Str::operator =  ( const SubStr & src )
+{
+  return( assign( src ) );
+}
+
+inline
+Str &
+Str::operator =  ( const char * src )
+{
+  return( assign( src ) );
+}
+
+inline
+Str &
+Str::operator =  ( char src )
+{
+  return( assign( src ) );
+}
+
+inline
+Str &
+Str::operator += ( const Str & src )
+{
+  return( append( src ) );
+}
+
+inline
+Str &
+Str::operator += ( const SubStr & src )
+{
+  return( append( src ) );
+}
+
+inline
+Str &
+Str::operator += ( const char * src )
+{
+  return( append( src ) );
+}
+
+inline
+Str &
+Str::operator += ( char src )
+{
+  return( append( src ) );
+}
+
+inline
+bool
+Str::operator == ( const SubStr & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+Str::operator == ( const Str & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+Str::operator == ( const char * two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+
+inline
+bool
+Str::operator <  ( const SubStr & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+bool
+Str::operator <  ( const Str & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+bool
+Str::operator <  ( const char * two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+
+inline
+bool
+Str::operator != ( const SubStr & two ) const
+{
+  return( !( *this == two ) );
+}
+
+inline
+bool
+Str::operator != ( const char * two ) const
+{
+  return( !( *this == two ) );
+}
+
+inline
+bool
+Str::operator >  ( const SubStr & two ) const
+{
+  return( compare( two ) > 0 );
+}
+
+inline
+bool
+Str::operator >  ( const char * two ) const
+{
+  return( compare( two ) > 0 );
+}
+
+inline
+bool
+Str::operator <= ( const SubStr & two ) const
+{
+  return( compare( two ) <= 0 );
+}
+
+inline
+bool
+Str::operator <=  ( const char * two ) const
+{
+  return( compare( two ) <= 0 );
+}
+
+inline
+bool
+Str::operator >= ( const SubStr & two ) const
+{
+  return( compare( two ) >= 0 );
+}
+
+inline
+bool
+Str::operator >= ( const char * two ) const
+{
+  return( compare( two ) >= 0 );
+}
+
+inline
+ostream &
+Str::toStream( ostream & dest ) const
+{
+  dest << cstr();
+  return( dest );
+}
+
+  
+
+// PRIVATE  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+inline
+const char *
+Str::strbase( void ) const
+{
+  return( rdbuf()->strbase() );
+}
+
+
+// NON MEMBERS  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+int
+compare( const Str & one, const Str & two, size_t len )
+{
+  return( one.compare( two, 0, len ) );
+}
+
+inline
+int
+compare( const Str & one, const SubStr & two, size_t len )
+{
+  return( one.compare( two, 0, len ) );
+}
+
+inline
+int
+compare( const Str & one, const char * two, size_t len )
+{
+  return( one.compare( two, 0, len ) );
+}
+
+inline
+int
+fcompare( const Str & one, const Str & two, size_t len )
+{
+  return( one.fcompare( two, 0, len ) );
+}
+
+inline
+int
+fcompare( const Str & one, const SubStr & two, size_t len )
+{
+  return( one.fcompare( two, 0, len ) );
+}
+
+inline
+int
+fcompare( const Str & one, const char * two, size_t len )
+{
+  return( one.fcompare( two, 0, len ) );
+}
+
+
+
+inline
+Str
+operator + ( const Str & lhs, const Str & rhs )
+{
+  Str s( lhs );
+  s += rhs;
+  return( s );
+}
+
+inline
+Str
+operator + ( const Str & lhs, const SubStr & rhs )
+{
+  Str s( lhs );
+  s += rhs;
+  return( s );
+}
+
+inline
+Str
+operator + ( const Str & lhs, const char * rhs )
+{
+  Str s( lhs );
+  s += rhs;
+  return( s );
+}
+
+inline
+Str
+operator + ( const char * lhs, const Str & rhs )
+{
+  Str s( lhs );
+  s += rhs;
+  return( s );
+}
+
+inline
+bool
+operator == ( const char * lhs, const Str & rhs )
+{
+  return( compare( lhs, rhs ) == 0 );
+}
+
+
+inline
+bool
+operator != ( const char * lhs, const Str & rhs )
+{
+  return( compare( lhs, rhs ) != 0 );
+}
+
+inline
+bool
+operator <  ( const char * lhs, const Str & rhs )
+{
+  return( compare( lhs, rhs ) < 0 );
+}
+
+inline
+bool
+operator >  ( const char * lhs, const Str & rhs )
+{
+  return( compare( lhs, rhs ) > 0 );
+}
+
+inline
+bool
+operator <= ( const char * lhs, const Str & rhs )
+{
+  return( compare( lhs, rhs ) <= 0 );
+}
+
+inline
+bool
+operator >= ( const char * lhs, const Str & rhs )
+{
+  return( compare( lhs, rhs ) >= 0 );
+}
+
+inline
+istream &
+getline( istream & src, Str & dest, char delim )
+{
+  return( dest.getDelim( src, delim ) );
+}
+
+inline
+bool
+StringToBool( const Str & str )
+{
+  return( str.toBool() );
+}
+
+inline
+int
+StringToInt( const Str & str, unsigned short base )
+{
+  return( str.toInt( base ) );
+}
+
+inline
+long
+StringToLong( const Str & str, unsigned short base )
+{
+  return( str.toLong( base ) );
+}
+
+inline
+double
+StringToDouble( const Str & str, unsigned short base )
+{
+  return( str.toDouble( base ) );
+}
+
+inline
+unsigned int
+StringToUInt( const Str & str, unsigned short base )
+{
+  return( str.toUInt( base ) );
+}
+
+inline
+unsigned long
+StringToULong( const Str & str, unsigned short base )
+{
+  return( str.toULong( base ) );
+}
+
+
+
+
+
+
+
+#ifdef STD_STRING
+inline
+bool
+Str::operator == ( const string & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+Str::operator <  ( const string & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+Str::Str( const string & src, size_t srcStart, size_t srcLen )
+  : ios( new StrStreambuf )
+{
+  append( src, srcStart, srcLen );
+}
+
+inline
+Str &
+Str::append( const string & src, size_t srcStart, size_t srcLen )
+{
+  OUT_OF_RANGE( srcStart > src.length(), *this );
+  
+  return( append( src.c_str() + srcStart,
+		  min( (src.length() - srcStart ), srcLen ) ) );
+}
+
+inline
+Str &
+Str::operator += ( const string & src )
+{
+  return( append( src ) );
+}
+
+inline
+Str &
+Str::assign( const string & src, size_t srcStart, size_t srcLen )
+{
+  seekp( 0, ios::beg );
+  return( append( src, srcStart, srcLen ) );
+}
+
+inline
+Str &
+Str::operator =  ( const string & src )
+{
+  return( assign( src ) );
+}
+
+inline
+Str &
+Str::insert(
+  size_t    	    start,
+  const string &    src,
+  size_t    	    srcStart,
+  size_t    	    srcLen
+  )
+{
+  return( replace( start, 0, src, srcStart, srcLen ) );
+}
+
+inline
+Str &
+Str::replace(
+  size_t    	    start,
+  size_t    	    len,
+  const string &    src,
+  size_t    	    srcStart,
+  size_t    	    srcLen
+  )
+{
+
+  return( replace( start,
+		   len,
+		   src.c_str() + srcStart,
+		   min( srcLen, src.length() - srcStart ) ) );
+}
+
+inline
+Str &
+Str::replace(
+  iterator  	    first,
+  iterator  	    last,
+  const string &    src,
+  size_t    	    srcStart,
+  size_t    	    srcLen
+  )
+{
+
+  return( replace( first - begin(),
+		   last - first,
+		   src.c_str() + srcStart,
+		   min( srcLen, src.length() - srcStart ) ) );
+}
+#endif
+
+
+#endif // ! def _Str_ii_ 
