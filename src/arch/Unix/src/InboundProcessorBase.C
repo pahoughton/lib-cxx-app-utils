@@ -53,6 +53,19 @@ InboundProcessorBase::InboundProcessorBase(
     fileFoundCounter( 0 ),
     fileProcCounter( 0 )
 {
+  if( fnPattern.scan( "|", false ) > 1 )
+    {
+      for( Str::size_type p = 1; p < fnPattern.scanMatchCount(); ++ p )
+	{
+	  FilePath  tmp;
+	  tmp.assign( fnPattern.scanMatch( p ) );
+	  fnPatList.push_back( tmp );
+	}
+    }
+  else
+    {
+      fnPatList.push_back( fnPattern );
+    }
 }
 
 InboundProcessorBase::~InboundProcessorBase( void )
@@ -64,7 +77,6 @@ InboundProcessorBase::run( void )
 {
 
   bool	    didit;
-  FilePath  inPath( inDir, fnPattern );
 
   Directory	dirList;
   Semaphore	sem;
@@ -81,97 +93,104 @@ InboundProcessorBase::run( void )
       
       didit = false;
 
-      dirList.set( inPath, Directory::SortTime );
-
-      ++ dirScanCounter;
-      
-      if( ! dirList.good() )
-	return( setError( dirList.error(), inPath ) );
-
-      for( Directory::iterator them = dirList.begin();
-	   them != dirList.end();
-	   ++ them )
+      for( FnPatList::const_iterator patThem = fnPatList.begin();
+	   patThem != fnPatList.end();
+	   ++ patThem )
 	{
-	  ++ fileFoundCounter;
+	  FilePath  inPath( inDir, *patThem );
 	  
-	  _LLg( LogLevel::Debug ) << "found: '"
-				  << (*them).getName() << '\'' << endl;
+	  dirList.set( inPath, Directory::SortTime );
 
-	  if( sigCatcher && sigCatcher->caught().size() )
-	    return( true );
+	  ++ dirScanCounter;
+      
+	  if( ! dirList.good() )
+	    return( setError( dirList.error(), inPath ) );
+
+	  for( Directory::iterator them = dirList.begin();
+	       them != dirList.end();
+	       ++ them )
+	    {
+	      ++ fileFoundCounter;
 	  
-	  if( ! sem.create( (*them).getName() ) )
-	    {
-	      // maybe someone move the file
-	      FileStat semStat( (*them).getName() );
-
-	      if( semStat.good() )
-		{
-		  return( setError( sem.error(), (*them).getName() ) );
-		}
-	      else
-		{
-		  // best rescan the dir, something has changed.
-		  // lie about didit so we don't go to sleep yet.
-		  didit = true;
-		  break;
-		}
-	    }
-
-	  if( sem.lock( false ) )
-	    {
-	      FileOp	fileOp;
-	      
-	      _LLg( LogLevel::Debug ) << "locked: '"
+	      _LLg( LogLevel::Debug ) << "found: '"
 				      << (*them).getName() << '\'' << endl;
+
+	      if( sigCatcher && sigCatcher->caught().size() )
+		return( true );
 	  
-	      // this one is mine to process.
-	      if( ! fileOp.move( (*them).getName(), procDir ) )
+	      if( ! sem.create( (*them).getName() ) )
 		{
-		  // rename failed.
-		  
-		  // is it because the file is nolonger there?
-		  
-		  FileStat  inStat( *them );
-		  if( inStat.good() )
+		  // maybe someone move the file
+		  FileStat semStat( (*them).getName() );
+
+		  if( semStat.good() )
 		    {
-		      // nope, I can NOT move it
-		      return( setError( fileOp.error(),
-					fileOp.getDest().getName() ) );
+		      return( setError( sem.error(), (*them).getName() ) );
 		    }
 		  else
 		    {
+		      // best rescan the dir, something has changed.
+		      // lie about didit so we don't go to sleep yet.
+		      didit = true;
 		      break;
+		    }
+		}
+
+	      if( sem.lock( false ) )
+		{
+		  FileOp	fileOp;
+	      
+		  _LLg( LogLevel::Debug ) << "locked: '"
+					  << (*them).getName() << '\'' << endl;
+	  
+		  // this one is mine to process.
+		  if( ! fileOp.move( (*them).getName(), procDir ) )
+		    {
+		      // rename failed.
+		  
+		      // is it because the file is nolonger there?
+		  
+		      FileStat  inStat( *them );
+		      if( inStat.good() )
+			{
+			  // nope, I can NOT move it
+			  return( setError( fileOp.error(),
+					    fileOp.getDest().getName() ) );
+			}
+		      else
+			{
+			  break;
+			}
+		    }
+		  else
+		    {
+		      // ok, the file has been moved to 'procFn'
+		      if( ! sem.remove() )
+			return( setError( sem.error() ) );
+
+		      ++ fileProcCounter;
+	      
+		      if( ! processInbound( fileOp.getDest().getName() ) )
+			return( true );
+
+		      if( sigCatcher && sigCatcher->caught().size() )
+			return( true );
+
+		      // we just processed something, so run prescan again.
+		      if( ! prescanProc() )
+			return( true );
+		  
+		      didit = true;
 		    }
 		}
 	      else
 		{
-		  // ok, the file has been moved to 'procFn'
-		  if( ! sem.remove() )
-		    return( setError( sem.error() ) );
-
-		  ++ fileProcCounter;
-	      
-		  if( ! processInbound( fileOp.getDest().getName() ) )
-		    return( true );
-
-		  if( sigCatcher && sigCatcher->caught().size() )
-		    return( true );
-
-		  // we just processed something, so run prescan again.
-		  if( ! prescanProc() )
-		    return( true );
-		  
-		  didit = true;
+		  if( ! sem.good() )
+		    _LLg( LogLevel::Debug ) << sem.error() << endl;
 		}
 	    }
-	  else
-	    {
-	      if( ! sem.good() )
-		_LLg( LogLevel::Debug ) << sem.error() << endl;
-	    }
-	}
 
+	}
       if( ! didit )
 	sleep( waitSecs );
     }
@@ -294,6 +313,9 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1999/10/28 14:19:44  houghton
+// Added support for multiple file name patterns.
+//
 // Revision 4.4  1999/05/14 11:34:24  houghton
 // Port(Linux): port for Gnu Libc 2
 //

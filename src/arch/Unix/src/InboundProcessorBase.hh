@@ -83,6 +83,8 @@ public:
   
   static const ClassVersion version;
 
+  typedef vector< FilePath >	FnPatList;
+  
 protected:
 
   virtual bool	    prescanProc( void );
@@ -96,6 +98,8 @@ private:
   bool	setError( const char * desc, const char * name = 0 );
   
   FilePath		fnPattern;
+  FnPatList		fnPatList;
+  
   FilePath		inDir;
   FilePath		procDir;
   long			waitSecs;
@@ -244,6 +248,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/10/28 14:19:50  houghton
+// Added support for multiple file name patterns.
+//
 // Revision 4.3  1998/11/02 19:21:40  houghton
 // Changed: the File class was renamed to FileOp().
 //
