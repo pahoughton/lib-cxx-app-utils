@@ -267,6 +267,9 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1997/07/25 12:26:55  houghton
+// Changed version number to 3.
+//
 // Revision 1.2  1997/07/25 12:18:22  houghton
 // Added SigCatcher support to detect signals.
 // Added counters for directory scans, files found and files processed.

@@ -142,6 +142,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1997/07/25 12:26:25  houghton
+// Changed version number to 3.
+//
 // Revision 1.1  1997/07/18 19:55:31  houghton
 // Initial Version.
 //

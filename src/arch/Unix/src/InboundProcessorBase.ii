@@ -40,6 +40,9 @@ InboundProcessorBase::dump( const char * prefix, bool showVer ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 3.1  1997/07/25 12:26:56  houghton
+// Changed version number to 3.
+//
 // Revision 1.1  1997/07/20 18:52:02  houghton
 // Initial Version.
 //

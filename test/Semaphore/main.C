@@ -86,6 +86,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1997/07/25 12:27:36  houghton
+// Changed version number to 3.
+//
 // Revision 1.2  1997/07/20 18:53:01  houghton
 // Added include cstdlib.
 //

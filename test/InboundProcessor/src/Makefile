@@ -221,6 +221,9 @@ test:	default
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.1  1997/07/25 12:27:33  houghton
+# Changed version number to 3.
+#
 # Revision 1.1  1997/07/20 18:55:52  houghton
 # Initial Version.
 #
