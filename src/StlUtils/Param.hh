@@ -74,8 +74,7 @@ public:
   Param( int 		    mainArgc,
 	 char *		    mainArgv[],
 	 const char *	    version = 0,
-	 const char *	    logLevel = CLUE_DEFAULT_LOGLEVEL,
-	 bool		    parseArgs = true );
+	 const char *	    logLevel = CLUE_DEFAULT_LOGLEVEL );
 
   virtual ~Param( void );
   
@@ -263,7 +262,6 @@ private:
   enum ErrorNum
   {
     E_OK,
-    E_ARG_ERROR,
     E_RANGE,
     E_CONVERT,
     E_NO_VALUE,
@@ -402,15 +400,12 @@ operator << ( ostream & dest, const Param & obj );
 //  	Param( int	    mainArgc,
 //	       char *	    mainArgv[],
 //	       const char * version = 0,
-//	       const char * logLevel = CLUE_DEFAULT_LOGLEVEL,
-//	       bool	    parseArgs = true );
+//	       const char * logLevel = CLUE_DEFAULT_LOGLEVEL );
 //	    Construct an instance of the Param class. 'mainArgc' and
 //	    mainArgv should be the original argv and argc from main
 //	    (i.e. main( int argc, char * argv[] ). 'version' is the
 //	    version identification for the application. 'logLevel'
-//	    sets the output level for the log. If 'parseArgs' is
-//	    true, the default arguments will be processed (see above),
-//	    otherwise Param will not process the arguments.
+//	    sets the output level for the log. 
 //
 //  Public Interface:
 //
@@ -497,7 +492,10 @@ operator << ( ostream & dest, const Param & obj );
 //	parseArgs( void )
 //	    Process the default set of args used by Param.
 //	    Returns true if there were no errors, else returns
-//	    false.
+//	    false. This is called by both readArgs and
+//	    parseArgs( int argc, char * argv[] ), so any subclass
+//	    (i.e. AppParam) should overide this function, call
+//	    Param::parseArgs() then process it's args.
 //
 //	virtual
 //	bool
@@ -760,11 +758,12 @@ operator << ( ostream & dest, const Param & obj );
 //	public:
 //	
 //	  AppParam( int & argv, char ** argc, const char * ver = 0 );
-//	
-//	  const string & inputFileName() { return( vInputFileName ); };
-//	  
 //	  ~AppParam( void );
 //	
+//	  bool parseArgs( void );
+//
+//	  const string & inputFileName() { return( vInputFileName ); };
+//	  
 //	protected:
 //	
 //	private:
@@ -783,13 +782,7 @@ operator << ( ostream & dest, const Param & obj );
 //	  : Param( argc, argv, ver ),
 //	    vInputFileName( "./inputfile.data" )
 //	{
-//	  argStr( vInputFileName, "input file name", "in" );
-//	
-//	  string dataDir;
-//	  argStr( dataDir, "input data directory", "dir", "DATA_DIR" );
-//	
-//	  if( dataDir.size() )
-//	    vInputFileName.replace( 0, 1, dataDir );
+//	  parseArgs();
 //	}
 //	
 //	inline
@@ -798,6 +791,26 @@ operator << ( ostream & dest, const Param & obj );
 //	}
 //	
 //	* AppParam.hh * END *
+//
+//      * AppParam.C * END *
+//
+//	bool
+//	AppParam::parseArgs( void )
+//	{
+//	  bool status = Param::parseArgs();
+//
+//	  status &= argStr( vInputFileName, "input file name", "in" );
+//	
+//	  string dataDir;
+//	  status &= argStr( dataDir, "input directory", "dir", "DATA_DIR" );
+//	
+//	  if( dataDir.size() )
+//	    vInputFileName.replace( 0, 1, dataDir );
+//
+//	  return( status );
+//      }
+//
+//	* AppParam.C * END *
 //
 //	*  main.C * START *
 //	
@@ -829,6 +842,14 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1996/11/19 22:08:22  houghton
+// Bug-Fix: remove parse flag from constructor - calling a virtual
+//     from the constructor does NOT call the sub class's method.
+//     so parseArgs has to be call from the app or sub class.
+// Bug-Fix: there is no need for ARG_ERROR.
+// Fixed header comments.
+// Fixed example.
+//
 // Revision 3.2  1996/11/19 12:25:12  houghton
 // Restructure header comments.
 // Changed include lines to use " " instead of < > to accomidate rpm.
