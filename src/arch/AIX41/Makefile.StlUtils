@@ -8,18 +8,22 @@
 #
 #
 
-include ../arch/Unix/src/Makefile.Clue
-include ../Clue1/src/Makefile.Clue
+include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.Clue
+include $(PRJ_TOPDIR)/src/Clue1/src/Makefile.Clue
 
-ARCH_DIR	= ../arch/$(arch)/src
-ARCH_SRC_DIR	= ../arch/src
-ARCH_STDCPP_DIR	= ../arch/$(arch)/stdc++
+ARCH_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/src
+ARCH_SRC_DIR	= $(PRJ_TOPDIR)/src/arch/src
+ARCH_STDCPP_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/stdc++
+STDCPP_DIR	= $(PRJ_TOPDIR)/src/arch/stdc++
 
-ARCH_SRC_VPATH	= $(ARCH_DIR):$(ARCH_SRC_DIR):$(ARCH_STDCPP_DIR)
+ARCH_SRC_VPATH	= $(ARCH_DIR):$(ARCH_SRC_DIR):$(ARCH_STDCPP_DIR):$(STDCPP_DIR)
 
 ARCH_VPATH	= $(ARCH_SRC_VPATH):$(UNIX_VPATH):$(CLUE1_VPATH)
 
-ARCHSRC_INC	= -I$(ARCH_DIR) -I$(ARCH_SRC_DIR) -I$(ARCH_STDCPP_DIR)
+ARCHSRC_INC	= -I$(ARCH_DIR) 	\
+		  -I$(ARCH_SRC_DIR) 	\
+		  -I$(ARCH_STDCPP_DIR)	\
+		  -I$(STDCPP_DIR)
 
 ARCH_DEFINES	= $(UNIX_DEFINES) $(CLUE1_DEFINES)
 
@@ -143,6 +147,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 1.2  1996/05/14 14:18:24  houghton
+# Change dir handling.
+#
 # Revision 1.1  1996/05/03 16:14:31  houghton
 # Initial Version.
 #
