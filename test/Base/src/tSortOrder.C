@@ -1,18 +1,28 @@
-#if !defined( CLUE_SHORT_FN )
+//
+// File:        tSortOrder.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for SortOrder template class.
+//
+// Source Header Version: 3.2
+//
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Created:     11/05/95 13:44
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <SortOrder.hh>
 #include <Compare.hh>
 #include <algorithm>
 #include <vector>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <SortOrdr.hh>
-#include <Compare.hh>
-#include <algorithm>
-#include <vector>
-#endif
 
 class Data
 {
@@ -24,41 +34,52 @@ public:
 private:
 };
 
-class DataCompA : public SortCompareBase<Data>
-{
-public:
-  int   operator () ( const Data & one, const Data & two ) const;
-};
+typedef SortOrder< Data >    DataSort;
 
-int
-DataCompA::operator () ( const Data & one, const Data & two ) const
+template < class T >
+T *
+duplicate( const T & from )
 {
-  return( compare( one.a, two.a ) );
+  return( new T( from ) );
 }
 
-class DataCompB : public SortCompareBase<Data>
+class DataCompA : public DataSort::LessBase
 {
 public:
-  int   operator () ( const Data & one, const Data & two ) const;
+  bool	operator () ( const Data & one, const Data & two ) const {
+    return( one.a < two.a );
+  };
+  
+  DataSort::LessBase *	dup( void ) const {
+    return( duplicate( *this ) );
+  };  
 };
 
-int
-DataCompB::operator () ( const Data & one, const Data & two ) const
-{
-  return( compare( one.b, two.b ) );
-}
-
-class DataCompC : public SortCompareBase<Data>
+class DataCompB : public DataSort::LessBase
 {
 public:
-  int   operator () ( const Data & one, const Data & two ) const;
+  bool	operator () ( const Data & one, const Data & two ) const {
+    return( one.b < two.b );
+  };
+  
+  DataSort::LessBase *	dup( void ) const {
+    return( duplicate( *this ) );
+  };  
+  
 };
 
-int
-DataCompC::operator () ( const Data & one, const Data & two ) const
+class DataCompC : public DataSort::LessBase
 {
-  return( compare( one.c, two.c ) );
-}
+public:
+  bool	operator () ( const Data & one, const Data & two ) const {
+    return( one.c < two.c );
+  };
+  
+  DataSort::LessBase *	dup( void ) const {
+    return( duplicate( *this ) );
+  };  
+  
+};
 
 DataCompA   CompA;
 DataCompB   CompB;
@@ -118,3 +139,11 @@ tSortOrder( LibTest & tester )
   }
   return( true );
 }
+
+// Revision Log:
+//
+// $Log$
+// Revision 3.2  1997/06/09 12:04:21  houghton
+// Changed to match latest modifications.
+//
+//

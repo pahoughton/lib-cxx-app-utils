@@ -30,9 +30,11 @@
 #define PRJ_NAME	"Project"
 #define PRJ_VER_NUM	"1.00.00"
 #define PRJ_VER		10001L
+#define PRJ_VER_TAG	"TEST_01"
 
 #define CLASS_VER	CLASS_NAME " - " FILE_NAME " - Compiled: "	      \
-			COMPILE_DATE " " COMPILE_TIME "\n    " VER_ID_STRING  \
+			COMPILE_DATE " " COMPILE_TIME "\n"		      \
+			"    " VER_ID_STRING  
 
 #define CLASS_NAME_2	    "Class 2"
 #define FULL_VER_STRING_2   "Class 2 Full Version String"
@@ -43,10 +45,11 @@
 #define PRJ_NAME_2	    "Project 2"
 #define PRJ_VER_NUM_2	    "2.00.00"
 #define PRJ_VER_2	    20001L
-
+#define PRJ_VER_TAG_2	    "TEST_02"
+			
 #define CLASS_VER_2	CLASS_NAME_2 " - " FILE_NAME_2 " - Compiled: "	      \
-			COMPILE_DATE_2 " " COMPILE_TIME_2 "\n    "	      \
-			VER_ID_STRING_2
+			COMPILE_DATE_2 " " COMPILE_TIME_2 "\n"		      \
+			"    " VER_ID_STRING_2
 
 // CLASS_VERSION( type name,
 //                const char *,
@@ -61,7 +64,8 @@ public:
   static const ClassVersion version;
 };
 
-CLASS_VERSION( TestCV, VER_ID_STRING, PRJ_NAME, PRJ_VER_NUM, PRJ_VER );
+CLASS_VERSION( TestCV, VER_ID_STRING,
+	       PRJ_NAME, PRJ_VER_NUM, PRJ_VER, PRJ_VER_TAG );
 
 
 bool
@@ -78,7 +82,8 @@ tClassVersion( LibTest & tester )
 				   VER_ID_STRING,
 				   PRJ_NAME,
 				   PRJ_VER_NUM,
-				   PRJ_VER );
+				   PRJ_VER,
+				   PRJ_VER_TAG );
     
     static const ClassVersion	t2( CLASS_NAME_2,
 				   FULL_VER_STRING_2,
@@ -88,7 +93,8 @@ tClassVersion( LibTest & tester )
 				   VER_ID_STRING_2,
 				   PRJ_NAME_2,
 				   PRJ_VER_NUM_2,
-				   PRJ_VER_2 );
+				   PRJ_VER_2,
+				   PRJ_VER_TAG_2 );
 
     
     {
@@ -116,7 +122,9 @@ tClassVersion( LibTest & tester )
 
       // const char * getPrjVer( void ) const
 
-      TEST( strcmp( t.getPrjVer(), PRJ_NAME " - " PRJ_VER_NUM ) == 0 );
+      TESTR( t.getPrjVer(), strcmp( t.getPrjVer(),
+				    PRJ_NAME " - "
+				    PRJ_VER_NUM " - " PRJ_VER_TAG ) == 0 );
 
       // unsigned long getPrjVerNum( void ) const
       
@@ -166,12 +174,13 @@ tClassVersion( LibTest & tester )
       //                const char *,
       //		long
 
-
-      TEST( strcmp( TestCV::version.getVer( true ),
-		    "@(#) " PRJ_NAME " - " PRJ_VER_NUM "\n    "
-		    "TestCV - " __FILE__ " - Compiled: "
-		    __DATE__ " " __TIME__ "\n    "
-		    VER_ID_STRING ) == 0 );
+      TESTR( TestCV::version.getVer( true ),
+	     strcmp( TestCV::version.getVer( true ),
+		     "@(#) " PRJ_NAME " - " PRJ_VER_NUM "\n"
+		     "    TestCV - " __FILE__ " - Compiled: "
+		     __DATE__ " " __TIME__ "\n"
+		     "    CVS Tag: " PRJ_VER_TAG "\n"
+		     "    " VER_ID_STRING ) == 0 );
     }
     
   }
@@ -182,6 +191,9 @@ tClassVersion( LibTest & tester )
   
 //
 // $Log$
+// Revision 3.4  1997/06/09 12:04:18  houghton
+// Changed to match latest modifications.
+//
 // Revision 3.3  1996/11/24 19:14:04  houghton
 // Changed for AIX because bool is not a real type.
 //
