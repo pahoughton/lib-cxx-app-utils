@@ -34,7 +34,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
-VER_RELEASE	= 05.b.02
+VER_RELEASE	= 06.b.01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -111,8 +111,8 @@ SHDEP_LIBS		= -L$(beta_libdir) -lGnuRegex_s -lCommon_s
 
 # **** I N S T A L L ****
 
-INSTALL_LIB_FLAGS	= -m 664
-INSTALL_INC_FLAGS	= -m 664
+INSTALL_LIB_FLAGS	= -m 444
+INSTALL_INC_FLAGS	= -m 444
 
 
 # **** S O U R C E   F I L E S ****
@@ -310,6 +310,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.24  1997/08/24 21:51:49  houghton
+# Changed version number.
+#
 # Revision 3.23  1997/08/12 11:10:08  houghton
 # Added StringFirstNotOf.
 #
