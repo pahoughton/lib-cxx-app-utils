@@ -62,6 +62,15 @@ typedef enum {
 
 #endif
 
+#if !defined( STLUTILS_HAS_STRPTIME )
+extern "C"
+char *
+STLUTILS_FUNCT_T
+strptime( char * b, const char * fmt, struct tm * t );
+#endif
+
+
+
 #include <DateTimeUtils.ii>
 
 //
@@ -178,6 +187,9 @@ typedef enum {
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/10/13 16:18:38  houghton
+// Change: strptime is now part of libCommon.
+//
 // Revision 4.3  1997/12/20 16:08:33  houghton
 // Added Detail descriptions.
 //
