@@ -33,7 +33,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
-VER_RELEASE	= 02.b.01
+VER_RELEASE	= 03.b.01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -129,6 +129,8 @@ CXX_C_SOURCES =				\
 	DateTimeUtils.C                 \
 	FileStat.C			\
 	FilePath.C                      \
+	IosOpenModeFromString.C		\
+	IosOpenModeToString.C		\
 	LibTest.C                       \
 	Log.C				\
 	LogBuf.C			\
@@ -301,6 +303,11 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.17  1997/04/04 20:53:53  houghton
+# Added IosOpenModeFromString.
+# Added IosOpenModeToSting.
+# Changed ver num.
+#
 # Revision 3.16  1997/04/04 03:11:02  houghton
 # Changed ver num.
 #
