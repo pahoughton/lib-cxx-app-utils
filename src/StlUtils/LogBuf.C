@@ -197,7 +197,7 @@ LogBuf::open(
     }
 
  logFileName = name;
- openMode = (ios::open_mode)(mode & ~ios::in);
+ openMode = mode;
  openProt = prot;
 
  FileStat  stat( logFileName );
@@ -792,6 +792,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2000/05/30 15:08:52  houghton
+// Changed mode to use what was given (don't strip ios::in).
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //
