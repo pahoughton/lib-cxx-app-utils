@@ -1,11 +1,11 @@
-#ifndef _File_ii_
-#define _File_ii_
+#ifndef _FileOp_ii_
+#define _FileOp_ii_
 //
-// File:        File.ii
+// File:        FileOp.ii
 // Project:	StlUtils
 // Desc:        
 //
-//  	Inline source for File
+//  	Inline source for FileOp
 //
 // Author:      Paul Houghton 719-527-7834 - (paul.houghton@wcom.com)
 // Created:     03/08/98 08:32
@@ -26,48 +26,84 @@
 
 inline
 bool
-File::copy( const char * srcFn, const char * destFn )
+FileOp::copy( const char * destFn, bool overwrite )
 {
-  clear();
-  src( srcFn );
-  if( src.good() )
-    return( copy( destFn ) );
-  else
+  if( ! good() )
     return( false );
+
+  if( ! setDest( OT_Copy, destFn, overwrite ) )
+    return( false );
+
+  return( copyFile() );
 }
 
 inline
 bool
-File::move( const char * srcFn, const char * destFn )
+FileOp::copy( const char * srcFn, const char * destFn, bool overwrite )
 {
   clear();
   src( srcFn );
-  if( src.good() )
-    return( move( destFn ) );
-  else
+  return( copy( destFn, overwrite ) );
+}
+
+inline
+bool
+FileOp::move( const char * destFn, bool overwrite )
+{
+  if( ! good() )
     return( false );
+
+  if( ! setDest( OT_Move, destFn, overwrite ) )
+    return( false );
+
+  return( moveFile() );
+}
+
+inline
+bool
+FileOp::move( const char * srcFn, const char * destFn, bool overwrite )
+{
+  clear();
+  src( srcFn );
+  return( move( destFn, overwrite ) );
+}
+
+inline
+bool
+FileOp::remove( void )
+{
+  return( removeFile( src.getName() ) );
+}
+
+inline
+bool
+FileOp::remove( const char * fn )
+{
+  src( fn );
+  return( remove() );
 }
 
 inline
 const FileStat &
-File::getSrc( void ) const
+FileOp::getSrc( void ) const
 {
   return( src );
 }
 
 inline
 const FileStat &
-File::getDest( void ) const
+FileOp::getDest( void ) const
 {
   return( dest );
 }
 
 inline
-DumpInfo< File >
-File::dump( const char * prefix, bool showVer ) const
+DumpInfo< FileOp >
+FileOp::dump( const char * prefix, bool showVer ) const
 {
-  return( DumpInfo< File >( *this, prefix, showVer ) );
+  return( DumpInfo< FileOp >( *this, prefix, showVer ) );
 }
+
 
 
 #if defined( inline )
@@ -77,6 +113,9 @@ File::dump( const char * prefix, bool showVer ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 1.3  1998/11/02 19:21:03  houghton
+// Added remove().
+//
 // Revision 1.2  1998/03/11 16:09:25  houghton
 // Added getDest and getSrc.
 //
@@ -84,4 +123,4 @@ File::dump( const char * prefix, bool showVer ) const
 // Initial Version.
 //
 //
-#endif // ! def _File_ii_ 
+#endif // ! def _FileOp_ii_ 

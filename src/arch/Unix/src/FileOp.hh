@@ -1,10 +1,12 @@
-#ifndef _File_hh_
-#define _File_hh_
+#ifndef _FileOp_hh_
+#define _FileOp_hh_
 //
-// File:        File.hh
+// File:        FileOp.hh
 // Project:	StlUtils
 // Desc:        
 //
+//  FileOp provides operations on entire files, such as copy and
+//  move (rename).
 //
 // Notes:
 //
@@ -44,24 +46,34 @@
 #endif
 
 
-class File
+class FileOp
 {
 
 public:
 
   typedef int	size_type;
   
-  File( void );
-  File( const char * src );
+  FileOp( void );
+  FileOp( const char * src );
   
-  virtual ~File( void );
+  virtual ~FileOp( void );
 
-  bool		copy( const char * dest );
-  inline bool	copy( const char * src, const char * dest );
+  bool		copy( const char * dest,
+		      bool overwrite = true );
   
-  bool		move( const char * dest );
-  inline bool	move( const char * src, const char * dest );
+  inline bool	copy( const char * src,
+		      const char * dest,
+		      bool overwrite = true );
+  
+  bool		move( const char * dest,
+		      bool overwrite = true );
+  inline bool	move( const char * src,
+		      const char * dest,
+		      bool overwrite = true );
 
+  bool		remove( void );
+  inline bool	remove( const char * src );
+  
   inline const FileStat &   getSrc( void ) const;
   inline const FileStat &   getDest( void ) const;
   
@@ -75,20 +87,34 @@ public:
 				  const char *  prefix = "    ",
                                   bool          showVer = true ) const;
 
-  inline DumpInfo< File >
+  inline DumpInfo< FileOp >
   dump( const char * preifx = "    ", bool showVer = true ) const;
 
   static const ClassVersion version;
 
 protected:
 
+  enum OpType
+  {
+    OT_Copy,
+    OT_Move,
+    OT_Unknown
+  };
+
+  static const char *	OpTypeName[];
+  
+  bool		setDest( OpType op, const char * fn, bool overwrite );
+  bool		copyFile( void );
   bool		moveFile( void );
+  bool		removeFile( const char * fn );
   bool		setDestStat( void );
   
   size_type	readfd( int fd, void * dest, size_t destSize );
   size_type	writefd( int fd, const void * src, size_t srcLen );
   
   bool	setError( int osErr, const char * desc, const char * fn );
+  bool	setError( int osErr, OpType op, const char * desc, const char * fn );
+
   
   FileStat  src;
   FileStat  dest;
@@ -99,22 +125,15 @@ protected:
 private:
 
   // defaults are ok
-  // File( const File & from );
-  // File & operator =( const File & from );
+  // FileOp( const FileOp & from );
+  // FileOp & operator =( const FileOp & from );
 
 };
 
 #if !defined( inline )
-#include <File.ii>
+#include <FileOp.ii>
 #else
 #undef inline
-
-ostream &
-operator << ( ostream & dest, const File & src );
-
-istream &
-operator >> ( istream & src, const File & dest );
-
 
 #endif
 
@@ -124,11 +143,11 @@ operator >> ( istream & src, const File & dest );
 //
 //  Data Types: - data types defined by this header
 //
-//  	File	class
+//  	FileOp	class
 //
 //  Constructors:
 //
-//  	File( );
+//  	FileOp( );
 //
 //  Destructors:
 //
@@ -164,7 +183,7 @@ operator >> ( istream & src, const File & dest );
 //
 //  	virtual const char *
 //  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. File )
+//  	    Return the name of this class (i.e. FileOp )
 //
 //  	virtual const char *
 //  	getVersion( bool withPrjVer = true ) const;
@@ -185,10 +204,10 @@ operator >> ( istream & src, const File & dest );
 //  Associated Functions:
 //
 //  	ostream &
-//  	operator <<( ostream & dest, const File & src );
+//  	operator <<( ostream & dest, const FileOp & src );
 //
 //	istream &
-//	operator >> ( istream & src, File & dest );
+//	operator >> ( istream & src, FileOp & dest );
 //
 // Example:
 //
@@ -203,6 +222,9 @@ operator >> ( istream & src, const File & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 1.3  1998/11/02 19:20:50  houghton
+// Added remove().
+//
 // Revision 1.2  1998/03/11 16:09:13  houghton
 // Added setDestStat.
 // Added getDest and getSrc.
@@ -211,5 +233,5 @@ operator >> ( istream & src, const File & dest );
 // Initial Version.
 //
 //
-#endif // ! def _File_hh_ 
+#endif // ! def _FileOp_hh_ 
 
