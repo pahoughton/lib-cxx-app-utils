@@ -221,6 +221,9 @@ test:	default
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:33  houghton
+# Changed Version Num to 5
+#
 # Revision 4.2  1998/09/29 13:45:59  houghton
 # Changed to use MakeConfigs 5.05.
 #

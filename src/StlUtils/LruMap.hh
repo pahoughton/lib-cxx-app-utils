@@ -256,6 +256,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
 // Revision 4.3  2000/01/26 15:35:12  houghton
 // Moved destructor code from .ii to here.
 //

@@ -35,6 +35,9 @@ tFileOp( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:28  houghton
+// Changed Version Num to 5
+//
 // Revision 1.2  1998/11/02 19:36:30  houghton
 // Changed: the File class was renamed to FileOp.
 //

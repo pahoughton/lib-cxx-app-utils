@@ -283,6 +283,9 @@ install_shared::
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:33  houghton
+# Changed Version Num to 5
+#
 # Revision 1.2  1998/10/23 13:10:21  houghton
 # *** empty log message ***
 #

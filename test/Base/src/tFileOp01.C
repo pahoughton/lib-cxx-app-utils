@@ -193,6 +193,9 @@ tFileOp01( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:28  houghton
+// Changed Version Num to 5
+//
 // Revision 1.3  1999/03/02 12:54:44  houghton
 // Expanded tests.
 //

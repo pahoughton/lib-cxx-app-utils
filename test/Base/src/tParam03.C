@@ -179,6 +179,9 @@ tParam03( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:29  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1999/11/09 22:10:40  houghton
 // Bug-Fix: can't test gen args file.
 //

@@ -704,6 +704,9 @@ tRegexScan( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:29  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1998/10/13 16:40:50  houghton
 // Cleanup.
 //

@@ -61,6 +61,9 @@ install_lib_all:
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:13  houghton
+# Changed Version Num to 5
+#
 # Revision 4.9  2000/04/19 11:04:25  houghton
 # Changed install_docs to install_man
 # Added install_html.

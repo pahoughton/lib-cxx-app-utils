@@ -42,6 +42,9 @@ tStr27( void )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:30  houghton
+// Changed Version Num to 5
+//
 // Revision 4.1  1999/05/01 12:56:42  houghton
 // Initial Version.
 //

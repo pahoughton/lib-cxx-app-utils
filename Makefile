@@ -145,6 +145,9 @@ help_config:
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:01  houghton
+# Changed Version Num to 5
+#
 # Revision 4.11  2000/04/19 11:03:48  houghton
 # Changed install_docs to install_man
 # Added install_html.

@@ -52,6 +52,9 @@ install_html: $(INSTALL_DOC_HTML_BASE_DIR)/user
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:13  houghton
+# Changed Version Num to 5
+#
 # Revision 1.1  2000/04/19 11:04:09  houghton
 # Initial Version.
 #

@@ -535,6 +535,9 @@ FileOp::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:22  houghton
+// Changed Version Num to 5
+//
 // Revision 1.8  1999/10/07 09:45:45  houghton
 // Changed: remove() to work for files and directories.
 //

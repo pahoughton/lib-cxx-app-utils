@@ -849,6 +849,9 @@ basename( const char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
 // Revision 4.9  1999/05/09 13:06:49  houghton
 // Added long long support.
 //

@@ -123,6 +123,9 @@ tStripWhite( LibTest & tester )
   
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:31  houghton
+// Changed Version Num to 5
+//
 // Revision 4.5  1998/10/23 13:09:46  houghton
 // Bug-Fix: check the first character of 'from'.
 //

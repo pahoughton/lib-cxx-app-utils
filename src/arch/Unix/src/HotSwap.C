@@ -351,6 +351,9 @@ HotSwap::setErrorFnDesc( int osErr, const char * fn, const char * desc )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:22  houghton
+// Changed Version Num to 5
+//
 // Revision 4.3  2000/03/21 23:31:23  houghton
 // Added swapLock() and swapUnLock() methods.
 //

@@ -170,6 +170,9 @@ bool tVectorResync( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:26  houghton
+// Changed Version Num to 5
+//
 // Revision 4.10  1999/03/02 12:54:07  houghton
 // Added tBetween.
 //

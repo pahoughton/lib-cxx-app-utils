@@ -416,6 +416,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:15  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1998/03/08 18:05:43  houghton
 // Added setTimes() to set the access and modification times.
 //

@@ -371,6 +371,9 @@ RegexScan::cleanup()
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
 // Revision 4.3  1998/10/23 13:05:53  houghton
 // Bug-Fix: 'Memory Leak' - the 'buffer' was not being free'ed.
 //

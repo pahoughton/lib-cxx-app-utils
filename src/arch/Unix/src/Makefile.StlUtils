@@ -79,6 +79,9 @@ $(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:22  houghton
+# Changed Version Num to 5
+#
 # Revision 4.8  1999/05/09 13:08:01  houghton
 # Added HotSwap.
 #

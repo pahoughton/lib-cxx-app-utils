@@ -211,6 +211,9 @@ Bitmask::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:14  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1998/10/13 16:13:28  houghton
 // Port(Linux): added 'junk' to work around a compiler bug.
 //

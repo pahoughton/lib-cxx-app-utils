@@ -53,6 +53,9 @@ tStripTrailing( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:31  houghton
+// Changed Version Num to 5
+//
 // Revision 1.1  1997/12/20 16:13:47  houghton
 // Initial Version.
 //

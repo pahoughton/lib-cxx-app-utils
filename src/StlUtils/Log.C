@@ -511,6 +511,9 @@ Log::commonLog(
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1999/10/07 13:56:18  houghton
 // Added appendFile().
 //

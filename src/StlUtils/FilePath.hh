@@ -297,6 +297,9 @@ compare( const FilePath & one, const FilePath & two );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:15  houghton
+// Changed Version Num to 5
+//
 // Revision 4.5  1999/06/10 11:45:11  houghton
 // Added constructor that prefixes the file name with the date time
 //   passed. (i.e. dir/19990602.040302.filename).

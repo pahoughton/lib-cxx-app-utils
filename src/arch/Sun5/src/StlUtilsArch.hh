@@ -163,6 +163,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:21  houghton
+// Changed Version Num to 5
+//
 // Revision 4.4  1999/10/07 13:56:43  houghton
 // Added STLUTILS_ENDIAN.
 //

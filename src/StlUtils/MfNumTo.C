@@ -239,6 +239,9 @@ MfNumTo(
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
 // Revision 4.4  1998/02/13 23:32:43  houghton
 // Bug-Fix: was not converting all spaces to '0'.
 //

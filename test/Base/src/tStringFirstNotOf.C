@@ -61,6 +61,9 @@ tStringFirstNotOf( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:31  houghton
+// Changed Version Num to 5
+//
 // Revision 4.1  1997/09/17 15:14:44  houghton
 // Changed to Version 4
 //

@@ -299,6 +299,9 @@ MesgQueue::setError( ErrorNum errNum, int osErr )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:22  houghton
+// Changed Version Num to 5
+//
 // Revision 4.3  2000/03/10 11:42:09  houghton
 // Added: clearError(), getOsErrno() and interupted().
 //

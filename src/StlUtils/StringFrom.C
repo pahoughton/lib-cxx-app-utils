@@ -379,6 +379,9 @@ StringFrom( const struct tm & src, const char * fmt )
 
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
 // Revision 4.5  1999/05/09 13:06:34  houghton
 // Added long long support.
 //

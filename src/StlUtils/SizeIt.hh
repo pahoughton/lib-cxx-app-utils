@@ -278,6 +278,9 @@ operator >> ( istream & src, const SizeIt & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
 // Revision 4.3  1998/11/02 15:28:07  houghton
 // Added SizeIt::size_type type.
 // Cleanup.

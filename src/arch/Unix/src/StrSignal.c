@@ -47,6 +47,9 @@ StrSignal( int sig )
  * Revision Log:
  *
  * $Log$
+ * Revision 5.1  2000/05/25 10:33:23  houghton
+ * Changed Version Num to 5
+ *
  * Revision 1.1  1998/02/02 15:32:27  houghton
  * Initial version.
  *

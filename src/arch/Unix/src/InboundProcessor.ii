@@ -63,6 +63,9 @@ InboundProcessor<Proc,PreScan>::InboundProcessor(
 // Revision Log:
 // 
 // $Log$
+// Revision 5.1  2000/05/25 10:33:22  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1997/10/15 13:39:03  houghton
 // Added prescan support.
 //

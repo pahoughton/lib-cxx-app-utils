@@ -961,6 +961,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:15  houghton
+// Changed Version Num to 5
+//
 // Revision 4.10  2000/01/05 22:45:17  mroberds
 // Changed getString to return a 4 digit year for years before 1950 and
 // a 2 digit year otherwise.

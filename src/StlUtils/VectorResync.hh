@@ -162,6 +162,9 @@ VectorResync(
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
 // Revision 1.3  1999/06/10 11:45:50  houghton
 // Changed to support two different types of vectors.
 //

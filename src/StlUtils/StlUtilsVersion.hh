@@ -72,6 +72,9 @@ const char VERID_##name_[] =						      \
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
 // Revision 4.4  1998/03/23 10:45:14  houghton
 // Changed to eliminate Sun5 compiler warnings.
 //

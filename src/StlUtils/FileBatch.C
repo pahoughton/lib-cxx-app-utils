@@ -110,6 +110,9 @@ FileBatchBase::setError( ErrorNum errNum, streampos errPos, int osErr )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:15  houghton
+// Changed Version Num to 5
+//
 // Revision 4.1  1999/05/01 12:51:01  houghton
 // Initial Version.
 //

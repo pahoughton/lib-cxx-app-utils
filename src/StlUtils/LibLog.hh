@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:15  houghton
+// Changed Version Num to 5
+//
 // Revision 4.3  1999/11/04 17:32:13  houghton
 // Bug-Fix: LogIf was not changing log levels.
 //

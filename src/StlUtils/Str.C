@@ -1403,6 +1403,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
 // Revision 4.12  2000/04/19 10:14:05  houghton
 // Changed Range to use 'long long' vs unsigned long.
 // Changed to support - range value.

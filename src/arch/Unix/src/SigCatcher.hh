@@ -236,6 +236,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:23  houghton
+// Changed Version Num to 5
+//
 // Revision 4.4  1999/03/02 12:52:50  houghton
 // Added size_type.
 // Cleanup.

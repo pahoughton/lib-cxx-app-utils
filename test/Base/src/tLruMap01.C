@@ -105,6 +105,9 @@ tLruMap01( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:29  houghton
+// Changed Version Num to 5
+//
 // Revision 4.1  1998/10/13 15:22:01  houghton
 // Initial Version.
 //

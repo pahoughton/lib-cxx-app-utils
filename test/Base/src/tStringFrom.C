@@ -446,6 +446,9 @@ tStringFrom( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:31  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1997/12/23 12:07:19  houghton
 // Added tests for StringFrom( char * dest ).
 //

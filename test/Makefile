@@ -58,6 +58,9 @@ check:
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:24  houghton
+# Changed Version Num to 5
+#
 # Revision 1.3  1999/10/30 10:40:37  houghton
 # Added  check target.
 #

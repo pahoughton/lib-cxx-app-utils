@@ -248,6 +248,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:22  houghton
+// Changed Version Num to 5
+//
 // Revision 4.4  1999/10/28 14:19:50  houghton
 // Added support for multiple file name patterns.
 //

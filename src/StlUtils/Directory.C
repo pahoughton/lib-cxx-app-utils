@@ -908,6 +908,9 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:15  houghton
+// Changed Version Num to 5
+//
 // Revision 4.8  2000/03/10 11:33:49  houghton
 // Change: cleanup dumpInfo output.
 // Change: added '[' to wild card characters.

@@ -966,6 +966,9 @@ Compress::setError( ErrorNum errNum, const char * desc )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:14  houghton
+// Changed Version Num to 5
+//
 // Revision 1.2  1999/10/08 10:20:43  houghton
 // Added rmSrc arg to compress( FilePath & fn ).
 // Added rmSrc arg to decompress( FilePath & fn ).

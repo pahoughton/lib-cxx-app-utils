@@ -202,6 +202,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:26  houghton
+// Changed Version Num to 5
+//
 // Revision 4.11  1999/03/02 12:54:12  houghton
 // Added tBetween.
 //

@@ -179,6 +179,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1999/10/02 09:32:28  houghton
 // Port: work around sun compiler bug.
 //

@@ -32,6 +32,9 @@ tLruSash( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:29  houghton
+// Changed Version Num to 5
+//
 // Revision 4.1  1998/11/02 15:28:47  houghton
 // Initial Version.
 //

@@ -67,6 +67,9 @@ realclean:
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:13  houghton
+# Changed Version Num to 5
+#
 # Revision 1.4  2000/04/19 11:03:57  houghton
 # Changed install_docs to install_man
 # Added install_html.

@@ -706,6 +706,9 @@ StringToTm( const char * src, const char * fmt )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
 // Revision 4.6  1999/05/09 13:06:41  houghton
 // Added long long support.
 //

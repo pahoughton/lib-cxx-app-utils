@@ -88,6 +88,9 @@ EOS
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:22  houghton
+# Changed Version Num to 5
+#
 # Revision 4.3  2000/03/21 23:29:15  houghton
 # Bug-Fix: was not picking up all sig names.
 #
@@ -116,6 +119,9 @@ EOS
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:22  houghton
+# Changed Version Num to 5
+#
 # Revision 4.3  2000/03/21 23:29:15  houghton
 # Bug-Fix: was not picking up all sig names.
 #

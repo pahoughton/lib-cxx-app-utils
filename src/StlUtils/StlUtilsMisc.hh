@@ -195,6 +195,9 @@ ArchiveFile( const FilePath &	srcFn,
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
 // Revision 4.4  2000/03/10 11:38:30  houghton
 // Added IncCounter().
 //

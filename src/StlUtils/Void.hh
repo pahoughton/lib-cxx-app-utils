@@ -205,6 +205,9 @@ compare( const Void & lhs, const Void & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1997/09/19 11:21:24  houghton
 // Changed to use new portable types (STLUTILS*_T).
 //

@@ -491,6 +491,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1998/03/08 18:07:04  houghton
 // Changed so TESTR call does not access the error until after the test
 //     value. This way, if the error is a method, the method being tested

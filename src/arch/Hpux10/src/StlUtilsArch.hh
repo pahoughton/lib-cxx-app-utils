@@ -161,6 +161,9 @@ const size_t NPOS = (size_t)(-1);
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:19  houghton
+// Changed Version Num to 5
+//
 // Revision 1.2  1998/08/13 10:54:02  houghton
 // Added STLUTILS_STRBUF_PBASE define.
 //

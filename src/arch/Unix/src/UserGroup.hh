@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:23  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1998/10/13 16:34:48  houghton
 // Added destructor '~UserGroup()'.
 //

@@ -202,6 +202,9 @@ operator >> ( istream & src, const HotSwap & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:22  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  2000/03/21 23:30:56  houghton
 // Added swapLock() and swapUnLock() methods.
 //

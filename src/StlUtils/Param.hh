@@ -959,6 +959,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
 // Revision 4.5  2000/04/18 12:53:12  houghton
 // Updated documentation.
 //

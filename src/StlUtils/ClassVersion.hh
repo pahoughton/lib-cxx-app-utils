@@ -280,6 +280,9 @@ const ClassVersion className_::version( #className_,			      \
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:14  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1998/03/23 10:44:33  houghton
 // Changed to eliminate Sun5 compiler warnings.
 //

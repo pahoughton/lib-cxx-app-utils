@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:23  houghton
+// Changed Version Num to 5
+//
 // Revision 4.4  1998/10/13 16:34:09  houghton
 // Change to ensure 'primary' group is included in the user's groups.
 //

@@ -657,6 +657,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
 // Revision 4.7  1999/11/09 11:00:57  houghton
 // Added getTrimSize().
 // Added getMaxSize().

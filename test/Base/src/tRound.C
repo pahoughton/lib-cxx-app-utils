@@ -170,6 +170,9 @@ tRound( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:29  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1998/10/23 13:09:13  houghton
 // Added tests for negative values.
 //

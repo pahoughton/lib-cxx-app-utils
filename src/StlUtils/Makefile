@@ -353,6 +353,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:16  houghton
+# Changed Version Num to 5
+#
 # Revision 4.25  2000/01/03 14:20:44  houghton
 # Added include 00-Makefile.cfg.
 #

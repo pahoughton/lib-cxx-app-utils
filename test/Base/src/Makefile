@@ -476,6 +476,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:26  houghton
+# Changed Version Num to 5
+#
 # Revision 4.17  1999/11/10 10:07:56  houghton
 # Bug-Fix: need to include 00-Makefile.cfg.
 #

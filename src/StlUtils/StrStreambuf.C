@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1998/08/13 10:52:44  houghton
 // Port(Hpux10): expaded dumpInfo output.
 //

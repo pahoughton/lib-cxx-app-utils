@@ -41,6 +41,9 @@ extern "C" {
  * Revision Log:
  *
  * $Log$
+ * Revision 5.1  2000/05/25 10:33:20  houghton
+ * Changed Version Num to 5
+ *
  * Revision 4.4  1999/05/14 11:34:07  houghton
  * Port(Linux): port for Gnu Libc 2
  *

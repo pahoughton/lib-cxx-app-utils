@@ -38,6 +38,9 @@ extern "C" {
  * Revision Log:
  *
  * $Log$
+ * Revision 5.1  2000/05/25 10:33:21  houghton
+ * Changed Version Num to 5
+ *
  * Revision 1.1  1998/02/13 22:13:29  houghton
  * Initial version
  *

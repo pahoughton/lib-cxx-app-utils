@@ -718,6 +718,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1999/11/09 11:01:30  houghton
 // Added open( name, mode, prot ).
 //

@@ -202,6 +202,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:13  houghton
+# Changed Version Num to 5
+#
 # Revision 4.5  1999/03/02 12:46:09  houghton
 # *** empty log message ***
 #

@@ -228,6 +228,9 @@ Compare_NCMP( double );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:14  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1999/06/10 11:43:11  houghton
 // Added long long (64 bit) support.
 // Cleanup.

@@ -42,6 +42,9 @@ StripTrailing( char * buffer, const char * white, size_t bufferSize )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
 // Revision 1.1  1997/12/20 16:07:58  houghton
 // Initial Version.
 //

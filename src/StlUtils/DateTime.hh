@@ -671,6 +671,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:15  houghton
+// Changed Version Num to 5
+//
 // Revision 4.5  1998/10/13 16:17:05  houghton
 // Changed: time zone processing no longer uses 'static' methods.
 //

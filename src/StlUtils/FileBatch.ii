@@ -343,6 +343,9 @@ FileBatch< Rec >::file( void ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 5.1  2000/05/25 10:33:15  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1999/05/01 12:52:21  houghton
 // Rework to get around compile problems.
 // Added front()

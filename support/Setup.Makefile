@@ -118,6 +118,9 @@ setup: check_cvs $(common_h) $(gnuregex_h) $(stdcxx_hh) gen_setup_cfg
 
 #
 # $Log$
+# Revision 5.1  2000/05/25 10:33:23  houghton
+# Changed Version Num to 5
+#
 # Revision 1.4  2000/04/19 11:04:48  houghton
 # Added INSTALL_DOC_HTML_BASE_DIR.
 #

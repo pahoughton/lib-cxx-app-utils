@@ -65,6 +65,9 @@ AppParam::parseArgs( void )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:32  houghton
+// Changed Version Num to 5
+//
 // Revision 4.1  1997/09/17 15:14:58  houghton
 // Changed to Version 4
 //

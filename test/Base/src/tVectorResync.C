@@ -99,6 +99,9 @@ tVectorResync( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:32  houghton
+// Changed Version Num to 5
+//
 // Revision 1.1  1998/01/05 13:09:46  houghton
 // Initial Version.
 //

@@ -191,6 +191,9 @@ strptime( char * b, const char * fmt, struct tm * t );
 // Revision Log:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:15  houghton
+// Changed Version Num to 5
+//
 // Revision 4.5  1999/03/02 12:45:10  houghton
 // Added DaysInMonthLeap
 // Added MonthDayOfYearLeap

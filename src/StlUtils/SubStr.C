@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
 // Revision 4.2  1997/09/19 11:22:26  houghton
 // Changed to use size_type.
 //

@@ -190,6 +190,9 @@ tLog04( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.1  2000/05/25 10:33:28  houghton
+// Changed Version Num to 5
+//
 // Revision 4.3  1998/07/20 11:32:14  houghton
 // Port(Hpux10): Had to split tLog04.C, The compiler was running out of memory.
 //
