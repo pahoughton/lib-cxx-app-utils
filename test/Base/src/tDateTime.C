@@ -26,14 +26,14 @@ tDateTime( LibTest & tester )
   
   putenv( "TZ=CST6CDT" );
 
-  TESTP( tDateTime01( tester ), true );
-  TESTP( tDateTime02( tester ), true );
-  TESTP( tDateTime03( tester ), true ); 
-  TESTP( tDateTime04( tester ), true ); 
-  TESTP( tDateTime05( tester ), true ); 
-  TESTP( tDateTime06( tester ), true ); 
-  TESTP( tDateTime07( tester ), true ); 
-  TESTP( tDateTime08( tester ), true ); 
+  TESTP( tDateTime01( tester ) );
+  TESTP( tDateTime02( tester ) );
+  TESTP( tDateTime03( tester ) ); 
+  TESTP( tDateTime04( tester ) ); 
+  TESTP( tDateTime05( tester ) ); 
+  TESTP( tDateTime06( tester ) ); 
+  TESTP( tDateTime07( tester ) ); 
+  TESTP( tDateTime08( tester ) ); 
  
   return( true );
   

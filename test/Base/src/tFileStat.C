@@ -16,12 +16,12 @@ bool tFileStat06( LibTest & tester );
 bool
 tFileStat( LibTest & tester )
 {
-  TESTP( tFileStat01( tester ), true  );
-  TESTP( tFileStat02( tester ), true  );
-  TESTP( tFileStat03( tester ), true  );
-  TESTP( tFileStat04( tester ), true  );
-  TESTP( tFileStat05( tester ), true  );
-  TESTP( tFileStat06( tester ), true  );
+  TESTP( tFileStat01( tester ));
+  TESTP( tFileStat02( tester ));
+  TESTP( tFileStat03( tester ));
+  TESTP( tFileStat04( tester ));
+  TESTP( tFileStat05( tester ));
+  TESTP( tFileStat06( tester ));
 
   return( true );
 }

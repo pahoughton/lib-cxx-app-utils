@@ -14,10 +14,10 @@ bool tFilePath04( LibTest & tester );
 bool
 tFilePath( LibTest & tester )
 {
-  TESTP( tFilePath01( tester ), true );
-  TESTP( tFilePath02( tester ), true );
-  TESTP( tFilePath03( tester ), true );
-  TESTP( tFilePath04( tester ), true );
+  TESTP( tFilePath01( tester ) );
+  TESTP( tFilePath02( tester ) );
+  TESTP( tFilePath03( tester ) );
+  TESTP( tFilePath04( tester ) );
 
   return( true );
 }

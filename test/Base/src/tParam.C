@@ -11,7 +11,7 @@ bool tParam01( LibTest & test );
 bool
 tParam( LibTest & tester )
 {
-  TESTP( tParam01( tester ), true );
+  TESTP( tParam01( tester ) );
 
   return( true );
 }
