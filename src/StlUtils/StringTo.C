@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/05/25 12:36:04  houghton
+// Bug-Fix: convert '   ' to 0.
+//
 // Revision 2.1  1995/11/10 12:41:13  houghton
 // Change to Version 2
 //
@@ -153,15 +156,8 @@ StringTo(								      \
 									      \
   if( ! conv || conv >= end )						      \
     {									      \
-      if( base == 8 )							      \
-	{								      \
-	  dest = 0;							      \
-	  return( true );						      \
-	}								      \
-      else								      \
-	{								      \
-	  return( false );						      \
-	}								      \
+      dest = 0;								      \
+      return( true );							      \
     }									      \
 									      \
   const char * first = conv;						      \
@@ -175,7 +171,8 @@ StringTo(								      \
 	}								      \
       else								      \
 	{								      \
-	  if( conv == first || isdigit( *conv ) ) return( false );	      \
+	  if( conv == first || isdigit( *conv ) )			      \
+	    return( false );						      \
 									      \
 	  dest = (neg) ? value * -1 : value;				      \
 	  return( true );						      \
@@ -189,42 +186,47 @@ STRING_TO_TYPE( int )
 STRING_TO_TYPE( short )
 STRING_TO_TYPE( long )
 
-#define STRING_TO_UTYPE( _type_ )					   \
-bool									   \
-StringTo(								   \
-  _type_ &	    dest,						   \
-  const char * 	    src,						   \
-  unsigned short    baseToUse,						   \
-  size_t    	    len							   \
-  )									   \
-{									   \
-  _type_  value = 0;							   \
-									   \
-  const char * 	    end = src + ( len ? len : strlen( src ) );		   \
-  unsigned short    base = baseToUse;					   \
-  bool	    	    neg = false;					   \
-									   \
-  const char * conv = _StringToNumPrep( src, end, base, neg );		   \
-									   \
-  if( ! conv || conv >= end ) return( false );				   \
-									   \
-  const char * first = conv;						   \
-  for( ; conv < end; conv++ )						   \
-    {									   \
-      if( IsBaseDigit( *conv, base ) )					   \
-	{								   \
-	  value *= base;						   \
-	  value += CharToInt( *conv );					   \
-	}								   \
-      else								   \
-	{								   \
-	  if( conv == first || isdigit( *conv ) ) return( false );	   \
-	  dest = value;							   \
-	  return( true );						   \
-	}								   \
-    }									   \
-  dest = value;								   \
-  return( true );							   \
+#define STRING_TO_UTYPE( _type_ )					      \
+bool									      \
+StringTo(								      \
+  _type_ &	    dest,						      \
+  const char * 	    src,						      \
+  unsigned short    baseToUse,						      \
+  size_t    	    len							      \
+  )									      \
+{									      \
+  _type_  value = 0;							      \
+									      \
+  const char * 	    end = src + ( len ? len : strlen( src ) );		      \
+  unsigned short    base = baseToUse;					      \
+  bool	    	    neg = false;					      \
+									      \
+  const char * conv = _StringToNumPrep( src, end, base, neg );		      \
+									      \
+  if( ! conv || conv >= end )						      \
+    {									      \
+      dest = 0;								      \
+      return( true );							      \
+    }									      \
+									      \
+  const char * first = conv;						      \
+  for( ; conv < end; conv++ )						      \
+    {									      \
+      if( IsBaseDigit( *conv, base ) )					      \
+	{								      \
+	  value *= base;						      \
+	  value += CharToInt( *conv );					      \
+	}								      \
+      else								      \
+	{								      \
+	  if( conv == first || isdigit( *conv ) )			      \
+	    return( false );						      \
+	  dest = value;							      \
+	  return( true );						      \
+	}								      \
+    }									      \
+  dest = value;								      \
+  return( true );							      \
 }
 
 
@@ -253,7 +255,11 @@ StringTo(
 
   int	fract = 0;
 
-  if( ! conv || conv >= end ) return( false );
+  if( ! conv || conv >= end )
+    {
+      dest = 0;
+      return( true );
+    }
 
   const char * first = conv;
   
@@ -273,7 +279,8 @@ StringTo(
 	}
       else
 	{
-	  if( conv == first || isdigit( *conv ) ) return( false );
+	  if( conv == first || isdigit( *conv ) )
+	    return( false );
 
 	  if( fract )
 	    {
@@ -351,6 +358,15 @@ StringToBool(
   size_t    	len
   )
 {
+  if( ! src )
+    return( false );
+
+  if( src[0] == 0 )
+    {
+      dest = false;
+      return( true );
+    }
+  
   if( isdigit( src[0] ) )
     {
       int num = 0;
@@ -359,30 +375,39 @@ StringToBool(
       return( true );
     }
 
-  char boolStr[10];
-  strncpy( boolStr, src, (len) ? len : sizeof( boolStr ) );
-  boolStr[ (len) ? len : (sizeof( boolStr ) - 1) ] = 0;
-  StringLower( boolStr );
-
-  if( ! strncmp( boolStr, "true", 4 ) ||
-      ! strncmp( boolStr, "yes", 3 ) ||
-      ! strcmp( boolStr, "t" ) ||
-      ! strcmp( boolStr, "y" ) ||
-      ! strncmp( boolStr, "on", 2 ) )
+  if( ( (len == 1 || (len == 0 && src[1] == 0 ) ) &&
+	( tolower( src[0] ) == 't' || tolower( src[0] ) == 'y' ) ) ||
+	
+      ! StringCaseCompare( src, "true", (len && len < 4) ? len : 4 ) ||
+      ! StringCaseCompare( src, "yes", (len && len < 3) ? len : 3 ) ||
+      ! StringCaseCompare( src, "on", (len && len < 2) ? len : 2 ) )
     {
       dest = true;
       return( true );
     }
-  
-  if( ! strncmp( boolStr, "false", 5 ) ||
-      ! strncmp( boolStr, "no", 3 ) ||
-      ! strcmp( boolStr, "f" ) ||
-      ! strcmp( boolStr, "n" ) ||
-      ! strncmp( boolStr, "off", 3 ) )
+
+  if( ( (len == 1 || (len == 0 && src[1] == 0 ) ) &&
+	( tolower( src[0] ) == 'f' ||
+	  tolower( src[0] ) == 'n' ||
+	  tolower( src[0] ) == ' ' ) ) ||
+      ! StringCaseCompare( src, "false", (len && len < 4) ? len : 4 ) ||
+      ! StringCaseCompare( src, "no", (len && len < 2) ? len : 2 ) ||
+      ! StringCaseCompare( src, "off", (len && len < 3) ? len : 3 ) )
     {
       dest = false;
       return( true );
     }
+
+  const char * c = src;
+  
+  for( ; ((len && ((size_t)(c - src)) < len) || *c != 0) && *c == ' '; c++ );
+
+  if( (len &&  ((size_t)(c - src)) == len ) || *c == 0 )
+    {
+      dest = false;
+      return( true );
+    }
+
   return( false );
 }
 
