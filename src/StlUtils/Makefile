@@ -33,7 +33,7 @@ INSTALL_INCDIR	= $(alpha_incdir)
 
 VER_MAJOR	= 2
 VER_MINOR	= 01
-VER_RELEASE	= 00.a.7
+VER_RELEASE	= 00.a.10
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -392,6 +392,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.17  1996/05/25 12:35:29  houghton
+# Change version number.
+#
 # Revision 2.16  1996/05/21 10:31:29  houghton
 # Added vpt to show VPATH value.
 #
