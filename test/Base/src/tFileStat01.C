@@ -137,7 +137,7 @@ tFileStat01( LibTest & tester )
   }
   
   {
-
+ 
     FileStat t( "data/FileStat.l1" );
     User     h( "houghton" );
     
