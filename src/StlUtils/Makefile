@@ -106,7 +106,7 @@ SHARED_CXX_FLAGS	= $(cxx_shared) $(cxx_optimize)
 
 # **** S H A R E D   D E P   L I B S *****
 
-SHDEP_LIBS		= -lc
+SHDEP_LIBS		= -L$(TOOL_DIR)/lib/alpha -lCommon_s
 
 # **** I N S T A L L ****
 
@@ -389,6 +389,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.14  1996/05/14 14:18:11  houghton
+# Rework SHDEP_LIBS for AIX.
+#
 # Revision 2.13  1996/05/14 14:03:04  houghton
 # Change Version Number.
 #
