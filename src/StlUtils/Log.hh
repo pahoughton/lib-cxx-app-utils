@@ -11,7 +11,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/10 14:08:37  houghton
+// Revision 2.3  1995/11/10 14:11:42  houghton
+// Cleanup (move final endif)
+//
+// Revision 2.2  1995/11/10  14:08:37  houghton
 // Updated documentation comments
 //
 // Revision 2.1  1995/11/10  12:40:43  houghton
@@ -145,8 +148,6 @@ private:
 #endif
 
 
-#endif // ! def _Log_hh_ 
-
 //  Quick Start : - short example of class usage
 //
 //  Data Types: - data types defined by this header
@@ -262,3 +263,6 @@ private:
 //
 //  Other Associated Functions:
 //
+
+#endif // ! def _Log_hh_ 
+

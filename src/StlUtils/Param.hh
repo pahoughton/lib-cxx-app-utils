@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 2.2  1995/11/10 14:08:38  houghton
+// Revision 2.3  1995/11/10 14:11:43  houghton
+// Cleanup (move final endif)
+//
+// Revision 2.2  1995/11/10  14:08:38  houghton
 // Updated documentation comments
 //
 // Revision 2.1  1995/11/10  12:40:54  houghton
@@ -207,7 +210,6 @@ private:
 #endif
 
 
-#endif // ! def _Param_hh_ 
 //  Quick Start : - short example of class usage
 //
 //  Data Types: - data types defined by this header
@@ -366,20 +368,4 @@ private:
 //  Private:
 //
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif // ! def _Param_hh_ 

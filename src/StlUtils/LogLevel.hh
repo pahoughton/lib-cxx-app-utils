@@ -14,7 +14,10 @@
 //
 // 
 // $Log$
-// Revision 2.2  1995/11/10 14:08:37  houghton
+// Revision 2.3  1995/11/10 14:11:43  houghton
+// Cleanup (move final endif)
+//
+// Revision 2.2  1995/11/10  14:08:37  houghton
 // Updated documentation comments
 //
 // Revision 2.1  1995/11/10  12:40:47  houghton
@@ -128,10 +131,6 @@ private:
 #undef inline
 #endif
 
-#endif // ! def _LogLevel_hh_ 
-
-
-
 
 //  Quick Start:
 //
@@ -206,3 +205,5 @@ private:
 //
 //  Other Accociated Functions:
 //
+
+#endif // ! def _LogLevel_hh_ 
