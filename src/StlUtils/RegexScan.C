@@ -10,27 +10,36 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:28  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:41  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
 #include <climits>
-
 extern "C" {
 #include <regex.h>
 };
-
 #include "RegexScan.hh"
-
 #include "Str.hh"
+#else
+#include <cstddef>
+#include <cstdlib>
+#include <cstring>
+#include <climits>
+extern "C" {
+#include <regex.h>
+};
+#include "RxScan.hh"
+#include "Str.hh"
+#endif
 
-const char RegexScan::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION(
+  RegexScan,
+  "$Id$" );
 
 unsigned int	RegexScan::defaultSyntax = RE_SYNTAX_POSIX_EGREP;
 
@@ -44,6 +53,7 @@ RegexScan::RegexScan(
   buf = 0;
   reg = 0;
   re_msg = 0;
+  patternString = 0;
   setPattern( defaultSyntax, pattern, fast, bufSize, tranTable );
 }
 
@@ -58,6 +68,7 @@ RegexScan::RegexScan(
   buf = 0;
   reg = 0;
   re_msg = 0;
+  patternString = 0;
   setPattern( reSyntax, pattern, fast, bufSize, tranTable );
 }
 
@@ -66,7 +77,8 @@ RegexScan::RegexScan( const RegexScan & exp )
   buf = 0;
   reg = 0;
   re_msg = 0;
-  copy( exp.buf, exp.reg );
+  patternString = 0;
+  copy( exp.buf, exp.reg, exp.patternString );
 }
 
 RegexScan::~RegexScan( void )
@@ -102,10 +114,14 @@ RegexScan::setPattern(
   const char *	tranTable
   )
 {
+  
   unsigned int oldSyntax = re_set_syntax( reSyntax );
 
   cleanup();
 
+  patternString = new char [ strlen( pattern ) + 5 ];
+  strcpy( patternString, pattern );
+  
   size_t    patLen = (pattern) ? strlen( pattern ) : 0;
 
   buf = (re_pattern_buffer *)malloc( sizeof(re_pattern_buffer) );
@@ -198,7 +214,7 @@ RegexScan &
 RegexScan::operator =( const RegexScan & from )
 {
   cleanup();
-  copy( from.buf, from.reg );
+  copy( from.buf, from.reg, from.patternString );
   return( *this );
 }
 
@@ -214,8 +230,15 @@ RegexScan::operator =  ( const char * pattern )
 //
 
 void
-RegexScan::copy( re_pattern_buffer * srcBuf, re_registers * srcReg )
+RegexScan::copy(
+  re_pattern_buffer * srcBuf,
+  re_registers * srcReg,
+  const char * pattern
+  )
 {
+  patternString = new char[ strlen( pattern ) + 5 ];
+  strcpy( patternString, pattern );
+  
   buf = new re_pattern_buffer;
   memcpy( buf, srcBuf, sizeof( re_pattern_buffer ) );
 
@@ -245,6 +268,9 @@ RegexScan::copy( re_pattern_buffer * srcBuf, re_registers * srcReg )
 void
 RegexScan::cleanup()
 {
+  if( patternString ) delete patternString;
+  patternString = 0;
+  
   if( buf )
     {
       if( buf->fastmap ) free( buf->fastmap );
@@ -300,18 +326,30 @@ RegexScan::error( void ) const
 }
 
 ostream &
-RegexScan::dumpInfo( ostream & dest ) const
+RegexScan::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+ ) const
 {
-  dest << getClassName() << ":\n";
+  if( showVer )
+    dest << RegexScan::getClassName() << ":\n"
+	 << RegexScan::getVersion() << '\n';
 
-  dest << "    " << version << '\n';
-
-  if( ! good() )
-    dest << "    Error: " << error() << '\n';
+  if( ! RegexScan::good() )
+    dest << prefix << "Error: " << RegexScan::error() << '\n';
   else
-    dest << "    " << "Good!" << '\n';
-    
+    dest << prefix << "Good!" << '\n';
+
+  dest << prefix << "pattern: " << patternString << '\n';
+  
   dest << '\n';
 
   return( dest  );
 }  
+
+const char *
+RegexScan::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer) );
+}

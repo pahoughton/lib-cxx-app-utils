@@ -9,9 +9,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.4  1995/11/05 13:29:03  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.5  1995/11/05 14:44:35  houghton
+// Ports and Version ID changes
 //
 //
 
@@ -94,9 +93,9 @@ Log::dumpInfo( ostream & dest ) const
 
   dest << "    " << version << '\n';
 
-  dest << "    Good:       " << (good() ? "yes" : "no" ) << '\n';
-  dest << "    TimeStamp:  " << (timeStamp ? "on" : "off" ) << '\n';
-  dest << "    LevelStamp: " << (levelStamp ? "on" : "off" ) << '\n';
+  dest << "    Good:       " << (good() == true ? "yes" : "no" ) << '\n';
+  dest << "    TimeStamp:  " << (timeStamp == true ? "on" : "off" ) << '\n';
+  dest << "    LevelStamp: " << (levelStamp == true ? "on" : "off" ) << '\n';
   
   dest << "    " << getClassName() << "::" ;
   rdbuf()->dumpInfo( dest );

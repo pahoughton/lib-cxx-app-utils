@@ -10,19 +10,24 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:37  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:49  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "StringUtils.hh"
-
 #include <cctype>
 #include <cstddef>
+#else
+#include "StrUtil.hh"
+#include <cctype>
+#include <cstddef>
+#endif
 
-static const char * RcsId =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_FUNCT_VERSION(
+  StringLower,
+  "$Id$" );
 
 char *
 StringLower( char * str, size_t len )

@@ -12,44 +12,15 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:20  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:28  houghton
+// Ports and Version ID changes
 //
 //
 
 inline
 DateRangeDaily::DateRangeDaily( time_t startTime, time_t durSec )
-  : DateRange( 0, durSec ),
-    start( startTime )
+  : DateRange( startTime, durSec )
 {
-}
-
-inline
-size_t
-DateRangeDaily::getStreamSize( void ) const
-{
-  return( sizeof( time_t ) + sizeof( start ) );
-}
-
-inline
-ostream &
-DateRangeDaily::write( ostream & dest ) const
-{  
-  time_t wDur = getDur();
-  dest.write( (const char *)&wDur, sizeof( wDur ) );
-  dest.write( (const char *)&start, sizeof( start ) );
-  return( dest );
-}
-
-inline
-istream &
-DateRangeDaily::read( istream & src )
-{
-  time_t rDur;
-  src.read( (char *)&rDur, sizeof( rDur ) );
-  setDur( rDur );
-  src.read( (char *)&start, sizeof( start ) );
-  return( src );
 }
 
 inline

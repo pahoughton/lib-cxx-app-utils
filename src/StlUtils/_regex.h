@@ -205,7 +205,7 @@ extern reg_syntax_t re_syntax_options;
 #ifdef RE_DUP_MAX
 #undef RE_DUP_MAX
 #endif
-#define RE_DUP_MAX ((1 << 15) - 1) 
+#define RE_DUP_MAX  0x7ffe /* ((1 << 15) - 1) */ 
 
 
 /* POSIX `cflags' bits (i.e., information for `regcomp').  */

@@ -12,8 +12,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:26  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:36  houghton
+// Ports and Version ID changes
 //
 //
 
@@ -118,6 +118,13 @@ Log::setTrimSize( size_t size )
   return( rdbuf()->setTrimSize( size ) );
 }
 
+
+inline
+Log &
+Log::operator () ( void )
+{
+  return( level( LogLevel::ERROR ) );
+}
 
 inline
 Log &
@@ -256,7 +263,12 @@ Log::rdbuf( void ) const
   
 }
 
-
+inline
+bool
+Log::good( void ) const
+{
+  return( ostream::good() );
+}
   
 
 #endif // ! def _Log_ii_ 

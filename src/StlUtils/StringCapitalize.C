@@ -10,19 +10,24 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:35  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:47  houghton
+// Ports and Version ID changes
 //
 //
 
-#include <StringUtils.hh>
-
+#if !defined( CLUE_SHORT_FN )
+#include "StringUtils.hh"
 #include <cctype>
 #include <cstddef>
+#else
+#include "StrUtil.hh"
+#include <cctype>
+#include <cstddef>
+#endif
 
-static const char * RcsId =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_FUNCT_VERSION(
+  StringCapitalize,
+  "$Id$" );
 
 char *
 StringCapitalize( char * str, size_t len )

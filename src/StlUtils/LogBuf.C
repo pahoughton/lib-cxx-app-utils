@@ -9,9 +9,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 13:29:04  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.3  1995/11/05 14:44:37  houghton
+// Ports and Version ID changes
 //
 //
 
@@ -195,7 +194,7 @@ LogBuf::dumpInfo( ostream & dest ) const
 
   dest << "    " << version << '\n';
 
-  dest << "    Is file:     " << (isFile() ? "yes" : "no" ) << '\n';
+  dest << "    Is file:     " << (isFile() == true ? "yes" : "no" ) << '\n';
   if( isFile() )
     dest << "    LogFileName: " << logFileName << '\n';
   dest << "    MaxSize:     " << maxSize << '\n';

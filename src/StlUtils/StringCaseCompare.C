@@ -10,23 +10,31 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:35  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:47  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "StringUtils.hh"
 #include "Compare.hh"
-
 #include <functional>
 #include <algorithm>
-
 #include <cstddef>
 #include <cctype>
+#else
+#include "StrUtil.hh"
+#include "Compare.hh"
+#include <functional>
+#include <algorithm>
+#include <cstddef>
+#include <cctype>
+#endif
 
-static const char * RcsId =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_FUNCT_VERSION(
+  StringCaseCompare,
+  "$Id$" );
+
 
 int
 StringCaseCompare( const char * one, const char * two )

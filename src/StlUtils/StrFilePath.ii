@@ -13,8 +13,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:24  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:34  houghton
+// Ports and Version ID changes
 //
 //
 
@@ -28,10 +28,10 @@ FilePath::FilePath( char d, char e )
 
 inline
 FilePath::FilePath( const char * fullName, char d, char e  )
+  : Str( fullName )
 {
   dirDelim = d;
   extDelim = e;
-  fileName = fullName;
 }
 
 inline
@@ -41,22 +41,30 @@ FilePath::FilePath(
   char 	    	d,
   char 	    	e
   )
+  : Str( dir )
 {
   dirDelim = d;
   extDelim = e;
-  fileName = dir;
 
-  if( fileName[ fileName.length() - 1 ] != dirDelim )
-    fileName += dirDelim;
+  if( at( size() - 1 ) != dirDelim )
+    append( dirDelim );
 
-  fileName += fn;
+  append( fn );
+}
+
+inline
+FilePath::FilePath( const FilePath & from )
+  : dirDelim( from.dirDelim ),
+    extDelim( from.extDelim ),
+    Str( from )
+{
 }
 
 inline
 Str
 FilePath::getFullName( void ) const
 {
-  return( fileName );
+  return( cstr() );
 }
 
 inline
@@ -65,10 +73,10 @@ FilePath::getPath( void ) const
 {
   Str path = ".";
 
-  size_t end = fileName.rfind( dirDelim );
+  size_t end = rfind( dirDelim );
 
   if( end != Str::npos )
-    path = fileName.at( (size_t)0, end );
+    path = at( (size_t)0, end );
 
   return( path );
 }
@@ -79,10 +87,10 @@ FilePath::getFileName( void ) const
 {
   Str name;
   
-  size_t beg = fileName.rfind( dirDelim );
+  size_t beg = rfind( dirDelim );
 
   if( beg != Str::npos )
-    name = fileName.after( beg + 1 );
+    name = after( beg + 1 );
 
   return( name );
 }
@@ -94,84 +102,49 @@ FilePath::getExt( void ) const
 {
   Str ext;
   
-  size_t beg = fileName.rfind( extDelim );
+  size_t beg = rfind( extDelim );
 
   if( beg != Str::npos )
-    ext = fileName.after( beg + 1 );
+    ext = after( beg + 1 );
 
   return( ext );
 }
 
 inline
+size_t
+FilePath::getDepth( void ) const
+{
+  size_t depth = 0;
+  for( size_t start = 0;
+       start != Str::npos;
+       start = find( DirDelim, start + 1 ) )
+    depth++;
+
+  return( depth );
+}
+  
+inline
 bool
 FilePath::set( const char * fullPath )
 {
-  fileName = fullPath;
+  assign( fullPath );
   return( true );
 }
 
 inline
-size_t
-FilePath::getStreamSize( void ) const
+bool
+FilePath::set( const Str & fullPath )
 {
-  return( fileName.getStreamSize() +
-	  sizeof( dirDelim ) +
-	  sizeof( extDelim ) );
-}
-
-inline
-ostream & 
-FilePath::write( ostream & dest ) const
-{
-  dest.write( &dirDelim, sizeof( dirDelim ) );
-  dest.write( &extDelim, sizeof( extDelim ) );
-  fileName.write( dest );
-  return( dest );
-}
-
-inline
-istream &
-FilePath::read( istream & src )
-{
-  src.read( &dirDelim, sizeof( dirDelim ) );
-  src.read( &extDelim, sizeof( extDelim ) );
-  fileName.read( src );
-  return( src );
-}
-	    
-inline
-int
-FilePath::compare( const FilePath & two ) const
-{
-  return( fileName.compare( two.fileName ) );
+  assign( fullPath );
+  return( true );
 }
 
 inline
 bool
-FilePath::operator == ( const FilePath & rhs ) const
+FilePath::set( const SubStr & fullPath )
 {
-  return( compare( rhs ) == 0 );
-}
-
-inline
-bool
-FilePath::operator <  ( const FilePath & rhs ) const
-{
-  return( compare( rhs ) < 0 );
-}
-
-inline
-FilePath::operator const char * ( void ) const
-{
-  return( fileName.cstr() );
-}
-
-inline
-FilePath &
-FilePath::operator = ( const char * fullName )
-{
-  set( fullName );
-  return( *this );
+  assign( fullPath );
+  return( true );
 }
 
 inline

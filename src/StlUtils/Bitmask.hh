@@ -11,19 +11,24 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:17  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:23  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-
 #include <iostream>
 #include <algorithm>
-
 #include <cstddef>
+#else
+#include <ClueCfg.hh>
+#include <iostream>
+#include <algorithm>
+#include <cstddef>
+#endif
 
-#ifdef	CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
@@ -31,6 +36,8 @@ class Bitmask
 {
 
 public:
+
+  typedef unsigned long  ValueType;
 
   inline Bitmask( void );
   inline Bitmask( size_t pos );
@@ -80,11 +87,11 @@ protected:
 
 private:
 
-  unsigned long value;
+  ValueType value;
   
 };
 
-#ifndef inline
+#if !defined( inline )
 #include <Bitmask.ii>
 #else
 #undef inline

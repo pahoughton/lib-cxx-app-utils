@@ -11,67 +11,67 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:33  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:46  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-
 #include <strstream>
-
 #include <cstddef>
-
-class Str;
-class SubStr;
-
-#if !defined( AIX )
-#define STREAMBUF_CONST_RDBUF
-#endif
-
-#if defined( STREAMBUF_COST_RDBUF )
-#define STR_CONST_RDBUF const
 #else
-#define STR_CONST_RDBUF
+#include <ClueCfg.hh>
+#include <strstream>
+#include <cstddef>
 #endif
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
-class StrStreambuf : public strstreambuf
+class CLUE_CLASS_T Str;
+class CLUE_CLASS_T SubStr;
+
+class CLUE_CLASS_T StrStreambuf : public strstreambuf
 {
 
 public:
-
-  inline size_t	    	plen(void) STR_CONST_RDBUF;
-  inline size_t	    	psize(void) STR_CONST_RDBUF;
+  StrStreamBuf( void );
+  
+  inline size_t	    	plen(void) CLUE_STRBUF_CONST_RDBUF;
+  inline size_t	    	psize(void) CLUE_STRBUF_CONST_RDBUF;
   inline const char * 	cstr(void);  
 
   const char *		getClassName( void ) const;
+  const char *		getVersion( bool withPrjVer = true ) const;
   
   ostream &		dumpInfo( ostream &	dest = cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true );
 
-  const char *	    getVersion( void ) const;
-  static const char version[];
+
+  static const ClassVersion version;
   
 private:
 
-#ifdef AIX
+#if defined( CLUE_STRBUF_PBASE )
   char * pbase( void ) { return( base() ); }
 #endif
   
-  inline const char * 	strbase( void ) STR_CONST_RDBUF;
-
+  inline const char * 	strbase( void ) CLUE_STRBUF_CONST_RDBUF;
+  
   friend class Str;
   friend class SubStr;
 
 };
 
-#ifndef inline
+#if !defined( inline )
+#if !defined( CLUE_SHORT_FN )
 #include <StrStreambuf.ii>
+#else
+#include <StrSbuf.ii>
+#endif
 #else
 #undef inline
 #endif

@@ -10,28 +10,32 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:32  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:43  houghton
+// Ports and Version ID changes
 //
 //
 
-#include "ClueConfig.hh"
-#include "ClueExceptions.hh"
-
+#if !defined( CLUE_SHORT_FN )
 #include "Str.hh"
 #include "Clue.hh"
 #include "RegexScan.hh"
 #include "Compare.hh"
-#include "File.hh"
-
 #include <algorithm>
 #include <new>
-
 #include <cstring>
+#else
+#include "Str.hh"
+#include "Clue.hh"
+#include "RxScan.hh"
+#include "Compare.hh"
+#include <algorithm>
+#include <new>
+#include <cstring>
+#endif
 
-const char Str::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION(
+  Str,
+  "$Id$" );
 
 const size_t Str::npos = NPOS;
 
@@ -74,7 +78,7 @@ Str::append( const char * src, size_t srcLen )
   if( MemOverlap( src, appLen, strbase(), size() ) )
     {
       char * tmp = new char[ appLen + 1 ];
-      BAD_ALLOC( tmp == 0, *this );
+      CLUE_EXCPT_BAD_ALLOC( tmp == 0, *this );
       memcpy( tmp, src, appLen );
       rdbuf()->sputn( tmp, appLen );
       delete tmp;
@@ -97,7 +101,7 @@ Str::replace(
   size_t    	srcLen
   )
 {
-  OUT_OF_RANGE( start > size(), *this );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
 
   size_t    replaceLen = min( len, size() - start );
   
@@ -107,7 +111,7 @@ Str::replace(
   if( keepSize )
     {
       keepString = new char[ keepSize + 1];
-      BAD_ALLOC( keepString == 0, *this );
+      CLUE_EXCPT_BAD_ALLOC( keepString == 0, *this );
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
@@ -134,7 +138,7 @@ Str::replace(
   char 	    src
   )
 {
-  OUT_OF_RANGE( start > size(), *this );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
 
   size_t    replaceLen = min( len, size() - start );
   
@@ -144,7 +148,7 @@ Str::replace(
   if( keepSize )
     {
       keepString = new char[ keepSize + 1];
-      BAD_ALLOC( keepString == 0, *this );
+      CLUE_EXCPT_BAD_ALLOC( keepString == 0, *this );
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
@@ -170,7 +174,7 @@ Str::replace(
   InputIterator	srcLast
   )
 {
-  size_t    start = (size_t)(min( 0, first - begin()));
+  size_t    start = (size_t)(min( 0L, (long)(first - begin())));
   size_t    replaceLen = last - first;
   
   size_t    keepSize = size() - ( start + replaceLen );
@@ -179,7 +183,7 @@ Str::replace(
   if( keepSize )
     {
       keepString = new char[ keepSize + 1];
-      BAD_ALLOC( keepString == 0, *this );
+      CLUE_EXCPT_BAD_ALLOC( keepString == 0, *this );
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
@@ -204,7 +208,7 @@ Str::replace(
 int
 Str::compare( const Str & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );
@@ -217,7 +221,7 @@ Str::compare( const Str & two, size_t start, size_t len ) const
 int
 Str::compare( const SubStr & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );
@@ -230,7 +234,7 @@ Str::compare( const SubStr & two, size_t start, size_t len ) const
 int
 Str::compare( const char * two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( strlen( two ), len );
@@ -262,7 +266,7 @@ compare( const char * one, const Str & two, size_t len )
 int
 Str::fcompare( const Str & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );
@@ -276,7 +280,7 @@ Str::fcompare( const Str & two, size_t start, size_t len ) const
 int
 Str::fcompare( const SubStr & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );
@@ -360,7 +364,7 @@ Str::strip( const char * stripChars )
 Str &
 Str::substitute( char from, char to, size_t start, bool global )
 {
-  OUT_OF_RANGE( start > size(), *this );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
   
   if( ! global )
     {
@@ -388,7 +392,7 @@ Str::substitute( char from, char to, size_t start, bool global )
 Str &
 Str::substitute( const char * from, const char * to, size_t start, bool global )
 {
-  OUT_OF_RANGE( start > size(), *this );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), *this );
   
   size_t fromLen = strlen( from );
   
@@ -431,7 +435,9 @@ Str::substitute(
   
   for( size_t beg = 0;
       exp.search( base, beg, bLen );
-      beg = exp.matchStart() + repl.size(), bLen = size() - start )
+      beg = exp.matchStart() + repl.size(),
+	base = strbase() + start,
+	bLen = size() - start )
     {
       repl.reset();
       for( const char * t = to; *t; t++ )
@@ -542,7 +548,7 @@ Str::wrap( size_t w, long pad, long firstPad )
 size_t
 Str::scan( const RegexScan & exp, size_t start )
 {
-  OUT_OF_RANGE( start > size(), 0 );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), 0 );
   
   matches.erase( matches.begin(), matches.end() );
 
@@ -794,32 +800,26 @@ Str::get( istream & src, size_t size )
   return( src );
 }
   
-istream &
-Str::read( istream & src )
+size_t
+Str::getBinSize( void ) const
 {
-  size_t    len;
-
-  src.read( (char *)&len, sizeof( len ) );
-
-  return( get( src, len ) );
+  return( sizeof( ULong ) + size() );
 }
-  
-ostream &
-Str::write( ostream & dest ) const
-{
-  size_t len = length();
-  dest.write( (const char *)&len, sizeof( len ) );
-  dest.write( strbase(), length() );
-  return( dest );
-}
-  
 
-File &
-Str::read( File & src )
+
+
+BinStream &
+Str::read( BinStream & src )
 {
-  size_t len = size();
+  ULong len = 0;
+
+  src.read( len );
+
+  if( ! src.good() || len < 1 )
+    return( src );
+  
   reset();
-  
+
   // if the put buffer is not big enough read
   // the string the hard way
 
@@ -828,7 +828,7 @@ Str::read( File & src )
       char buf[1024];
       while( len )
 	{
-	  src.read( buf, min( len, sizeof(buf) ) );
+	  src.read( buf, min( (size_t)len, sizeof(buf) ) );
 	  if( ! src.gcount() )
 	    break;
 	  rdbuf()->sputn( buf, src.gcount() );
@@ -856,16 +856,131 @@ Str::read( File & src )
   return( src );
 }
 
-File &
-Str::write( File & dest ) const
+BinStream &
+Str::write( BinStream & dest ) const
 {
-  size_t len = length();
-  dest.write( &len, sizeof( len ) );
+  ULong len = length();
+  dest.write( len );
+  dest.write( strbase(), length() );
+  return( dest );
+}
+
+istream &
+Str::read( istream & src )
+{
+  ULong len;
+
+  src.read( (char *)&len, sizeof( len ) );
+
+  return( get( src, len ) );
+}
+  
+ostream &
+Str::write( ostream & dest ) const
+{
+  ULong len = length();
+  dest.write( (const char *)&len, sizeof( len ) );
   dest.write( strbase(), length() );
   return( dest );
 }
   
+ostream &
+Str::toStream( ostream & dest ) const
+{
+  dest << cstr();
+  return( dest );
+}
+
+
+// getClassName - return the name of this class
+const char *
+Str::getClassName( void ) const
+{
+  return( "Str" );
+}
+
+// good - return TRUE if no detected errors
+bool
+Str::good( void ) const
+{
+  return( ios::good() );
+}
+
+// error - return a string describing the current state
+const char *
+Str::error( void ) const
+{
+  static Str errStr;
+  errStr.reset();
+
+  errStr << getClassName();
+
+  if( good() )
+    {
+       errStr << ": Ok";
+    }
+  else
+    {
+      errStr << ": unknown error";
+    }
+
+  return( errStr.cstr() );
+}
+
+ostream &
+Str::dumpInfo( 
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << Str::getClassName() << ":\n"
+	 << Str::getVersion() << '\n';
+
   
+  if( ! Str::good() )
+    dest << prefix << "Error: " << Str::error() << '\n';
+  else
+    dest << prefix << "Good!" << '\n';
+
+  if( matches.size() )
+    {
+      int m = 0;
+      for( vector<ScanMatch>::const_iterator them = matches.begin();
+	   them;
+	   them++ )
+	{
+	  dest << prefix << "matches[" << m << "].pos:   "
+	       << (*them).pos << '\n';
+	  dest << prefix << "matches[" << m << "].len:   "
+	       << (*them).len << '\n';
+	}
+    }
+
+  if( rdbuf() )
+    {
+      Str pre;
+      pre = prefix;
+      pre << "rdbuf: " << rdbuf()->getClassName() << "::";
+
+      rdbuf()->dumpInfo( dest, pre, false );
+    }
+  
+
+  return( dest  );
+}  
+
+
+const char *
+Str::getVersion( bool withPrjVer ) const
+{
+  if( rdbuf() )
+    return( version.getVer( withPrjVer, rdbuf()->getVersion( false ) ) );
+  else
+    return( version.getVer( withPrjVer ) );  
+}
+
     
 bool
 Str::writeNum( unsigned long num, unsigned short base, bool neg )
@@ -951,106 +1066,11 @@ Str::writeNum( unsigned long num, unsigned short base, bool neg )
   return( true );
 }
 
-  
-
-
-// getClassName - return the name of this class
-const char *
-Str::getClassName( void ) const
-{
-  return( "Str" );
-}
-
-// good - return TRUE if no detected errors
-bool
-Str::good( void ) const
-{
-  return( ios::good() );
-}
-
-// error - return a string describing the current state
-const char *
-Str::error( void ) const
-{
-  static Str errStr;
-  errStr.reset();
-
-  errStr << getClassName();
-
-  if( good() )
-    {
-       errStr << ": Ok";
-    }
-  else
-    {
-      errStr << ": unknown error";
-    }
-
-  return( errStr.cstr() );
-}
-
-ostream &
-Str::dumpInfo( 
-  ostream &	dest,
-  const char *  prefix,
-  bool		showVer
-  ) const
-{
-  if( showVer )
-    {
-      dest << getClassName() << ":\n";
-      dest << getVersion() << '\n';
-    }
-
-  
-  if( ! good() )
-    dest << prefix << "Error:    " << error() << '\n';
-  else
-    dest << prefix << "good" << '\n';
-
-  if( matches.size() )
-    {
-      int m = 0;
-      for( vector<ScanMatch>::const_iterator them = matches.begin();
-	   them;
-	   them++ )
-	{
-	  dest << prefix << "matches[" << m << "].pos:   "
-	       << (*them).pos << '\n';
-	  dest << prefix << "matches[" << m << "].len:   "
-	       << (*them).len << '\n';
-	}
-    }
-
-  if( rdbuf() )
-    {
-      Str pre;
-      pre = prefix;
-      pre << "rdbuf:" << rdbuf()->getClassName() << "::";
-
-      rdbuf()->dumpInfo( dest, pre, false );
-    }
-  
-
-  return( dest  );
-}  
-
-
-const char *
-Str::getVersion( void ) const
-{
-  static Str ver;
-  ver = version;
-  if( rdbuf() )
-    ver << '\n' << rdbuf()->getVersion();
-  return( ver );
-}
-
 #ifdef STD_STRING
 int
 Str::compare( const string & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );
@@ -1065,7 +1085,7 @@ Str::compare( const string & two, size_t start, size_t len ) const
 int
 Str::fcompare( const string & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );

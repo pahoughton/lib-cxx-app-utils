@@ -10,27 +10,25 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:17  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:23  houghton
+// Ports and Version ID changes
 //
 //
 
 #include "Bitmask.hh"
-
 #include "Compare.hh"
-
 #include <climits>
 
-#ifdef   CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define  inline
 #include <Bitmask.ii>
-#endif
+#endif // def( CLUE_DEBUG )
 
 const char Bitmask::version[] =
 LIB_CLUE_VERSION
 "$Id$";
 
-const size_t Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::value );
+const size_t Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::ValueType );
 
 ostream &
 Bitmask::dumpInfo( ostream & dest ) const

@@ -10,21 +10,29 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:25  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:34  houghton
+// Ports and Version ID changes
 //
 //
 
-#include "ClueVersion.h"
+#if !defined( CLUE_SHORT_FN )
 #include "LibTest.hh"
-
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
+#include <cstdio>
+#else
+#include "LibTest.hh"
+#include <cstdlib>
+#include <cstring>
+#include <fstream>
+#include <cstdio>
+#endif
 
-const char LibTest::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION( LibTest,
+	      "$Id$" );
+
+LibTest::DefaultResults LibTest::defaultResultsObj;
 
 
 // this should prevent accidental use of cout & cerr
@@ -34,11 +42,30 @@ LIB_CLUE_VERSION
 
 LibTest::LibTest(
   const TestItem *  t,
+  ostream & 	    dumpStream,
   ostream & 	    outputStream,
   ostream & 	    errorStream
   )
-  : out( outputStream ),
-    err( errorStream )
+  : dump( dumpStream ),
+    out( outputStream ),
+    err( errorStream ),
+    result( defaultResultsObj )
+{
+  testList = t;
+  currentTest = 0;
+}
+
+LibTest::LibTest(
+  const TestItem *  t,
+  Results &	    resultsProcObj,
+  ostream & 	    dumpStream,
+  ostream & 	    outputStream,
+  ostream & 	    errorStream
+  )
+  : dump( dumpStream ),
+    out( outputStream ),
+    err( errorStream ),
+    result( resultsProcObj )
 {
   testList = t;
   currentTest = 0;
@@ -61,11 +88,8 @@ LibTest::run( int & argc, char * argv[] )
       times = atoi( argv[1] + 1 );
     }
 
-  for( size_t pass = 0; pass < times; pass++ )
+  for( size_t passNum = 0; passNum < times; passNum++ )
     {
-      if( times > 1 )
-	err << "Testing Pass: " << pass + 1 << endl;
-	
       if( (argc > 1 && times == 1) || argc > 2  )
 	{	  
 	  for( int a = 1; a < argc; a++ )
@@ -74,16 +98,8 @@ LibTest::run( int & argc, char * argv[] )
 		{
 		  if( ! strcmp( argv[a], testList[tNum].name ) )
 		    {
-		      currentTest = tNum;
-		      err << "Testing: " << testList[tNum].name;
-		      if( ! testList[tNum].test( *this ) )
-			{
-			  return( tNum );
-			}
-		      else
-			{
-			  err << " passed!" << endl;
-			}
+		      if( ! testit( tNum, passNum ) )
+			return( tNum );
 		    }
 		}
 	    }
@@ -92,87 +108,201 @@ LibTest::run( int & argc, char * argv[] )
 	{
 	  for( size_t tNum = 0; testList[tNum].name; tNum++ )
 	    {
-	      currentTest = tNum;
-	      err << "Testing: " << testList[tNum].name;
-	      if( ! testList[tNum].test( *this ) )
-		{
-		  return( tNum );
-		}
-	      else
-		{
-		  err << " passed!" << endl;
-		}
+	      if( ! testit( tNum, passNum ) )
+		return( tNum );
 	    }
 	}
     }
+
   return( 0 );
 }
 
-void
-LibTest::test( bool pass, bool progress )
+bool
+LibTest::test(
+  const char *	srcFn,
+  long		srcLine,
+  const char *	reason,
+  bool		pass,
+  bool		progress
+  )
 {
-  if( ! pass ) failed();
-    
-  if( progress ) err << '.';
-}
-  
-void
-LibTest::test( const char * name, bool pass )
-{
-  err << ' ' << name;
-  if( ! pass )
+  if( pass )
     {
-      failed();
+      if( progress )
+	{
+	  result.passed( *this, testList[currentTest].name,
+			 currentTest, currentPass,
+			 srcFn, srcLine ) ;
+	}
+      return( true );
+    }
+  else
+    {
+      failed( testList[currentTest].name, reason, srcFn, srcLine );
+      return( result.failed( *this, testList[currentTest].name,
+			     currentTest, currentPass,
+			     reason,
+			     srcFn, srcLine ) );
     }
 }
 
-void
-LibTest::file( const char * fileName )
+  
+bool
+LibTest::test(
+  const char *	srcFn,
+  long		srcLine,
+  bool		pass,
+  bool		progress
+  )
 {
-  char * expFileName = new char [ strlen( fileName ) + 10 ];
+  return( test( srcFn, srcLine, "", pass, progress ) );
+}
 
-  strcpy( expFileName, fileName );
-  strcat( expFileName, ".exp" );
-
-  ifstream inf( fileName );
+bool
+LibTest::file(
+  const char *	srcFn,
+  long		srcLine,
+  const char *	testFileName,
+  const char *	expFileName
+  )
+{
+  char reason[100];
+  size_t  byte = 0;
+  
+  ifstream testf( testFileName );
   ifstream expf( expFileName );
 
-  test( inf.good() && expf.good() );
+  sprintf( reason, "Test File: '%s' open error", testFileName );
+  test( srcFn, srcLine, reason, testf.good() );
+  sprintf( reason, "Expected File: '%s' open error", expFileName );
+  test( srcFn, srcLine, reason, expf.good() );
 
-  char inb[4096];
-  char expb[4096];
+  char testBuf[4096];
+  char expBuf[4096];
 
-  while( inf.read( inb, sizeof( inb ) ).good() )
+  for(;;)
     {
-      test( expf.read( expb, sizeof( expb ) ).good() );
-      test( expf.gcount() == inf.gcount() );
-      test( memcmp( inb, expb, inf.gcount() ) == 0 );
+      testf.read( testBuf, sizeof( testBuf ) );
+      expf.read( expBuf, sizeof( expBuf ) );
+
+      if( testf.gcount() != expf.gcount() )
+	{
+	  sprintf( reason, "Read count mismatch: %d expected: %d",
+		   testf.gcount(), expf.gcount() );
+	  return( test( srcFn, srcLine, reason, false ) );
+	}
+
+      if( ! testf.gcount() )
+	{
+	  if( ! testf.good() )
+	    {
+	      if( ! testf.eof() )
+		{
+		  return( test( srcFn, srcLine,
+				"Test input file error", false ) );
+		}
+	      else
+		{
+		  if( ! expf.eof() )
+		    {
+		      return( test( srcFn, srcLine,
+				    "Unexpected end of test file", false ) );
+		    }
+		  else
+		    {
+		      return( test( srcFn, srcLine, true ) );
+		    }
+		}
+	    }
+	  else
+	    {
+	      return( test( srcFn, srcLine,
+			    "Test read no data", false ) );
+	    }
+	}
+
+      if( memcmp( testBuf, expBuf, testf.gcount() ) != 0 )
+	{
+	  for( size_t bufByte = 0; bufByte < testf.gcount(); bufByte++ )
+	    {
+	      if( testBuf[ bufByte ] != expBuf[ bufByte ] )
+		{
+		  sprintf( reason,
+			   "Data mismatch at byte %d: '0x%x' expected '0x%x'",
+			   byte + bufByte,
+			   testBuf[ bufByte ],
+			   expBuf[ bufByte ] );			   
+			   
+		  return( test( srcFn, srcLine, reason, false ) );
+		}	     
+	    }
+	  return( test( srcFn, srcLine, "memcmp LIED!", false ) );
+	}
+      else
+	{
+	  byte += testf.gcount();
+	}
     }
+}
 
-  test( ! expf.read( expb, sizeof( expb ) ).good() );
-  test( expf.gcount() == inf.gcount() );
-  if( expf.gcount() )
-    test( memcmp( inb, expb, inf.gcount() ) == 0 );
+bool
+LibTest::file( const char * srcFn, long srcLine, const char * testFileName )
+{
+  char * expFileName = new char [ strlen( testFileName ) + 5 ];
+  strcpy( expFileName, testFileName );
+  strcat( expFileName, ".exp" );
 
-  test( inf.eof() );
-  test( expf.eof() );
+  bool ret = file( srcFn, srcLine, testFileName, expFileName );
   delete expFileName;
-  
-}
-      
-  
-void
-LibTest::operator () ( bool pass, bool progress )
-{
-  test( pass, progress );
-}
-  
-void
-LibTest::operator ()( const char * name, bool pass )
-{
-  test( name, pass );
+  return( ret );
+
 }
 
+  
+bool
+LibTest::operator () (
+  const char *	srcFn,
+  long		srcLine,
+  const char *	reason,
+  bool		pass,
+  bool		progress
+  )
+{
+  return( test( srcFn, srcLine, reason, pass, progress ) );
+}
+  
+bool
+LibTest::operator () (
+  const char *	srcFn,
+  long		srcLine,
+  bool		pass,
+  bool		progress
+  )
+{
+  return( test( srcFn, srcLine, pass, progress ) );
+}
+  
+bool
+LibTest::operator () (
+  const char *	srcFn,
+  long		srcLine,
+  const char *	reason,
+  bool		pass
+  )
+{
+  return( test( srcFn, srcLine, reason, pass ) );
+}
+  
+bool
+LibTest::operator () (
+  const char *	srcFn,
+  long		srcLine,
+  bool		pass
+  )
+{
+  return( test( srcFn, srcLine, pass ) );
+}
+  
 ostream &
 LibTest::outputExpect( void )
 {
@@ -187,11 +317,110 @@ LibTest::outputIs( void )
   return( out );
 }
 
-void
-LibTest::failed( void )
+const char *
+LibTest::getVersion( bool withPrjVer ) const
 {
-  err << " FAILED!" << endl;
-  exit( 1 );
+  return( version.getVer( withPrjVer ) );
+}
+
+ostream &
+LibTest::getOut( void )
+{
+  return( out );
+}
+
+ostream &
+LibTest::getDump( void )
+{
+  return( dump );
+}
+
+const char *
+LibTest::getCurrentTestName( void ) const
+{
+  return( testList[currentTest].name );
+}
+
+bool
+LibTest::testit( size_t tNum, size_t passNum )
+{
+  currentTest = tNum;
+  currentPass = passNum;
+  result.start( *this, testList[tNum].name, tNum, passNum + 1 );
+  return( result.completed( *this, testList[tNum].name, tNum, passNum + 1,
+			   testList[tNum].test( *this ) ) );
+}
+
+void
+LibTest::failed(
+  const char *  /* name */,
+  const char *  /* reason */,
+  const char *  /* srcFn */,
+  long		/* line */
+  )
+{
+  return;
+}
+
+void
+LibTest::DefaultResults::start(
+ LibTest &	tester,
+ const char *	testName,
+ size_t		/* testNum */,
+ long		passNum
+ )
+{
+  tester.getOut() << "Testing(" << passNum << "): "<< testName;
+  tester.getOut().flush();
+}
+
+bool
+LibTest::DefaultResults::completed(
+  LibTest &	    tester,
+  const char *	    /* testName */,
+  size_t	    /* testNum */,
+  long		    /* passNum */,
+  bool		    passed
+  )
+{
+  if( passed )
+    {
+      tester.getOut() << " passed." << endl;
+      return( passed );
+    }
+
+  return( passed );
 }
 
 
+bool
+LibTest::DefaultResults::failed(
+  LibTest &	tester,
+  const char *	/* testName */,
+  size_t	/* testNum */,
+  size_t	/* passNum */,
+  const char *	reason,
+  const char *	srcFile,
+  long		srcLine
+  )
+{
+  tester.getOut() << " FAILED " << reason << endl;
+  tester.getOut() << srcFile << ':' << srcLine
+		  << ':' << " FAILED here." << endl;
+  exit( 1 );
+}
+
+				    
+void
+LibTest::DefaultResults::passed(
+  LibTest &	tester,
+  const char *	/* testName */,
+  size_t	/* testNum */,
+  size_t	/* passNum */,
+  const char *	/* srcFile */,
+  long		/* srcLine */
+  )
+{
+  tester.getOut() << '.';
+  tester.getOut().flush();
+}

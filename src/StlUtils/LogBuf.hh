@@ -12,13 +12,17 @@
 //
 // 
 // $Log$
-// Revision 1.2  1995/11/05 13:29:06  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.3  1995/11/05 14:44:37  houghton
+// Ports and Version ID changes
 //
 //
 
+#ifdef CLUE_SHORT_FN
+#include <ClueCfg.hh>
+#else
 #include <ClueConfig.hh>
+#endif
+
 #include <LogLevel.hh>
 #include <FilePath.hh>
 

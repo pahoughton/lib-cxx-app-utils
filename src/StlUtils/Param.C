@@ -9,15 +9,18 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 13:29:08  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.4  1995/11/05 14:44:40  houghton
+// Ports and Version ID changes
 //
 //
 
 #include "Param.hh"
 
-#include <StringUtils.hh>
+#ifdef CLUE_SHORT_FN
+#include "StrUtil.hh"
+#else
+#include "StringUtils.hh"
+#endif
 
 
 const char Param::version[] =
@@ -412,7 +415,7 @@ Param::argBool(
 
   if( argValue ) dest = StringToBool( argValue );
 
-  helpString << " '" << ( (dest) ? "true" : "false" ) << "'\n";
+  helpString << " '" << ( (dest == true) ? "true" : "false" ) << "'\n";
 
   return( argValue != 0 );
 }
@@ -432,9 +435,9 @@ Param::argFlag(
 
   if( argValue ) dest = argValue;
 
-  helpString << " '" << ( (dest) ? "true" : "false" ) << "'\n";
+  helpString << " '" << ( (dest == true) ? "true" : "false" ) << "'\n";
 
-  return( argValue != 0 );
+  return( argValue != false );
 }
 
 bool

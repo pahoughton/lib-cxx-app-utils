@@ -12,20 +12,25 @@
 //
 // 
 // $Log$
-// Revision 1.3  1995/11/05 13:29:00  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.4  1995/11/05 14:44:27  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <DateRange.hh>
+#else
+#include <ClueCfg.hh>
+#include <DateRg.hh>
+#endif
 
-#ifdef  CLUE_DEBUG
+
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
-class DateRangeDaily : public DateRange
+class CLUE_CLASS_T DateRangeDaily : public DateRange
 {
 
 public:
@@ -42,43 +47,48 @@ public:
 
   virtual time_t    setStart( time_t newStart );
   
-  inline size_t	    getStreamSize( void ) const;
-  inline ostream &  write( ostream & dest ) const;
-  inline istream &  read( istream & src );
-  
   virtual int	    compare( const DateRange & two ) const;
   virtual int	    compare( const DateRangeDaily & two ) const;
 
   bool		    operator == ( const DateRangeDaily & two ) const;
   bool		    operator <  ( const DateRangeDaily & two ) const;
     
+  // libClue Common Class Methods
+  
+  virtual ostream & 	toStream( ostream & dest ) const;
+  
+  friend inline ostream & operator << ( ostream &		dest,
+					const DateRangeDaily &  obj );
+
   virtual bool	    	good( void ) const;
   virtual const char *  error( void ) const;
   virtual const char *	getClassName( void ) const;
-  virtual ostream & 	toStream( ostream & dest ) const;
-  virtual ostream & 	dumpInfo( ostream & dest ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
   
-  static const char version[];
+  static const ClassVersion version;
   
 protected:
 
 private:
 
-  static time_t	    freq;
-  time_t	    start;
+  static const time_t	freq;
   
 };
 
-#ifndef inline
+#if !defined( inline )
+#if !defined( CLUE_SHORT_FN )
 #include <DateRangeDaily.ii>
+#else
+#include <DateRgDl.ii>
+#endif
 #else
 #undef inline
 
 int
 compare( const DateTime & one, const DateTime & two );
-
-ostream &
-operator << ( ostream & dest, const DateTime & time );
 
 #endif
 

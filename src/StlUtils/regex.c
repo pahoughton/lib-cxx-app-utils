@@ -92,6 +92,9 @@ extern char *re_syntax_table;
 
 static char re_syntax_table[CHAR_SET_SIZE];
 
+/* Prototypes */
+static void init_syntax_once( void );
+
 static void
 init_syntax_once ()
 {
@@ -209,9 +212,13 @@ init_syntax_once ()
 #if HAVE_ALLOCA_H
 #include <alloca.h>
 #else /* not __GNUC__ or HAVE_ALLOCA_H */
+#ifdef __BORLANDC__
+#include <malloc.h>
+#else
 #ifndef _AIX /* Already did AIX, up at the top.  */
 char *alloca ();
 #endif /* not _AIX */
+#endif /* not __BORLANDC__ */
 #endif /* not HAVE_ALLOCA_H */ 
 #endif /* not __GNUC__ */
 
@@ -875,12 +882,6 @@ static const char *re_error_msg[] =
 
 /* Subroutine declarations and macros for regex_compile.  */
 
-static void store_op1 (), store_op2 ();
-static void insert_op1 (), insert_op2 ();
-static boolean at_begline_loc_p (), at_endline_loc_p ();
-static boolean group_in_compile_stack ();
-static reg_errcode_t compile_range ();
-
 /* Fetch the next character in the uncompiled pattern---translating it 
    if necessary.  Also cast from a signed character in the constant
    string passed to us by the user to an unsigned char that we can use
@@ -982,20 +983,20 @@ static reg_errcode_t compile_range ();
     bufp->allocated <<= 1;						\
     if (bufp->allocated > MAX_BUF_SIZE)					\
       bufp->allocated = MAX_BUF_SIZE; 					\
-    bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);\
+    bufp->buffer = (unsigned char *) realloc (bufp->buffer, (size_t)bufp->allocated);\
     if (bufp->buffer == NULL)						\
       return REG_ESPACE;						\
     /* If the buffer moved, move all the pointers into it.  */		\
     if (old_buffer != bufp->buffer)					\
       {									\
-        b = (b - old_buffer) + bufp->buffer;				\
-        begalt = (begalt - old_buffer) + bufp->buffer;			\
+	b = bufp->buffer + (size_t)(b - old_buffer);			\
+	begalt = bufp->buffer + (size_t)(begalt - old_buffer);			\
         if (fixup_alt_jump)						\
-          fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;\
+	  fixup_alt_jump = bufp->buffer + (size_t)(fixup_alt_jump - old_buffer);\
         if (laststart)							\
-          laststart = (laststart - old_buffer) + bufp->buffer;		\
+	  laststart = bufp->buffer + (size_t)(laststart - old_buffer);		\
         if (pending_exact)						\
-          pending_exact = (pending_exact - old_buffer) + bufp->buffer;	\
+	  pending_exact = bufp->buffer + (size_t)(pending_exact - old_buffer);	\
       }									\
   } while (0)
 
@@ -1007,14 +1008,14 @@ static reg_errcode_t compile_range ();
 
 /* But patterns can have more than `MAX_REGNUM' registers.  We just
    ignore the excess.  */
-typedef unsigned regnum_t;
+typedef unsigned int regnum_t;
 
 
 /* Macros for the compile stack.  */
 
 /* Since offsets can go either forwards or backwards, this type needs to
    be able to hold values from -(MAX_BUF_SIZE - 1) to MAX_BUF_SIZE - 1.  */
-typedef int pattern_offset_t;
+typedef long pattern_offset_t;
 
 typedef struct
 {
@@ -1076,6 +1077,33 @@ typedef struct
     || STREQ (string, "punct") || STREQ (string, "graph")		\
     || STREQ (string, "cntrl") || STREQ (string, "blank"))
 
+static boolean at_begline_loc_p( const char * pattern,
+				 const char * p,
+				 reg_syntax_t syntax );
+static boolean at_endline_loc_p( const char * p,
+				 const char * pend,
+				 reg_syntax_t syntax);
+static void store_op1( re_opcode_t op, unsigned char * loc, long arg);
+static void store_op2( re_opcode_t op, unsigned char * loc, long arg1, long arg2);
+static void insert_op1( re_opcode_t     op,
+			unsigned char * loc,
+			long 	        arg,
+			unsigned char * end);
+static void insert_op2( re_opcode_t     op,
+			unsigned char * loc,
+			long 	        arg1,
+			long 	        arg2,
+			unsigned char * end);
+static reg_errcode_t compile_range( const char **   p_ptr,
+				    const char *    pend,
+				    char *          translate,
+				    reg_syntax_t    syntax,
+				    unsigned char * b);
+static boolean
+group_in_compile_stack( const compile_stack_type * compile_stack,
+			regnum_t regnum );
+
+
 /* `regex_compile' compiles PATTERN (of length SIZE) according to SYNTAX.
    Returns one of error codes defined in `regex.h', or zero for success.
 
@@ -1564,7 +1592,7 @@ regex_compile (pattern, size, syntax, bufp)
 			    return REG_EBRACK;
 			  }
 
-                        for (ch = 0; ch < 1 << BYTEWIDTH; ch++)
+								for (ch = 0; ch < (1 << BYTEWIDTH); ch++)
                           {
                             if (   (is_alnum  && ISALNUM (ch))
                                 || (is_alpha  && ISALPHA (ch))
@@ -2080,7 +2108,7 @@ regex_compile (pattern, size, syntax, bufp)
 		}
 
               /* Can't back reference to a subexpression if inside of it.  */
-              if (group_in_compile_stack (compile_stack, c1))
+	      if (group_in_compile_stack (&compile_stack, c1))
                 goto normal_char;
 
               laststart = b;
@@ -2178,7 +2206,7 @@ static void
 store_op1 (op, loc, arg)
     re_opcode_t op;
     unsigned char *loc;
-    int arg;
+    long arg;
 {
   *loc = (unsigned char) op;
   STORE_NUMBER (loc + 1, arg);
@@ -2191,7 +2219,7 @@ static void
 store_op2 (op, loc, arg1, arg2)
     re_opcode_t op;
     unsigned char *loc;
-    int arg1, arg2;
+    long arg1, arg2;
 {
   *loc = (unsigned char) op;
   STORE_NUMBER (loc + 1, arg1);
@@ -2206,7 +2234,7 @@ static void
 insert_op1 (op, loc, arg, end)
     re_opcode_t op;
     unsigned char *loc;
-    int arg;
+    long arg;
     unsigned char *end;    
 {
   register unsigned char *pfrom = end;
@@ -2225,7 +2253,7 @@ static void
 insert_op2 (op, loc, arg1, arg2, end)
     re_opcode_t op;
     unsigned char *loc;
-    int arg1, arg2;
+    long arg1, arg2;
     unsigned char *end;    
 {
   register unsigned char *pfrom = end;
@@ -2264,7 +2292,7 @@ at_begline_loc_p (pattern, p, syntax)
 static boolean
 at_endline_loc_p (p, pend, syntax)
     const char *p, *pend;
-    int syntax;
+    reg_syntax_t syntax;
 {
   const char *next = p;
   boolean next_backslash = *next == '\\';
@@ -2285,15 +2313,15 @@ at_endline_loc_p (p, pend, syntax)
 
 static boolean
 group_in_compile_stack (compile_stack, regnum)
-    compile_stack_type compile_stack;
+    const compile_stack_type * compile_stack;
     regnum_t regnum;
 {
   int this_element;
 
-  for (this_element = compile_stack.avail - 1;  
+  for (this_element = compile_stack->avail - 1;
        this_element >= 0; 
        this_element--)
-    if (compile_stack.stack[this_element].regnum == regnum)
+    if (compile_stack->stack[this_element].regnum == regnum)
       return true;
 
   return false;
@@ -3258,6 +3286,13 @@ re_match (bufp, string, size, pos, regs)
 }
 #endif /* not emacs */
 
+static boolean group_match_null_string_p( unsigned char ** p,
+					  unsigned char *  end,
+					  register_info_type * reg_info);
+static int bcmp_translate( unsigned char * s1,
+			   unsigned char * s2,
+			   register int    len,
+			   char *          translate);
 
 /* re_match_2 matches the compiled pattern in BUFP against the
    the (virtual) concatenation of STRING1 and STRING2 (of length SIZE1
@@ -4461,6 +4496,14 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 /* Subroutine definitions for re_match_2.  */
 
+static boolean
+alt_match_null_string_p ( unsigned char * p,
+			  unsigned char * end,
+			  register_info_type * reg_info);
+static boolean
+common_op_match_null_string_p ( unsigned char ** p,
+				unsigned char *  end,
+				register_info_type * reg_info);
 
 /* We are passed P pointing to a register number after a start_memory.
    

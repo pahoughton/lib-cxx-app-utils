@@ -9,9 +9,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 13:29:06  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.3  1995/11/05 14:44:38  houghton
+// Ports and Version ID changes
 //
 // Revision 1.1  1995/02/13  16:08:46  houghton
 // New Style Avl an memory management. Many New Classes

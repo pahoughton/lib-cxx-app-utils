@@ -11,18 +11,22 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:29  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:42  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "ClueConfig.hh"
-
 #include <stddef>
+#include <iostream>
+#else
+#include "ClueCfg.hh"
+#include <stddef>
+#include <iostream>
+#endif
 
-class ostream;
-
-class RegexScan 
+class CLUE_CLASS_T RegexScan 
 {
 
 public:
@@ -77,19 +81,24 @@ public:
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
-  virtual ostream & 	dumpInfo( ostream & dest ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
   
-  static const char version[];
+  static const ClassVersion version;
   
 protected:
 
   struct re_pattern_buffer *   buf;
   struct re_registers *        reg;
-  
+
+  char *		patternString;
   const char * 	    	re_msg;
 
-  void	    copy( struct re_pattern_buffer * srcBuf,
-		  struct re_registers * srcReg );
+  void	    copy( struct re_pattern_buffer *	srcBuf,
+		  struct re_registers *		srcReg,
+		  const char *			pattern );
 
   void 	    cleanup();
   

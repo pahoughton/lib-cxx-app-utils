@@ -13,21 +13,21 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:34  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:46  houghton
+// Ports and Version ID changes
 //
 //
 
 inline
 size_t
-StrStreambuf::plen( void ) STR_CONST_RDBUF
+StrStreambuf::plen( void ) CLUE_STRBUF_CONST_RDBUF
 {
   return( pptr() - pbase() );
 }
 
 inline
 size_t
-StrStreambuf::psize( void ) STR_CONST_RDBUF
+StrStreambuf::psize( void ) CLUE_STRBUF_CONST_RDBUF
 {
   return( epptr() - pbase() );
 }
@@ -44,7 +44,7 @@ StrStreambuf::cstr( void )
 
 inline
 const char *
-StrStreambuf::strbase( void ) STR_CONST_RDBUF
+StrStreambuf::strbase( void ) CLUE_STRBUF_CONST_RDBUF
 {
   return( pbase() );
 }

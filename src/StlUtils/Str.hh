@@ -16,38 +16,47 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.4  1995/11/05 13:29:09  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.5  1995/11/05 14:44:44  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-
 #include <StrStreambuf.hh>
 #include <SubStr.hh>
-
+#include <BinStream.hh>
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <iterator>
+#include <climits>
+#else
+#include <ClueCfg.hh>
+#include <StrSbuf.hh>
+#include <SubStr.hh>
+#include <BinStream.hh>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <iterator>
+#include <climits>
+#endif
 
 // I'll support string when I can find an implmentation that
 // follows the standard
 // #include <string>
 
-#include <iterator>
-#include <climits>
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
+class CLUE_CLASS_T SubStr;
+class CLUE_CLASS_T RegexScan;
 
-class SubStr;
-class RegexScan;
-class File;
-
-class Str : public iostream
+class CLUE_CLASS_T Str : virtual public BinObject,
+			 virtual public iostream
 {
 
 public:
@@ -55,12 +64,12 @@ public:
   typedef char *    	iterator;
   typedef const char * 	const_iterator;
 
-  typedef reverse_iterator< char *, char, char &, ptrdiff_t >
-    reverse_iterator;
-  
   typedef reverse_iterator< const char *, char, const char &, ptrdiff_t >
     const_reverse_iterator;
   
+  typedef reverse_iterator< char *, char, char &, ptrdiff_t >
+    reverse_iterator;
+
   typedef const_iterator    InputIterator; // work around no compiler support
   
   static const size_t npos;
@@ -440,10 +449,6 @@ public:
 
   // io helpers
 
-  friend ostream & operator << ( ostream & dest, const Str & str );
-
-  friend istream & operator >> ( istream & src, Str & dest );
-
   istream & 	getline( istream & src );
   istream & 	getDelim( istream & 	src,
 			  char      	delim,
@@ -454,14 +459,7 @@ public:
 			  bool 	    	discard = true );
   
   istream &	get( istream & src, size_t bytes );
-  
-  inline size_t getStreamSize( void ) const;
-  ostream & 	write( ostream & dest ) const;
-  istream & 	read( istream & src );
-    
-  File & 	write( File & dest ) const;
-  File & 	read( File & src );
-    
+
   // operators
   
   inline       	    operator const char * ( void ) const;
@@ -472,50 +470,63 @@ public:
   inline SubStr     	operator () ( size_t start, size_t len );
   inline const SubStr   operator () ( size_t start, size_t len ) const;
 
-  inline Str &	    operator =  ( const Str & src );
-  inline Str &	    operator =  ( const SubStr & src );
-  inline Str &      operator =  ( const char * src );
-  inline Str &	    operator =  ( char src );
+  inline Str &	    operator =  ( const Str & rhs );
+  inline Str &	    operator =  ( const SubStr & rhs );
+  inline Str &      operator =  ( const char * rhs );
+  inline Str &	    operator =  ( char rhs );
   
-  inline Str &	    operator += ( const Str & src );
-  inline Str &	    operator += ( const SubStr & src );
-  inline Str &      operator += ( const char * src );
-  inline Str &	    operator += ( char src );
+  inline Str &	    operator += ( const Str & rhs );
+  inline Str &	    operator += ( const SubStr & rhs );
+  inline Str &      operator += ( const char * rhs );
+  inline Str &	    operator += ( char rhs );
   
-  inline bool       operator == ( const Str & two ) const;
-  inline bool	    operator == ( const SubStr & two ) const;
-  inline bool	    operator == ( const char * two ) const;
+  inline bool       operator == ( const Str & rhs ) const;
+  inline bool	    operator == ( const SubStr & rhs ) const;
+  inline bool	    operator == ( const char * rhs ) const;
   
-  inline bool	    operator <  ( const Str & two ) const;
-  inline bool	    operator <  ( const SubStr & two ) const;
-  inline bool	    operator <  ( const char * two ) const;
+  inline bool	    operator <  ( const Str & rhs ) const;
+  inline bool	    operator <  ( const SubStr & rhs ) const;
+  inline bool	    operator <  ( const char * rhs ) const;
 
-  // Str !=, >, <=, >= Str provided by <algorithm>
+  inline bool       operator !=  ( const Str & rhs ) const;
+  inline bool	    operator !=  ( const SubStr & rhs ) const;
+  inline bool	    operator !=  ( const char * rhs ) const;
+  
+  inline bool       operator >  ( const Str & rhs ) const;
+  inline bool	    operator >  ( const SubStr & rhs ) const;
+  inline bool	    operator >  ( const char * rhs ) const;
+  
+  inline bool       operator <= ( const Str & rhs ) const;
+  inline bool	    operator <= ( const SubStr & rhs ) const;
+  inline bool	    operator <= ( const char * rhs ) const;
+  
+  inline bool       operator >= ( const Str & rhs ) const;
+  inline bool	    operator >= ( const SubStr & rhs ) const;
+  inline bool	    operator >= ( const char * rhs ) const;
 
-  inline bool	    operator !=  ( const SubStr & two ) const;
-  inline bool	    operator !=  ( const char * two ) const;
+  // libClue Common Class Methods
   
-  inline bool	    operator >  ( const SubStr & two ) const;
-  inline bool	    operator >  ( const char * two ) const;
+  virtual size_t	getBinSize( void ) const;
+  virtual BinStream & 	write( BinStream & dest ) const;
+  virtual BinStream & 	read( BinStream & src );
+    
+  virtual ostream & 	write( ostream & dest ) const;
+  virtual istream & 	read( istream & src );
   
-  inline bool	    operator <= ( const SubStr & two ) const;
-  inline bool	    operator <= ( const char * two ) const;
+  virtual ostream & toStream( ostream & dest = cout ) const;
   
-  inline bool	    operator >= ( const SubStr & two ) const;
-  inline bool	    operator >= ( const char * two ) const;
-  
-  
+  friend inline ostream &  operator << ( ostream & dest, const Str & src );
+  friend inline istream &  operator >> ( istream & src, Str & dest );
+
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
-  virtual ostream & 	toStream( ostream & dest = cout ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
   virtual ostream & 	dumpInfo( ostream &	dest = cerr,
 				  const char *  prefix = "    ",
 				  bool		showVer = true ) const;
-  
-  virtual const char *	getVersion( void ) const;
-  
-  static const char version[];
+    
+  static const ClassVersion version;
   
 protected:
 
@@ -542,7 +553,7 @@ private:
   
 };
 
-#ifndef inline
+#if !defined( inline )
 #include <Str.ii>
 #else
 #undef inline

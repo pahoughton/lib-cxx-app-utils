@@ -13,80 +13,86 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:23  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:33  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <Str.hh>
-
-#ifndef DIR_DELIM
-#define DIR_DELIM '/'
+#else
+#include <ClueCfg.hh>
+#include <Str.hh>
 #endif
 
 #ifdef  CLUE_DEBUG
 #define inline
 #endif
 
-
-class FilePath
+class FilePath : public Str
 {
 
 public:
 
-  inline FilePath( char dirDelim = DIR_DELIM, char extDelim = '.' );
-
-  inline FilePath( const char * fullName,
-	    char dirDelim = DIR_DELIM,
-	    char extDelim = '.' );
+  static const char DirDelim;
   
-  inline FilePath( const char *    dirName,
-	    const char *    fileName,
-	    char    	    dirDelim = DIR_DELIM,
-	    char    	    extDelim = '.' );
+  inline FilePath( char dirDelim = CLUE_DIR_DELIM, char extDelim = '.' );
+
+  inline FilePath( const char *	fullName,
+		   char		dirDelim = CLUE_DIR_DELIM,
+		   char		extDelim = '.' );
+  
+  inline FilePath( const char * dirName,
+		   const char * fileName,
+		   char    	dirDelim = CLUE_DIR_DELIM,
+		   char    	extDelim = '.' );
   	    
   inline Str 	    getFullName( void ) const;
   inline Str  	    getPath( void ) const;
   inline Str  	    getFileName( void ) const;
   Str		    getName( void ) const;
   inline Str  	    getExt( void ) const;
+  inline size_t	    getDepth( void ) const;
+  
+  bool		    match( const char * pattern );
+  
+  inline bool	    set( const char * fullPath );
+  inline bool	    set( const Str & fullPath );
+  inline bool	    set( const SubStr & fullPath );
+  bool		    setPrefix( const char * prefix );
+  bool		    setPath( const char * path );
+  bool		    setFileName( const char * name );
+  bool		    setName( const char * name );
+  bool		    setName( const char * name, char ext );
+  bool		    setName( const char * name, const char * ext );
+  bool		    setExt( const char * ext );
+  bool		    setExt( const char * ext, char delim );
+  bool		    setExt( const char * oldExt, const char * newExt );
+  bool		    setTempName( const char * prefix = 0 );
+  bool		    setTempName( const char * path, const char * prefix );
+  
+  bool		    changePath( const char * oldDirs, const char * newDirs );
 
-  inline bool	set( const char * fullPath );
-  bool		setPrefix( const char * prefix );
-  bool      	setPath( const char * path );
-  bool      	setFileName( const char * name );
-  bool	    	setName( const char * name );
-  bool	    	setName( const char * name, char ext );
-  bool	    	setName( const char * name, const char * ext );
-  bool      	setExt( const char * ext );
-  bool      	setExt( const char * ext, char delim );
-  bool      	setExt( const char * oldExt, const char * newExt );
-  bool		setTempName( const char * prefix = 0 );
-  bool		setTempName( const char * path, const char * prefix );
+  virtual size_t    	getBinSize( void ) const;
+  virtual BinStream & 	write( BinStream & dest ) const;
+  virtual BinStream & 	read( BinStream & src );
   
-  bool      	changePath( const char * oldDirs, const char * newDirs );
+  inline ostream &	write( ostream & dest ) const;
+  inline istream &	read( istream & src );
   
-  inline size_t	    getStreamSize( void ) const;
-  inline ostream &  write( ostream & dest ) const;
-  inline istream &  read( istream & src );
-  
-  inline int	    compare( const FilePath & two ) const;
-  
-  inline bool	    operator == ( const FilePath & rhs ) const;
-  inline bool	    operator <  ( const FilePath & rhs ) const;
+  friend inline ostream & operator << ( ostream & dest, const FilePath & obj );
 
-  inline FilePath & operator =  ( const char * );
-
-  inline	    operator const char * ( void ) const;
-  
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
-  virtual ostream & 	toStream( ostream & dest ) const;
-  virtual ostream & 	dumpInfo( ostream & dest ) const;
-
-  static const char version[];
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
+  
+  static const ClassVersion version;
+  
   
 protected:
 
@@ -94,8 +100,6 @@ private:
 
   char 	dirDelim;
   char  extDelim;
-  
-  Str	fileName;
   
 };
 
@@ -106,9 +110,6 @@ private:
 
 int
 compare( const FilePath & one, const FilePath & two );
-
-ostream &
-operator << ( ostream & dest, const FilePath & obj );
 
 #endif
 

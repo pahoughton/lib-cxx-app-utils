@@ -15,33 +15,37 @@
 //
 // 
 // $Log$
-// Revision 1.10  1995/11/05 13:29:03  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.11  1995/11/05 14:44:30  houghton
+// Ports and Version ID changes
 //
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-
 #include <RegexScan.hh>
-
 #include <DateTimeUtils.hh>
-
+#include <BinStream.hh>
 #include <iostream>
-
 #include <functional>
-
 #include <cstddef>
 #include <ctime>
+#else
+#include <ClueCfg.hh>
+#include <RxScan.hh>
+#include <DtTmUtil.hh>
+#include <BinStrm.hh>
+#include <iostream>
+#include <functional>
+#include <cstddef>
+#include <ctime>
+#endif
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
-class File;
-
-class DateTime
+class CLUE_CLASS_T DateTime : public BinObject
 {
 public:
 
@@ -130,31 +134,34 @@ public:
 
   virtual int	    	compare( const DateTime & two ) const;
 
-  // IO helpers
-
-  inline size_t    	getStreamSize( void ) const;
-  inline ostream & 	write( ostream & dest ) const;
-  inline istream & 	read( istream & src );
-  
-  inline File & 	write( File & dest ) const;
-  inline File & 	read( File & src );
-  
   inline    	operator time_t () const;
   inline    	operator const char * () const;
   
   inline int 	operator == ( const DateTime & two ) const;
   inline int 	operator <  ( const DateTime & two ) const;
 
-  // operator !=, >, <=, >= provided by stl function.h
+  // libClue Common Class Methods
   
+  virtual size_t    	getBinSize( void ) const;
+  virtual BinStream & 	write( BinStream & dest ) const;
+  virtual BinStream & 	read( BinStream & src );
+  
+  virtual ostream & 	write( ostream & dest ) const;
+  virtual istream & 	read( istream & src );
+  
+  virtual ostream & 	toStream( ostream & dest = cout ) const;
+  
+  friend inline ostream & operator << ( ostream & dest, const DateTime & obj );
   
   virtual bool	    	good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char * 	getClassName( void ) const;
-  virtual ostream & 	toStream( ostream & dest = cout ) const;
-  virtual ostream & 	dumpInfo( ostream & dest = cerr ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
   
-  static const char 	version[];
+  static const ClassVersion 	version;
   
 protected:
 
@@ -202,16 +209,13 @@ private:
 
 
 
-#ifndef inline
+#if !defined( inline )
 #include <DateTime.ii>
 #else
 #undef inline
 
 int
 compare( const DateTime & one, const DateTime & two );
-
-ostream &
-operator << ( ostream & dest, const DateTime & time );
 
 #endif
 

@@ -46,18 +46,22 @@
 //
 // 
 // $Log$
-// Revision 1.2  1995/11/05 13:28:58  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.3  1995/11/05 14:44:25  houghton
+// Ports and Version ID changes
 //
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-
 #include <cstring>
+#else
+#include <ClueCfg.hh>
+#include <cstring>
+#endif
 
-#ifdef _compare_h
+
+#if defined( _compare_h )
 #error "GNU's compare.h has been include"
 #else
 #define _compare_h

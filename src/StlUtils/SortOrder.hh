@@ -14,12 +14,16 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:31  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:42  houghton
+// Ports and Version ID changes
 //
 //
 
+#ifdef CLUE_SHORT_FN
+#include <ClueCfg.hh>
+#else
 #include <ClueConfig.hh>
+#endif
 
 template < class T >
 class SortCompareBase
@@ -42,6 +46,7 @@ public:
 private:
 
   const SortCompareBase<T> *  compareT;
+
 };
 
 template < class T >
@@ -67,8 +72,12 @@ private:
   Order	    order;
 };
 
-  
+#ifdef CLUE_SHORT_FN
+#include <SortOrdr.ii>
+#else
 #include <SortOrder.ii>
+#endif
+
 
 //
 // Detail Documentation

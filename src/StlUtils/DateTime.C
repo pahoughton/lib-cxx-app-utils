@@ -9,32 +9,38 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.8  1995/11/05 13:29:02  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.9  1995/11/05 14:44:29  houghton
+// Ports and Version ID changes
 //
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "DateTime.hh"
-
 #include "Str.hh"
 #include "StringUtils.hh"
-#include "File.hh"
-
+#include "Clue.hh"
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
+#else
+#include "DateTime.hh"
+#include "Str.hh"
+#include "StrUtil.hh"
+#include "Clue.hh"
+#include <cstdlib>
+#include <cstring>
+#include <cstdio>
+#endif
 
-const char DateTime::version[] =
-LIB_CLUE_VERSION
-"$Id$";
-
-#ifdef   CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define  inline
 #include <DateTime.ii>
 #endif
 
+CLUE_VERSION(
+  DateTime,
+  "$Id$" );
 
 RegexScan
 DateTime::strPattern(
@@ -480,6 +486,54 @@ DateTime::setTmOffset( void )
     }     
 }
 
+size_t
+DateTime::getBinSize( void ) const
+{
+  return( sizeof( seconds ) );
+}
+
+BinStream &
+DateTime::write( BinStream & dest ) const
+{
+  time_t  value = seconds - offset;
+  
+  dest.write( value );
+  return( dest );
+}
+
+
+BinStream &
+DateTime::read( BinStream & src )
+{
+  resetFlags();
+  if( ! src.read( seconds ).good() )
+    {
+      flags.valid = false;
+    }
+  return( src );
+}  
+
+ostream &
+DateTime::write( ostream & dest ) const
+{
+  time_t  value = seconds - offset;
+  
+  dest.write( (char *)&value, sizeof( value ) );
+  return( dest );
+}
+
+istream &
+DateTime::read( istream & src )
+{
+  resetFlags();
+  if( ! src.read( (char *)&seconds, sizeof( seconds ) ).good() )
+    {
+      flags.valid = false;
+    }
+  return( src );
+}  
+
+
 const char *
 DateTime::fromTm( char * buf, const char * fmt, const struct tm * tmTime ) const
 {
@@ -653,47 +707,57 @@ DateTime::toTimeT(
 }
 
 ostream &
-DateTime::dumpInfo( ostream & dest ) const
+DateTime::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
 {
-  dest << getClassName() << ":\n";
+  if( showVer )
+    dest << DateTime::getClassName() << ":\n"
+	 << DateTime::getVersion() << '\n';
 
-  dest << "    " << version << '\n';
-
-  if( ! good() )
-    dest << "    Error: " << error() << '\n';
+  if( ! DateTime::good() )
+    dest << prefix << "Error: " << DateTime::error() << '\n';
   else
-    dest << "    " << "Good!" << '\n';
+    dest << prefix << "Good!" << '\n';
 
-  dest << "    " ;
-  toStream( dest );
+  dest << prefix << "date string:    ";
+  DateTime::toStream( dest );
   dest << '\n';
 
-  dest << "    localSysOffset: " << localSysOffset << '\n'
+  dest << prefix << "localSysOffset: " << localSysOffset << '\n'
     ;
   if( timeZoneName )
-    dest << "    timeZoneName:   " << timeZoneName << '\n'
+    dest << prefix << "timeZoneName:   " << timeZoneName << '\n'
       ;
 
-  dest << "    flags.valid:    " << flags.valid << '\n'
-       << "    flags.dstKnown: " << flags.dstKnown << '\n'
-       << "    flags.dst:      " << flags.dst << '\n'
-       << "    flags.tmValid:  " << flags.tmValid << '\n'
+  dest << prefix << "flags.valid:    " << flags.valid << '\n'
+       << prefix << "flags.dstKnown: " << flags.dstKnown << '\n'
+       << prefix << "flags.dst:      " << flags.dst << '\n'
+       << prefix << "flags.tmValid:  " << flags.tmValid << '\n'
     ;
   
   if( flags.tmValid )
-    dest << "    tm.tm_year:     " << tm.tm_year << '\n'
-	 << "    tm.tm_mon:      " << tm.tm_mon << '\n'
-	 << "    tm.tm_mday:     " << tm.tm_mday << '\n'
-	 << "    tm.tm_hour:     " << tm.tm_hour << '\n'
-	 << "    tm.tm_min:      " << tm.tm_min << '\n'
-	 << "    tm.tm_sec:      " << tm.tm_sec << '\n'
-	 << "    tm.tm_wday:     " << tm.tm_wday << '\n'
-	 << "    tm.tm_yday:     " << tm.tm_yday << '\n'
-	 << "    tm.tm_isdst:    " << tm.tm_isdst << '\n'
+    dest << prefix << "tm.tm_year:     " << tm.tm_year << '\n'
+	 << prefix << "tm.tm_mon:      " << tm.tm_mon << '\n'
+	 << prefix << "tm.tm_mday:     " << tm.tm_mday << '\n'
+	 << prefix << "tm.tm_hour:     " << tm.tm_hour << '\n'
+	 << prefix << "tm.tm_min:      " << tm.tm_min << '\n'
+	 << prefix << "tm.tm_sec:      " << tm.tm_sec << '\n'
+	 << prefix << "tm.tm_wday:     " << tm.tm_wday << '\n'
+	 << prefix << "tm.tm_yday:     " << tm.tm_yday << '\n'
+	 << prefix << "tm.tm_isdst:    " << tm.tm_isdst << '\n'
       ;
 
-  dest << "    seconds:        " << seconds << '\n'
+  dest << prefix << "seconds:        " << seconds << '\n'
     ;
   
   return( dest  );
+}
+
+const char *
+DateTime::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer ) );
 }

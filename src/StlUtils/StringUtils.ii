@@ -12,16 +12,15 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:40  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:52  houghton
+// Ports and Version ID changes
 //
 //
 
+#include <Clue.hh>
 #include <cstddef>
 #include <cstring>
 #include <cctype>
-
-#include <Clue.hh>
 
 inline
 char * 

@@ -12,16 +12,20 @@
 //
 // 
 // $Log$
-// Revision 1.3  1995/11/05 13:29:01  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.4  1995/11/05 14:44:29  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <DateRangeDaily.hh>
+#else
+#include <ClueCfg.hh>
+#include <DateRgDl.hh>
+#endif
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
@@ -38,31 +42,39 @@ public:
   virtual time_t    secIn( const DateRange & dateTwo ) const;
   virtual time_t    startsIn( const DateRange & dateTwo ) const;
   
+  virtual ostream & 	toStream( ostream & dest ) const;
+  
+  friend inline ostream & operator << ( ostream &		dest,
+					const DateRangeWeekly & obj );
+
   virtual bool		good( void ) const;
   virtual const char *  error( void ) const;
   virtual const char *	getClassName( void ) const;
-  virtual ostream & 	toStream( ostream & dest ) const;
-  virtual ostream & 	dumpInfo( ostream & dest ) const;
-
-  static const char version[];
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
+  
+  static const ClassVersion version;
   
 protected:
 
 private:
 
-  static time_t    freq;
+  static const time_t    freq;
 };
 
-#ifndef inline
-#include <DateRangeDaily.ii>
+#if !defined( inline )
+#if !defined( CLUE_SHORT_FN )
+#include <DateRangeWeekly.ii>
+#else
+#include <DateRgWk.ii>
+#endif
 #else
 #undef inline
 
 int
 compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
-
-ostream &
-operator << ( ostream & dest, const DateTime & time );
 
 #endif
 

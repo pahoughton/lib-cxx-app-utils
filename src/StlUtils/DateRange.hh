@@ -12,22 +12,26 @@
 //
 // 
 // $Log$
-// Revision 1.4  1995/11/05 13:28:59  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.5  1995/11/05 14:44:26  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-
 #include <DateTime.hh>
+#include <BinStream.hh>
+#else
+#include <ClueCfg.hh>
+#include <DateTime.hh>
+#include <BinStrm.hh>
+#endif
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
-
-class DateRange : public DateTime
+class CLUE_CLASS_T DateRange : public DateTime
 {
 public:
 
@@ -42,22 +46,34 @@ public:
   virtual time_t    secIn( const DateRange & dateTwo ) const;
   virtual time_t    startsIn( const DateRange & dateTwo ) const;
 
-  inline size_t	    getStreamSize( void ) const;
-  inline ostream &  write( ostream & dest ) const;
-  inline istream &  read( istream & src );
-  
   virtual int	    compare( const DateRange & two ) const;
   
   bool		    operator == ( const DateRange & two ) const;
   bool		    operator <  ( const DateRange & two ) const;
   
+  // libClue Common Class Methods
+  
+  virtual size_t    	getBinSize( void ) const;
+  virtual BinStream & 	write( BinStream & dest ) const;
+  virtual BinStream & 	read( BinStream & src );
+  
+  virtual ostream & 	write( ostream & dest ) const;
+  virtual istream & 	read( istream & src );
+  
+  virtual ostream & 	toStream( ostream & dest = cout ) const;
+  
+  friend inline ostream & operator << ( ostream &	    dest,
+					const DateRange &   obj );
+  
   virtual bool	    	good( void ) const;
   virtual const char *	error( void ) const;
-  virtual const char *	getClassName( void ) const;
-  virtual ostream & 	toStream( ostream & dest ) const;
-  virtual ostream & 	dumpInfo( ostream & dest ) const;
+  virtual const char * 	getClassName( void ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
   
-  static const char version[];
+  static const ClassVersion version;
   
 protected:
 
@@ -67,18 +83,19 @@ private:
 
 };
 
-#ifndef inline
+#if !defined( inline )
+#if !defined( CLUE_SHORT_FN )
 #include <DateRange.ii>
 #else
+#include <DateRg.ii>
+#endif
+#else // !def( inline )
 #undef inline
 
 int
 compare( const DateRange & one, const DateRange & two );
 
-ostream &
-operator << ( ostream & dest, const DateRange & time );
-
-#endif
+#endif // !def( inline )
 
 
 #endif // ! def _DateRange_hh_ 

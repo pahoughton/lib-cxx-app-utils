@@ -13,19 +13,24 @@
 //  specifiy white spaces that are to be striped
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:40  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:53  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "StringUtils.hh"
 #include "_Clue.hh"
-
 #include <cstring>
+#else
+#include "StrUtil.hh"
+#include "_Clue.hh"
+#include <cstring>
+#endif
 
-static const char * RcsId =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_FUNCT_VERSION(
+  StripWhite,
+  "$Id$" );
 
 char *
 StripWhite( char * buffer, const char * white, size_t bufSize )

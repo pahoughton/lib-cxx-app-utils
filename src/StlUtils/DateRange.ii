@@ -12,8 +12,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:19  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:26  houghton
+// Ports and Version ID changes
 //
 //
 
@@ -36,34 +36,6 @@ DateRange::DateRange( const DateTime & startTime, const DateTime & stopTime )
   : DateTime( startTime ),
     dur( stopTime.getTimeT() - startTime.getTimeT() )
 {
-}
-
-inline
-size_t
-DateRange::getStreamSize( void ) const
-{
-  return( DateTime::getStreamSize() + sizeof( dur ) );
-}
-
-inline
-ostream &
-DateRange::write( ostream & dest ) const
-{
-  DateTime::write( dest );
-  dest.write( (const char *)&dur, sizeof( dur ) );
-  return( dest );
-}
-
-inline
-istream &
-DateRange::read( istream & src )
-{
-  DateTime::read( src );
-
-  time_t    rDur;
-  src.read( (char *)&rDur, sizeof( rDur ) );
-  setDur( rDur );
-  return( src );
 }
 
 inline

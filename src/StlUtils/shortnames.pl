@@ -2,21 +2,29 @@
 
 %shortNames =
     ("ClueVersion",		    "cluever",
+     "ClassVersion",		    "classver",
+     "BinStream",		    "binstrm",
+     "NetStream",		    "netstrm",
+     "RandomBinStream",		    "rbinstrm",
+     "HeapBinStream",		    "hbinstrm",
+     "StringUtils",		    "strutil",
+     "StripWhite",		    "strpwht",
+     "StringCaseCompare",	    "strcscmp",
+     "StringLower",		    "strlwr",
+     "StringUpper",		    "strupr",
+     "StringCapitalize",	    "strcap",
+     "StringSearch",		    "strsr",
+     "StringReverseSearch",	    "strrvsr",
+     "StringCaseSearch",	    "stcssr",
+     "StringCaseReverseSearch",	    "stcsrvsr",
+     "StrStreambuf",		    "strsbuf",
+     "RegexScan",		    "rxscan",
+     "DateTimeUtils",		    "dttmutil",
      "DateRange",		    "daterg",
      "DateRangeDaily",		    "datergdl",
      "DateRangeWeekly",		    "datergwk",
-     "DateTimeUtils",		    "dttmutil",
-     "RegexScan",		    "rxscan",
-     "StrStreambuf",		    "strsbuf",
-     "StringCapitalize",	    "strcap",
-     "StringCaseCompare",	    "strcscmp",
-     "StringCaseReverseSearch",	    "stcsrvsr",
-     "StringCaseSearch",	    "stcssr",
-     "StringLower",		    "strlwr",
-     "StringReverseSearch",	    "strrvsr",
-     "StringSearch",		    "strsr",
-     "StringUpper",		    "strupr",
-     "StringUtils",		    "strutil" );
+     "Directory",		    "director",
+     "SortOrder",                   "sortordr" );
 
 chdir( "../arch/ShortFn/src" );
 

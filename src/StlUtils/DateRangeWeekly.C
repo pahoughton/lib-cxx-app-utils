@@ -9,31 +9,38 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 13:29:01  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.4  1995/11/05 14:44:28  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "DateRangeWeekly.hh"
-
-#include <Clue.hh>
-#include <Str.hh>
-
+#include "Clue.hh"
+#include "Str.hh"
 #include <iomanip>
-
-#ifdef  CLUE_DEBUG
-#define inline
-#include "DateRangeWeekly.ii"
+#else
+#include "DateRgWk.hh"
+#include "Clue.hh"
+#include "Str.hh"
+#include <iomanip>
 #endif
 
+#if defined( CLUE_DEBUG )
+#define inline
+#if !defined( CLUE_SHORT_FN )
+#include "DateRangeWeekly.ii"
+#else
+#include "DateRgWk.ii"
+#endif
+#endif // def( CLUE_DEBUG )
 
-const char DateRangeWeekly::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION(
+  DateRangeWeekly,
+  "$Id$" );
 
 
-time_t DateRangeWeekly::freq = (24 * 60 * 60 * 7);
+const time_t DateRangeWeekly::freq = (24 * 60 * 60 * 7);
 
 int
 DateRangeWeekly::getDayOfWeek( void ) const
@@ -71,6 +78,24 @@ DateRangeWeekly::startsIn( const DateRange & dateTwo ) const
       secs = secIn( dateTwo );
     }
   return( secs );
+}
+
+ostream &
+DateRangeWeekly::toStream( ostream & dest ) const
+{
+  dest << "Start: "
+       << AbbrWeekDays[ DaysInTimeT( getStart() ) ] << ' '
+       << setfill('0')
+       << setw(2) << HourInTimeT( getStart() ) << ':'
+       << setw(2) << MinInTimeT( getStart() ) << ':'
+       << setw(2) << SecInTimeT( getStart() ) << ' '
+       << "Dur: "
+       << setw(2) << HourInTimeT( getDur() ) << ':'
+       << setw(2) << MinInTimeT( getDur() ) << ':'
+       << setw(2) << SecInTimeT( getDur() )
+       << setfill(' ')
+       ;
+  return( dest );
 }
 
 bool
@@ -120,43 +145,39 @@ DateRangeWeekly::getClassName( void ) const
   return( "DateRangeWeekly" );
 }
 
-ostream &
-DateRangeWeekly::toStream( ostream & dest ) const
+const char *
+DateRangeWeekly::getVersion( bool withPrjVer ) const
 {
-  dest << "Start: "
-       << AbbrWeekDays[ DaysInTimeT( getStart() ) ] << ' '
-       << setfill('0')
-       << setw(2) << HourInTimeT( getStart() ) << ':'
-       << setw(2) << MinInTimeT( getStart() ) << ':'
-       << setw(2) << SecInTimeT( getStart() ) << ' '
-       << "Dur: "
-       << setw(2) << HourInTimeT( getDur() ) << ':'
-       << setw(2) << MinInTimeT( getDur() ) << ':'
-       << setw(2) << SecInTimeT( getDur() )
-       << setfill(' ')
-       ;
-  return( dest );
+  return( version.getVer( withPrjVer , DateRangeDaily::getVersion( false ) ) );
 }
 
 ostream &
-DateRangeWeekly::dumpInfo( ostream & dest ) const
+DateRangeWeekly::dumpInfo( 
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
 {
-  dest << getClassName() << ":\n";
+  if( showVer )
+    dest << DateRangeWeekly::getClassName() << ":\n"
+	 << DateRangeWeekly::getVersion() << '\n';
 
-  dest << "    " << version << '\n';
-
-  if( ! good() )
-    dest << "    Error: " << error() << '\n';
+  if( ! DateRangeWeekly::good() )
+    dest << prefix << "Error: " << DateRangeWeekly::error() << '\n';
   else
-    dest << "    " << "Good!" << '\n';
+    dest << prefix << "Good!" << '\n';
 
-  dest << "    " ;
-  toStream( dest );
+  dest << prefix << "range:    ";
+  DateRangeWeekly::toStream( dest );
   dest << '\n';
 
-  dest << getClassName() << "::" ;
-  DateRangeDaily::dumpInfo( dest );
+  Str pre;
+  pre << prefix << DateRangeDaily::getClassName() << "::";
+  
+  DateRangeDaily::dumpInfo( dest, pre, false );
 
+  dest << prefix << "freq:     " << freq << '\n';
+  
   dest << '\n';
 
   return( dest  );

@@ -33,7 +33,14 @@ LIB_C_SOURCES	=			\
 
 
 LIB_CXX_SOURCES	=			\
+	ClassVersion.C			\
 	LibTest.C			\
+	BinStream.C			\
+	NetStream.C			\
+	RandomStream.C			\
+	HeapStream.C			\
+	HeapBinStream.C			\
+	HeapNetStream.C			\
 	StripWhite.C			\
 	StringCaseCompare.C		\
 	StringLower.C			\
@@ -54,24 +61,22 @@ LIB_CXX_SOURCES	=			\
 	DateRangeDaily.C		\
 	DateRangeWeekly.C		\
 	FilePath.C			\
+	../arch/Unix/src/basename.C	\
+
+hold = \
 	Bitmask.C			\
 	LogLevel.C			\
 	LogBuf.C			\
 	Log.C				\
 	Param.C				\
 	Timer.C				\
-	Directory.C			\
 	$(ARCH_CXX_SOURCES)		\
 
 UNIX_CXX_SOURCES    =			\
-	../arch/Unix/src/basename.C	\
 	../arch/Unix/src/User.C		\
 	../arch/Unix/src/UserGroup.C	\
 	../arch/Unix/src/FileStat.C	\
 	../arch/Unix/src/OpenFlags.C	\
-	../arch/Unix/src/File.C		\
-	../arch/Unix/src/BinFile.C	\
-	../arch/Unix/src/MapFile.C	\
 
 
 
@@ -190,9 +195,8 @@ include .depend.lib
 
 # 
 # $Log$
-# Revision 1.14  1995/11/05 13:29:07  houghton
-# Major Implementation Changes.
-# Made more consistant with the C++ Standard
+# Revision 1.15  1995/11/05 14:44:39  houghton
+# Ports and Version ID changes
 #
 # Revision 1.2  1995/02/13  17:35:10  houghton
 # Major enhancements much cleaner

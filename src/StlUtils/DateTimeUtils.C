@@ -10,15 +10,20 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:21  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:32  houghton
+// Ports and Version ID changes
 //
 //
-#include "DateTimeUtils.hh"
 
-static const char * RcsId =
-LIB_CLUE_VERSION
-"$Id$";
+#if !defined( CLUE_SHORT_FN )
+#include "DateTimeUtils.hh"
+#else
+#include "DtTmUtil.hh"
+#endif
+
+CLUE_FUNCT_VERSION(
+  DateTimeUtils,
+  "$Id$" );
 
 const long   SecPerMin	    = 60;
 const long   SecPerHour	    = 60 * 60;
@@ -54,8 +59,18 @@ const char * Months[] =
 
 const char * AbbrMonths[] =
 {
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
   0
 };
 
@@ -73,7 +88,13 @@ const char * WeekDays[] =
 
 const char * AbbrWeekDays[] =
 {
-  "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
   0
 };
 

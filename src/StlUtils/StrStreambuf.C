@@ -10,21 +10,34 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:33  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:45  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "StrStreambuf.hh"
-
-#ifdef   CLUE_DEBUG
-#define  inline
-#include <StrStreambuf.ii>
+#else
+#include "StrSbuf.hh"
 #endif
 
-const char StrStreambuf::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+#if defined( CLUE_DEBUG )
+#define  inline
+#if !defined( CLUE_SHORT_FN )
+#include "StrStreambuf.ii"
+#else
+#include "StrSbuf.ii"
+#endif
+#endif
+
+CLUE_VERSION(
+  StrStreambuf,
+  "$Id$" );
+
+
+StrStreambuf::StrStreambuf( void )
+{
+}
 
 const char *
 StrStreambuf::getClassName( void ) const
@@ -40,10 +53,8 @@ StrStreambuf::dumpInfo(
   )
 {
   if( showVer )
-    {
-      dest << getClassName() << ":\n";
-      dest << getVersion() << '\n';
-    }
+    dest << StrStreambuf::getClassName() << ":\n"
+	 << StrStreambuf::getVersion() << '\n';
 
   dest << prefix << "string:  '" << cstr() << "'\n"
        << prefix << "length:  " << plen() << '\n'
@@ -54,9 +65,9 @@ StrStreambuf::dumpInfo(
 }
 
 const char *
-StrStreambuf::getVersion( void ) const
+StrStreambuf::getVersion( bool withPrjVer ) const
 {
-  return( version );
+  return( version.getVer( withPrjVer ) );
 }
 
   

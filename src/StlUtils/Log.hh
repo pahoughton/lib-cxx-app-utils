@@ -11,13 +11,16 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.5  1995/11/05 13:29:04  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.6  1995/11/05 14:44:36  houghton
+// Ports and Version ID changes
 //
 //
 
+#ifdef CLUE_SHORT_FN
+#include <ClueCfg.hh>
+#else
 #include <ClueConfig.hh>
+#endif
 
 #include <LogLevel.hh>
 #include <LogBuf.hh>
@@ -76,7 +79,8 @@ public:
   inline size_t		    setTrimSize( size_t trimSize );
   
   Log &		    level( LogLevel::Level curren = LogLevel::ERROR );
-  inline Log &	    operator () ( LogLevel::Level current = LogLevel::ERROR );
+  inline Log &	    operator () ( void );
+  inline Log &	    operator () ( LogLevel::Level current );
 
   Log &		    level( const char * current );  
   inline Log &      operator () ( const char * current );
@@ -103,6 +107,7 @@ public:
   inline LogBuf *	    rdbuf( void );
   inline const LogBuf *	    rdbuf( void ) const;
 
+  inline bool 		    good( void ) const;
   const char *		    getClassName( void ) const;
   ostream &		    dumpInfo( ostream & dest = cerr ) const;
   

@@ -12,28 +12,34 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:22  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:32  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <ctime>
+#else
+#include <ClueCfg.hh>
+#include <ctime>
+#endif
 
-extern const long   SecPerMin;
-extern const long   SecPerHour;
-extern const long   SecPerDay;
-extern const long   SecPerYear;
 
-extern const long   MinPerHour;
-extern const long   MinPerDay;
+extern const long   CLUE_GVAR_T SecPerMin;
+extern const long   CLUE_GVAR_T SecPerHour;
+extern const long   CLUE_GVAR_T SecPerDay;
+extern const long   CLUE_GVAR_T SecPerYear;
 
-extern const int    DaysInMonth[];
-extern const int    MonthDayOfYear[];
-extern const char * Months[];
-extern const char * AbbrMonths[];
-extern const char * WeekDays[];
-extern const char * AbbrWeekDays[];
+extern const long   CLUE_GVAR_T MinPerHour;
+extern const long   CLUE_GVAR_T MinPerDay;
+
+extern const int    CLUE_GVAR_T DaysInMonth[];
+extern const int    CLUE_GVAR_T MonthDayOfYear[];
+extern const char * CLUE_GVAR_T Months[];
+extern const char * CLUE_GVAR_T AbbrMonths[];
+extern const char * CLUE_GVAR_T WeekDays[];
+extern const char * CLUE_GVAR_T AbbrWeekDays[];
 
 typedef enum {
   Sunday = 0,
@@ -45,7 +51,11 @@ typedef enum {
   Saturday
 } DayOfWeek;
 
+#if !defined( CLUE_SHORT_FN )
 #include <DateTimeUtils.ii>
+#else
+#include <DtTmUtil.ii>
+#endif
 
 #endif // ! def _DateTimeUtils_hh_ 
 

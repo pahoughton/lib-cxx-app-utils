@@ -9,28 +9,37 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.5  1995/11/05 13:28:59  houghton
-// Major Implementation Changes.
-// Made more consistant with the C++ Standard
+// Revision 1.6  1995/11/05 14:44:25  houghton
+// Ports and Version ID changes
 //
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "DateRange.hh"
-
-#include <Clue.hh>
-#include <Str.hh>
-
+#include "Clue.hh"
+#include "Str.hh"
 #include <iomanip>
-
-#ifdef   CLUE_DEBUG
-#define  inline
-#include <DateRange.ii>
+#else
+#include "DateRg.hh"
+#include "Clue.hh"
+#include "Str.hh"
+#include <iomanip>
 #endif
 
-const char DateRange::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+
+#if defined( CLUE_DEBUG )
+#define  inline
+#if !defined( CLUE_SHORT_FN )
+#include "DateRange.ii"
+#else
+#include "DateRg.ii"
+#endif
+#endif // def( CLUE_DEBUG )
+
+CLUE_VERSION(
+  DateRange,
+  "$Id$");
 
 
 time_t
@@ -84,9 +93,72 @@ int
 DateRange::compare( const DateRange & two ) const
 {
   int diff = DateTime::compare( two );
-  return( diff ? diff : ::compare( dur, two.dur ) );
+  if( diff )
+    return( diff );
+  else
+    return( ::compare( dur, two.dur ) );
 }
 
+size_t
+DateRange::getBinSize( void ) const
+{
+  return( DateTime::getBinSize() + sizeof( dur ) );
+}
+
+BinStream &
+DateRange::write( BinStream & dest ) const
+{
+  DateTime::write( dest );
+  return( dest.write( dur ) );
+}
+
+BinStream &
+DateRange::read( BinStream & src )
+{
+  DateTime::read( src );
+  return( src.read( dur ) );
+}
+
+
+ostream &
+DateRange::write( ostream & dest ) const
+{
+  DateTime::write( dest );
+  dest.write( (const char *)&dur, sizeof( dur ) );
+  return( dest );
+}
+
+inline
+istream &
+DateRange::read( istream & src )
+{
+  DateTime::read( src );
+
+  time_t    rDur;
+  src.read( (char *)&rDur, sizeof( rDur ) );
+  setDur( rDur );
+  return( src );
+}
+
+ostream &
+DateRange::toStream( ostream & dest ) const
+{
+  
+  dest << "Start: "
+    ;
+
+  DateTime::toStream( dest );
+  
+  dest << " Dur: "
+       << setfill('0')
+       << setw(2) << HoursInTimeT( getDur() ) << ':'
+       << setw(2) << MinInTimeT( getDur() ) << ':'
+       << setw(2) << SecInTimeT( getDur() )
+       << setfill(' ')
+       ;
+  
+  return( dest );
+}
 
 bool
 DateRange::good( void ) const
@@ -127,47 +199,38 @@ DateRange::getClassName( void ) const
 }
 
 ostream &
-DateRange::toStream( ostream & dest ) const
+DateRange::dumpInfo( 
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
 {
-  
-  dest << "Start: "
-    ;
+  if( showVer )
+    dest << DateRange::getClassName() << ":\n"
+	 << DateRange::getVersion() << '\n';
 
-  DateTime::toStream( dest );
-  
-  dest << "Dur: "
-       << setfill('0')
-       << setw(2) << HoursInTimeT( getDur() ) << ':'
-       << setw(2) << MinInTimeT( getDur() ) << ':'
-       << setw(2) << SecInTimeT( getDur() )
-       << setfill(' ')
-       ;
-  
-  return( dest );
-}
-
-ostream &
-DateRange::dumpInfo( ostream & dest  ) const
-{
-  dest << getClassName() << ":\n";
-
-  dest << "    " << version << '\n';
-
-  if( ! good() )
-    dest << "    Error: " << error() << '\n';
+  if( ! DateRange::good() )
+    dest << prefix << "Error: " << DateRange::error() << '\n';
   else
-    dest << "    " << "Good!" << '\n';
+    dest << prefix << "Good!" << '\n';
 
-  dest << "    " ;
-  toStream( dest );
+  dest << prefix << "range:   ";
+  DateRange::toStream( dest );
   dest << '\n';
 
-  dest << getClassName() << "::" ;
-  DateTime::dumpInfo( dest );
+  Str pre;
+  pre << prefix << DateTime::getClassName() << "::";
+  
+  DateTime::dumpInfo( dest, pre, false );
 
+  dest << prefix << "dur:     " << dur << '\n';
   dest << '\n';
 
   return( dest  );
 }
   
-  
+const char *
+DateRange::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer, DateTime::getVersion( false ) ) );
+}

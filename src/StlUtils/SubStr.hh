@@ -15,27 +15,35 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:41  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:54  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
+#include <BinStream.hh>
+#include <stddef>
+#include <iostream>
+#else
+#include <ClueCfg.hh>
+#include <BinStrm.hh>
+#include <stddef>
+#include <iostream>
+#endif
 
 // I'll support string when I can find an implmentation that
 // is portable and follows the standard
 // #include <string>
 
-#include <stddef>
-#include <iostream>
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
 class Str;
 
-class SubStr
+class SubStr : public BinObject
 {
 
 public:
@@ -94,51 +102,67 @@ public:
   friend int	fcompare( const char *    one,
 			  const SubStr &  two,
 			  size_t          len = NPOS ); 
-  
+
   inline char &     operator [] ( size_t index ); 
   inline char       operator [] ( size_t index ) const;
   
-  inline SubStr &   operator =  ( const SubStr & src ); 
-  inline SubStr &   operator =  ( const Str & src ); 
-  inline SubStr &   operator =  ( const char * src ); 
-  inline SubStr &   operator =  ( char src ); 
+  inline SubStr &   operator =  ( const SubStr & rhs ); 
+  inline SubStr &   operator =  ( const Str & rhs ); 
+  inline SubStr &   operator =  ( const char * rhs ); 
+  inline SubStr &   operator =  ( char rhs ); 
   
-  inline SubStr &   operator += ( const Str & src ); 
-  inline SubStr &   operator += ( const SubStr & src ); 
-  inline SubStr &   operator += ( const char * src ); 
-  inline SubStr &   operator += ( char src ); 
+  inline SubStr &   operator += ( const Str & rhs ); 
+  inline SubStr &   operator += ( const SubStr & rhs ); 
+  inline SubStr &   operator += ( const char * rhs ); 
+  inline SubStr &   operator += ( char rhs ); 
 
-  inline bool       operator == ( const SubStr & two ) const; 
-  inline bool       operator == ( const Str & two ) const; 
-  inline bool       operator == ( const char * two ) const; 
+  inline bool       operator == ( const SubStr & rhs ) const; 
+  inline bool       operator == ( const Str & rhs ) const; 
+  inline bool       operator == ( const char * rhs ) const; 
   
-  inline bool       operator <  ( const SubStr & two ) const; 
-  inline bool       operator <  ( const Str & two ) const; 
-  inline bool       operator <  ( const char * two ) const; 
+  inline bool       operator <  ( const SubStr & rhs ) const; 
+  inline bool       operator <  ( const Str & rhs ) const; 
+  inline bool       operator <  ( const char * rhs ) const; 
 
-  // SubStr !=, >, <=, >= SubStr is provided by <algorithm>
+  inline bool       operator != ( const SubStr & rhs ) const; 
+  inline bool       operator != ( const Str & rhs ) const; 
+  inline bool       operator != ( const char * rhs ) const; 
   
-  inline bool       operator != ( const Str & two ) const; 
-  inline bool       operator != ( const char * two ) const; 
-  
-  inline bool       operator >  ( const Str & two ) const;
-  inline bool       operator >  ( const char * two ) const;
+  inline bool       operator >  ( const SubStr & rhs ) const; 
+  inline bool       operator >  ( const Str & rhs ) const;
+  inline bool       operator >  ( const char * rhs ) const;
 
-  inline bool       operator <= ( const Str & two ) const;
-  inline bool       operator <= ( const char * two ) const;
+  inline bool       operator <= ( const SubStr & rhs ) const; 
+  inline bool       operator <= ( const Str & rhs ) const;
+  inline bool       operator <= ( const char * rhs ) const;
 
-  inline bool       operator >= ( const Str & two ) const;
-  inline bool       operator >= ( const char * two ) const;
+  inline bool       operator >= ( const SubStr & rhs ) const; 
+  inline bool       operator >= ( const Str & rhs ) const;
+  inline bool       operator >= ( const char * rhs ) const;
+  
+  // libClue Common Class Methods
 
-  inline bool	    	good( void ) const;
-  const char *		error( void ) const;
-  const char *		getClassName( void ) const;
-  inline ostream & 	toStream( ostream & dest = cout ) const;
-  ostream &		dumpInfo( ostream & dest = cerr ) const;
+  size_t	    getBinSize( void ) const;
+  BinStream &	    write( BinStream & dest ) const;
+  BinStream &	    read( BinStream & src );
+
+  ostream &	    write( ostream & dest ) const;
+  istream &	    read( istream & src );
   
-  friend ostream & operator << ( ostream & dest, const SubStr & str ); 
+  inline ostream &  toStream( ostream & dest = cout ) const;
+
+  friend inline ostream &  operator << ( ostream & dest, const SubStr & src ); 
+  friend inline istream &  operator >> ( istream & src, SubStr & dest ); 
   
-  static const char version[];
+  inline bool	    good( void ) const;
+  const char *	    error( void ) const;
+  const char *	    getClassName( void ) const;
+  const char *	    getVersion( bool withPrjVer = true ) const;
+  ostream &	    dumpInfo( ostream &	    dest = cerr,
+			      const char *  prefix = "    ",
+			      bool	    showVer = true ) const;
+  
+  static const ClassVersion version;
 
 private:
   
@@ -154,13 +178,14 @@ private:
 
 };
 
-#ifndef inline
+#if !defined( inline )
 #include <SubStr.ii>
 #else
 #undef inline
 
-// These are always defined, the ifdef is just
-// to keep the compiler from getting mad
+// These are the global functions that are defined in the .ii
+// file. They are declared here so their prototypes will
+// be available when CLUE_DEBUG is defined.
 
 int
 compare( const SubStr & one,

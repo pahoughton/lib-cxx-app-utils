@@ -10,28 +10,36 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:41  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:53  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "SubStr.hh"
 #include "ClueExceptions.hh"
-
 #include "Str.hh"
 #include "Compare.hh"
 #include "StringUtils.hh"
-
 #include <algorithm>
+#else
+#include "SubStr.hh"
+#include "ClueExcp.hh"
+#include "Str.hh"
+#include "Compare.hh"
+#include "StrUtil.hh"
+#include <algorithm>
+#endif
 
-#ifdef   CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define  inline
 #include <SubStr.ii>
 #endif
 
-const char SubStr::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION(
+  SubStr,
+  "$Id$" );
+
 
 const size_t SubStr::npos = NPOS;
 
@@ -43,7 +51,7 @@ Str SubStr::dummyStr("dummy");
 int
 SubStr::compare( const Str & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );
@@ -56,7 +64,7 @@ SubStr::compare( const Str & two, size_t start, size_t len ) const
 int
 SubStr::compare( const SubStr & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );
@@ -70,7 +78,7 @@ SubStr::compare( const SubStr & two, size_t start, size_t len ) const
 int
 SubStr::compare( const char * two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( strlen( two ), len );
@@ -83,7 +91,7 @@ SubStr::compare( const char * two, size_t start, size_t len ) const
 int
 SubStr::fcompare( const Str & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );
@@ -97,7 +105,7 @@ SubStr::fcompare( const Str & two, size_t start, size_t len ) const
 int
 SubStr::fcompare( const SubStr & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
+  CLUE_EXCPT_OUT_OF_RANGE( start > size(), false );
   
   size_t oneLen = min( size() - start, len );
   size_t twoLen = min( two.size(), len );
@@ -143,6 +151,52 @@ fcompare( const char * one, const SubStr & two, size_t len )
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }
 
+size_t
+SubStr::getBinSize( void ) const
+{
+  return( sizeof( ULong ) + len );
+}
+
+BinStream &
+SubStr::write( BinStream & dest ) const
+{
+  ULong sLen = len;
+  dest.write( sLen );
+  dest.write( strbase(), len );
+  return( dest );
+}
+
+BinStream &
+SubStr::read( BinStream & src )
+{
+  Str tmp;
+  tmp.read( src );
+  if( tmp.good() && src.good() )
+    str.replace( pos, len, tmp );
+  len = tmp.size();
+  return( src );
+}
+
+ostream &
+SubStr::write( ostream & dest ) const
+{
+  ULong sLen = len;
+  dest.write( &sLen, sizeof( sLen ) );
+  dest.write( strbase(), len );
+  return( dest );
+}
+
+istream &
+SubStr::read( istream & src )
+{
+  Str tmp;
+  tmp.read( src );
+  if( src.good() )
+    str.replace( pos, len, tmp );
+  len = tmp.size();
+  return( src );
+}
+
 const char *
 SubStr::error( void ) const
 {
@@ -170,28 +224,40 @@ SubStr::getClassName( void ) const
 }
 
 ostream &
-SubStr::dumpInfo( ostream & dest ) const
+SubStr::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
 {
-  dest << getClassName() << ":\n";
+  if( showVer )
+    dest << SubStr::getClassName() << ":\n"
+	 << SubStr::getVersion() << '\n';
 
-  dest << "    " << version << '\n';
-
-  if( ! good() )
-    dest << "    Error: " << error() << '\n';
+  if( ! SubStr::good() )
+    dest << prefix << "Error: " << SubStr::error() << '\n';
   else
-    dest << "    " << "Good!" << '\n';
+    dest << prefix << "Good!" << '\n';
 
-  constStr.dumpInfo( dest );
+  Str pre;
+  pre << prefix << "str: " << constStr.getClassName() << "::";
   
-  dest << "    Pos:        " << pos << "'\n";
-  dest << "    Len:        " << len << "\n";
-  dest << "    SubString:  '" << *this << "'\n";
+  constStr.dumpInfo( dest, pre, false );
+  
+  dest << prefix << "pos:        " << pos << "'\n";
+  dest << prefix << "len:        " << len << "\n";
+  dest << prefix << "SubString:  '" << *this << "'\n";
   
   dest << '\n';
 
   return( dest  );
 }  
 
+const char *
+SubStr::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer, constStr.getVersion( false ) ) );
+}
 
 
 

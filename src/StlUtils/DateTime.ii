@@ -13,14 +13,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:21  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:31  houghton
+// Ports and Version ID changes
 //
 //
-
-#ifndef inline
-#include <File.hh>
-#endif
 
 // Constructor - initialize to setTime value
 inline
@@ -553,57 +549,6 @@ DateTime::setTm( void )
 	}
       flags.tmValid = true;
     }
-}
-
-inline
-size_t
-DateTime::getStreamSize( void ) const
-{
-  return( sizeof( time_t ) );
-}
-
-inline
-istream &
-DateTime::read( istream & src )
-{
-  resetFlags();
-  if( ! src.read( (char *)&seconds, getStreamSize() ).good() )
-    {
-      flags.valid = false;
-    }
-  return( src );
-}  
-
-inline
-ostream &
-DateTime::write( ostream & dest ) const
-{
-  time_t  value = seconds - offset;
-  
-  dest.write( (char *)&value, sizeof( value ) );
-  return( dest );
-}
-
-inline
-File &
-DateTime::read( File & src )
-{
-  resetFlags();
-  if( ! src.read( &seconds, getStreamSize() ).good() )
-    {
-      flags.valid = false;
-    }
-  return( src );
-}  
-
-inline
-File &
-DateTime::write( File & dest ) const
-{
-  time_t  value = seconds - offset;
-  
-  dest.write( &value, sizeof( value ) );
-  return( dest );
 }
 
 // operator time_t - return the current time_t value

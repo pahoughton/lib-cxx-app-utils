@@ -10,21 +10,26 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:38  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:50  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "StringUtils.hh"
-
 #include <cstddef>
 #include <cstring>
+#else
+#include "StrUtil.hh"
+#include <cstddef>
+#include <cstring>
+#endif
 
-static const char * RcsId =
-"$Id$";
 
+CLUE_FUNCT_VERSION(
+  StringSearch,
+  "$Id$" );
 
-#define SAFETY_ON
 
 const char *
 StringSearch(
@@ -34,7 +39,7 @@ StringSearch(
   size_t    	needleLen
   )
 {
-#ifdef SAFETY_ON
+#ifdef CLUE_SAFETY_ON
   // check for valid input params
   if( ! haystack || ! needle ) return( 0 );
 #endif
@@ -42,7 +47,7 @@ StringSearch(
   size_t    nLen = (needleLen) ? needleLen : strlen( needle );
   size_t    hLen = (hayLen) ? hayLen : strlen( haystack );
 
-#ifdef SAFETY_ON
+#ifdef CLUE_SAFETY_ON
   if( ! hLen || ! nLen || nLen > hLen ) return( 0 );
 #endif
   

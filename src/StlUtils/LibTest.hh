@@ -13,29 +13,78 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:25  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:35  houghton
+// Ports and Version ID changes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-
 #include <iostream>
-
 #include <cstddef>
+#else
+#include <ClueCfg.hh>
+#include <iostream>
+#include <cstddef>
+#endif
 
-class LibTest
+#define TESTIT( tester_, tf_ ) tester_( __FILE__, __LINE__, tf_ )
+#define TESTITR( tester_, r_, tf_ ) tester_( __FILE__, __LINE__, r_, tf_ )
+#define TESTITP( tester_, tf_, p_ ) tester_( __FILE__, __LINE__, tf_, p_ )
+
+#define TEST( tf_ ) if( ! TESTIT( tester, (tf_) ) ) return( false )
+#define TESTR( r_, tf_ ) if( ! TESTITR( tester, (r_), (tf_) ) ) return( false )
+#define TESTP( tf_, p_ ) if( ! TESTITP( tester, (tf_), (p_) ) ) return( false )
+
+class CLUE_CLASS_T LibTest
 {
 
 public:
 
+  class CLUE_CLASS_T Results
+  {
+  public:
+    virtual void	start( LibTest &	tester,
+			       const char *	testName,
+			       size_t		testNum,
+			       long		passNum ) = 0;
+    
+    virtual bool	completed( LibTest &	    tester,
+				   const char *	    testName,
+				   size_t	    testNum,
+				   long		    passNum,
+				   bool		    passed ) = 0;
+				   				 
+    virtual bool	failed( LibTest &	tester,
+				const char *	testName,
+				size_t		testNum,
+				size_t		passNum,
+				const char *	reason,
+				const char *	srcFile,
+				long		srcLine ) = 0;
+  
+    virtual void	passed( LibTest &	tester,
+				const char *	testName,
+				size_t		testNum,
+				size_t		passNum,
+				const char *	srcFile,
+				long		srcLine ) = 0;
+  };
+  
   struct TestItem
   {
     const char *    name;
-    bool    	    (*test)( LibTest & test );
+    bool    	    (*test)( LibTest & );
   };
   
   LibTest( const TestItem * 	testList,
+ 	   ostream & 	    	dumpDest,
+ 	   ostream & 	    	output,
+	   ostream & 	    	error );
+
+  LibTest( const TestItem * 	testList,
+	   Results &		resultsProcObj,
+	   ostream & 	    	dumpDest,
 	   ostream & 	    	output,
 	   ostream & 	    	error );
 
@@ -45,32 +94,107 @@ public:
   
   int	    run( int & argc, char * argv[] );
 
-  void	    test( bool pass, bool progress = false );
-  void	    test( const char * name, bool pass );
-  void 	    file( const char * fileName );
+  bool	    test( const char *  srcFn,
+		  long		srcLine,
+		  const char *	reason,
+		  bool		pass,
+		  bool		progress = false );
   
-  // synonym for test
-  void	    operator () (bool pass, bool progress = false);
-  void	    operator () ( const char * name, bool pass );
+  bool	    test( const char *  srcFn,
+		  long		srcLine,
+		  bool		pass,
+		  bool		progress = false );
+    
+  bool 	    file( const char *	srcFn,
+		  long		srcLine,
+		  const char *	testFileName,
+		  const char *	expFileName );
+  
+  bool 	    file( const char *	srcFn,
+		  long		srcLine,
+		  const char *	testFileName );
 
+  // synonym for test
+  bool	    operator () ( const char *  srcFn,
+			  long		srcLine,
+			  const char *	reason,
+			  bool		pass,
+			  bool		progress );
+  bool	    operator () ( const char *  srcFn,
+			  long		srcLine,
+			  bool		pass,
+			  bool		progress );
+  bool	    operator () ( const char *  srcFn,
+			  long		srcLine,
+			  const char *	reason,
+			  bool		pass );
+  bool	    operator () ( const char *  srcFn,
+			  long		srcLine,
+			  bool		pass );
   ostream & outputExpect( void );
   ostream & outputIs( void );
 
-  static const char version[];
+  ostream & getOut( void );
+  ostream & getDump( void );
   
+  const char * getCurrentTestName( void ) const;
+  
+  const char * getVersion( bool withPrjVer = true ) const;
+  
+  static const ClassVersion version;
+
 protected:
+
+  class CLUE_CLASS_T DefaultResults : public Results
+  {
+  public:
+    virtual void	start( LibTest &	tester,
+			       const char *	testName,
+			       size_t		testNum,
+			       long		passNum );
+    
+    virtual bool	completed( LibTest &	    tester,
+				   const char *	    testName,
+				   size_t	    testNum,
+				   long		    passNum,
+				   bool		    passed );
+				   
+    virtual bool	failed( LibTest &	tester,
+				const char *	testName,
+				size_t		testNum,
+				size_t		passNum,
+				const char *	reason,
+				const char *	srcFile,
+				long		srcLine );
+  
+    virtual void	passed( LibTest &	tester,
+				const char *	testName,
+				size_t		testNum,
+				size_t		passNum,
+				const char *	srcFile,
+				long		srcLine );
+  };
 
 private:
 
+  bool	testit( size_t tNum, size_t passNum );
+  void  failed( const char * name,
+		const char * reason,
+		const char * srcFn,
+		long         srcLine );
+  
   LibTest( const LibTest & from );
   LibTest & operator =( const LibTest & from );
 
-  void	failed( void );
+  static DefaultResults	defaultResultsObj;
   
   const TestItem *  testList;
   size_t    	    currentTest;
+  size_t	    currentPass;
+  ostream &	    dump;
   ostream &  	    out;
   ostream & 	    err;
+  Results &	    result;
   
 };
 

@@ -10,21 +10,27 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:38  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 14:44:50  houghton
+// Ports and Version ID changes
 //
 //
 
+
+#if !defined( CLUE_SHORT_FN )
+#include "Clue.hh"
 #include "StringUtils.hh"
-#include "_Clue.hh"
-
 #include <cstring>
 #include <cctype>
+#else
+#include "Clue.hh"
+#include "StrUtil.hh"
+#include <cstring>
+#include <cctype>
+#endif
 
-
-static const char * RcsId =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_FUNCT_VERSION(
+  StringTo,
+  "$Id$" );
 
 
 const int _CharToNumber[] =
