@@ -1,0 +1,45 @@
+#ifndef _HotSwap_ii_
+#define _HotSwap_ii_
+//
+// File:        HotSwap.ii
+// Project:	StlUtils
+// Desc:        
+//
+//  	Inline source for HotSwap
+//
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Created:     05/04/99 06:27
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( STLUTILS_DEBUG )
+#define inline
+#endif
+
+inline
+DumpInfo< HotSwap >
+HotSwap::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< HotSwap >( *this, prefix, showVer ) );
+}
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 4.1  1999/05/09 13:08:19  houghton
+// Initial Version.
+//
+//
+#endif // ! def _HotSwap_ii_ 
