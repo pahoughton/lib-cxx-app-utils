@@ -92,7 +92,8 @@ tParam01( LibTest & tester )
     TEST( t.count() == ArraySize( argv_02 ) );
     
     size_t  count = 0;
-    
+
+#if !defined( Linux )
     for( Param::Args::const_iterator them = t.begin();
 	 them != t.end();
 	 ++them, ++count )
@@ -112,7 +113,7 @@ tParam01( LibTest & tester )
       }
     
     TEST( count == ArraySize( argv_02 ) );
-
+#endif
   }
 
   {
@@ -139,6 +140,11 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 3.3  1997/03/03 14:39:38  houghton
+// Removed support for RW Tools++ & rpm.
+// Bug had to add and ifdef for linux - gcc has a bug in const Class *
+//     operator ++ handling.
+//
 // Revision 3.2  1996/11/19 12:36:10  houghton
 // Major-rework.
 //
