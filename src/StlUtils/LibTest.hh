@@ -54,11 +54,15 @@ _LibTest_tf = (tf_); if( ! TESTITR( tester, (r_), (_LibTest_tf) ) ) return( fals
 //  r	    const char *    fail reason description
 //  p	    bool	    true=output a progress marker (i.e. '.')
 
+class Str;
+
 class STLUTILS_CLASS_T LibTest
 {
 
 public:
 
+  typedef unsigned long	    size_type;
+  
   struct TestItem
   {
     const char *    name;
@@ -113,6 +117,8 @@ public:
 
   int	    run( int & argc, char * argv[] );
 
+  int	    run( size_type passes, const Str & testListString );
+    
   bool	    test( const char *  srcFn,
 		  long		srcLine,
 		  const char *	reason,
@@ -491,6 +497,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/29 10:19:07  houghton
+// Added run( size_type passes, const Str & testlist).
+// Cleanup.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

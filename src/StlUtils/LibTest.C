@@ -7,55 +7,10 @@
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/09/95 09:54 
 //
-// Revision History:
-//
-// $Log$
-// Revision 5.1  2000/05/25 10:33:16  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/03/08 18:07:18  houghton
-// Changed so TESTR call does not access the error until after the test
-//     value. This way, if the error is a method, the method being tested
-//     will have executed.
-//
-// Revision 4.1  1997/09/17 15:12:30  houghton
-// Changed to Version 4
-//
-// Revision 3.5  1997/09/17 11:08:25  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.4  1997/08/18 10:21:12  houghton
-// Port(Sun5): Renamed 'times' in run to numTimes to prevent a compiler warning.
-//
-// Revision 3.3  1997/06/09 12:00:55  houghton
-// Reworked arg processing so an error will be output if a test is not found.
-//
-// Revision 3.2  1997/01/18 17:30:13  houghton
-// Added new '-l' arg to turn one progress by line number output from
-//    command line args.
-// Reworked arg processing to support '-l' (and any future) flag.
-//
-// Revision 3.1  1996/11/14 01:23:44  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/10/28 12:08:14  houghton
-// Bug-Fix: if passed test should always call result.passed and pass it
-// 	 the progress flag. Also now check progress flag in
-// 	 DefaultResults::passed
-// Cleanup: Removed failed method and the call to it.
-//
-// Revision 2.2  1996/05/03 16:12:53  houghton
-// Added outputLineProgress. Ouptut source line for every test.
-//
-// Revision 2.1  1995/11/10 12:40:41  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:35  houghton
-// Revised
-//
-//
 
 #include "LibTest.hh"
+#include <Str.hh>
+
 #include <vector>
 #include <cstdlib>
 #include <cstring>
@@ -195,6 +150,75 @@ LibTest::run( int & argc, char * argv[] )
   
   return( 0 );
 }
+
+int
+LibTest::run( size_type numPasses, const Str & testListString )
+{
+
+  Str		tests( testListString );
+  size_type	passes( numPasses > 0 ? numPasses : 1 );
+  
+  vector< Str >	runTestList;
+
+  if( tests.size() )
+    {
+      Str::size_type    testCount( tests.scan( " \t;,:" ) );
+
+      if( testCount > 1 )
+	{
+	  for( Str::size_type testIndex( 1 );
+	       testIndex < testCount;
+	       ++ testIndex )
+	    {
+	      runTestList.push_back( Str( tests.scanMatch( testIndex ) ) );
+	    }
+	}
+      else
+	{
+	  runTestList.push_back( tests );
+	}
+    }
+  
+  for( size_type passNum = 0; passNum < passes; ++ passNum )
+    {
+      if( ! runTestList.size() )
+	{
+	  for( size_t tNum = 0; testList[tNum].name; tNum++ )
+	    {
+	      if( ! testit( tNum, passNum ) )
+		return( tNum );
+	    }
+	}
+      else
+	{
+	  for( vector< Str >::iterator them = runTestList.begin();
+	       them != runTestList.end();
+	       ++ them )
+	    {
+	      bool tested( false );
+	      
+	      for( size_t tNum = 0; testList[tNum].name; tNum++ )
+		{
+		  if( (*them) ==  testList[tNum].name )
+		    {
+		      tested = true;
+		      if( ! testit( tNum, passNum ) )
+			return( tNum );
+		    }
+		}
+
+	      if( ! tested )
+		{
+		  err << "WARN: Test: '" << *them << "' Not found."
+		      << endl;
+		}
+	    }
+	}
+    }
+  
+  return( 0 );
+}
+
 
 bool
 LibTest::test(
@@ -501,3 +525,55 @@ LibTest::DefaultResults::passed(
       tester.getOutput().flush();
     }
 }
+
+// Revision History:
+//
+// $Log$
+// Revision 5.2  2000/05/29 10:18:46  houghton
+// Added run( size_type passes, const Str & testlist).
+// Cleanup.
+//
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
+// Revision 4.2  1998/03/08 18:07:18  houghton
+// Changed so TESTR call does not access the error until after the test
+//     value. This way, if the error is a method, the method being tested
+//     will have executed.
+//
+// Revision 4.1  1997/09/17 15:12:30  houghton
+// Changed to Version 4
+//
+// Revision 3.5  1997/09/17 11:08:25  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.4  1997/08/18 10:21:12  houghton
+// Port(Sun5): Renamed 'times' in run to numTimes to prevent a compiler warning.
+//
+// Revision 3.3  1997/06/09 12:00:55  houghton
+// Reworked arg processing so an error will be output if a test is not found.
+//
+// Revision 3.2  1997/01/18 17:30:13  houghton
+// Added new '-l' arg to turn one progress by line number output from
+//    command line args.
+// Reworked arg processing to support '-l' (and any future) flag.
+//
+// Revision 3.1  1996/11/14 01:23:44  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1996/10/28 12:08:14  houghton
+// Bug-Fix: if passed test should always call result.passed and pass it
+// 	 the progress flag. Also now check progress flag in
+// 	 DefaultResults::passed
+// Cleanup: Removed failed method and the call to it.
+//
+// Revision 2.2  1996/05/03 16:12:53  houghton
+// Added outputLineProgress. Ouptut source line for every test.
+//
+// Revision 2.1  1995/11/10 12:40:41  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:28:35  houghton
+// Revised
+//
+//
