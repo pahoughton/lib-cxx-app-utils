@@ -101,7 +101,11 @@ tFileStat02( LibTest & tester )
   }
 
   {
+#if defined( Linux )
+    const FileStat t( "/usr/bin/passwd" );
+#else
     const FileStat t( "/bin/passwd" );
+#endif
     
     TEST( ! t.isLink() );
     TEST(   t.isReg() );
@@ -117,7 +121,7 @@ tFileStat02( LibTest & tester )
 #ifdef AIX
     const FileStat t( "/bin/chfn" );
 #else    
-    const FileStat t( "/usr/bin/elm" );
+    const FileStat t( "/usr/bin/write" );
 #endif
     TEST( ! t.isLink() );
     TEST(   t.isReg() );
