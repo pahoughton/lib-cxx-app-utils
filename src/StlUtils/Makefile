@@ -33,7 +33,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
-VER_RELEASE	= 00.b.05
+VER_RELEASE	= 00.b.06
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -300,6 +300,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.9  1997/03/03 15:03:47  houghton
+# Changed ver num.
+#
 # Revision 3.8  1997/03/03 14:37:01  houghton
 # Removed support for RW Tools++ & rpm.
 #
