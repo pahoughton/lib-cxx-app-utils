@@ -18,7 +18,7 @@
 #include "SigCatcher.hh"
 #include <Str.hh>
 #include <DateTime.hh>
-#include <StlUtilsUtils.hh>
+#include <StlUtilsMisc.hh>
 #include <LibLog.hh>
 #include <algorithm>
 #include <signal.h>
@@ -319,6 +319,9 @@ SigCatcher::catchAction(
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 15:10:29  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.5  1997/09/17 11:09:24  houghton
 // Changed: renamed library to StlUtils.
 //

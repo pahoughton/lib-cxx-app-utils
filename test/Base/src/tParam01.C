@@ -18,7 +18,7 @@
 #include "LibTest.hh"
 #include "Param.hh"
 #include "Compare.hh"
-#include "StlUtilsUtils.hh"
+#include "StlUtilsMisc.hh"
 
 #define APP_VER		"Test Param Ver: 01.01.01"
 
@@ -148,6 +148,9 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 3.8  1997/09/17 15:11:08  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.7  1997/09/17 11:09:55  houghton
 // Changed: renamed library to StlUtils.
 //

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.5  1997/09/17 15:10:28  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.4  1997/09/17 11:09:22  houghton
 // Changed: renamed library to StlUtils.
 //
@@ -31,7 +34,7 @@
 //
 
 
-#include "StlUtilsUtils.hh"
+#include "StlUtilsMisc.hh"
 #include <iostream>
 #include <fcntl.h>
 

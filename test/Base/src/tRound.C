@@ -17,7 +17,7 @@
 #if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <StlUtilsUtils.hh>
+#include <StlUtilsMisc.hh>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -136,6 +136,9 @@ tRound( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/09/17 15:11:08  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.2  1997/09/17 11:09:56  houghton
 // Changed: renamed library to StlUtils.
 //

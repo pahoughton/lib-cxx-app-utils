@@ -15,7 +15,7 @@
 //  Version:	    $Revision$
 //
 
-#include "StlUtilsUtils.hh"
+#include "StlUtilsMisc.hh"
 #include <iostream>
 #include <fcntl.h>
 
@@ -36,6 +36,9 @@ Whence( ios::seek_dir dir )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 15:10:30  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.2  1997/09/17 11:09:29  houghton
 // Changed: renamed library to StlUtils.
 //

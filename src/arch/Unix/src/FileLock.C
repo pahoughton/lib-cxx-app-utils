@@ -17,7 +17,7 @@
 
 #include "FileLock.hh"
 #include <Str.hh>
-#include <StlUtilsUtils.hh>
+#include <StlUtilsMisc.hh>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -216,6 +216,9 @@ FileLock::typeName( Type t )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 15:10:28  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.2  1997/09/17 11:09:18  houghton
 // Changed: renamed library to StlUtils.
 //
