@@ -86,6 +86,10 @@ install_all: verify_setup
 	@ $(TOOL_DIR)/bin/make -C $(PRJ_TOPDIR)/src $@ $(exports)
 	@ echo + $(PROJECT) $@ complete
 
+install_lib_all: verify_setup
+	@ $(TOOL_DIR)/bin/make -C $(PRJ_TOPDIR)/src install_all $(exports)
+	@ echo + $(PROJECT) $@ complete
+
 help targets:
 	@ echo 
 	@ echo "+ The following targets are available:"
@@ -134,6 +138,9 @@ help_config:
 
 #
 # $Log$
+# Revision 4.9  2000/02/29 14:36:27  houghton
+# Added install_lib_all target.
+#
 # Revision 4.8  1999/11/10 10:07:12  houghton
 # Changed verify_setup to check Setup.cfg.
 #
