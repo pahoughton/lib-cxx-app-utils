@@ -197,13 +197,8 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#include "ClueConfig.hh"
 #include <stddef>
-#else
-#include <ClueCfg.hh>
-#include <stddef>
-#endif
 
 
 class CLUE_CLASS_T RegexScan 
@@ -218,7 +213,7 @@ public:
 
   RegexScan( unsigned int   syntax,
 	     const char *   pattern,
-	     bool   	    fast = 0,
+	     bool   	    fast = false,
 	     size_t    	    bufSize = 40,
 	     const char *   tranTable = 0 );
 
@@ -525,6 +520,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 2.7  1996/11/13 17:03:31  houghton
+// Removed support for short file names.
+// Changed RegexScan() defalut arg from a 0 to false.
+//
 // Revision 2.6  1996/11/04 18:22:22  houghton
 // Cleanup header comment doc.
 //
