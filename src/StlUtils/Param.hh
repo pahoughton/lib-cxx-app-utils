@@ -72,7 +72,8 @@ public:
   Param( int 		    mainArgc,
 	 char *		    mainArgv[],
 	 const char *	    version = 0,
-	 const char *	    logLevel = CLUE_DEFAULT_LOGLEVEL );
+	 const char *	    logLevel = CLUE_DEFAULT_LOGLEVEL,
+	 bool		    useDefaultArgFn = false);
 
   virtual ~Param( void );
   
@@ -97,6 +98,8 @@ public:
   
   inline const char *	env( const char * envVar ) const;
 
+  inline bool		setArgFileName( const char * name );
+  
   virtual bool	parseArgs( void );
   virtual bool	parseArgs( int argc, char * argv[] );
  
@@ -827,6 +830,10 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.11  1997/03/26 12:31:21  houghton
+// Added constructor.
+// Added setArgFileName.
+//
 // Revision 3.10  1997/03/21 15:39:55  houghton
 // Changed readargs is now a protected member (was public).
 //
