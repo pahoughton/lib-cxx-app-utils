@@ -207,7 +207,8 @@ FileStat::error( void ) const
   else
     {
       if( sysError )
-	errStr << ": " << name << " - " << strerror( sysError );
+	errStr << ": '" << name << "' - ("
+	       << sysError << ") " << strerror( sysError );
       else
 	errStr << ": " << name << " - unknown error";
     }
@@ -384,6 +385,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/16 11:22:55  houghton
+// Added error num to error output.
+//
 // Revision 3.5  1997/07/18 19:17:05  houghton
 // Cleanup.
 //
