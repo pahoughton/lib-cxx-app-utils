@@ -96,19 +96,22 @@ targets and variables.
 	    $(TOOL_DIR)/bin/make -C $(libs_build_dir)/$(STLUTILS) install_man
 	    $(TOOL_DIR)/bin/make -C $(libs_build_dir)/$(STLUTILS) install_html
 
-	    
+
 =for html
 <hr>
 
 Paul A. Houghton <paul.houghton@wcom.com>
 
-Last Modified: =LAST_MOD=
-
 $Id$
+
+Last Modified: =LAST_MOD=
 
 =cut
 
 $Log$
+Revision 1.2  2000/06/05 13:13:14  houghton
+Cleanup.
+
 Revision 1.1  2000/06/04 18:01:13  houghton
 Initial Version.
 

@@ -8,16 +8,20 @@ StlUtils library in their projects.
 =over
 
 =item L<Library|Library> Documentation
+
 Types and functions provided by libStlUtils
 
 =item L<Version Control|Version>
+
 How to check in/out the sources from the version control repository
 
 =item L<Project Install|PrjInstall>
+
 How to use a specific version of StlUtils with your project. This is
 the recommended method of installing StlUtils.
 
 =item L<Standalone Install|Install>
+
 How to install StlUtils independantly of a project.
 
 =back
@@ -34,6 +38,9 @@ $Id$
 =cut
 
 $Log$
+Revision 1.2  2000/06/05 13:12:46  houghton
+Cleanup.
+
 Revision 1.1  2000/06/04 18:01:13  houghton
 Initial Version.
 
