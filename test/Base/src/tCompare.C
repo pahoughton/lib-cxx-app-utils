@@ -1,3 +1,20 @@
+//
+// File:        tCompare.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for Compare functions found in Compare.hh
+//
+// Source Header Version: 2.3
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/27/96 04:08
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -18,8 +35,8 @@ tCompare( LibTest & tester )
 {
   CompCount = 7;
   
-  TESTP( tCompare01( tester ), true );
-  TESTP( tCompare02( tester ), true );
+  TESTP( tCompare01( tester ) );
+  TESTP( tCompare02( tester ) );
 
   return( true );
 }
@@ -145,3 +162,10 @@ double	    	CompDouble[] =
 };
   
 
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:47:08  houghton
+// Added header comments.
+// Changed TESTP args.
+//
+//
