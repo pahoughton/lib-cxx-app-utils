@@ -11,8 +11,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 12:56:02  houghton
-// Initial implementation of Unix Group info Class
+// Revision 1.2  1995/11/05 13:55:44  houghton
+// Port to AIX
 //
 //
 

@@ -12,8 +12,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 12:41:10  houghton
-// Initial User Class Implementation
+// Revision 1.2  1995/11/05 13:55:43  houghton
+// Port to AIX
 //
 //
 
@@ -198,7 +198,7 @@ istream &
 User::read( istream & src )
 {
   uid_t	user;
-  src.read( &user, sizeof( uid_t ) );
+  src.read( (char *)&user, sizeof( uid_t ) );
   set( user );
   return( src );
 }
@@ -207,7 +207,7 @@ inline
 ostream &
 User::write( ostream & dest ) const
 {
-  dest.write( &uid, sizeof( uid ) );
+  dest.write( (const char *)&uid, sizeof( uid ) );
   return( dest );
 }
 

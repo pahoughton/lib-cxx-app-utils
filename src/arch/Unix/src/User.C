@@ -10,8 +10,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 12:41:09  houghton
-// Initial User Class Implementation
+// Revision 1.2  1995/11/05 13:55:42  houghton
+// Port to AIX
 //
 //
 
