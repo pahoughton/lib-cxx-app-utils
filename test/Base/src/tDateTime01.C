@@ -35,16 +35,17 @@ tDateTime01( LibTest & tester )
     struct tm dtm;
     struct tm ltm;
 
-    memcpy( &dtm, gmttime( &dtime ), sizeof( dtm ) );
     memcpy( &ltm, localtime( &gtime ), sizeof( ltm ) );
 
-    TEST( dtm.tm_mon  == ltm.tm_mon );
-    TEST( dtm.tm_mday == ltm.tm_mday );
-    TEST( dtm.tm_year == ltm.tm_year );
-    TEST( dtm.tm_hour == ltm.tm_hour );
-    TEST( dtm.tm_min  == ltm.tm_min );
+    TEST( gtime == dtime || (gtime + 1) == dtime );
+    TEST( dt.getMonth()  == ltm.tm_mon + 1 );
+    TEST( dt.getDayOfMonth() == ltm.tm_mday );
+    TEST( dt.getYearOfCentury() == ltm.tm_year );
+    TEST( dt.getHour() == ltm.tm_hour );
+    TEST( dt.getMinute()  == ltm.tm_min );
     // might be off by 1 second max
-    TEST( dtm.tm_sec  == ltm.tm_sec || dtm.tm_sec  == (ltm.tm_sec + 1) );
+    TEST( dt.getSecond()  == ltm.tm_sec ||
+	  dt.getSecond()  == (ltm.tm_sec + 1) );
 
   }
 
