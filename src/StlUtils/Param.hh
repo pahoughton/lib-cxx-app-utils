@@ -197,6 +197,15 @@ public:
   
   static const ClassVersion version;
   
+  enum ErrorNum
+  {
+    E_OK,
+    E_RANGE,
+    E_CONVERT,
+    E_NO_VALUE,
+    E_UNDEFINED
+  };
+
 protected:
 
 private:
@@ -234,15 +243,6 @@ private:
   bool		    logLevelStamp;
   bool		    logLocStamp;
   
-  enum ErrorNum
-  {
-    E_OK,
-    E_RANGE,
-    E_CONVERT,
-    E_NO_VALUE,
-    E_UNDEFINED,
-  };
-
   static const char *	ErrorStrings[];
   
   struct Error
@@ -817,6 +817,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/03/03 19:04:13  houghton
+// Bug-Fix: had and extra ',' at last ErrorNum enum.
+//
 // Revision 3.6  1997/03/03 14:37:21  houghton
 // Removed support for RW Tools++.
 //
