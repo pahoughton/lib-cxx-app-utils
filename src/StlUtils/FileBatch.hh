@@ -69,13 +69,15 @@ protected:
   int		osErrno;
 };
 
-template< class Rec >
+template< class T >
 class FileBatch : public FileBatchBase
 {
 
 public:
 
-  typedef FileBatch< Rec >	self;
+  typedef FileBatch< T >	self;
+
+  typedef T			Rec;
   
   typedef STLUTILS_U32_SIZE_T	size_type;
   typedef ptrdiff_t		difference_type;
@@ -154,9 +156,9 @@ public:
   protected:
 
     friend class const_iterator;
-    friend class FileBatch< Rec >;
+    friend class FileBatch< T >;
 
-    inline iterator( FileBatch< Rec > * o, size_type recNum )
+    inline iterator( FileBatch< T > * o, size_type recNum )
       : owner( o ),
 	readPos( NPOS )
       {
@@ -172,7 +174,7 @@ public:
 	(*owner).file().seekg( cur, ios::beg );
       };
 
-    FileBatch< Rec > *	    owner;
+    FileBatch< T > *	    owner;
     Rec			    rec;
     streampos		    pos;
     streampos		    readPos;
@@ -277,9 +279,9 @@ public:
   protected:
 
     friend class iterator;
-    friend class FileBatch< Rec >;
+    friend class FileBatch< T >;
 
-    inline const_iterator( const FileBatch< Rec > * o, size_type recNum )
+    inline const_iterator( const FileBatch< T > * o, size_type recNum )
       : owner( o ),
 	readPos( NPOS )
       {
@@ -295,7 +297,7 @@ public:
 	(*owner).file().seekg( cur, ios::beg );
       };
 
-    const FileBatch< Rec > *	owner;
+    const FileBatch< T > *	owner;
     Rec				rec;
     streampos			pos;
     streampos			readPos;
@@ -326,14 +328,14 @@ public:
   iterator		    append( void );
   bool			    append( const Rec & src );
   
-  FileBatch< Rec > &	    read( Rec & dest );
+  FileBatch< T > &	    read( Rec & dest );
   bool			    read( Rec & dest ) const;
   
-  FileBatch< Rec > &	    read( Rec & dest, size_type recNum );
+  FileBatch< T > &	    read( Rec & dest, size_type recNum );
   bool			    read( Rec & dest, size_type recNum ) const;
 
-  FileBatch< Rec > &	    write( const Rec & src );
-  FileBatch< Rec > &	    write( iterator & it );
+  FileBatch< T > &	    write( const Rec & src );
+  FileBatch< T > &	    write( iterator & it );
 
   size_type		    size( void ) const;
 
@@ -405,6 +407,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.7  2003/06/07 16:48:23  houghton
+// Added typedef Rec.
+//
 // Revision 5.6  2002/03/25 11:27:00  houghton
 // Added typename delcarations.
 //
