@@ -13,6 +13,12 @@
 # See End of file for format specs
 #
 
+ENH Paul Houghton 06/07/96 04:39
+ClassVersion uses static, needs mutex locking
+
+ENH Paul Houghton 05/30/96 09:02 
+ScanMatch if only 1, scanMatch( 1 ) == scanMatch( 0 )
+
 ENH Paul Houghton 05/22/96 09:55
 test that Str::to( t, b ) all spaces sets to 0 and returns true
 CODE Paul Houghton 05/24/96 06:45
@@ -137,6 +143,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 2.9  1996/06/08 12:42:51  houghton
+# *** empty log message ***
+#
 # Revision 2.8  1996/05/25 12:34:38  houghton
 # *** empty log message ***
 #
