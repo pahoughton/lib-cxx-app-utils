@@ -24,10 +24,10 @@
 //
 
 // Constants
-#define STLUTILS_PRJ_NAME	    "libStlUtils"
-#define STLUTILS_PRJ_VER	    "3.02.04"
-#define STLUTILS_PRJ_VER_NUM    0x03020400L
-#define STLUTILS_PRJ_VER_TAG    "PROD_3_02"
+#define STLUTILS_PRJ_NAME	"libStlUtils"
+#define STLUTILS_PRJ_VER	VERSION
+#define STLUTILS_PRJ_VER_NUM	0x04000001L
+#define STLUTILS_PRJ_VER_TAG    "NONE"
 
 // Macros
 #define STLUTILS_VERSION( name_, verId_ )					      \
@@ -72,6 +72,9 @@ const char VERID_##name_[] =						      \
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/17 15:44:51  houghton
+// Changed prj version info.
+//
 // Revision 4.1  1997/09/17 15:12:51  houghton
 // Changed to Version 4
 //
