@@ -44,6 +44,7 @@ LibTest::TestItem   TestList[] =
   { "StringFrom",	    tStringFrom },
   { "StringUpper",  	    tStringUpper },
   { "StripWhite",   	    tStripWhite },
+  { "StripTrailing",	    tStripTrailing },
   { "StringFirstNotOf",	    tStringFirstNotOf },
   { "basename",     	    tbasename },
   { "MfNumTo",		    tMfNumTo },
@@ -192,6 +193,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1997/12/20 16:12:36  houghton
+// Added tStripTrailing.
+//
 // Revision 4.2  1997/12/19 12:53:01  houghton
 // Added tMfNumTo
 //

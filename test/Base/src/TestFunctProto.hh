@@ -35,6 +35,7 @@ bool	tSafeStrcpy( LibTest & tester );
 bool	tCharToInt( LibTest & tester );
 bool	tCharIsBaseDigit( LibTest & tester );
 bool	tStripWhite( LibTest & tester );
+bool	tStripTrailing( LibTest & tester );
 bool	tStringSearch( LibTest & tester );
 bool	tStringCaseCompare( LibTest & tester );
 bool	tStringLower( LibTest & tester );
@@ -157,6 +158,9 @@ bool	tFileBinStream( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1997/12/20 16:12:26  houghton
+// Added tStripTrailing.
+//
 // Revision 4.2  1997/12/19 12:52:55  houghton
 // Added tMfNumTo
 //

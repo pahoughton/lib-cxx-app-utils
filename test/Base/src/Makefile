@@ -179,6 +179,7 @@ CXX_C_SOURCES	=			\
 	tCompare01.C                    \
 	tCompare02.C                    \
 	tStripWhite.C                   \
+	tStripTrailing.C		\
 	tStringSearch.C                 \
 	tStringCaseCompare.C            \
 	tStringLower.C                  \
@@ -372,6 +373,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.4  1997/12/20 16:12:11  houghton
+# Added tStripTrailing.
+#
 # Revision 4.3  1997/12/19 14:34:29  houghton
 # Added cc_default cxx_default.
 #
