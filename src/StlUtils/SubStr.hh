@@ -23,7 +23,7 @@
 //
 
 #include "StlUtilsConfig.hh"
-#include <stddef.h>
+#include <cstddef>
 #include <iostream>
 
 
@@ -238,7 +238,6 @@ operator == ( const char * lhs, const SubStr & rhs );
 bool
 operator <  ( const char * lhs, const SubStr & rhs );
 
-#if !defined( Linux )
 bool
 operator != ( const char * lhs, const SubStr & rhs );
 
@@ -250,7 +249,6 @@ operator <= ( const char * lhs, const SubStr & rhs );
 
 bool
 operator >= ( const char * lhs, const SubStr & rhs );
-#endif
 
 
 bool	    	StringToBool( const SubStr & str );
@@ -466,6 +464,10 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1998/10/13 16:26:19  houghton
+// Changed to use new standard includes.
+// Cleanup #if def Linux.
+//
 // Revision 4.4  1998/04/02 14:18:39  houghton
 // Port(Linux): functional.h implements != operator.
 //
