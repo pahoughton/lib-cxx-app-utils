@@ -48,14 +48,14 @@ tStr09( LibTest & tester )
 
     Str t( "0123456789" );
 
-    TEST( t[ 4 ] == '4' );
+    TEST( t[ 4UL ] == '4' );
 
-    TEST( t[ 0 ] == '0' );
+    TEST( t[ 0UL ] == '0' );
 
-    t[3] = 'a';
+    t[3UL] = 'a';
 
     TEST( t == "012a456789" );
-    TEST( t[3] == 'a' );
+    TEST( t[3UL] == 'a' );
   }
 
   {
@@ -63,7 +63,7 @@ tStr09( LibTest & tester )
 
     const Str t( "012345" );
 
-    TEST( t[4] == '4' );
+    TEST( t[4UL] == '4' );
   }
 
   return( true );

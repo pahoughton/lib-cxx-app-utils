@@ -35,13 +35,13 @@ tStr23( LibTest & tester )
     Str t( "operator [] test." );
     //      0123456789 123456
     
-    TEST( t[0] == 'o' );
-    TEST( t[5] == 't' );
-    TEST( t[16] == '.' );
+    TEST( t[0UL] == 'o' );
+    TEST( t[5UL] == 't' );
+    TEST( t[16UL] == '.' );
 
-    t[0] = 'O';
-    t[5] = 'T';
-    t[16] = '!';
+    t[0UL] = 'O';
+    t[5UL] = 'T';
+    t[16UL] = '!';
     TEST( t == "OperaTor [] test!" );
     
   }
@@ -51,9 +51,9 @@ tStr23( LibTest & tester )
 
     const Str t( "operator [] test." );
     //            0123456789 123456
-    TEST( t[0] == 'o' );
-    TEST( t[5] == 't' );
-    TEST( t[16] == '.' );
+    TEST( t[0UL] == 'o' );
+    TEST( t[5UL] == 't' );
+    TEST( t[16UL] == '.' );
 
   }
     
