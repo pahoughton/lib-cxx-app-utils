@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 3.2  1997/04/03 23:23:20  houghton
+// Changed include stddef to stddef.h
+//
 // Revision 3.1  1996/11/14 01:23:59  houghton
 // Changed to Release 3
 //
@@ -24,15 +27,9 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <iostream>
-#include <stddef>
-#else
-#include <ClueCfg.hh>
-#include <iostream>
-#include <stddef>
-#endif
+#include <stddef.h>
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -96,11 +93,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( CLUE_SHORT_FN )
 #include <SizeIt.ii>
-#else
-#include <SizeIt.ii>
-#endif
 #else
 #undef inline
 #endif

@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/04/03 23:23:22  houghton
+// Changed include stddef to stddef.h
+//
 // Revision 3.2  1996/11/20 12:13:10  houghton
 // Removed support for BinStream.
 //
@@ -45,7 +48,7 @@
 //
 
 #include "ClueConfig.hh"
-#include <stddef>
+#include <stddef.h>
 #include <iostream>
 
 

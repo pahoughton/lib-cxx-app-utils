@@ -198,7 +198,7 @@
 //
 
 #include "ClueConfig.hh"
-#include <stddef>
+#include <stddef.h>
 
 
 class CLUE_CLASS_T RegexScan 
@@ -522,6 +522,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/04/03 23:23:20  houghton
+// Changed include stddef to stddef.h
+//
 // Revision 3.2  1997/04/02 13:44:52  houghton
 // Added getPattern().
 //

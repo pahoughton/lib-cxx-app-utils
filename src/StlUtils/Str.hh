@@ -25,7 +25,7 @@
 #include "ClueConfig.hh"
 #include <iostream>
 #include <vector>
-#include <stddef>
+#include <stddef.h>
 
 
 
@@ -1671,6 +1671,9 @@ unsigned long	StringToULong( const Str & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/04/03 23:23:21  houghton
+// Changed include stddef to stddef.h
+//
 // Revision 3.5  1997/03/07 11:53:54  houghton
 // Cleanup.
 //

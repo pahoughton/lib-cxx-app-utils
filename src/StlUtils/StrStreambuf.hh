@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/04/03 23:23:22  houghton
+// Changed include stddef to stddef.h
+//
 // Revision 3.2  1996/11/20 12:12:50  houghton
 // Changed strstream to strstream.h because it is not part of the standard.
 //
@@ -35,7 +38,7 @@
 //
 
 #include "ClueConfig.hh"
-#include <stddef>
+#include <stddef.h>
 #include <strstream.h>
 
 
