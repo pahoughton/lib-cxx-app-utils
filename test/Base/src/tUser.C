@@ -360,7 +360,11 @@ tUser( LibTest & tester )
     User t( uid );
 
     for( size_t g = 0; g < gCount; g++ )
-      TEST( t.isMember( getgrgid( groups[g] )->gr_name ) );
+      {
+	Str grName( getgrgid( groups[g] )->gr_name ); ;
+	
+	TESTR( grName, t.isMember( grName ) );
+      }
   }
   
   {
@@ -378,7 +382,11 @@ tUser( LibTest & tester )
     const User t( uid, true );
 
     for( size_t g = 0; g < gCount; g++ )
-      TEST( t.isMember( getgrgid( groups[g] )->gr_name ) );
+      {
+	Str grName( getgrgid( groups[g] )->gr_name ); ;
+	
+	TESTR( grName, t.isMember( grName ) );
+      }
   }
 
   {
