@@ -556,7 +556,7 @@ public:
   // from ostream
   virtual ostream &	write( const char * src, int size );
   virtual ostream &	write( const unsigned char * src, int size );
-#if !defined( Hpux10 )
+#if !defined( Hpux10 ) && !defined( AIX41 )
   virtual ostream &	write( const wchar_t * src, int size );
 #endif
   virtual ostream &	write( const void * src, size_type size );
@@ -1756,6 +1756,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.8  1998/10/13 15:24:47  houghton
+// Port(AIX41): write( wchar_t *) not available.
+//
 // Revision 4.7  1998/07/20 11:26:53  houghton
 // Port(Hpux): wchar not supported.
 //

@@ -1015,7 +1015,7 @@ Str::write( const unsigned char * src, int size )
   return( ostream::write( src, size ) );
 }
 
-#if !defined( Hpux10 )
+#if !defined( Hpux10 ) && !defined( AIX41 )
 ostream &
 Str::write( const wchar_t * src, int size )
 {
@@ -1290,6 +1290,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.8  1998/10/13 15:24:51  houghton
+// Port(AIX41): write( wchar_t *) not available.
+//
 // Revision 4.7  1998/07/20 11:26:47  houghton
 // Port(Hpux): wchar not supported.
 //
