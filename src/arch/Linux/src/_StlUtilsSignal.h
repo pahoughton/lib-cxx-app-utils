@@ -26,6 +26,9 @@
 #include <signal.h>
 
 #define SA_WAITSIG	0
+#define SA_ONSTACK	0
+#define SA_SIGINFO	0
+#define SA_NOCLDWAIT	0
 
 #if defined( __cplusplus )
 extern "C" {
@@ -40,6 +43,9 @@ extern "C" {
  * Revision Log:
  *
  * $Log$
+ * Revision 4.3  1998/10/13 16:32:34  houghton
+ * Added defines for missing SA_* options.
+ *
  * Revision 4.2  1998/03/30 14:07:34  houghton
  * Linux 2.1.88 now supports SA_ONSTACK, SA_SIGINFO, SA_NOCLDWAIT
  *
