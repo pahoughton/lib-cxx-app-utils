@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/11/04 13:35:19  houghton
+// Bug-Fix: changeDirs - if oldDirs not found in path, return false.
+//
 // Revision 2.2  1995/12/04 11:17:22  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -141,6 +144,9 @@ FilePath::setPath( const char * path )
 bool
 FilePath::changePath( const char * oldDirs, const char * newDirs )
 {
+  if( ! at( oldDirs ).size() )
+    return( false );
+  
   at( oldDirs ) = newDirs;
   return( true );
 }
