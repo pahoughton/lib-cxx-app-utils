@@ -139,6 +139,11 @@ MfNumTo(
     return( false );
 
   bool isNeg = false;
+
+  if( StringFirstNotOf( src, srcLen - 1, "0123456789", NPOS ) != NPOS )
+    {
+      return( false );
+    }
   
   if( *src == ' ' && *srcEnd == ' ' )
     {
@@ -234,6 +239,9 @@ MfNumTo(
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/01/05 13:21:12  houghton
+// Changed: now test that all input chars are valid digits.
+//
 // Revision 4.2  1997/12/19 12:50:10  houghton
 // Bug-Fix: integral converter was off by 1.
 // Added string converter with decimal support.
