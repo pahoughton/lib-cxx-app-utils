@@ -13,6 +13,7 @@
 
 #include "Log.hh"
 #include "DateTime.hh"
+#include <cstdio>
 
 #if defined( CLUE_DEBUG )
 #include "Log.ii"
@@ -24,6 +25,8 @@ CLUE_VERSION(
 
 
 Log * _LibLog = 0;
+
+LogLevel::CommonLevelMap	    Log::commonLevelMap;
 
 Log::Log(
   ostream & 	    outstr,
@@ -254,6 +257,60 @@ Log::delFilter( LogBuf::FilterId id )
 }
 
 bool
+Log::tieCommonLogger( bool setStrings )
+{
+  if( commonLevelMap.size() == 0 )
+    {
+      commonLevelMap[ LOG_ERROR ] = LogLevel::Error;
+      commonLevelMap[ LOG_WARN  ] = LogLevel::Warn;
+      commonLevelMap[ LOG_APP1  ] = LogLevel::App1;
+      commonLevelMap[ LOG_APP2  ] = LogLevel::App2;
+      commonLevelMap[ LOG_APP3  ] = LogLevel::App3;
+      commonLevelMap[ LOG_APP4  ] = LogLevel::App4;
+      commonLevelMap[ LOG_APP5  ] = LogLevel::App5;
+      commonLevelMap[ LOG_APP6  ] = LogLevel::App6;
+      commonLevelMap[ LOG_LIB1  ] = LogLevel::Lib1;
+      commonLevelMap[ LOG_LIB2  ] = LogLevel::Lib2;
+      commonLevelMap[ LOG_LIB3  ] = LogLevel::Lib3;
+      commonLevelMap[ LOG_LIB4  ] = LogLevel::Lib4;
+      commonLevelMap[ LOG_INFO  ] = LogLevel::Info;
+      commonLevelMap[ LOG_TEST  ] = LogLevel::Test;
+      commonLevelMap[ LOG_DEBUG ] = LogLevel::Debug;
+      commonLevelMap[ LOG_FUNCT ] = LogLevel::Funct;
+    }
+
+  if( setStrings )
+    {
+      LogLevel::setName( LogLevel::Error, LogLevelString( LOG_ERROR ) );
+      LogLevel::setName( LogLevel::Warn,  LogLevelString( LOG_WARN ) );
+      
+      LogLevel::setName( LogLevel::App1,  LogLevelString( LOG_APP1 ) );
+      LogLevel::setName( LogLevel::App2,  LogLevelString( LOG_APP2 ) );
+      LogLevel::setName( LogLevel::App3,  LogLevelString( LOG_APP3 ) );
+      LogLevel::setName( LogLevel::App4,  LogLevelString( LOG_APP4 ) );
+      LogLevel::setName( LogLevel::App5,  LogLevelString( LOG_APP5 ) );
+      LogLevel::setName( LogLevel::App6,  LogLevelString( LOG_APP6 ) );
+      
+      LogLevel::setName( LogLevel::Lib1, LogLevelString( LOG_LIB1 ) );
+      LogLevel::setName( LogLevel::Lib2, LogLevelString( LOG_LIB2 ) );
+      LogLevel::setName( LogLevel::Lib3, LogLevelString( LOG_LIB3 ) );
+      LogLevel::setName( LogLevel::Lib4, LogLevelString( LOG_LIB4 ) );
+  
+      LogLevel::setName( LogLevel::Info,  LogLevelString( LOG_INFO ) );
+      LogLevel::setName( LogLevel::Test,  LogLevelString( LOG_TEST ) );
+      LogLevel::setName( LogLevel::Debug, LogLevelString( LOG_DEBUG ) );
+      LogLevel::setName( LogLevel::Funct, LogLevelString( LOG_FUNCT ) );
+    }
+
+  LoggerSetOutputLevel( LOG_SET, LOG_ALL );
+  LoggerSetFunct( commonLog, this );
+
+  return( true );
+}
+  
+      
+      
+bool
 Log::good( void ) const
 {
   return( rdbuf() != 0 && rdbuf()->good() && ios::good() );
@@ -351,10 +408,44 @@ Log::dumpInfo(
   return( dest  );
 }
 
+void
+Log::commonLog(
+   void *	    closure,
+   const char *     srcFileName,
+   long		    srcLineNumber,
+   LogLevelBit	    level,
+   const char *     mesgFmt,
+   va_list	    mesgArgs
+   )
+{
+  Log *	    self = (Log *)closure;
+
+  static char logMesg[ 4096 ];
+
+  vsprintf( logMesg, mesgFmt, mesgArgs );
+    
+  if( ! self )
+    {
+      cerr << "Log::commonLog - no self!\n"
+	   << logMesg << endl;
+    }
+  else
+    {
+      self->level( commonLevelMap[ level ],
+		   srcFileName,
+		   srcLineNumber ) << logMesg;
+      self->flush();
+    }
+}
+
 //
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/04/26 14:11:09  houghton
+// Added tieCommonLogger().
+// Added commonLog().
+//
 // Revision 3.6  1997/04/04 20:52:54  houghton
 // Added mode & prot specificers to open log file.
 // Added LogBuf error checking.

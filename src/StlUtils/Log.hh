@@ -169,6 +169,10 @@ public:
   inline LogBuf *	    rdbuf( void );
   inline const LogBuf *	    rdbuf( void ) const;
 
+  bool				tieCommonLogger( bool setStrings = false );
+  
+  inline const LogLevel::CommonLevelMap & getCommonLevelMap( void ) const;
+  
   // mutex locking
 
   inline bool		    lock( void );
@@ -195,6 +199,16 @@ private:
   bool		levelStamp;
   bool		locStamp;
   bool		localTimeStamp;
+
+  static void	commonLog( void *	closure,
+			   const char * srcFileName,
+			   long		srcLineNumber,
+			   LogLevelBit	level,
+			   const char * mesgFmt,
+			   va_list	mesgArgs );
+  
+  static LogLevel::CommonLevelMap	    commonLevelMap;
+  
   
   Mutex		mutex;
   
@@ -630,6 +644,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/04/26 14:11:21  houghton
+// Added tieCommonLogger().
+// Added commonLog().
+//
 // Revision 3.6  1997/04/04 20:53:00  houghton
 // Added mode & prot specificers to open log file.
 // Added LogBuf error checking.
