@@ -19,10 +19,10 @@ CFG_DIR		= $(PRJ_TOPDIR)/src/config
 
 INSTALL_INC_DIR 	= $(TOOL_DIR)/include/prod
 INSTALL_LIB_DIR 	= $(TOOL_DIR)/lib/prod
-INSTALL_MAN_DIR 	= $(TOOL_DIR)/man
+INSTALL_DOC_MAN_DIR 	= $(TOOL_DIR)/man
 
-INSTALL_HTML_BASE_DIR	= \
-	/usr/netscape/suitespot/docs/ObjectRepository/StlUtils
+INSTALL_DOC_HTML_BASE_DIR	= \
+	/usr/netscape/suitespot/docs/ObjectRepository/GenericCxx/StlUtils
 
 common_h	= $(INSTALL_INC_DIR)/Common.h
 gnuregex_h	= $(INSTALL_INC_DIR)/GnuRegex.h
@@ -81,7 +81,8 @@ all									      \
 check									      \
 clean									      \
 realclean								      \
-install_docs								      \
+install_man								      \
+install_html								      \
 install_default								      \
 install_debug								      \
 install									      \
@@ -144,6 +145,10 @@ help_config:
 
 #
 # $Log$
+# Revision 4.11  2000/04/19 11:03:48  houghton
+# Changed install_docs to install_man
+# Added install_html.
+#
 # Revision 4.10  2000/04/18 13:08:22  houghton
 # Added INSTALL_HTML_BASE_DIR.
 #

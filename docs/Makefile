@@ -22,20 +22,41 @@
 
 make_cfg_ver	= 5.06
 show_commands 	= # true
+check_install	= true
 
 # Include standard MakeConfig configuration for GNU make required
 include Make/make.cfg.$(make_cfg_ver)
 
-exports	    = 					\
-	INSTALL_BIN_DIR=$(INSTALL_BIN_DIR)	\
-	INSTALL_INC_DIR=$(INSTALL_INC_DIR)	\
-	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)	\
-	INSTALL_MAN_DIR=$(INSTALL_MAN_DIR)	\
-	show_commands=$(show_commands)		\
-	check_install=$(check_install)		\
+PRJ_TOPDIR	= ..
+CFG_DIR		= $(PRJ_TOPDIR)/src/config
 
+include $(CFG_DIR)/00-Makefile.cfg
+
+INSTALL_HTML_DIR	= $(INSTALL_DOC_HTML_BASE_DIR)
+
+HTML_FILES	=							      \
+	00-Index.html
+
+HTML_SUBDIRS	=							      \
+	user
 
 install install_docs:
+
+install_man:
+
+$(INSTALL_HTML_DIR):
+	$(hide) $(mkdirhier_cmd) $@
+	$(hide) chmod 777 $@
+
+install_html: $(INSTALL_HTML_DIR)
+	$(hide) for fn in $(HTML_FILES) ; do				      \
+	  install -c -m 664 $$fn $(INSTALL_HTML_DIR)/$$fn ;		      \
+	  echo "+ Installed $(INSTALL_HTML_DIR)/$$fn" ;			      \
+	done
+	$(hide) for dir in $(HTML_SUBDIRS) ; do				      \
+	  echo "+ Making $@ in $$dir";					      \
+	  $(MAKE) -C $$dir $@ $(exports) ;				      \
+	done
 
 clean:
 
@@ -46,6 +67,10 @@ realclean:
 
 #
 # $Log$
+# Revision 1.4  2000/04/19 11:03:57  houghton
+# Changed install_docs to install_man
+# Added install_html.
+#
 # Revision 1.3  1999/10/30 10:40:26  houghton
 # Changed install_doc to install_docs.
 #

@@ -48,10 +48,10 @@ test:
 check: test
 	$(hide) $(MAKE) -C $(TEST_DIR) $@ $(exports)
 
-install_docs:
+install_man install_html:
 	$(hide) $(MAKE) -C $(DOC_DIR) $@ $(exports)
 
-install_all install install_default install_debug: install_docs
+install_all install install_default install_debug: install_man
 	$(hide) $(MAKE) -C StlUtils $@ $(exports)
 
 install_lib_all:
@@ -61,6 +61,10 @@ install_lib_all:
 
 #
 # $Log$
+# Revision 4.9  2000/04/19 11:04:25  houghton
+# Changed install_docs to install_man
+# Added install_html.
+#
 # Revision 4.8  2000/02/29 14:37:06  houghton
 # Bug-Fix: install_lib_all target should build install_all.
 #
