@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 2.6  1996/04/27 13:07:59  houghton
+// Added support for LibLog.
+//
 // Revision 2.5  1996/02/29 19:06:43  houghton
 // *** empty log message ***
 //
@@ -35,12 +38,14 @@
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <Log.hh>
+#include <LibLog.hh>
 #include <Str.hh>
 #include <DateTime.hh>
 #include <cstdlib>
 #include <climits>
 #else
 #include <ClueCfg.hh>
+#include <LibLog.hh>
 #include <Log.hh>
 #include <Str.hh>
 #include <DateTime.hh>

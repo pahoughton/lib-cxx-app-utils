@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 13:07:54  houghton
+// Added support for LibLog.
+//
 // Revision 2.3  1996/02/29 19:06:34  houghton
 // *** empty log message ***
 //
@@ -59,6 +62,9 @@ Param::Param(
     logTrimSize( 0 ),
     ok( true )
 {
+  if( _LibLog  == 0 )
+    _LibLog = &appLog;
+  
   argv = mainArgv;
   
   helpString.setf( ios::left );
