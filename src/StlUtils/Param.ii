@@ -141,8 +141,20 @@ Param::env( const char * envVar ) const
 
 inline
 bool
-Param::help( void ) const
+Param::help( bool exitApp )
 {
+  // This is a cheat!
+  //   If param is used, the app will most likely call help
+  //   after all the args have been processed. If the user
+  //   requested an argfile (i.e. -gen-argfile) then we
+  //   should generate it, tell him about it and exit.
+  //
+  if( generateArgFile )
+    genArgFile( exitApp );
+
+  if( helpFlag && exitApp )
+    abort( 100, true, __FILE__, __LINE__ );
+      
   return( helpFlag );
 }
 
@@ -176,6 +188,9 @@ operator<<( ostream & dest, const Param & obj )
 // 
 //
 // $Log$
+// Revision 4.3  1999/11/09 11:08:50  houghton
+// Added exitApp arg to help().
+//
 // Revision 4.2  1998/05/19 15:27:26  houghton
 // Chagned to return false if all file args are not processed.
 //
