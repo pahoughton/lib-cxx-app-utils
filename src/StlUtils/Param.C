@@ -696,14 +696,14 @@ Param::getArgValue( const char * argId, const char * envVar )
 	 ++ them )
       {
 	if( (*them).size() > 1 &&
-	    (*them)[0] == '-' &&
+	    (*them)[0UL] == '-' &&
 	    (*them).substr( 1 ).compare( argId ) == 0 )
 	  {
 	    foundArg = true;
 	    // found it
 	    for( ++ them; them != fileArgs.end(); ++ them )
 	      {
-		if( (*them).size() && (*them)[0] != '-' )
+		if( (*them).size() && (*them)[0UL] != '-' )
 		  {
 		    foundArg = true;
 		    value = *them;
@@ -724,7 +724,7 @@ Param::getArgValue( const char * argId, const char * envVar )
 	     ++ them )
 	  {
 	    if( (*them).size() > 1 &&
-		(*them)[0] == '-' &&
+		(*them)[0UL] == '-' &&
 		(*them).substr( 1 ).compare( argId ) == 0 )
 	      {
 		fileArgs.erase( them );
@@ -749,7 +749,7 @@ Param::getArgValue( const char * argId, const char * envVar )
     for( ; them != argv.end(); ++ them )
       {
 	if( (*them).size() > 1 &&
-	    (*them)[0] == '-' &&
+	    (*them)[0UL] == '-' &&
 	    (*them).substr( 1 ).compare( argId ) == 0 )
 	  {
 	    
@@ -758,7 +758,7 @@ Param::getArgValue( const char * argId, const char * envVar )
 	    for( them++; them != argv.end(); ++ them )
 	      {
 		if( (*them).size() &&
-		    (*them)[0] != '-' )
+		    (*them)[0UL] != '-' )
 		  {
 		    foundArg = true;
 		    value = *them;
@@ -788,7 +788,7 @@ Param::getArgValue( const char * argId, const char * envVar )
 	for( them = argv.begin(); them != argv.end(); ++ them )
 	  {
 	    if( (*them).size() > 1 &&
-		(*them)[0] == '-' && 
+		(*them)[0UL] == '-' && 
 		(*them).substr( 1 ).compare( argId ) == 0 )
 	      {
 		argv.erase( them );
@@ -818,7 +818,7 @@ Param::getArgFlag( const char * argId, const char * envVar )
 	 ++ them )
       {
 	if( (*them).size() > 1 &&
-	    (*them)[0] == '-' &&
+	    (*them)[0UL] == '-' &&
 	    (*them).substr( 1 ).compare( argId ) == 0 )
 	  {
 	    // found it
@@ -843,7 +843,7 @@ Param::getArgFlag( const char * argId, const char * envVar )
       for( ; them != argv.end(); ++ them )
 	{
 	  if( (*them).size() > 1 &&
-	      (*them)[0] == '-' && 
+	      (*them)[0UL] == '-' && 
 	      (*them).substr( 1 ).compare( argId ) == 0 )
 	    {
 	      // found it now get the value
@@ -1110,7 +1110,7 @@ Param::appendHelp(
 
   argHelp.wrap( 79, contLinePadSize );
 
-  argHelp[2] = '-';
+  argHelp[2UL] = '-';
   
   argHelp.replace( 3, strlen( argId ), argId );
   
@@ -1180,6 +1180,10 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1998/07/20 11:24:16  houghton
+// Port(Hpux): had to case const numbers used for array subscripts to
+//     unsigned long.
+//
 // Revision 4.4  1998/02/13 01:21:04  houghton
 // Cleanup.
 //
