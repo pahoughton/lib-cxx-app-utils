@@ -1844,19 +1844,19 @@ operator == ( const char * lhs, const Str & rhs )
 
 inline
 bool
-operator != ( const char * lhs, const Str & rhs )
-{
-  return( compare( lhs, rhs ) != 0 );
-}
-
-inline
-bool
 operator <  ( const char * lhs, const Str & rhs )
 {
   return( compare( lhs, rhs ) < 0 );
 }
 
-#if !defined( __linux__ )
+#if !defined( Linux )
+inline
+bool
+operator != ( const char * lhs, const Str & rhs )
+{
+  return( compare( lhs, rhs ) != 0 );
+}
+
 inline
 bool
 operator >  ( const char * lhs, const Str & rhs )
@@ -2056,6 +2056,9 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 4.5  1998/04/02 14:18:27  houghton
+// Port(Linux): functional.h implements != operator.
+//
 // Revision 4.4  1998/03/30 14:06:36  houghton
 // Removed get( wchar ) and getline( wchar ) - not standard.
 //

@@ -659,12 +659,12 @@ bool
 operator == ( const char * lhs, const Str & rhs );
 
 bool
-operator != ( const char * lhs, const Str & rhs );
-
-bool
 operator <  ( const char * lhs, const Str & rhs );
 
-#if !defined( __linux__ )
+#if !defined( Linux )
+bool
+operator != ( const char * lhs, const Str & rhs );
+
 bool
 operator >  ( const char * lhs, const Str & rhs );
 
@@ -1754,6 +1754,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1998/04/02 14:18:13  houghton
+// Port(Linux): functional.h implements != operator.
+//
 // Revision 4.5  1998/03/30 14:06:32  houghton
 // Removed get( wchar ) and getline( wchar ) - not standard.
 //

@@ -236,10 +236,11 @@ bool
 operator == ( const char * lhs, const SubStr & rhs );
 
 bool
-operator != ( const char * lhs, const SubStr & rhs );
-
-bool
 operator <  ( const char * lhs, const SubStr & rhs );
+
+#if !defined( Linux )
+bool
+operator != ( const char * lhs, const SubStr & rhs );
 
 bool
 operator >  ( const char * lhs, const SubStr & rhs );
@@ -249,6 +250,7 @@ operator <= ( const char * lhs, const SubStr & rhs );
 
 bool
 operator >= ( const char * lhs, const SubStr & rhs );
+#endif
 
 
 bool	    	StringToBool( const SubStr & str );
@@ -464,6 +466,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/04/02 14:18:39  houghton
+// Port(Linux): functional.h implements != operator.
+//
 // Revision 4.3  1998/02/18 13:22:53  houghton
 // Added stopAtNonDigit flag to to() methods.
 //

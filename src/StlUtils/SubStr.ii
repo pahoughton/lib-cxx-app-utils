@@ -533,18 +533,19 @@ operator == ( const char * lhs, const SubStr & rhs )
 
 inline
 bool
+operator <  ( const char * lhs, const SubStr & rhs )
+{
+  return( compare( lhs, rhs ) < 0 );
+}
+
+#if !defined( Linux )
+inline
+bool
 operator != ( const char * lhs, const SubStr & rhs )
 {
   return( compare( lhs, rhs ) != 0 );
 }
 
-
-inline
-bool
-operator <  ( const char * lhs, const SubStr & rhs )
-{
-  return( compare( lhs, rhs ) < 0 );
-}
 
 inline
 bool
@@ -566,6 +567,7 @@ operator >= ( const char * lhs, const SubStr & rhs )
 {
   return( compare( lhs, rhs ) >= 0 );
 }
+#endif
 
 
 inline
@@ -664,6 +666,9 @@ SubStr::operator =  ( const string & src )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.4  1998/04/02 14:18:43  houghton
+// Port(Linux): functional.h implements != operator.
+//
 // Revision 4.3  1998/02/18 13:23:12  houghton
 // Added stopAtNonDigit flag to to() methods.
 //
