@@ -98,6 +98,13 @@ IosSeekDirToString( ios::seek_dir dir );
 //	    bytes long, overlaps the memory chunk at 'two' that is
 //	    'lenTwo' bytes long.
 //
+//	template< class RangeType, class ValueType >
+//	inline
+//	bool
+//	Between( RangeType a, RangeType b, ValueType value );
+//	    Returns true if the value is between a and b. This works 
+//	    whether a > b or b > a.
+//
 //	inline
 //	long
 //	abs( long value )
@@ -171,6 +178,9 @@ IosSeekDirToString( ios::seek_dir dir );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/03/02 12:48:53  houghton
+// Added Between.
+//
 // Revision 4.1  1997/09/17 15:12:50  houghton
 // Changed to Version 4
 //
