@@ -18,11 +18,7 @@
 #include <User.hh>
 #endif
 
-#if defined( CLUE_HAS_DATETIME )
 #include <DateTime.hh>
-#else
-#include <rw/rwtime.h>
-#endif
 
 #include "Bit.hh"
 #include <iomanip>
@@ -178,12 +174,8 @@ FileStat::toStream( ostream & dest ) const
       
       dest.unsetf( ios::left );
 
-#if defined( CLUE_HAS_DATETIME )
       DateTime mdt( getModificationTime(), true );
-#else
-      time_t tmpMdt = getModificationTime();
-      RWTime mdt( localtime( &tmpMdt ) );
-#endif
+      
       dest << setw( 10 ) << getSize() << ' '
 	   << mdt << ' '
 	   << getName()
@@ -205,27 +197,23 @@ FileStat::good( void ) const
 const char *
 FileStat::error( void ) const
 {
-  static strstream errStr;
-  errStr.freeze(0);
-  errStr.seekp(0);
-  errStr.seekg(0);
-
-  errStr << getClassName() << ": ";
+  static Str errStr;
+  
+  errStr = FileStat::getClassName();
 
   if( good() )
     {
-       errStr << "ok";
+       errStr << ": ok";
     }
   else
     {
       if( sysError )
-	errStr << strerror( sysError );
+	errStr << ": " << name << " - " << strerror( sysError );
       else
-	errStr << "unknown error";
+	errStr << ": " << name << " - unknown error";
     }
 
-  errStr << ends;
-  return( errStr.str() );
+  return( errStr.c_str() );
 }
 
 // getClassName - return the name of this class
@@ -397,6 +385,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/03/03 18:59:16  houghton
+// Removed support for RW Tools++.
+//
 // Revision 3.3  1997/03/02 13:19:10  houghton
 // Bug-Fix changed if def for DateTime.
 //
