@@ -55,14 +55,11 @@ LibTest::TestItem   TestList[] =
   { "basename",     	    tbasename },
   { "ClassVersion",	    tClassVersion },
   { "Bitmask",		    tBitmask },
-#if defined( DONT_DO )
   { "HeapBinStream",	    tHeapBinStream },
   { "HeapNetStream",	    tHeapNetStream },
   { "Str",  	    	    tStr },
   { "SubStr",  	    	    tSubStr },
-#endif
   { "RegexScan",    	    tRegexScan },  
-#if defined( DONT_DO )
   { "DateTimeUtils",        tDateTimeUtils },  
   { "DateTime",		    tDateTime },
   { "DateRange",	    tDateRange },
@@ -72,9 +69,7 @@ LibTest::TestItem   TestList[] =
   { "User",		    tUser },
   { "UserGroup",	    tUserGroup },
   { "FileStat",		    tFileStat },
-#endif
   { "LogLevel",		    tLogLevel },
-#if defined( DONT_DO )
   { "Log",		    tLog },
   { "Param",		    tParam },
   { "SortOrder",	    tSortOrder },
@@ -82,7 +77,6 @@ LibTest::TestItem   TestList[] =
 #if defined( ALL )
   { "WithCommon",	    tWithCommon },
   { "WithWcf",		    tWithWcf },
-#endif
 #endif
   
 #if defined( COMPONENT_TEST )
@@ -206,6 +200,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 2.8  1996/11/06 18:14:47  houghton
+// Changed to run all test.
+//
 // Revision 2.7  1996/11/04 14:43:32  houghton
 // Restructure header comments layout.
 // Changed to only run test on the classes/functions that are ready.
