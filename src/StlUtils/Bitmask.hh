@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 12:50:50  houghton
+// Cleanup.
+//
 // Revision 2.3  1995/12/04 11:16:41  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 // Bug Fix - Now there is a special type for all single 'bit' values.
@@ -30,17 +33,12 @@
 #include <ClueConfig.hh>
 #include <BinStream.hh>
 #include <Str.hh>
-#include <iostream>
-#include <algorithm>
-#include <cstddef>
 #else
 #include <ClueCfg.hh>
 #include <BinStrm.hh>
 #include <Str.hh>
-#include <iostream>
-#include <algorithm>
-#include <cstddef>
 #endif
+
 
 #if defined( CLUE_DEBUG )
 #define inline

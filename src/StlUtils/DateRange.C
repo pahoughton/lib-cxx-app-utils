@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 12:54:34  houghton
+// Cleanup.
+//
 // Revision 2.3  1995/12/31 11:21:52  houghton
 // Bug fix - Removed 'inline' statement.
 //
@@ -28,13 +31,16 @@
 #include "DateRange.hh"
 #include "Clue.hh"
 #include "Str.hh"
+#include "DateTimeUtils.hh"
 #include <iomanip>
 #else
 #include "DateRg.hh"
 #include "Clue.hh"
 #include "Str.hh"
+#include "DateTimeUtils.hh"
 #include <iomanip>
 #endif
+
 
 
 #if defined( CLUE_DEBUG )

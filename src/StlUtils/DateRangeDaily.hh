@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 2.3  1996/04/27 12:57:00  houghton
+// Cleanup.
+//
 // Revision 2.2  1995/11/10 14:08:34  houghton
 // Updated documentation comments
 //
@@ -30,7 +33,6 @@
 #include <ClueCfg.hh>
 #include <DateRg.hh>
 #endif
-
 
 #if defined( CLUE_DEBUG )
 #define inline

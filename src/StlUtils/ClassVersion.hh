@@ -1,3 +1,4 @@
+
 #ifndef _ClassVersion_hh_
 #define _ClassVersion_hh_
 //
@@ -14,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 12:52:40  houghton
+// Cleanup.
+//
 // Revision 2.2  1995/12/04 11:16:59  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -32,6 +36,7 @@
 #include <ClueCfg.hh>
 #include <iostream>
 #endif
+
 
 class CLUE_CLASS_T ClassVersion
 {
@@ -75,8 +80,6 @@ private:
 
 };
 
-// ostream & operator << (ostream & dest, const ClassVersion & obj )
-//   defined in .ii
 
 #define CLASS_VERSION( className_, verId_, prjName_, prjVer_, prjVerNum_ )    \
 									      \
