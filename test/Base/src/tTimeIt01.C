@@ -1,0 +1,124 @@
+//
+// File:        tTimeIt01.C
+// Project:	Clue
+// Desc:        
+//
+//  Compiled sources for tTimeIt01
+//  
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Created:     07/08/97 08:13
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+
+#include <TestConfig.hh>
+#include <TimeIt.hh>
+#include <LibTest.hh>
+#include <Directory.hh>
+
+#include <vector>
+
+typedef vector<TimeIt>	List;
+
+bool
+tTimeIt01( LibTest & tester )
+{
+  {
+    TimeIt	t;
+    List	tList;
+    Directory	dir;
+    long	maxTests = 50;
+    
+    double	realAvg = 0;
+    double      realBest = 5000.0;
+    double	realWorst = 0;
+    
+    {
+      double	real;
+      for( long cnt = 0; cnt < maxTests; ++ cnt )
+	{
+	  t.start();
+	  long loops = (10 + (rand() % 40));
+#if defined( SHOW_TIMEIT )
+	  tester.getDump() << "Loops: " << loops;
+	  tester.getDump().flush();
+#endif
+	  {
+	    for( long l = 0; l < loops; ++ l )
+	      {
+		dir.set( "." );
+	      }
+	  }
+	  t.stop();
+
+	  real = ( t.getRealDiff().tv_sec +
+		   ((double)(t.getRealDiff().tv_usec) / 1000000) );
+#if defined( SHOW_TIMEIT )
+	  tester.getDump() << " Real: " << real
+			   << " "  << t.dump() << endl;
+#else
+	  TESTP( true );
+#endif
+	  if( real < realBest )
+	    realBest = real;
+	  if( real > realWorst )
+	    realWorst = real;
+	  realAvg += real;
+	  
+	  tList.push_back( t );
+	}
+    }
+
+    TEST( tList.size() == maxTests );
+    realAvg /= tList.size();
+    
+    TimeIt  avg( TimeItAverage( tList.begin(), tList.end() ) );
+    TimeIt  best( *TimeItBestReal( tList.begin(), tList.end() ) );
+    TimeIt  worst( *TimeItWorstReal( tList.begin(), tList.end() ) );
+
+#if defined( SHOW_TIMEIT )
+    tester.getDump() << "Avg: " << realAvg << " "  << avg.dump() << endl;
+    tester.getDump() << "Best: " << realBest << " " << best.dump() << endl;
+    tester.getDump() << "Worst: " << realWorst << " " << worst.dump() << endl;
+#endif
+
+    double tAvg;
+    double tBest;
+    double tWorst;
+    
+    tAvg = ( avg.getRealDiff().tv_sec +
+	     ( (double)avg.getRealDiff().tv_usec / 1000000 ) );
+    
+    tBest = ( best.getRealDiff().tv_sec +
+	     ( (double)best.getRealDiff().tv_usec / 1000000 ) );
+    
+    tWorst = ( worst.getRealDiff().tv_sec +
+	     ( (double)worst.getRealDiff().tv_usec / 1000000 ) );
+    
+    TEST( tAvg < (realAvg + (realAvg * .1 )) &&
+	  tAvg > (realAvg - (realAvg * .1 )) );
+
+    TEST( tBest < (realBest + (realBest * .1 )) &&
+	  tBest > (realBest - (realBest * .1 )) );
+
+    TEST( tWorst < (realWorst + (realWorst * .1 )) &&
+	  tWorst > (realWorst - (realWorst * .1 )) );
+
+    
+  }
+
+  return( true );
+}
+
+	  
+// Revision Log:
+//
+// $Log$
+// Revision 3.1  1997/07/11 15:57:11  houghton
+// Initial Version.
+//
+//
