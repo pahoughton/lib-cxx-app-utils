@@ -19,7 +19,7 @@
 //  $Id$
 //
 
-
+#if defined( FIXME_in_header )
 template< class Obj, class ObjKey, class LruKey, class LruFunct, class LruMax >
 inline
 LruMap<Obj, ObjKey, LruKey, LruFunct, LruMax>::~LruMap( void )
@@ -33,7 +33,9 @@ LruMap<Obj, ObjKey, LruKey, LruFunct, LruMax>::~LruMap( void )
       delete r;
     }
 };
-  
+
+#endif
+
 template< class Obj, class ObjKey, class LruKey, class LruFunct, class LruMax >
 ostream &
 LruMap<Obj, ObjKey, LruKey, LruFunct, LruMax>::dumpInfo(
@@ -92,6 +94,9 @@ LruMap<Obj, ObjKey, LruKey, LruFunct, LruMax>::dump(
 // Revision Log:
 // 
 // $Log$
+// Revision 4.2  2000/01/26 15:35:52  houghton
+// Moved destructor code to .hh.
+//
 // Revision 4.1  1998/10/13 15:19:14  houghton
 // Initial Version.
 //
