@@ -62,6 +62,7 @@
 #define CLUE_UNUSED( x )
 
 // #include <climits>
+#include <stddef>   // for NPOS
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClueVersion.hh>
@@ -128,6 +129,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 2.8  1996/11/04 14:35:19  houghton
+// Added include stddef to get NPOS
+//
 // Revision 2.7  1996/10/28 12:12:27  houghton
 // Edit Documentation.
 //
