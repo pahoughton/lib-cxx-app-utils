@@ -47,7 +47,7 @@ static char * argv_03[] =
 {
   "test/src/Base/TestParam_03",
   "-help",
-  "-log",   TEST_DATA_DIR "/param_03.log",
+  "-log",   "../data/param_03.log", // TEST_DATA_DIR "/param_03.log",
   "-loglevel",	    "test | INFO | Warn",
   "-logfilter",	    "param",
   "-logtee",
@@ -148,6 +148,10 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 3.6  1997/07/18 21:49:33  houghton
+// Port(Sun5): the linker had problems with this. FIXME (need a better
+//     solution to the problem)
+//
 // Revision 3.5  1997/03/21 15:41:46  houghton
 // Changed new style Param requires a call to parse.
 //
