@@ -25,18 +25,33 @@ tDateTime01( LibTest & tester )
   {
     // DateTime( void )
     // getTimeT( void ) const
-    // getString( void ) const
     
+    time_t	gtime = time(0);
+
     const DateTime dt;
 
-    TEST( dt.getTimeT() == 0 );
+    time_t	dtime = dt.getTimeT();
+    
+    struct tm dtm;
+    struct tm ltm;
 
-    TEST( ! strcmp( "01/01/70 00:00:00", dt.getString() ) );
+    memcpy( &dtm, gmttime( &dtime ), sizeof( dtm ) );
+    memcpy( &ltm, localtime( &gtime ), sizeof( ltm ) );
+
+    TEST( dtm.tm_mon  == ltm.tm_mon );
+    TEST( dtm.tm_mday == ltm.tm_mday );
+    TEST( dtm.tm_year == ltm.tm_year );
+    TEST( dtm.tm_hour == ltm.tm_hour );
+    TEST( dtm.tm_min  == ltm.tm_min );
+    // might be off by 1 second max
+    TEST( dtm.tm_sec  == ltm.tm_sec || dtm.tm_sec  == (ltm.tm_sec + 1) );
+
   }
 
   {
     // DateTime( time_t )
     // DateTime( time_t, bool )
+    // getString( void ) const
     
     time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
 
