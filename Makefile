@@ -24,6 +24,16 @@
 #   %PID%
 # 
 
+#
+# The following variables control the behavior of MakeConfigs.
+#   make_target	    is the default target to build
+#   show_commands   if this is true, the commands  will be output
+#   check_install   if this is true, install and install_all will NOT
+#		    overwrite an installed version.
+#   force	    if this is true, targets will be rebuilt
+#		    whether they need to be or not.
+
+make_target	= default
 show_commands 	= # true
 check_install	= true
 force		= # true
@@ -33,13 +43,30 @@ config_dir  	= $(PRJ_TOPDIR)/src/config
 
 # #### If you got an error here, see Setup.Makefile ####
 include $(config_dir)/00-Makefile.cfg
--include Make/make.cfg.$(make_cfg_ver)
+include Make/make.cfg.$(make_cfg_ver)
 
-INSTALL_RUN_BASE_DIR	= $(shell cd $(PRJ_TOPDIR) && pwd)/../install
+DIST_BINARY_TYPE_LIST	= shared debug
 
-SUBDIRS		= docs src test
+BUILD_TYPE_LIST		= all default debug profile test shared
 
-TARGETS		= $(standard_targets) dist dist_html
+DEPEND_TARGETS		= $(patsubst %,depend_%,$(BUILD_TYPE_LIST))
+BUILD_TARGETS		= $(BUILD_TYPE_LIST)
+INSTALL_LIB_TARGETS	= $(patsubst %,install_lib_%,$(BUILD_TYPE_LIST))
+INSTALL_TARGETS		= $(patsubst %,install_%,$(BUILD_TYPE_LIST))
+
+
+TARGETS		=		\
+	$(DEPEND_TARGETS)	\
+	$(BUILD_TARGETS)	\
+	$(INSTALL_TARGETS)	\
+	$(INSTALL_LIB_TARGETS)	\
+	dist			\
+	dist_binary		\
+	dist_html		\
+	clean			\
+	realclean		\
+	help			\
+	help_config
 
 HELP_TARGETS	= $(TARGETS)
 
@@ -47,33 +74,54 @@ PHONY_TARGETS	= $(HELP_TARGETS)
 
 include Make/make.cfg.targets.common.$(make_cfg_ver)
 
-all default debug test						\
-depend depend_all depend_default depend_debug depend_test	\
-check								\
-install install_debug install_default install_lib_all:
-	$(call make_subdirs,$@,src,$($(@)_exports))
+$(DEPEND_TARGETS):
+	$(call make_subdirs,$@,src,		\
+		BUILD_TYPE=$(subst depend_,,$@)	\
+		$($(@)_exports)			\
+		$(depend_exports)		\
+		$(exports))
 
-rebuild_support_libs:
-	$(call rebuild_libs,$(SUPPORT_ITEMS))
+$(BUILD_TARGETS):
+	$(call make_subdirs,$@,src,	\
+		BUILD_TYPE=$@		\
+		$($(@)_exports)		\
+		$(exports))
 
+check:
+	$(call make_subdirs,$@,src,			\
+		$($(@)_exports)				\
+		$(exports))
 
-install_all_src:
-	$(call make_subdirs,install_all,src,$($(@)_exports))
+$(INSTALL_LIB_TARGETS):
+	$(call make_subdirs,$@,src,			\
+		BUILD_TYPE=$(subst install_lib_,,$@)	\
+		$($(@)_exports)				\
+		$(install_lib_exports)			\
+		$(exports))
 
-install_all_docs:
-	$(call make_subdirs,install_all,docs,$($(@)_exports))
+$(INSTALL_TARGETS):
+	$(hide) $(MAKE) -C support -f Install.Makefile $@	\
+		$($(@)_exports)					\
+		$(install_exports)				\
+		$(exports)					\
+		BUILD_TYPE=$(subst install_,,$@)
 
-install_all: install_all_src install_all_docs
+install: install_shared
 
-install_project:
-	$(hide) $(MAKE) -C support -f Install.Makefile $@		\
-		$($(@)_exports)						\
-		INSTALL_TYPE=$(INSTALL_TYPE)				\
-		INSTALL_VERSION=$(PROJECT_VER_$(INSTALL_VERSION))	\
-		INSTALL_JPROG_TYPE=project
+install_support_lib_all install_support_lib_shared:
+	$(hide) $(MAKE) -C support -f Install.Makefile $@	\
+		$($(@)_exports)					\
+		$(install_lib_exports)				\
+		$(exports))
+
 
 dist:
 	$(call make_dist_from_dim,infr_objs,mcmain,$(PROJECT_DIR))
+
+dist_binary:
+	$(hide) $(MAKE) -C support -f Install.Makefile $@	\
+		$($(@)_exports)					\
+		$(exports)
 
 dist_html:
 	$(call make_subdirs,$@,docs,$($(@)_exports) $(exports))

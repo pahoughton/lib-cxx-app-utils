@@ -53,9 +53,7 @@ $(COMMON_target): $(tools_archive_dir)/$(COMMON_tar)
 	&& $(make_cmd) -f $(COMMON_BUILD_DIR)/Setup.Makefile	\
 		setup						\
 		TOOL_DIR=$(TOOL_DIR)				\
-		EXTRACT_DIR=$(COMMON_EXTRACT_DIR)		\
-		INSTALL_BASE_DIR=$(TOOL_DIR)			\
-		INSTALL_DOC_HTML_DIR=$(INSTALL_DOC_HTML_DIR)	\
+		$(SUPPORT_SETUP_CONFIG_VARS)			\
 		hide=$(hide)					\
 	&& $(make_cmd) -C $(COMMON_BUILD_DIR) depend_all	\
 		show_commands=$(show_commands)			\

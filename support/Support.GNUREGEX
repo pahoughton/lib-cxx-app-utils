@@ -53,9 +53,7 @@ $(GNUREGEX_target): $(tools_archive_dir)/$(GNUREGEX_tar)
 	&& $(make_cmd) -f $(GNUREGEX_BUILD_DIR)/Setup.Makefile	\
 		setup						\
 		TOOL_DIR=$(TOOL_DIR)				\
-		EXTRACT_DIR=$(GNUREGEX_EXTRACT_DIR)		\
-		INSTALL_BASE_DIR=$(TOOL_DIR)			\
-		INSTALL_DOC_HTML_DIR=$(INSTALL_DOC_HTML_DIR)	\
+		$(SUPPORT_SETUP_CONFIG_VARS)			\
 		hide=$(hide)					\
 	&& $(make_cmd) -C $(GNUREGEX_BUILD_DIR) depend_all	\
 		show_commands=$(show_commands)			\

@@ -53,26 +53,21 @@ PROJECT_DIR		=	\
 
 PROJECT_EXTRACT_DIR	= src/Build/Libs
 
+
 WWW_TOP_DIR		= ../../..
 WWW_TOOLS_ROOT		= $(WWW_TOP_DIR)/Tools
 WWW_OBJECT_REP_ROOT	= $(WWW_TOP_DIR)/ObjectRep
 WWW_PROJECTS_ROOT	= $(WWW_TOP_DIR)/Projects
 
-RUN_BASE_DIR		=
-
+RUN_BASE_DIR		= $(TOOL_DIR)
 INSTALL_BASE_DIR	= $(TOOL_DIR)
-INSTALL_BIN_DIR		= $(INSTALL_BASE_DIR)/bin
-INSTALL_LIB_DIR		= $(INSTALL_BASE_DIR)/lib
-INSTALL_INC_DIR		= $(INSTALL_BASE_DIR)/include
-INSTALL_JAVA_DIR	= $(INSTALL_BASE_DIR)/share/java
-INSTALL_DOC_HTML_DIR	= $(INSTALL_BASE_DIR)/html
-INSTALL_DOC_MAN_DIR	= $(INSTALL_BASE_DIR)/man
 
 make_cfg_ver		= 6.01
 tools_host		= sideswipe.wcom.com
 tools_host_dir		= pub/tools
 
 CONFIG_VARS	=		\
+	RUN_BASE_DIR		\
 	INSTALL_BASE_DIR	\
 	INSTALL_BIN_DIR		\
 	INSTALL_LIB_DIR		\
@@ -80,12 +75,9 @@ CONFIG_VARS	=		\
 	INSTALL_JAVA_DIR	\
 	INSTALL_DOC_HTML_DIR	\
 	INSTALL_DOC_MAN_DIR	\
-	WWW_TOP_DIR		\
-	WWW_TOOLS_ROOT		\
-	WWW_OBJECT_REP_ROOT	\
-	WWW_PROJECTS_ROOT	\
 				\
-	INSTALL_RUN_BASE_DIR
+	tools_host		\
+	tools_host_dir
 
 PROJECT_VARS	=		\
 	PROJECT_NAME		\
@@ -102,6 +94,11 @@ PROJECT_VARS	=		\
 	PROJECT_CONTACT_EMAIL	\
 	PROJECT_DIR		\
 	PROJECT_EXTRACT_DIR	\
+				\
+	WWW_TOP_DIR		\
+	WWW_TOOLS_ROOT		\
+	WWW_OBJECT_REP_ROOT	\
+	WWW_PROJECTS_ROOT	\
 				\
 	make_cfg_ver		\
 	tools_host		\
@@ -133,6 +130,7 @@ setup_exports	=						\
 	tools_host_dir='$(tools_host_dir)'			\
 	PROJECT_VARS='$(PROJECT_VARS)'				\
 	CONFIG_VARS='$(CONFIG_VARS)'				\
+	RUN_BASE_DIR='$(RUN_BASE_DIR)'				\
 	INSTALL_BASE_DIR='$(INSTALL_BASE_DIR)'			\
 	INSTALL_BIN_DIR='$(INSTALL_BIN_DIR)'			\
 	INSTALL_LIB_DIR='$(INSTALL_LIB_DIR)'			\
@@ -140,7 +138,6 @@ setup_exports	=						\
 	INSTALL_JAVA_DIR='$(INSTALL_JAVA_DIR)'			\
 	INSTALL_DOC_HTML_DIR='$(INSTALL_DOC_HTML_DIR)'		\
 	INSTALL_DOC_MAN_DIR='$(INSTALL_DOC_MAN_DIR)'		\
-	INSTALL_RUN_BASE_DIR='$(INSTALL_RUN_BASE_DIR)'		\
 	WWW_TOP_DIR=$(WWW_TOP_DIR)				\
 	WWW_TOOLS_ROOT=$(WWW_TOOLS_ROOT)			\
 	WWW_OBJECT_REP_ROOT=$(WWW_OBJECT_REP_ROOT)		\
@@ -148,6 +145,7 @@ setup_exports	=						\
 	hide='$(hide)'
 
 config_help	=							\
+	echo "    RUN_BASE_DIR=$(RUN_BASE_DIR) ";			\
 	echo "    INSTALL_BASE_DIR=$(INSTALL_BASE_DIR) ";		\
 	echo "    INSTALL_BIN_DIR=$(INSTALL_BIN_DIR) ";			\
 	echo "    INSTALL_LIB_DIR=$(INSTALL_LIB_DIR) ";			\
@@ -155,11 +153,12 @@ config_help	=							\
 	echo "    INSTALL_JAVA_DIR=$(INSTALL_JAVA_DIR) ";		\
 	echo "    INSTALL_DOC_HTML_DIR=$(INSTALL_DOC_HTML_DIR) ";	\
 	echo "    INSTALL_DOC_MAN_DIR=$(INSTALL_DOC_MAN_DIR) ";		\
-	echo "    INSTALL_RUN_BASE_DIR=$(INSTALL_RUN_BASE_DIR) ";
 	echo "    WWW_TOP_DIR=$(WWW_TOP_DIR) ";				\
 	echo "    WWW_TOOLS_ROOT=$(WWW_TOOLS_ROOT) ";			\
 	echo "    WWW_OBJECT_REP_ROOT=$(WWW_OBJECT_REP_ROOT) ";		\
 	echo "    WWW_PROJECTS_ROOT=$(WWW_PROJECTS_ROOT) ";		\
+	echo "    tools_host=$(tools_host) ";				\
+	echo "    tools_host_dir=$(tools_host_dir) ";
 
 #
 # Targets

@@ -58,9 +58,7 @@ $(DOCTOOLS_target): $(tools_archive_dir)/$(DOCTOOLS_tar)
 	&& $(make_cmd) -f $(DOCTOOLS_BUILD_DIR)/Setup.Makefile	\
 		setup						\
 		TOOL_DIR=$(TOOL_DIR)				\
-		EXTRACT_DIR=$(DOCTOOLS_EXTRACT_DIR)		\
-		INSTALL_BASE_DIR=$(TOOL_DIR)			\
-		INSTALL_DOC_HTML_DIR=$(INSTALL_DOC_HTML_DIR)	\
+		$(SUPPORT_SETUP_CONFIG_VARS)			\
 		hide=$(hide)					\
 	&& $(make_cmd) -C $(DOCTOOLS_BUILD_DIR) depend_all	\
 		show_commands=$(show_commands)			\
