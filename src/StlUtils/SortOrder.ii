@@ -21,26 +21,6 @@
 
 template< class T >
 inline
-bool
-SortOrder<T>::operator () ( const T & one, const T & two ) const
-{
-  for( typename Order::const_iterator them = order.begin();
-       them != order.end();
-       them++ )
-    {
-      if( (*them).less )
-	{
-	  if( (*(*them).less)( one, two ) )
-	    return( true );
-	  if( (*(*them).less)( two, one ) )
-	    return( false );
-	}
-    }
-  return( false );
-}
-
-template< class T >
-inline
 SortOrder<T>
 SortOrder<T>::operator + ( const SortOrder<T> & rhs ) const
 {
@@ -53,6 +33,9 @@ SortOrder<T>::operator + ( const SortOrder<T> & rhs ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 4.3  1999/10/02 09:32:33  houghton
+// Port: work around sun compiler bug.
+//
 // Revision 4.2  1998/07/20 11:26:16  houghton
 // Port(Hpux): Had to use new typename keyword.
 //

@@ -66,7 +66,22 @@ public:
     order.push_back( l );
   };
 
-  inline bool	    operator () ( const T & one, const T & two ) const;
+  inline bool	    operator () ( const T & one, const T & two ) const {
+    for( typename Order::const_iterator them = order.begin();
+	 them != order.end();
+	 them++ )
+      {
+	if( (*them).less )
+	  {
+	    if( (*(*them).less)( one, two ) )
+	      return( true );
+	    if( (*(*them).less)( two, one ) )
+	      return( false );
+	}
+      }
+    return( false );
+  };
+
 
   inline SortOrder<T>  operator + ( const SortOrder<T> & rhs ) const;
   
@@ -164,6 +179,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/10/02 09:32:28  houghton
+// Port: work around sun compiler bug.
+//
 // Revision 4.1  1997/09/17 15:12:49  houghton
 // Changed to Version 4
 //
