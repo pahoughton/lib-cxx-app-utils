@@ -19,7 +19,7 @@
 #   $Id$
 # 
 
-make_cfg_ver	= 5.05
+make_cfg_ver	= 5.06
 show_commands 	= # true
 
 # Include standard MakeConfig configuration for GNU make required
@@ -55,6 +55,9 @@ test:
 
 #
 # $Log$
+# Revision 1.2  1998/10/23 13:08:17  houghton
+# Changed to use MakeConfigs 5.06.
+#
 # Revision 1.1  1998/10/13 16:35:16  houghton
 # Initial version.
 #

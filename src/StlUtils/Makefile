@@ -36,7 +36,7 @@
 #
 
 makefile_type   = lib
-make_cfg_ver	= 5.05
+make_cfg_ver	= 5.06
 make_target	= default
 show_commands 	= # true
 proto_dep	= true
@@ -100,7 +100,7 @@ SHARED_DEFINES	= -DSTLUTILS_SHARED=1
 
 
 SRC_INC		= $(ARCH_INC) -I. 
-PRJ_INC		= -I$(beta_incdir)
+PRJ_INC		= -I$(INSTALL_INC_DIR)
 
 
 # Any other cpp flags to use on for all targets
@@ -137,7 +137,7 @@ SHARED_CXX_FLAGS	= $(cxx_shared_flags) $(cxx_optimize_flags)
 
 # **** S H A R E D   D E P   L I B S *****
 
-SHDEP_LIBS		= -L$(beta_libdir) -lGnuRegex_s -lCommon_s
+SHDEP_LIBS		= -L$(INSTALL_LIB_DIR) -lGnuRegex_s -lCommon_s
 
 # **** I N S T A L L ****
 
@@ -344,6 +344,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.16  1998/10/23 13:07:21  houghton
+# Changed to use MakeConfigs 5.06.
+#
 # Revision 4.15  1998/10/13 16:21:03  houghton
 # Added test version of the library.
 #

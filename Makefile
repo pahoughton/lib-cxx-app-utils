@@ -8,8 +8,9 @@
 # $Id$
 #
 
-make_cfg_ver	= 5.05
+make_cfg_ver	= 5.06
 show_commands 	= # true
+check_install	= true
 
 # Include standard MakeConfig configuration for GNU make required
 include Make/make.cfg.$(make_cfg_ver)
@@ -42,8 +43,12 @@ beta_exports	=				\
 
 .PHONY: test
 
-depend depend_all depend_test depend_default depend_debug:
+depend depend_all depend_default depend_debug:
 	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+
+depend_test:
+	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+	$(hide) if ! $(MAKE) -C $(TEST_DIR) $@ $(exports); then exit; fi
 
 all default debug:
 	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
@@ -71,6 +76,9 @@ install_default install_debug:
 
 #
 # $Log$
+# Revision 4.3  1998/10/23 13:03:26  houghton
+# Changed to use MakeConfigs 5.06.
+#
 # Revision 4.2  1998/10/13 16:11:59  houghton
 # Complete rework.
 #

@@ -36,7 +36,7 @@
 #
 
 makefile_type   = prog
-make_cfg_ver	= 5.05
+make_cfg_ver	= 5.06
 make_target	= default
 show_commands 	= # true
 proto_dep	= true
@@ -112,7 +112,7 @@ SHARED_DEFINES	= -DTEST_SHARED=1
 
 
 SRC_INC		= $(ARCH_INC) -I. $($($(make_target))_PRJ_INC)
-PRJ_INC		= -I$(beta_incdir)
+PRJ_INC		= -I$(local_incdir)
 
 DEFAULT_PRJ_INC	= 
 DEBUG_PRJ_INC	= $(STLUTILS_SRC_INC)
@@ -185,7 +185,7 @@ PROFILE_LD_FLAGS	= $(ld_profile_flags)
 STATIC_LD_FLAGS		= $(ld_static_flags) $(ld_optimize_flags)
 SHARED_LD_FLAGS		= $(ld_shared_flags) $(ld_optimize_flags)
 
-DEFAULT_LD_LIBDIRS	= -L$(beta_libdir)
+DEFAULT_LD_LIBDIRS	= -L$(local_libdir)
 DEBUG_LD_LIBDIRS	= $(STLUTILS_SRC_LDIR) $(DEFAULT_LD_LIBDIRS)
 TEST_LD_LIBDIRS		= $(DEBUG_LD_LIBDIRS)
 PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
@@ -194,7 +194,7 @@ SHARED_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
 DEFAULT_LD_LIBS		= -lStlUtils -lCommon -lGnuRegex $(ARCH_DEFAULT_LIBS)
 DEBUG_LD_LIBS		= -lStlUtils_g -lCommon_g -lGnuRegex $(ARCH_DEBUG_LIBS)
-TEST_LD_LIBS		= -lStlUtils_tg -lCommon_g -lGnuRegex 	\
+TEST_LD_LIBS		= -lStlUtils_tg -lCommon_g -lGnuRegex_g 	\
 			  $(ARCH_DEBUG_LIBS)
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
@@ -468,6 +468,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.11  1998/10/23 13:08:31  houghton
+# Changed to use MakeConfigs 5.06.
+#
 # Revision 4.10  1998/10/13 16:35:58  houghton
 # Added check targets.
 # Changed test target to compile 'test' version.

@@ -8,7 +8,7 @@
 # $Id$
 #
 
-make_cfg_ver	= 5.05
+make_cfg_ver	= 5.06
 show_commands 	= # true
 
 # Include standard MakeConfig configuration for GNU make required
@@ -46,6 +46,9 @@ install_all install install_default install_debug:
 
 #
 # $Log$
+# Revision 4.3  1998/10/23 13:03:43  houghton
+# Changed to use MakeConfigs 5.06.
+#
 # Revision 4.2  1998/10/13 16:12:28  houghton
 # Complete rework.
 #
