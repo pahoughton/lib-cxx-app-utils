@@ -21,6 +21,7 @@
 #include <ClueConfig.hh>
 #include <Bitmask.hh>
 #include <ClueSysStat.hh>
+#include <rw/cstring.h>
 #else
 #include <ClueCfg.hh>
 #include <Str.hh>
@@ -117,7 +118,7 @@ public:
   inline FileStat & 	operator () ( const char * fileName );
   inline FileStat & 	operator () ( int fd, bool keepName = false );
 
-  inline FileStat &	operator = ( const FileStat & rhs ) const;
+  inline FileStat &	operator = ( const FileStat & rhs );
   
   inline int		compare( const FileStat & two ) const;
   
@@ -576,6 +577,12 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 2.3  1996/11/06 18:14:09  houghton
+// Added copy constructor.
+// Added operator = ( const FileStat & )
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
 // Revision 2.2  1996/11/04 14:39:22  houghton
 // Restructure header comments layout.
 // Updated and verified header comment documentation.

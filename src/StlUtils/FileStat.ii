@@ -50,10 +50,10 @@ FileStat::FileStat( int fileDescriptor )
 }
 
 inline
-FileStat::FileStat( const FileSta & from )
+FileStat::FileStat( const FileStat & from )
   : fd( from.fd ),
     name( from.name ),
-    useName( from.userName ),
+    userName( from.userName ),
     groupName( from.groupName ),
     modeString( from.modeString ),
     st( from.st ),
@@ -302,7 +302,7 @@ FileStat::canExec( Who who ) const
 }
 
 inline
-const FilePath &
+const char *
 FileStat::getName( void ) const
 {
   return( name );
@@ -426,7 +426,7 @@ FileStat::operator = ( const FileStat & rhs )
 {
   fd		= rhs.fd;
   name		= rhs.name;
-  useName	= rhs.userName;
+  userName	= rhs.userName;
   groupName	= rhs.groupName;
   modeString	= rhs.modeString;
   st		= rhs.st;
@@ -439,7 +439,7 @@ inline
 int
 FileStat::compare( const FileStat & two ) const
 {
-  return( name.compare( two.name ) );
+  return( strcmp( name, two.name ) );
 }
 
 inline
@@ -473,6 +473,12 @@ operator << ( ostream & dest, const FileStat & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 2.5  1996/11/06 18:14:17  houghton
+// Added copy constructor.
+// Added operator = ( const FileStat & )
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
 // Revision 2.4  1996/11/04 14:40:05  houghton
 // Restructure header comments layout.
 // Added copy construtor
