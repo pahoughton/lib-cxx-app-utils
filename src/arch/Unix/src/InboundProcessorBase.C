@@ -19,6 +19,7 @@
 #include <Str.hh>
 #include <Directory.hh>
 #include <Semaphore.hh>
+#include <SigCatcher.hh>
 #include <LibLog.hh>
 #include <cstdio>
 
@@ -32,15 +33,20 @@ CLUE_VERSION(
 
 
 InboundProcessorBase::InboundProcessorBase(
-  const char *  fileNamePattern,
-  const char *  inDirName,
-  const char *  procDirName,
-  long		rescanWaitSecs
+  const char *		fileNamePattern,
+  const char *		inDirName,
+  const char *		procDirName,
+  long			rescanWaitSecs,
+  const SigCatcher *	signalCatcher
   )
   : fnPattern( fileNamePattern ),
     inDir( inDirName ),
     procDir( procDirName ),
-    waitSecs( rescanWaitSecs )
+    waitSecs( rescanWaitSecs ),
+    sigCatcher( signalCatcher ),
+    dirScanCounter( 0 ),
+    fileFoundCounter( 0 ),
+    fileProcCounter( 0 )
 {
 }
 
@@ -61,10 +67,16 @@ InboundProcessorBase::run( void )
   
   for( ;; )
     {
+      
+      if( sigCatcher && sigCatcher->caught().size() )
+	return( true );
+	  
       didit = false;
 
-      dirList.set( inPath );
+      dirList.set( inPath, Directory::SortTime );
 
+      ++ dirScanCounter;
+      
       if( ! dirList.good() )
 	return( setError( dirList.error(), inPath ) );
 
@@ -72,8 +84,13 @@ InboundProcessorBase::run( void )
 	   them != dirList.end();
 	   ++ them )
 	{
+	  ++ fileFoundCounter;
+	  
 	  _LLg( LogLevel::Debug ) << "found: '"
 				  << (*them).getName() << '\'' << endl;
+
+	  if( sigCatcher && sigCatcher->caught().size() )
+	    return( true );
 	  
 	  if( ! sem.create( (*them).getName() ) )
 	    {
@@ -120,9 +137,14 @@ InboundProcessorBase::run( void )
 		  if( ! sem.remove() )
 		    return( setError( sem.error() ) );
 
+		  ++ fileProcCounter;
+	      
 		  if( ! processInbound( procFn ) )
-		    return( false );
+		    return( true );
 
+		  if( sigCatcher && sigCatcher->caught().size() )
+		    return( true );
+	  
 		  didit = true;
 		}
 	    }
@@ -203,11 +225,22 @@ InboundProcessorBase::dumpInfo(
   else
     dest << prefix << "Good" << '\n';
 
-  dest << prefix << "file pattern:    " << fnPattern << '\n'
-       << prefix << "in dir:          " << inDir << '\n'
-       << prefix << "proc dir:        " << procDir << '\n'
-       << prefix << "wait secs:       " << waitSecs << '\n'
+  dest << prefix << "file pattern:     " << fnPattern << '\n'
+       << prefix << "in dir:           " << inDir << '\n'
+       << prefix << "proc dir:         " << procDir << '\n'
+       << prefix << "wait secs:        " << waitSecs << '\n'
+       << prefix << "dir scan count:   " << dirScanCounter << '\n'
+       << prefix << "file found count: " << fileFoundCounter << '\n'
+       << prefix << "file proc count:  " << fileProcCounter << '\n'
     ;
+
+  if( sigCatcher )
+    {
+      Str pre;
+      pre = prefix;
+      pre << "sigCatcher:";
+      sigCatcher->dumpInfo( dest, pre, false );
+    }
   
   return( dest );
 }
@@ -234,6 +267,10 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1997/07/25 12:18:22  houghton
+// Added SigCatcher support to detect signals.
+// Added counters for directory scans, files found and files processed.
+//
 // Revision 1.1  1997/07/20 18:52:02  houghton
 // Initial Version.
 //

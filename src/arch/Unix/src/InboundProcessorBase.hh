@@ -30,6 +30,7 @@
 #define inline
 #endif
 
+class SigCatcher;
 
 class InboundProcessorBase
 {
@@ -39,11 +40,13 @@ public:
   InboundProcessorBase( const char *    fileNamePattern,
 			const char *    inDirName,
 			const char *    procDirName,
-			long		rescanWaitSecs );
+			long		rescanWaitSecs,
+			const SigCatcher *	sigCatcher = 0 );
   
   virtual ~InboundProcessorBase( void );
 
   bool	    run( void );
+  bool	    caughtSignal( void ) const;
   
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
@@ -69,13 +72,19 @@ private:
 
   bool	setError( const char * desc, const char * name = 0 );
   
-  FilePath  fnPattern;
-  FilePath  inDir;
-  FilePath  procDir;
-  long	    waitSecs;
+  FilePath		fnPattern;
+  FilePath		inDir;
+  FilePath		procDir;
+  long			waitSecs;
 
-  Str	    errDesc;
-  Str	    errName;
+  const SigCatcher *	sigCatcher;
+
+  long			dirScanCounter;
+  long			fileFoundCounter;
+  long			fileProcCounter;
+  
+  Str			errDesc;
+  Str			errName;
   
 };
 
@@ -172,6 +181,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1997/07/25 12:18:26  houghton
+// Added SigCatcher support to detect signals.
+// Added counters for directory scans, files found and files processed.
+//
 // Revision 1.1  1997/07/20 18:52:02  houghton
 // Initial Version.
 //
