@@ -2,7 +2,7 @@
 # Makefile for t
 #
 #
-# Created: 0/10/95
+# Created: 4/1/95
 #
 # $Id$
 #
@@ -25,22 +25,115 @@ PROTO_H	= _t_Proto.h
 
 # **** S O U R C E   F I L E S ****
 
-C_SOURCES	=			\
+C_SOURCES	=			
 
 CXX_SOURCES	=			\
 	main.C                          \
+	tArraySize.C			\
+	tDwordAlign.C			\
+	tMemOverlap.C			\
+	tAbsLong.C			\
+	tIsBaseDigit.C			\
+	tUnionOf.C			\
+	tRound.C			\
+	tBit.C	    	    	    	\
+	tCompare.C			\
+	tCompare1.C			\
+	tCompare2.C			\
+	tSafeStrcpy.C			\
+	tCharToInt.C			\
+	tStripWhite.C			\
+	tStringSearch.C			\
+	tStringCaseCompare.C		\
+	tStringLower.C			\
+	tStringUpper.C			\
+	tStringCapitalize.C		\
+	tStringTo.C			\
+	tbasename.C			\
+	tStr.C				\
+	tStr01.C			\
+	tStr02.C			\
+	tStr03.C			\
+	tStr04.C			\
+	tStr05.C			\
+	tStr06.C			\
+	tStr07.C			\
+	tStr08.C			\
+	tStr09.C			\
+	tStr10.C			\
+	tStr11.C			\
+	tStr12.C			\
+	tStr13.C			\
+	tStr14.C			\
+	tStr15.C			\
+	tStr16.C			\
+	tStr17.C			\
+	tStr18.C			\
+	tStr19.C			\
+	tStr20.C			\
+	tStr21.C			\
+	tStr22.C			\
+	tStr23.C			\
+	tStr24.C			\
+	tStr25.C			\
+	tStr26.C			\
+	tSubStr.C			\
+	tSubStr01.C			\
+	tSubStr02.C			\
+	tSubStr03.C			\
+	tSubStr04.C			\
+	tSubStr05.C			\
+	tSubStr06.C			\
+	tSubStr07.C			\
+	tRegexScan.C			\
+	tDateTimeUtils.C		\
 	tDateTime.C			\
-	tDateTime1.C			\
-	tDateTime2.C			\
-	tDateTime3.C			\
-	tDateTime4.C			\
-	tDateTime5.C			\
-	tDateTime6.C			\
+	tDateTime01.C			\
+	tDateTime02.C			\
+	tDateTime03.C			\
+	tDateTime04.C			\
+	tDateTime05.C			\
+	tDateTime06.C			\
+	tDateTime07.C			\
+	tDateTime08.C			\
+	tDateRange.C			\
+	tDateRangeDaily.C		\
+	tDateRangeWeekly.C		\
+	tFilePath.C			\
+	tFilePath01.C			\
+	tFilePath02.C			\
+	tFilePath03.C			\
+	tFilePath04.C			\
+	tBitmask.C			\
+	tBitmask01.C			\
+	tBitmask02.C			\
+	tBitmask03.C			\
+	tSortOrder.C			\
+	tUser.C				\
+	tUserGroup.C			\
+	tFileStat.C			\
+	tFileStat01.C			\
+	tFileStat02.C			\
+	tFileStat03.C			\
+	tFileStat04.C			\
+	tFileStat05.C			\
+	tFileStat06.C			\
+	tLog.C				\
+	tLogLevel.C			\
+	tLog01.C			\
+	tLog02.C			\
+	tLog03.C			\
+	tLog04.C			\
+	tLog05.C			\
+	tParam.C			\
+	tParam01.C			\
+	tDirectory.C			\
+	tDirectory01.C			\
 
-#	tArray.C			\
-#	AvlTestData.C			\
-#	DavlTestData.C			\
-#	tDavlTreeOffset.C               \
+
+
+HOLD = \
+
 
 # 
 # =USE_CURRENT_MAKEFILE=
@@ -54,7 +147,11 @@ CXX_SOURCES	=			\
 # see MakeConfig(1) for portable library defines
 #
 
-DEFINES		= 
+DEFINES		= -DCLUE_DEBUG=1 $(ARCH_DEFINES)
+
+ifeq ($(arch),AIX)
+ARCH_DEFINES	= 
+endif
 
 # *****  I N C L U D E S *****
 #
@@ -63,7 +160,11 @@ DEFINES		=
 
 
 SRCINCDIR	= -I.
-PRJINCDIR	= -I../src -I../../libCommon/src
+PRJINCDIR	= -I../src \
+		  -I../arch/$(arch)/src \
+		  -I../arch/$(arch)/stdc++ \
+		  -I../arch/Unix/src \
+
 
 INCDIRS		= $(SRCINCDIR)	\
 		  $(PRJINCDIR)
@@ -75,15 +176,18 @@ CPPOTHER 	=
 CCDEBUG		= -g
 CCOTHER		=
 
+INSTALL_BIN_FLAGS   = -m 775
 
 # ***** L I B R A R I E S *****
 #
 # see MakeConfig(1) for portable libraries
 #
 
-LDLIBS		= -L../src -lClue -L../../libCommon/src -lCommon 
+LDLIBS		= -L../src -lClue -lm
 
-		  
+ifeq ($(arch),Linux)
+ARCH_LIBS = -lstdc++
+endif
 
 
 # ***** D E P E N D A N C I E S *****
@@ -92,8 +196,13 @@ LDLIBS		= -L../src -lClue -L../../libCommon/src -lCommon
 
 all: $(PROGRAM)
 
+tst: tst.o
+	$(LDXX) -o tst tst.o $(LDFLAGS) $(ARCH_LIBS)
+
 $(PROGRAM): $(OBJECTS) ../src/libClue.a
-	$(LDXX) -o $@ $(OBJECTS) $(LDFLAGS) $(LIBXXARCH)
+	$(LDXX) -o $@ $(OBJECTS) $(LDFLAGS) $(ARCH_LIBS)
+
+# $(LIBXXARCH) -lm 
 
 install:
 	mkdirhier $(BETA_DIR/old)
@@ -108,10 +217,10 @@ install_production:
 	echo 'Production Install Complete!'
 
 clean:
-	rm -f $(PROGRAM) $(OBJECTS)
+	rm -f $(PROGRAM) $(OBJECTS) core
 
 realclean:
-	rm -f $(PROGRAM) $(OBJECTS) .depend.prog TAGS $(PROTO_H)
+	rm -f $(PROGRAM) $(OBJECTS) .depend.prog TAGS $(PROTO_H) core
 
 test:	all
 
@@ -132,11 +241,11 @@ include .depend.prog
 
 # 
 # $Log$
-# Revision 1.2  1995/02/20 14:24:44  houghton
-# Complete DateTime class test
+# Revision 1.3  1995/11/05 13:43:58  houghton
+# Revised Test sources
 #
-# Revision 1.1  1995/02/13  16:12:03  houghton
-# Initial libClue test - This has a long way to go.
+# Revision 1.2  1995/02/13  17:35:10  houghton
+# Major enhancements much cleaner
 #
 # Revision 1.1  1994/01/23  18:16:56  houghton
 # Production release 1.0 of MakeConfig system

@@ -1,0 +1,1444 @@
+-*- outline -*-
+
+* Clue.hh
+
+    ** tArraySize.C
+
+        ArraySize( char [] )
+    	ArraySize( int [] )
+        ArraySize( short [] )
+    	ArraySize( long [] )
+        ArraySize( char * [] )
+    	ArraySize( struct [] )
+
+    ** tDwordAlign.C
+
+    	DwordAlign( unsigned long value )
+    	DwordAlign( void * addr )
+
+    ** tMemOverlap.C
+
+    	MemOverlap( const void *, size_t, const void *, size_t )
+
+    ** tAbsLong.C
+
+    	abs( long )
+
+    ** tIsBaseDigit.C
+
+    	IsBaseDigit( int, unsigned short );
+
+    ** tUnionOf.C
+
+    	UnionOf( long, long, long, long )
+    	UnionOfDur( long, long, long, long )
+
+    ** tRound.C
+
+    	Round( int,  number );
+    	Round( long, number );
+    	RoundUp( int, number );
+    	RoundDown( int, number );
+
+* Bit.hh - tBit.C
+
+    Bit( number )
+    BitSizeof( char )
+    BitSizeof( short )
+    BitSizeof( int )
+    BitSizeof( long )
+    StripHigh( char, number )
+    StripHigh( short, number )
+    StripHigh( unsigned short, number )
+    StripHigh( int, number )
+    StripHigh( unsigned int, number )
+    StripHigh( long value, number )
+    StripHigh( unsigned long, number )
+    StripLow( unsigned char, number )
+    StripLow( long, number )
+    ShiftRight( char, number )
+    ShiftRight( long, number )
+    ShiftLeft( unsigned char, number, number )
+    ShiftLeft( unsigned long, number, number )
+    ExtractBits( char, number, number )
+    ExtractBits( short, number, number )
+    ExtractBits( unsigned short, number, number )
+    ExtractBits( int, number, number )
+    ExtractBits( unsigned int, number, number )
+    ExtractBits( long, number, number )
+    ExtractBits( unsigned long, number, number )
+    SetBits( unsigned long, char, number, number )
+    SetBits( unsigned long, int, number, number )
+    SetBits( unsigned long, short, number, number )
+    
+* Compare.hh - tCompare.C
+
+    ** tCompare1.C
+
+    	compare( number, number )
+
+    ** tCompare2.C
+
+        compare( char, char )
+    	compare( signed char, signed char )
+        compare( unsigned char, unsigned char )
+    	compare( short, short )
+        compare( unsigned short, unsigned short )
+    	compare( int, int )
+        compare( unsigned int, unsigned int )
+    	compare( long, long )
+        compare( unsigned long, unsigned long )
+    	compare( float, float )
+        compare( double, double )
+    	compare( char *, char * );
+        compare( char *, const char * )
+    	compare( const char *, char * )
+        compare( char **, char ** )
+    	compare( char **, const char ** )
+        compare( char **, char * const * )
+    	compare( char **, const char * const * )
+        compare( const char **, char ** )
+        compare( const char **, const char ** )
+        compare( const char **, char * const * )
+    	compare( const char **, const char * const * )
+        compare( char * const *, char ** )
+        compare( char * const *, const char ** )
+        compare( char * const *, char * const * )
+        compare( char * const *, const char * const * )
+        compare( const char * const *, char ** )
+        compare( const char * const *, const char ** )
+        compare( const char * const *, char * const * )
+        compare( const char * const *, const char * const * )
+
+* StringUtils.hh
+
+    ** tSafeStrcpy.C
+
+        SafeStrcpy( char *, const char *, size_t )
+
+    ** tCharToInt.C
+
+    	CharToInt( char );
+
+    ** tIsBaseDigit.C
+
+    	IsBaseDigit( char, unsigned short)
+
+    ** tStripWhite.C
+
+    	StripWhite( char *, const char *, size_t )
+
+    ** tStringSearch.C
+
+    	StringSearch( const char *, size_t, const char *, size_t )
+    	StringReverseSearch( const char *, size_t, const char *, size_t )
+    	StringCaseSearch( const char *, size_t, const char *, size_t )
+    	StringCaseReverseSearch( const char *, size_t, const char *, size_t )
+
+    ** tStringCaseCompare.C
+
+    	StringCaseCompare( const char *, const char * )
+    	StringCaseCompare( const char *, const char *, size_t )
+    	StringCaseCompare( const char *, size_t, const char *, size_t )
+
+    ** tStringLower.C
+
+    	StringLower( char * )
+    	StringLower( char *, size_t )
+
+    ** tStringUpper.C
+
+    	StringUpper( char * )
+    	StringUpper( char *, size_t )
+
+    ** tStringCapitalize.C
+
+    	StringCapitalize( char * )
+    	StringCapitalize( char *, size_t )
+
+    ** tStringTo.C
+
+        StringToBool( bool &, const char * )
+        StringToBool( bool &, const char *, size_t )
+        StringTo( int &, const char * );
+        StringTo( int &, const char *, unsigned short );
+        StringTo( int &, const char *, unsigned short, size_t );
+        StringTo( short &, const char * );
+        StringTo( short &, const char *, unsigned short );
+        StringTo( short &, const char *, unsigned short, size_t );
+        StringTo( long &, const char * );
+        StringTo( long &, const char *, unsigned short );
+        StringTo( long &, const char *, unsigned short, size_t );
+        StringTo( double &, const char * );
+        StringTo( double &, const char *, unsigned short );
+        StringTo( double &, const char *, unsigned short, size_t );
+        StringTo( unsigned int &, const char * );
+        StringTo( unsigned int &, const char *, unsigned short );
+        StringTo( unsigned int &, const char *, unsigned short, size_t );
+        StringTo( unsigned short &, const char * );
+        StringTo( unsigned short &, const char *, unsigned short );
+        StringTo( unsigned short &, const char *, unsigned short, size_t );
+        StringTo( unsigned long &, const char * );
+        StringTo( unsigned long &, const char *, unsigned short );
+        StringTo( unsigned long &, const char *, unsigned short, size_t );
+        StringToBool( const char * )
+        StringToBool( const char *, size_t )
+        StringToInt( const char * );
+        StringToInt( const char *, unsigned short );
+        StringToInt( const char *, unsigned short, size_t );
+        StringToShort( const char * );
+        StringToShort( const char *, unsigned short );
+        StringToShort( const char *, unsigned short, size_t );
+        StringToLong( const char * );
+        StringToLong( const char *, unsigned short );
+        StringToLong( const char *, unsigned short, size_t );
+        StringToDouble( const char * );
+        StringToDouble( const char *, unsigned short );
+        StringToDouble( const char *, unsigned short, size_t );
+        StringToUInt( const char * );
+        StringToUInt( const char *, unsigned short );
+        StringToUInt( const char *, unsigned short, size_t );
+        StringToUShort( const char * );
+        StringToUShort( const char *, unsigned short );
+        StringToUShort( const char *, unsigned short, size_t );
+        StringToULong( const char * );
+        StringToULong( const char *, unsigned short );
+        StringToULong( const char *, unsigned short, size_t );
+
+    ** tbasename
+
+    	basename( const char * )
+    	basename( char * )
+
+* Str.hh
+
+    ** tStr01.C
+
+    	Str( void );
+    	operator << ( const char * ) const
+    	size( void ) const
+    	length( void ) const
+    	empty( void ) const
+    	max_size( void ) const
+    	cstr( void ) const
+    	operator == ( const char * ) const
+    	operator != ( const char * ) const
+
+    	Str( const Str & )
+    	Str( const Str &, size_t )
+    	Str( const Str &, size_t, size_t )
+
+    	substr( size_t, size_t )
+    	SubStr::operator == ( const char * ) const
+    	SubStr::operator != ( const char * ) const
+    	operator == ( const SubStr & ) const
+    	operator != ( const SubStr & ) const
+
+    	Str( const SubStr & )
+    	Str( const SubStr &, size_t )
+    	Str( const SubStr &, size_t, size_t )
+    	Str( const char * )
+    	Str( const char *, size_t )
+    	Str( size_t, char )
+    	Str( InputIterator, InputIterator )
+
+	vector< Str >
+	less< Str >
+	set< Str >
+    
+
+    ** tStr02.C
+
+    	append( const Str & )
+    	append( const Str &, size_t )
+    	append( const Str &, size_t, size_t )
+    	append( const SubStr & )
+    	append( const SubStr &, size_t )
+    	append( const SubStr &, size_t, size_t )
+    	append( const char * )
+    	append( const char *, size_t )
+    	append( size_t, char )
+    	append( char )
+
+    	operator += ( const Str & )
+    	operator += ( const SubStr & )
+    	operator += ( const char * )
+    	operator += ( char )
+
+    ** tStr03.C
+
+    	assign( const Str &, size_t, size_t )
+    	assign( const SubStr &, size_t, size_t )
+    	assign( const char *, size_t )
+    	assign( size_t, char )
+    	assign( char )
+
+    	operator =  ( const Str & )
+    	operator =  ( const SubStr & )
+    	operator =  ( const char * )
+    	operator =  ( char )
+
+    ** tStr04.C
+
+    	insert( size_t, const Str &, size_t, size_t )
+    	insert( size_t, const SubStr &, size_t size_t )
+    	insert( const char *, size_t )
+    	insert( size_t, size_t, char )
+    	insert( size_t, char )
+
+    ** tStr05.C
+
+    	remove( size_t )
+    	remove( size_t, size_t )
+    	remove( iterator )
+    	remove( iterator, iterator )
+
+    ** tStr06.C
+
+    	replace( size_t, size_t, const char * )
+    	replace( size_t, size_t, const char *, size_t )
+    	replace( size_t, size_t, size_t, char )
+    	replace( size_t, size_t, const Str &)
+    	replace( size_t, size_t, const Str &, size_t, size_t )
+    	replace( size_t, size_t, const SubStr & )
+    	replace( size_t, size_t, const SubStr &, size_t, size_t )
+    	replace( size_t, size_t, char )
+    	replace( iterator, iterator, const Str & )
+    	replace( iterator, iterator, const Str &, size_t )
+    	replace( iterator, iterator, const Str &, size_t, size_t )
+
+    ** tStr07.C
+
+    	begin( void )
+    	end( void )
+    	begin( void ) const
+    	end( void ) const
+    	rbegin( void )
+    	rend( void )
+    	rbegin( void ) const
+    	rend( void ) const
+
+    ** tStr08.C
+
+    	compare( const Str & ) const
+    	compare( const Str &, size_t ) const
+    	compare( const Str &, size_t, size_t ) const
+    	compare( const SubStr & ) const
+    	compare( const SubStr &, size_t ) const
+    	compare( const SubStr &, size_t, size_t ) const
+    	compare( const char * ) const
+    	compare( const char *, size_t ) const
+    	compare( const char *, size_t, size_t ) const
+    	::compare( const SubStr &, const Str & )
+    	::compare( const SubStr &, const Str &, size_t )
+    	::compare( const char *, const Str & )
+    	::compare( const char *, const Str &, size_t )
+    	fcompare( const Str & ) const
+    	fcompare( const Str &, size_t ) const
+    	fcompare( const Str &, size_t, size_t ) const
+    	fcompare( const SubStr & ) const
+    	fcompare( const SubStr &, size_t ) const
+    	fcompare( const SubStr &, size_t, size_t ) const
+    	fcompare( const char * ) const
+    	fcompare( const char *, size_t ) const
+    	fcompare( const char *, size_t, size_t ) const
+    	::fcompare( const SubStr &, const Str & )
+    	::fcompare( const SubStr &, const Str &, size_t )
+    	::fcompare( const char *, const Str & )
+    	::fcompare( const char *, const Str &, size_t )
+
+    ** tStr09.C    	
+
+    	at( size_t )
+    	at( size_t ) const
+    	operator [] ( size_t )
+    	operator [] ( size_t ) const
+
+    ** tStr10.C
+
+    	substr( void )
+    	substr( size_t )
+    	substr( size_t, size_t )
+    	at( size_t, size_t )
+    	SubStr::length( void ) const
+   	SubStr::size( void ) const
+    	SubStr::empty( void ) const
+    	substr( void ) const
+    	substr( size_t ) const
+    	substr( size_t, size_t ) const
+    	at( size_t, size_t ) const
+    	at( const char * )
+    	at( const char *, size_t )
+    	at( const char *, size_t, size_t )
+    	at( const char * ) const
+    	at( const char *, size_t ) const
+    	at( const char *, size_t, size_t ) const
+    	at( const RegexScan & )
+    	at( const RegexScan &, size_t )
+    	at( const RegexScan & ) const
+    	at( const RegexScan &, size_t ) const
+    	at( const Str & )
+    	at( const Str &, size_t )
+    	at( const Str & ) const
+    	at( const Str &, size_t ) const
+    	at( const SubStr & )
+    	at( const SubStr &, size_t )
+    	at( const SubStr & ) const
+    	at( const SubStr &, size_t ) const
+    	before( size_t )
+    	before( size_t ) const
+    	after( size_t )
+    	after( size_t ) const
+
+    ** tStr11.C
+
+    	find( const Str & ) const
+    	find( const Str &, size_t ) const
+    	find( const SubStr & ) const
+    	find( const SubStr &, size_t ) const
+    	find( const RegexScan & ) const
+    	find( const RegexScan &, size_t ) const
+    	find( const char * ) const
+    	find( const char *, size_t ) const
+    	find( const char *, size_t, size_t ) const
+    	find( char ) const
+    	find( char, size_t ) const
+
+    ** tStr12.C
+
+    	rfind( const Str & ) const
+    	rfind( const Str &, size_t ) const
+    	rfind( const SubStr & ) const
+    	rfind( const SubStr &, size_t ) const
+    	rfind( const char * ) const
+    	rfind( const char *, size_t ) const
+    	rfind( const char *, size_t, size_t ) const
+    	rfind( char ) const
+    	rfind( char, size_t ) const
+
+    ** tStr13.C
+
+    	ffind( const Str & ) const
+    	ffind( const Str &, size_t ) const
+    	ffind( const SubStr & ) const
+    	ffind( const SubStr &, size_t ) const
+    	ffind( const char * ) const
+    	ffind( const char *, size_t ) const
+    	ffind( const char *, size_t, size_t ) const
+    	ffind( char ) const
+    	ffind( char, size_t ) const
+
+    ** tStr14.C
+
+    	rffind( const Str & ) const
+    	rffind( const Str &, size_t ) const
+    	rffind( const SubStr & ) const
+    	rffind( const SubStr &, size_t ) const
+    	rffind( const char * ) const
+    	rffind( const char *, size_t ) const
+    	rffind( const char *, size_t, size_t ) const
+    	rffind( char ) const
+    	rffind( char, size_t ) const
+
+    ** tStr15.C
+
+    	find_first_of( const Str & ) const
+    	find_first_of( const Str &, size_t ) const
+    	find_first_of( const SubStr & ) const
+    	find_first_of( const SubStr &, size_t ) const
+    	find_first_of( const char * ) const
+    	find_first_of( const char *, size_t ) const
+    	find_first_of( const char *, size_t, size_t ) const
+    	find_last_of( const Str & ) const
+    	find_last_of( const Str &, size_t ) const
+    	find_last_of( const SubStr & ) const
+    	find_last_of( const SubStr &, size_t ) const
+    	find_last_of( const char * ) const
+    	find_last_of( const char *, size_t ) const
+    	find_first_not_of( const Str & ) const
+    	find_first_not_of( const Str &, size_t ) const
+    	find_first_not_of( const SubStr & ) const
+    	find_first_not_of( const SubStr &, size_t ) const
+    	find_first_not_of( const char * ) const
+    	find_first_not_of( const char *, size_t ) const
+    	find_first_not_of( const char *, size_t, size_t ) const
+    	find_last_not_of( const Str & ) const
+    	find_last_not_of( const Str &, size_t ) const
+    	find_last_not_of( const SubStr & ) const
+    	find_last_not_of( const SubStr &, size_t ) const
+    	find_last_not_of( const char * ) const
+    	find_last_not_of( const char *, size_t ) const
+    	find_last_not_of( const char *, size_t, size_t ) const
+
+
+    ** tStr16.C
+
+    	from( int )
+    	from( int, unsigned short )
+    	from( short )
+    	from( short, unsigned short )
+    	from( long )
+    	from( long, unsigned short )
+    	from( unsigned int )
+    	from( unsigned int, unsigned short )
+    	from( unsigned short )
+    	from( unsigned short, unsigned short )
+    	from( unsigned long )
+    	from( unsigned long, unsigned short )
+    	
+    ** tStr17.C
+
+    	to( int & ) const
+    	to( int &, unsigned short ) const
+    	to( short & ) const
+    	to( short &, unsigned short ) const
+    	to( long & ) const
+    	to( long &, unsigned short ) const
+    	to( double & ) const
+    	to( double &, unsigned short ) const
+    	to( unsigned int & ) const
+    	to( unsigned int &, unsigned short ) const
+    	to( unsigned short & ) const
+    	to( unsigned short &, unsigned short ) const
+    	to( unsigned long & ) const
+    	to( unsigned long &, unsigned short ) const
+    	toBool( void ) const
+    	toInt( void ) const
+    	toInt( unsigned short ) const
+    	toLong( void ) const
+    	toLong( unsigned short ) const
+    	toDouble( void ) const
+    	toDouble( unsigned short ) const
+    	toUInt( void ) const
+    	toUInt( unsigned short ) const
+    	toULong( void ) const
+    	toULong( unsigned short ) const
+    	
+    ** tStr18.C
+
+    	upcase( void )
+    	downcase( void )
+    	capitalize( void )
+    	strip( const char * )
+    	stripLeading( const char * )
+    	stripTrailing( const char * )
+    	stripEnds( const char * )
+
+    ** tStr19.C
+
+    	substitute( char, char )
+    	substitute( char, char, size_t )
+    	substitute( char, char, size_t, bool )
+        substitute( const char *, const char * )
+        substitute( const char *, const char *, size_t )
+        substitute( const char *, const char *, size_t, bool )
+    	substitute( const RegexScan &, const char * )
+    	substitute( const RegexScan &, const char *, size_t )
+    	substitute( const RegexScan &, const char *, size_t, bool )
+
+    ** tStr20.C
+
+    	wrap( void )
+
+    ** tStr21.C
+
+        scan( const RegexScan & )
+        scan( const RegexScan &, size_t )
+        scanMatchCount( void ) const
+        scanMatchStart( void ) const
+        scanMatchLength( void ) const
+        scanMatch( size_t )
+    	scanMatchStart( size_t ) const
+    	scanMatchLength( size_t ) const
+    	scan( const char * )
+    	scan( const char *, size_t )
+    	scan( const Str & )
+    	scan( const Str &, size_t )
+    	scan( char )
+    	scan( char, size_t )
+    	scanPattern( const RegexScan & )
+    	scanString( const char * )
+
+    ** tStr22.C
+
+	good( void ) const
+	error( void ) const
+	getClassName( void ) const
+	version
+	toStream( ostream & ) const
+	dumpInfo( ostream & ) const
+    	operator << ( ostream &, const Str & )
+    	operator >> ( istream &, Str & )
+    	getline( istream & )
+    	getDelim( istream &, const char * )
+    	getDelim( istream &, const char *, bool )
+    	getDelim( istream &, char )
+    	getDelim( istream &, char, bool )
+    	getStreamSize( void ) const
+    	write( ostream & )
+    	read( istream & )
+
+    ** tStr23.C
+
+    	operator const char * ( void ) const
+    	operator [] ( size_t )
+    	operator [] ( size_t ) const
+    	operator () ( size_t, size_t )
+    	operator () ( size_t, size_t ) const
+    	operator <  ( const Str & ) const
+    	operator <  ( const SubStr & ) const
+    	operator <  ( const char * ) const
+    	operator >  ( const Str & ) const
+    	operator >  ( const SubStr & ) const
+    	operator >  ( const char * ) const
+    	operator <= ( const Str & ) const
+    	operator <= ( const SubStr & ) const
+    	operator <= ( const char * ) const
+    	operator >= ( const Str & ) const
+    	operator >= ( const SubStr & ) const
+    	operator >= ( const char * ) const
+
+    ** tStr24.C
+
+    	::compare( const Str &, const Str & )
+    	::compare( const Str &, const Str &, size_t )
+    	::compare( const Str &, const SubStr & )
+    	::compare( const Str &, const SubStr &, size_t )
+    	::compare( const Str &, const char * )
+    	::compare( const Str &, const char *, size_t )
+    	::fcompare( const Str &, const Str & )
+    	::fcompare( const Str &, const Str &, size_t )
+    	::fcompare( t, const SubStr & )
+    	::fcompare( t, const SubStr &, size_t )
+    	::fcompare( t, const char * ) 
+    	::fcompare( t, const char *, size_t ) 
+
+    ** tStr25.C
+
+	operator + ( const Str &, const Str & )
+        operator + ( const Str &, const SubStr & )
+        operator + ( const Str &, const char * )
+        operator +  ( const char *, const Str & )
+        operator == ( const SubStr &, const Str & )
+        operator != ( const SubStr &, const Str & )
+        operator == ( const char *, const Str & )
+        operator != ( const char *, const Str & )
+        operator <  ( const SubStr &, const Str & )
+        operator <  ( const char *, const Str & )
+        operator >  ( const SubStr &, const Str & )
+        operator >  ( const char *, const Str & )
+        operator <= ( const SubStr &, const Str & )
+        operator <= ( const char *, const Str & )
+        operator >= ( const SubStr &, const Str & )
+        operator >= ( const char *, const Str & )
+        ::getline( istream &, Str &, char )
+
+    ** tStr26.C
+
+	StringToBool( const Str & )
+	StringToInt( const Str & )
+	StringToInt( const Str &, unsigned short )
+	StringToLong( const Str & )
+	StringToLong( const Str &, unsigned short )
+	StringToDouble( cosnt Str & )
+	StringToDouble( const Str &, unsigned short )
+	StringToUInt( const Str & )	
+	StringToUInt( const Str &, unsigned short )
+	StringToULong( const Str & )
+	StringToULong( const Str &,  unsigned short )
+
+* SubStr.hh
+
+    ** tSubStr01.C
+	Str::substr( size_t, size_t )
+	operator == ( const char * ) const
+	operator != ( const char * ) const
+	Str::operator == ( const SubStr & ) const
+	Str::operator != ( const SubStr & ) const
+	SubStr( Str & src )
+	SubStr( Str & src, size_t )
+	SubStr( Str & src, size_t, size_t )
+	SubStr( const Str & src )
+	SubStr( const Str & src, size_t )
+	SubStr( const Str & src, size_t, size_t )
+	size( void ) const
+	length( void ) const
+	empty( void ) const
+	operator =  (const char *)
+
+
+    ** tSubStr02.C
+
+	to( int &, unsigned short ) const
+	to( short & ) const
+	to( short &, unsigned short ) const
+	to( long & ) const
+	to( long &, unsigned short ) const
+	to( double & ) const
+	to( double &, unsinged short ) const
+	to( unsigned int & ) const
+	to( unsigned int &, unsigned short ) const
+	to( unsigned short & ) const
+	to( unsigned short &, unsigned short ) const
+	to( unsigned long & ) const
+	to( unsigned long &, unsigned short ) const
+	toBool( void ) const
+	toInt( void ) const
+	toInt( unsigned short ) const
+	toLong( void ) const
+	toLong( unsigned short ) const
+	toDouble( void ) const
+	toDouble( unsigned short ) const
+	toUInt( void ) const
+	toUInt( unsigned short ) const
+	toULong( void ) const
+	toULong( unsigned short ) const
+
+
+    ** tSubStr03.C
+
+	compare( const Str & ) const
+	compare( const Str, size_t ) const 
+	compare( const Str, size_t, size_t ) const
+	compare( const SubStr & ) const
+	compare( const SubStr &, size_t ) const
+	compare( const SubStr &, size_t, size_t ) const
+	compare( const char * ) const
+	compare( const char *, size_t ) const
+	compare( const char *, size_t, size_t ) const
+	::compare( const char *, const SubStr & )
+	::compare( const char *, const SubStr &, size_t )
+	fcompare( const Str & ) const
+	fcompare( const Str, size_t ) const 
+	fcompare( const Str, size_t, size_t ) const
+	fcompare( const SubStr & ) const
+	fcompare( const SubStr &, size_t ) const
+	fcompare( const SubStr &, size_t, size_t ) const
+	fcompare( const char * ) const
+	fcompare( const char *, size_t ) const
+	fcompare( const char *, size_t, size_t ) const
+	::fcompare( const char *, const SubStr & )
+	::fcompare( const char *, const SubStr &, size_t )
+
+    ** tSubStr04.C
+
+	operator [] ( size_t )
+	operator [] ( size_t ) const
+	operator = ( const SubStr & )
+	operator = ( const Str & )
+	operator = ( const char * )
+	operator = ( char )
+	operator += ( const Str & )
+	operator += ( const SubStr & )
+	operator += ( const char * )
+	operator += ( char )
+	operator == ( const SubStr & ) const
+	operator == ( const Str & ) const
+	operator == ( const char * ) const
+	operator < ( const SubStr & ) const
+	operator < ( const Str & ) const
+	operator < ( const char * ) const
+	operator != ( const SubStr & ) const
+	operator != ( const Str & ) const
+	operator != ( const char * ) const
+	operator > ( const SubStr & ) const
+	operator > ( const Str & ) const
+	operator > ( const char * ) const
+	operator <= ( const SubStr & ) const
+	operator <= ( const Str & ) const
+	operator <= ( const char * ) const
+	operator >= ( const SubStr & ) const
+	operator >= ( const Str & ) const
+	operator >= ( const char * ) const
+
+    ** tSubStr05.C
+
+	good( void ) const
+	error( void ) const
+	getClassName( void ) const
+	toStream( ostream & ) const
+	dumpInfo( ostream & ) const
+	operator << ( ostream &, const Str & )
+	::compare( const SubStr &, const char * )
+	::compare( const SubStr &, const char *, size_t )
+	::fcompare( const SubStr &, const char * )
+	::fcompare( const SubStr &, const char *, size_t )	
+
+    ** tSubStr06.C
+
+	operator + ( const SubStr &, const Str & )
+	operator + ( const SubStr &, const SubStr & )
+	operator +  ( const char *, const SubStr & )
+	operator == ( const char *, const SubStr & )
+	operator != ( const char *, const SubStr & )
+	operator <  ( const char *, const SubStr & )
+	operator >  ( const char *, const SubStr & )
+	operator <= ( const char *, const SubStr & )
+	operator >= ( const char *, const Sub & )
+
+
+    ** tSubStr07.C
+
+	StringToBool( const SubStr & )
+	StringToInt( const SubStr & )
+	StringToInt( const SubStr &, unsigned short )
+	StringToLong( const SubStr & )
+	StringToLong( const SubStr &, unsigned short )
+	StringToDouble( cosnt Str & )
+	StringToDouble( const SubStr &, unsigned short )
+	StringToUInt( const SubStr & )
+	StringToUInt( const SubStr &, unsigned short )
+	StringToULong( const SubStr & )
+	StringToULong( const SubStr &,  unsigned short )
+
+* RegexScan.hh
+
+    This test is does not Test all the posible methods and
+    argument combinations. It primarily focuses on the 'expressions'.
+    Some day I might get around to testing the rest of the class
+    but that is not very likely becuase it is just a wrapper for
+    GNU's rx library.
+    
+    ** tRegexScan.C
+
+	RegexScan( const char * )
+	good( void ) const
+	match( const char * ) const
+	match( const char *, size_t ) const
+	matchStart( void ) const
+	matchLength( void ) const
+	search( const char * ) const
+	matchStart( size_t ) const
+	matchLength( size_t ) const
+
+* DateTimeUtils.hh - tDateTimeUtils.C
+
+    SecIntTimeT( time_t )
+    SecOfDay( time_t )
+    MinInTimeT( time_t )
+    HourInTimeT( time_t )
+    HoursInTimeT( time_t )
+    DaysInTimeT( time_t )
+    DateInTimeT( time_t )
+    IsLeapYear( int )
+
+* DateTime.hh
+
+    ** No Test
+
+	DateTime( istream &, bool )
+	operator < ( const DateTime & )
+	::compare( const DateTime &, const DateTime & )
+
+    ** tDateTime01.C
+
+	DateTime( void )
+	DateTime( time_t )
+	DateTime( time_t, bool )
+	DateTime( time_t, time_t )
+	DateTime( const char *, const char * )
+	DateTime( int, int, int )
+	DateTime( int, int, int, int, int, int )
+	DateTime( struct tm )
+	DateTime( const char * )
+	getTimeT( void ) const
+	getString( void ) const
+	getYear( void ) const
+	getMonth( void ) const
+	getDayOfMonth( void ) const
+	getHour( void ) const
+	getMinute( void ) const
+	getSecond( void ) const
+	getYearOfCentury( void )
+	getMonth( void )
+	getDayOfMonth( void )
+	getHour( void )
+	getMinute( void )
+	getSecond( void )
+	getString( void )
+	getYearOfCentury( void ) const
+	vector< DateTime >
+	set< DateTime >
+	less< DateTime >
+
+    ** tDateTime02.C
+
+	getTimeT( void ) const
+	getSecOfDay( void ) const
+	getHour( void ) const
+	getMinute( void ) const
+	getSecond( void ) const
+	getDayOfWeek( void ) const
+	getDayOfYear( void )
+      	getDayOfMonth( void )
+      	getMonth( void )
+      	getYearOfCentury( void )
+      	getYear( void )
+      	getString( viod )
+      	getString( char * )
+      	getString( char *, const char * )
+        getDayOfYear( void ) const
+        getDayOfMonth( void ) const
+        getMonth( void ) const
+        getYearOfCentury( void ) const
+        getYear( void ) const
+        getString( void ) const
+        getString( char * )  const
+        getString( char *, const char * ) const
+        getOffset( void )
+        isLocal( void )
+        isDST( void )
+        isDST( void ) const
+        getTimeZone( void )
+        getSysTimeZone( void )
+        getGmtOffset( void )
+        getGmtOffset( const char * )
+
+    ** tDateTime03.C
+
+        setTimeZone( void )
+        setTimeT( time_t )
+        set( time_t )
+        set( time_t, bool )
+        set( const char * )
+        set( const char *, const char * )
+        set( int, int, int )
+        set( int, int, int, int, int, int )
+        set( const struct tm & )
+        setValid( int, int, int )
+        setValid( int, int, int, int, int, int )
+        setValid( const char * )
+        setValid( const char *, const char * )
+
+    ** tDateTime04.C
+
+        setYYYYMMDD( const char * ) 
+        setYYMMDD( const char * )
+        setHHMMSS( const char * )
+        setYear( short )
+        setMonth( short )
+        setDayOfYear( short )
+        setDayOfMonth( short )
+        setHour( short )
+        setMinute( short )
+        setSecond( short )
+        setTimeZone( void )
+        setTimeZone( const char * )
+
+    ** tDateTime05.C
+
+        add( const DateTime & )
+        add( long )
+        addSec( long )
+        addMin( long )
+        addHour( long )
+        addDay( long )
+
+    ** tDateTime06.C
+
+        compare( const DateTime & ) const
+        operator time_t ( void ) const
+        operator const char * ( void ) const
+        operator == ( const DateTime & ) const
+        operator !=( const DateTime & ) const
+
+    ** tDateTime07.C
+
+        operator <<( ostream &, const DateTime & )
+        getStreamSize( void ) const
+        read( istream & )
+        write( ostream & )
+
+    ** tDateTime08.C
+
+	good( void ) const
+	error( void  ) const
+	getClassName( void ) const
+	toStream( ostream & ) const
+	dumpInfo( ostream & ) const
+	version
+
+
+* DateRange.hh
+
+    DateRange( time_t, time_t )
+    getDur( void ) const
+    DateRange( const DateTime &, time_t )
+    DateRange( const DateTime &, const DateTime & )
+    setDur( time_t newDur )
+    getSecOfDay( void ) const
+    secIn( const DateRange & ) const
+    startsIn( const DateRange & ) const
+    getStreamSize( void ) const
+    write( ostream & ) const
+    read( istream & )
+    compare( const DateRange & );
+    operator == ( const DateRange & )
+    operator <  ( const DateRange & )
+    operator >  ( const DateRange & )
+    good( void ) const
+    error( void ) const
+    getClassName( void ) const
+    toStream( ostream & ) const
+    dumpInfo( ostream & ) const
+    const char * version[]
+    operator <<( ostream &, const DateTime & )
+    ::compare( const DateRange &, const DateRange & )
+    
+* DateRangeDaily.hh
+
+    DateRangeDaily( time_t, time_t )
+    getSecOfDay( void ) const
+    getDayOfWeek( void ) const
+    getStart( void ) const
+    secIn( const DateRange & ) const
+    startsIn( const DateRange & ) const
+    setStart( void )
+    getStreamSize( void ) const
+    write( ostream & ) const
+    read( istream & )
+    compare( const DateRangeDaily & ) const
+    operator == ( const DateRangeDaily & )
+    operator <  ( const DateRangeDaily & )
+    operator >  ( const DateRangeDaily & )
+    good( void ) const
+    error( void ) const
+    getClassName( void ) const
+    toStream( ostream & ) const
+    dumpInfo( ostream & ) const
+    version
+    ::compare( const DateRangeDaily &, const DateRangeDaily & )
+    operator << ( ostream &, const DateRangeDaily & )
+
+* DateRangeWeekly.hh
+
+    DateRangeWeekly( short, time_t, time_t )
+    getSecOfDay( void ) const
+    getDayOfWeek( void ) const
+    getStart( void ) const
+    getDur( void ) const
+    secIn( const DateRange & ) const
+    startsIn( const DateRange & ) const
+    setStart( void )
+    getStreamSize( void ) const
+    write( ostream & ) const
+    read( istream & )
+    compare( const DateRangeDaily & ) const
+    operator == ( const DateRangeDaily & )
+    operator <  ( const DateRangeDaily & )
+    operator >  ( const DateRangeDaily & )
+    good( void ) const
+    error( void ) const
+    getClassName( void ) const
+    toStream( ostream & ) const
+    dumpInfo( ostream & ) const
+    version
+    ::compare( const DateRangeDaily &, const DateRangeDaily & )
+    operator << ( ostream &, const DateRangeDaily & )
+
+* FilePath.hh
+
+    ** Not Tested Yet
+
+	setTempName( const char * )
+	operator = ( const char * )
+
+    ** tFilePath01
+
+        FilePath( void )
+        FilePath( char )
+        FilePath( char, char )
+        FilePath( const char * )
+        getFullName( void ) const
+        FilePath( const char *, char )
+        FilePath( const char *, char, char )
+        FilePath( const char *, const char * )
+        FilePath( const char *, const char *, char )
+        FilePath( const char *, const char *, char, char )
+
+    ** tFilePath02
+
+        getPath( void ) const
+        getFileName( void ) const
+        getName( void ) const
+        getExt( void ) const
+        set( const char * )
+        setPrefix( const char * )
+        setPath( const char * )
+        setPath( const char * )
+        setPath( const char * )
+        changePath( const char *, const char * )
+
+    ** tFilePath03
+
+        setFileName( const char * )
+        setName( const char * )
+        setPath( const char * )
+        setName( const char *, char )
+        setName( const char *, const char * )
+        setExt( const char * )
+        setExt( const char *, char )
+        setExt( const char *, const char * )
+        getStreamSize( void ) const
+        write( void ) const
+        read( void ) const
+
+    ** tFilePath04
+
+        compare( const FilePath & ) const
+        operator == ( const FilePath & ) const
+        operator <  ( const FilePath & ) const
+        operator >  ( const FilePath & ) const
+        operator const char * ( void ) const
+        good( void ) const
+        error( void ) const
+        getClassName( void ) const
+        toStream( ostream & ) const
+        dumpInfo( ostream & ) const
+        version
+        ::compare( const FilePath &, const FilePath & );
+
+* Bitmask.hh
+
+    ** tBitmask01.C
+
+        Bitmask( void )
+        Bitmask( size_t pos )
+        operator == ( unsigned long ) const
+        set( size_t )
+        clear( size_t )
+        clear( void )
+        isSet( size_t )
+        isClear( size_t )
+        all( void ) const
+        getStreamSize( void ) const
+        write( ostream & dest ) const
+        read( istream & src )
+
+    ** tBitmask02.C
+
+        compare( const Bitmask & ) const
+        compare( unsigned long ) const
+        operator = ( unsigned long )
+        operator &= ( const Bitmask & )
+        operator |= ( const Bitmask & )
+        operator ^= ( const Bitmask & )
+        operator ( size_t ) const
+        operator == ( const Bitmask & ) const
+        operator <  ( const Bitmask & ) const
+        operator >  ( const Bitmask & ) const
+        operator == ( unsigned long ) const
+        operator != ( unsigned long ) const
+        operator <  ( unsigned long ) const
+        operator >  ( unsigned long ) const
+        operator bool ( void ) const
+        operator unsigned long ( void ) const
+        getClassName( void ) const;
+        toStream( ostream & ) const
+        dumpInfo( ostream & ) const
+        maxPos
+        version
+
+    ** tBitmask03.C
+
+        ::operator & ( const Bitmask &, const Bitmask & )
+        ::operator | ( const Bitmask &, const Bitmask & )
+        ::operator ^ ( const Bitmask &, const Bitmask & )
+        ::operator ~ ( const Bitmask & )
+        ::compare( const Bitmask &, const Bitmask & )
+        ::compare( const Bitmask &, unsigned long )
+        ::compare( unsigned long, const Bitmask & )
+        ::operator == ( unsigned long, const Bitmask & )
+        ::operator != ( unsigned long, const Bitmask & )
+        ::operator <  ( unsigned long, const Bitmask & )
+        ::operator >  ( unsigned long, const Bitmask & )
+        ::operator << ( ostream &, const Bitmask & )
+
+* User.hh
+
+    // User( void )
+    // getUID( void ) const
+    // getName( void ) const
+    // getPassword( void ) const
+    // getRealName( void ) const
+    // getGecos( void ) const
+    // getHome( void ) const
+    // getShell( void ) const
+    // getPrimaryGroup( void ) const
+    // getGroups( void ) const
+    // User( bool )
+    // User( uid_t )
+    // User( uid_t, bool )
+    // User( const char * )
+    // User( const char *, bool )
+    // User( const struct passwd * )
+    // User( const struct passwd *, bool )
+    // User( istream & src )
+    // User( istream &, bool )
+    // User( istream &, bool, bool )
+    // effective( void )
+    // findGroups( void )
+    // getGroups( void ) const
+    // isMember( gid_t )
+    // isMember( gid_t ) const
+    // isMember( const char * )
+    // isMember( const char * ) const
+    // set( uid_t )
+    // set( uid_t, bool )
+    // set( const char * )
+    // set( const char *, bool )
+    // set( const struct passwd * )
+    // set( const struct passwd * )
+    // getStreamSize( void ) const
+    // write( ostream & ) const
+    // read( istream & ) const
+    // compare( const User & two ) const
+    // operator == ( const User & two ) const
+    // operator <  ( const User & two ) const
+    // operator >  ( const User & two ) const
+    // operator const char * ( void ) const
+    // good( void ) const
+    // error( void ) const
+    // getClassName( void ) const
+    // toStream( ostream & ) const
+    // dumpInfo( ostream & ) const
+    // version
+    // ::compare( const User &, const User & );
+    // operator << ( ostream &, const User & )
+
+* UserGroup.hh
+
+    // UserGroup( void )
+    // getGID( void ) const
+    // getName( void ) const
+    // getMembers( void ) const
+    // UserGroup( bool )
+    // UserGroup( gid_t )
+    // UserGroup( gid_t, bool )
+    // UserGroup( const char * )
+    // UserGroup( const char *, bool )
+    // UserGroup( struct group * )
+    // UserGroup( struct group *, bool )
+    // UserGroup( istream & )
+    // UserGroup( istream &, bool )
+    // UserGroup( istream &, bool, bool )
+    // effective( void )
+    // findMembers( void )
+    // getMembers( void ) const
+    // isMember( const User & )
+    // isMember( const User & ) const
+    // isMember( uid_t )
+    // isMember( uid_t ) const
+    // isMember( const char * )
+    // isMember( const char * ) const
+    // set( gid_t )
+    // set( gid_t, bool )
+    // set( const char * )
+    // set( const char *, bool )
+    // set( const struct group * )
+    // set( const struct group * )
+    // getStreamSize( void ) const
+    // write( ostream & ) const
+    // read( ostream & )
+    // compare( const UserGroup & ) const
+    // operator == ( const UserGroup & ) const
+    // operator <  ( const UserGroup & ) const
+    // operator >  ( const UserGroup & ) const
+    // operator const char * ( void ) const
+    // operator gid_t ( void ) const;
+    // good( void ) const
+    // error( void ) const
+    // getClassName( void ) const
+    // toStream( ostream & ) const
+    // dumpInfo( ostream & ) const
+    // version
+    // ::compare( const UserGroup &, const UserGroup & );
+    // operator << ( ostream &, const UserGroup & )
+
+* FileStat.hh
+
+    ** tFileStat01.C
+
+    // FileStat( void )
+    // FileStat( const char * )
+    // FileStat( const char *, bool )
+    // FileStat( int fd )
+    // getUID( void ) const
+    // getGID( void ) const
+    // getMode( void ) const
+    // getSize( void ) const
+    // getDevice( void ) const
+    // getDeviceType( void ) const
+    // getInode( void ) const
+    // getHardLinks( void ) const
+    // getBlockSize( void ) const
+    // getBlocks( void ) const
+    // getAccessTime( void ) const
+    // getModificationTime( void ) const
+    // getStatusChangeTime( void ) const
+
+    ** tFileStat02.C
+
+    // isLink( void ) const
+    // isReg( void ) const
+    // isDir( void ) const
+    // isBlock( void ) const
+    // isChar( void ) const
+    // isFifo( void ) const
+    // isSocket( void ) const
+    // isSetUID( void ) const
+    // isSetGID( void ) const
+
+    ** tFileStat03.C
+
+    // canRead( void ) const
+    // canWrite( void ) const
+    // canExec( void ) const
+    // canRead( Who ) const
+    // canWrite( Who ) const
+    // canExec( Who ) const
+
+    ** tFileStat04.C
+
+    // getName( void ) const
+    // getModeString( void ) const
+    // getUserName( void ) const
+    // getGroupName( void ) const
+    // stat( const char * )
+    // stat( int )
+    // lstat( const char * )
+    // operator () ( const char * )
+    // operator () ( int )
+
+    ** tFileStat05.C
+
+    // setMode( mode_t )
+    // set( Who, What );
+    // set( Who, What, bool )
+    // setRead( Who )
+    // setRead( Who, bool )
+    // setWrite( Who )
+    // setWrite( Who, bool )
+    // setExec( Who )
+    // setExec( Who, bool )
+
+    ** tFileStat06.C
+
+    // compare( const FileStat & ) const
+    // operator == ( const FileStat & ) const
+    // operator <  ( const FileStat & ) const
+    // operator >  ( const FileStat & ) const
+    // good( void ) const
+    // error( void ) const
+    // getClassName( void ) const
+    // toStream( ostream & ) const
+    // dumpInfo( ostream & ) const
+    // version
+    // ::compare( const FileStat &, const FileStat & ) 
+    // operator << ( ostream &, const FileStat & )
+
+
+* Log.hh
+
+    ** tLogLevel.C
+
+    // LogLevel( void )
+    // getCurrent( void ) const
+    // getOutput( void ) const
+    // LogLevel( const Level )
+    // LogLevel( const char * )
+    // willOutput( void );
+    // setOutput( const Level )
+    // setOutput( const char * )
+    // setCurrent( const Level );
+    // shouldOutput( void ) const;
+    // getCurrent( void ) const
+    // getName( const Level )
+    // getLevelNames( void ) const
+    // setName( Level )
+    // getClassName( void ) const
+    // dumpInfo( ostream & ) const
+    // version
+
+    ** tLog01.C
+
+    // Log();
+    // Log( ostream & );
+    // operator () ( LogLevel::Level )
+    // Log( ostream &, LogLevel::Level )
+    // Log( ostream &, LogLevel::Level, bool )
+    // Log( ostream &, LogLevel::Level, bool, bool )
+    // Log( ostream &, const char *, bool )
+    // Log( ostream &, const char *, bool, bool )
+
+    ** tLog02.C
+
+    // Log( const char * )
+    // Log( const char *, LogLevel::Level )
+    // Log( const char *, LogLevel::Level, bool )
+    // Log( const char *, LogLevel::Level, bool, bool )
+    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode )
+    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode, int )
+    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode,
+	int, size_t )
+    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode,
+	int, size_t, size_t )
+
+    ** tLog03.C
+
+    // Log( const char *, const char * )
+    // Log( const char *, const char *, bool )
+    // Log( const char *, const char *, bool, bool )
+    // Log( const char *, const char *, bool, bool, ios::open_mode )
+    // Log( const char *, const char *, bool, bool, ios::open_mode, int )
+    // Log( const char *, const char *, bool, bool, ios::open_mode,
+	int, size_t )
+    // Log( const char *, const char *, bool, bool, ios::open_mode,
+	int, size_t, size_t )
+
+    ** tLog04.C
+
+    // tee( ostream & )
+    // trim( size_t );
+    // trim( void )
+    // setMaxSize( void )
+    // setTrimSize( void )
+
+    ** tLog05.C
+
+    // level( void )
+    // level( LogLevel::Level )
+    // operator () ( void )
+    // operator () ( LogLevel::Level )
+    // level( const char * )
+    // operator () ( const char * )
+    // on( LogLevel::Level )
+    // off( LogLevel::Level )
+    // getCurrent( void ) const
+    // getOutput( void ) const
+    // willOutput( LogLevel::Level ) const
+    // setFileName( const char * )
+    // open( const char * )
+    // close( void )
+    // setOutputLevel( LogLevel::Level )
+    // setOutputLevel( const char * )
+    // setLevelStamp( bool )
+    // setTimeStamp( bool )
+    // getClassName( void ) const
+    // dumpInfo( ostream & ) const
+    // version
+    // LogIf( Log &, LogLeve::Level )
+
+* Param.hh
+
+
+* Timer.hh
+
+* BinaryFile.hh
+
+* MapFile.hh
+
+* LockFile.hh
+
+* Directory.hh
+

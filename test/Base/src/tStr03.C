@@ -1,0 +1,124 @@
+#include <LibTest.hh>
+#include <Str.hh>
+
+// Str::assign( ... )
+
+#define T1 "first part"
+#define T2 " second part"
+#define T3 " third part"
+#define T4 " forth part"
+#define T5 " fifth part"
+
+bool
+tStr03( LibTest & test )
+{
+  {
+    // assign( const Str &, size_t, size_t )
+
+    Str t( T1 );
+
+    Str src( T1 T2 T3 );
+
+    t.assign( src );
+
+    test( t == T1 T2 T3 );
+
+    t.assign( src, strlen( T1 ) );
+
+    test( t == T2 T3 );
+
+    t.assign( src, strlen( T1 ), strlen( T2 ) );
+
+    test( t == T2 );
+  }
+
+  {
+    // assign( const SubStr &, size_t, size_t )
+    
+    Str t( T1 T2 );
+    Str src( T1 T2 T3 T4 T5 );
+    
+    t.assign( t.substr( strlen( T1 ), strlen( T2 ) ) );
+
+    test( t == T2 );
+
+    t.assign( src.substr( strlen( T1 ), strlen( T2 T3 ) ), strlen( T2 ) );
+
+    test( t == T3 );
+
+    t.assign( src.substr( strlen( T1 ), strlen( T2 T3 T4 ) ),
+	      strlen( T2 ), strlen( T3 ) );
+
+    test( t == T3 );
+
+  }
+
+  {
+    // assign( const char *, size_t )
+
+    Str t( T1 T2 );
+
+    t.assign( T2 T3 );
+
+    test( t == T2 T3 );
+
+    t.assign( T2 T3 T4, strlen( T2 T3 ) );
+
+    test( t == T2 T3 );
+  }
+
+  {
+    // assign( size_t, char )
+
+    Str t( T4 );
+
+    t.assign( 5, 'x' );
+
+    test( t == "xxxxx" );
+
+  }
+
+  {
+    // assign( char )
+
+    Str t( T2 );
+
+    t.assign( 'x' );
+
+    test( t == "x" );
+
+  }
+
+  {
+    // operator =  ( const Str & )
+    // operator =  ( const SubStr & )
+    // operator =  ( const char * )
+    // operator =  ( char )
+    
+    Str t( T3 T4 );
+
+    Str str( T1 T2 );
+    Str sub( T1 T2 T3 );
+
+    t = str;
+
+    test( t == str );
+
+    t = sub.substr( strlen(T1), strlen(T2) );
+
+    test( t == T2 );
+
+    t = T2 T4;
+
+    test( t == T2 T4 );
+
+    t = 'x';
+
+    test( t == "x" );
+
+  }
+
+  return( true );
+}
+
+    

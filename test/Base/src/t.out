@@ -1,0 +1,6 @@
+This is a test of the Str::wrap method. It should refomat this string by
+word wraping it. This means it will insert newline characters between
+the words where they would extend beyone the 'width' value. This should
+make it easy to format text data for screen output. Lets see how it
+works!
+

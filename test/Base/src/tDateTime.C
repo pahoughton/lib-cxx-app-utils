@@ -1,67 +1,32 @@
-//
-// File:        tDateTime.C
-// Desc:        
-//              
-//
-// Author:      Paul Houghton x2309 - (houghton@shoe.wiltel.com)
-// Created:     11/03/94 08:56 
-//
-// Revision History:
-//
-// $Log$
-// Revision 1.3  1995/03/02 16:38:41  houghton
-// Linux Port
-//
-// Revision 1.2  1995/02/20  14:24:44  houghton
-// Complete DateTime class test
-//
-// Revision 1.1  1995/02/13  16:12:05  houghton
-// Initial libClue test - This has a long way to go.
-//
-//
-static const char * RcsId =
-<<<<<<< tDateTime.C
-"$Id$";
-
-#include <ClueTest.hh>
-=======
-"$Id$";
-
-#include <ClueTest.hh>
->>>>>>> 1.2
+#include <LibTest.hh>
 
 #include <DateTime.hh>
+#include <stdlib.h>
 
-int tDateTime1( void );
-int tDateTime2( void );
-int tDateTime3( void );
-int tDateTime4( void );
-int tDateTime5( void );
-int tDateTime6( void );
+bool tDateTime01( LibTest & tester );
+bool tDateTime02( LibTest & tester );
+bool tDateTime03( LibTest & tester );
+bool tDateTime04( LibTest & tester );
+bool tDateTime05( LibTest & tester );
+bool tDateTime06( LibTest & tester );
+bool tDateTime07( LibTest & tester );
+bool tDateTime08( LibTest & tester );
 
-int
-tDateTime( void )
+bool
+tDateTime( LibTest & test )
 {
-  cout << "*** DateTime Test ***" << endl;
   
   putenv( "TZ=CST6CDT" );
+
+  test( tDateTime01( test ), true );
+  test( tDateTime02( test ), true );
+  test( tDateTime03( test ), true ); 
+  test( tDateTime04( test ), true ); 
+  test( tDateTime05( test ), true ); 
+  test( tDateTime06( test ), true ); 
+  test( tDateTime07( test ), true ); 
+  test( tDateTime08( test ), true ); 
+ 
+  return( true );
   
-  return( tDateTime1() ||
-	  tDateTime2() ||
-	  tDateTime3() ||
-	  tDateTime4() ||
-	  tDateTime5() ||
-	  tDateTime6() );
 }
-  
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
