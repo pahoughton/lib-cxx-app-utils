@@ -25,29 +25,29 @@
 #include <DumpInfo.hh>
 #include <iostream>
 
-template< class T, class Compare >
+template< class T, class SizeType, class Compare >
 inline
 bool
 VectorResync(
   const T &		a,
-  T::size_type	&	aRec,
+  SizeType	&	aRec,
   const T &		b,
-  T::size_type	&	bRec,
+  SizeType	&	bRec,
   const Compare &	compare
   )
 {
   if( compare( a, aRec, b, bRec ) == 0 )
     return( true );
 
-  T::size_type asr = aRec;
-  T::size_type bsr = bRec;
+  SizeType asr = aRec;
+  SizeType bsr = bRec;
 
-  T::size_type	maxRec = min( a.size(), b.size() );
+  SizeType	maxRec = min( a.size(), b.size() );
 
-  for( T::size_type end = 1; end < maxRec; ++ end )
+  for( SizeType end = 1; end < maxRec; ++ end )
     {
       
-      for( T::size_type beg = 0; beg < end; ++ beg )
+      for( SizeType beg = 0; beg < end; ++ beg )
 	{
 	  if( compare( a, asr + beg, b, bsr + end ) == 0 )
 	    {
@@ -162,6 +162,9 @@ VectorResync(
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1998/01/22 18:44:21  houghton
+// Port(Sun5): the compiler does not understand T::size_type.
+//
 // Revision 1.1  1998/01/05 13:08:35  houghton
 // Initial Version.
 //
