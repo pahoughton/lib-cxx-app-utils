@@ -1,0 +1,47 @@
+#ifndef _InboundProcessorBase_ii_
+#define _InboundProcessorBase_ii_
+//
+// File:        InboundProcessorBase.ii
+// Project:	Clue
+// Desc:        
+//
+//  	Inline source for InboundProcessorBase
+//
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Created:     07/20/97 06:55
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+
+inline
+DumpInfo< InboundProcessorBase >
+InboundProcessorBase::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< InboundProcessorBase >( *this, prefix, showVer ) );
+}
+  
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 1.1  1997/07/20 18:52:02  houghton
+// Initial Version.
+//
+//
+#endif // ! def _InboundProcessorBase_ii_ 

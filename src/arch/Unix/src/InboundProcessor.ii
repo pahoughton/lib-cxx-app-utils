@@ -1,0 +1,46 @@
+#ifndef _InboundProcessor_ii_
+#define _InboundProcessor_ii_
+//
+// File:        InboundProcessor.ii
+// Project:	Clue
+// Desc:        
+//
+//  	Inline source for InboundProcessor
+//
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Created:     07/20/97 06:18
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+template< class Proc >
+InboundProcessor<Proc>::InboundProcessor(
+  const char *	    fileNamePattern,
+  const char *	    inDirName,
+  const char *	    procDirName,
+  long		    rescanWaitSecs,
+  Proc &	    processor
+  )
+  : InboundProcessorBase( fileNamePattern,
+			  inDirName,
+			  procDirName,
+			  rescanWaitSecs ),
+    proc( processor )
+{
+}
+
+// Revision Log:
+// 
+// $Log$
+// Revision 1.1  1997/07/20 18:52:01  houghton
+// Initial Version.
+//
+//
+#endif // ! def _InboundProcessor_ii_ 
