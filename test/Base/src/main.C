@@ -63,6 +63,7 @@ LibTest::TestItem   TestList[] =
   { "Log",		    tLog },
   { "Param",		    tParam },
   { "SortOrder",	    tSortOrder },
+  { "TimeIt",		    tTimeIt },
 #if defined( ALL )
   { "WithCommon",	    tWithCommon },
   { "WithWcf",		    tWithWcf },
@@ -189,6 +190,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/07/11 15:57:00  houghton
+// Added tTimeIt.
+//
 // Revision 3.6  1997/03/03 14:38:42  houghton
 // Removed support for RW Tools++ & rpm.
 //

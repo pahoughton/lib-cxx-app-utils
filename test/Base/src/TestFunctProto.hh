@@ -69,8 +69,6 @@ bool	tDateRangeDaily( LibTest & tester );
 bool	tDateRangeWeekly( LibTest & tester );
 // Bitmask.hh
 bool	tBitmask( LibTest & tester );
-// SortOrder.hh
-bool	tSortOrder( LibTest & tester );
 // FilePath.hh
 bool	tFilePath( LibTest & tester );
 // User.hh
@@ -83,6 +81,10 @@ bool	tFileStat( LibTest & tester );
 bool	tLog( LibTest & tester );
 // Param.hh
 bool	tParam( LibTest & tester );
+// SortOrder.hh
+bool	tSortOrder( LibTest & tester );
+// TimeIt.hh
+bool tTimeIt( LibTest & tester );
 
 // libClue works with LibCommon
 bool	tWithCommon( LibTest & tester );
@@ -152,6 +154,9 @@ bool	tFileBinStream( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/07/11 15:56:57  houghton
+// Added tTimeIt.
+//
 // Revision 3.2  1996/11/19 12:33:07  houghton
 // Added StringFrom.
 //
