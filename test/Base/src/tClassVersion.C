@@ -128,18 +128,18 @@ tClassVersion( LibTest & tester )
 
       // const char * getVersion( void ) const
 
-      TEST( strstr( t.getVersion(), "@(#) libClue - " ));
-      TEST( strstr( t.getVersion(), "ClassVersion" ) );
-      TEST( strstr( t.getVersion(), "Compiled: " ) );
+      TEST( strstr( t.getVersion(), "@(#) libClue - " ) != 0 );
+      TEST( strstr( t.getVersion(), "ClassVersion" ) != 0 );
+      TEST( strstr( t.getVersion(), "Compiled: " ) != 0 );
 
       // const char * getVersion( bool ) const
-      TEST( strstr( t.getVersion(true), "@(#) libClue - " ));
-      TEST( strstr( t.getVersion(true), "ClassVersion" ) );
-      TEST( strstr( t.getVersion(true), "Compiled: " ) );
+      TEST( strstr( t.getVersion(true), "@(#) libClue - " ) != 0 );
+      TEST( strstr( t.getVersion(true), "ClassVersion" ) != 0 );
+      TEST( strstr( t.getVersion(true), "Compiled: " ) != 0 );
 
       TEST( strstr( t.getVersion(false), "@(#) libClue - " ) == 0 );
-      TEST( strstr( t.getVersion(false), "ClassVersion" ) );
-      TEST( strstr( t.getVersion(false), "Compiled: " ) );
+      TEST( strstr( t.getVersion(false), "ClassVersion" ) != 0 );
+      TEST( strstr( t.getVersion(false), "Compiled: " ) != 0 );
 
       // operator const char * () const
       TEST( strcmp( t, FULL_VER_STRING ) == 0 );
@@ -151,7 +151,7 @@ tClassVersion( LibTest & tester )
       buf << t << ends;
       TEST( strcmp( buf.str(), FULL_VER_STRING ) == 0 );
 
-      buf.freeze(0);
+      buf.rdbuf()->freeze(0);
       
       // static const ClassVersion version
       TEST( strcmp( ClassVersion::version.getVer( true ),
@@ -182,6 +182,9 @@ tClassVersion( LibTest & tester )
   
 //
 // $Log$
+// Revision 3.3  1996/11/24 19:14:04  houghton
+// Changed for AIX because bool is not a real type.
+//
 // Revision 3.2  1996/11/19 12:34:17  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.

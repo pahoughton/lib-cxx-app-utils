@@ -452,17 +452,17 @@ tStringTo( LibTest & tester )
 	  {
 	    bool result = FALSE;
 	    TESTR( desc, StringTo( result, BoolTestValues[t].str ) ==
-		  BoolTestValues[t].good );
-	    TESTR( desc, result == BoolTestValues[t].value );
+		  (bool)(BoolTestValues[t].good) );
+	    TESTR( desc, result == (bool)BoolTestValues[t].value );
 	  }
 	else
 	  {
 	    bool result = FALSE;
 	    TESTR( desc, StringTo( result, BoolTestValues[t].str,
 					BoolTestValues[t].len ) ==
-		  BoolTestValues[t].good );
+		  (bool)BoolTestValues[t].good );
 	    
-	    TESTR( desc, result == BoolTestValues[t].value );
+	    TESTR( desc, result == (bool)BoolTestValues[t].value );
 	  }
       }
   }
@@ -483,7 +483,7 @@ tStringTo( LibTest & tester )
 	  {
 	    int result = 0;
 	    TEST( StringTo( result, IntTestValues[t].str ) ==
-		  IntTestValues[t].good );
+		  (bool)IntTestValues[t].good );
 	    TEST( result == IntTestValues[t].value );
 	  }
 
@@ -493,7 +493,7 @@ tStringTo( LibTest & tester )
 	    TEST( StringTo( result,
 			    IntTestValues[t].str,
 			    IntTestValues[t].base ) ==
-		  IntTestValues[t].good );
+		  (bool)IntTestValues[t].good );
 	    TEST( result == IntTestValues[t].value );
 	  }
 
@@ -504,7 +504,7 @@ tStringTo( LibTest & tester )
 			    IntTestValues[t].str,
 			    IntTestValues[t].base,
 			    IntTestValues[t].len ) ==
-		  IntTestValues[t].good );
+		  (bool)IntTestValues[t].good );
 	    TEST( result == IntTestValues[t].value );
 	  }
       }
@@ -521,7 +521,7 @@ tStringTo( LibTest & tester )
 	  {
 	    short result = 0;
 	    TEST( StringTo( result, ShortTestValues[t].str ) ==
-		  ShortTestValues[t].good );
+		  (bool)ShortTestValues[t].good );
 	    TEST( result == ShortTestValues[t].value );
 	  }
 
@@ -531,7 +531,7 @@ tStringTo( LibTest & tester )
 	    TEST( StringTo( result,
 			    ShortTestValues[t].str,
 			    ShortTestValues[t].base ) ==
-		  ShortTestValues[t].good );
+		  (bool)ShortTestValues[t].good );
 	    TEST( result == ShortTestValues[t].value );
 	  }
 
@@ -542,7 +542,7 @@ tStringTo( LibTest & tester )
 			    ShortTestValues[t].str,
 			    ShortTestValues[t].base,
 			    ShortTestValues[t].len ) ==
-		  ShortTestValues[t].good );
+		  (bool)ShortTestValues[t].good );
 	    TEST( result == ShortTestValues[t].value );
 	  }
       }
@@ -559,7 +559,7 @@ tStringTo( LibTest & tester )
 	  {
 	    long result = 0;
 	    TEST( StringTo( result, LongTestValues[t].str ) ==
-		  LongTestValues[t].good );
+		  (bool)LongTestValues[t].good );
 	    TEST( result == LongTestValues[t].value );
 	  }
 
@@ -569,7 +569,7 @@ tStringTo( LibTest & tester )
 	    TEST( StringTo( result,
 			    LongTestValues[t].str,
 			    LongTestValues[t].base ) ==
-		  LongTestValues[t].good );
+		  (bool)LongTestValues[t].good );
 	    TEST( result == LongTestValues[t].value );
 	  }
 
@@ -580,7 +580,7 @@ tStringTo( LibTest & tester )
 			    LongTestValues[t].str,
 			    LongTestValues[t].base,
 			    LongTestValues[t].len ) ==
-		  LongTestValues[t].good );
+		  (bool)LongTestValues[t].good );
 	    TEST( result == LongTestValues[t].value );
 	  }
       }
@@ -597,7 +597,7 @@ tStringTo( LibTest & tester )
 	  {
 	    double result = 0;
 	    TEST( StringTo( result, DoubleTestValues[t].str ) ==
-		  DoubleTestValues[t].good );
+		  (bool)DoubleTestValues[t].good );
 	    TEST( result == DoubleTestValues[t].value );
 	  }
 
@@ -607,7 +607,7 @@ tStringTo( LibTest & tester )
 	    TEST( StringTo( result,
 			    DoubleTestValues[t].str,
 			    DoubleTestValues[t].base ) ==
-		  DoubleTestValues[t].good );
+		  (bool)DoubleTestValues[t].good );
 	    TEST( result == DoubleTestValues[t].value );
 	  }
 
@@ -618,7 +618,7 @@ tStringTo( LibTest & tester )
 			    DoubleTestValues[t].str,
 			    DoubleTestValues[t].base,
 			    DoubleTestValues[t].len ) ==
-		  DoubleTestValues[t].good );
+		  (bool)DoubleTestValues[t].good );
 	    TEST( result == DoubleTestValues[t].value );
 	  }
       }
@@ -635,7 +635,7 @@ tStringTo( LibTest & tester )
 	  {
 	    unsigned int result = 0;
 	    TEST( StringTo( result, UIntTestValues[t].str ) ==
-		  UIntTestValues[t].good );
+		  (bool)UIntTestValues[t].good );
 	    TEST( result == UIntTestValues[t].value );
 	  }
 
@@ -645,7 +645,7 @@ tStringTo( LibTest & tester )
 	    TEST( StringTo( result,
 			    UIntTestValues[t].str,
 			    UIntTestValues[t].base ) ==
-		  UIntTestValues[t].good );
+		  (bool)UIntTestValues[t].good );
 	    TEST( result == UIntTestValues[t].value );
 	  }
 
@@ -656,7 +656,7 @@ tStringTo( LibTest & tester )
 			    UIntTestValues[t].str,
 			    UIntTestValues[t].base,
 			    UIntTestValues[t].len ) ==
-		  UIntTestValues[t].good );
+		  (bool)UIntTestValues[t].good );
 	    TEST( result == UIntTestValues[t].value );
 	  }
       }
@@ -673,7 +673,7 @@ tStringTo( LibTest & tester )
 	  {
 	    unsigned short result = 0;
 	    TEST( StringTo( result, UShortTestValues[t].str ) ==
-		  UShortTestValues[t].good );
+		  (bool)UShortTestValues[t].good );
 	    TEST( result == UShortTestValues[t].value );
 	  }
 
@@ -683,7 +683,7 @@ tStringTo( LibTest & tester )
 	    TEST( StringTo( result,
 			    UShortTestValues[t].str,
 			    UShortTestValues[t].base ) ==
-		  UShortTestValues[t].good );
+		  (bool)UShortTestValues[t].good );
 	    TEST( result == UShortTestValues[t].value );
 	  }
 
@@ -694,7 +694,7 @@ tStringTo( LibTest & tester )
 			    UShortTestValues[t].str,
 			    UShortTestValues[t].base,
 			    UShortTestValues[t].len ) ==
-		  UShortTestValues[t].good );
+		  (bool)UShortTestValues[t].good );
 	    TEST( result == UShortTestValues[t].value );
 	  }
       }
@@ -711,7 +711,7 @@ tStringTo( LibTest & tester )
 	  {
 	    unsigned long result = 0;
 	    TEST( StringTo( result, ULongTestValues[t].str ) ==
-		  ULongTestValues[t].good );
+		  (bool)ULongTestValues[t].good );
 	    TEST( result == ULongTestValues[t].value );
 	  }
 
@@ -721,7 +721,7 @@ tStringTo( LibTest & tester )
 	    TEST( StringTo( result,
 			    ULongTestValues[t].str,
 			    ULongTestValues[t].base ) ==
-		  ULongTestValues[t].good );
+		  (bool)ULongTestValues[t].good );
 	    TEST( result == ULongTestValues[t].value );
 	  }
 
@@ -732,7 +732,7 @@ tStringTo( LibTest & tester )
 			    ULongTestValues[t].str,
 			    ULongTestValues[t].base,
 			    ULongTestValues[t].len ) ==
-		  ULongTestValues[t].good );
+		  (bool)ULongTestValues[t].good );
 	    TEST( result == ULongTestValues[t].value );
 	  }
       }
@@ -747,13 +747,13 @@ tStringTo( LibTest & tester )
 	if( ! BoolTestValues[t].useLen )
 	  {
 	    bool result = StringToBool( BoolTestValues[t].str );
-	    TEST( result == BoolTestValues[t].value );
+	    TEST( result == (bool)BoolTestValues[t].value );
 	  }
 	else
 	  {
 	    bool result = StringToBool( BoolTestValues[t].str,
 					BoolTestValues[t].len );
-	    TEST( result == BoolTestValues[t].value );
+	    TEST( result == (bool)BoolTestValues[t].value );
 	  }
       }
   }
@@ -974,6 +974,9 @@ tStringTo( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1996/11/24 19:14:26  houghton
+// Changed for AIX because bool is not a real type.
+//
 // Revision 3.2  1996/11/19 12:37:24  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.
