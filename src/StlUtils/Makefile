@@ -81,6 +81,8 @@ USER_INCS	=			\
 	TeleNum.hh                      \
 	CdrBillNum.hh			\
 	Timer.hh                        \
+	Dst.hh				\
+	MakeDateFromSybase.hh		\
 
 #	gnustd.h                        \
 #	std.h                           \
@@ -140,6 +142,8 @@ LIB_CXX_SOURCES	=			\
 	TeleNum.C                       \
 	CdrBillNum.C			\
 	error.C				\
+	Dst.C				\
+	MakeDateFromSybase.C		\
 
 #	Mcr.C                           \
 
@@ -180,7 +184,7 @@ INCDIRS		= $(SRCINCDIR)	\
 
 CPPOTHER 	=
 CCDEBUG		= -g
-CCOTHER		=
+CCOTHER		= -O2
 
 INSTALL_LIB_FLAGS = -m 664
 INSTALL_INC_FLAGS = -m 664
@@ -242,7 +246,10 @@ include .depend.lib
 
 # 
 # $Log$
-# Revision 1.11  1995/07/21 15:43:14  ichudov
+# Revision 1.12  1995/08/29 19:36:35  ichudov
+# DST and MakeDateFromSybase added.
+#
+# Revision 1.11  1995/07/21  15:43:14  ichudov
 # DAVLs
 #
 # Revision 1.10  1995/03/02  16:35:35  houghton

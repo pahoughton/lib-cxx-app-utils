@@ -408,7 +408,10 @@
 //
 // 
 // $Log$
-// Revision 1.6  1995/07/27 16:18:38  ichudov
+// Revision 1.7  1995/08/29 19:36:29  ichudov
+// DST and MakeDateFromSybase added.
+//
+// Revision 1.6  1995/07/27  16:18:38  ichudov
 // A bug corrected in the constructor of DateTime class.
 //
 // Revision 1.5  1995/02/20  14:24:25  houghton
@@ -438,6 +441,8 @@
 
 #include <iomanip.h>
 #include <stdlib.h>
+
+#include "Dst.hh"
 
 class DateTime
 {
@@ -484,6 +489,8 @@ public:
   inline Bool	    	isLocal( void ) const;
   Bool	    	    	isDST( void ) const;
   Bool	    	    	isDST( void );
+  time_t		getClassicDstOffset( void ) const;
+  Bool			isClassicDst( void ) const;
   inline const char *	getTimeZone( void ) const;
 
   static long       	getGmtOffset( const char * timeZone = 0 );
@@ -535,6 +542,7 @@ public:
   virtual const char * 	getClassName( void ) const;
   virtual Bool	    	good( void ) const;
   virtual const char *	error( void ) const;
+
   
 protected:
 
@@ -560,6 +568,8 @@ private:
   struct tm   	tm;
 
   time_t      	seconds;
+  static Dst *	globalDst;
+
   
 };
 
@@ -629,14 +639,6 @@ DateTime::DateTime( time_t day, time_t timeOfDay )
   seconds = day + timeOfDay;
 }
 
-// Constructor - initialize from yymmdd & hhmmss strings
-inline 
-DateTime::DateTime( const char * yymmdd, const char * hhmmss )
-{
-  seconds = 0; // ichudov
-  setHHMMSS( hhmmss );
-  setYYMMDD( yymmdd );
-}
 
 // Constructor - initialize from year, month, day, hour, min sec
 inline
@@ -659,6 +661,17 @@ DateTime::DateTime( const struct tm & setTime )
 {
   set( setTime );
 }
+
+// Constructor - initialize from yymmdd & hhmmss strings
+inline
+DateTime::DateTime( const char * yymmdd, const char * hhmmss )
+{
+  seconds = 0; // ichudov
+  resetFlags();
+  setHHMMSS( hhmmss );
+  setYYMMDD( yymmdd );
+}
+
 
 // Constructor - initialize from dateString
 inline
@@ -950,18 +963,6 @@ DateTime::set( const struct tm & tmTime )
 	       tmTime.tm_sec ) );
 }
 
-// setYYYYMMDD - set the date from the string ( ie 19950131 )
-inline
-time_t
-DateTime::setYYYYMMDD( const char * yyyymmdd )
-{
-  time_t old = seconds;
-  seconds = YYYYMMDDtoTimeT( yyyymmdd ) + (seconds % SEC_PER_DAY );
-  flags.tmValid = FALSE;
-  if( offset ) setTm();
-  return( old );
-}
-
 // setYYMMDD - set the date from the string (ie 950131 )
 inline
 time_t
@@ -974,6 +975,18 @@ DateTime::setYYMMDD( const char * yymmdd )
   return( old );
 }
 
+// setYYYYMMDD - set the date from the string ( ie 19950131 )
+time_t
+DateTime::setYYYYMMDD( const char * yyyymmdd )
+{
+  time_t old = seconds;
+  seconds = YYYYMMDDtoTimeT( yyyymmdd ) + (seconds % SEC_PER_DAY );
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
+  return( old );
+}
+
+
 // setHHMMSS - set the time from the string ( 130550 = 1:05:50 pm )
 inline
 time_t
@@ -985,6 +998,8 @@ DateTime::setHHMMSS( const char * hhmmss )
   if( offset ) setTm();
   return( old );
 }
+
+
 
 // setDayOfYear - set the day of the year
 inline
@@ -1208,7 +1223,25 @@ Compare( const DateTime & one, const DateTime & two )
 {
   return( one.compare( two ) );
 }
-	  
+
+inline
+time_t
+DateTime::getClassicDstOffset( void ) const
+{
+  if ( globalDst == 0 )
+      {
+        globalDst = new Dst();
+      }
+  return ( globalDst->getDstOffset( this->getTimeT() ) );
+}
+
+
+inline
+Bool
+DateTime::isClassicDst( void ) const
+{
+  return ( getClassicDstOffset() != 0 ); 
+}
 
 
        

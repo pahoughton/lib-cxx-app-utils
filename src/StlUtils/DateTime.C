@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.5  1995/02/20 14:24:25  houghton
+// Revision 1.6  1995/08/29 19:36:28  ichudov
+// DST and MakeDateFromSybase added.
+//
+// Revision 1.5  1995/02/20  14:24:25  houghton
 // Linux port and Fix bugs in DateTime found with new test.
 //
 // Revision 1.4  1995/02/13  16:08:35  houghton
@@ -36,6 +39,7 @@ static const char * RcsId =
 #include "DateTime.hh"
 
 #include <ctype.h>
+
 
 DateTime::~DateTime( void )
 {
@@ -416,6 +420,7 @@ DateTime::setYear( short year )
   return( old );
 }
 
+
 // setMonth - set the month
 time_t
 DateTime::setMonth( short month )
@@ -543,6 +548,8 @@ ostream & operator<<( ostream & dest, const DateTime & time )
   
   return( dest );
 }
+
+Dst * DateTime::globalDst = 0;
 
 
 
