@@ -5,22 +5,24 @@
 // Project:	Clue
 // Desc:        
 //
-//  Log is a specilized ostream that provides control over
-//  how and where the data put in the log will be output.
+//  Log is a specialized ostream. It provides control over
+//  how and where the data placed in the log will be output.
 //
-//  There are two types of control. These are levels and
-//  filters. Levels are used to indecate the type of log entry
-//  (i.e. Debug, Error, Warning) that is put in the log.
+//  There are two types of control, Levels and Filters.
+//
+//  Levels are used to indicate the type of log entry,
+//  (i.e. Debug, Error, Warning) that is placed in the log.
+//
 //  Filters provide for control over the content of the entry.
 //
 //  An application can specify what type of entries it
-//  wants output (i.e. Error | Warning ). It then can
-//  create any number of log entries specify the level
+//  wants output (i.e. Error | Warning ). It can then
+//  create any number of log entries and specify the level
 //  for each one. Only those entries specified for output
 //  will actually be written to the log.
 //
-//  Filters can be used to write log entryies with a specific
-//  levels and content to any 'streambuf' destination.
+//  Filters can be used to write log entries with a specific
+//  level and content to any 'streambuf' destination.
 //
 // Author:      Paul Houghton x2309 - (houghton@shoe)
 // Created:     03/14/94 10:49
@@ -203,13 +205,13 @@ private:
 //  	     bool		stampLevel = true,
 //  	     bool		stampTime = true,
 //	     bool		stampLoc = true );
-//	    Default Log Construtor. 'outStream' is the destination
-//	    log entries will be written to. 'outLevel' is a mask of the
+//	    Default Log Constructor 'outStream' is the destination where
+//	    log entries will be written.  'outLevel' is a mask of the
 //	    log levels that will be written. 'stampLevel' controls
 //	    whether or not the level of a specific entry will be written to
 //	    the destination before each log entry. 'stampTime' controls
 //	    whether or not the time an entry was created will be written to
-//	    the destination befor each log entry. 'stampLoc' controls
+//	    the destination before each log entry. 'stampLoc' controls
 //	    whether or not the source file and line number will be written
 //	    to the destination before each log entry.
 //
@@ -219,16 +221,16 @@ private:
 //  	     bool		stampLevel = true,
 //  	     bool		stampTime = true,
 //	     bool		stampLoc = true );
-//	    Log Construtor that uses a const char * for the output level.
-//	    'outStream' is the destination log entries will be written
-//	    to. 'outLevel' is a char string for the mask of the
-//	    log levels that will be written. 'stampLevel' controls
-//	    whether or not the level of a specific entry will be written to
-//	    the destination before each log entry. 'stampTime' controls
-//	    whether or not the time an entry was created will be written to
-//	    the destination befor each log entry. 'stampLoc' controls
-//	    whether or not the source file and line number will be written
-//	    to the destination before each log entry.
+//	    Log Constructor that uses a (const char *) for the output level.
+//	    'outStream' is the destination where log entries will be written
+//	    'outLevel' is a char string for the mask of the log levels
+//          that will be written. 'stampLevel' controls whether or not
+//          the level of a specific entry will be written to the destination
+//	    before each log entry. 'stampTime' controls whether or not
+//          the time an entry was created will be written to the destination
+//          befor each log entry. 'stampLoc' controls whether or not the
+//          source file and line number will be written to the destination
+//          before each log entry.
 //
 //	inline
 //  	Log( const char *	fileName,
@@ -251,9 +253,9 @@ private:
 //	     bool		stampLoc = true,
 //	     size_t		maxSize = 0,
 //	     size_t		trimSize = 0 );
-//	    Log Construtor that uses a file as the primary destination
-//	    for log entryies. 'fileName' is the name of the file that
-//	    the entries will be written to.'outLevel' is a mask of the
+//	    Log Constructor that uses a file as the primary destination
+//	    for log entries. 'fileName' is the name of the file where
+//	    the entries will be written.'outLevel' is a mask of the
 //	    log levels that will be written. 'mode' is the mode that
 //	    will be used to open the file (see fstream(3) ofstream::open).
 //	    'prot' is the file's protection mask if the file is created
@@ -266,9 +268,9 @@ private:
 //	    to the destination before each log entry. 'maxSize' is the
 //	    maximum number of bytes for the log file. A maxSize value
 //	    of 0, means no limit. If it is any other value, the file
-//	    will be trimmed, according to trimSize) when it reaches this
-//	    size. 'trimSize' is the amount to trim from the begining of the
-//	    file when it reaches 'maxSize'. A trimSize value of 0 means
+//	    will be trimmed, according to 'trimSize' when it reaches this
+//	    size. 'trimSize' is the ammount to trim from the begining of the
+//	    file, when it reaches 'maxSize'. A trimSize value of 0 means
 //	    25% of maxSize will be trimmed. Any other value is the number
 //	    of bytes to trim.
 //
@@ -288,6 +290,7 @@ private:
 //	bool
 //	willOutput( LogLevel::Level outLevel ) const
 //	    Returns true if 'outLevel' would be written to the destination.
+//          else return false.
 //
 //	Log &
 //	level( LogLevel::Level	current = LogLevel::Error,
@@ -393,7 +396,7 @@ private:
 //	    Change the output mask. Only the entries with one of the
 //	    types in 'output' will be written to the destination. The
 //	    output can be specified as a set of LogLevel::Level's
-//	    or'ed togther (i.e. setOutput( LogLevel::Error | LogLevel::Warn )
+//	    'OR' togther (i.e. setOutput( LogLevel::Error | LogLevel::Warn )
 //	    ). Or it can be a text string containing the levels to be
 //	    written (i.e. "Error | Warning" ). The previous value
 //	    for the output level is returned.
@@ -422,7 +425,7 @@ private:
 //	setTrimSize( size_t trimSize )
 //	    If the primary destination is a file, this sets the
 //	    number of bytes to be removed from the file each
-//	    time it reachs max size (see setMaxSize). A value of
+//	    time it reaches max size (see setMaxSize). A value of
 //	    0 means to remove the first 25% of the file. Returns
 //	    the previous value of trimSize.
 //
@@ -461,7 +464,7 @@ private:
 //	void
 //	close( void )
 //	    If the primary destination is a file, close it.
-//	    There will not be a primary destionation until a file is
+//	    There will not be a primary destination until a file is
 //	    'open'ed.
 //
 //	bool
@@ -564,7 +567,7 @@ private:
 //
 //	Source file name: tLog.C
 //
-//	#include <Log.hh>  // inclues LogBuf.hh & LogLevel.hh for you
+//	#include <Log.hh>  // includes LogBuf.hh & LogLevel.hh for you
 //
 //	int
 //	main( int argc, char * argv[] )
@@ -611,6 +614,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/15 15:50:39  houghton
+// Fixed header comments (Thank you Chris!).
+//
 // Revision 3.1  1996/11/14 01:23:45  houghton
 // Changed to Release 3
 //
@@ -618,7 +624,7 @@ private:
 // Restructure header comments layout.
 // Updated and verified header comment documentation.
 // Changed include lines to use "file" instead of <file> to
-//     accomidate rpm.
+//     accommadate rpm.
 // Removed support for short file names to accomidate rpm.
 // Bug-Fix: operator () (LogLevel::Level ...) changed to be an inline.
 //
@@ -655,4 +661,9 @@ private:
 //
 
 #endif // ! def _Log_hh_ 
+
+
+
+
+
 
