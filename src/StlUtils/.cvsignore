@@ -2,5 +2,6 @@
 .depend_default
 .depend_profile
 .depend_shared
+Clue.exp
 _Clue_Proto.h
 objects
