@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1994/08/15 20:54:53  houghton
+// Revision 1.3  1994/08/16 20:50:16  houghton
+// fixed datetime output if sec == 0
+//
+// Revision 1.2  1994/08/15  20:54:53  houghton
 // Split Mapped out of mapped avl.
 // Fixed a bunch of bugs.
 // Fixed for ident of object modules.
@@ -44,16 +47,25 @@ DateTime::getDayOfWeek( void ) const
 
 ostream & operator<<( ostream & dest, const DateTime & time )
 {
-
+  
   int fill = dest.fill();
   
-  dest << setw(2) << setfill('0') << time.getMonth() << '/' 
-       << setw(2) << setfill('0') << time.getDayOfMonth() << '/' 
-       << setw(2) << setfill('0') << time.getYearOfCentury() << ' '
-       << setw(2) << setfill('0') << time.getHour() << ':'
-       << setw(2) << setfill('0') << time.getMinute() << ':'
-       << setw(2) << setfill('0') << time.getSecond()
-       ;
+  if( time.getTimeT() == 0 )
+    {
+      dest << "01/01/1970 00:00:00" ;
+    }
+  else
+    {
+      
+      dest << setw(2) << setfill('0') << time.getMonth() << '/' 
+	   << setw(2) << setfill('0') << time.getDayOfMonth() << '/' 
+	   << setw(2) << setfill('0') << time.getYearOfCentury() << ' '
+	   << setw(2) << setfill('0') << time.getHour() << ':'
+	   << setw(2) << setfill('0') << time.getMinute() << ':'
+	   << setw(2) << setfill('0') << time.getSecond()
+	   ;
+    }
+  
   dest << setfill(fill);
   
   return( dest );
@@ -63,14 +75,21 @@ ostream & operator<<( ostream & dest, DateTime & time )
 {
 
   int fill = dest.fill();
-  
-  dest << setw(2) << setfill('0') << time.getMonth() << '/' 
-       << setw(2) << setfill('0') << time.getDayOfMonth() << '/' 
-       << setw(2) << setfill('0') << time.getYearOfCentury() << ' '
-       << setw(2) << setfill('0') << time.getHour() << ':'
-       << setw(2) << setfill('0') << time.getMinute() << ':'
-       << setw(2) << setfill('0') << time.getSecond()
-       ;
+
+  if( time.getTimeT() == 0 )
+    {
+      dest << "01/01/1970 00:00:00" ;
+    }
+  else
+    {
+      dest << setw(2) << setfill('0') << time.getMonth() << '/' 
+	   << setw(2) << setfill('0') << time.getDayOfMonth() << '/' 
+	   << setw(2) << setfill('0') << time.getYearOfCentury() << ' '
+	   << setw(2) << setfill('0') << time.getHour() << ':'
+	   << setw(2) << setfill('0') << time.getMinute() << ':'
+	   << setw(2) << setfill('0') << time.getSecond()
+	   ;
+    }
   dest << setfill(fill);
   
   return( dest );

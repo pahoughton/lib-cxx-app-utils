@@ -101,7 +101,7 @@ INCDIRS		= $(SRCINCDIR)	\
 # **** C O M P I L E / C P P ****
 
 CPPOTHER 	=
-CCDEBUG		= -g
+CCDEBUG		= -Q -O2
 CCOTHER		=
 
 
@@ -185,7 +185,10 @@ include .depend
 
 # 
 # $Log$
-# Revision 1.2  1994/08/15 20:54:56  houghton
+# Revision 1.3  1994/08/16 20:50:17  houghton
+# fixed datetime output if sec == 0
+#
+# Revision 1.2  1994/08/15  20:54:56  houghton
 # Split Mapped out of mapped avl.
 # Fixed a bunch of bugs.
 # Fixed for ident of object modules.
