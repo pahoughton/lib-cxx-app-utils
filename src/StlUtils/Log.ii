@@ -40,6 +40,20 @@ Log::setTrimSize( size_t size )
   return( rdbuf()->setTrimSize( size ) );
 }
 
+inline
+size_t
+Log::getMaxSize( void ) const
+{
+  return( rdbuf()->getMaxSize() );
+}
+
+inline
+size_t
+Log::getTrimSize( void ) const
+{
+  return( rdbuf()->getTrimSize() );
+}
+
 
 inline
 Log &
@@ -256,6 +270,10 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1999/11/09 11:01:03  houghton
+// Added getTrimSize().
+// Added getMaxSize().
+//
 // Revision 4.5  1999/11/04 17:32:32  houghton
 // Bug-Fix: LogIf was not changing log levels.
 //

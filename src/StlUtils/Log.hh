@@ -135,7 +135,7 @@ public:
   inline bool		    getTimeStamp( void ) const;
   inline bool		    getLocStamp( void ) const;
 
-  inline const FilePath &    getLogFileName() const;
+  inline const FilePath &   getLogFileName() const;
   
   inline LogLevel::Level    setOutputLevel( const LogLevel::Level & output );
   inline LogLevel::Level    setOutputLevel( const char * output );
@@ -147,6 +147,9 @@ public:
 
   inline size_t		    setTrimSize( size_t trimSize );
   inline size_t		    setMaxSize( size_t maxSize );
+
+  inline size_t		    getTrimSize( void ) const;
+  inline size_t		    getMaxSize( void ) const;
   
   size_t	    trim( size_t maxSize = 0 );
   
@@ -654,6 +657,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.7  1999/11/09 11:00:57  houghton
+// Added getTrimSize().
+// Added getMaxSize().
+//
 // Revision 4.6  1999/11/04 17:32:22  houghton
 // Bug-Fix: LogIf was not changing log levels.
 //
