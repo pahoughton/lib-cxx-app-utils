@@ -203,7 +203,8 @@ LogBuf::sync( void )
   
   char *    base = pbase();
   int	    len = pptr() - pbase();
-
+  int	    syncResult = 0;
+  
   if( base && len > 0 )
     {
       // first take care of my dest & the tee dest
@@ -249,12 +250,13 @@ LogBuf::sync( void )
 	      (*them).dest->sync();
 	    }
 	}
+      
+      syncResult = stream->sync();
+
     }
 
   newMesg = false;
   
-  int  syncResult = stream->sync();
-
   setp( pbase(), epptr() );
 
   size_t curSize = (size_t)stream->seekoff( 0, ios::cur, ios::out );
@@ -265,7 +267,7 @@ LogBuf::sync( void )
       trimLog( curSize, maxSize );
     }
     
-  return( stream ? syncResult : EOF );
+  return( syncResult );
 }
 
 const char *
@@ -526,6 +528,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/03/03 19:00:06  houghton
+// Cleanup sync funct (while tracking a bug under AIX).
+//
 // Revision 3.3  1997/03/03 14:36:31  houghton
 // Removed support for RW Tools++
 //
