@@ -32,7 +32,7 @@
 #
 
 makefile_type   = lib
-make_cfg_ver	= 5.03
+make_cfg_ver	= 5.04
 make_target	= default
 show_commands 	= # true
 proto_dep	= true
@@ -50,8 +50,8 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= StlUtils
 
-INSTALL_LIBDIR	= $(beta_libdir)
-INSTALL_INCDIR	= $(beta_incdir)
+INSTALL_LIB_DIR	= $(beta_libdir)
+INSTALL_INC_DIR	= $(beta_incdir)
 
 VER_MAJOR	= 4
 VER_MINOR	= 00
@@ -315,10 +315,10 @@ install_all:: install_lib_check
 install_all:: install_default install_debug install_profile install_shared
 	$(HIDE) echo Installation Complete!
 
-install_default:: default $(INSTALL_LIBDIR)/$(LIBRARY_DEFAULT)
-install_debug::   debug   $(INSTALL_LIBDIR)/$(LIBRARY_DEBUG)
-install_profile:: profile $(INSTALL_LIBDIR)/$(LIBRARY_PROFILE)
-install_shared::  shared  $(INSTALL_LIBDIR)/$(LIBRARY_SHARED)
+install_default:: default $(INSTALL_LIB_DIR)/$(LIBRARY_DEFAULT)
+install_debug::   debug   $(INSTALL_LIB_DIR)/$(LIBRARY_DEBUG)
+install_profile:: profile $(INSTALL_LIB_DIR)/$(LIBRARY_PROFILE)
+install_shared::  shared  $(INSTALL_LIB_DIR)/$(LIBRARY_SHARED)
 
 
 test::	default
@@ -335,6 +335,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.10  1998/01/30 12:40:10  houghton
+# Changed to use MakeConfigs 5.04.
+#
 # Revision 4.9  1998/01/22 18:30:47  houghton
 # Changed version number.
 # Changed to use MakeConfigs 5.03
