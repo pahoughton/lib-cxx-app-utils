@@ -1,0 +1,87 @@
+//
+// File:        tCharIsBaseDigit.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for CharIsBaseDigit function.
+//  
+// Source Header Version: StringUtils.hh 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/30/96 04:23
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <StringUtils.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <StrUtil.hh>
+#endif
+
+bool
+tCharIsBaseDigit( LibTest & tester )
+{
+  {
+    // IsBaseDigit( char, unsigned short)
+
+    for( unsigned short base = 2; base < 36; base++ )
+      {
+	{
+	  for( char num = ('0' - 2 ); num <= '9'; num++ )
+	    {
+	      bool result = CharIsBaseDigit( num, base );
+	      
+	      TEST( ( result == true && num >= '0' && (num - '0') < base ) ||
+		    ( result == false && ( num < '0' || (num - '0') >= base ) ) );
+	    }
+	}
+
+	{
+	  for( char num = ('a' - 2 ); num <= 'z'; num++ )
+	    {
+	      bool result = CharIsBaseDigit( num, base );
+	      
+	      TEST( ( result == true && ( base > 10 &&
+					  (10 + (num - 'a')) >= 10 &&
+					  (10 + (num - 'a')) < base ) ) ||
+		    ( result == false && ( base < 10 ||
+					   (10 + (num - 'a')) < 10 ||
+					   (10 + (num - 'a')) >= base ) ) );
+	    }
+	}
+
+	{
+	  for( char num = ('A' - 2 ); num <= 'Z'; num++ )
+	    {
+	      bool result = CharIsBaseDigit( num, base );
+	      
+	      TEST( ( result == true && ( base > 10 &&
+					  (10 + (num - 'A')) >= 10 &&
+					  (10 + (num - 'A')) < base ) ) ||
+		    ( result == false && ( base < 10 ||
+					   (10 + (num - 'A')) < 10 ||
+					   (10 + (num - 'A')) >= base ) ) );
+	    }
+	}
+		    
+      }
+  }
+
+  return( true );
+}
+
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.1  1996/11/04 14:46:20  houghton
+// Initial Version.
+//
+//
