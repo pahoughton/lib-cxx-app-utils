@@ -620,6 +620,10 @@ PARAM_ARG_NUM( argUShort, unsigned short, false )
 PARAM_ARG_NUM( argLong, long, true )
 PARAM_ARG_NUM( argULong, unsigned long, false )
 
+#if defined( STLUTILS_HAVE_LONG_LONG )
+PARAM_ARG_NUM( argLongLong, long long, true )
+PARAM_ARG_NUM( argULongLong, unsigned long long, false )
+#endif  
   ;
 
 bool
@@ -1577,6 +1581,9 @@ Param::genArgFile( bool exitApp )
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/07/31 13:38:09  houghton
+// Added long long arg support.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

@@ -163,6 +163,20 @@ public:
 		  const char *    envVar = 0,
 		  unsigned long   minVal = 0,
 		  unsigned long   maxVal = ULONG_MAX );
+#if defined( STLUTILS_HAVE_LONG_LONG )
+  bool	argLongLong( long long &    dest,
+		     const char *   description,
+		     const char *   argId,
+		     const char *   envVar = 0,
+		     long long	    minVal = LLONG_MIN,
+		     long long	    maxVal = LLONG_MAX );
+  bool	argULongLong( unsigned long long &  dest,
+		      const char *	    description,
+		      const char *	    argId,
+		      const char *	    envVar = 0,
+		      unsigned long long    minVal = 0,
+		      unsigned long long    maxVal = ULLONG_MAX );
+#endif
   bool	argDouble( double & 	dest,
 		   const char *	description,
 		   const char * argId,
@@ -1002,6 +1016,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2000/07/31 13:38:02  houghton
+// Added long long arg support.
+//
 // Revision 5.2  2000/06/04 17:58:04  houghton
 // Updated documentation.
 //
