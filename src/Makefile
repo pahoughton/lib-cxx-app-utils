@@ -60,6 +60,7 @@ SUBDIRS		=		\
 
 TARGETS		= $(DEPEND_TARGETS)		\
 		  $(BUILD_TARGETS)		\
+		  check				\
 		  $(INSTALL_TARGETS)		\
 		  $(INSTALL_LIB_TARGETS)	\
 		  clean				\
