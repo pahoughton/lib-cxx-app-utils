@@ -22,9 +22,9 @@
 
 TEST_DATA_DIR	= ../data
 TEST_USER	= $(LOGNAME)
-TEST_GROUP	= softdev
-TEST_UID	= 223
-TEST_GID	= 103
+TEST_GROUP	= ncm
+TEST_UID	= 1037
+TEST_GID	= 104
 
 ARCH_DEFINES	= -DSTLUTILS_TEST_NO_GROUPS=1
 ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
@@ -40,6 +40,9 @@ ARCH_DEFAULT_LIBS 	= -lGnuRegex
 
 #
 # $Log$
+# Revision 4.2  1997/12/19 12:51:07  houghton
+# Changed for asterope.jxn ids.
+#
 # Revision 4.1  1997/09/17 15:13:27  houghton
 # Changed to Version 4
 #
