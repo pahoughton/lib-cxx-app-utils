@@ -71,7 +71,7 @@ include Make/make.cfg.$(make_cfg_ver)
 #
 
 VER_MAJOR	= 6
-VER_MINOR	= 01
+VER_MINOR	= 02
 VER_RELEASE	= 01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
