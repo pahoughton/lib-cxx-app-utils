@@ -1,0 +1,95 @@
+#
+# -*- Makefile -*-
+#
+# Makefile for libCluee src/arch/Linux/src
+#
+# Created 11/20/95
+#
+# $Id$
+#
+#
+
+include ../arch/Unix/src/Makefile.Clue
+include ../Clue1/src/Makefile.Clue
+
+ARCH_DIR	= ../arch/$(arch)/src
+ARCH_SRC_DIR	= ../arch/src
+ARCH_STDCPP_DIR	= ../arch/$(arch)/stdc++
+
+ARCH_SRC_VPATH	= $(ARCH_DIR):$(ARCH_SRC_DIR):$(ARCH_STDCPP_DIR)
+
+ARCH_VPATH	= $(ARCH_SRC_VPATH):$(UNIX_VPATH):$(CLUE1_VPATH)
+
+ARCHSRC_INC	= -I$(ARCH_DIR) -I$(ARCH_SRC_DIR) -I$(ARCH_STDCPP_DIR)
+
+ARCH_DEFINES	= $(UNIX_DEFINES) $(CLUE1_DEFINES)
+
+ARCH_INC	= $(ARCHSRC_INC) $(UNIX_INC) $(CLUE1_INC)
+			  
+
+
+ARCH_C_SOURCES		=	\
+	$(UNIX_C_SOURCES)	\
+	$(CLUE1_C_SOURCES)	\
+
+
+ARCH_CXX_C_SOURCES	=	\
+	basename.C		\
+	FileStat.C		\
+	OpenFlags.C		\
+	$(UNIX_CXX_C_SOURCES)	\
+	$(CLUE1_CXX_C_SOURCES)	\
+
+ARCH_USER_H_INCS	=	\
+	$(UNIX_USER_H_INCS)	\
+	$(CLUE1_USER_H_INCS)	\
+
+ARCH_USER_STD_CXX_INCS	=	\
+	ios			\
+	streambuf		\
+	iostream		\
+	strstream		\
+	fstream			\
+	iomanip			\
+
+ARCH_USER_HH_INCS	=		\
+	FileStat.hh			\
+	ClueExceptions.hh		\
+	ClueConfig.hh			\
+	$(ARCH_USER_STD_CXX_INCS)	\
+	$(UNIX_USER_HH_INCS)		\
+	$(CLUE1_USER_HH_INCS)		\
+
+ARCH_USER_II_INCS	=		\
+	FileStat.ii			\
+	$(UNIX_USER_II_INCS)		\
+	$(CLUE1_USER_II_INCS)		\
+
+ARCH_C_HEADERS		=		\
+	$(UNIX_C_HEADERS)		\
+	$(CLUE1_C_HEADERS)		\
+
+ARCH_CXX_HEADERS	=		\
+	$(UNIX_CXX_HEADERS)		\
+	$(CLUE1_CXX_HEADERS)		\
+
+ARCH_CXX_INLINES	=		\
+	$(UNIX_CXX_INLINES)		\
+	$(CLUE1_CXX_INLINES)		\
+
+
+#
+# $Log$
+# Revision 1.1  1996/04/27 13:16:01  houghton
+# New location for sub makefiles in MakeConfigs 5
+#
+# Revision 2.5  1996/03/04 11:39:03  houghton
+# Add flag for MIT Threads.
+#
+# Revision 2.4  1995/12/31 11:23:44  houghton
+# Cleanup.
+#
+# Revision 2.3  1995/12/04 11:19:38  houghton
+# Changed to use MakeConfig 4.
+#
+#
