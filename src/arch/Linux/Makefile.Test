@@ -1,9 +1,32 @@
+#
+# Title:        Makefile.Test
+# Project:	StlUtils
+# Desc:
+# 
+#   
+# 
+# Notes:
+# 
+# Author:	Paul A. Houghton - (paul.houghton@wcom.com)
+# Created:	09/17/98 08:27
+#
+# Revision History: (See end of file for Revision Log)
+#
+#   Last Mod By:    $Author$
+#   Last Mod:	    $Date$
+#   Version:	    $Revision$
+#
+#   $Id$
+# 
+
 TEST_DATA_DIR	= ../data
 TEST_USER	= $(USER)
 TEST_GROUP	= local
 TEST_UID	= 50
 TEST_GID	= 62
 
+
+ARCH_DEFINES	= -D_XOPEN_SOURCE=1
 
 ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
 STLUTILS_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src \
@@ -18,3 +41,17 @@ STLUTILS_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/StlUtils
 ARCH_DEBUG_LIBS	=  -lGnuRegex # -lrwtool
 ARCH_DEFAULT_LIBS = -lGnuRegex
 # ARCH_LIBS	= -lpthreads
+
+#
+# $Log$
+# Revision 4.2  1998/10/13 16:31:28  houghton
+# Added ARCH_DEFINE _XOPEN_SOURCE=1
+# Cleanup.
+#
+#
+
+# Local Variables:
+# mode:makefile
+# End:
+
+
