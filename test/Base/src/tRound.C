@@ -1,3 +1,19 @@
+//
+// File:        tRound.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for Round functions
+//
+// Source Header Version: 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/31/96 07:30
+//
+// Revision History: (See end of file for Revision Log)
+//
+
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -34,6 +50,8 @@ tRound( LibTest & tester )
     TEST( Round( t, 5 ) == 15 );
     t = 14;
     TEST( Round( t, 5 ) == 15 );
+
+    TEST( Round( 23, 5 ) == 25 ); // doc example
   }
 
   {
@@ -82,6 +100,8 @@ tRound( LibTest & tester )
     TEST( RoundUp( t, 5 ) == 15 );
     t = 14;
     TEST( RoundUp( t, 5 ) == 15 );
+
+    TEST( RoundUp( 22, 5 ) == 25 ); // doc example
   }
   
   {
@@ -107,7 +127,17 @@ tRound( LibTest & tester )
     TEST( RoundDown( t, 5 ) == 10 );
     t = 14;
     TEST( RoundDown( t, 5 ) == 10 );
+
+    TEST( RoundDown( 23, 5 ) == 20 ); // doc example
   }
 
   return( true );
 }
+
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:50:49  houghton
+// Added header comments.
+// Chagned to test everything in RegexScan.hh.
+//
+//
