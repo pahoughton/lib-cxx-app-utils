@@ -13,6 +13,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1996/11/19 22:09:37  houghton
+// Bug-Fix: had to move operator << to before Param::abort because
+//     it is used by Param::abort.
+// Bug-Fix: cleanup abort output.
+//
 // Revision 3.2  1996/11/19 12:25:48  houghton
 // Major re-work to use 'string'
 // Major re-work to use vector<string> for managing argv.
@@ -172,6 +177,13 @@ Param::allArgs( void ) const
 }
 
 inline
+ostream &
+operator<<( ostream & dest, const Param & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+inline
 void
 Param::abort(
   int		exitStatus,
@@ -184,27 +196,23 @@ Param::abort(
     mesgDest << *this << endl;
 
   if( exitStatus )
-    mesgDest << "Aborted(" << exitStatus << ") : ";
+    mesgDest << "Aborted(" << exitStatus << ")";
   else
-    mesgDest << "Exited: ";
+    mesgDest << "Exited";
   
   if( srcFile )
-    mesgDest << srcFile << ':' << srcLine << ' ';
+    mesgDest << ": " << srcFile << ':' << srcLine << ' ';
 
   if( log().rdbuf()->is_file() )
-    mesgDest << "see log (" << log().rdbuf()->getLogFileName()
-	     << ") for more info" << endl;
-
+    mesgDest << ": see log (" << log().rdbuf()->getLogFileName()
+	     << ") for more info." << endl;
+  else
+    mesgDest << '.' << endl;
+  
   exit( exitStatus );
 }
 
 
-inline
-ostream &
-operator<<( ostream & dest, const Param & obj )
-{
-  return( obj.toStream( dest ) );
-}
 
 #if defined( inline )
 #undef inline
