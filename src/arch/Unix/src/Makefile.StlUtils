@@ -68,10 +68,13 @@ UNIX_CXX_INLINES	=
 UNIX_GENERATED_SOURCES = $(UNIX_DIR)/_SignalStrings.h
 
 $(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
-	$(hide) $(UNIX_DIR)/GenSigList.sh $(CC) $@
+	$(hide) $(UNIX_DIR)/GenSigList.sh '$(CC)' $@
 
 #
 # $Log$
+# Revision 4.5  1998/07/20 11:29:16  houghton
+# Bug-Fix: had to quote '' $(CC).
+#
 # Revision 4.4  1998/03/08 18:08:00  houghton
 # Added File class for copy and move.
 #
