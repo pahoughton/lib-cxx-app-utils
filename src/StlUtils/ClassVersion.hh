@@ -5,7 +5,7 @@
 // Project:	Clue
 // Desc:        
 //
-//  Provide information about a class's version that is accessible
+//  Provides information about a class's version that is accessible
 //  at run time.
 //
 // Quick Start: - short example of class usage
@@ -33,7 +33,7 @@
 //
 //    See ClueVersion.hh for another example of a helper macro.
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul_houghton@wcom.com)
 // Created:     10/04/95 07:04
 //
 // Revision History: (See end of file for Revision Log)
@@ -78,6 +78,11 @@ public:
 
   inline const char *	getClassName( void ) const;
   inline const char *	getVersion( bool withPrjVer = true ) const;
+
+  inline		operator const char * () const;
+  
+  friend
+  inline ostream & operator << ( ostream & dest, const ClassVersion & obj );
 
   static const ClassVersion version;
   
@@ -159,7 +164,8 @@ const ClassVersion className_::version( #className_,			      \
 //
 //  Public Interface:
 //
-//	inline const char *
+//	inline
+//	const char *
 //	getVer( bool withPrjVer ) const;
 //	    Return a string description of the class's version. If
 //	    withPrjVer == true, the entire description will be returned.
@@ -168,37 +174,47 @@ const ClassVersion className_::version( #className_,			      \
 //	const char *
 //	getVer( bool withPrjVer, const char * baseVerString ) const;
 //	    Same as getVer( bool ) but baseVerString is appended to
-//	    the output string. This alows you to provide full version
+//	    the output string. This allows you to provide full version
 //	    info for all base classes and contained classes. So, if you
 //	    had 'class Sub : public Base { Type var1 }' you could call
 //	    'Sub::version.getVer( true, Base::version.getVer( false,
 //	    Type::version.getVer( false )))'. See Exmple below for more
 //	    info.
 //
-//	inline const char *
+//	inline
+//	const char *
 //	getClassVer( void ) const
 //	    Return the string description of the class's version string
 //	    only. Same as getVer( false ).
 //
-//	inline const char *
+//	inline
+//	const char *
 //	getPrjVer( void ) const;
 //	    Return the project version string only.
 //
-//	inline unsigned long
+//	inline
+//	unsigned long
 //	getPrjVerNum( void ) const;
 //	    Return the project's version number. This is the same value
 //	    passed to the constructor as 'prjVer';
 //
-//	inline const char *
+//	inline
+//	const char *
 //	getVersion( bool withPrjVer = true ) const;
 //	    Return the version information for ClassVersion. Calls
 //	    ClassVersion::version.getVer( withPrjVer );
 //
-//  	inline const char *
+//  	inline
+//	const char *
 //  	getClassName( void ) const;
 //  	    Return the name of this class (i.e. ClassVersion)
 //
-//	static const ClassVersion version;
+//	inline
+//	operator const char * () const;
+//	    Return the value from getVer( true ).
+//
+//	static
+//	const ClassVersion version;
 //	    This is the version info for ClassVersion.
 //
 //  Protected Interface:
@@ -206,6 +222,11 @@ const ClassVersion className_::version( #className_,			      \
 //  Private Methods:
 //
 //  Other Associated Functions:
+//
+//	inline
+//  	ostream &
+//  	operator << ( ostream & dest, const ClassVersion & obj );
+//  	    Put the string returned by getVer( true ) on the ostream.
 //
 //  Example:
 //
@@ -236,11 +257,25 @@ const ClassVersion className_::version( #className_,			      \
 //
 // See Also:
 //
-//  ClueConfig(3)
+//  ClueVersion.hh
+//
+// Files:
+//
+//  ClassVersion.hh, ClassVersion.ii,
+//  ClueConfig.hh, ClueVersion.hh,
+//  libClue.a
+//
+// Documented Ver:  2.5
+// Tested Ver:	    2.5
 //
 // Revision Log:
 //
 // $Log$
+// Revision 2.5  1996/10/28 11:55:23  houghton
+// Added: ostream & operator << ( ostream & dest, const ClassVersion & obj )
+// Added: operator const char * ()
+// Edit and verify header docuementation for man page generation.
+//
 // Revision 2.4  1996/10/25 12:47:10  houghton
 // Added: getClassName.
 // Updated documentation.
@@ -260,4 +295,3 @@ const ClassVersion className_::version( #className_,			      \
 //
 
 #endif // ! def _ClassVersion_hh_ 
-
