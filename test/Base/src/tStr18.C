@@ -1,12 +1,7 @@
-#if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#endif
+#include <cstring>
 
 bool
 tStr18( LibTest & tester )
