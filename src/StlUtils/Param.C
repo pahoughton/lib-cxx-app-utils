@@ -48,7 +48,8 @@ Param::Param(
   ios::open_mode    logOpenMode,
   int		    logOpenProt
   )
-  : appLog( cout, logLevel ),
+  : versionText( appVersion ? appVersion : "version unknown" ),
+    appLog( cout, logLevel ),
     helpFlag( false ),
     logMode( logOpenMode ),
     logProt( logOpenProt ),
@@ -60,9 +61,6 @@ Param::Param(
     logLevelStamp( true ),
     logLocStamp( true )
 {
-  if( appVersion )
-    ver = appVersion;
-    
   if( _LibLog  == 0 )
     _LibLog = &appLog;
 
@@ -84,22 +82,19 @@ Param::Param(
   if( useDefaultLogFn )
     logFile << appName() << ".log" ;
       
-  helpString += "\n";
-  helpString += mainArgv[0];
-  helpString += " help: \n\n";
-
-  if( ver.size() )
-    {
-      helpString += "  Ver: ";
-      helpString += ver;
-      helpString += "\n\n";
-    }
 }
 
 Param::~Param( void )
 {
   if( _LibLog == &appLog )
     _LibLog = 0;
+}
+
+void
+Param::appendHelp( const char * text )
+{
+  if( text )
+    helpText = text;
 }
 
 const char *
@@ -117,7 +112,7 @@ Param::appFullName( void ) const
 const char *
 Param::appVersion( void ) const
 {
-  return( ver.c_str() );
+  return( versionText.c_str() );
 }
 
 pid_t
@@ -152,6 +147,25 @@ Param::parseArgs( void )
 	   "show usage help.",
 	   "help" );
 
+  bool	verFlag = false;
+  argFlag( verFlag,
+	   "show version and exit",
+	   "version" );
+
+  if( verFlag && ! helpFlag )
+    {
+      if( versionText.size() )
+	{
+	  cout << "Version: " << versionText;
+	}
+      else
+	{
+	  cout << "Version: (unknown)";
+	}
+      cout << endl;
+      exit( 0 );
+    }
+  
   argStr( logFile,
 	  "log file name.",
 	  "logfile",
@@ -279,8 +293,12 @@ Param::readArgs( istream & src )
 	  
 	  Str::size_type valuePos = line.find_first_not_of( " \t",
 							    delimPos );
+							   
 	  if( valuePos != Str::npos )
-	    allFileArgs.push_back( line.substr( valuePos ) );
+	    {
+	      Str::size_type valueEnd = line.find_last_not_of( "# \t" );
+	      allFileArgs.push_back( line.substr( valuePos, valueEnd ) );
+	    }
 	}
       else
 	{
@@ -917,6 +935,22 @@ Param::getVersion( bool withPrjVer ) const
 ostream &
 Param::toStream( ostream & dest ) const
 {
+  dest << "\n" << appFullName() << " usage help: \n\n";
+
+  if( versionText.size() )
+    {
+      dest << "  Version: " << versionText;
+    }
+  else
+    {
+      dest << "  Version: (unknown)";
+    }
+
+  dest << "\n\n";
+
+  if( helpText.size() )
+    dest << helpText << "\n\n";
+	
   dest << helpString;
 
   if( fileArgs.size() )
@@ -1115,6 +1149,12 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.16  1997/08/08 13:23:58  houghton
+// Added appendHelp().
+// Added -version support.
+// Rewored help output.
+// Changed readArgs to support comment to end of line.
+//
 // Revision 3.15  1997/07/28 16:46:07  houghton
 // Added default log file support.
 //
