@@ -12,15 +12,38 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:22:39  houghton
-// New Implementation
+// Revision 1.2  1995/11/05 13:48:12  houghton
+// New implementation
 //
 //
 
 inline
-Directory::Directory( const char * path, bool recurs )
+Directory::DirField::DirField( void )
 {
-  set( path, recurs );
+  refCount = 1;
+  comp = Equal;
+}
+
+inline
+void
+Directory::DirField::addRef( void )
+{
+  refCount++;
+}
+
+inline
+bool
+Directory::DirField::delRef( void )
+{
+  if( refCount > 0 )
+    refCount--;
+  return( refCount == 0 );
+}
+
+inline
+Directory::Directory( const char * path, Options options )
+{
+  set( path, options );
 }
 
 inline
