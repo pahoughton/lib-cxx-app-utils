@@ -87,8 +87,9 @@
 #define STLUTILS_U32_SIZE_T	STLUTILS_LONG_U32_T
 #define STLUTILS_S32_SSIZE_T	STLUTILS_LONG_S32_T
 
-// #define STLUTILS_LITTLE_ENDIAN	1   ie 1234
-#define STLUTILS_BIG_ENDIAN	1   // ie 4321 
+#define STLUTILS_ENDIAN	     1234
+// #define STLUTILS_LITTLE_ENDIAN	1   // ie 4321
+#define STLUTILS_BIG_ENDIAN	1   // ie 1234
 #define STLUTILS_DO_NET_CONV	0   // ie do NOT need to do Net2Host & Host2Net
 
 // Constants
@@ -162,6 +163,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/10/07 13:56:43  houghton
+// Added STLUTILS_ENDIAN.
+//
 // Revision 4.3  1999/05/09 13:07:41  houghton
 // Added long long support.
 //
