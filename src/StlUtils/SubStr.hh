@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/05/25 12:36:22  houghton
+// Added of method. returns owning Str.
+//
 // Revision 2.5  1996/05/03 16:13:49  houghton
 // AIX Port cleanup.
 //
@@ -71,6 +74,9 @@ public:
   inline size_t    	size( void ) const; 
   inline size_t    	length( void ) const; 
   inline bool	    	empty( void ) const; 
+
+  inline Str &		of( void );
+  inline const Str &	of( void ) const;
   
   inline bool	to( bool &   	     dest ) const;
   inline bool	to( int &   	     dest, unsigned short base = 0 ) const; 
