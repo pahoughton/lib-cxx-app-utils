@@ -1,55 +1,30 @@
 //
 // File:        Param.C
+// Project:	Clue
 // Desc:        
 //              
+//  Compiled sources for the Param class
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     01/26/95 14:43 
 //
-// Revision History:
-//
-// $Log$
-// Revision 3.1  1996/11/14 01:23:53  houghton
-// Changed to Release 3
-//
-// Revision 2.7  1996/11/11 13:35:39  houghton
-// Change to call rdbuf()-freeze beause AIX strstream does NOT have
-//     a freeze method in its strstream.
-//
-// Revision 2.6  1996/11/08 11:46:04  houghton
-// Removed Support for Str and DateTime.
-//     (as required by Mike Alexander)
-//
-// Revision 2.5  1996/10/22 22:07:00  houghton
-// Change: Added locStamp to turn on/off output of src file & line.
-// Change: Added Support for Rogue Tools++ RWCString, RWDate & RWTime.
-// Change: Rename arg methods for unsigned types.
-//
-// Revision 2.4  1996/04/27 13:07:54  houghton
-// Added support for LibLog.
-//
-// Revision 2.3  1996/02/29 19:06:34  houghton
-// *** empty log message ***
-//
-// Revision 2.2  1995/12/04 11:18:23  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:53  houghton
-// Change to Version 2
-//
-// Revision 1.5  1995/11/05  15:28:43  houghton
-// Revised
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 
-#if !defined( CLUE_SHORT_FN )
 #include "Param.hh"
 #include "StringUtils.hh"
-#else
-#include "Param.hh"
-#include "StrUtil.hh"
+
+#if defined( CLUE_HAS_STR )
+#include <Str.hh>
 #endif
+
+#if defined( CLUE_HAS_DATETIME )
+#include <DateTime.hh>
+#endif
+
+#include <rw/rwdate.h>
+#include <rw/rwtime.h>
 
 CLUE_VERSION(
   Param,
@@ -59,18 +34,24 @@ CLUE_VERSION(
 #include <Param.ii>
 #endif
 
-// static char DefaultLogLevel[] = DEFAULT_LOGLEVEL;
-
+const char * Param::ErrorStrings[] =
+{
+  "ok",
+  "range",
+  "conversion",
+  "no value for arg",
+  "UNDEFIEND",
+  0
+};
 
 Param::Param(
-  int &		mainArgc,
-  char **	mainArgv,
-  const char *	ver,
-  const char *	logLevel
+  int 		mainArgc,
+  char *	mainArgv[],
+  const char *	version,
+  const char *	logLevel,
+  bool		parse
   )
-  : argc( mainArgc ),
-    argv( mainArgv ),
-    appLog( cout, logLevel ),
+  : appLog( cout, logLevel ),
     helpFlag( false ),
     logOutputLevel( logLevel ),
     logTee( false ),
@@ -78,31 +59,46 @@ Param::Param(
     logTrimSize( 0 ),
     logTimeStamp( true ),
     logLevelStamp( true ),
-    logLocStamp( true ),
-    ok( true )
+    logLocStamp( true )
 {
+  if( version )
+    ver = version;
+    
   if( _LibLog  == 0 )
     _LibLog = &appLog;
-  
-  argv = mainArgv;
 
+  for( int a = 0; a < mainArgc; ++a )
+    {
+      string tmp = mainArgv[a];
+
+      allArgv.push_back( tmp );
+      argv.push_back( tmp );
+    }
+  
   helpString += "\n";
   helpString += appName();
   helpString += " help: \n\n";
 
-  if( ver )
+  if( ver.size() )
     {
       helpString += "  Ver: ";
       helpString += ver;
       helpString += "\n\n";
     }
 
-  ok = true;
-  
-  //
-  // set The standard values;
-  //
+  if( parse )
+    parseArgs();
+}
 
+Param::~Param( void )
+{
+  if( _LibLog == &appLog )
+    _LibLog = 0;
+}
+
+bool
+Param::parseArgs( void )
+{
   argFlag( helpFlag,
 	   "show usage help.",
 	   "help" );
@@ -117,21 +113,16 @@ Param::Param(
 	  "loglevel",
 	  "LOG_LEVEL" );
 
+  argStr( logFilter,
+	  "regex for filtering log enties",
+	  "logfilter",
+	  "LOG_FILTER" );
+  
   argFlag( logTee,
 	   "Tee log output to cerr.",
 	   "logtee",
 	   "LOG_TEE" );
 
-  argULong( logMaxSize,
-	  "log file max size.",
-	  "logmax",
-	  "LOG_MAX" );
-
-  argULong( logTrimSize,
-	   "log file trim size.",
-	   "logtrim",
-	   "LOG_TRIM" );
-  
   argBool( logTimeStamp,
 	   "output time stamp with log entry.",
 	   "logtime",
@@ -147,18 +138,28 @@ Param::Param(
 	   "logloc",
 	   "LOG_LOC" );
   
+  argULong( logMaxSize,
+	  "log file max size.",
+	  "logmax",
+	  "LOG_MAX" );
+
+  argULong( logTrimSize,
+	   "log file trim size.",
+	   "logtrim",
+	   "LOG_TRIM" );
+  
+  if( logFilter.size() )
+    appLog.filter( logFilter.c_str() );
 	  
-  if( logFile.length() )
-    {
-      appLog.setFileName( logFile );
+  if( logFile.size() )
+    appLog.setFileName( logFile.c_str() );
 
-      if( logTrimSize )
-	appLog.setTrimSize( logTrimSize );
+  if( logTrimSize )
+    appLog.setTrimSize( logTrimSize );
       
-      if( logMaxSize )
-	appLog.setMaxSize( logMaxSize );
-    }
-
+  if( logMaxSize )
+    appLog.setMaxSize( logMaxSize );
+  
   if( logTee )
     appLog.tee( cerr );
 
@@ -166,10 +167,70 @@ Param::Param(
   appLog.setLevelStamp( logLevelStamp );
   appLog.setLocStamp( logLocStamp );
     
-  appLog.setOutputLevel( logOutputLevel );
+  appLog.setOutputLevel( logOutputLevel.c_str() );
 
+  return( good );
+}  
+
+bool
+Param::parseArgs( int argCount, char * argValue[] )
+{
+  allArgv.erase( allArgv.begin(), allArgv.end() );
+  argv.erase( argv.begin(), argv.end() );
+  
+  for( int a = 0; a < argCount; ++a )
+    {
+      string	tmp = argValue[a];
+      
+      allArgv.push_back( tmp );
+      argv.push_back( tmp );
+    }
+
+  return( parseArgs() );
 }
 
+  
+  
+bool
+Param::readArgs( istream & src )
+{
+  argv.erase( argv.begin(), argv.end() );
+  
+  allArgv.erase( allArgv.begin(), allArgv.end() );
+
+  string    line;
+
+  while( getline( src, line ).good() )
+    {
+      // look for the first non white space char 
+      string::size_type	pos = line.find_first_not_of( " \t" );
+
+      // comment or blank line
+      if( pos == string::npos || line[pos] == '#' )
+	continue;
+
+      string::size_type	delimPos = line.find_first_of( " \t", pos );
+
+      if( delimPos != string::npos )
+	{
+	  allArgv.push_back( line.substr( pos, delimPos - 1 ) );
+	  
+	  string::size_type valuePos = line.find_first_not_of( " \t",
+							    delimPos );
+	  if( valuePos != string::npos )
+	    allArgv.push_back( line.substr( valuePos ) );
+	}
+      else
+	{
+	  allArgv.push_back( line.substr( pos ) );
+	}
+    }
+
+  argv = allArgv;
+  parseArgs();
+  
+  return( good() );
+}
 
 bool
 Param::argStr(
@@ -179,34 +240,54 @@ Param::argStr(
   const char * 	envVar
   )
 {
-  size_t hStart = setHelp( argId, desc, envVar );
-  
-  char * argValue = getArgValue( argId, envVar );
+  string    arg	    = getArgValue( argId, envVar );
 
-  if( argValue ) dest = argValue;
-
-  if( dest )
+  if( arg.size() )
     {
-      if( (( helpString.length() - hStart ) + strlen( dest )) < 80 )
-	{
-	  helpString += " '";
-	  helpString += dest;
-	  helpString += "'\n";
-	}
-      else
-	{
-	  helpString += "\n            '";
-	  helpString += dest;
-	  helpString += "'\n";
-	}
-    }
-  else
-    {
-      helpString += "''\n";
+      dest = new char[ arg.size() + 5 ];
+      arg.copy( dest, arg.size() + 2 );
+      dest[ arg.size() ] = 0;
     }
 
-  return( argValue != 0 );
-  
+  appendHelp( argId, desc, envVar, dest );
+
+  return( arg.size() != 0 );
+}
+
+bool
+Param::argStr(
+  string &	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  string    arg	    = getArgValue( argId, envVar );
+
+  if( arg.size() )
+    dest = arg;
+
+  appendHelp( argId, desc, envVar, dest.data() );
+
+  return( arg.size() != 0 );
+}
+
+bool
+Param::argStr(
+  RWCString &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  string    arg	    = getArgValue( argId, envVar );
+
+  if( arg.size() )
+    dest = arg.c_str();
+
+  appendHelp( argId, desc, envVar, dest );
+
+  return( arg.size() != 0 );
 }
 
 #if defined( CLUE_HAS_STR )
@@ -218,109 +299,838 @@ Param::argStr(
   const char * 	envVar
   )
 {
-  size_t hStart = setHelp( argId, desc, envVar );
-  
-  char * argValue = getArgValue( argId, envVar );
+  string    arg	     = getArgValue( argId, envVar );
 
-  if( argValue ) dest = argValue;
+  if( arg.size() )
+    dest = arg.c_str();
 
-  if( dest.length() )
-    {
-      if( (( helpString.length() - hStart ) +  dest.length()) < 80 )
-	{
-	  helpString << " '" << dest << "'\n";
-	}
-      else
-	{
-	  helpString << '\n'
-		     << "            '" << dest << "'\n";
-	}
-    }
-  else
-    {
-      helpString << "''\n";
-    }
+  appendHelp( argId, desc, envVar, dest );
 
-  return( argValue != 0 );
-  
+  return( arg.size() != 0 );
 }
-#endif
+#else // !def CLUE_HAS_STR
+
+class Str
+{
+private:
+  int dummy;
+};
 
 bool
 Param::argStr(
-  RWCString &  	dest,
+  Str &  	CLUE_UNUSED( dest ),
   const char * 	desc,
   const char *  argId,
   const char * 	envVar
   )
 {
-  size_t hStart = setHelp( argId, desc, envVar );
+  _LLgLock;
+  _LLg( LogLevel::Error )
+    << Param::getClassName()
+    << "::argStr( Str &, const char *, const char *, const char * ) - "
+    << "called but CLUE_HAS_STR is undefined!"
+    << endl;
+  _LLgUnLock;
   
-  char * argValue = getArgValue( argId, envVar );
+  appendHelp( argId, desc, envVar, "CLUE STR ERROR!!!" );
+  return( false );
+}
+#endif // def CLUE_HAS_STR
 
-  if( argValue ) dest = argValue;
+template< class NumT >
+inline
+bool
+_ClueParamArgNum(
+  string &	arg,
+  NumT &  	dest,
+  NumT	    	minVal,
+  NumT	    	maxVal,
+  string &	errDesc
+  )
+{
+  NumT	    tmp  = 0;
 
-  if( dest.length() )
+  bool conv = StringTo( tmp, arg.c_str() );
+
+  if( conv )
     {
-      if( (( helpString.length() - hStart ) + strlen( dest )) < 80 )
+      if( tmp >= minVal && tmp <= maxVal )
 	{
-	  helpString += " '";
-	  helpString += dest;
-	  helpString += "'\n";
+	  dest = tmp;
 	}
       else
 	{
-	  helpString += "\n            '";
-	  helpString += dest;
-	  helpString += "'\n";
+	  errDesc = ": '";
+	  errDesc += StringFrom( tmp );
+	  errDesc += "' not between '";
+	  errDesc += StringFrom( minVal );
+	  errDesc += "' and '";
+	  errDesc += StringFrom( maxVal );
+	  errDesc += "'.";
 	}
+    }
+  
+  return( conv );
+}
+
+#define PARAM_ARG_NUM( Name, NumType )					      \
+bool									      \
+Param::Name(								      \
+  NumType &  	dest,							      \
+  const char * 	desc,							      \
+  const char *  argId,							      \
+  const char * 	envVar,							      \
+  NumType    	minVal,							      \
+  NumType    	maxVal							      \
+  )									      \
+{									      \
+  string    arg	 = getArgValue( argId, envVar );			      \
+  bool	    conv = false;						      \
+  									      \
+  if( arg.size() )							      \
+    {									      \
+      NumType	tmp = 0;						      \
+									      \
+      conv = StringTo( tmp, arg.c_str() );				      \
+									      \
+      if( conv )							      \
+	{								      \
+	  if( tmp >= minVal && tmp <= maxVal )				      \
+	    {								      \
+	      dest = tmp;						      \
+	    }								      \
+	  else								      \
+	    {								      \
+	      string tmpErrDesc;					      \
+									      \
+	      tmpErrDesc = ": '";					      \
+	      tmpErrDesc += StringFrom( tmp );				      \
+	      tmpErrDesc += "' not between '";				      \
+	      tmpErrDesc += StringFrom( minVal );			      \
+	      tmpErrDesc += "' and '";					      \
+	      tmpErrDesc += StringFrom( maxVal );			      \
+	      tmpErrDesc += "'.";					      \
+									      \
+	      setError( E_RANGE, argId, envVar, tmpErrDesc.c_str() );	      \
+	      conv = false;						      \
+	    }								      \
+	}								      \
+      else								      \
+	{								      \
+	  string tmpErrDesc;						      \
+									      \
+	  tmpErrDesc = "'";						      \
+	  tmpErrDesc += arg;						      \
+	  tmpErrDesc += "'";						      \
+									      \
+	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );	      \
+	}								      \
+    }									      \
+									      \
+  appendHelp( argId, desc, envVar, StringFrom( dest ) );		      \
+									      \
+  return( conv );							      \
+}
+
+PARAM_ARG_NUM( argInt, int )
+PARAM_ARG_NUM( argUInt, unsigned int )
+PARAM_ARG_NUM( argShort, short )
+PARAM_ARG_NUM( argUShort, unsigned short )
+PARAM_ARG_NUM( argLong, long )
+PARAM_ARG_NUM( argULong, unsigned long )
+
+  ;
+
+bool
+Param::argDouble(
+  double &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  string    arg	 = getArgValue( argId, envVar );
+  bool	    conv = false;
+
+  if( arg.size() )
+    {
+      double tmp;
+
+      conv = StringTo( tmp, arg.c_str() );
+
+      if( conv )
+	{
+	  dest = tmp;
+	}
+      else
+	{
+	  string tmpErrDesc;
+
+	  tmpErrDesc = "'";
+	  tmpErrDesc += arg;
+	  tmpErrDesc += "'";
+
+	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );
+	}
+      
+    }
+
+  appendHelp( argId, desc, envVar, StringFrom( dest ) );
+
+  return( conv );
+}
+
+bool
+Param::argBool(
+  bool &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  string    arg	 = getArgValue( argId, envVar );
+  bool	    conv = false;
+
+  if( arg.size() )
+    {
+      bool tmp;
+
+      conv = StringTo( tmp, arg.c_str() );
+
+      if( conv )
+	{
+	  dest = tmp;
+	}
+      else
+	{
+	  string tmpErrDesc;
+
+	  tmpErrDesc = "'";
+	  tmpErrDesc += arg;
+	  tmpErrDesc += "'";
+
+	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );
+	}
+    }
+
+  appendHelp( argId, desc, envVar,
+	      (dest ? "true" : "false" ) );
+
+  return( conv );
+}
+
+bool
+Param::argFlag(
+  bool &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  dest = getArgFlag( argId, envVar );
+  
+  appendHelp( argId, desc, envVar,
+	      (dest ? "true" : "false" ) );
+
+  return( dest );
+}
+
+bool
+Param::argDateTime(
+  time_t &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  RWTime    tmp;
+  bool	    conv = argDateTime( tmp, desc, argId, envVar );
+
+  if( conv )
+    {
+      struct tm tmTime;
+      tmp.extract( &tmTime, RWZone::utc() );
+      
+      dest = mktime( &tmTime );
+    }
+
+  return( conv );
+}
+
+#if defined( CLUE_HAS_DATETIME )
+
+bool
+Param::argDateTime(
+  DateTime &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  bool	    conv = false;
+  
+  string    arg	 = getArgValue( argId, envVar );
+
+  if( arg.size() )
+    {
+      DateTime	dt;
+      dt.setValid( arg.c_str() );
+      
+      if( dt.good() )
+	{
+	  dest = dt;
+	}
+      else
+	{
+	  string tmpErrDesc;
+
+	  tmpErrDesc = "'";
+	  tmpErrDesc += arg;
+	  tmpErrDesc += "'";
+
+	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );
+	}
+    }
+
+  appendHelp( argId, desc, envVar, dest );
+
+  return( conv );
+}
+
+#else // def CLUE_HAS_DATETIME
+
+class DateTime
+{
+private:
+  int dummy;
+};
+
+bool
+Param::argDateTime(
+  DateTime &  	CLUE_UNUSED( dest ),
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  _LLgLock;
+  _LLg( LogLevel::Error )
+    << Param::getClassName()
+    << "::argDateTime( DateTime &, const char *, const char *, const char * ) - "
+    << "called but CLUE_HAS_DATETIME is undefined!"
+    << endl;
+  _LLgUnLock;
+  
+  appendHelp( argId, desc, envVar, "CLUE DATETIME ERROR!!!" );
+  
+  return( false );
+}
+#endif // def CLUE_HAS_DATETIME
+
+
+bool
+Param::argDateTime(
+  RWTime &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  bool	    conv = false;
+  
+  string    arg	 = getArgValue( argId, envVar );
+
+  if( arg.size() )
+    {
+      bool	    convError = false;
+      RWDate    dt;
+      bool	dtIsSet = false;
+  
+      if( arg.find( '/' ) != string::npos )
+	{
+	  RWCString dtStr( arg.c_str() );
+	  RWDate	dtTmp( dtStr );
+
+	  if( dtTmp.isValid() )
+	    dt = dtTmp;
+	  else
+	    convError = true;
+
+	  dtIsSet = true;
+	}
+
+      RWTime    tm( 0, 0, 0 );
+  
+      if( ! convError )
+	{
+	  string::size_type	tPos = arg.find( ':' );
+
+	  if( tPos != string::npos )
+	    {
+	      string::size_type begTimePos;
+	  
+	      if( isdigit( arg[ tPos - 2 ] ) )
+		begTimePos = tPos - 2;
+	      else
+		begTimePos = tPos - 1;
+
+	      RWCString tmStr( arg.c_str() + begTimePos );
+
+	      RWTime tmTmp( dt, tmStr );
+
+	      if( tmTmp.isValid() )
+		tm = tmTmp;
+	      else
+		convError = true;
+	    }
+	  else
+	    {
+	      if( dtIsSet )
+		tm = dt;
+	      else
+		convError = true;
+	    }
+	}
+
+      if( ! convError )
+	{
+	  dest = tm;
+	  conv = true;
+	}
+      else
+	{
+	  string tmpErrDesc;
+	  
+	  tmpErrDesc = "'";
+	  tmpErrDesc += arg;
+	  tmpErrDesc += "'";
+	  
+	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );
+	}
+    }
+
+  appendHelp( argId, desc, envVar, dest.asString() );
+
+  return( conv );
+}
+
+bool
+Param::argDate(
+  RWDate &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  bool	    conv = false;
+  
+  string    arg	 = getArgValue( argId, envVar );
+
+  if( arg.size() )
+    {
+      RWCString dtStr( arg.c_str() );
+      RWDate	dtTmp( dtStr );
+
+      if( dtTmp.isValid() )
+	{
+	  dest = dtTmp;
+	  conv = true;
+	}
+      else
+	{
+	  string tmpErrDesc;
+	  
+	  tmpErrDesc = "'";
+	  tmpErrDesc += arg;
+	  tmpErrDesc += "'";
+	  
+	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );
+	}
+    }
+  
+  appendHelp( argId, desc, envVar, dest.asString() );
+
+  return( true );
+}
+
+#if defined( CLUE_HAS_DATETIME )
+
+bool
+Param::argDate(
+  DateTime &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  bool	    conv = false;
+  
+  string    arg	 = getArgValue( argId, envVar );
+
+  if( arg.size() )
+    {
+      DateTime	dt;
+      dt.setValid( arg.c_str() );
+      
+      if( dt.good() )
+	{
+	  dest = dt;
+	}
+      else
+	{
+	  string tmpErrDesc;
+
+	  tmpErrDesc = "'";
+	  tmpErrDesc += arg;
+	  tmpErrDesc += "'";
+
+	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );
+	}
+    }
+
+  appendHelp( argId, desc, envVar, dest );
+
+  return( conv );
+}
+
+#else // def CLUE_HAS_DATETIME
+
+bool
+Param::argDate(
+  DateTime &  	CLUE_UNUSED( dest ),
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  _LLgLock;
+  _LLg( LogLevel::Error )
+    << Param::getClassName()
+    << "::argDate( DateTime &, const char *, const char *, const char * ) - "
+    << "called but CLUE_HAS_DATETIME is undefined!"
+    << endl;
+  _LLgUnLock;
+  
+  appendHelp( argId, desc, envVar, "CLUE DATETIME ERROR!!!" );
+  
+  return( false );
+}
+
+#endif // def CLUE_HAS_DATETIME
+
+bool
+Param::argTime(
+  RWTime &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  return( argDateTime( dest, desc, argId, envVar ) );
+}
+
+bool
+Param::argTime(
+  DateTime &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  return( argDate( dest, desc, argId, envVar ) );
+}
+
+
+string
+Param::getArgValue( const char * argId, const char * envVar )
+{
+  const char *	envValue = env( envVar );
+  string	value;
+
+  if( envValue )
+    value = envValue;
+
+  if( count() > 1 && argId && argId[0] )
+    {
+      Args::iterator	them = argv.begin();
+      for( ; them != argv.end(); ++ them )
+	{
+	  if( (*them).size() > 1 &&
+	      (*them)[0] == '-' && 
+	      strcmp( (*them).c_str() + 1, argId ) == 0 )
+	    {
+
+	      // found it now get the value.
+	      // and erase it from the vector.
+	      for( them++; them != argv.end(); ++ them )
+		{
+		  if( (*them).size() > 1 &&
+		      (*them)[0] != '-' )
+		    {
+		      value = *them;
+		      argv.erase( them );
+		      break;
+		    }
+		}
+
+	      if( them == argv.end() )
+		{
+		  // no value for argId
+		  setError( E_NO_VALUE, argId, envVar, 0 );
+		}
+	      
+	      break;
+	      
+	    }
+	}
+      // if I found it and got it's value,
+      // then re-find and erase the id.
+      //
+      // I have to do this becuase once I call argv.erase
+      // aboue, the iterator is no longer valid and I must
+      // get a new iterator from the vector to erase 
+      // the id.
+      //
+      if( value.size() )
+	{
+	  for( them = argv.begin(); them != argv.end(); ++ them )
+	    {
+	      if( (*them).size() > 1 &&
+		  (*them)[0] == '-' && 
+		  strcmp( (*them).c_str() + 1, argId ) == 0 )
+		{
+		  argv.erase( them );
+		  break;
+		}
+	    }
+	}
+    }
+
+  return( value );
+}
+
+bool
+Param::getArgFlag( const char * argId, const char * envVar )
+{
+  bool value = ( env( envVar ) == 0 ) ? false : true;
+  
+  if( count() > 1 && argId && argId[0] )
+    {
+      Args::iterator	them = argv.begin();
+      for( ; them != argv.end(); ++ them )
+	{
+	  if( (*them).size() > 1 &&
+	      (*them)[0] == '-' && 
+	      strcmp( (*them).c_str() + 1, argId ) == 0 )
+	    {
+	      // found it now get the value
+	      value = true;
+	      argv.erase( them );
+	      break;
+	    }
+	}
+    }
+  return( value );
+}
+
+bool
+Param::good( void ) const
+{
+  return( errors.size() == 0 );
+}
+
+const char *
+Param::error( void ) const
+{
+  static string errStr;
+
+  errStr = getClassName();
+  
+  if( good() )
+    {
+      errStr += ": ok";
+    }
+  else
+    {
+      string::size_type	errorSize = errStr.size();
+      
+      for( ErrorList::const_iterator them = errors.begin();
+	   them != errors.end();
+	   ++them )
+	{
+	  errStr += "  ";
+	  
+	  if( (*them).argId.size() )
+	    {
+	      errStr += '-';
+	      errStr += (*them).argId;
+	    }
+
+	  if( (*them).envVar.size() )
+	    {
+	      errStr += '(';
+	      errStr += (*them).envVar;
+	      errStr += ')';
+	    }
+
+	  errStr += ": ";
+	  errStr += ErrorStrings[ (*them).errorNum ];
+
+	  if( (*them).desc.size() )
+	    {
+	      errStr += ' ';
+	      errStr += (*them).desc;
+	    }
+	  
+	  errStr += '\n';
+	}
+
+      if( errStr.size() == errorSize )
+	errStr += ": unknown error";
+      
+    }
+
+  return( errStr.c_str() );
+}
+
+const char *
+Param::getClassName( void ) const
+{
+  return "Param";
+}
+
+const char *
+Param::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer, appLog.getVersion( false ) ) );
+}
+
+
+ostream &
+Param::toStream( ostream & dest ) const
+{
+  dest << helpString;
+
+  if( ! good() )
+    dest << '\n' << error() << '\n';
+  
+  return( dest );
+}
+
+ostream &
+Param::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << Param::getClassName() << ":\n"
+	 << Param::getVersion() << '\n';
+    
+  if( ! Param::good() )
+    dest << prefix << "Error: " << Param::error() << '\n';
+  else
+    dest << prefix << "Good!" << '\n';
+
+  string pre;
+  pre = prefix;
+  pre += "appLog:";
+  pre += appLog.getClassName();
+  pre += "::";
+  appLog.dumpInfo( dest, pre.c_str(), false );
+  
+  for( Args::size_type i = 0; i < allArgv.size(); i++ )
+    {
+      dest << prefix << "argv[" << i << "]:";
+      if( i > 9 )
+	dest << "  '";
+      else
+	dest << "   '";
+      dest << allArgv[i] << "'\n";
+    }
+  
+  dest << '\n';
+
+  dest << prefix << "helpFlag:       " << helpFlag << '\n'
+       << prefix << "logFile:        " << logFile << '\n'
+       << prefix << "logOutputLevel: " << logOutputLevel << '\n'
+       << prefix << "logTee:         " << logTee << '\n'
+    ;
+  
+  dest << prefix << "helpString: \n" << helpString << '\n';
+
+  dest << '\n';
+    
+  return( dest  );
+}
+
+size_t
+Param::appendHelp( 
+  const char * argId,
+  const char * desc,
+  const char * envVar,
+  const char * value
+  )
+{
+  string::size_type len = helpString.size();
+  
+  size_t    argIdSize = strlen( argId );
+  
+  helpString += "  -";
+  helpString += argId;
+  if( argIdSize < 8 )
+    helpString.append( 8 - argIdSize, ' ' );
+
+  helpString += ' ';
+  helpString += desc;
+
+  if( envVar )
+    {
+      helpString += " (";
+      helpString += envVar;
+      helpString += ')';
+    }
+
+  if( value && strlen( value ) )
+    {
+      if( (strlen( value ) + ( helpString.size() - len) ) < 80 )
+	helpString += " '";
+      else
+	helpString += "\n            '";
+
+      helpString += value;
+      helpString += "'\n";
     }
   else
     {
       helpString += "''\n";
     }
-
-  return( argValue != 0 );
   
+  return( helpString.size() );
 }
 
 bool
-Param::argInt(
-  int &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar,
-  int	    	minVal,
-  int	    	maxVal
+Param::setError(
+  ErrorNum	err,
+  const char *	argId,
+  const char *	envVar,
+  const char *	desc
   )
 {
-  setHelp( argId, desc, envVar );
+  Error	e;
   
-  char * argValue = getArgValue( argId, envVar );
+  e.errorNum	= err;
+  e.argId	= argId;
+  e.envVar	= envVar;
+  e.desc	= desc;
 
-  if( argValue ) dest = StringToInt( argValue );
+  errors.push_back( e );
 
-  strstream tmpHelp;
-  
-  if( dest < minVal || dest > maxVal )
-    {
-      tmpHelp << " '" << dest << "' not "
-	      << minVal << " < n < " << maxVal << "\n";
-      ok = false;
-    }
-  else
-    {
-      tmpHelp << " '" << dest << "'\n";
-    }
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != 0 );
-  
+  return( good() );
 }
 
+#if defined( OLD_WAY )
 bool
 Param::argUInt(
   unsigned int & dest,
@@ -502,444 +1312,49 @@ Param::argULong(
   return( argValue != 0 );
   
 }
+#endif // def OLD_WAY
 
-bool
-Param::argDouble(
-  double &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue ) dest = StringToDouble( argValue );
-
-  strstream tmpHelp;
-  
-  tmpHelp << " '" << dest << "'\n";
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != 0 );
-  
-}
-
-bool
-Param::argBool(
-  bool &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue ) dest = StringToBool( argValue );
-
-  strstream tmpHelp;
-  tmpHelp << " '" << ( (dest == true) ? "true" : "false" ) << "'\n";
-  
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != 0 );
-}
-
-bool
-Param::argFlag(
-  bool &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  bool argValue = getArg( argId, envVar );
-
-  if( argValue ) dest = argValue;
-
-  strstream tmpHelp;
-  
-  tmpHelp << " '" << ( (dest == true) ? "true" : "false" ) << "'\n";
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != false );
-}
-
-#if defined( CLUE_HAS_DATETIME )
-bool
-Param::argDateTime(
-  time_t &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue )
-    {
-      DateTime dt( argValue );
-      dest = dt.getTimeT();
-      helpString << " '" << dt << "'\n";
-    }
-  else
-    {
-      DateTime dt( dest );
-      helpString << " '" << dt << "'\n";
-    }
-
-  return( argValue != 0 );
-}
-
-bool
-Param::argDateTime(
-  DateTime &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue ) dest.set( argValue );
-  
-  helpString << " '" << dest << "'\n";
-
-  return( argValue != 0 );
-}
-
-bool
-Param::argDateTime(
-  RWTime &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue )
-    {
-      DateTime tmp;
-      tmp.set( argValue );
-      dest = RWTime( RWDate( tmp.getDayOfMonth(),
-			     tmp.getMonth(),
-			     tmp.getYear() ),
-		     tmp.getHour(),
-		     tmp.getMinute(),
-		     tmp.getSecond() );
-      
-    }
-  
-  helpString << " '" << dest << "'\n";
-
-  return( argValue != 0 );
-}
-
-bool
-Param::argDate(
-  DateTime &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue )
-    {
-      dest.set( (time_t)0 );
-      dest.set( argValue );
-    }
-  
-  helpString << " '" << dest << "'\n";
-
-  return( argValue != 0 );
-}
-#endif
-
-bool
-Param::argDate(
-  RWDate &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue )
-    {
-      RWCString tmp( argValue );
-      dest = RWDate( tmp );
-    }
-
-  strstream tmpHelp;
-  
-  tmpHelp << " '" << dest << "'\n";
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != 0 );
-}
-
-#if defined( CLUE_HAS_DATETIME )
-bool
-Param::argTime(
-  DateTime &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue )
-    {
-      dest.set( (time_t)0 );
-      dest.set( argValue );
-    }
-  
-  helpString << " '" << dest << "'\n";
-
-  return( argValue != 0 );
-}
-bool
-Param::argTime(
-  RWTime &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue )
-    {
-      DateTime tmp( (time_t) 0 );
-      tmp.set( argValue );
-      dest = RWTime( tmp.getHour(), tmp.getMinute(), tmp.getSecond() );
-    }
-  
-  helpString << " '" << dest << "'\n";
-
-  return( argValue != 0 );
-}
-#endif
-
-char *
-Param::getArgValue( const char * argId, const char * envVar )
-{
-  char * value = (char *)env( envVar );
-  
-  if( count() > 1 && argId && argId[0] )
-    {
-      for( size_t a = 1; a < (count() - 1); a++ )
-	{
-	  if( argv[a][0] == '-' && strcmp( argId, &(argv[a][1]) ) == 0 )
-	    {
-	      value = argv[a+1];
-	      for( ; a + 2 < count(); a++ )
-		{
-		  argv[a] = argv[a+2];
-		}
-	      argc -= 2;
-	      return( value );
-	    }
-	}
-    }
-  return( value );
-}
-
-bool
-Param::getArg( const char * argId, const char * envVar )
-{
-  bool value = ( env( envVar ) == 0 ) ? false : true;
-  
-  if( count() > 1 && argId && argId[0] )
-    {
-      for( size_t a = 1; a < count(); a++ )
-	{
-	  if( argv[a][0] == '-' &&  strcmp( argId, &(argv[a][1]) ) == 0 )
-	    {
-	      value = true;
-	      for( ; a + 1 < count(); a++ )
-		{
-		  argv[a] = argv[a+1];
-		}
-	      argc -= 1;
-	      return( value );
-	    }
-	}
-    }
-  return( value );
-  ;
-}
-
-bool
-Param::good( void ) const
-{
-  return( ! helpFlag && allArgs() && ok );
-}
-
-const char *
-Param::error( void ) const
-{
-  static strstream errStr;
-  errStr.rdbuf()->freeze(0);
-  errStr.seekp(0);
-  errStr.seekg(0);
-  
-  errStr << getClassName();
-  
-  if( good() )
-    {
-      errStr << ": Ok";
-    }
-  else
-    {
-      if( ! allArgs() )
-	{
-	  errStr << ": bad args: ";
-	  for( int a = 1; a < argc; a++ )
-	    {
-	      errStr << '\'' << argv[a] << "' ";
-	    }
-	}
-      else
-	{
-	  errStr << ": unknown error";
-	}
-    }
-  errStr << ends;
-  return( errStr.str() );  
-}
-
-const char *
-Param::getClassName( void ) const
-{
-  return "Param";
-}
-
-const char *
-Param::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer, appLog.getVersion( false ) ) );
-}
-
-
-ostream &
-Param::toStream( ostream & dest ) const
-{
-  dest << helpString;
-  return( dest );
-}
-
-ostream &
-Param::dumpInfo(
-  ostream &	dest,
-  const char *  prefix,
-  bool		showVer
-  ) const
-{
-  if( showVer )
-    dest << Param::getClassName() << ":\n"
-	 << Param::getVersion() << '\n';
-    
-  if( ! Param::good() )
-    dest << prefix << "Error: " << Param::error() << '\n';
-  else
-    dest << prefix << "Good!" << '\n';
-
-  {
-    strstream pre;
-    pre << prefix << "appLog:" << appLog.getClassName() << "::";
-    pre << ends;
-    appLog.dumpInfo( dest, pre.str(), false );
-    pre.rdbuf()->freeze(0);
-  }
-  
-  dest << prefix;
-  toStream( dest );
-  dest << '\n';
-
-  
-  dest << prefix << "argc:      " << argc << '\n';
-  
-  for( int i = 0; i < argc; i++ )
-    {
-      dest << prefix << "argv[" << i << "]:";
-      if( i > 9 )
-	dest << "  '";
-      else
-	dest << "   '";
-      dest << argv[i] << "'\n";
-    }
-  
-  dest << '\n';
-
-  dest << prefix << "helpFlag:       " << helpFlag << '\n'
-       << prefix << "logFile:        " << logFile << '\n'
-       << prefix << "logOutputLevel: " << logOutputLevel << '\n'
-       << prefix << "logTee:         " << logTee << '\n'
-    ;
-  
-  dest << '\n';
-    
-  return( dest  );
-}
-
-size_t
-Param::setHelp(
-  const char * argId,
-  const char * desc,
-  const char * envVar
-  )
-{
-  strstream tmpHelp;
-  
-  size_t hStart =  helpString.length();
-  
-  tmpHelp << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar )
-    tmpHelp << " (" << envVar << ')';
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( hStart );
-}
-
-
-#if !defined( AIX41 )
-#endif
+//
+// Revision Log:
+//
+// $Log$
+// Revision 3.2  1996/11/19 12:24:30  houghton
+// Restructure header comments.
+// Changed include lines to use " " instead of < > to accomidate rpm.
+// Removed support for short file names to accomidate rpm.
+// Major re-work of most function to use 'string'
+// Major re-work to use vector<string> for managing argv.
+// Added readArgs to read arg from a istream.
+//
+// Revision 3.1  1996/11/14 01:23:53  houghton
+// Changed to Release 3
+//
+// Revision 2.7  1996/11/11 13:35:39  houghton
+// Change to call rdbuf()-freeze beause AIX strstream does NOT have
+//     a freeze method in its strstream.
+//
+// Revision 2.6  1996/11/08 11:46:04  houghton
+// Removed Support for Str and DateTime.
+//     (as required by Mike Alexander)
+//
+// Revision 2.5  1996/10/22 22:07:00  houghton
+// Change: Added locStamp to turn on/off output of src file & line.
+// Change: Added Support for Rogue Tools++ RWCString, RWDate & RWTime.
+// Change: Rename arg methods for unsigned types.
+//
+// Revision 2.4  1996/04/27 13:07:54  houghton
+// Added support for LibLog.
+//
+// Revision 2.3  1996/02/29 19:06:34  houghton
+// *** empty log message ***
+//
+// Revision 2.2  1995/12/04 11:18:23  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:53  houghton
+// Change to Version 2
+//
+// Revision 1.5  1995/11/05  15:28:43  houghton
+// Revised
+//
+//
