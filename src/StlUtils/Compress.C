@@ -776,6 +776,8 @@ Compress::decompress( int inFd, int outFd )
 
   if (outpos > 0 && write(outFd, outbuf, outpos) != outpos)
     return( setError( E_WRITE, errno, outFd ) );
+
+  return( true );
 }
 
 bool
@@ -966,6 +968,9 @@ Compress::setError( ErrorNum errNum, const char * desc )
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2001/01/30 11:55:37  houghton
+// Bug-Fix: return statment was missing from end of decompress method().
+//
 // Revision 5.1  2000/05/25 10:33:14  houghton
 // Changed Version Num to 5
 //
