@@ -36,6 +36,7 @@
 
 #include <ClueConfig.hh>
 #include <Log.hh>
+#include <DateTime.hh>
 #include <LibLog.hh>
 #include <DumpInfo.hh>
 #include <deque>
@@ -58,9 +59,6 @@
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
-
-class Str;
-class DateTime;
 
 class Param
 {
@@ -90,6 +88,8 @@ public:
   const char *	    appVersion( void ) const;
 
   pid_t		    getpid( void ) const;
+  const DateTime &  startTime( void ) const;
+  Log &		    logStartInfo( void );
   
   inline size_t	    count( void ) const;
 
@@ -238,6 +238,8 @@ private:
 			const char *	envVar,
 			const char *	value );
 
+  DateTime	    appStartTime;
+  
   Str		    versionText;
   Str		    helpText;
   Str    	    helpString;
@@ -903,6 +905,10 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.15  1997/09/16 11:24:19  houghton
+// Added startTime method().
+// Added logStartInfo method().
+//
 // Revision 3.14  1997/08/08 13:20:24  houghton
 // Added appendHelp().
 // Added -version support.

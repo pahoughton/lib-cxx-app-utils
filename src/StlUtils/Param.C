@@ -84,7 +84,10 @@ Param::Param(
     
   if( useDefaultLogFn )
     logFile << appName() << ".log" ;
-      
+
+  // setup the tm struct so we don't have to recalc
+  appStartTime.setTm();
+  
 }
 
 Param::~Param( void )
@@ -122,6 +125,20 @@ pid_t
 Param::getpid( void ) const
 {
   return( ::getpid() );
+}
+
+const DateTime &
+Param::startTime( void ) const
+{
+  return( appStartTime );
+}
+
+Log &
+Param::logStartInfo( void )
+{
+  appLog( LogLevel::Info )
+    << appName() << '(' << getpid() << ") Started at " << appStartTime
+    ;
 }
 
 bool
@@ -1154,6 +1171,10 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.18  1997/09/16 11:24:49  houghton
+// Added startTime method().
+// Added logStartInfo method().
+//
 // Revision 3.17  1997/09/02 13:06:44  houghton
 // Reworked so begin() does not include argv[0] (i.e. appName ).
 //
