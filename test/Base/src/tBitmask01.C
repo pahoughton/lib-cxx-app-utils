@@ -41,7 +41,7 @@
 #include "Bit.hh"
 #include "Bitmask.hh"
 #include <strstream.h>
-
+#include <cstring>
 
 bool
 tBitmask01( LibTest & tester )
@@ -467,6 +467,9 @@ tBitmask01( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/07/18 21:33:58  houghton
+// Port(Sun5): added include <cstring>
+//
 // Revision 3.2  1996/11/19 12:33:48  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.

@@ -48,6 +48,7 @@
 #include "Bitmask.hh"
 #include <Str.hh>
 #include <strstream.h>
+#include <cstring>
 
 bool
 tBitmask03( LibTest & tester )
@@ -271,6 +272,9 @@ tBitmask03( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.4  1997/07/18 21:34:12  houghton
+// Port(Sun5): added include <cstring>
+//
 // Revision 3.3  1997/03/03 19:09:24  houghton
 // Changed to use Str (vs strstream).
 // Changed for port to AIX.
