@@ -198,18 +198,19 @@ Void::read( istream & src )
 ostream &
 Void::toStream( ostream & dest ) const
 {
-  char * d = (char *)data;
+  unsigned char * d = (unsigned char *)data;
 
   char	oldFill  = dest.fill( '0' );
   int	oldFlags = dest.setf( ios::hex, ios::basefield );
-  dest.setf( ios::uppercase );
+  // dest.setf( ios::uppercase );
   
   for( size_type pos = 0; pos < dataSize; pos++ )
     {
+      
       if( pos )
 	dest << ' ';
       
-      dest << setw(2) << d[pos];
+      dest << setw(2) << (unsigned int)d[pos];
     }
 
   dest.fill( oldFill );
@@ -317,6 +318,9 @@ Void::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/06/07 16:48:45  houghton
+// Cleanup dump output.
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //
