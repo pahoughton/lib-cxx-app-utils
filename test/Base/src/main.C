@@ -65,6 +65,7 @@ LibTest::TestItem   TestList[] =
   { "LogLevel",		    tLogLevel },
   { "Log",		    tLog },
   { "Param",		    tParam },
+  { "File",		    tFile },
   { "SortOrder",	    tSortOrder },
 #if defined( TEST_TIMEIT )
   { "TimeIt",		    tTimeIt },
@@ -197,6 +198,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1998/03/21 13:56:01  houghton
+// Added test for 'File'.
+//
 // Revision 4.5  1998/02/13 23:33:30  houghton
 // Changed to skip timer test (unless TEST_TIMEIT is defined).
 //

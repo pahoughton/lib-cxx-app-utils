@@ -85,6 +85,8 @@ bool	tFileStat( LibTest & tester );
 bool	tLog( LibTest & tester );
 // Param.hh
 bool	tParam( LibTest & tester );
+// File.hh
+bool	tFile( LibTest & tester );
 // SortOrder.hh
 bool	tSortOrder( LibTest & tester );
 // TimeIt.hh
@@ -162,6 +164,9 @@ bool tVectorResync( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1998/03/21 13:55:53  houghton
+// Added test for 'File'.
+//
 // Revision 4.4  1998/01/05 13:09:20  houghton
 // Added tVectorResync
 //
