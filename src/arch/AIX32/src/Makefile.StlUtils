@@ -1,24 +1,43 @@
+#
+# -*- Makefile -*-
+#
+# Makefile for libClue src/arch/AIX/src
+#
+# Created 11/20/95
+#
+# $Id$
+#
+#
 
 include ../arch/Unix/src/Makefile.Clue
+include ../Clue1/src/Makefile.Clue
 
-AIX_DIR	= ../arch/$(arch)/src
 
-AIX_INCDIR	= -I$(AIX_DIR) -I../arch/stdc++
+ARCH_DIR	= ../arch/$(arch)/src
+ARCHSTD_DIR	= ../arch/$(arch)/stdc++
+ARCHSRC_DIR	= ../arch/src
+ARCHSRCSTD_DIR	= ../arch/stdc++
+
+
+ARCHSRC_INCDIR	= -I$(ARCH_DIR) -I$(ARCHSTD_DIR) \
+		  -I$(ARCHSRC_DIR) -I$(ARCHSRCSTD_DIR) 
 
 ARCH_DEFINES	=
-ARCH_INCDIR	= $(AIX_INCDIR) $(UNIX_INCDIR)
+ARCH_INCDIR	= $(ARCHSRC_INCDIR) $(UNIX_INCDIR) $(CLUE1_INCDIR)
 			  
 
 
-ARCH_C_SOURCES		=			\
-	$(AIX_DIR)/fnmatch.c			\
-	$(UNIX_C_SOURCES)			\
+ARCH_C_SOURCES		=		\
+	fnmatch.c			\
 
-ARCH_CXX_C_SOURCES	=			\
-	$(UNIX_CXX_C_SOURCES)			\
+ARCHSRC_CXX_C_SOURCES	=		\
+	basename.C			\
+	FileStat.C			\
+	OpenFlags.C			\
 
 ARCH_USER_H_INCS	=			\
 	$(UNIX_USER_H_INCS)			\
+	$(CLUE1_USER_H_INCS)			\
 
 ARCH_USER_STD_CXX_INCS	=			\
 	../arch/stdc++/algo.h			\
@@ -93,24 +112,83 @@ ARCH_USER_STD_CXX_INCS	=			\
 
 ARCH_USER_HH_INCS	=			\
 	../arch/stdc++/AnsiBool.hh		\
-	$(AIX_DIR)/ClueConfig.hh		\
+	$(ARCHSRC_DIR)/FileStat.hh		\
+	$(ARCHSRC_DIR)/ClueExceptions.hh	\
+	$(ARCH_DIR)/ClueConfig.hh		\
 	$(ARCH_USER_STD_CXX_INCS)		\
 	$(UNIX_USER_HH_INCS)			\
+	$(CLUE1_USER_HH_INCS)			\
 
 ARCH_USER_II_INCS	=			\
+	$(ARCHSRC_DIR)/FileStat.ii		\
 	$(UNIX_USER_II_INCS)			\
+	$(CLUE1_USER_II_INCS)			\
 
 ARCH_C_HEADERS		=			\
-	$(AIX_DIR)/_regexcfg.hh			\
 	$(UNIX_C_HEADERS)			\
+	$(CLUE1_C_HEADERS)			\
 
 ARCH_CXX_HEADERS	=			\
 	$(UNIX_CXX_HEADERS)			\
+	$(CLUE1_CXX_HEADERS)			\
 
 ARCH_CXX_INLINES	=			\
 	$(UNIX_CXX_INLINES)			\
+	$(CLUE1_CXX_INLINES)			\
+
+ARCHSRC_CXX_SOURCES	= $(ARCHSRC_CXX_C_SOURCES)
+
+ARCHSRC_OBJECTS_DEFAULT = $(ARCHSRC_CXX_C_SOURCES:%.C=objects/default/%.o) \
+			  $(ARCHSRC_C_SOURCES:%.c=objects/default/%.o)
+ARCHSRC_OBJECTS_DEBUG   = $(ARCHSRC_CXX_C_SOURCES:%.C=objects/debug/%.o) \
+			  $(ARCHSRC_C_SOURCES:%.c=objects/debug/%.o)
+ARCHSRC_OBJECTS_PROFILE = $(ARCHSRC_CXX_C_SOURCES:%.C=objects/profile/%.o) \
+			  $(ARCHSRC_C_SOURCES:%.c=objects/profile/%.o)
+ARCHSRC_OBJECTS_SHARED  = $(ARCHSRC_CXX_C_SOURCES:%.C=objects/shared/%.o) \
+			  $(ARCHSRC_C_SOURCES:%.c=objects/shared/%.o)
+
+ARCHSRC_DEPEND_C_SOURCES   = $(ARCHSRC_C_SOURCES:%=$(ARCHSRC_DIR)/%)
+ARCHSRC_DEPEND_CXX_SOURCES = $(ARCHSRC_CXX_SOURCES:%=$(ARCHSRC_DIR)/%)
+
+ARCH_DEPEND_C_SOURCES	= $(ARCHSRC_DEPEND_C_SOURCES)	\
+			  $(UNIX_DEPEND_C_SOURCES) 	\
+			  $(CLUE1_DEPEND_C_SOURCES)
+
+ARCH_DEPEND_CXX_SOURCES	= $(ARCHSRC_DEPEND_CXX_SOURCES)	\
+			  $(UNIX_DEPEND_CXX_SOURCES) 	\
+			  $(CLUE1_DEPEND_CXX_SOURCES)
+
+
+ARCH_OBJECTS_DEFAULT	= $(ARCHSRC_OBJECTS_DEFAULT) 	\
+			  $(UNIX_OBJECTS_DEFAULT) 	\
+			  $(CLUE1_OBJECTS_DEFAULT) 
+ARCH_OBJECTS_DEBUG	= $(ARCHSRC_OBJECTS_DEBUG) 	\
+			  $(UNIX_OBJECTS_DEBUG) 	\
+			  $(CLUE1_OBJECTS_DEBUG) 
+ARCH_OBJECTS_PROFILE	= $(ARCHSRC_OBJECTS_PROFILE) 	\
+			  $(UNIX_OBJECTS_PROFILE) 	\
+			  $(CLUE1_OBJECTS_PROFILE) 
+ARCH_OBJECTS_SHARED	= $(ARCHSRC_OBJECTS_SHARED) 	\
+			  $(UNIX_OBJECTS_SHARED) 	\
+			  $(CLUE1_OBJECTS_SHARED) 
+
+objects/default/%.o 	\
+objects/debug/%.o 	\
+objects/profile/%.o 	\
+objects/shared/%.o : $(ARCHSRC_DIR)/%.C
+	$(CXX_COMPILE)
+
+objects/default/%.o 	\
+objects/debug/%.o 	\
+objects/profile/%.o 	\
+objects/shared/%.o : $(ARCHSRC_DIR)/%.c
+	$(C_COMPILE)
 
 
 
-
-
+#
+# $Log$
+# Revision 2.3  1995/12/31 11:23:21  houghton
+# Bug Fix - AIX port.
+#
+#
