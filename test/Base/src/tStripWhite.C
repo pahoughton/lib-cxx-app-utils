@@ -66,7 +66,7 @@ tStripWhite( LibTest & tester )
   char reason[1024];
   char from[ 100 ];
   
-  for( int t = 0; TestValues[t].from; t++ )
+  for( int t = 0; TestValues[t].from[0]; t++ )
     {
       strcpy( from, TestValues[t].from );
       
@@ -123,6 +123,9 @@ tStripWhite( LibTest & tester )
   
 //
 // $Log$
+// Revision 4.5  1998/10/23 13:09:46  houghton
+// Bug-Fix: check the first character of 'from'.
+//
 // Revision 4.4  1998/10/13 16:41:03  houghton
 // Cleanup.
 //
