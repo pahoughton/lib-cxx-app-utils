@@ -171,6 +171,8 @@ $(MAKE_CONFIGS_target): $(MAKE_CONFIGS_tar)
 	&& $(MAKE) -f $(MAKE_CONFIGS_build_dir)/Setup.Makefile setup	\
 	&& $(tools_bin_dir)/make -C MakeConfigs-$(make_cfg_ver)		\
 		install							\
+		check_install=false					\
+		hide=$(hide)						\
 	&& echo " Done -" `date`
 
 config_vars_cmd =						\
