@@ -139,13 +139,13 @@ DEBUG_LD_FLAGS		= $(ld_debug)
 PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
-DEFAULT_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
-DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
+DEFAULT_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(local_libdir)
+DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(local_libdir)
 PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue -lCommon_s $(ARCH_LIBS)
-DEBUG_LD_LIBS		= -lClue_g -lCommon  $(ARCH_LIBS)
+DEFAULT_LD_LIBS		= -lClue -lrwtool $(ARCH_LIBS)
+DEBUG_LD_LIBS		= -lClue_g -lGnuRegex -lrwtool  $(ARCH_LIBS)
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
 
@@ -163,6 +163,41 @@ STATIC_DEP_LIBS		=
 # **** S O U R C E   F I L E S ****
 
 CXX_C_SOURCES	=			\
+	main.C				\
+	tClassVersion.C			\
+	tArraySize.C                    \
+	tOpenFlags.C			\
+	tAlign.C			\
+	tDwordAlign.C                   \
+	tMemOverlap.C                   \
+	tAbsLong.C                      \
+	tIsBaseDigit.C                  \
+	tUnionOf.C                      \
+	tRound.C                        \
+	tBit.C                          \
+	tCompare.C                      \
+	tCompare01.C                    \
+	tCompare02.C                    \
+	tStripWhite.C                   \
+	tStringSearch.C                 \
+	tStringCaseCompare.C            \
+	tStringLower.C                  \
+	tStringUpper.C                  \
+	tStringCapitalize.C             \
+	tStringTo.C                     \
+	tbasename.C                     \
+	tSafeStrcpy.C			\
+	tCharToInt.C			\
+	tCharIsBaseDigit.C		\
+	tBitmask.C                      \
+	tBitmask01.C                    \
+	tBitmask02.C                    \
+	tBitmask03.C                    \
+	tRegexScan.C                    \
+	tLogLevel.C                     \
+
+
+orig = \
 	TestBinObject.C			\
 	main.C                          \
 	tArraySize.C                    \
@@ -186,6 +221,7 @@ CXX_C_SOURCES	=			\
 	tStringUpper.C                  \
 	tStripWhite.C                   \
 	tbasename.C                     \
+	tClassVersion.C			\
 	tHeapBinStream.C		\
 	tHeapNetStream.C		\
 	tStr.C                          \
@@ -385,6 +421,10 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.17  1996/11/04 14:41:28  houghton
+# Added use of rwtool library.
+# Changed to only test the classes & functions that are ready.
+#
 # Revision 2.16  1996/08/12 17:50:11  houghton
 # Added test for FileBinStream.
 #
