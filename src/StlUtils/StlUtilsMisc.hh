@@ -60,11 +60,11 @@ const char *
 IosSeekDirToString( ios::seek_dir dir );
 
 ostream &
-CommaNum( ostream &	dest,
-	  long		num,
-	  size_t	width,
-	  char		fill,
-	  size_t	decimalPlaces = 0 );
+CommaNumber( ostream &	dest,
+	     long	num,
+	     size_t	width,
+	     char	fill,
+	     size_t	decimalPlaces = 0 );
 
 // See StlUtilsUtils.ii for inline Functions
 #include <StlUtilsMisc.ii>
@@ -216,6 +216,9 @@ CommaNum( ostream &	dest,
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2004/12/14 15:37:51  houghton
+// Changed CommaNum to CommaNumber.
+//
 // Revision 6.3  2004/07/17 11:25:00  houghton
 // Changed CommaNum() decimalPlaces arg to default to 0.
 //
