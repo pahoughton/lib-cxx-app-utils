@@ -48,50 +48,14 @@ setup:
 	$(hide) echo 
 
 
-
 verify_setup:
-	@ if [ -z "$$TOOL_DIR" ] ; then					      \
-	  echo "+ TOOL_DIR env var not set.";				      \
-	  echo "  Please see $(PROJECT)/docs/devel/Dependencies.txt";	      \
-	  echo "  for details.";					      \
-	  exit 1;							      \
-	fi
-	@ if [ ! -f "$(common_h)" ] ; then				      \
-	  echo " ";							      \
-	  echo "+ $(common_h) NOT FOUND!";				      \
+	$(hide)								      \
+	if [ ! -f $(CFG_DIR)/Setup.cfg ]				      \
+	    && [ ! -f $(PROJECT)/$(CFG_DIR)/Setup.cfg ] ; then		      \
+	  echo "+ Setup.cfg NOT FOUND!";				      \
 	  echo " ";							      \
 	  echo "    To install all the dependencies, please perform";	      \
-	  echo "    the following:";				      \
-	  echo " ";							      \
-	  echo "      cd \$$TOOL_DIR/src/Build/Libs";			      \
-	  echo "      make -f $(PROJECT)/Makefile setup";		      \
-	  echo " ";							      \
-	  echo "    Please see $(PROJECT)/docs/devel/Dependencies.txt";	      \
-	  echo "    for details.";					      \
-	  echo " ";							      \
-	  exit 1;							      \
-	fi
-	@ if [ ! -f "$(gnuregex_h)" ] ; then				      \
-	  echo " ";							      \
-	  echo "+ $(gnuregex_h) NOT FOUND!";				      \
-	  echo " ";							      \
-	  echo "    To install all the dependencies, please perform";	      \
-	  echo "    the following:";				      \
-	  echo " ";							      \
-	  echo "      cd \$$TOOL_DIR/src/Build/Libs";			      \
-	  echo "      make -f $(PROJECT)/Makefile setup";		      \
-	  echo " ";							      \
-	  echo "    Please see $(PROJECT)/docs/devel/Dependencies.txt";	      \
-	  echo "    for details.";					      \
-	  echo " ";							      \
-	  exit 1;							      \
-	fi
-	@ if [ ! -f "$(stdcxx_hh)" ] ; then				      \
-	  echo " ";							      \
-	  echo "+ $(stdcxx_hh) NOT FOUND!";				      \
-	  echo " ";							      \
-	  echo "    To install all the dependencies, please perform";	      \
-	  echo "    the following:";				      \
+	  echo "    the following:";					      \
 	  echo " ";							      \
 	  echo "      cd \$$TOOL_DIR/src/Build/Libs";			      \
 	  echo "      make -f $(PROJECT)/Makefile setup";		      \
@@ -170,6 +134,9 @@ help_config:
 
 #
 # $Log$
+# Revision 4.8  1999/11/10 10:07:12  houghton
+# Changed verify_setup to check Setup.cfg.
+#
 # Revision 4.7  1999/11/09 10:59:52  houghton
 # Changed setup to generate Setup.cfg.
 #
