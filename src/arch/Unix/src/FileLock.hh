@@ -22,6 +22,7 @@
 //
 
 #include <StlUtilsConfig.hh>
+#include <FilePath.hh>
 #include <DumpInfo.hh>
 #include <iostream>
 #include <vector>
@@ -93,7 +94,8 @@ public:
   
 protected:
 
-  int	fd;
+  FilePath  lockFn;
+  int	    fd;
 
   struct Lock
   {
@@ -218,6 +220,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1997/10/22 16:03:01  houghton
+// Added file name so it could be placed in the error string.
+//
 // Revision 4.2  1997/09/21 21:21:14  houghton
 // Port(Sun5): had to add a default constructor to prevent compiler crashes.
 //

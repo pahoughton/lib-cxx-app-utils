@@ -44,7 +44,8 @@ static const char * FileLock_TypeName[] =
 };
 
 FileLock::FileLock( const char * fileName, ios::open_mode mode )
-  : fd( -1 ),
+  : lockFn( fileName ),
+    fd( -1 ),
     oserrno( ENOENT ),
     closefd( false )
 {
@@ -129,8 +130,12 @@ FileLock::error( void ) const
     {
       size_t eSize = errStr.size();
 
+      
       if( oserrno != 0 )
-	errStr << ": os error(" << oserrno << ") - " << strerror( oserrno );
+	errStr << ": os error(" << oserrno << ") '"
+	       << ( lockFn.empty() ?  "(unknown)" : lockFn.c_str() )
+	       << "' - "
+	       << strerror( oserrno );
       
       if( eSize == errStr.size() )
         errStr << ": unknown error";
@@ -218,6 +223,9 @@ FileLock::typeName( Type t )
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1997/10/22 16:03:10  houghton
+// Added file name so it could be placed in the error string.
+//
 // Revision 4.3  1997/09/21 21:20:42  houghton
 // Port(Sun5): added include <cstring>
 //
