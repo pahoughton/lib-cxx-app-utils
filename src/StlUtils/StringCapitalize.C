@@ -13,15 +13,9 @@
 // Revision History: (See end of file for Revision Log)
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "StringUtils.hh"
 #include <cctype>
 #include <cstddef>
-#else
-#include "StrUtil.hh"
-#include <cctype>
-#include <cstddef>
-#endif
 
 CLUE_FUNCT_VERSION(
   StringCapitalize,
@@ -86,6 +80,10 @@ StringCapitalize( char * str, size_t len )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/24 19:04:50  houghton
+// Removed support for short filenames.
+// Changed include lines from < > to " " for rpm.
+//
 // Revision 3.1  1996/11/14 01:24:15  houghton
 // Changed to Release 3
 //

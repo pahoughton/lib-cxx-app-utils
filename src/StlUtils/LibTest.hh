@@ -30,15 +30,9 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#include "ClueConfig.hh"
 #include <iostream>
 #include <cstddef>
-#else
-#include <ClueCfg.hh>
-#include <iostream>
-#include <cstddef>
-#endif
 
 #define TESTIT( tester_, tf_ ) tester_( __FILE__, __LINE__, tf_ )
 #define TESTITR( tester_, r_, tf_ ) tester_( __FILE__, __LINE__, r_, tf_ )
@@ -492,6 +486,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/24 19:04:21  houghton
+// Removed support for short filenames.
+// Changed include lines from < > to " " for rpm.
+//
 // Revision 3.1  1996/11/14 01:23:44  houghton
 // Changed to Release 3
 //
