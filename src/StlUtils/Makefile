@@ -220,6 +220,7 @@ USER_HH_INCS	=			\
 	Log.hh				\
 	LogBuf.hh			\
 	LogLevel.hh			\
+	LruMap.hh			\
 	Mutex.hh                        \
 	Net2Host.hh			\
 	Param.hh                        \
@@ -262,6 +263,7 @@ USER_II_INCS	=			\
 	LogLevel.ii			\
 	LogBuf.ii			\
 	Log.ii				\
+	LruMap.ii			\
 	Mutex.ii                        \
 	Param.ii                        \
 	$(ARCH_USER_II_INCS)		\
@@ -342,6 +344,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.14  1998/10/13 15:18:56  houghton
+# Added LruMap.
+#
 # Revision 4.13  1998/07/20 11:23:16  houghton
 # Added CXX_OTHER variable.
 #
