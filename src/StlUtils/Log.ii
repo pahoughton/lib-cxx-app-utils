@@ -2,37 +2,17 @@
 #define _Log_ii_
 //
 // File:        Log.ii
+// Project:	Clue
 // Desc:        
 //
-//  	inlines for Log
+//  	Definition for Log Class inline functions.
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     07/21/95 12:52
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 2.5  1996/10/22 22:05:51  houghton
-// Change: Added locStamp to turn on/off output of src file & line.
-//
-// Revision 2.4  1996/04/27 13:03:13  houghton
-// Added thread locking support.
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
-//
-// Revision 2.3  1995/12/04 11:17:23  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.2  1995/11/12  18:01:54  houghton
-// Added srcFile, srcLine args to level().
-// Change LogLevel::XXXX to LogLevel::Xxxxx.
-//
-// Revision 2.1  1995/11/10  12:40:44  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:38  houghton
-// Revised
-//
+// $Id$
 //
 
 #if defined( CLUE_DEBUG )
@@ -75,11 +55,11 @@ inline
 Log::Log(
     const char * 	fileName,
     LogLevel::Level 	out,
+    ios::open_mode	mode,
+    int			prot,
     bool		stampLevel,
     bool		stampTime,
     bool		stampLoc,
-    ios::open_mode	mode,
-    int			prot,
     size_t		maxSize,
     size_t		trimSize
     )
@@ -94,11 +74,11 @@ inline
 Log::Log(
     const char * 	fileName,
     const char *	out,
+    ios::open_mode	mode,
+    int			prot,
     bool		stampLevel,
     bool		stampTime,
     bool		stampLoc,
-    ios::open_mode	mode,
-    int			prot,
     size_t		maxSize,
     size_t		trimSize
     )
@@ -184,7 +164,7 @@ void
 Log::on( LogLevel::Level out )
 {
   rdbuf()->sync();
-  rdbuf()->level().setOutput( (LogLevel::Level) (getOutput() | out) );
+  rdbuf()->setOutputLevel( getOutput() | out );
 }
 
 inline
@@ -192,40 +172,40 @@ void
 Log::off( LogLevel::Level out )
 {
   rdbuf()->sync();
-  rdbuf()->level().setOutput( (LogLevel::Level) (getOutput() & ~out) );
+  rdbuf()->setOutputLevel( getOutput() & ~out );
 }
 
 inline
 LogLevel::Level
 Log::getCurrent( void ) const
 {
-  return( rdbuf()->level().getCurrent() );
+  return( rdbuf()->getLogLevel().getCurrent() );
 }
 
 inline
 LogLevel::Level
 Log::getOutput( void  ) const
 {
-  return( rdbuf()->level().getOutput() );
+  return( rdbuf()->getLogLevel().getOutput() );
 }
 
 inline
 bool
 Log::willOutput( LogLevel::Level outLevel ) const
 {
-  return( rdbuf()->willOutput( outLevel ) );
+  return( rdbuf()->getLogLevel().willOutput( outLevel ) );
 }
 
 inline
 void
-Log::setFileName( const char * outFn, int mode )
+Log::setFileName( const char * outFn, ios::open_mode mode )
 {
   open( outFn, mode );
 }
 
 inline
 void
-Log::open( const char * outFn, int mode )
+Log::open( const char * outFn, ios::open_mode mode )
 {
   rdbuf()->close();
   clear();
@@ -252,7 +232,7 @@ LogLevel::Level
 Log::setOutputLevel( const char * level )
 {
   rdbuf()->sync();
-  return( rdbuf()->level().setOutput( level ) );
+  return( rdbuf()->setOutputLevel( level ) );
 }
 
 inline
@@ -260,7 +240,7 @@ LogLevel::Level
 Log::setOutputLevel( LogLevel::Level level )
 {
   rdbuf()->sync();
-  return( rdbuf()->level().setOutput( level ) );
+  return( rdbuf()->setOutputLevel( level ) );
 }
 
 
@@ -330,6 +310,36 @@ Log::unlock( void )
 #undef inline
 #endif
 
-
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.6  1996/11/04 13:45:14  houghton
+// Restructure header comments layout.
+// Changed order of constructor args.
+// Changed to work with modifications to LogBuf.
+//
+// Revision 2.5  1996/10/22 22:05:51  houghton
+// Change: Added locStamp to turn on/off output of src file & line.
+//
+// Revision 2.4  1996/04/27 13:03:13  houghton
+// Added thread locking support.
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.3  1995/12/04 11:17:23  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.2  1995/11/12  18:01:54  houghton
+// Added srcFile, srcLine args to level().
+// Change LogLevel::XXXX to LogLevel::Xxxxx.
+//
+// Revision 2.1  1995/11/10  12:40:44  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:28:38  houghton
+// Revised
+//
+//
 #endif // ! def _Log_ii_ 
 
