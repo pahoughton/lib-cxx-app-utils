@@ -31,19 +31,6 @@ CFG_DIR		= $(PRJ_TOPDIR)/src/config
 
 include $(CFG_DIR)/00-Makefile.cfg
 
-INSTALL_BIN_DIR	= $(local_bindir)
-INSTALL_INC_DIR = $(local_incdir)
-INSTALL_LIB_DIR = $(local_libdir)
-INSTALL_MAN_DIR = $(local_mandir)
-
-exports	    = 					\
-	INSTALL_BIN_DIR=$(INSTALL_BIN_DIR)	\
-	INSTALL_INC_DIR=$(INSTALL_INC_DIR)	\
-	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)	\
-	INSTALL_MAN_DIR=$(INSTALL_MAN_DIR)	\
-	show_commands=$(show_commands)		\
-	check_install=$(check_install)		\
-
 depend depend_all depend_test depend_default depend_debug:
 	$(hide) $(MAKE) -C StlUtils $@ $(exports)
 
@@ -67,10 +54,16 @@ install_docs:
 install_all install install_default install_debug: install_docs
 	$(hide) $(MAKE) -C StlUtils $@ $(exports)
 
+install_lib_all:
+	$(hide) $(MAKE) -C StlUtils $@ $(exports)
+
 
 
 #
 # $Log$
+# Revision 4.7  1999/11/09 11:00:04  houghton
+# Changed to use Setup.cfg.
+#
 # Revision 4.6  1999/10/30 11:20:39  houghton
 # Bug-Fix: src dir is StlUtils
 #
