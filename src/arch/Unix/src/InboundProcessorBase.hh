@@ -68,7 +68,7 @@ public:
   virtual ~InboundProcessorBase( void );
 
   bool		run( void );
-  inline bool	caughtSignal( void ) const;
+  bool		caughtSignal( void ) const;
   
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
@@ -243,6 +243,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/07/25 13:54:40  houghton
+// Changed caughtSignal to non-inline.
+//
 // Revision 3.2  1997/07/25 12:55:48  houghton
 // Added documentation.
 //
