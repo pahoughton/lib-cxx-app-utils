@@ -59,7 +59,7 @@ INSTALL_INC_DIR	= $(local_incdir)
 
 VER_MAJOR	= 4
 VER_MINOR	= 00
-VER_RELEASE	= 00.b.05
+VER_RELEASE	= 00.b.06
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -349,6 +349,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.21  1999/05/09 13:00:25  houghton
+# Changed version.
+#
 # Revision 4.20  1999/05/01 12:52:55  houghton
 # Added FileBatch.C
 #
