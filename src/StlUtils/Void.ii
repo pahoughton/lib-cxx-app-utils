@@ -113,6 +113,29 @@ Void::reset( void )
 
 inline
 Void &
+Void::operator = ( const Void & rhs )
+{
+  assign( rhs );
+  return( *this );
+}
+
+inline
+bool
+Void::operator == ( const Void & rhs ) const
+{
+  return( compare( rhs ) == 0 );
+}
+
+inline
+bool
+Void::operator < ( const Void & rhs ) const
+{
+  return( compare( rhs ) < 0 );
+}
+
+
+inline
+Void &
 Void::setError( ErrorNum err )
 {
   errorNum = err;
@@ -151,6 +174,10 @@ compare( const Void & lhs, const Void & rhs )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/07/04 13:23:36  houghton
+// Added operator =
+// Added operator <
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //
