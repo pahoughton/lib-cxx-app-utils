@@ -39,55 +39,62 @@ STLUTILS_VERSION(
 //
 // * * * Sort Orders * * *
 //
-class DirSortName : public Directory::DirOrder::LessBase
+
+#if defined( Linux )
+#define DIRORDER    SortOrder< FileStat >
+#else
+#define DIRORDER    Directory::DirOrder
+#endif
+
+class DirSortName : public DIRORDER::LessBase
 {
 public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
     return( one.getName() < two.getName() );
   };
   
-  Directory::DirOrder::LessBase *   dup( void ) const {
+  DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortName( *this ) );
   };
 };
     
-class DirSortExt : public Directory::DirOrder::LessBase
+class DirSortExt : public DIRORDER::LessBase
 {
 public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
     return( one.getName().getExt() < two.getName().getExt() );
   };
   
-  Directory::DirOrder::LessBase *   dup( void ) const {
+  DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortExt( *this ) );
   };
 };
     
-class DirSortSize : public Directory::DirOrder::LessBase
+class DirSortSize : public DIRORDER::LessBase
 {
 public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
     return( one.getSize() < two.getSize() );
   };
   
-  Directory::DirOrder::LessBase *   dup( void ) const {
+  DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortSize( *this ) );
   };
 };
     
-class DirSortTime : public Directory::DirOrder::LessBase
+class DirSortTime : public DIRORDER::LessBase
 {
 public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
     return( one.getModificationTime() < two.getModificationTime() );
   };
   
-  Directory::DirOrder::LessBase *   dup( void ) const {
+  DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortTime( *this ) );
   };
 };
     
-class DirSortUser : public Directory::DirOrder::LessBase
+class DirSortUser : public DIRORDER::LessBase
 {
 public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
@@ -95,12 +102,12 @@ public:
     return( uOne < uTwo );
   };
   
-  Directory::DirOrder::LessBase *   dup( void ) const {
+  DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortUser( *this ) );
   };
 };
     
-class DirSortUserGroup : public Directory::DirOrder::LessBase
+class DirSortUserGroup : public DIRORDER::LessBase
 {
 public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
@@ -108,7 +115,7 @@ public:
     return( ugOne < ugTwo );
   };
   
-  Directory::DirOrder::LessBase *   dup( void ) const {
+  DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortUserGroup( *this ) );
   };
 };
@@ -863,6 +870,10 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1998/10/13 16:19:38  houghton
+// Port(Linux): work around compiler problem using SortOrder<> typedef'ed
+//     in the class.
+//
 // Revision 4.4  1998/10/13 15:17:33  houghton
 // Bug-Fix: was missing a call to globfree().
 //
