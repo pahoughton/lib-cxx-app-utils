@@ -10,6 +10,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/03/07 11:56:04  houghton
+// Bug-Fix: append was not setting data size.
+// Bug-Fix: set error if an alloc fails.
+// Bug-Fix: dumpInfo output format.
+//
 // Revision 3.2  1996/11/20 12:13:10  houghton
 // Removed support for BinStream.
 //
@@ -25,17 +30,11 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "Void.hh"
 #include <Str.hh>
 #include <Compare.hh>
 #include <iomanip>
-#else
-#include "Void.hh"
-#include <Str.hh>
-#include <Compare.hh>
-#include <iomanip>
-#endif
+#include <cctype>
 
 #if defined( CLUE_DEBUG )
 #include "Void.ii"
@@ -91,6 +90,8 @@ Void::append( const void * src, size_t srcSize )
     return( *this );
 
   memcpy( data + size(), src, srcSize );
+  dataSize += srcSize;
+  
   return( *this );
 }
 
@@ -138,7 +139,7 @@ Void::resize( size_t newSize, bool trunc )
   char * buf = new char[ newSize + (newSize / 2 ) ];
   
   if( ! buf )
-    return( false );
+    return( setError( E_ALLOC ).good() );
 
   dataBufSize = newSize + (newSize / 2 );
 
@@ -281,7 +282,7 @@ Void::dumpInfo(
        << prefix << "bufSize: " << dataBufSize << endl
     ;
 
-  dest << prefix << "data:    " << "0000 ";
+  dest << prefix << "data:    " << "0x0000 ";
 
   char  oldFill = dest.fill( '0' );
   int	oldFlags = dest.setf( ios::uppercase | ios::hex );
@@ -291,13 +292,19 @@ Void::dumpInfo(
   for( size_t pos = 0 ; pos < dataSize; pos++ )
     {
       if( pos && ! (pos % 8) )
-	dest << '\n' << prefix << "         " << setw(4) << pos << ' ';
-      dest << d[pos] << ' ';
+	dest << '\n' << prefix << "         0x" << setw(4) << pos << ' ';
+      
+      if( isprint( d[pos] ) )
+	dest << d[pos] << ' ';
+      else
+	dest << "0x" << setw(2) << (int)d[pos] << ' ' ;
     }
 
   dest.fill( oldFill );
   dest.flags( oldFlags );
-  
+
+  dest << '\n';
+    
   return( dest );
 }
 
