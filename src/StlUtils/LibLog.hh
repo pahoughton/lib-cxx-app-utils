@@ -16,6 +16,13 @@
 // $Id$
 //
 // $Log$
+// Revision 4.2  1999/03/02 12:47:19  houghton
+// Added LLgError
+// Added LLgWarn
+// Added LLgDebug
+// Added LLgTest
+// Added LLgInfo
+//
 // Revision 4.1  1997/09/17 15:12:29  houghton
 // Changed to Version 4
 //
@@ -50,5 +57,11 @@ extern Log *	_LibLog;
     if( _LibLog && _LibLog->willOutput( level_ ) )			      \
         class_.dumpInfo( _LibLog->level( level_ ) ).flush()
 
+#define LLgError _LLg( LogLevel::Error )
+#define LLgWarn	 _LLg( LogLevel::Warn )
+#define LLgDebug _LLg( LogLevel::Debug )
+#define LLgTest  _LLg( LogLevel::Test )
+#define LLgInfo  _LLg( LogLevel::Info )
+      
 #endif // ! def _LibLog_hh_ 
 
