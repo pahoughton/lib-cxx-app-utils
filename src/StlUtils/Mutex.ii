@@ -1,0 +1,31 @@
+#ifndef _Mutex_ii_
+#define _Mutex_ii_
+//
+// File:        Mutex.ii
+// Desc:        
+//
+//  	inlines for Mutex
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     02/06/96 07:16
+//
+// Revision History:
+//
+// $Id$
+//
+// $Log$
+// Revision 2.1  1996/04/27 13:05:30  houghton
+// Initial version.
+//
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+#if defined( inline )
+#undef inline
+#endif
+
+#endif // ! def _Mutex_ii_ 
