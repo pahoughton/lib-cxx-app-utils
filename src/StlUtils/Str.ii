@@ -13,6 +13,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/01/18 17:34:43  houghton
+// Bug-Fix: Linux - had to remove (actually ifdef out) functions that can
+//     be created with functional.h.
+//
 // Revision 3.1  1996/11/14 01:24:13  houghton
 // Changed to Release 3
 //
@@ -1632,7 +1636,7 @@ Str::operator <  ( const char * two ) const
   return( compare( two ) < 0 );
 }
 
-
+#if !defined( __linux__ )
 inline
 bool
 Str::operator != ( const Str & two ) const
@@ -1716,6 +1720,7 @@ Str::operator >= ( const char * two ) const
 {
   return( compare( two ) >= 0 );
 }
+#endif
 
 inline
 ostream &
@@ -1847,6 +1852,7 @@ operator <  ( const char * lhs, const Str & rhs )
   return( compare( lhs, rhs ) < 0 );
 }
 
+#if !defined( __linux__ )
 inline
 bool
 operator >  ( const char * lhs, const Str & rhs )
@@ -1867,6 +1873,8 @@ operator >= ( const char * lhs, const Str & rhs )
 {
   return( compare( lhs, rhs ) >= 0 );
 }
+
+#endif
 
 #if !defined( inline )
 #define STR_LINEDELIM = '\n'

@@ -16,6 +16,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/01/18 17:34:21  houghton
+// Bug-Fix: Linux - had to remove (actually ifdef out) functions that can
+//     be created with functional.h.
+//
 // Revision 3.2  1996/11/20 12:12:18  houghton
 // Removed support for BinStream.
 //
@@ -517,6 +521,7 @@ public:
   inline bool	    operator <  ( const SubStr & rhs ) const;
   inline bool	    operator <  ( const char * rhs ) const;
 
+#if !defined( __linux__ )
   inline bool       operator !=  ( const Str & rhs ) const;
   inline bool	    operator !=  ( const SubStr & rhs ) const;
   inline bool	    operator !=  ( const char * rhs ) const;
@@ -532,7 +537,7 @@ public:
   inline bool       operator >= ( const Str & rhs ) const;
   inline bool	    operator >= ( const SubStr & rhs ) const;
   inline bool	    operator >= ( const char * rhs ) const;
-  
+#endif
   // libClue Common Class Methods
   
   virtual size_t	getBinSize( void ) const;
@@ -640,6 +645,7 @@ operator != ( const char * lhs, const Str & rhs );
 bool
 operator <  ( const char * lhs, const Str & rhs );
 
+#if !defined( __linux__ )
 bool
 operator >  ( const char * lhs, const Str & rhs );
 
@@ -648,6 +654,7 @@ operator <= ( const char * lhs, const Str & rhs );
 
 bool
 operator >= ( const char * lhs, const Str & rhs );
+#endif
 
 istream &
 getline( istream & src, Str & dest, char delim = '\n' );
