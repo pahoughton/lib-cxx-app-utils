@@ -19,6 +19,10 @@ Cambridge, MA 02139, USA.  */
 
 #define	_FNMATCH_H	1
 
+#if defined( __cplusplus )
+extern "C" {
+#endif
+
 /* Bits set in the FLAGS argument to `fnmatch'.  */
 #define	FNM_PATHNAME	(1 << 0) /* No wildcard can ever match `/'.  */
 #define	FNM_NOESCAPE	(1 << 1) /* Backslashes don't quote special chars.  */
@@ -37,5 +41,9 @@ Cambridge, MA 02139, USA.  */
    returning zero if it matches, FNM_NOMATCH if not.  */
 extern int fnmatch( const char *__pattern, const char *__string,
 		    int __flags);
+
+#if defined( __cplusplus )
+};
+#endif
 
 #endif /* fnmatch.h */
