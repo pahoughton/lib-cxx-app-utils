@@ -1,58 +1,23 @@
-#ifndef _StlUtilsUtils_ii_
-#define _StlUtilsUtils_ii_
+#ifndef _StlUtilsMisc_ii_
+#define _StlUtilsMisc_ii_
 //
-// File:        StlUtilsUtils.ii
-// Proejct:	StlUtils
+// File:        StlUtilsMisc.ii
+// Project:	StlUtils
 // Desc:        
 //
 //  This file contains the source for the inline
 //  functions documented in StlUtilsUtils.hh
 //  
-//
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     05/02/95 06:32
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 4.1  1997/09/17 15:12:50  houghton
-// Changed to Version 4
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.2  1997/09/17 11:08:43  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:23:29  houghton
-// Changed to Release 3
-//
-// Revision 2.7  1996/11/11 13:32:59  houghton
-// Bug-Fix: had to change Align to use a template class for SizeType
-//
-// Revision 2.6  1996/11/04 18:21:19  houghton
-// Renamed StlUtils.hh to StlUtilsUtils.hh.
-//
-// Revision 2.5  1996/11/04 13:31:53  houghton
-// Restructure header comments layout.
-// Moved ArraySize to .hh
-// Bug fix: Align - change to if value == 0 return alignsize.
-// Removed Net2Host functions (now in separate Net2Host.hh
-// Changed UnionOfDur to call UnionOf
-//
-// Revision 2.4  1996/04/27 12:53:27  houghton
-// Removed unneeded includes.
-//
-// Revision 2.3  1996/03/13 11:24:46  houghton
-// Bug Fix: fixed include file #ifdefs
-// Add: Net2Host & Host2Net translators
-//
-// Revision 2.2  1996/02/29 19:04:56  houghton
-// Added ifdef for abs( long )
-//
-// Revision 2.1  1995/11/10 12:40:21  houghton
-// Change to Version 2
-//
-// Revision 1.1  1995/11/05  13:23:18  houghton
-// Initaial implementation
-//
+//  $Id$
 //
 
 #if defined( inline )
@@ -186,15 +151,15 @@ inline
 NumberType
 Round( NumberType value, int factor )
 {
-  NumberType remain = value % factor;
+  NumberType remain =  value % factor;
 
-  if( remain < ((factor + 1) / 2) )
+  if( abs( remain ) < ((factor + 1) / 2) )
     {
       return( value - remain );
     }
   else
     {
-      return( value + ( factor - remain ) );
+      return( value + ( value < 0 ? -(factor + remain) : factor - remain ) );
     }
 }
 
@@ -207,10 +172,12 @@ RoundUp( NumberType value, int factor  )
 
   if( remain == 0 )
     {
-      remain = factor;
+      return( value );
     }
-
-  return( (value - remain) + factor );
+  else
+    {
+      return( value < 0 ? value - remain : value - remain + factor );
+    }
 }
 
 template< class NumberType >
@@ -221,9 +188,61 @@ RoundDown( NumberType value, int factor  )
 
   NumberType remain = value % factor;
 
-  return( value - remain );
+  if( remain == 0 )
+    {
+      return( value );
+    }
+  else
+    {
+      return( value < 0 ? value - remain - factor : value - remain );
+    }
 }
 
-#endif // ! def _StlUtilsUtils_ii_ 
-
-
+//
+// Revision Log:
+// 
+// $Log$
+// Revision 4.2  1998/10/23 13:06:26  houghton
+// Bug-Fix: the Round*() methods were not working correctly with negative
+//     values.
+//
+// Revision 4.1  1997/09/17 15:12:50  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:43  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:23:29  houghton
+// Changed to Release 3
+//
+// Revision 2.7  1996/11/11 13:32:59  houghton
+// Bug-Fix: had to change Align to use a template class for SizeType
+//
+// Revision 2.6  1996/11/04 18:21:19  houghton
+// Renamed StlUtils.hh to StlUtilsUtils.hh.
+//
+// Revision 2.5  1996/11/04 13:31:53  houghton
+// Restructure header comments layout.
+// Moved ArraySize to .hh
+// Bug fix: Align - change to if value == 0 return alignsize.
+// Removed Net2Host functions (now in separate Net2Host.hh
+// Changed UnionOfDur to call UnionOf
+//
+// Revision 2.4  1996/04/27 12:53:27  houghton
+// Removed unneeded includes.
+//
+// Revision 2.3  1996/03/13 11:24:46  houghton
+// Bug Fix: fixed include file #ifdefs
+// Add: Net2Host & Host2Net translators
+//
+// Revision 2.2  1996/02/29 19:04:56  houghton
+// Added ifdef for abs( long )
+//
+// Revision 2.1  1995/11/10 12:40:21  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  13:23:18  houghton
+// Initaial implementation
+//
+//
+#endif // ! def _StlUtilsMisc_ii_ 
