@@ -318,7 +318,7 @@ compare( const FilePath & one, const FilePath & two );
   		  const char *	prefix = "    ",
   		  bool		showVer = true ) const;
   	    Output detailed information about the current
-  	    state of the Log. 
+  	    state of the instance. 
   
   
     Protected Interface:
@@ -352,6 +352,9 @@ compare( const FilePath & one, const FilePath & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2001/07/30 01:40:37  houghton
+// *** empty log message ***
+//
 // Revision 5.4  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //

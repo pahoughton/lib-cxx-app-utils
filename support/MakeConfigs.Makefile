@@ -31,7 +31,7 @@
 #
 
 
-SHELL	= /usr/bin/ksh
+SHELL	= /bin/ksh
 hide	= @
 
 tools_archive_dir	= $(TOOL_DIR)/src/Archives

@@ -28,6 +28,10 @@ include Make/make.cfg.$(make_cfg_ver)
 
 include $(PROJECT_DIR)/support/.makeconfigs.configvars
 
+# Do NOT pass any var=value pairs on my command line to
+# the support tool builds.
+MAKEOVERRIDES	=
+
 SUPPORT_ITEMS	=		\
 	$(MAKE_CONFIGS_ITEMS)	\
 	DOCTOOLS		\
@@ -56,7 +60,8 @@ setup: $(PROJECT_DIR)/support/Support.Items.Makefile
 	$(hide) $(MAKE) -f $< $@			\
 		SUPPORT_ITEMS='$(SUPPORT_ITEMS)'	\
 		PROJECT_DIR=$(PROJECT_DIR)		\
-		support_vars_file=$(support_vars_file)
+y		support_vars_file=$(support_vars_file)	\
+		config_vars_file=$(config_vars_file)
 
 #
 # Revision Log:

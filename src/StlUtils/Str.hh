@@ -1584,16 +1584,29 @@ operator >> ( istream & src, Str & dest );
     	scan( const RegexScan & exp, size_type start = 0 );
   
     	size_type
-    	scan( const Str & delimCharts, size_type start = 0 );
+    	scan( const Str &	delimChars,
+	      bool		multiDelim = true,
+	      size_type		start = 0 );
   
     	size_type
-    	scan( const SubStr & delimChars, size_type start = 0 );
+    	scan( const SubStr &	delimChars,
+	      bool		multiDelim = true,
+	      size_type		start = 0 );
+
   
     	size_type
-    	scan( const char * delimChars, size_type start = 0, size_type dLen = npos );
+    	scan( const char *  delimChars, 
+	      bool	    multiDelim = true,
+	      size_type	    start = 0,
+	      size_type	    dLen = npos );
   
     	size_type
-    	scan( char delim, size_type start = 0 );
+    	scan( const char *  quoteChars,
+	      char	    escChar,
+	      const char *  delimChars,
+	      bool	    multiDelim = true,
+	      size_type	    start = 0 );
+  
   
     	size_type
     	scanPattern( const RegexScan & delimExp, size_type start = 0 );
@@ -1605,7 +1618,9 @@ operator >> ( istream & src, Str & dest );
     	scanString( const SubStr & delimStr, size_type start = 0 );
   
     	size_type
-    	scanString( const char * dStr, size_type start = 0, size dLen = npos );
+    	scanString( const char * dStr,
+		    size_type start = 0,
+		    size_type dLen = npos );
   
     	size_type
     	scanMatchCount( void ) const;
@@ -1636,7 +1651,7 @@ operator >> ( istream & src, Str & dest );
     	getDelim( istream & src, char delim, bool discard = true );
   
     	size_type
-    	getStreamSize( void ) const;
+    	getBinSize( void ) const;
   
     	ostream &
     	write( ostream & dest ) const;
@@ -1758,8 +1773,13 @@ operator >> ( istream & src, Str & dest );
     	virtual ostream &
     	toStream( ostream & dest = cout ) const;
   
-    	virtual ostream &
-    	dumpInfo( ostream & dest = cerr ) const;
+  	virtual
+  	ostream &
+  	dumpInfo( ostream &	dest = cerr,
+  		  const char *	prefix = "    ",
+  		  bool		showVer = true ) const;
+  	    Output detailed information about the current
+  	    state of the instance. 
   
     	virtual const char *
     	getClassName( void ) const;
@@ -1792,6 +1812,9 @@ operator >> ( istream & src, Str & dest );
 // %PL%
 // 
 // $Log$
+// Revision 5.8  2001/07/30 01:40:37  houghton
+// *** empty log message ***
+//
 // Revision 5.7  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //
