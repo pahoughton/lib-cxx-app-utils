@@ -48,10 +48,23 @@ tLogLevel( LibTest & tester )
   }
 
   {
-    // LogLevel( const char * )
+    // LogLevel( const char * ) - upper case
     // willOutput( void );
     
     LogLevel t( "ERROR | WARNING " );
+    
+    TEST( t.getCurrent() == LogLevel::Error );
+    TEST( t.getOutput() == ( LogLevel::Error | LogLevel::Warning ) );
+    TEST( t.willOutput( LogLevel::Err ) );
+    TEST( t.willOutput( LogLevel::Warn ) );
+    TEST( ! (t.willOutput( LogLevel::Info ) ) );
+  }
+
+  {
+    // LogLevel( const char * ) - lower/Mixed case
+    // willOutput( void );
+    
+    LogLevel t( "error | Warning " );
     
     TEST( t.getCurrent() == LogLevel::Error );
     TEST( t.getOutput() == ( LogLevel::Error | LogLevel::Warning ) );
@@ -103,6 +116,36 @@ tLogLevel( LibTest & tester )
     TEST( t.willOutput( LogLevel::Info ) );
     TEST( ! t.willOutput( LogLevel::Debug ) );
     t.setOutput( "ALL" );
+    TEST( t.willOutput( LogLevel::Error ) );
+    TEST( t.willOutput( LogLevel::Err ) );
+    TEST( t.willOutput( LogLevel::Warning ) );
+    TEST( t.willOutput( LogLevel::Warn ) );
+    TEST( t.willOutput( LogLevel::App1 ) );
+    TEST( t.willOutput( LogLevel::App2 ) );
+    TEST( t.willOutput( LogLevel::App3 ) );
+    TEST( t.willOutput( LogLevel::App4 ) );
+    TEST( t.willOutput( LogLevel::App5 ) );
+    TEST( t.willOutput( LogLevel::App6 ) );
+    TEST( t.willOutput( LogLevel::Lib1 ) );
+    TEST( t.willOutput( LogLevel::Lib2 ) );
+    TEST( t.willOutput( LogLevel::Lib3 ) );
+    TEST( t.willOutput( LogLevel::Lib4 ) );
+    TEST( t.willOutput( LogLevel::Info ) );
+    TEST( t.willOutput( LogLevel::Test ) );
+    TEST( t.willOutput( LogLevel::Debug ) );
+    TEST( t.willOutput( LogLevel::Funct ) );
+  }
+
+  {
+    // setOutput( const char * out ) - lower/mixed case
+
+    LogLevel t;
+
+    t.setOutput( "Test | info" );
+    TEST( t.willOutput( LogLevel::Test ) );
+    TEST( t.willOutput( LogLevel::Info ) );
+    TEST( ! t.willOutput( LogLevel::Debug ) );
+    t.setOutput( "AlL" );
     TEST( t.willOutput( LogLevel::Error ) );
     TEST( t.willOutput( LogLevel::Err ) );
     TEST( t.willOutput( LogLevel::Warning ) );
