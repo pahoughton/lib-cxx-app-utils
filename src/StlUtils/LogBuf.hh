@@ -127,8 +127,12 @@ protected:
   class Filter
   {
   public:
-    Filter( void ) : dest(0), outputLevel( LogLevel::None ), regex( 0 ) {};
-    
+    inline Filter( void );
+    inline Filter( const Filter & from );
+    inline ~Filter( void );
+
+    inline Filter & operator = ( const Filter & rhs );
+      
     streambuf *	    dest;
     LogLevel::Level outputLevel;
     RegexScan *	    regex;
@@ -273,6 +277,12 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/03/03 19:01:22  houghton
+// Moved code for Filter class to LogBuf.ii.
+// Added Filter copy constructor.
+// Added Filter destructor.
+// Added Filter operator =.
+//
 // Revision 3.3  1997/03/03 14:36:36  houghton
 // Removed support for RW Tools++
 //
