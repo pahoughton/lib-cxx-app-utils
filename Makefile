@@ -21,7 +21,7 @@ INSTALL_INC_DIR 	= $(TOOL_DIR)/include/prod
 INSTALL_LIB_DIR 	= $(TOOL_DIR)/lib/prod
 INSTALL_DOC_MAN_DIR 	= $(TOOL_DIR)/man
 
-INSTALL_DOC_HTML_BASE_DIR	= \
+INSTALL_DOC_HTML_DIR	= \
 	/usr/netscape/suitespot/docs/ObjectRepository/GenericCxx/StlUtils
 
 common_h	= $(INSTALL_INC_DIR)/Common.h
@@ -30,11 +30,12 @@ stdcxx_hh	= $(INSTALL_INC_DIR)/StdCxxConfig.hh
 
 hide = @
 
-setup_exports		=			\
-	INSTALL_INC_DIR=$(INSTALL_INC_DIR)	\
-	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)	\
-	INSTALL_DOC_DIR=$(INSTALL_DOC_DIR)	\
-	show_commands=$(show_commands)		\
+setup_exports		=				\
+	INSTALL_INC_DIR=$(INSTALL_INC_DIR)		\
+	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)		\
+	INSTALL_DOC_HTML_DIR=$(INSTALL_DOC_HTML_DIR)	\
+	INSTALL_DOC_MAN_DIR=$(INSTALL_DOC_MAN_DIR)	\
+	show_commands=$(show_commands)			\
 	check_install=$(check_install)
 
 exports			=			\
@@ -123,10 +124,10 @@ help targets:
 
 help_config:
 	@ if [ -f $(CFG_DIR)/Setup.cfg ] ; then				      \
-	  $(MAKE) -f $(CFG_DIR)/Setup.cfg help_config ;			      \
+	  $(MAKE) -f $(CFG_DIR)/Setup.cfg help_setup_config ;		      \
 	else								      \
 	  if [ -f $(PROJECT)/$(CFG_DIR) ] ; then			      \
-	    $(MAKE) -f $(PROJECT)/$(CFG_DIR)/Setup.cfg help_config ;	      \
+	    $(MAKE) -f $(PROJECT)/$(CFG_DIR)/Setup.cfg help_setup_config ;    \
 	  else								      \
 	    echo ;							      \
 	    echo "+ The following configuration variables are available:" ;   \
@@ -145,6 +146,9 @@ help_config:
 
 #
 # $Log$
+# Revision 5.3  2000/06/04 17:55:48  houghton
+# Changed doc variables.
+#
 # Revision 5.2  2000/05/25 16:51:50  houghton
 # Changed project version.
 #
