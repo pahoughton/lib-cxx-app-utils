@@ -1,0 +1,110 @@
+#ifndef _SigCatcher_ii_
+#define _SigCatcher_ii_
+//
+// File:        SigCatcher.ii
+// Project:	Clue
+// Desc:        
+//
+//  	Inline source for SigCatcher
+//
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Created:     04/14/97 07:12
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+inline
+SigCatcher::Caught::Caught( void )
+  : signal( 0 ),
+    whenCaught( 0 )
+{
+}
+
+inline
+SigCatcher::Caught::Caught( SigCatcher::Signal caughtSig, time_t timeCaught )
+  : signal( caughtSig ),
+    whenCaught( timeCaught )
+{
+}
+
+inline
+SigCatcher::Signal
+SigCatcher::Caught::sig( void ) const
+{
+  return( signal );
+}
+
+inline
+time_t
+SigCatcher::Caught::when( void ) const
+{
+  return( whenCaught );
+}
+
+inline
+bool
+SigCatcher::Caught::operator == ( const Caught & rhs ) const
+{
+  return( sig == rhs.sig && when == rhs.when );
+}
+
+inline
+SigCatcher::CaughtQueue &
+SigCatcher::caught( void )
+{
+  return( caughtSigList );
+}
+
+inline
+bool
+SigCatcher::caught( Signal sig ) const
+{
+  for( CaughtQueue::const_iterator them = caughtSigList.begin();
+       them != caughtSigList.end();
+       ++ them )
+    {
+      if( (*them).sig() == sig )
+	return( true );
+    }
+  return( false );
+}
+  
+
+inline
+bool
+SigCatcher::setError(
+  ErrorNum	err,
+  Signal	errSig,
+  int		osErr
+  )
+{
+  errorNum = err;
+  errorSig = errSig;
+  osErrno = osErr;
+  return( good() );
+}
+
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 3.1  1997/04/19 09:53:04  houghton
+// Initial Version.
+//
+//
+#endif // ! def _SigCatcher_ii_ 

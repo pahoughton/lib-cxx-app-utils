@@ -1,0 +1,46 @@
+#ifndef _PidFile_ii_
+#define _PidFile_ii_
+//
+// File:        PidFile.ii
+// Project:	Clue
+// Desc:        
+//
+//  	Inline source for PidFile
+//
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Created:     04/15/97 06:38
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+inline
+DumpInfo< PidFile >
+PidFile::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< PidFile >( *this, prefix, showVer ) );
+}
+
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 3.1  1997/04/19 09:53:04  houghton
+// Initial Version.
+//
+//
+#endif // ! def _PidFile_ii_ 
