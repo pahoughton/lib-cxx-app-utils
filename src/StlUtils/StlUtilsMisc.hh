@@ -29,6 +29,12 @@ int
 CLUE_FUNCT_T
 OpenFlags( ios::open_mode openMode );
 
+ios::open_mode
+IosOpenModeFromString( const char * modeString );
+
+const char * 
+IosOpenModeToString( ios::open_mode mode );
+
 // See ClueUtils.ii for inline Functions
 #include <ClueUtils.ii>
 
@@ -159,6 +165,10 @@ OpenFlags( ios::open_mode openMode );
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/04/04 20:52:12  houghton
+// Added IosOpenModeFromString.
+// Added IosOpenModeToSting.
+//
 // Revision 3.2  1996/11/19 12:20:51  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.
