@@ -41,7 +41,7 @@ tFileStat01( LibTest & tester )
 
     FileStat t( TEST_DATA_DIR "/FileStat.l1", true );
 
-    TEST( t.good() );
+    TESTR( t.error(), t.good() );
   }
 
   {
