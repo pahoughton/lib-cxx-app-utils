@@ -11,6 +11,12 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/11/06 18:13:00  houghton
+// Removed BinStream support.
+// Changed how effective is handled.
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
 // Revision 2.3  1996/05/01 11:01:46  houghton
 // Bug-Fix: static const UserGroup eff was causing segv.
 //   change so the effective() method just returns a new 'UserGroup'
@@ -28,8 +34,7 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-#include <BinStream.hh>
-#include <Str.hh>
+#include <rw/cstring.h>
 #include <set>
 #include <functional>
 #include <cstddef>
@@ -52,12 +57,12 @@
 
 class User;
 
-class UserGroup : public BinObject
+class UserGroup
 {
 
 public:
 
-  typedef set< Str, less<Str> >	    Members;
+  typedef set< RWCString, less<RWCString> >	    Members;
     
   inline UserGroup( bool findMembers = false );
   inline UserGroup( gid_t group, bool findMembers = false );
@@ -69,7 +74,7 @@ public:
   inline gid_t	    	    getGID( void ) const;
   inline const char *	    getName( void ) const;
 
-  static UserGroup	    effective( void );
+  static const UserGroup &  effective( void );
   
   size_t		    findMembers( void );
   
@@ -98,17 +103,13 @@ public:
   // note: write/read only stores the GID
   
   virtual size_t	getBinSize( void ) const;
-  virtual BinStream &	write( BinStream & dest ) const;
-  virtual BinStream &	read( BinStream & src );
   
   virtual ostream & 	write( ostream & dest ) const;
   virtual istream & 	read( istream & src );
 
   virtual ostream &	toStream( ostream & dest = cout ) const;
-
-  friend inline ostream & operator << ( ostream & dest,
-					const UserGroup & obj );
-    
+  virtual istream &	fromStream( istream & src );
+  
   virtual bool		good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char *	getClassName( void ) const;
@@ -127,12 +128,10 @@ private:
 
   gid_t	    	gid;
 
-  Str	    	name;
+  RWCString    	name;
   Members   	members;
 
   int	    	osError;
-  
-  //  static UserGroup  eff;
   
 };
 
@@ -144,6 +143,12 @@ private:
 #endif
 #else
 #undef inline
+
+ostream &
+operator << ( ostream & dest, const UserGroup & obj );
+
+istream &
+operator >> ( istream & src, UserGroup & obj );
 
 int
 compare( const UserGroup & one, const UserGroup & two );
