@@ -471,11 +471,13 @@ DateTime::setTimeZone( const char * zone )
 long
 DateTime::setTimeZoneOffset( void )
 {
+  char		curTz[30];
   const char *	envTz = getenv("TZ" );
-  Str		curTz;
 
   if( envTz )
-    curTz = envTz;
+    strcpy( curTz, envTz );
+  else
+    curTz[0] = 0;
 
   setEnvTimeZone( timeZone );
 
@@ -488,15 +490,24 @@ DateTime::setTimeZoneOffset( void )
 #if defined( STLUTILS_HAS_TM_GMTOFF )
   offset = tm.tm_gmtoff;
 #else
+#if !defined( OLD_WAY )
+  struct tm gTm;
+  memcpy( &gTm, gmtime( &seconds ), sizeof( tm ) );
+  offset = ( (tm.tm_yday == gTm.tm_yday ?
+	      (tm.tm_hour - gTm.tm_hour) :
+	      (tm.tm_hour - 24 - gTm.tm_hour))
+	     * SecPerHour );
+#else
   tzset();
   offset = - timezone;
   if( flags.dst )
     offset -= SecPerHour;
 #endif
+#endif
 
   seconds += offset;
 
-  setEnvTimeZone( curTz.c_str() );
+  setEnvTimeZone( curTz );
 
   return( offset );
 }
@@ -625,26 +636,24 @@ DateTime::setEnvTimeZone( const char * tz )
 	initialTzName[0] = 0;
     }
 
-  
-  Str	putTz( "TZ=" );
+
+  static    char    putTz[64];
+
+  strcpy( putTz, "TZ=" );
 
   if( tz && tz[0] )
     {
-      putTz << tz;
+      strcat( putTz, tz );
     }
   else
     {
       if( initialTzName )
 	{
-	  putTz << initialTzName;
-	}
-      else
-	{
-	  putTz = "TZ";
+	  strcat( putTz, initialTzName );
 	}
     }
-  
-  putenv( putTz.c_str() );
+
+  putenv( putTz );
   tzset();
 }
 
@@ -727,8 +736,10 @@ DateTime::toTm( struct tm & tmTime, const char * str, const char * fmt ) const
     }
   else
     {
+      
       if( strPattern.search( str ) && strPattern.matchCount() > 0 )
 	{
+      
 	  if( strPattern.matchLength( 1 ) )
 	    {
 	      tmTime.tm_mon = StringToInt( str + strPattern.matchStart( 1 ),
@@ -779,6 +790,7 @@ DateTime::toTm( struct tm & tmTime, const char * str, const char * fmt ) const
 					   10,
 					   strPattern.matchLength( 6 ) );
 	    }
+	  
 	  return( true );
 	}
     }
@@ -948,6 +960,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.8  1998/10/23 13:04:26  houghton
+// Bug-Fix: the env string passed to putenv() must be static.
+//
 // Revision 4.7  1998/10/13 16:16:21  houghton
 // Changed: Reworked time zone processing for the time represented by
 //     'seconds' instead of the current 'system' time.
