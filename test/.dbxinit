@@ -1,0 +1,2 @@
+use . ../src
+stop in LibTest::failed
