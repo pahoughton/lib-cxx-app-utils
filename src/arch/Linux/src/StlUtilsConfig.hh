@@ -25,6 +25,8 @@
 
 #define CLUE_STRBUF_CONST_RDBUF const
 
+#define CLUE_HAS_USER	1
+
 #if defined( CLUE_DEBUG )
 #define CLUE_SAFETY_ON 1
 #endif
@@ -123,6 +125,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:29:19  houghton
+// Added CLUE_HAS_USER define.
+//
 // Revision 3.1  1996/11/14 01:25:05  houghton
 // Changed to Release 3
 //
