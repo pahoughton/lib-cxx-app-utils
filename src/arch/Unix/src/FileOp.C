@@ -164,26 +164,51 @@ FileOp::setDest( OpType opType, const char * fn, bool overwrite )
     {
       if( dest.isDir() )
 	{
-	  FilePath destFullName( dest.getName() );
-	  
-	  if( destFullName.size()
-	      && ( destFullName.at( destFullName.size() - 1 )
-		   == destFullName.dirSep() ) )
-	    destFullName << src.getName().getFileName();
+	  if( opType != OT_Cat )
+	    {
+	      FilePath destFullName( dest.getName() );
+	      
+	      if( destFullName.size()
+		  && ( destFullName.at( destFullName.size() - 1 )
+		       == destFullName.dirSep() ) )
+		destFullName << src.getName().getFileName();
+	      else
+		destFullName << destFullName.dirSep()
+			     << src.getName().getFileName();
+	      
+	      dest( destFullName );
+	      
+	      if( ! dest.good() )
+		return( true );
+	    }
 	  else
-	    destFullName << destFullName.dirSep()
-			 << src.getName().getFileName();
-	  
-	  dest( destFullName );
-
-	  if( ! dest.good() )
-	    return( true );
+	    {
+	      return( setError( EISDIR,
+				opType,
+				"can't cat to a direcotry",
+				dest.getName() ) );
+	    }
 	}
 
-      // this is now either the orig file or the orig dir
+      // dest is now either the orig file or the orig dir
       // with the file name appended.
       if( dest.isReg() )
 	{
+	  if( opType == OT_Cat )
+	    {
+	      if( ! dest.canWrite() )
+		{
+		  return( setError( EPERM,
+				    opType, 
+				    "can't write to dest",
+				    dest.getName() ) );
+		}
+	      else
+		{
+		  return( true );
+		}
+	    }
+		  
 	  if( overwrite )
 	    {
 	      if( opType == OT_Move )
@@ -312,6 +337,61 @@ FileOp::moveFile( void )
 }
 
 bool
+FileOp::catFile( void )
+{
+  int destFd;
+  int srcFd;
+
+  if( (srcFd = open( src.getName().c_str(), O_RDONLY, 0 ) ) < 0 )
+    return( setError( errno, "opening src", src.getName() ) );
+    
+  
+  if( (destFd = open( dest.getName().c_str(),
+		      O_WRONLY | O_CREAT | O_APPEND,
+		      0600 ) ) < 0 )
+    {
+      close( srcFd );
+      return( setError( errno, "opening dest", dest.getName() ) );
+    }
+  
+  size_type	readLen;
+  char		buffer[ 1024 * 8 ];
+  
+  while( (readLen = readfd( srcFd, buffer, sizeof( buffer ) ) ) > 0 )
+    {
+      if( writefd( destFd, buffer, readLen ) < 0 )
+	{
+	  close( srcFd );
+	  close( destFd );
+	  return( setError( errno, "writing to dest", dest.getName() ) );
+	}
+    }
+
+  if( readLen < 0 )
+    {
+      close( srcFd );
+      close( destFd );
+      return( setError( errno, "reading src", src.getName() ) );
+    }
+
+  if( close( srcFd ) < 0 )
+    {
+      close( destFd );
+      return( setError( errno, "closing src", src.getName() ) );
+    }
+
+  if( close( destFd ) < 0 )
+    {
+      return( setError( errno, "closing dest", dest.getName() ) );
+    }
+
+  return( setDestStat() );
+  
+  return( true );
+}
+
+
+bool
 FileOp::removeFile( const char * fn )
 {
   if( ::remove( fn ) )
@@ -431,6 +511,9 @@ FileOp::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 1.6  1999/05/01 12:54:26  houghton
+// Added catFile()
+//
 // Revision 1.5  1999/03/02 12:51:23  houghton
 // Bug-Fixes.
 // Cleanup.
