@@ -75,6 +75,10 @@ FileBatch< Rec >::FileBatch(
 	  mode = (ios::open_mode)(mode | ios::nocreate);
 	}
     }
+  else
+    {
+      fstream tmp(name, ios::out, 0666 ^ permMask );
+    }
   
   batch = new fstream( name, mode, 0666 ^ permMask );
 
@@ -343,6 +347,10 @@ FileBatch< Rec >::file( void ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 5.2  2001/01/25 12:20:15  houghton
+// Port(Sun CC5): ios::in|ios:out will not create, so force a create
+// before the real open.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //
