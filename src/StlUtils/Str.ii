@@ -1420,9 +1420,11 @@ inline
 Str::size_type
 Str::copy( char * dest, size_type destLen, size_type start ) const
 {
-  size_type len = min( destLen, size() - start );
+  size_type len = (destLen == npos ? size() - start :
+		   min( destLen, size() - start ) );
+  
   strncpy( dest, strbase() + start, len );
-  if( len < destLen )
+  if( destLen == npos || len < destLen )
     dest[ len ] = 0;
   return( len );
 }
@@ -2002,6 +2004,9 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.9  1997/08/17 22:35:17  houghton
+// Changed copy(): added support for destlen to be npos.
+//
 // Revision 3.8  1997/08/12 11:10:54  houghton
 // Changed find_first_not_of to use new StringFirstNotOf function.
 //
