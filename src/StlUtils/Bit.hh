@@ -18,7 +18,7 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 15:28:30  houghton
+// Revision 1.4  1995/11/06 11:59:47  houghton
 // Revised
 //
 //
@@ -34,8 +34,9 @@
 #include <climits>
 #endif
 
-#define Bit( _b_ ) ( 1 << _b_ )
+#if !defined( CHAR_ALL_BITS )
 
+#define Bit( _b_ ) ( 1 << _b_ )
 
 #define CHAR_BITS   CHAR_BIT
 #define SHORT_BITS  ( sizeof(short) * CHAR_BITS)
@@ -47,6 +48,8 @@
 #define SHORT_ALL_BITS	((unsigned short)(~0)) // 0xffff
 #define LONG_ALL_BITS	((unsigned long)(~0L)) // 0xffffffff
 #define INT_ALL_BITS	((unsigned int)(~0))   // 0xffff | 0xffffffff
+
+#endif
 
 //
 // Functions in Bit.ii
