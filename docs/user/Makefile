@@ -31,7 +31,7 @@ CFG_DIR		= $(PRJ_TOPDIR)/src/config
 
 include $(CFG_DIR)/00-Makefile.cfg
 
-INSTALL_HTML_DIR	= $(INSTALL_DOC_HTML_BASE_DIR)/user
+INSTALL_HTML_DIR	= $(INSTALL_DOC_HTML_DIR)/user
 
 HTML_FILES	=							      \
 	00-Index.html							      \
@@ -42,7 +42,7 @@ $(INSTALL_HTML_DIR):
 	$(hide) $(mkdirhier_cmd) $@
 	$(hide) chmod 777 $@
 
-install_html: $(INSTALL_DOC_HTML_BASE_DIR)/user
+install_html: $(INSTALL_HTML_DIR)
 	$(hide) for fn in $(HTML_FILES) ; do				      \
 	  install -c -m 664 $$fn $(INSTALL_HTML_DIR)/$$fn ;		      \
 	  echo "+ Installed $(INSTALL_HTML_DIR)/$$fn" ;			      \
@@ -52,6 +52,9 @@ install_html: $(INSTALL_DOC_HTML_BASE_DIR)/user
 
 #
 # $Log$
+# Revision 5.2  2000/06/05 13:13:29  houghton
+# Fixed problems.
+#
 # Revision 5.1  2000/05/25 10:33:13  houghton
 # Changed Version Num to 5
 #
