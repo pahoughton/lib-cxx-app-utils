@@ -128,7 +128,26 @@ MesgQueue::remove( void )
   return( true );
 }
 
-		   
+bool
+MesgQueue::clearError( void )
+{
+  errorNum = E_OK;
+  osErrno = 0;
+  return( good() );
+}
+
+int
+MesgQueue::getOsErrno( void ) const
+{
+  return( osErrno );
+}
+
+bool
+MesgQueue::interupted( void ) const
+{
+  return( osErrno == EINTR );
+}
+
 bool
 MesgQueue::good( void ) const
 {
@@ -280,6 +299,9 @@ MesgQueue::setError( ErrorNum errNum, int osErr )
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  2000/03/10 11:42:09  houghton
+// Added: clearError(), getOsErrno() and interupted().
+//
 // Revision 4.2  1999/05/14 11:34:41  houghton
 // Port(Linux): port for Gnu Libc 2
 //

@@ -58,6 +58,10 @@ public:
   size_type	getNumMesgsInQueue( void );
 
   bool	    remove( void );
+
+  bool			interupted( void ) const;
+  bool			clearError( void );
+  int			getOsErrno( void ) const;
   
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
@@ -198,6 +202,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  2000/03/10 11:42:12  houghton
+// Added: clearError(), getOsErrno() and interupted().
+//
 // Revision 4.1  1999/03/02 12:51:54  houghton
 // Initial Version.
 //
