@@ -918,7 +918,7 @@ tDateTime04( LibTest & tester )
     TEST( dt.isDST() );
     TEST( dt.getHour() == 7 );
 
-    dt.setTimeZone( "GMT" );
+    dt.setTimeZone( "GMT0GMT" );
     
     TEST( ! dt.isLocal() );
     TEST( ! dt.isDST() );
