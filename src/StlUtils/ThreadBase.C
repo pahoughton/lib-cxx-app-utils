@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/07/15 12:15:48  houghton
+// Bug-Fix: if detach, call pthread_detach so the threads resources
+//   will be cleaned up.
+//
 // Revision 2.2  1996/06/20 15:23:22  houghton
 // Added Debugging loging
 //
@@ -57,6 +61,9 @@ ThreadBase::start( void )
 {
   errorNum = pthread_create( &threadId, 0, threadEntry, this );
 
+  if( ! errorNum && cleanup )
+    pthread_detach( threadId );
+  
   _LLgLock;
   _LLg( LogLevel::Debug )
     << ThreadBase::getClassName() << "::start -"
@@ -100,9 +107,18 @@ ThreadBase::threadEntry( void * obj )
 
   me->main();
 
+  _LLgLock;
+  _LLg( LogLevel::Debug )
+    << me->getClassName() << "::threadEntry -"
+    << "Thread: " << me->threadId << " completed: "
+    << ( me->cleanup ? "deleting me" : "no cleanup" )
+    << endl;
+  _LLgUnLock;
+  
   if( me->cleanup )
     delete me;
-  
+
+  pthread_exit( 0 );
   return( 0 );
 }
 
@@ -167,8 +183,8 @@ ThreadBase::dumpInfo(
   else
     dest << prefix << "Good" << '\n';
 
-  dest << "threadId:  " << threadId << '\n'
-       << "cleanup:   " << (cleanup ? "true" : "false" ) << '\n'
+  dest << prefix << "threadId:  " << threadId << '\n'
+       << prefix << "cleanup:   " << (cleanup ? "true" : "false" ) << '\n'
     ;
   
   return( dest );
