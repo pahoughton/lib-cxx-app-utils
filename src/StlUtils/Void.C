@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/03/15 18:06:12  houghton
+// Bug-Fix: dumpInfo & toStream - AIX was not outputing hex values.
+//     had to change iostream::setf calls.
+//
 // Revision 3.3  1997/03/07 11:56:04  houghton
 // Bug-Fix: append was not setting data size.
 // Bug-Fix: set error if an alloc fails.
@@ -57,14 +61,16 @@ const char * Void::ErrorStrings[] =
 Void::Void( void )
   : data( 0 ),
     dataSize( 0 ),
-    dataBufSize( 0 )
+    dataBufSize( 0 ),
+    errorNum( E_NODATA )
 {
 }
 
 Void::Void( const void * src, size_t size )
   : data( 0 ),
     dataSize( 0 ),
-    dataBufSize( 0 )
+    dataBufSize( 0 ),
+    errorNum( E_NODATA )
 {
   assign( src, size );
 }
@@ -72,7 +78,8 @@ Void::Void( const void * src, size_t size )
 Void::Void( const Void & src )
   : data( 0 ),
     dataSize( 0 ),
-    dataBufSize( 0 )
+    dataBufSize( 0 ),
+    errorNum( E_NODATA )
 {
   assign( src );
 }
@@ -91,6 +98,9 @@ Void::append( const void * src, size_t srcSize )
 
   memcpy( data + size(), src, srcSize );
   dataSize += srcSize;
+  
+  if( errorNum == E_NODATA )
+    setError( E_OK );
   
   return( *this );
 }
@@ -200,7 +210,8 @@ Void::toStream( ostream & dest ) const
   char * d = (char *)data;
 
   char	oldFill  = dest.fill( '0' );
-  int	oldFlags = dest.setf( ios::hex );
+  int	oldFlags = dest.setf( ios::hex, ios::basefield );
+  dest.setf( ios::uppercase );
   
   for( size_t pos = 0; pos < dataSize; pos++ )
     {
@@ -285,7 +296,8 @@ Void::dumpInfo(
   dest << prefix << "data:    " << "0x0000 ";
 
   char  oldFill = dest.fill( '0' );
-  int	oldFlags = dest.setf( ios::uppercase | ios::hex );
+  int	oldFlags = dest.setf( ios::hex, ios::basefield );
+  dest.setf( ios::uppercase );
 
   char * d = (char *)data;
   
