@@ -115,7 +115,7 @@ tFileStat02( LibTest & tester )
 
   {
 #ifdef AIX
-    const FileStat t( "/usr/local/bin/elm" );
+    const FileStat t( "/bin/chfn" );
 #else    
     const FileStat t( "/usr/bin/elm" );
 #endif
