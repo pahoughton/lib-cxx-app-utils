@@ -15,6 +15,7 @@ make_cfg_ver	= 5.01
 make_target	= default
 # Uncomment 'show_compile_command' to output compile command.
 show_commands 	= # true
+check_install	= true
 
 # Include standard MakeConfig configuration for GNU make required
 include Make/make.cfg.$(make_cfg_ver)
@@ -33,7 +34,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
-VER_RELEASE	= 03.b.02
+VER_RELEASE	= 04
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -303,6 +304,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.19  1997/04/26 14:41:31  houghton
+# Changed version number.
+#
 # Revision 3.18  1997/04/21 12:15:12  houghton
 # Changed ver number.
 #
