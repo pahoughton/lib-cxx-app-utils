@@ -33,7 +33,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
-VER_RELEASE	= 00.b.06
+VER_RELEASE	= 00.b.08
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -106,7 +106,7 @@ SHARED_CXX_FLAGS	= $(cxx_shared) $(cxx_optimize)
 
 # **** S H A R E D   D E P   L I B S *****
 
-SHDEP_LIBS		= -L$(local_dir) -lCommon_s
+SHDEP_LIBS		= -L$(beta_libdir) -lGnuRegex_s
 
 # **** I N S T A L L ****
 
@@ -164,6 +164,7 @@ USER_HH_INCS	=			\
 	Bit.hh				\
 	Bitmask.hh			\
 	ClassVersion.hh                 \
+	ClueConfig.hh			\
 	ClueVersion.hh			\
 	ClueUtils.hh			\
 	Compare.hh			\
@@ -300,6 +301,10 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.10  1997/03/07 11:53:14  houghton
+# Changed version num.
+# Changed sh_deplibs.
+#
 # Revision 3.9  1997/03/03 15:03:47  houghton
 # Changed ver num.
 #
