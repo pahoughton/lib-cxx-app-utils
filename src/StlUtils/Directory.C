@@ -708,6 +708,7 @@ Directory::set(
       if( ! ret )
 	{
 	  FileStat	fStat;
+	  bool		status = true;
 	  
 	  for( int g = 0; g < files.gl_pathc; ++ g )
 	    {
@@ -722,21 +723,28 @@ Directory::set(
 		      DIR * dir = opendir( fStat.getName() );
 
 		      if( ! dir )
-			return( setError( errno, fStat.getName() ) );
+			{
+			  status = setError( errno, fStat.getName() );
+			  break;
+			}
 		      else
 			{
-			  bool status = readDir( dir,
-						 fStat.getName(),
-						 where,
-						 options );
+			  status = readDir( dir,
+					    fStat.getName(),
+					    where,
+					    options );
 			  closedir( dir );
 			  if( ! status )
-			    return( false );
+			    break;
 			}
 		    }
 		}
-	      globfree( &files );
 	    }
+	  
+	  globfree( &files );
+	  
+	  if( ! status )
+	    return( status );
 	}
       else
 	{
@@ -854,6 +862,9 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:16:01  houghton
+// Bug-Fix: was calling globfree multiple multiple times.
+//
 // Revision 4.1  1997/09/17 15:12:22  houghton
 // Changed to Version 4
 //
