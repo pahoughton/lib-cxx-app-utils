@@ -24,7 +24,22 @@
 #error 'inline defined'
 #endif
 
+template< class CounterMap, class KeyType >
+inline
+void
+IncCounter( CounterMap & map, const KeyType & key )
+{
+  pair< CounterMap::iterator, bool >  ins;
+    
+  ins = map.insert( CounterMap::value_type( key, 1 ) );
 
+  if( ! ins.second )
+    {
+      ++ (*ins.first).second;
+    }
+}
+  
+  
 
 template< class NumberType, class SizeType >
 inline
@@ -219,6 +234,9 @@ RoundDown( NumberType value, int factor  )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.4  2000/03/10 11:38:58  houghton
+// Added IncCounter().
+//
 // Revision 4.3  1999/03/02 12:49:15  houghton
 // Added Between.
 // Added Overlap.

@@ -175,6 +175,16 @@ ArchiveFile( const FilePath &	srcFn,
 //	    Returns 'value' rounded down to the nearest 'factor'
 //	    (i.e. RoundDown( 23, 5 ) == 20).
 //
+//	template< class CounterMap >
+//	inline
+//	void
+//	IncCounter( CounterMap & map, const CounterMap::key_type & key )
+//	    Increment a counter value for a specific key within a
+//	    standard 'map' container. If the key does not exisit its
+//	    counter value will be 1 otherwise it it incremented. This
+//	    template class will only work for a map who's data_type is
+//	    can be set to 1 and the ++ operator works as expected.
+//
 // Files:
 //
 //	StlUtilsUtils.hh, StlUtilsUtils.ii
@@ -185,6 +195,9 @@ ArchiveFile( const FilePath &	srcFn,
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  2000/03/10 11:38:30  houghton
+// Added IncCounter().
+//
 // Revision 4.3  1999/11/09 11:09:24  houghton
 // Added ArchiveFile declaration.
 //
