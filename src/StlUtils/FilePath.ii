@@ -107,7 +107,7 @@ inline
 Str
 FilePath::getPath( void ) const
 {
-  Str path = ".";
+  Str path;
 
   size_t end = rfind( dirDelim );
 
@@ -293,6 +293,10 @@ operator << ( ostream & dest, const FilePath & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.7  1997/07/20 18:49:53  houghton
+// Changed getPath to return an empty string if there is no directory
+//     part (used to return ".").
+//
 // Revision 3.6  1997/07/18 19:13:26  houghton
 // Port(Sun5): changed all locale variables named beg and end to
 //     eliminate compiler warnings.
