@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/04/27 12:59:36  houghton
+// Cleanup
+//
 // Revision 2.1  1995/11/10 12:40:33  houghton
 // Change to Version 2
 //
@@ -27,7 +30,6 @@
 #include <ClueCfg.hh>
 #include <ctime>
 #endif
-
 
 extern const long   CLUE_GVAR_T SecPerMin;
 extern const long   CLUE_GVAR_T SecPerHour;

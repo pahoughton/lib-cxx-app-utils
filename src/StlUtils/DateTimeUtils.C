@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/04/27 12:59:31  houghton
+// Cleanup
+//
 // Revision 2.1  1995/11/10 12:40:33  houghton
 // Change to Version 2
 //
@@ -17,6 +20,7 @@
 // Ports and Version ID changes
 //
 //
+
 
 #if !defined( CLUE_SHORT_FN )
 #include "DateTimeUtils.hh"
