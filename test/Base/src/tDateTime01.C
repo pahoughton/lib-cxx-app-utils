@@ -40,7 +40,7 @@ tDateTime01( LibTest & tester )
     TEST( gtime == dtime || (gtime + 1) == dtime );
     TEST( dt.getMonth()  == ltm.tm_mon + 1 );
     TEST( dt.getDayOfMonth() == ltm.tm_mday );
-    TEST( dt.getYearOfCentury() == ltm.tm_year );
+    TEST( dt.getYearOfCentury() == (ltm.tm_year % 100));
     TEST( dt.getHour() == ltm.tm_hour );
     TEST( dt.getMinute()  == ltm.tm_min );
     // might be off by 1 second max
