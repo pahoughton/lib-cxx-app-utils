@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.10  1996/11/06 18:07:01  houghton
+// Changed calls to StringUtils functions to use npos for default len arg.
+//
 // Revision 2.9  1996/10/11 17:43:05  houghton
 // Changed: Added new 'multiDelim' arg to scan methods. This arg
 //   specifies if multiple consecutive instances of the delimiter are
@@ -701,7 +704,7 @@ Str::find( const char * str, size_t start, size_t strLen ) const
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * pos = StringSearch( strbase() + start, size() - start,
-				   str, strLen == npos ? 0 : strLen );
+				   str, strLen );
 
   return( (pos == 0) ? npos : pos - strbase() );
 }
@@ -742,7 +745,7 @@ size_t
 Str::rfind( const char * str, size_t end, size_t strLen ) const
 {
   const char * pos = StringReverseSearch( strbase(), min( end, size() ),
-				   str, strLen == npos ? 0 : strLen );
+				   str, strLen );
 
   return( (pos == 0) ? npos : pos - strbase() );
 }
@@ -792,7 +795,7 @@ Str::ffind( const char * str, size_t start, size_t strLen ) const
   CLUE_EXCPT_OUT_OF_RANGE( start > size(), npos );
   
   const char * pos = StringCaseSearch( strbase() + start, size() - start,
-				   str, strLen == npos ? 0 : strLen );
+				   str, strLen );
 
   return( (pos == 0) ? npos : pos - strbase() );
 }
@@ -834,7 +837,7 @@ size_t
 Str::rffind( const char * str, size_t end, size_t strLen ) const
 {
   const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
-				   str, strLen == npos ? 0 : strLen );
+				   str, strLen );
 
   return( (pos == 0) ? npos : pos - strbase() );
 }
