@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/05/03 16:13:21  houghton
+// Bug-Fix: remove inline statement.
+//
 // Revision 2.5  1996/02/29 19:05:36  houghton
 // Bug Fix: Cant use static class object to construct other static objects
 //
@@ -192,7 +195,6 @@ LogLevel::setCurrent( const char * lvl )
   return( old );
 }
 
-inline
 bool
 LogLevel::setName( const Level level, const char * name )
 {
