@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1995/12/31 11:21:29  houghton
+// Bug fix - Needed cast for AIX.
+//
 // Revision 2.2  1995/12/04 11:16:45  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 // Bug Fix - Now there is a special type for all single 'bit' values.
@@ -247,7 +250,7 @@ inline
 Bitmask &
 Bitmask::operator &= ( const Bitmask::bit & rhs )
 {
-  set( rhs.pos(), test( rhs.pos() ) && rhs );
+  set( rhs.pos(), test( rhs.pos() ) && (bool)rhs );
   return( *this );
 }
 
@@ -255,7 +258,7 @@ inline
 Bitmask &
 Bitmask::operator |= ( const Bitmask::bit & rhs )
 {
-  set( rhs.pos(), test( rhs.pos() ) || rhs );
+  set( rhs.pos(), test( rhs.pos() ) || (bool)rhs );
   return( *this );
 }
 
