@@ -25,26 +25,26 @@ tLogLevel( LibTest & tester )
     
     LogLevel t;
 
-    TEST( t.getCurrent() == LogLevel::ERROR );
-    TEST( t.getOutput() == LogLevel::NONE );
+    TEST( t.getCurrent() == LogLevel::Error );
+    TEST( t.getOutput() == LogLevel::None );
     
   }
 
   {
     // LogLevel( const Level )
 
-    LogLevel t( LogLevel::INFO );
+    LogLevel t( LogLevel::Info );
 
-    TEST( t.getCurrent() == LogLevel::ERROR );
-    TEST( t.getOutput() == LogLevel::INFO );
+    TEST( t.getCurrent() == LogLevel::Error );
+    TEST( t.getOutput() == LogLevel::Info );
   }
 
   {
     
-    LogLevel t( LogLevel::INFO | LogLevel::TEST);
+    LogLevel t( LogLevel::Info | LogLevel::Test);
 
-    TEST( t.getCurrent() == LogLevel::ERROR );
-    TEST( t.getOutput() == ( LogLevel::INFO | LogLevel::TEST ) );
+    TEST( t.getCurrent() == LogLevel::Error );
+    TEST( t.getOutput() == ( LogLevel::Info | LogLevel::Test ) );
   }
 
   {
@@ -53,25 +53,44 @@ tLogLevel( LibTest & tester )
     
     LogLevel t( "ERROR | WARNING " );
     
-    TEST( t.getCurrent() == LogLevel::ERROR );
-    TEST( t.getOutput() == ( LogLevel::ERROR | LogLevel::WARNING ) );
-    TEST( t.willOutput( LogLevel::ERR ) );
-    TEST( t.willOutput( LogLevel::WARN ) );
-    TEST( ! (t.willOutput( LogLevel::INFO ) ) );
+    TEST( t.getCurrent() == LogLevel::Error );
+    TEST( t.getOutput() == ( LogLevel::Error | LogLevel::Warning ) );
+    TEST( t.willOutput( LogLevel::Err ) );
+    TEST( t.willOutput( LogLevel::Warn ) );
+    TEST( ! (t.willOutput( LogLevel::Info ) ) );
   }
 
   {
     // setOutput( const Level )
 
-    LogLevel t( LogLevel::DEBUG );
+    LogLevel t( LogLevel::Debug );
 
-    TEST( t.willOutput( LogLevel::DEBUG ) );
-    TEST( ! t.willOutput( LogLevel::ERROR ) );
+    TEST( t.willOutput( LogLevel::Debug ) );
+    TEST( ! t.willOutput( LogLevel::Error ) );
 
-    t.setOutput( LogLevel::TEST | LogLevel::INFO );
-    TEST( t.willOutput( LogLevel::TEST ) );
-    TEST( t.willOutput( LogLevel::INFO ) );
-    TEST( ! t.willOutput( LogLevel::DEBUG ) );
+    t.setOutput( LogLevel::Test | LogLevel::Info );
+    TEST( t.willOutput( LogLevel::Test ) );
+    TEST( t.willOutput( LogLevel::Info ) );
+    TEST( ! t.willOutput( LogLevel::Debug ) );
+    t.setOutput( LogLevel::All );
+    TEST( t.willOutput( LogLevel::Error ) );
+    TEST( t.willOutput( LogLevel::Err ) );
+    TEST( t.willOutput( LogLevel::Warning ) );
+    TEST( t.willOutput( LogLevel::Warn ) );
+    TEST( t.willOutput( LogLevel::App1 ) );
+    TEST( t.willOutput( LogLevel::App2 ) );
+    TEST( t.willOutput( LogLevel::App3 ) );
+    TEST( t.willOutput( LogLevel::App4 ) );
+    TEST( t.willOutput( LogLevel::App5 ) );
+    TEST( t.willOutput( LogLevel::App6 ) );
+    TEST( t.willOutput( LogLevel::Lib1 ) );
+    TEST( t.willOutput( LogLevel::Lib2 ) );
+    TEST( t.willOutput( LogLevel::Lib3 ) );
+    TEST( t.willOutput( LogLevel::Lib4 ) );
+    TEST( t.willOutput( LogLevel::Info ) );
+    TEST( t.willOutput( LogLevel::Test ) );
+    TEST( t.willOutput( LogLevel::Debug ) );
+    TEST( t.willOutput( LogLevel::Funct ) );
   }
 
   {
@@ -80,24 +99,43 @@ tLogLevel( LibTest & tester )
     LogLevel t;
 
     t.setOutput( "TEST | INFO" );
-    TEST( t.willOutput( LogLevel::TEST ) );
-    TEST( t.willOutput( LogLevel::INFO ) );
-    TEST( ! t.willOutput( LogLevel::DEBUG ) );
+    TEST( t.willOutput( LogLevel::Test ) );
+    TEST( t.willOutput( LogLevel::Info ) );
+    TEST( ! t.willOutput( LogLevel::Debug ) );
+    t.setOutput( "ALL" );
+    TEST( t.willOutput( LogLevel::Error ) );
+    TEST( t.willOutput( LogLevel::Err ) );
+    TEST( t.willOutput( LogLevel::Warning ) );
+    TEST( t.willOutput( LogLevel::Warn ) );
+    TEST( t.willOutput( LogLevel::App1 ) );
+    TEST( t.willOutput( LogLevel::App2 ) );
+    TEST( t.willOutput( LogLevel::App3 ) );
+    TEST( t.willOutput( LogLevel::App4 ) );
+    TEST( t.willOutput( LogLevel::App5 ) );
+    TEST( t.willOutput( LogLevel::App6 ) );
+    TEST( t.willOutput( LogLevel::Lib1 ) );
+    TEST( t.willOutput( LogLevel::Lib2 ) );
+    TEST( t.willOutput( LogLevel::Lib3 ) );
+    TEST( t.willOutput( LogLevel::Lib4 ) );
+    TEST( t.willOutput( LogLevel::Info ) );
+    TEST( t.willOutput( LogLevel::Test ) );
+    TEST( t.willOutput( LogLevel::Debug ) );
+    TEST( t.willOutput( LogLevel::Funct ) );
   }
 
   {
     // setCurrent( const Level );
     // shouldOutput( void ) const;
     
-    LogLevel t( LogLevel::DEBUG | LogLevel::WARN );
+    LogLevel t( LogLevel::Debug | LogLevel::Warn );
 
-    t.setCurrent( LogLevel::TEST );
+    t.setCurrent( LogLevel::Test );
     TEST( ! t.shouldOutput() );
-    t.setCurrent( LogLevel::DEBUG );
+    t.setCurrent( LogLevel::Debug );
     TEST( t.shouldOutput() );
-    t.setCurrent( LogLevel::WARN );
+    t.setCurrent( LogLevel::Warn );
     TEST( t.shouldOutput() );
-    t.setCurrent( LogLevel::ERROR );
+    t.setCurrent( LogLevel::Error );
     TEST( ! t.shouldOutput() );
   }
 
@@ -106,9 +144,9 @@ tLogLevel( LibTest & tester )
 
     LogLevel t;
 
-    t.setCurrent( LogLevel::DEBUG );
-    TEST( t.getCurrent() == LogLevel::DEBUG );
-    TEST( t.getCurrent() != LogLevel::ERROR );
+    t.setCurrent( LogLevel::Debug );
+    TEST( t.getCurrent() == LogLevel::Debug );
+    TEST( t.getCurrent() != LogLevel::Error );
   }
 
   {
@@ -116,10 +154,10 @@ tLogLevel( LibTest & tester )
 
     const LogLevel t;
 
-    TEST( compare( t.getName( LogLevel::NONE ), "NONE" ) == 0 );
-    TEST( compare( t.getName( LogLevel::WARN ), "WARNING" ) == 0 );
-    TEST( compare( t.getName( LogLevel::TEST ), "TEST" ) == 0 );
-    TEST( compare( t.getName( LogLevel::ALL ),  "ALL" ) == 0 );
+    TEST( compare( t.getName( LogLevel::None ), "NONE" ) == 0 );
+    TEST( compare( t.getName( LogLevel::Warn ), "WARNING" ) == 0 );
+    TEST( compare( t.getName( LogLevel::Test ), "TEST" ) == 0 );
+    TEST( compare( t.getName( LogLevel::All ),  "ALL" ) == 0 );
   }
 
   {
@@ -127,9 +165,9 @@ tLogLevel( LibTest & tester )
 
     const LogLevel t;
 
-    TEST( compare( t.getLevelNames( LogLevel::WARN |
-				    LogLevel::DEBUG |
-				    LogLevel::INFO ),
+    TEST( compare( t.getLevelNames( LogLevel::Warn |
+				    LogLevel::Debug |
+				    LogLevel::Info ),
 		   "WARNING | INFO | DEBUG" ) == 0 );
   }
 
@@ -138,9 +176,9 @@ tLogLevel( LibTest & tester )
 
     LogLevel t;
 
-    t.setName( LogLevel::USER_2, "U2 Name" );
-    TEST( compare( t.getName( LogLevel::USER_1 ), "USER 1" ) == 0 );
-    TEST( compare( t.getName( LogLevel::USER_2 ), "U2 Name" ) == 0 );
+    t.setName( LogLevel::App2, "U2 Name" );
+    TEST( compare( t.getName( LogLevel::App1 ), "APP1" ) == 0 );
+    TEST( compare( t.getName( LogLevel::App2 ), "U2 Name" ) == 0 );
   }
 
   {
@@ -152,7 +190,7 @@ tLogLevel( LibTest & tester )
 
     HeapBinStream tStrm;
 
-    const LogLevel  tw( LogLevel::DEBUG | LogLevel::WARN );
+    const LogLevel  tw( LogLevel::Debug | LogLevel::Warn );
     LogLevel	    tr;
 
     TEST( tw.getBinSize() );
@@ -166,8 +204,8 @@ tLogLevel( LibTest & tester )
     TEST( tr.getBinSize() == tw.getBinSize() );
     TEST( tw == tr );
 
-    tr.setCurrent( LogLevel::INFO );
-    tr.setOutput( LogLevel::INFO );
+    tr.setCurrent( LogLevel::Info );
+    tr.setOutput( LogLevel::Info );
     
     TEST( tw != tr );
     
@@ -181,7 +219,7 @@ tLogLevel( LibTest & tester )
     // write( ostream & ) const
     // read( istream & )
 
-    const LogLevel  tw( LogLevel::DEBUG | LogLevel::WARN );
+    const LogLevel  tw( LogLevel::Debug | LogLevel::Warn );
     LogLevel	    tr;
 
     strstream tStrm;
@@ -211,7 +249,7 @@ tLogLevel( LibTest & tester )
     // toStream( ostream & ) const
     // operator << ( ostream &, const FilePath & )
 
-    const LogLevel  t( LogLevel::DEBUG | LogLevel::WARN );
+    const LogLevel  t( LogLevel::Debug | LogLevel::Warn );
     strstream tStrm;
 
     t.toStream( tStrm );
@@ -223,7 +261,7 @@ tLogLevel( LibTest & tester )
     // getVersion( void ) const
     // getVersion( bool ) const
 
-    const LogLevel  t( LogLevel::DEBUG | LogLevel::WARN );
+    const LogLevel  t( LogLevel::Debug | LogLevel::Warn );
 
     TEST( t.getClassName() != 0 );
     TEST( t.getVersion() != 0 );
@@ -235,7 +273,7 @@ tLogLevel( LibTest & tester )
     // dumpInfo( ostream & ) const
     // version
 
-    const LogLevel  t( LogLevel::DEBUG | LogLevel::WARN );
+    const LogLevel  t( LogLevel::Debug | LogLevel::Warn );
 
     tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
     t.toStream( tester.getDump() );
