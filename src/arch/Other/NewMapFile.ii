@@ -1,0 +1,71 @@
+#ifndef _MapFile_ii_
+#define _MapFile_ii_
+//
+// File:        MapFile.ii
+// Desc:        
+//
+//  	inlines for MapFile
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     08/02/95 06:06
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:13:50  houghton
+// Initial implementation
+//
+//
+
+#ifndef inline
+#include <Clue.hh>
+#endif
+
+inline
+MapFile::MapFile( void )
+{
+  openBase = 0;
+  openPos = 0;
+  openSize = 0;
+  
+  mapBase = 0;
+  mapSize = 0;
+  mapPos = 0;
+  mapEnd = 0;
+}
+
+inline
+MapFile::MapFile(
+  const char *	    fileName,
+  ios::open_mode    mode,
+  int		    perm,
+  caddr_t	    mapOpenBase,
+  streampos	    mapOpenPos,
+  size_t	    mapOpenSize
+  )
+{
+  open( fileName, mode, perm, mapOpenBase, mapOpenPos, mapOpenSize );
+}
+
+inline
+size_t
+MapFile::pageAlign( size_t size )
+{
+  return( Align( size, pageSize ) );
+}
+
+inline
+caddr_t
+MapFile::pageAlign( caddr_t addr )
+{
+  return( (caddr_t)Align( (unsigned long)addr, pageSize ) );
+}
+
+inline
+bool
+MapFile::clear( int state )
+{
+  return( file.clear( state ) );
+}
+
+#endif // ! def _MapFile_ii_ 

@@ -1,0 +1,72 @@
+#ifndef _BinFile_ii_
+#define _BinFile_ii_
+//
+// File:        BinFile.ii
+// Desc:        
+//
+//  	inlines for BinFile
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     08/02/95 05:21
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:13:48  houghton
+// Initial implementation
+//
+//
+
+#ifndef inline
+#include <cerrno>
+#endif
+
+inline
+BinFile::BinFile( void )
+{
+  fd = -1;
+  osErrno = ENOENT;
+}
+
+inline
+BinFile::BinFile( const char * fn, ios::open_mode mode, int perm )
+{
+  open( fn, mode, perm );
+}
+
+inline
+size_t
+BinFile::truncate( size_t end )
+{
+  if( ftruncate( fd, end ) )
+    {
+      osErrno = ::errno;
+      state |= ios::badbit;
+    }
+
+  return( end );
+}
+  
+inline
+const FileStat &
+BinFile::getFileStat( void ) const
+{
+  return( fileStat );
+}
+
+inline
+ios::open_mode
+BinFile::getOpenMode( void ) const
+{
+  return( openMode );
+}
+
+inline
+int
+BinFile::getFD( void ) const
+{
+  return( fd );
+}
+
+
+#endif // ! def _BinFile_ii_ 
