@@ -66,7 +66,7 @@ public:
 
   inline LogLevel::Level    setOutputLevel( const LogLevel::Level & level );
   inline LogLevel::Level    setOutputLevel( const char * level );
-
+  
   inline const LogLevel &   getLogLevel( void ) const;
   
   size_t		trim( size_t maxSize = 0 );
@@ -293,6 +293,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/05/01 12:52:45  houghton
+// Cleanup.
+//
 // Revision 4.2  1999/03/02 12:47:59  houghton
 // Added getLogFileName().
 // Cleanup.

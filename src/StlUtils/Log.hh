@@ -133,7 +133,7 @@ public:
   
   inline LogLevel::Level    setOutputLevel( const LogLevel::Level & output );
   inline LogLevel::Level    setOutputLevel( const char * output );
-
+  
   inline void		    on( const LogLevel::Level & output );
   inline void		    off( const LogLevel::Level & output );
   
@@ -648,6 +648,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/05/01 12:52:34  houghton
+// Cleanup.
+//
 // Revision 4.3  1999/03/02 12:47:38  houghton
 // Added getLogFileName().
 //

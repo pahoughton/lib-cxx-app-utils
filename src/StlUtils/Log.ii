@@ -133,7 +133,6 @@ Log::setOutputLevel( const LogLevel::Level & level )
   return( rdbuf()->setOutputLevel( level ) );
 }
 
-
 inline
 bool
 Log::setLevelStamp( bool stamp )
@@ -241,6 +240,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/05/01 12:52:39  houghton
+// Cleanup.
+//
 // Revision 4.3  1999/03/02 12:47:42  houghton
 // Added getLogFileName().
 //
