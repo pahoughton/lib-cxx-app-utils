@@ -408,7 +408,10 @@
 //
 // 
 // $Log$
-// Revision 1.5  1995/02/20 14:24:25  houghton
+// Revision 1.6  1995/07/27 16:18:38  ichudov
+// A bug corrected in the constructor of DateTime class.
+//
+// Revision 1.5  1995/02/20  14:24:25  houghton
 // Linux port and Fix bugs in DateTime found with new test.
 //
 // Revision 1.4  1995/02/13  16:08:35  houghton
@@ -630,6 +633,7 @@ DateTime::DateTime( time_t day, time_t timeOfDay )
 inline 
 DateTime::DateTime( const char * yymmdd, const char * hhmmss )
 {
+  seconds = 0; // ichudov
   setHHMMSS( hhmmss );
   setYYMMDD( yymmdd );
 }
