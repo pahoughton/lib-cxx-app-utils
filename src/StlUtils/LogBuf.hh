@@ -16,19 +16,12 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
-#include <LogLevel.hh>
+#include "ClueConfig.hh"
+#include "LogLevel.hh"
 #include <rw/cstring.h>
 #include <vector>
 #include <iostream>
 #include <fstream>
-#else
-#include <ClueCfg.hh>
-#include <LogLvl.hh>
-#include <iostream>
-#include <fstream>
-#endif
 
 
 #if defined( CLUE_DEBUG )
@@ -87,15 +80,17 @@ public:
 			      size_t	        trimSize = 0 );
   
   void			close (void);
-  inline bool		isFile( void ) const;
   
-  inline bool	filter( const char * regex );
+  inline bool		is_file( void ) const;
+  inline bool		is_open( void ) const;
   
-  FilterId	addFilter( streambuf *     destBuf,
-			   LogLevel::Level outputLevel,
-			   const char *    regex = 0 );
+  inline bool		filter( const char * regex );
+  
+  FilterId		addFilter( streambuf *     destBuf,
+				   LogLevel::Level outputLevel,
+				   const char *    regex = 0 );
 
-  inline bool		    delFilter( FilterId id );
+  inline streambuf *	delFilter( FilterId id );
 
   
   // streambuf virtuals
@@ -124,7 +119,7 @@ protected:
   
   int		sendToStream( streambuf * dest, char * base, int len );
   
-  filebuf *	openLog( void );
+  filebuf *	openLog( ios::open_mode modeMask );
   size_t	trimLog( size_t curSize, size_t maxLogSize );
   void		closeLog( void );
 
@@ -277,6 +272,19 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 2.6  1996/11/13 16:51:11  houghton
+// Changed include lines from "file" to <file"
+//     to accomidate rpm.
+// Changed isFile() to is_file() to be more consistant with the
+//     standard filebuf::is_open().
+// Added is_open() to detect if there is a valid primary stream open.
+// Changed delFitler to return the streambuf that was given as
+//     the filter's destination.
+// Changed openLog to take an ios::open_mode arg that will be
+//     or'ed (|) with the original open mode. This allows the
+//     log to be appended if it was not opened with 'ios::app', but
+//     it was reopened from within LogBuf.
+//
 // Revision 2.5  1996/11/04 14:04:07  houghton
 // Restructure header comments layout.
 // Added FilterId type for multiple destination support.
