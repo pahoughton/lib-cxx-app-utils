@@ -1,4 +1,3 @@
-regex.h
 BinStream.hh
 Bit.hh
 Bitmask.hh
@@ -32,6 +31,7 @@ StrStreambuf.hh
 StringUtils.hh
 SubStr.hh
 Timer.hh
+Void.hh
 AnsiBool.hh
 ClueConfig.hh
 algo.h
@@ -106,6 +106,8 @@ vector.h
 FileStat.hh
 User.hh
 UserGroup.hh
+AvlTree.hh
+AvlTreeOffset.hh
 AvlTreeAddrBase.hh
 AvlTreeOffsetBase.hh
 DavlTreeOffsetBase.hh
