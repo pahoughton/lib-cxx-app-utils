@@ -271,6 +271,8 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName );
 
+      TESTR( t.error(), t.good() );
+      
       TEST( t.getOutput() == (LogLevel::Error |
 			      LogLevel::Warn |
 			      LogLevel::Info) );
@@ -282,7 +284,7 @@ tLog01( LibTest & tester )
 
     FileStat logFileStat( LogFileName );
 
-    TEST( logFileStat.good() );
+    TESTR( logFileStat.error(), logFileStat.good() );
     TEST( logFileStat.getSize() == 0 );
     
   }
@@ -336,8 +338,12 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, LogLevel::Info, ios::app, 0711 );
+      Log t( LogFileName,
+	     LogLevel::Info,
+	     (ios::open_mode)(ios::app|ios::out),
+	     0711 );
 
+      TESTR( t.error(), t.good() );
       TEST( t.getOutput() == LogLevel::Info );
     
       TEST( t.setLevelStamp( false ) );
@@ -347,7 +353,7 @@ tLog01( LibTest & tester )
 
     FileStat logFileStat( LogFileName );
 
-    TEST( logFileStat.good() );
+    TESTR( logFileStat.error(), logFileStat.good() );
     TEST( (logFileStat.getMode() & 0777) == 0711 );
     
   }
@@ -359,7 +365,11 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true );
+      Log t( LogFileName,
+	     LogLevel::Info,
+	     (ios::open_mode)(ios::app|ios::out),
+	     0664,
+	     true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -369,7 +379,11 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, LogLevel::Info, ios::app, 0664, false );
+      Log t( LogFileName,
+	     LogLevel::Info,
+	     (ios::open_mode)(ios::app|ios::out),
+	     0664,
+	     false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -391,7 +405,12 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true, true );
+      Log t( LogFileName,
+	     LogLevel::Info,
+	     (ios::open_mode)(ios::app|ios::out),
+	     0664,
+	     true,
+	     true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -401,7 +420,12 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true, false );
+      Log t( LogFileName,
+	     LogLevel::Info,
+	     (ios::open_mode)(ios::app|ios::out),
+	     0664,
+	     true,
+	     false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -429,7 +453,7 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true, true, true );
+      Log t( LogFileName, LogLevel::Info, (ios::open_mode)(ios::app|ios::out), 0664, true, true, true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -439,7 +463,7 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true, true, false );
+      Log t( LogFileName, LogLevel::Info, (ios::open_mode)(ios::app|ios::out), 0664, true, true, false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -470,7 +494,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     ios::app,
+	     (ios::open_mode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -507,7 +531,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     ios::app,
+	     (ios::open_mode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -580,7 +604,7 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", ios::app, 0711 );
+      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0711 );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -602,7 +626,7 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", ios::app, 0664, true );
+      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -612,7 +636,7 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, "info", ios::app, 0664, false );
+      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -634,7 +658,7 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", ios::app, 0664, true, true );
+      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true, true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -644,7 +668,7 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, "info", ios::app, 0664, true, false );
+      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true, false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -672,7 +696,7 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", ios::app, 0664, true, true, true );
+      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true, true, true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -682,7 +706,7 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, "info", ios::app, 0664, true, true, false );
+      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true, true, false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -713,7 +737,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     "info",
-	     ios::app,
+	     (ios::open_mode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -751,7 +775,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     "info",
-	     ios::app,
+	     (ios::open_mode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -781,6 +805,9 @@ tLog01( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.5  1997/07/18 21:39:57  houghton
+// Port(Sun5): Changed ios::app to (ios::open_mode)(ios::app|ios::out).
+//
 // Revision 3.4  1997/03/21 15:41:02  houghton
 // Changed for new default output level.
 //

@@ -66,7 +66,7 @@ tLog04( LibTest & tester )
     {
       Log	t( TestFn,
 		   LogLevel::Warn | LogLevel::Info | LogLevel::Debug,
-		   ios::app, 0644,
+		   (ios::open_mode)(ios::app|ios::out), 0644,
 		   true, false, true  );
       
       t.level( "Error",   "Src" ) << "test Error (bad)" << '\n';
@@ -100,7 +100,7 @@ tLog04( LibTest & tester )
     {
       Log	t( TestFn,
 		   "App1 | Warn | Error | Info | Debug",
-		   ios::app, 0644,
+		   (ios::open_mode)(ios::app|ios::out), 0644,
 		   true, false, true  );
       
       t.level( "Error",   "Src",  1 ) << "test Error" << '\n';
@@ -133,7 +133,7 @@ tLog04( LibTest & tester )
     remove( TestFn );
     
     {
-      Log	t( TestFn, LogLevel::All, ios::app, 0644,
+      Log	t( TestFn, LogLevel::All, (ios::open_mode)(ios::app|ios::out), 0644,
 		   true, false, false  );
       
       t( "Error" )   << "test Error" << '\n';
@@ -167,7 +167,7 @@ tLog04( LibTest & tester )
     {
       Log	t( TestFn,
 		   "App1 | Warn | Error | Info | Debug",
-		   ios::app, 0644,
+		   (ios::open_mode)(ios::app|ios::out), 0644,
 		   true, false, true  );
       
       t( "Error",   "Src",  1 ) << "test Error" << '\n';
@@ -440,6 +440,9 @@ tLog04( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1997/07/18 21:43:32  houghton
+// Port(Sun5): Changed ios::app to (ios::open_mode)(ios::app|ios::out).
+//
 // Revision 3.1  1996/11/14 01:26:47  houghton
 // Changed to Release 3
 //

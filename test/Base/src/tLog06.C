@@ -61,7 +61,7 @@ tLog06( LibTest & tester )
     {
       Log t( TestFn,
 	     LogLevel::Info,
-	     ios::app,
+	     (ios::open_mode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -85,7 +85,7 @@ tLog06( LibTest & tester )
     {
       Log t( TestFn,
 	     LogLevel::Info,
-	     ios::app,
+	     (ios::open_mode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -175,7 +175,7 @@ tLog06( LibTest & tester )
 
       t() << "BAD\n";
 
-      t.open( TestFn, ios::app );
+      t.open( TestFn, (ios::open_mode)(ios::app|ios::out) );
 
       t() << "error Good\n";
       t( "info" ) << "Info good" << endl;
@@ -253,7 +253,7 @@ tLog06( LibTest & tester )
 
       t() << "BAD\n";
 
-      t.setFileName( TestFn, ios::app );
+      t.setFileName( TestFn, (ios::open_mode)(ios::app|ios::out) );
 
       t() << "error Good\n";
       t( "info" ) << "Info good" << endl;
@@ -310,6 +310,9 @@ tLog06( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/07/18 21:46:09  houghton
+// Port(Sun5): Changed ios::app to (ios::open_mode)(ios::app|ios::out).
+//
 // Revision 3.2  1996/11/19 12:35:39  houghton
 // Changed include strstream to include strstream.h because strstream
 //     is not part of the standard.

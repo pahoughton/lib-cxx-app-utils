@@ -90,7 +90,7 @@ tLog03( LibTest & tester )
     }
 
     {    
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -116,7 +116,7 @@ tLog03( LibTest & tester )
       //  timeStamp = true;
       //  locStamp = true;
     
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -139,7 +139,7 @@ tLog03( LibTest & tester )
     {    
       // Log( ostream &, LogLevel::Level, bool )
     
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -152,7 +152,7 @@ tLog03( LibTest & tester )
     }
   
     {    
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -167,7 +167,7 @@ tLog03( LibTest & tester )
     {
       // Log( ostream &, LogLevel::Level, bool, bool )
     
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -180,7 +180,7 @@ tLog03( LibTest & tester )
     }
   
     {    
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -193,7 +193,7 @@ tLog03( LibTest & tester )
     }
   
     {    
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -206,7 +206,7 @@ tLog03( LibTest & tester )
     }
   
     {    
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -219,7 +219,7 @@ tLog03( LibTest & tester )
     }
 
     {
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -234,7 +234,7 @@ tLog03( LibTest & tester )
     }
 
     {
-      ofstream	logOutput( TestFn, ios::app );
+      ofstream	logOutput( TestFn, (ios::open_mode)(ios::app|ios::out) );
       TEST( logOutput.good() );
     
       logOutput <<
@@ -285,7 +285,7 @@ tLog03( LibTest & tester )
 
       Log t( TestFn,
 	     LogLevel::Test | LogLevel::Info,
-	     ios::app,
+	     (ios::open_mode)(ios::app|ios::out),
 	     filebuf::openprot,
 	     true,
 	     true,
@@ -307,7 +307,7 @@ tLog03( LibTest & tester )
     {
       Log t( TestFn,
 	     LogLevel::Test | LogLevel::Info,
-	     ios::app,
+	     (ios::open_mode)(ios::app|ios::out),
 	     filebuf::openprot,
 	     true,
 	     true,
@@ -357,7 +357,7 @@ tLog03( LibTest & tester )
 
       Log t( TestFn,
 	     LogLevel::Test | LogLevel::Info,
-	     ios::app,
+	     (ios::open_mode)(ios::app|ios::out),
 	     filebuf::openprot,
 	     true,
 	     true,
@@ -421,6 +421,9 @@ tLog03( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/07/18 21:42:50  houghton
+// Port(Sun5): Changed ios::app to (ios::open_mode)(ios::app|ios::out).
+//
 // Revision 3.2  1997/03/21 15:41:06  houghton
 // Changed for new default output level.
 //
