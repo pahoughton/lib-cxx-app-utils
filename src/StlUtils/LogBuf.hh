@@ -46,14 +46,14 @@ public:
   LogBuf( const char *	    fileName,
 		 LogLevel::Level    outLevel = LogLevel::Error, 
 		 ios::open_mode	    mode = ios::app,
-		 int		    prot = filebuf::openprot,
+		 int		    prot = 0664,
 		 size_t		    maxSize = 0,
 		 size_t		    trimSize = 0 );
   
   LogBuf( const char *	    fileName,
 		 const char *	    outLevel,
 		 ios::open_mode	    mode = ios::app,
-		 int		    prot = filebuf::openprot,
+		 int		    prot = 0664,
 		 size_t		    maxSize = 0,
 		 size_t		    trimSize = 0 );
   
@@ -80,7 +80,7 @@ public:
 
   filebuf *		open( const char *	name,
 			      ios::open_mode    mode,
-			      int	        prot = 0666,
+			      int	        prot = 0664,
 			      size_t	        maxSize = 0,
 			      size_t	        trimSize = 0 );
   
@@ -109,6 +109,8 @@ public:
   virtual int	    underflow();
   virtual int	    sync() ;
 
+  virtual bool		good( void ) const;
+  virtual const char *	error( void ) const;
   virtual const char *  getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
   virtual ostream & 	dumpInfo( ostream &	dest = cerr,
@@ -149,7 +151,7 @@ protected:
   };
 
   typedef vector< Filter > FilterList;
-  
+
   Str		    logFileName;
   size_t	    maxSize;
   size_t	    trimSize;
@@ -167,6 +169,7 @@ protected:
 
   FilterList	filters;
   
+  Str		    errorDesc;
 private:
 
 };
@@ -287,6 +290,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.9  1997/04/04 20:53:31  houghton
+// Added log file error checking.
+// Cleanup.
+//
 // Revision 3.8  1997/04/04 15:06:34  houghton
 // Changed default prot to 0666 for constructor.
 //

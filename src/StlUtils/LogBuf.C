@@ -12,6 +12,8 @@
 //
 
 #include "LogBuf.hh"
+#include "ClueUtils.hh"
+#include "StringUtils.hh"
 #include "FileStat.hh"
 #include "FilePath.hh"
 #include "RegexScan.hh"
@@ -182,7 +184,7 @@ LogBuf::open(
  openMode = mode;
  openProt = prot;
 
-  FileStat  stat( logFileName );
+ FileStat  stat( logFileName );
   
  if( logMaxSize && stat.good() && ( (size_t)stat.getSize() > logMaxSize ) )
    trimLog( stat.getSize(), logMaxSize );
@@ -415,6 +417,28 @@ LogBuf::sync( void )
   return( syncResult );
 }
 
+bool
+LogBuf::good( void ) const
+{
+  return( errorDesc.size() == 0 );
+}
+
+const char *
+LogBuf::error( void ) const
+{
+  static Str errStr;
+
+  errStr = getClassName();
+
+  if( good() )
+    errStr << ": ok";
+  else
+    errStr << ": " << errorDesc;
+
+  return( errStr.c_str() );
+}
+
+  
 const char *
 LogBuf::getClassName( void ) const
 {
@@ -543,6 +567,11 @@ LogBuf::openLog( ios::open_mode openMask )
 
   if( ! stream )
     {
+      errorDesc << "open '" << logFileName
+		<< "' mode: " << IosOpenModeToString( openMode )
+		<< " prot: " << StringFrom( openProt, 8 ) << " failed: "
+		<< strerror( errno ) ;
+      
       delete file;
       file = 0;
     }
@@ -673,6 +702,10 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/04/04 20:53:25  houghton
+// Added log file error checking.
+// Cleanup.
+//
 // Revision 3.5  1997/04/04 03:10:09  houghton
 // Changed constructors (and some other methods) to non-inline.
 // Added getFilterStream
