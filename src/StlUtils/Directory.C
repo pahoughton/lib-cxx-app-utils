@@ -473,12 +473,16 @@ Directory::Where::match( const FileStat & entry ) const
 
 Directory::Directory( void )
   : options( Default ),
+    where( 0 ),
+    order( 0 ),
     osErrno( 0 )
 {
 }
 
 Directory::Directory( const char * path, const Option & opts )
   : options( opts ),
+    where( 0 ),
+    order( 0 ),
     osErrno( 0 )
 {
   set( path, opts );
@@ -486,41 +490,49 @@ Directory::Directory( const char * path, const Option & opts )
 
 Directory::Directory(
   const char *	    path,
-  const DirOrder &  order,
+  const DirOrder &  dirOrder,
   const Option &    opts
   )
   : options( opts ),
+    where( 0 ),
+    order( 0 ),
     osErrno( 0 )
 {
-  set( path, order, opts );
+  set( path, dirOrder, opts );
 }
 
 Directory::Directory(
   const char *	    path,
-  const Where &	    where,
+  const Where &	    whereClause,
   const Option &    opts
   )
   : options( opts ),
+    where( 0 ),
+    order( 0 ),
     osErrno( 0 )
 {
-  set( path, where, opts  );
+  set( path, whereClause, opts  );
 }
 
 Directory::Directory(
   const char *	    path,
-  const Where &	    where,
-  const DirOrder &  order,
+  const Where &	    whereClause,
+  const DirOrder &  dirOrder,
   const Option &    opts
   )
   : options( opts ),
+    where( 0 ),
+    order( 0 ),
     osErrno( 0 )
 {
-  set( path, where, order, opts );
+  set( path, whereClause, dirOrder, opts );
 }
 
 Directory::Directory( const Directory & from )
   : pattern( from.pattern ),
     options( from.options ),
+    where( from.where ),
+    order( from.order ),
     list( from.list ),
     osErrno( from.osErrno ),
     errorPath( from.errorPath )
@@ -540,38 +552,38 @@ Directory::set( const char * path, const Option & opts )
 bool
 Directory::set(
   const char *	    path,
-  const DirOrder &  order,
+  const DirOrder &  dirOrder,
   const Option &    opts
   )
 {
-  return( set( path, opts, 0, & order ) );
+  return( set( path, opts, 0, & dirOrder ) );
 }
 
 bool
 Directory::set(
   const char *	    path,
-  const Where &	    where,
+  const Where &	    whereClause,
   const Option &    opts
   )
 {
-  return( set( path, opts, &where, 0 ) );
+  return( set( path, opts, &whereClause, 0 ) );
 }
 
 bool
 Directory::set(
   const char *	    path,
-  const Where &	    where,
-  const DirOrder &  order,
+  const Where &	    whereClause,
+  const DirOrder &  dirOrder,
   const Option &    opts
   )
 {
-  return( set( path, opts, &where, &order ) );
+  return( set( path, opts, &whereClause, &dirOrder ) );
 }
 
 bool
-Directory::sort( const DirOrder & order )
+Directory::sort( const DirOrder & dirOrder )
 {
-  ::sort( list.begin(), list.end(), order );
+  ::sort( list.begin(), list.end(), dirOrder );
   return( true );
 }
 
@@ -690,12 +702,22 @@ bool
 Directory::set(
   const char *	    path,
   const Option &    opts,
-  const Where *	    where,
-  const DirOrder *  order
+  const Where *	    whereClause,
+  const DirOrder *  dirOrder
   )
 {
   pattern = path;
   options = opts;
+  where = whereClause;
+  order = dirOrder;
+  
+  return( buildDirList() );
+}
+
+bool
+Directory::buildDirList( void )
+{
+  
   osErrno = 0;
   errorPath = "";
   
@@ -789,24 +811,24 @@ Directory::set(
     }
   else
     {
-      DIR * dir = opendir( path );
+      DIR * dir = opendir( pattern );
 
       if( ! dir )
 	{
 	  if( errno == ENOTDIR )
 	    {
-	      FileStat	stat( path );
+	      FileStat	stat( pattern );
 	      
 	      if( ! stat.good() )
 		{
-		  return( setError( stat.getSysError(), path ) );
+		  return( setError( stat.getSysError(), pattern ) );
 		}
 
 	      list.push_back( stat );
 	    }
 	  else
 	    {
-	      return( setError( errno, path ) );
+	      return( setError( errno, pattern ) );
 	    }  
 	}
       else
@@ -836,7 +858,7 @@ bool
 Directory::readDir(
   DIR *		    dir,
   const FilePath &  dirPath,
-  const Where *	    where,
+  const Where *	    whereClause,
   const Option &    opts
   )
 {
@@ -853,7 +875,7 @@ Directory::readDir(
       
       FileStat fs( name );
 
-      if( ! where || where->match( fs ) )
+      if( ! whereClause || whereClause->match( fs ) )
 	{
       
 	  list.push_back( fs );
@@ -872,7 +894,7 @@ Directory::readDir(
 		return( setError( errno, subDirPath ) );
 	      else
 		{
-		  bool status = readDir( subDir, subDirPath, where, opts );
+		  bool status = readDir( subDir, subDirPath, whereClause, opts );
 		  closedir( subDir );
 		  if( ! status )
 		    return( false );
@@ -886,6 +908,9 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 4.7  1999/10/28 14:20:09  houghton
+// Bug-Fixes
+//
 // Revision 4.6  1999/10/06 12:47:54  houghton
 // Changed: now if a valid single file name is pass that is not
 //     a direcotry it will be put in the dir list. (before it would fail

@@ -337,7 +337,9 @@ protected:
 		 const Option &	    opts,
 		 const Where *	    where,
 		 const DirOrder *   order );
-		 
+
+  bool	    buildDirList( void );
+  
   bool	    setError( int osErr, const char * errPath );
   
 private:
@@ -347,9 +349,11 @@ private:
 		 const Where *	    where,
 		 const Option &	    opts );
 
-  FilePath	pattern;
-  Option	options;
-  DirList	list;
+  FilePath	    pattern;
+  Option	    options;
+  const	Where *	    where;
+  const DirOrder *  order;
+  DirList	    list;
 
   int		osErrno;
   FilePath	errorPath;
@@ -456,6 +460,9 @@ operator >> ( istream & src, const Directory & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/10/28 14:20:23  houghton
+// Bug-Fixes
+//
 // Revision 4.2  1998/07/20 11:20:22  houghton
 // Port(Hpux10): Changed 'and' to 'andLR'. 'and' is now a keyword.
 //
