@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/05/03 16:12:53  houghton
+// Added outputLineProgress. Ouptut source line for every test.
+//
 // Revision 2.1  1995/11/10 12:40:41  houghton
 // Change to Version 2
 //
@@ -45,11 +48,13 @@ LibTest::DefaultResults LibTest::defaultResultsObj;
 
 LibTest::LibTest(
   const TestItem *  t,
+  bool		    outputLineProgress,
   ostream & 	    dumpStream,
   ostream & 	    outputStream,
   ostream & 	    errorStream
   )
-  : dump( dumpStream ),
+  : lineProgress( outputLineProgress ),
+    dump( dumpStream ),
     out( outputStream ),
     err( errorStream ),
     result( defaultResultsObj )
@@ -60,12 +65,14 @@ LibTest::LibTest(
 
 LibTest::LibTest(
   const TestItem *  t,
+  bool		    outputLineProgress,
   Results &	    resultsProcObj,
   ostream & 	    dumpStream,
   ostream & 	    outputStream,
   ostream & 	    errorStream
   )
-  : dump( dumpStream ),
+  : lineProgress( outputLineProgress ),
+    dump( dumpStream ),
     out( outputStream ),
     err( errorStream ),
     result( resultsProcObj )
@@ -129,6 +136,9 @@ LibTest::test(
   bool		progress
   )
 {
+  if( lineProgress )
+    err << "Tested: " << srcFn << ':' << srcLine << endl;
+  
   if( pass )
     {
       if( progress )

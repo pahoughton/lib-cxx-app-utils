@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/05/03 16:13:01  houghton
+// Added outputLineProgress. Ouptut source line for every test.
+//
 // Revision 2.1  1995/11/10 12:40:42  houghton
 // Change to Version 2
 //
@@ -89,11 +92,13 @@ public:
   };
   
   LibTest( const TestItem * 	testList,
+	   bool			outputLineProgress,
  	   ostream & 	    	dumpDest,
  	   ostream & 	    	output,
 	   ostream & 	    	error );
 
   LibTest( const TestItem * 	testList,
+	   bool			outputLineProgress,
 	   Results &		resultsProcObj,
 	   ostream & 	    	dumpDest,
 	   ostream & 	    	output,
@@ -200,6 +205,7 @@ private:
   static DefaultResults	defaultResultsObj;
   
   const TestItem *  testList;
+  bool		    lineProgress;
   size_t    	    currentTest;
   size_t	    currentPass;
   ostream &	    dump;
