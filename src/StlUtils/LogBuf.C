@@ -1,32 +1,26 @@
 //
 // File:        LogBuf.C
+// Project:	Clue
 // Desc:        
-//              
+//
+//	Compiled source for for the LogBuf class.
 //
 // Author:      Paul Houghton x2309 - (houghton@shoe.wiltel.com)
 // Created:     01/29/95 13:06 
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.2  1995/12/04 11:17:24  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:44  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  15:28:39  houghton
-// Revised
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #include "LogBuf.hh"
 #include "FileStat.hh"
+#include <RegexScan.hh>
+#include <strstream>
 #include <iostream>
 #include <cstdio>
 #include <cstring>
-#include <unistd.h>
-#include <sys/stat.h>
+
+//#include <unistd.h>
+//#include <sys/stat.h>
 
 #if defined( CLUE_DEBUG )
 #include <LogBuf.ii>
@@ -36,8 +30,10 @@ CLUE_VERSION(
   LogBuf,
   "$Id$" );
 
-#define LOGBUF_SIZE 512
 
+#define LOGBUF_SIZE 2048
+
+const LogBuf::FilterId    LogBuf::badFilterId = -1;
 
 //
 // LogBuf is the streambuf for the log
@@ -52,9 +48,42 @@ LogBuf::~LogBuf( void )
       delete buffer;
       buffer = 0;
     }
+
+  for( FilterList::iterator them = filters.begin();
+       them != filters.end();
+       ++them )
+    {
+      if( (*them).regex )
+	delete regex;
+    }
 }
 
+size_t
+LogBuf::trim( size_t maxLog )
+{
+  if( ! isFile() )
+    return( 0 );
   
+  size_t maxLogSize = ( maxLog ? maxLog : maxSize );
+  size_t trimLogSize = ( trimSize ? trimSize : (maxLogSize / 4 ) );
+  
+  if( ! maxLogSize )
+    return( 0 );
+
+  if( stream )
+    close();
+
+  FileStat  stat( logFileName );
+
+  if( ! stat.good() ||
+      ( (size_t)stat.getSize() < (maxLogSize - trimLogSize) ) )
+    {
+      openLog();
+      return( 0 );
+    }
+
+  return( trimLog( stat.getSize(), maxLogSize ) );
+}
 
 filebuf *
 LogBuf::open(
@@ -94,42 +123,53 @@ LogBuf::close( void )
   closeLog();  
 }
 
-size_t
-LogBuf::trim( size_t maxLog )
+LogBuf::FilterId
+LogBuf::addFilter(
+  streambuf *		    destBuf,
+  LogLevel::Level	    output,
+  const char *		    regexString
+  )
 {
-  size_t maxLogSize = ( maxLog ? maxLog : maxSize );
-  size_t trimLogSize = ( trimSize ? trimSize : (maxLogSize / 4 ) );
+  {
+    // look for an empty slot
+    for( FilterId f = 0; f < (long)filters.size(); ++f )
+      {      
+	if( filters[f].dest == 0 )
+	  {
+	    if( filters[f].regex )
+	      delete filters[f].regex;
+	    
+	    filters[f].dest	    = destBuf;
+	    filters[f].outputLevel    = output;
+	    filters[f].regex	    = new RegexScan( regexString );
+	    
+	    return( f );
+	}
+      }
+  }
   
-  if( ! maxLogSize || ! isFile() ) return( 0 );
+  filters.push_back( Filter() );
+  
+  FilterId  f = filters.size() - 1;
 
-  if( stream )
-    close();
+  filters[f].dest	    = destBuf;
+  filters[f].outputLevel    = output;
+  filters[f].regex	    = new RegexScan( regexString );
 
-  FileStat  stat( logFileName );
-
-  if( ! stat.good() ||
-      ( (size_t)stat.getSize() < (maxLogSize - trimLogSize) ) )
-    {
-      openLog();
-      return( 0 );
-    }
-
-  return( trimLog( stat.getSize(), maxLogSize ) );
+  return( f );
 }
-
+	  
 int 
 LogBuf::overflow( int c )
 {
-  sync();
-  
-  if( ! stream )
+  if( sync() == EOF )
     return( EOF );
+
+  if( c == EOF )
+    return 0;
   
-  if( teeStream )
-    {
-      teeStream->overflow(c);
-    }
-  return( stream->overflow(c) );
+  sputc( c );
+  return( c );
 }
 
 int
@@ -152,25 +192,57 @@ LogBuf::sync( void )
   
   char *    base = pbase();
   int	    len = pptr() - pbase();
-  
-  if( logLevel.shouldOutput() && len != 0 && base != 0)
-    {
-      for( int cnt = stream->sputn( base, len );
-	   cnt < len && cnt != 0 && len != 0;
-	   len -= cnt, base += cnt );
 
-      if( teeStream )
+  if( base && len > 0 )
+    {
+      // first take care of my dest & the tee dest
+
+      bool outputMesg = logLevel.shouldOutput();
+      
+      if( newMesg && regex )
 	{
-	  for( int cnt = teeStream->sputn( base, len );
-	      cnt < len && cnt != 0 && len != 0;
-	      len -= cnt, base += cnt );
-	  teeStream->sync();
+	  // if it's a new mesg and I'm filtering
+	  outputMesg = regex->search( base, 0, len );
+	}
+
+      if( outputMesg )
+	{
+	  sendToStream( stream, base, len );
+	  // stream's sync occures below.
+	  
+	  if( teeStream )
+	    {
+	      sendToStream( teeStream, base, len );
+	      teeStream->sync();
+	    }
+	}
+      
+      // now take care of the filters
+      for( FilterList::iterator them = filters.begin();
+	   them != filters.end();
+	   ++them )
+	{
+	  if( ! (*them).dest )
+	    continue;
+	  
+	  outputMesg = ((*them).outputLevel & logLevel.getCurrent());
+
+	  if( newMesg && (*them).regex )
+	    {
+	      outputMesg = (*them).regex->search( base, 0, len );
+	    }
+
+	  if( outputMesg )
+	    {
+	      sendToStream( (*them).dest, base, len );
+	      (*them).dest->sync();
+	    }
 	}
     }
 
-  setp( pbase(), epptr() );
-
   int  syncResult = stream->sync();
+
+  setp( pbase(), epptr() );
 
   size_t curSize = (size_t)stream->seekoff( 0, ios::cur, ios::out );
 		    
@@ -209,17 +281,19 @@ LogBuf::dumpInfo(
   dest << prefix << "is file:      " << (isFile() == true ? "yes" : "no" ) << '\n';
   if( isFile() )
     dest << prefix << "logFileName:  " << logFileName << '\n';
+  
   dest << prefix << "maxSize:      " << maxSize << '\n'
        << prefix << "trimSize:     " << trimSize << '\n'
        << prefix << "openMode:    " << openMode << '\n'
        << prefix << "openProt:    " << openProt << '\n'
     ;
-  
-  Str pre;
-  pre = prefix;
-  pre << "logLevel:" << logLevel.getClassName() << "::";
 
-  logLevel.dumpInfo( dest, pre, false );
+  {
+    strstream pre;
+    pre << prefix << "logLevel:" << logLevel.getClassName() << "::";
+    logLevel.dumpInfo( dest, pre.str(), false );
+    pre.freeze(0);
+  }
 
   dest << '\n';
 
@@ -257,14 +331,33 @@ LogBuf::initbuf(
 {
   initLogBuffer();
 
-  stream = 0;
-  streamIsFile = true;
+  stream	= 0;
+  streamIsFile  = true;
   teeStream 	= 0;  
   
   open( fileName, mode, prot, logMaxSize, logTrimSize );
  
 }
- 
+
+int
+LogBuf::sendToStream( streambuf * dest, char * base, int len )
+{
+  int total = 0;
+  int cnt = 0;
+  
+  for( cnt = dest->sputn( base, len );
+       cnt > 0 && cnt < len && len > 0;
+       len -= cnt, base += cnt );
+  {
+    total += cnt;
+    cnt = stream->sputn( base, len );
+  }
+
+  total += cnt;
+  
+  return( total );
+}
+
 filebuf *
 LogBuf::openLog( void )
 {
@@ -286,10 +379,25 @@ LogBuf::openLog( void )
 size_t
 LogBuf::trimLog( size_t curSize, size_t maxLogSize )
 {
+#if defined( CLUE_USE_FILEPATH )
   FilePath  tmpFn( logFileName );
-
   tmpFn.setTempName();
+#else
+  // do it by hand with RWCStrings
+  size_t    pathSep = logFileName.last( CLUE_DIR_DELIM );
 
+  RWCString tmpPath;
+  RWCString tempName;
+  
+  if( pathSep != RW_NPOS )
+    {
+      tmpPath = logFileName( 0, pathSep - 1 );
+    }
+
+  char * tempFileName = tempnam( tmpPath, logFileName.data() + pathSep + 1  );
+  RWCString tmpFn( tempFileName );
+  free( tempFileName );
+#endif
   if( rename( logFileName, tmpFn ) )
     {
       openLog();
@@ -389,3 +497,41 @@ LogBuf::closeLog( void )
   streamIsFile = false;
   stream = 0;
 }
+
+// Revision Log:
+//
+// $Log$
+// Revision 2.3  1996/11/04 13:57:12  houghton
+// Restructure header comments layout.
+// Changed LOG_BUFSIZE to 2048. So there is more data in the message
+//     for the regex filter to match against.
+// Added support for message filtering. (only output messages that
+//     match a regex.
+// Reorder methods to match header order.
+// Added addFilter method to provide mutliple filtered destinations.
+// Bug-Fix: overflow - before, it would place the overflow
+//     character on the output stream even if it should not be output
+//     according to the LogLevel. Changed to put the char in the buf
+//     after the sync call.
+// Bug-Fix: sync - if all the data in the buffer could not be put on
+//     the destination stream in one call to sputn, the for loop would
+//     be infinite.
+// Rework sync to use new private sendToStream method. Also added
+//     support for filters and multiple destinations.
+// Changed dumpInfo to use strstream instead of Str
+//     (as required by Mike Alexandar).
+// Added sendToStream private method that puts the buffer data on an
+//     ouptut stream.
+// Changed trimLog to use RWCString instead of FilePath.
+//     (as required by Mike Alexandar).
+//
+// Revision 2.2  1995/12/04 11:17:24  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:44  houghton
+// Change to Version 2
+//
+// Revision 1.4  1995/11/05  15:28:39  houghton
+// Revised
+//
+//
