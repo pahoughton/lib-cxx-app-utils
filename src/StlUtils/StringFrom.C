@@ -258,59 +258,59 @@ _StlUtilsStringSignedFrom(
 }
 
 
-#define SIGNED_STR_FRM_FIXED_TYPE( NumType )					\
-char *										\
-StringFrom(									\
-  char *    dest,								\
-  size_t    destSize,								\
-  NumType   num,								\
-  char	    fill,								\
-  short	    base,								\
-  bool	    prefix								\
-  )										\
-{										\
-  return( _StlUtilsStringSignedFrom( dest + destSize - 1,			\
-				     destSize,					\
-				     num,					\
-				     fill,					\
-				     base,					\
-				     prefix,					\
-				     false ) );					\
+#define SIGNED_STR_FRM_FIXED_TYPE( NumType )				      \
+char *									      \
+StringFrom(								      \
+  char *    dest,							      \
+  size_t    destSize,							      \
+  NumType   num,							      \
+  char	    fill,							      \
+  short	    base,							      \
+  bool	    prefix							      \
+  )									      \
+{									      \
+  return( _StlUtilsStringSignedFrom( dest + destSize - 1,		      \
+				     destSize,				      \
+				     num,				      \
+				     fill,				      \
+				     base,				      \
+				     prefix,				      \
+				     false ) );				      \
 }
 
 
-#define UNSIGNED_STR_FRM_FIXED_TYPE( NumType )					\
-char *										\
-StringFrom(									\
-  char *    dest,								\
-  size_t    destSize,								\
-  NumType   num,								\
-  char	    fill,								\
-  short	    base,								\
-  bool	    prefix								\
-  )										\
-{										\
-  return( _StlUtilsStringUnsignedFrom( dest + destSize - 1,			\
-				       destSize,				\
-				       num,					\
-				       false,					\
-				       fill,					\
-				       base,					\
-				       prefix,					\
-				       false ) );				\
+#define UNSIGNED_STR_FRM_FIXED_TYPE( NumType )				      \
+char *									      \
+StringFrom(								      \
+  char *    dest,							      \
+  size_t    destSize,							      \
+  NumType   num,							      \
+  char	    fill,							      \
+  short	    base,							      \
+  bool	    prefix							      \
+  )									      \
+{									      \
+  return( _StlUtilsStringUnsignedFrom( dest + destSize - 1,		      \
+				       destSize,			      \
+				       num,				      \
+				       false,				      \
+				       fill,				      \
+				       base,				      \
+				       prefix,				      \
+				       false ) );			      \
 }
 
-#define SIGNED_STR_FRM_TYPE( NumType )						\
-const char *									\
-StringFrom( NumType num, short base, bool prefix )				\
-{										\
-  return( _StlUtilsStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,		\
-				     sizeof( NumBuf ),				\
-				     num,					\
-				     (char)0,					\
-				     base,					\
-				     prefix,					\
-				     true ) );					\
+#define SIGNED_STR_FRM_TYPE( NumType )					      \
+const char *								      \
+StringFrom( NumType num, short base, bool prefix )			      \
+{									      \
+  return( _StlUtilsStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,	      \
+				     sizeof( NumBuf ),			      \
+				     num,				      \
+				     (char)0,				      \
+				     base,				      \
+				     prefix,				      \
+				     true ) );				      \
 }
 
 #define UNSIGNED_STR_FRM_TYPE( NumType )					\
@@ -416,6 +416,9 @@ StringFrom( const struct tm & src, const char * fmt )
 
 //
 // $Log$
+// Revision 4.4  1999/05/09 11:32:27  houghton
+// Cleanup.
+//
 // Revision 4.3  1998/01/05 13:07:51  houghton
 // Port(Aix): had to cast fill 0 to a char.
 //

@@ -123,54 +123,54 @@ _StringToNumPrep(
 }
 
   
-#define STRING_TO_TYPE( _type_ )						\
-bool										\
-StringTo(									\
-  _type_ &	    dest,							\
-  const char * 	    src,							\
-  unsigned short    baseToUse,							\
-  size_t    	    len,							\
-  bool		    stopAtNonDigit						\
-  )										\
-{										\
-  _type_  value = 0;								\
-										\
-  const char * 	    end = src + ( len != NPOS ? len : strlen( src ) );		\
-  unsigned short    base = baseToUse;						\
-  bool	    	    neg = false;						\
-										\
-  const char * conv = _StringToNumPrep( src, end, base, neg );			\
-										\
-  if( ! conv || conv >= end )							\
-    {										\
-      dest = 0;									\
-      return( true );								\
-    }										\
-										\
-  for( ; conv < end; conv++ )							\
-    {										\
-      if( CharIsBaseDigit( *conv, base ) )					\
-	{									\
-	  value *= base;							\
-	  value += CharToInt( *conv );						\
-	}									\
-      else									\
-	{									\
-	  if( ! stopAtNonDigit )						\
-	    {									\
-	      return( false );							\
-	    }									\
-	  else									\
-	    {									\
-	      dest = (neg) ? value * -1 : value;				\
-	      return( true );							\
-	    }									\
-	}									\
-    }										\
-										\
-  dest = (neg) ? value * -1 : value;						\
-  return( true );								\
-}
+#define STRING_TO_TYPE( _type_ )					      \
+bool									      \
+StringTo(								      \
+  _type_ &	    dest,						      \
+  const char * 	    src,						      \
+  unsigned short    baseToUse,						      \
+  size_t    	    len,						      \
+  bool		    stopAtNonDigit					      \
+  )									      \
+{									      \
+  _type_  value = 0;							      \
+									      \
+  const char * 	    end = src + ( len != NPOS ? len : strlen( src ) );	      \
+  unsigned short    base = baseToUse;					      \
+  bool	    	    neg = false;					      \
+									      \
+  const char * conv = _StringToNumPrep( src, end, base, neg );		      \
+									      \
+  if( ! conv || conv >= end )						      \
+    {									      \
+      dest = 0;								      \
+      return( true );							      \
+    }									      \
+									      \
+  for( ; conv < end; conv++ )						      \
+    {									      \
+      if( CharIsBaseDigit( *conv, base ) )				      \
+	{								      \
+	  value *= base;						      \
+	  value += CharToInt( *conv );					      \
+	}								      \
+      else								      \
+	{								      \
+	  if( ! stopAtNonDigit )					      \
+	    {								      \
+	      return( false );						      \
+	    }								      \
+	  else								      \
+	    {								      \
+	      dest = (neg) ? value * -1 : value;			      \
+	      return( true );						      \
+	    }								      \
+	}								      \
+    }									      \
+									      \
+  dest = (neg) ? value * -1 : value;					      \
+  return( true );							      \
+}									      \
 
 #if defined( DO_NOT_USE_MACRO )
 bool
@@ -693,6 +693,9 @@ StringToTm( const char * src, const char * fmt )
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1999/05/09 11:32:42  houghton
+// Cleanup.
+//
 // Revision 4.4  1998/08/13 10:53:21  houghton
 // Port(Hpux10): had to cast args to 'pow()'.
 //

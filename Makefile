@@ -22,7 +22,7 @@ INSTALL_BIN_DIR	= $(local_bindir)
 INSTALL_MAN_DIR = $(local_mandir)
 
 SRC_DIR		= src
-DOC_DIR		= doc
+DOC_DIR		= docs
 TEST_DIR	= test
 
 exports	    = 					\
@@ -44,38 +44,41 @@ beta_exports	=				\
 .PHONY: test
 
 depend depend_all depend_default depend_debug:
-	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+	$(hide) $(MAKE) -C $(SRC_DIR) $@ $(exports)
 
 depend_test:
-	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
-	$(hide) if ! $(MAKE) -C $(TEST_DIR) $@ $(exports); then exit; fi
+	$(hide) $(MAKE) -C $(SRC_DIR) $@ $(exports)
+	$(hide) $(MAKE) -C $(TEST_DIR) $@ $(exports)
 
 all default debug:
-	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+	$(hide) $(MAKE) -C $(SRC_DIR) $@ $(exports)
 
 clean realclean:
-	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
-	$(hide) if ! $(MAKE) -C $(DOC_DIR) $@ $(exports); then exit; fi
-	$(hide) if ! $(MAKE) -C $(TEST_DIR) $@ $(exports); then exit; fi
+	$(hide) $(MAKE) -C $(SRC_DIR) $@ $(exports)
+	$(hide) $(MAKE) -C $(DOC_DIR) $@ $(exports)
+	$(hide) $(MAKE) -C $(TEST_DIR) $@ $(exports)
 
 test:
-	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
-	$(hide) if ! $(MAKE) -C $(TEST_DIR) $@ $(exports); then exit; fi
+	$(hide) $(MAKE) -C $(SRC_DIR) $@ $(exports)
+	$(hide) $(MAKE) -C $(TEST_DIR) $@ $(exports)
 
 install_doc:
-	$(hide) if ! $(MAKE) -C $(DOC_DIR) $@ $(exports); then exit; fi
+	$(hide) $(MAKE) -C $(DOC_DIR) $@ $(exports)
 
 install_all install: install_doc
-	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+	$(hide) $(MAKE) -C $(SRC_DIR) $@ $(exports)
 
 install_beta:
-	$(hide) if ! $(MAKE) -C $(SRC_DIR) install_all $(beta_exports); then exit; fi
+	$(hide) $(MAKE) -C $(SRC_DIR) install_all $(beta_exports)
 
 install_default install_debug: 
-	$(hide) if ! $(MAKE) -C $(SRC_DIR) $@ $(exports); then exit; fi
+	$(hide) $(MAKE) -C $(SRC_DIR) $@ $(exports)
 
 #
 # $Log$
+# Revision 4.4  1999/05/09 11:32:13  houghton
+# Cleanup.
+#
 # Revision 4.3  1998/10/23 13:03:26  houghton
 # Changed to use MakeConfigs 5.06.
 #
