@@ -104,22 +104,22 @@ SigCatcher::SigCatcher(
 
 SigCatcher::SigCatcher(
   const Signal *    catchSigList,
-  size_t	    catchCount,
+  size_type	    catchCount,
   const Signal *    ignoreSigList,
-  size_t	    ignoreCount
+  size_type	    ignoreCount
   )
   : errorNum( E_OK ),
     osErrno( 0 )
 {
   {
-    for( size_t s = 0; s < catchCount; ++ s )
+    for( size_type s = 0; s < catchCount; ++ s )
       {
 	catchSig( catchSigList[ s ] );
       }
   }
   
   {
-    for( size_t s = 0; s < ignoreCount; ++ s )
+    for( size_type s = 0; s < ignoreCount; ++ s )
       {
 	ignoreSig( ignoreSigList[ s ] );
       }
@@ -128,23 +128,23 @@ SigCatcher::SigCatcher(
   
 SigCatcher::SigCatcher(
   const Signal *    catchSigList,
-  size_t	    catchCount,
+  size_type	    catchCount,
   const Signal *    ignoreSigList,
-  size_t	    ignoreCount,
+  size_type	    ignoreCount,
   const Flag	    flags
   )
   : errorNum( E_OK ),
     osErrno( 0 )
 {
   {
-    for( size_t s = 0; s < catchCount; ++ s )
+    for( size_type s = 0; s < catchCount; ++ s )
       {
 	catchSig( catchSigList[ s ], flags );
       }
   }
   
   {
-    for( size_t s = 0; s < ignoreCount; ++ s )
+    for( size_type s = 0; s < ignoreCount; ++ s )
       {
 	ignoreSig( ignoreSigList[ s ] );
       }
@@ -350,6 +350,9 @@ SigCatcher::catchAction(
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1999/03/02 12:52:36  houghton
+// Cleanup.
+//
 // Revision 4.4  1998/03/30 14:08:19  houghton
 // Renamed signal variable to sigCaught to avoid name clashes with the
 //     'signal' function.

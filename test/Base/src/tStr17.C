@@ -1,12 +1,6 @@
-#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Str.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#endif
 
 static const char * BaseStrings[] =
 {

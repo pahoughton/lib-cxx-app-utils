@@ -24,8 +24,8 @@
 
 #include "StlUtilsConfig.hh"
 #include <iostream>
-#include <vector>
 #include <utility>
+#include <vector>
 #include <cstddef>
 
 
@@ -76,8 +76,8 @@ public:
   Str( void );
 
   inline Str( const Str &    src,
-	      size_type 	     srcStart = 0,
-	      size_type 	     srcLen = npos );
+	      size_type      srcStart = 0,
+	      size_type      srcLen = npos );
 
   inline Str( const SubStr & src,
 	      size_type 	     srcStart = 0,
@@ -1758,6 +1758,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.11  1999/03/02 12:49:27  houghton
+// Cleanup.
+//
 // Revision 4.10  1998/10/23 13:07:05  houghton
 // Changed to support both new (Std) and old types of reverse_iterator.
 //
