@@ -101,8 +101,11 @@ protected:
     streamoff	    offset;
     ios::seek_dir   dir;
     size_t	    amount;
+
+    Lock( void )
+      : type( T_Undefined ), offset( 0 ), dir( ios::beg ), amount( 0 ) {};
     
-    Lock( Type		t = T_Undefined,
+    Lock( Type		t,
 	  streamoff	o = 0,
 	  ios::seek_dir	d = ios::beg,
 	  size_t	a = 0 )
@@ -215,6 +218,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/21 21:21:14  houghton
+// Port(Sun5): had to add a default constructor to prevent compiler crashes.
+//
 // Revision 4.1  1997/09/17 15:13:31  houghton
 // Changed to Version 4
 //
