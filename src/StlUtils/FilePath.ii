@@ -2,44 +2,24 @@
 #define _FilePath_ii_
 //
 // File:        FilePath.ii
+// Project:	Clue
 // Desc:        
 //
-//  	inlines for FilePath
+//  	Inline source for FilePath
 //
-//
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     06/15/95 07:47
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.4  1997/03/03 14:35:57  houghton
-// Changed base class from string back to Str (Massive improvement of
-//     functionallity )
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.3  1996/11/22 12:23:33  houghton
-// Added 'set' methods that take 'string' (vs const char *).
+//  $Id$
 //
-// Revision 3.2  1996/11/20 12:06:44  houghton
-// Changed: Major rework to change base class from Str to string.
-//
-// Revision 3.1  1996/11/14 01:23:43  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/04/27 12:59:46  houghton
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
-//
-// Revision 2.2  1995/12/04 11:17:22  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:36  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:35  houghton
-// Revised
-//
-//
+
+
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -76,6 +56,36 @@ FilePath::FilePath(
     append( 1, dirDelim );
 
   append( fn );
+}
+
+inline
+FilePath::FilePath(
+  const char * 	dir,
+  const char * 	fn,
+  const char *  ext,
+  char 	    	d,
+  char 	    	e
+  )
+  : dirDelim( d ),
+    extDelim( e )
+{
+  if( dir )
+    {
+      assign( dir );
+      
+      if( at( size() - 1 ) != dirDelim )
+	append( 1, dirDelim );
+    }
+
+  if( fn )
+    append( fn );
+
+  if( ext )
+    {
+      if( ext[0] != extDelim )
+	append( 1, extDelim );
+      append( ext );
+    }
 }
 
 inline
@@ -280,5 +290,39 @@ operator << ( ostream & dest, const FilePath & obj )
 #undef inline
 #endif
 
+// Revision Log:
+// 
+// $Log$
+// Revision 3.5  1997/03/12 12:01:41  houghton
+// Added FilePath( dir, fn, ext, ddelim, edelim ) constructor.
+// Cleanup comments.
+//
+// Revision 3.4  1997/03/03 14:35:57  houghton
+// Changed base class from string back to Str (Massive improvement of
+//     functionallity )
+//
+// Revision 3.3  1996/11/22 12:23:33  houghton
+// Added 'set' methods that take 'string' (vs const char *).
+//
+// Revision 3.2  1996/11/20 12:06:44  houghton
+// Changed: Major rework to change base class from Str to string.
+//
+// Revision 3.1  1996/11/14 01:23:43  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1996/04/27 12:59:46  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.2  1995/12/04 11:17:22  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:36  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:28:35  houghton
+// Revised
+//
+//
 #endif // ! def _FilePath_ii_ 
 

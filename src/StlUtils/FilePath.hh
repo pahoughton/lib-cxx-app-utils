@@ -2,43 +2,25 @@
 #define _FilePath_hh_
 //
 // File:        FilePath.hh
+// Project:	Clue
 // Desc:        
 //
 //
-//  Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Quick Start: - short example of class usage
+//
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     05/18/95 07:43
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.4  1997/03/03 14:35:49  houghton
-// Changed base class from string back to Str (Massive improvement of
-//     functionallity )
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.3  1996/11/22 12:23:18  houghton
-// Added 'set' methods that take 'string' (vs const char *).
+//  $Id$
 //
-// Revision 3.2  1996/11/20 12:06:27  houghton
-// Changed: Major rework to change base class from Str to string.
-//
-// Revision 3.1  1996/11/14 01:23:42  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/05/14 14:17:50  houghton
-// Bug-Fix: change read & write from inline to virtual.
-//
-// Revision 2.2  1995/11/10 14:08:36  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:40:35  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:34  houghton
-// Revised
-//
-//
+
 
 #include "ClueConfig.hh"
 #include "Str.hh"
@@ -62,6 +44,12 @@ public:
   
   inline FilePath( const char * dirName,
 		   const char * fileName,
+		   char    	dirDelim = CLUE_DIR_DELIM,
+		   char    	extDelim = '.' );
+
+  inline FilePath( const char * dirName,
+		   const char * fileName,
+		   const char * fileExt,
 		   char    	dirDelim = CLUE_DIR_DELIM,
 		   char    	extDelim = '.' );
 
@@ -272,5 +260,49 @@ compare( const FilePath & one, const FilePath & two );
 //
 //  	ostream &
 //  	operator <<( ostream & dest, const FilePath & obj );
+//
+//
+// Example:
+//
+// See Also:
+//
+// Files:
+//
+// Documented Ver:
+//
+// Tested Ver:
+//
+// Revision Log:
+//
+// $Log$
+// Revision 3.5  1997/03/12 12:01:41  houghton
+// Added FilePath( dir, fn, ext, ddelim, edelim ) constructor.
+// Cleanup comments.
+//
+// Revision 3.4  1997/03/03 14:35:49  houghton
+// Changed base class from string back to Str (Massive improvement of
+//     functionallity )
+//
+// Revision 3.3  1996/11/22 12:23:18  houghton
+// Added 'set' methods that take 'string' (vs const char *).
+//
+// Revision 3.2  1996/11/20 12:06:27  houghton
+// Changed: Major rework to change base class from Str to string.
+//
+// Revision 3.1  1996/11/14 01:23:42  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1996/05/14 14:17:50  houghton
+// Bug-Fix: change read & write from inline to virtual.
+//
+// Revision 2.2  1995/11/10 14:08:36  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:35  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:28:34  houghton
+// Revised
+//
 //
 #endif // ! def _FilePath_hh_ 
