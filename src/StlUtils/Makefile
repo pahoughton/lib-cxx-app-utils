@@ -185,6 +185,77 @@ endif
 
 ifeq ($(arch),AIX)
 ARCH_CXX_INCLUDES = $(UNIX_CXX_INCLUDES)	\
+	../arch/$(arch)/src/ClueConfig.hh	\
+	../arch/$(arch)/src/AnsiBool.hh		\
+	../arch/$(arch)/stdc++/algo.h		\
+	../arch/$(arch)/stdc++/algobase.h	\
+	../arch/$(arch)/stdc++/algorithm	\
+	../arch/$(arch)/stdc++/bool.h		\
+	../arch/$(arch)/stdc++/bvector.h	\
+	../arch/$(arch)/stdc++/cctype		\
+	../arch/$(arch)/stdc++/cerrno		\
+	../arch/$(arch)/stdc++/climits		\
+	../arch/$(arch)/stdc++/cmath		\
+	../arch/$(arch)/stdc++/cstddef		\
+	../arch/$(arch)/stdc++/cstdio		\
+	../arch/$(arch)/stdc++/cstdlib		\
+	../arch/$(arch)/stdc++/cstring		\
+	../arch/$(arch)/stdc++/ctime		\
+	../arch/$(arch)/stdc++/defalloc.h	\
+	../arch/$(arch)/stdc++/deque.h		\
+	../arch/$(arch)/stdc++/faralloc.h	\
+	../arch/$(arch)/stdc++/fdeque.h		\
+	../arch/$(arch)/stdc++/flist.h		\
+	../arch/$(arch)/stdc++/fmap.h		\
+	../arch/$(arch)/stdc++/fmultmap.h	\
+	../arch/$(arch)/stdc++/fmultset.h	\
+	../arch/$(arch)/stdc++/fset.h		\
+	../arch/$(arch)/stdc++/fstream		\
+	../arch/$(arch)/stdc++/function.h	\
+	../arch/$(arch)/stdc++/functional	\
+	../arch/$(arch)/stdc++/hdeque.h		\
+	../arch/$(arch)/stdc++/heap.h		\
+	../arch/$(arch)/stdc++/hlist.h		\
+	../arch/$(arch)/stdc++/hmap.h		\
+	../arch/$(arch)/stdc++/hmultmap.h	\
+	../arch/$(arch)/stdc++/hmultset.h	\
+	../arch/$(arch)/stdc++/hset.h		\
+	../arch/$(arch)/stdc++/hugalloc.h	\
+	../arch/$(arch)/stdc++/hvector.h	\
+	../arch/$(arch)/stdc++/iomanip		\
+	../arch/$(arch)/stdc++/iostream		\
+	../arch/$(arch)/stdc++/iterator		\
+	../arch/$(arch)/stdc++/iterator.h	\
+	../arch/$(arch)/stdc++/lbvector.h	\
+	../arch/$(arch)/stdc++/ldeque.h		\
+	../arch/$(arch)/stdc++/list.h		\
+	../arch/$(arch)/stdc++/llist.h		\
+	../arch/$(arch)/stdc++/lmap.h		\
+	../arch/$(arch)/stdc++/lmultmap.h	\
+	../arch/$(arch)/stdc++/lmultset.h	\
+	../arch/$(arch)/stdc++/lngalloc.h	\
+	../arch/$(arch)/stdc++/lset.h		\
+	../arch/$(arch)/stdc++/map.h		\
+	../arch/$(arch)/stdc++/multimap.h	\
+	../arch/$(arch)/stdc++/multiset.h	\
+	../arch/$(arch)/stdc++/neralloc.h	\
+	../arch/$(arch)/stdc++/new		\
+	../arch/$(arch)/stdc++/nmap.h		\
+	../arch/$(arch)/stdc++/nmultmap.h	\
+	../arch/$(arch)/stdc++/nmultset.h	\
+	../arch/$(arch)/stdc++/nset.h		\
+	../arch/$(arch)/stdc++/pair.h		\
+	../arch/$(arch)/stdc++/projectn.h	\
+	../arch/$(arch)/stdc++/set		\
+	../arch/$(arch)/stdc++/set.h		\
+	../arch/$(arch)/stdc++/stack.h		\
+	../arch/$(arch)/stdc++/stddef		\
+	../arch/$(arch)/stdc++/strstream	\
+	../arch/$(arch)/stdc++/tempbuf.h	\
+	../arch/$(arch)/stdc++/tree.h		\
+	../arch/$(arch)/stdc++/vector		\
+	../arch/$(arch)/stdc++/vector.h		\
+
 
 endif
 
@@ -371,8 +442,8 @@ include .depend
 
 # 
 # $Log$
-# Revision 1.17  1995/11/05 16:23:36  houghton
-# Added Old Clue classes
+# Revision 1.18  1995/11/05 16:32:20  houghton
+# Revised
 #
 # Revision 1.2  1995/02/13  17:35:10  houghton
 # Major enhancements much cleaner
