@@ -1,0 +1,33 @@
+#ifndef _ThreadTest_ii_
+#define _ThreadTest_ii_
+//
+// File:        ThreadTest.ii
+// Desc:        
+//
+//  	inlines for ThreadTest
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     06/19/96 06:50
+//
+// Revision History:
+//
+// $Id$
+//
+// $Log$
+// Revision 1.1  1996/06/20 15:26:22  houghton
+// Initial Version.
+//
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+
+
+#if defined( inline )
+#undef inline
+#endif
+
+#endif // ! def _ThreadTest_ii_ 
