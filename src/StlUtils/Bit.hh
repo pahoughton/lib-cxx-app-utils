@@ -5,41 +5,12 @@
 // Desc:        
 //
 //
-//  Quick Start: - short example of class usage
+// NOTES: This is my understanding of the C++ standard
 //
-//  Data Types: - data types defined by this header
+// CHAR_BIT comes from climits
 //
-//  	Bit	class
-//
-//  Constructors:
-//
-//  	Bit( );
-//
-//  Destructors:
-//
-//  Public Interface:
-//
-//  	virtual const char *
-//  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. Bit )
-//
-//  	virtual Bool
-//  	good( void ) const;
-//  	    Returns true if there are no detected errors associated
-//  	    with this class, otherwise FALSE.
-//
-//  	virtual const char *
-//  	error( void ) const
-//  	    Returns as string description of the state of the class.
-//
-//  Protected Interface:
-//
-//  Private Methods:
-//
-//  Other Associated Functions:
-//
-//  	ostream &
-//  	operator <<( ostream & dest, const Bit & obj );
+// 1 = sizeof( char ) <= sizeof( short ) <= sizeof( int ) <= sizeof( long )
+// 
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     02/22/95 09:46
@@ -47,123 +18,58 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/03/02 16:35:30  houghton
-// Linux ports & new Classes
+// Revision 1.2  1995/11/05 13:27:59  houghton
+// Completely new implementation
 //
 //
+//
 
-#include <Bit.h>
+#include <ClueConfig.hh>
 
-inline
-char
-StripHigh( char value, int count )
-{
-  return( (CHAR_ALL_BITS >> count) & value );
-}
+#include <cstddef>
+#include <climits>
 
-inline
-short
-StripHigh( short value, int count )
-{
-  return( (SHORT_ALL_BITS >> count) & value );
-}
-
-inline
-unsigned short
-StripHigh( unsigned short value, int count )
-{
-  return( (SHORT_ALL_BITS >> count) & value );
-}
-
-inline
-int
-StripHigh( int value, int count )
-{
-  return( (INT_ALL_BITS >> count) & value );
-}
-
-inline
-unsigned int
-StripHigh( unsigned int value, int count )
-{
-  return( (INT_ALL_BITS >> count) & value );
-}
+#define Bit( _b_ ) ( 1 << _b_ )
 
 
-inline
-long
-StripHigh( long value, int count )
-{
-  return( (LONG_ALL_BITS >> count) & value );
-}
-
-inline
-unsigned long
-StripHigh( unsigned long value, int count )
-{
-  return( (LONG_ALL_BITS >> count) & value );
-}
-
-inline
-char
-ShiftRight( char value, unsigned long start, unsigned long len )
-{
-  return( value >> (CHAR_BITS - ((start % CHAR_BITS) + len )) );
-}
-
-inline
-short
-ShiftRight( short value, unsigned long start, unsigned long len )
-{
-  return( value >> (SHORT_BITS - ((start % SHORT_BITS) + len )) );
-}
-
-inline
-unsigned short
-ShiftRight( unsigned short value, unsigned long start, unsigned long len )
-{
-  return( value >> (SHORT_BITS - ((start % SHORT_BITS) + len )) );
-}
-
-inline
-int
-ShiftRight( int value, unsigned long start, unsigned long len )
-{
-  return( value >> (INT_BITS - ((start % INT_BITS) + len )) );
-}
-
-inline
-unsigned int
-ShiftRight( unsigned int value, unsigned long start, unsigned long len )
-{
-  return( value >> (INT_BITS - ((start % INT_BITS) + len )) );
-}
-
-inline
-long
-ShiftRight( long value, unsigned long start, unsigned long len )
-{
-  return( value >> (LONG_BITS - ((start % LONG_BITS) + len )) );
-}
-
-inline
-unsigned long
-ShiftRight( unsigned long value, unsigned long start, unsigned long len )
-{
-  return( value >> (LONG_BITS - ((start % LONG_BITS) + len )) );
-}
+#define CHAR_BITS   CHAR_BIT
+#define SHORT_BITS  ( sizeof(short) * CHAR_BITS)
+#define INT_BITS    ( sizeof(int) * CHAR_BITS)
+#define LONG_BITS   ( sizeof(long) * CHAR_BITS)
 
 
+#define CHAR_ALL_BITS	((unsigned char)(~0))  // 0xff
+#define SHORT_ALL_BITS	((unsigned short)(~0)) // 0xffff
+#define LONG_ALL_BITS	((unsigned long)(~0L)) // 0xffffffff
+#define INT_ALL_BITS	((unsigned int)(~0))   // 0xffff | 0xffffffff
+
+//
+// Functions in Bit.ii
+//
+// template<T>
+//
+// T StripHigh( T value, int keepCount )
+// T StripLow( T value, int count )
+// T ShiftRight( T value, int count )
+// T ShiftLeft( T value, int start, int len )
+// T ExtractBits( T value, int start, int len )
+// T SetBits( T value, int start, int len )
+//
+// start is right to left begining with bit 0
+// len is right to left begining with bit 'start'
+//
+// ShiftLeft( 00110100, 4, 3 ) == 01101000
+// ShiftLeft( 00110100, 3, 3 ) == 11010000
+// ShiftLeft( 011, 0, 3 ) == 00011000
+// ShiftLeft( 011, 3, 0 ) == 00011000
+//
+// ExtractBits( 00110100, 4, 3 ) == 00000011
+// ExtractBits( 00110100, 3, 3 ) == 00000110
+//
+// SetBits( dest, 3, 4, 3 ) == x011xxxx  (x means not modified)
+// SetBits( dest, 6, 3, 3 ) == xx110xxx  (x means not modified)
+//
+
+#include <Bit.ii>
 
 #endif // ! def _Bit_hh_ 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1995 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
