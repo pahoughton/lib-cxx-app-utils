@@ -74,7 +74,7 @@ $(libs_build_dir)/libCommon-3:
 
 $(common_h): $(libs_build_dir)/libCommon-3
 	cd $(libs_build_dir)						      \
-	&& $(MAKE) -f libCommon-3/Makefile setup
+	&& $(MAKE) -f libCommon-3/Makefile setup $(exports)
 	$(TOOL_DIR)/bin/make -C $(libs_build_dir)/libCommon-3		      \
 	    install_lib_all $(exports) 
 
@@ -85,7 +85,7 @@ $(libs_build_dir)/libGnuRegex-2:
 
 $(gnuregex_h): $(libs_build_dir)/libGnuRegex-2
 	cd $(libs_build_dir)						      \
-	&& $(MAKE) -f libGnuRegex-2/Makefile setup
+	&& $(MAKE) -f libGnuRegex-2/Makefile setup $(exports)
 	$(TOOL_DIR)/bin/make -C $(libs_build_dir)/libGnuRegex-2		      \
 	    install_lib_all $(exports) 
 
@@ -96,7 +96,7 @@ $(libs_build_dir)/libStdC++-2:
 
 $(stdcxx_hh): $(libs_build_dir)/libStdC++-2
 	cd $(libs_build_dir)						      \
-	&& $(MAKE) -f libStdC++-2/Makefile setup
+	&& $(MAKE) -f libStdC++-2/Makefile setup $(exports)
 	$(TOOL_DIR)/bin/make -C $(libs_build_dir)/libStdC++-2		      \
 	    install_lib_all $(exports) 
 
@@ -116,6 +116,9 @@ setup: check_cvs $(common_h) $(gnuregex_h) $(stdcxx_hh) gen_setup_cfg
 
 #
 # $Log$
+# Revision 1.3  2000/01/03 14:21:32  houghton
+# Bug-Fix: forgot to use exports.
+#
 # Revision 1.2  1999/11/09 11:10:06  houghton
 # Added gen_setup_cfg target.
 #
