@@ -281,6 +281,15 @@ tStr17( LibTest & tester )
 
     t = "123";
     TEST( t.toLong( 16 ) == 0x123 );
+
+    t = "001234";
+    TEST( t.toLong( 10 ) == 1234 );
+
+    t = "012";
+    TEST( t.toLong() == 012 );
+
+    t = "00321";
+    TEST( t.toLong() == 00321 );
   }
 
   {
