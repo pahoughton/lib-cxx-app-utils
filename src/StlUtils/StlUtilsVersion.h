@@ -17,17 +17,17 @@
  * Modification History:
  *
  * $Log$
- * Revision 1.1  1995/11/05 13:23:19  houghton
- * Initaial implementation
+ * Revision 1.2  1995/11/05 13:51:42  houghton
+ * Revised implementation
  *
  *
  *********************************************************************/
 
-#ifndef LIB_CLUE_VERSION
-#define LIB_CLUE_VERSION_NUM  2000001L
-#define LIB_CLUE_VERSION  "@(#) libClue - 2.00.00.a.01 - " \
-			  __FILE__ " - Compiled: " __DATE__ " " __TIME__ "\n"
-#endif
+#if !defined( CLUE_PRJ_VER )
+#define CLUE_PRJ_NAME	"libClue"
+#define CLUE_PRJ_VER	"2.00.00.a.02"
+#define CLUE_PRJ_VER_NUM    2000002L
+#endif /* def CLUE_PRJ_VER */
 
 #endif /* ! def _ClueVersion_h_ */
 
