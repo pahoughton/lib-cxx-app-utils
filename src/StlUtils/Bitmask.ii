@@ -13,6 +13,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/11/04 13:27:10  houghton
+// Restructure header comments layout.
+// Added Copy Constructor.
+// Changed to_string to return a const char *.
+// Reorder functions to match header order.
+// Added ::operator >> ( istream, Bitmask )
+// Added ::operator << ( ostream, Bitmask::bit )
+//
 // Revision 2.5  1996/05/02 01:27:28  houghton
 // Add missing operators for <= & >= long rhs.
 //
@@ -36,6 +44,7 @@
 //
 
 #include <Compare.hh>
+#include <Bit.hh>
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -101,6 +110,14 @@ Bitmask::Bitmask( void )
 }
 
 inline
+Bitmask::Bitmask( unsigned long val, bool flip )
+  : value( val )
+{
+  if( flip )
+    value = ~val;
+}
+
+inline
 Bitmask::Bitmask( const Bitmask::bit & val )
   : value( 0 )
 {
@@ -108,12 +125,11 @@ Bitmask::Bitmask( const Bitmask::bit & val )
 }
 
 inline
-Bitmask::Bitmask( unsigned long val, bool flip )
-  : value( val )
+Bitmask::Bitmask( const Bitmask & from )
+  : value( from.value )
 {
-  if( flip )
-    value = ~val;
 }
+
 
 inline
 Bitmask &
@@ -213,11 +229,16 @@ Bitmask::to_ulong( void ) const
 }
 
 inline
-Str
+const char *
 Bitmask::to_string( void ) const
 {
-  Str tmp;
-  toStream( tmp );
+  static char	tmp[ CHAR_BITS * sizeof( Bitmask::ValueType ) ];
+
+  int p = maxPos;
+  for( ; p > 0; p-- )
+    tmp[ maxPos - p ] = (test(p - 1) ? '1' : '0');
+  tmp[ maxPos ] = 0;
+  
   return( tmp );
 }
 
@@ -234,6 +255,34 @@ int
 Bitmask::compare( unsigned long two ) const
 {
   return( ::compare( value, two ) );
+}
+
+inline
+Bitmask::bit
+Bitmask::operator () ( size_t pos )
+{
+  return( bit( *this, pos ) );
+}
+
+inline
+Bitmask::bit
+Bitmask::operator [] ( size_t pos )
+{
+  return( bit( *this, pos ) );
+}
+
+inline
+bool
+Bitmask::operator () ( size_t pos ) const
+{
+  return( test( pos ) );
+}
+
+inline
+bool
+Bitmask::operator [] ( size_t pos ) const
+{
+  return( test( pos ) );
 }
 
 inline
@@ -271,6 +320,22 @@ Bitmask::operator |= ( const Bitmask::bit & rhs )
 
 inline
 Bitmask &
+Bitmask::operator ^= ( const Bitmask::bit & rhs )
+{
+  set( rhs.pos(), test( rhs.pos() ) != (bool)rhs );
+  return( *this );
+}
+
+inline
+Bitmask &
+Bitmask::operator =  ( const Bitmask & rhs )
+{
+  value = rhs.value;
+  return( *this );
+}
+
+inline
+Bitmask &
 Bitmask::operator &= ( const Bitmask & rhs )
 {
   value &= rhs.value;
@@ -291,34 +356,6 @@ Bitmask::operator ^= ( const Bitmask & rhs )
 {
   value ^= rhs.value;
   return( *this );
-}
-
-inline
-Bitmask::bit
-Bitmask::operator () ( size_t pos )
-{
-  return( bit( *this, pos ) );
-}
-
-inline
-Bitmask::bit
-Bitmask::operator [] ( size_t pos )
-{
-  return( bit( *this, pos ) );
-}
-
-inline
-bool
-Bitmask::operator () ( size_t pos ) const
-{
-  return( test( pos ) );
-}
-
-inline
-bool
-Bitmask::operator [] ( size_t pos ) const
-{
-  return( test( pos ) );
 }
 
 inline
@@ -495,6 +532,20 @@ operator >= ( unsigned long lhs, const Bitmask & rhs )
 inline
 ostream &
 operator << ( ostream & dest, const Bitmask & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+inline
+istream &
+operator >> ( istream & src, Bitmask & obj )
+{
+  return( obj.fromStream( src ) );
+}
+
+inline
+ostream &
+operator << ( ostream & dest, const Bitmask::bit & obj )
 {
   return( obj.toStream( dest ) );
 }
