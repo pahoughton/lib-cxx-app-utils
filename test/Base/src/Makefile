@@ -186,6 +186,7 @@ CXX_C_SOURCES	=			\
 	tStringCapitalize.C             \
 	tStringTo.C                     \
 	tStringFrom.C			\
+	tStringFirstNotOf.C		\
 	tbasename.C                     \
 	tSafeStrcpy.C			\
 	tCharToInt.C			\
@@ -370,6 +371,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.9  1997/08/12 11:11:38  houghton
+# Added tStringFirstNotOf.C
+#
 # Revision 3.8  1997/07/11 15:56:45  houghton
 # Added tTimeIt.C & tTimeIt01.C
 #
