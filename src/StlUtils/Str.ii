@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.7  1996/07/04 10:29:01  houghton
+// Added to( bool ).
+//
 // Revision 2.6  1996/05/11 11:02:55  houghton
 // Bug-Fix: stripLeading was not working correctly if the string
 //   only contained strip chars.
@@ -1104,6 +1107,13 @@ Str::from( unsigned long src, unsigned short base )
 
 
 // to  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+inline
+bool
+Str::to( bool & dest ) const
+{
+  return( size() ? StringTo( dest, strbase(),  length() ) : false );
+}
 
 inline
 bool

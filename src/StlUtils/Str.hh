@@ -16,6 +16,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.7  1996/07/04 10:28:49  houghton
+// Added to( bool ).
+//
 // Revision 2.6  1996/05/03 16:13:41  houghton
 // AIX Port cleanup.
 //
@@ -392,7 +395,8 @@ public:
   inline Str &	from( unsigned int  	src, unsigned short base = 0);
   inline Str &	from( unsigned short 	src, unsigned short base = 0);
   inline Str &	from( unsigned long 	src, unsigned short base = 0);
-  
+
+  inline bool	to( bool &		dest ) const;
   inline bool	to( int &   	    	dest, unsigned short base = 0 ) const;
   inline bool	to( short & 	    	dest, unsigned short base = 0 ) const;
   inline bool	to( long &  	    	dest, unsigned short base = 0 ) const;
