@@ -25,29 +25,29 @@
 #include <DumpInfo.hh>
 #include <iostream>
 
-template< class T, class SizeType, class Compare >
+template< class TA, class SizeTypeA, class TB, class SizeTypeB, class Compare >
 inline
 bool
 VectorResync(
-  const T &		a,
-  SizeType	&	aRec,
-  const T &		b,
-  SizeType	&	bRec,
+  const TA &		a,
+  SizeTypeA	&	aRec,
+  const TB &		b,
+  SizeTypeB	&	bRec,
   const Compare &	compare
   )
 {
   if( compare( a, aRec, b, bRec ) == 0 )
     return( true );
 
-  SizeType asr = aRec;
-  SizeType bsr = bRec;
+  SizeTypeA asr = aRec;
+  SizeTypeB bsr = bRec;
 
-  SizeType	maxRec = min( a.size(), b.size() );
+  SizeTypeA	maxRec = min( a.size(), b.size() );
 
-  for( SizeType end = 1; end < maxRec; ++ end )
+  for( SizeTypeA end = 1; end < maxRec; ++ end )
     {
       
-      for( SizeType beg = 0; beg < end; ++ beg )
+      for( SizeTypeA beg = 0; beg < end; ++ beg )
 	{
 	  if( compare( a, asr + beg, b, bsr + end ) == 0 )
 	    {
@@ -162,6 +162,9 @@ VectorResync(
 // Revision Log:
 //
 // $Log$
+// Revision 1.3  1999/06/10 11:45:50  houghton
+// Changed to support two different types of vectors.
+//
 // Revision 1.2  1998/01/22 18:44:21  houghton
 // Port(Sun5): the compiler does not understand T::size_type.
 //
