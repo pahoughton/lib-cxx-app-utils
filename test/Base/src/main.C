@@ -50,6 +50,7 @@ LibTest::TestItem   TestList[] =
   { "StringLower",  	    tStringLower },
   { "StringSearch", 	    tStringSearch },
   { "StringTo",  	    tStringTo },
+  { "StringFrom",	    tStringFrom },
   { "StringUpper",  	    tStringUpper },
   { "StripWhite",   	    tStripWhite },
   { "basename",     	    tbasename },
@@ -206,6 +207,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:33:13  houghton
+// Added StringFrom.
+//
 // Revision 3.1  1996/11/14 01:26:17  houghton
 // Changed to Release 3
 //

@@ -41,6 +41,7 @@ bool	tStringLower( LibTest & tester );
 bool	tStringUpper( LibTest & tester );
 bool	tStringCapitalize( LibTest & tester );
 bool	tStringTo( LibTest & tester );
+bool	tStringFrom( LibTest & tester );
 bool	tbasename( LibTest & tester );
 // ClassVersion.hh
 bool	tClassVersion( LibTest & tester );
@@ -151,6 +152,9 @@ bool	tFileBinStream( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:33:07  houghton
+// Added StringFrom.
+//
 // Revision 3.1  1996/11/14 01:26:16  houghton
 // Changed to Release 3
 //
