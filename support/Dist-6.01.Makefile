@@ -23,7 +23,6 @@
 
 #
 # The following variables control the behavior of MakeConfigs.
-#   make_cfg_ver    is the version of MakeConfigs to use
 #   make_target	    is the default target to build
 #   show_commands   if this is true, the commands  will be output
 #   check_install   if this is true, install and install_all will NOT

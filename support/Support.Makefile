@@ -89,7 +89,7 @@ setup: $(PROJECT_DIR)/support/Support.Items.Makefile
 		$(SETUP_CONFIG_INSTALL_DIRS)		\
 		support_vars_file=$(support_vars_file)	\
 		config_vars_file=$(config_vars_file)	\
-		hide=$(hide) 
+		hide=$(hide)
 
 #
 # Revision Log:

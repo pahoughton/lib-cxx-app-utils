@@ -40,8 +40,9 @@ DOCTOOLS_CLASSPATH	= \
 DOCTOOLS_INC_DIRS	= 
 DOCTOOLS_LIB_DIRS	= 
 DOCTOOLS_LIBS		= 
-DOCTOOLS_DEP_LIB_DIRS	=  
-DOCTOOLS_DEP_LIBS	=  
+DOCTOOLS_DEP_INC_DIRS	= 
+DOCTOOLS_DEP_LIB_DIRS	= 
+DOCTOOLS_DEP_LIBS	= 
 DOCTOOLS_SUPPORT_ITMES	= GZIP MAKE_CONFIGS JAVA ORO XERCES_JAVA XALAN ECS HTML_STREAM XML_WRITER POD_TREE MLDBM
 DOCTOOLS_EXTRACT_DIR	= $(tools_build_dir)
 DOCTOOLS_BUILD_DIR	= $(DOCTOOLS_NAME)-$(DOCTOOLS_VER)
@@ -60,14 +61,13 @@ $(DOCTOOLS_target): $(tools_archive_dir)/$(DOCTOOLS_tar)
 		TOOL_DIR=$(TOOL_DIR)				\
 		$(SUPPORT_SETUP_CONFIG_VARS)			\
 		hide=$(hide)					\
-	&& $(make_cmd) -C $(DOCTOOLS_BUILD_DIR) depend_all	\
-		show_commands=$(show_commands)			\
-	&& $(make_cmd) -C $(DOCTOOLS_BUILD_DIR) check		\
-		hide=$(hide)					\
-	&& $(make_cmd) -C $(DOCTOOLS_BUILD_DIR) install_all	\
+	&& $(make_cmd) -C $(DOCTOOLS_BUILD_DIR)		\
+		depend_all					\
+		check						\
+		install_all					\
 		check_install=false				\
-		hide=$(hide)					\
-	&& $(make_cmd) -C $(DOCTOOLS_BUILD_DIR)/docs html	\
+		show_commands=$(show_commands)			\
+		force=$(force)					\
 		hide=$(hide)					\
 	&& [ -f $@ ]						\
 	&& touch $@						\

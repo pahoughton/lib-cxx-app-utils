@@ -54,12 +54,15 @@ BUILD_TARGETS		= $(BUILD_TYPE_LIST)
 INSTALL_LIB_TARGETS	= $(patsubst %,install_lib_%,$(BUILD_TYPE_LIST))
 INSTALL_TARGETS		= $(patsubst %,install_%,$(BUILD_TYPE_LIST))
 
+SUBDIRS		= src doc test
 
 TARGETS		=		\
 	$(DEPEND_TARGETS)	\
 	$(BUILD_TARGETS)	\
 	$(INSTALL_TARGETS)	\
 	$(INSTALL_LIB_TARGETS)	\
+	html			\
+	man			\
 	dist			\
 	dist_binary		\
 	dist_html		\
@@ -114,6 +117,20 @@ install_support_lib_all install_support_lib_shared:
 		$(install_lib_exports)				\
 		$(exports))
 
+html man:
+	$(call make_subdirs,$@,doc,	\
+		BUILD_TYPE=$@		\
+		$($(@)_exports)		\
+		$(doc_exports)		\
+		$(exports))
+
+install_html install_man:
+	$(call make_subdirs,$@,doc,	\
+		BUILD_TYPE=$@		\
+		$($(@)_exports)		\
+		$(install_doc_exports)	\
+		$(doc_exports)		\
+		$(exports))
 
 dist:
 	$(call make_dist_from_dim,infr_objs,mcmain,$(PROJECT_DIR))
@@ -125,6 +142,9 @@ dist_binary:
 
 dist_html:
 	$(call make_subdirs,$@,docs,$($(@)_exports) $(exports))
+
+realclean::
+	rm -rf install
 
 # Detail Documentation
 #

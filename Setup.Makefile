@@ -101,14 +101,9 @@ PROJECT_VARS	=		\
 	WWW_PROJECTS_ROOT	\
 				\
 	make_cfg_ver		\
-	tools_host		\
-	tools_host_dir		\
 				\
 	PROJECT_VARS		\
 	CONFIG_VARS
-
-
-
 
 setup_exports	=						\
 	PROJECT_NAME='$(PROJECT_NAME)'				\

@@ -55,14 +55,13 @@ $(COMMON_target): $(tools_archive_dir)/$(COMMON_tar)
 		TOOL_DIR=$(TOOL_DIR)				\
 		$(SUPPORT_SETUP_CONFIG_VARS)			\
 		hide=$(hide)					\
-	&& $(make_cmd) -C $(COMMON_BUILD_DIR) depend_all	\
-		show_commands=$(show_commands)			\
-	&& $(make_cmd) -C $(COMMON_BUILD_DIR) check		\
-		hide=$(hide)					\
-	&& $(make_cmd) -C $(COMMON_BUILD_DIR) install_all	\
+	&& $(make_cmd) -C $(COMMON_BUILD_DIR)			\
+		depend_all					\
+		check						\
+		install_all					\
 		check_install=false				\
-		hide=$(hide)					\
-	&& $(make_cmd) -C $(COMMON_BUILD_DIR)/docs html	\
+		show_commands=$(show_commands)			\
+		force=$(force)					\
 		hide=$(hide)					\
 	&& [ -f $@ ]						\
 	&& touch $@						\

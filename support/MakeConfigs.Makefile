@@ -157,6 +157,7 @@ $(GZIP_tar) $(MAKE_CONFIGS_tar):
 $(GZIP_target): $(GZIP_tar)
 	$(hide) echo "+ Installing $(GZIP_NAME) ...\c"		\
 	&& cd $(GZIP_EXTRACT_DIR)				\
+	&& rm -rf  $(GZIP_build_dir)				\
 	&& tar xf $(GZIP_tar)					\
 	&& cd $(GZIP_build_dir)					\
 	&& ./configure --prefix=$(TOOL_DIR) $(setup_output)	\
