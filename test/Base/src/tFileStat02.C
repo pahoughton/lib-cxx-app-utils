@@ -8,6 +8,8 @@
 #include <FileStat.hh>
 #endif
 
+#include <fstream>
+
 bool
 tFileStat02( LibTest & tester )
 {
@@ -64,15 +66,27 @@ tFileStat02( LibTest & tester )
   {
     const FileStat t( TEST_BLOCK_DEVICE );
 
-    TESTR( t.error(), t.good() );
-    TEST( ! t.isLink() );
-    TEST( ! t.isReg() );
-    TEST( ! t.isDir() );
-    TEST(   t.isBlock() );
-    TEST( ! t.isChar() );
-    TEST( ! t.isSocket() );
-    TEST( ! t.isSetUID() );
-    TEST( ! t.isSetGID() );
+    ifstream blockfile ( TEST_BLOCK_DEVICE );
+
+    if(!blockfile)
+      {
+      blockfile.close();
+      cout << TEST_BLOCK_DEVICE << " doesn't seem to exist -- skipping FileStat block device tests." << endl;
+      }
+    else
+      {
+      blockfile.close();
+
+      TESTR( t.error(), t.good() );
+      TEST( ! t.isLink() );
+      TEST( ! t.isReg() );
+      TEST( ! t.isDir() );
+      TEST(   t.isBlock() );
+      TEST( ! t.isChar() );
+      TEST( ! t.isSocket() );
+      TEST( ! t.isSetUID() );
+      TEST( ! t.isSetGID() );
+      }
   }
 
   {
