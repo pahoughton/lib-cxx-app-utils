@@ -13,26 +13,41 @@
 # See End of file for format specs
 #
 
-ADM Paul Houghton 11/10/95 10:01
-move regexcfg.h to _regexcfg.h in arch dirs
+ADM Paul Houghton 11/12/95 08:59
+Move test to test/Test01 so I can have multible test when I'm ready
+
+ENH Paul Houghton 11/11/95 04:39
+Add a constructer to Heap(Bin,Net)Stream that take a
+void * src, size_t srcSize.
+CODE Paul Houghton 11/12/95 09:02
+
+ENH Paul Houghton 11/11/95 04:36
+Change LogLevels from XXXX to Xxxxx
+CODE Paul Houghton 11/12/95 09:02
+
+ENH Paul Houghton 11/10/95 12:14
+Change default constructor of DateTime to get the current time
+CODE Paul Houghton 11/12/95 09:02
 
 ADM Paul Houghton 11/10/95 10:11
 Compile & test without CLUE_DEBUG defined
 
-ADM Paul Houghton 11/09/95 10:00
-Build and run test
-
-ADM Paul Houghton 11/10/95 10:13
-run test against installed
-
 BUG Chris Boys 11/08/95 12:00
 Bitmask::toStream on AIX does not detect bits that are set
+CODE Paul Houghton 11/1O/95
+
+ADM Paul Houghton 11/10/95 12:11
+Move 00-Tested from test/ to docs/
+
+ADM Paul Houghton 11/10/95 12:11
+review 00-Tested and create a list of test to write
 
 ENH Paul Houghton 11/10/95 10:40
 class Bitset (Bitmask with any number of bits)
 
 ENH Paul Houghton 11/09/95 10:00
 class Void
+CODE Paul Houghton 11/12/95 09:02
 
 ENH Paul Houghton 11/09/95 10:00
 class BFN Number
@@ -42,6 +57,18 @@ FilePath - temp file name - tempnam does not work as expected
 Grab TempFileName from lib Common and use it.
 
 === COMPLETED ===
+
+ADM Paul Houghton 11/10/95 10:13
+run test against installed
+COMP Paul Houghton 11/11/95
+
+ADM Paul Houghton 11/09/95 10:00
+Build and run test
+comp Paul Houghton 11/10/95 12:10
+
+ADM Paul Houghton 11/10/95 10:01
+move regexcfg.h to _regexcfg.h in arch dirs
+comp Paul Houghton 11/10/95 12:10
 
 ADM Paul Houghton 11/09/95 10:00
 Regen Makefile using lastest MakeConfigs
@@ -70,7 +97,7 @@ comp Paul Houghton 11/10/95 10:01
 # describing the request and actions taken.
 #
 # The entry is terminated with the line:
-# comp[lete] | canc[elled] who mm/dd/yy hh:mm[:ss]
+# canc[elled] | code[d] | built | test[ed] | comp[lete] who mm/dd/yy hh:mm[:ss]
 #    comp[lete] - specifies the request was completed
 #    test[ed] - specifies the mods have been regression tested
 #    canc[elled] = specifies the request was cancled
@@ -81,7 +108,10 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
-# Revision 2.2  1995/11/10 18:46:29  houghton
+# Revision 2.3  1995/11/12 17:51:00  houghton
+# *** empty log message ***
+#
+# Revision 2.2  1995/11/10  18:46:29  houghton
 # Updated
 #
 # Revision 2.1  1995/11/10  12:39:56  houghton
