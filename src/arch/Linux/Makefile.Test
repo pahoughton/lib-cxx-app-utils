@@ -1,8 +1,8 @@
 TEST_DATA_DIR	= ../data
 TEST_USER	= $(USER)
-TEST_GROUP	= tools
-TEST_UID	= 253
-TEST_GID	= 233
+TEST_GROUP	= local
+TEST_UID	= 50
+TEST_GID	= 62
 
 
 ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
