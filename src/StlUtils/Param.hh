@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.2  1995/07/21 15:43:20  ichudov
+// Revision 1.3  1995/09/25 19:16:34  ichudov
+// Added hasHistory function to DavlTreeOffset.
+//
+// Revision 1.2  1995/07/21  15:43:20  ichudov
 // DAVLs
 //
 // Revision 1.1  1995/02/13  16:08:53  houghton
@@ -448,6 +451,7 @@ Param::argDateTime(
     {
       DateTime	dt( dateString );
       *dest = dt.getTimeT();
+
       if( *dest < min || *dest > max )
 	{
 	  ok = FALSE;

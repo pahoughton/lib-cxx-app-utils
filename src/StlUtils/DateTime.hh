@@ -408,7 +408,10 @@
 //
 // 
 // $Log$
-// Revision 1.7  1995/08/29 19:36:29  ichudov
+// Revision 1.8  1995/09/25 19:16:31  ichudov
+// Added hasHistory function to DavlTreeOffset.
+//
+// Revision 1.7  1995/08/29  19:36:29  ichudov
 // DST and MakeDateFromSybase added.
 //
 // Revision 1.6  1995/07/27  16:18:38  ichudov
@@ -628,6 +631,8 @@ DateInTimeT( time_t sec )
 inline 
 DateTime::DateTime( time_t setTime, Bool addLocal )
 {
+  seconds = 0;
+  resetFlags();
   set( setTime, addLocal );
 }
 
@@ -635,6 +640,7 @@ DateTime::DateTime( time_t setTime, Bool addLocal )
 inline 
 DateTime::DateTime( time_t day, time_t timeOfDay )
 {
+  seconds = 0;
   resetFlags();
   seconds = day + timeOfDay;
 }
@@ -651,6 +657,8 @@ DateTime::DateTime(
     int 	sec
     )
 {  
+  seconds = 0;
+  resetFlags();
   set( year, month, day, hour, min, sec );
 }
 
@@ -659,6 +667,8 @@ DateTime::DateTime(
 inline 
 DateTime::DateTime( const struct tm & setTime )
 {
+  seconds = 0;
+  resetFlags();
   set( setTime );
 }
 
@@ -677,6 +687,8 @@ DateTime::DateTime( const char * yymmdd, const char * hhmmss )
 inline
 DateTime::DateTime( const char * dateString )
 {
+  seconds = 0;
+  resetFlags();
   set( dateString, 0 );
 }
 
