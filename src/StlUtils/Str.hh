@@ -63,7 +63,11 @@ public:
 	const_reverse_iterator;
 #endif
   
-  typedef pair< unsigned long, unsigned long >	Range;
+#if defined( STLUTILS_HAVE_LONG_LONG )
+  typedef pair< long long, long long >	Range;
+#else
+  typedef pair< long, long >	Range;
+#endif
   
   typedef vector< Range >   RangeList;
   
@@ -1490,20 +1494,20 @@ operator >> ( istream & src, Str & dest );
 //	    Convert the string into a list of numeric ranges and
 //	    return the number of ranges found. A numberic range can be
 //	    a single number (1962), or a number range (5-10, 35..47,
-//	    13-). Either the '-' or '..' can be used to indicate a
+//	    13-). Either the ':' or '..' can be used to indicate a
 //	    range of numbers. Numbers and ranges can be seperated by
-//	    comma (,), space ( ), tab (\t), semicolon (;) or colon
-//	    (:). The 'range' is a list of pairs of unsigned long
+//	    comma (,), space ( ), tab (\t), or semicolon (;).
+//	    The 'range' is a list of pairs of unsigned long
 //	    values. Where the first value is first (or only) number of
 //	    a range and the second value is either 0 for a single
-//	    number, the second number, or ULONG_MAX if a range is
+//	    number, the second number, or LLONG_MAX if a range is
 //	    specificed without a second number.
-//		Eample: "4-8,53,78,90.."
+//		Eample: "4-8,53,78,-90.."
 //		Converts to:
 //		    range[0] = {4,8}
 //		    range[1] = {53,0}
 //		    range[2] = {78,0}
-//		    range[3] = {90,ULONG_MAX}
+//		    range[3] = {-90,LLONG_MAX}
 //
 //  modifications
 //
@@ -1791,6 +1795,10 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.14  2000/04/19 10:13:32  houghton
+// Changed Range to use 'long long' vs unsigned long.
+// Changed to support -range value.
+//
 // Revision 4.13  1999/05/09 13:00:50  houghton
 // Added long long support.
 //
