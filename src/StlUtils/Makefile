@@ -155,6 +155,7 @@ C_SOURCES	=			\
 CXX_C_SOURCES =				\
 	Bitmask.C			\
 	ClassVersion.C                  \
+	Compress.C			\
 	DateRange.C                     \
 	DateRangeDaily.C                \
 	DateRangeWeekly.C               \
@@ -349,6 +350,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.22  1999/10/07 13:10:13  houghton
+# Added Compress.C
+#
 # Revision 4.21  1999/05/09 13:00:25  houghton
 # Changed version.
 #
