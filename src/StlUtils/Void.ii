@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 13:13:33  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
 // Revision 2.3  1995/12/04 11:18:32  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -131,5 +135,8 @@ operator << ( ostream & dest, const Void & obj )
   return( obj.toStream( dest ) );
 }
 
+#if defined( inline )
+#undef inline
+#endif
 
 #endif // ! def _Void_ii_ 

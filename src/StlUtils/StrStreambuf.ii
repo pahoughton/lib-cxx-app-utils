@@ -13,6 +13,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 13:09:23  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
 // Revision 2.2  1995/12/04 11:18:28  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -58,5 +62,9 @@ StrStreambuf::strbase( void ) CLUE_STRBUF_CONST_RDBUF
 {
   return( pbase() );
 }
+
+#if defined( inline )
+#undef inline
+#endif
 
 #endif // ! def _StrStreambuf_ii_ 
