@@ -27,6 +27,8 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <errno.h>
+#include <cstring>
+#include <algorithm>
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -101,81 +103,110 @@ operator >> ( istream & src, const TimeIt & dest );
 
 #endif
 
+class TimeItAccuBinaryOp
+{
+public:
+
+  TimeIt operator () ( const TimeIt & accu, const TimeIt & src ) const {
+    
+    timeval   accumReal( accu.getRealDiff() );
+    rusage    accumUsage( accu.getUsageDiff() );
+
+    // real time
+    accumReal.tv_usec += src.getRealDiff().tv_usec;
+    
+    if( accumReal.tv_usec > 1000000 )
+      {
+	accumReal.tv_sec += (accumReal.tv_usec / 1000000);
+	accumReal.tv_usec = (accumReal.tv_usec % 1000000);
+      }
+    
+    accumReal.tv_sec += src.getRealDiff().tv_sec;
+    
+    // user time
+    accumUsage.ru_utime.tv_usec += src.getUsageDiff().ru_utime.tv_usec;
+    
+    if( accumUsage.ru_utime.tv_usec > 1000000 )
+      {
+	accumUsage.ru_utime.tv_sec +=
+	  (accumUsage.ru_utime.tv_usec / 1000000);
+	accumUsage.ru_utime.tv_usec =
+	  (accumUsage.ru_utime.tv_usec % 1000000);
+      }
+    
+    accumUsage.ru_utime.tv_sec += src.getUsageDiff().ru_utime.tv_sec;
+    
+    // sys time
+    accumUsage.ru_stime.tv_usec += src.getUsageDiff().ru_stime.tv_usec;
+    
+    if( accumUsage.ru_stime.tv_usec > 1000000 )
+      {
+	accumUsage.ru_stime.tv_sec +=
+	  (accumUsage.ru_stime.tv_usec / 1000000);
+	accumUsage.ru_stime.tv_usec =
+	  (accumUsage.ru_stime.tv_usec % 1000000);
+      }
+    
+    accumUsage.ru_stime.tv_sec	+= src.getUsageDiff().ru_stime.tv_sec;
+    
+    accumUsage.ru_maxrss	+= src.getUsageDiff().ru_maxrss;
+    accumUsage.ru_ixrss		+= src.getUsageDiff().ru_ixrss;
+    accumUsage.ru_idrss		+= src.getUsageDiff().ru_idrss;
+    accumUsage.ru_isrss		+= src.getUsageDiff().ru_isrss;
+    accumUsage.ru_minflt	+= src.getUsageDiff().ru_minflt;
+    accumUsage.ru_majflt	+= src.getUsageDiff().ru_majflt;
+    accumUsage.ru_nswap		+= src.getUsageDiff().ru_nswap;
+    accumUsage.ru_inblock	+= src.getUsageDiff().ru_inblock;
+    accumUsage.ru_oublock	+= src.getUsageDiff().ru_oublock;
+    accumUsage.ru_msgsnd	+= src.getUsageDiff().ru_msgsnd;
+    accumUsage.ru_msgrcv	+= src.getUsageDiff().ru_msgrcv;
+    accumUsage.ru_nsignals	+= src.getUsageDiff().ru_nsignals;
+    accumUsage.ru_nvcsw		+= src.getUsageDiff().ru_nvcsw;
+    accumUsage.ru_nivcsw	+= src.getUsageDiff().ru_nivcsw;
+
+    return( TimeIt( accumReal, accumUsage ) );
+    
+  };
+};
+
+  
+template< class TimeItIterator >
+inline
+TimeIt
+TimeItAccumulate( TimeItIterator first, TimeItIterator last )
+{
+  return( accumulate( first, last, TimeIt(), TimeItAccuBinaryOp() ) );
+}
+
 template< class TimeItIterator >
 inline
 TimeIt
 TimeItAverage( TimeItIterator first, TimeItIterator last )
 {
-  timeval   accumReal;
-  rusage    accumUsage;
-
-  memset( &accumReal, 0, sizeof( accumReal ) );
-  memset( &accumUsage, 0, sizeof( accumUsage ) );
     
   long counter = 0;
-  
+
   for( TimeItIterator it = first; it != last; ++ it )
     {
       ++ counter;
-
-      // real time
-      accumReal.tv_usec += (*it).getRealDiff().tv_usec;
-     
-      if( accumReal.tv_usec > 1000000 )
-	{
-	  accumReal.tv_sec += (accumReal.tv_usec / 1000000);
-	  accumReal.tv_usec = (accumReal.tv_usec % 1000000);
-	}
-	  
-      accumReal.tv_sec += (*it).getRealDiff().tv_sec;
-
-      // user time
-      accumUsage.ru_utime.tv_usec += (*it).getUsageDiff().ru_utime.tv_usec;
-     
-      if( accumUsage.ru_utime.tv_usec > 1000000 )
-	{
-	  accumUsage.ru_utime.tv_sec +=
-	    (accumUsage.ru_utime.tv_usec / 1000000);
-	  accumUsage.ru_utime.tv_usec =
-	    (accumUsage.ru_utime.tv_usec % 1000000);
-	}
-	  
-      accumUsage.ru_utime.tv_sec += (*it).getUsageDiff().ru_utime.tv_sec;
-
-      // sys time
-      accumUsage.ru_stime.tv_usec += (*it).getUsageDiff().ru_stime.tv_usec;
-     
-      if( accumUsage.ru_stime.tv_usec > 1000000 )
-	{
-	  accumUsage.ru_stime.tv_sec +=
-	    (accumUsage.ru_stime.tv_usec / 1000000);
-	  accumUsage.ru_stime.tv_usec =
-	    (accumUsage.ru_stime.tv_usec % 1000000);
-	}
-	  
-      accumUsage.ru_stime.tv_sec += (*it).getUsageDiff().ru_stime.tv_sec;
-      
-      accumUsage.ru_maxrss	+= (*it).getUsageDiff().ru_maxrss;
-      accumUsage.ru_ixrss	+= (*it).getUsageDiff().ru_ixrss;
-      accumUsage.ru_idrss	+= (*it).getUsageDiff().ru_idrss;
-      accumUsage.ru_isrss	+= (*it).getUsageDiff().ru_isrss;
-      accumUsage.ru_minflt	+= (*it).getUsageDiff().ru_minflt;
-      accumUsage.ru_majflt	+= (*it).getUsageDiff().ru_majflt;
-      accumUsage.ru_nswap	+= (*it).getUsageDiff().ru_nswap;
-      accumUsage.ru_inblock	+= (*it).getUsageDiff().ru_inblock;
-      accumUsage.ru_oublock	+= (*it).getUsageDiff().ru_oublock;
-      accumUsage.ru_msgsnd	+= (*it).getUsageDiff().ru_msgsnd;
-      accumUsage.ru_msgrcv	+= (*it).getUsageDiff().ru_msgrcv;
-      accumUsage.ru_nsignals	+= (*it).getUsageDiff().ru_nsignals;
-      accumUsage.ru_nvcsw	+= (*it).getUsageDiff().ru_nvcsw;
-      accumUsage.ru_nivcsw	+= (*it).getUsageDiff().ru_nivcsw;
     }
+  
+  TimeIt    accu( TimeItAccumulate( first, last ) );
+
+  timeval   accumReal( accu.getRealDiff() );
+  rusage    accumUsage( accu.getUsageDiff() );
   
   if( counter )
     {
       accumReal.tv_usec	/= counter;
       accumReal.tv_sec	/= counter;
 
+      accumUsage.ru_utime.tv_usec /= counter;
+      accumUsage.ru_utime.tv_sec  /= counter;
+      
+      accumUsage.ru_stime.tv_usec /= counter;
+      accumUsage.ru_stime.tv_sec  /= counter;
+      
       accumUsage.ru_maxrss	/= counter;
       accumUsage.ru_ixrss	/= counter;
       accumUsage.ru_idrss	/= counter;
@@ -208,14 +239,14 @@ TimeItBestReal( TimeItIterator first, TimeItIterator last )
        them != last;
        ++ them )
     {
-      if( (*them).tv_sec == (*best).tv_sec )
+      if( (*them).getRealDiff().tv_sec == (*best).getRealDiff().tv_sec )
 	{
-	  if( (*them).tv_usec < (*best).tv_usec )
+	  if( (*them).getRealDiff().tv_usec < (*best).getRealDiff().tv_usec )
 	    best = them;
 	}
       else
 	{
-	  if( (*them).tv_sec < (*best).tv_sec )
+	  if( (*them).getRealDiff().tv_sec < (*best).getRealDiff().tv_sec )
 	    best = them;
 	}
     }
@@ -234,14 +265,14 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
        them != last;
        ++ them )
     {
-      if( (*them).tv_sec == (*worst).tv_sec )
+      if( (*them).getRealDiff().tv_sec == (*worst).getRealDiff().tv_sec )
 	{
-	  if( (*them).tv_usec > (*worst).tv_usec )
+	  if( (*them).getRealDiff().tv_usec > (*worst).getRealDiff().tv_usec )
 	    worst = them;
 	}
       else
 	{
-	  if( (*them).tv_sec > (*worst).tv_sec )
+	  if( (*them).getRealDiff().tv_sec > (*worst).getRealDiff().tv_sec )
 	    worst = them;
 	}
     }
@@ -333,6 +364,11 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/07/11 15:53:25  houghton
+// Bug-Fix: TimeItAverage() - was not averageing stime or utime.
+// Changed TimeItAverage() to use new TimeItAccumulate.
+// Added TimeItAccumulate.
+//
 // Revision 3.3  1997/03/21 12:29:19  houghton
 // Cleanup.
 //
