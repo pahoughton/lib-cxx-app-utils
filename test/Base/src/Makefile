@@ -28,20 +28,11 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Test
 
-#for_rpm		= true
-
-TYPE_SUBDIR	= /beta
-
-ifeq ($(for_rpm),true)
-TYPE_SUBDIR	= /beta
-rpm_arch	= rpm/
-endif
-
 INSTALL_BINDIR	= .
 
-VER_MAJOR	= 1
-VER_MINOR	= 00
-VER_RELEASE	= 00.a.01
+VER_MAJOR	= 3
+VER_MINOR	= 02
+VER_RELEASE	= 00.b.01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 PROGRAM_DEFAULT	= $(NAME)
@@ -86,7 +77,7 @@ STATIC_DEFINES	= -DTCLUE_STATIC=1
 
 
 SRC_INC		= $(ARCH_INC) -I. 
-PRJ_INC		= $($($(make_target))_PRJ_INC) -I$(local_incdir)$(TYPE_SUBDIR)
+PRJ_INC		= $($($(make_target))_PRJ_INC) -I$(beta_incdir)
 
 DEFAULT_PRJ_INC	= 
 DEBUG_PRJ_INC	= $(CLUE_SRC_INC)
@@ -148,13 +139,13 @@ DEBUG_LD_FLAGS		= $(ld_debug)
 PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
-DEFAULT_LD_LIBDIRS	= -L$(local_libdir)$(TYPE_SUBDIR) -L$(local_libdir)
+DEFAULT_LD_LIBDIRS	= -L$(beta_libdir)
 DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) $(DEFAULT_LD_LIBDIRS)
 PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue $(ARCH_LIBS)
-DEBUG_LD_LIBS		= -lClue_g $(ARCH_LIBS)
+DEFAULT_LD_LIBS		= -lClue $(ARCH_DEFAULT_LIBS)
+DEBUG_LD_LIBS		= -lClue_g $(ARCH_DEBUG_LIBS)
 PROFILE_LD_LIBS		= -lClue_pg $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= -lClue $(DEFAULT_LD_LIBS)
 
@@ -171,7 +162,7 @@ STATIC_DEP_LIBS		=
 
 # **** S O U R C E   F I L E S ****
 
-PRIME_CXX_C_SOURCES	=		\
+CXX_C_SOURCES	=			\
 	main.C				\
 	tClassVersion.C			\
 	tArraySize.C                    \
@@ -231,9 +222,6 @@ PRIME_CXX_C_SOURCES	=		\
 	tFilePath02.C                   \
 	tFilePath03.C                   \
 	tFilePath04.C                   \
-
-ifneq ($(for_rpm),true)
-OTHER_CXX_C_SOURCES	=		\
 	tStr.C                          \
 	tStr01.C                        \
 	tStr02.C                        \
@@ -283,12 +271,6 @@ OTHER_CXX_C_SOURCES	=		\
 	tDateRangeDaily.C               \
 	tDateRangeWeekly.C              \
 	tSortOrder.C                    \
-
-endif
-
-CXX_C_SOURCES	=			\
-	$(PRIME_CXX_C_SOURCES)		\
-	$(OTHER_CXX_C_SOURCES)		\
 	$(ARCH_CXX_C_SOURCES)		\
 
 CXX_HEADERS	=			\
@@ -328,7 +310,7 @@ debug prifle static::
 all::	default debug profile
 
 test: test_data default 
-	 LD_LIBRARY_PATH=$(TOOL_DIR)/lib/alpha $(NAME) $(TEST)
+	 LD_LIBRARY_PATH=$(beta_libdir) $(NAME) $(TEST)
 
 test_debug: test_data debug
 	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:$(beta_libdir) \
@@ -386,6 +368,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.6  1997/03/03 14:38:35  houghton
+# Removed support for RW Tools++ & rpm.
+#
 # Revision 3.5  1997/01/18 17:42:24  houghton
 # Changed installatino parameters for cshore.
 #

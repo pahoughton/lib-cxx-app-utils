@@ -2,7 +2,6 @@
 #include "LibTest.hh"
 #include "User.hh"
 #include "Compare.hh"
-#include <rw/cstring.h>
 #include <fstream>
 #include <strstream.h>
 
@@ -347,7 +346,7 @@ tUser( LibTest & tester )
 
     for( size_t g = 0; g < gCount; g++ )
       {
-	RWCString grName( getgrgid( groups[g] )->gr_name ); ;
+	Str grName( getgrgid( groups[g] )->gr_name ); ;
 	
 	TESTR( grName, t.isMember( grName ) );
       }
@@ -369,7 +368,7 @@ tUser( LibTest & tester )
 
     for( size_t g = 0; g < gCount; g++ )
       {
-	RWCString grName( getgrgid( groups[g] )->gr_name ); ;
+	Str grName( getgrgid( groups[g] )->gr_name ); ;
 	
 	TESTR( grName, t.isMember( grName ) );
       }

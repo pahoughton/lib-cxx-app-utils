@@ -31,9 +31,7 @@ LibTest::TestItem   TestList[] =
   { "IsBaseDigit",  	    tIsBaseDigit },
   { "UnionOf",	    	    tUnionOf },
   { "Round",	    	    tRound },
-#if !defined( FOR_RPM )
   { "Bit",    	    	    tBit },
-#endif 
   { "Compare", 	    	    tCompare },
   { "CharToInt",    	    tCharToInt },
   { "SafeStrcpy",   	    tSafeStrcpy },
@@ -48,7 +46,6 @@ LibTest::TestItem   TestList[] =
   { "StripWhite",   	    tStripWhite },
   { "basename",     	    tbasename },
   { "ClassVersion",	    tClassVersion },
-#if !defined( FOR_RPM )
   { "Bitmask",		    tBitmask },
   { "Str",  	    	    tStr },
   { "SubStr",  	    	    tSubStr },
@@ -66,7 +63,6 @@ LibTest::TestItem   TestList[] =
   { "Log",		    tLog },
   { "Param",		    tParam },
   { "SortOrder",	    tSortOrder },
-#endif
 #if defined( ALL )
   { "WithCommon",	    tWithCommon },
   { "WithWcf",		    tWithWcf },
@@ -193,6 +189,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/03/03 14:38:42  houghton
+// Removed support for RW Tools++ & rpm.
+//
 // Revision 3.5  1996/11/24 19:13:12  houghton
 // Removed support for short filenames.
 //

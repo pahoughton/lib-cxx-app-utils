@@ -28,21 +28,12 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Clue
 
-# for_rpm		= true
-
-TYPE_SUBDIR	= /beta
-
-ifeq ($(for_rpm),true)
-TYPE_SUBDIR	= /beta
-rpm_arch	= rpm/
-endif
-
-INSTALL_LIBDIR	= $(local_libdir)$(TYPE_SUBDIR)
-INSTALL_INCDIR	= $(local_incdir)$(TYPE_SUBDIR)
+INSTALL_LIBDIR	= $(beta_libdir)
+INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
-VER_MINOR	= 01
-VER_RELEASE	= 00.b.04
+VER_MINOR	= 02
+VER_RELEASE	= 00.b.05
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -81,7 +72,7 @@ SHARED_DEFINES	= -DCLUE_SHARED=1
 
 
 SRC_INC		= $(ARCH_INC) -I. 
-PRJ_INC		= -I$(local_incdir)$(TYPE_SUBDIR)
+PRJ_INC		= -I$(beta_incdir)
 
 
 # Any other cpp flags to use on for all targets
@@ -115,7 +106,7 @@ SHARED_CXX_FLAGS	= $(cxx_shared) $(cxx_optimize)
 
 # **** S H A R E D   D E P   L I B S *****
 
-SHDEP_LIBS		= -L$(local_dir)$(TYPE_SUBDIR) -lCommon_s
+SHDEP_LIBS		= -L$(local_dir) -lCommon_s
 
 # **** I N S T A L L ****
 
@@ -128,117 +119,83 @@ INSTALL_INC_FLAGS	= -m 664
 C_SOURCES	=			\
 	$(ARCH_C_SOURCES)               \
 
-PRIME_CXX_C_SOURCES =			\
-	LibTest.C                       \
-	ClassVersion.C                  \
-	StripWhite.C                    \
-	StringSearch.C                  \
-	StringReverseSearch.C           \
-	StringCaseSearch.C              \
-	StringReverseSearch.C           \
-	StringCaseReverseSearch.C       \
-	StringCaseCompare.C             \
-	StringLower.C                   \
-	StringUpper.C                   \
-	StringCapitalize.C              \
-	StringTo.C			\
-	StringFrom.C			\
+CXX_C_SOURCES =				\
 	Bitmask.C			\
-	Mutex.C                         \
-	RegexScan.C                     \
-	FileStat.C			\
-	LogLevel.C			\
-	LogBuf.C			\
-	Log.C				\
-	Param.C                         \
-	FilePath.C                      \
-
-ifneq ($(for_rpm),true)
-OTHER_CXX_C_SOURCES	=		\
-	DateTimeUtils.C                 \
-	DateTime.C                      \
+	ClassVersion.C                  \
 	DateRange.C                     \
 	DateRangeDaily.C                \
 	DateRangeWeekly.C               \
+	DateTime.C                      \
+	DateTimeUtils.C                 \
+	FileStat.C			\
+	FilePath.C                      \
+	LibTest.C                       \
+	Log.C				\
+	LogBuf.C			\
+	LogLevel.C			\
+	Mutex.C                         \
 	Param.C                         \
+	RegexScan.C                     \
 	SizeIt.C                        \
 	Str.C                           \
 	StrStreambuf.C                  \
+	StringCapitalize.C              \
+	StringCaseCompare.C             \
+	StringCaseReverseSearch.C       \
+	StringCaseSearch.C              \
+	StringFrom.C			\
+	StringLower.C                   \
+	StringReverseSearch.C           \
+	StringReverseSearch.C           \
+	StringSearch.C                  \
+	StringTo.C			\
+	StringUpper.C                   \
+	StripWhite.C                    \
 	SubStr.C                        \
 	ThreadBase.C                    \
 	Timer.C                         \
 	Void.C                          \
-
-endif
-
-CXX_C_SOURCES	=			\
-	$(PRIME_CXX_C_SOURCES)		\
-	$(OTHER_CXX_C_SOURCES)		\
 	$(ARCH_CXX_C_SOURCES)
 
 USER_H_INCS	=			\
 	$(ARCH_USER_H_INCS)             \
 
-PRIME_USER_HH_INCS	=		\
-	ClueVersion.hh			\
-	LibTest.hh                      \
+USER_HH_INCS	=			\
+	Bit.hh				\
+	Bitmask.hh			\
 	ClassVersion.hh                 \
+	ClueVersion.hh			\
 	ClueUtils.hh			\
 	Compare.hh			\
-	DumpInfo.hh			\
-	StringUtils.hh			\
-	Bitmask.hh			\
-	Mutex.hh                        \
-	RegexScan.hh                    \
-	FileStat.hh			\
-	LibLog.hh			\
-	LogLevel.hh			\
-	LogBuf.hh			\
-	Log.hh				\
-	Param.hh                        \
-	FilePath.hh                     \
-
-ifneq ($(for_rpm),true)
-OTHER_USER_HH_INCS	=		\
-	Bit.hh				\
-	DateTimeUtils.hh                \
-	DateTime.hh                     \
 	DateRange.hh                    \
 	DateRangeDaily.hh               \
 	DateRangeWeekly.hh              \
+	DateTime.hh                     \
+	DateTimeUtils.hh                \
+	DumpInfo.hh			\
+	FilePath.hh                     \
+	FileStat.hh			\
+	LibTest.hh                      \
+	LibLog.hh			\
+	Log.hh				\
+	LogBuf.hh			\
+	LogLevel.hh			\
+	Mutex.hh                        \
 	Net2Host.hh			\
 	Param.hh                        \
+	RegexScan.hh                    \
 	SizeIt.hh                       \
 	SortOrder.hh			\
 	Str.hh                          \
 	StrStreambuf.hh                 \
+	StringUtils.hh			\
 	SubStr.hh                       \
 	ThreadBase.hh                   \
 	Timer.hh                        \
 	Void.hh                         \
-
-endif
-
-USER_HH_INCS	=			\
-	$(PRIME_USER_HH_INCS)		\
-	$(OTHER_USER_HH_INCS)		\
 	$(ARCH_USER_HH_INCS)		\
 
-PRIME_USER_II_INCS	=		\
-	ClassVersion.ii                 \
-	ClueUtils.ii			\
-	StringUtils.ii			\
-	Bitmask.ii			\
-	FilePath.ii                     \
-	FileStat.ii			\
-	LogLevel.ii			\
-	LogBuf.ii			\
-	Log.ii				\
-	Mutex.ii                        \
-	Param.ii                        \
-
-ifneq ($(for_rpm),true)
-OTHER_USER_II_INCS	=		\
+USER_II_INCS	=			\
 	Bit.ii				\
 	DateTimeUtils.ii                \
 	DateTime.ii                     \
@@ -254,13 +211,17 @@ OTHER_USER_II_INCS	=		\
 	ThreadBase.ii                   \
 	Timer.ii                        \
 	Void.ii                         \
-
-endif
-
-
-USER_II_INCS	=			\
-	$(PRIME_USER_II_INCS)		\
-	$(OTHER_USER_II_INCS)		\
+	ClassVersion.ii                 \
+	ClueUtils.ii			\
+	StringUtils.ii			\
+	Bitmask.ii			\
+	FilePath.ii                     \
+	FileStat.ii			\
+	LogLevel.ii			\
+	LogBuf.ii			\
+	Log.ii				\
+	Mutex.ii                        \
+	Param.ii                        \
 	$(ARCH_USER_II_INCS)		\
 
 USER_INCLUDES	=		\
@@ -339,6 +300,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.8  1997/03/03 14:37:01  houghton
+# Removed support for RW Tools++ & rpm.
+#
 # Revision 3.7  1997/03/02 13:19:23  houghton
 # Added Net2Host
 #

@@ -1,12 +1,8 @@
-#if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FilePath.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FilePath.hh>
-#endif
+#include <Compare.hh>
+
 
 #define D   "dir"
 #define F   "filename"
