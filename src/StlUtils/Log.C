@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:42  houghton
+// Revision 2.2  1995/11/12 18:00:02  houghton
+// Added srcFile, srcLine args to level().
+//
+// Revision 2.1  1995/11/10  12:40:42  houghton
 // Change to Version 2
 //
 // Revision 1.6  1995/11/05  15:28:36  houghton
@@ -30,7 +33,7 @@ CLUE_VERSION(
   "$Id$" );
 
 Log &
-Log::level( LogLevel::Level lvl )
+Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
 {
   if( rdbuf()->sync() == EOF )
     {
@@ -38,7 +41,7 @@ Log::level( LogLevel::Level lvl )
       return( *this );
     }
   
-  rdbuf()->level().setCurrent( lvl );
+  rdbuf()->level().setCurrent( current );
 
   if( timeStamp )
     {
@@ -50,6 +53,11 @@ Log::level( LogLevel::Level lvl )
   if( levelStamp )
     {
       *this << rdbuf()->level().getName( lvl ) << ' ';
+    }
+
+  if( srcFile )
+    {
+      *this << srcFile << ':' << srcLine << ' ';
     }
   
   return( *this );
