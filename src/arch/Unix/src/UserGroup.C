@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1997/12/19 12:52:08  houghton
+// Bug-Fix: members is const, so i need to use a const iterator.
+//
 // Revision 4.1  1997/09/17 15:13:41  houghton
 // Changed to Version 4
 //
@@ -292,7 +295,7 @@ UserGroup::dumpInfo(
     {
       dest << prefix << "Members:\n";
 	  
-      for( Members::iterator them = members.begin();
+      for( Members::const_iterator them = members.begin();
 	   them != members.end();
 	   them++ )
 	{
