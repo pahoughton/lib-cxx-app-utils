@@ -21,52 +21,55 @@
 
 inline
 Log::Log(
-    ostream & 		outstr,
-    LogLevel::Level 	out,
-    bool		stampLevel,
-    bool		stampTime,
-    bool		stampLoc
-    )
+  ostream & 	    outstr,
+  LogLevel::Level   out,
+  bool		    stampLevel,
+  bool		    stampTime,
+  bool		    stampLoc
+  )
   : ostream( new LogBuf( out, outstr.rdbuf() ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
-    locStamp( stampLoc )
+    locStamp( stampLoc ),
+    localTimeStamp( true )
 {
   tie( &outstr );
 }
 
 inline
 Log::Log(
-    ostream & 		outstr,
-    const char *	out,
-    bool		stampLevel,
-    bool		stampTime,
-    bool		stampLoc
-    )
+  ostream & 	outstr,
+  const char *	out,
+  bool		stampLevel,
+  bool		stampTime,
+  bool		stampLoc
+  )
   : ostream( new LogBuf( out, outstr.rdbuf() ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
-    locStamp( stampLoc )    
+    locStamp( stampLoc ),
+    localTimeStamp( true )
 {
   tie( &outstr );
 }
 
 inline
 Log::Log(
-    const char * 	fileName,
-    LogLevel::Level 	out,
-    ios::open_mode	mode,
-    int			prot,
-    bool		stampLevel,
-    bool		stampTime,
-    bool		stampLoc,
-    size_t		maxSize,
-    size_t		trimSize
-    )
+  const char *	    fileName,
+  LogLevel::Level   out,
+  ios::open_mode    mode,
+  int		    prot,
+  bool		    stampLevel,
+  bool		    stampTime,
+  bool		    stampLoc,
+  size_t	    maxSize,
+  size_t	    trimSize
+  )
   : ostream( new LogBuf(fileName, out, mode, prot, maxSize, trimSize ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
-    locStamp( stampLoc )    
+    locStamp( stampLoc ),
+    localTimeStamp( true )
 {
   if( rdbuf() && ! rdbuf()->is_open() )
     setstate( ios::badbit );
@@ -74,20 +77,21 @@ Log::Log(
 
 inline
 Log::Log(
-    const char * 	fileName,
-    const char *	out,
-    ios::open_mode	mode,
-    int			prot,
-    bool		stampLevel,
-    bool		stampTime,
-    bool		stampLoc,
-    size_t		maxSize,
-    size_t		trimSize
-    )
+  const char *	    fileName,
+  const char *	    out,
+  ios::open_mode    mode,
+  int		    prot,
+  bool		    stampLevel,
+  bool		    stampTime,
+  bool		    stampLoc,
+  size_t	    maxSize,
+  size_t	    trimSize
+  )
   : ostream( new LogBuf(fileName, out, mode, prot, maxSize, trimSize ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
-    locStamp( stampLoc )    
+    locStamp( stampLoc ),
+    localTimeStamp( true )
 {
   if( rdbuf() && ! rdbuf()->is_open() )
     setstate( ios::badbit );
@@ -347,6 +351,11 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/21 12:21:38  houghton
+// Cleanup.
+// Added localTimeStamp var to determin if logtime stamp should be
+//     local or GMT.
+//
 // Revision 3.1  1996/11/14 01:23:46  houghton
 // Changed to Release 3
 //
