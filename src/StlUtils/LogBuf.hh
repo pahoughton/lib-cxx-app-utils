@@ -80,7 +80,7 @@ public:
 
   filebuf *		open( const char *	name,
 			      ios::open_mode    mode,
-			      int	        prot = filebuf::openprot,
+			      int	        prot = 0666,
 			      size_t	        maxSize = 0,
 			      size_t	        trimSize = 0 );
   
@@ -287,6 +287,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/04/04 15:06:34  houghton
+// Changed default prot to 0666 for constructor.
+//
 // Revision 3.7  1997/04/04 03:10:28  houghton
 // Changed constructors (and some other methods) to non-inline.
 // Added getFilterStream
