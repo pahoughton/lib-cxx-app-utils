@@ -23,17 +23,17 @@
 #define _BSD_SOURCE	1
 #define _SVID_SOURCE	1
 
-#define STLUTILS_HAVE_LONG_ABS	    1
-#define STLUTILS_LOG_WHERE		    1
-#define STLUTILS_HAS_STR		    1
-#define STLUTILS_HAS_DATETIME	    1
-#define STLUTILS_HAS_STRPTIME	    1
-#define STLUTILS_HAS_USER		    1
-#define STLUTILS_HAS_USERGROUP	    1
-#define STLUTILS_HAS_SEMUN		    1 
-#define STLUTILS_HAS_CONST_IOSRDBUF	    1 
+#define STLUTILS_HAVE_LONG_ABS		1
+#define STLUTILS_LOG_WHERE		1
+#define STLUTILS_HAS_STR		1
+#define STLUTILS_HAS_DATETIME		1
+#define STLUTILS_HAS_STRPTIME		1
+#define STLUTILS_HAS_USER		1
+#define STLUTILS_HAS_USERGROUP		1
+#define STLUTILS_HAS_SEMUN		1 
+#define STLUTILS_HAS_CONST_IOSRDBUF	1 
 #define STLUTILS_HAS_CONST_IOSRDSTATE   1
-#define STLUTILS_HAS_CONST_IOSGOOD	    1
+#define STLUTILS_HAS_CONST_IOSGOOD	1
 
 /* #define STLUTILS_THREADS	1 */
 
@@ -56,18 +56,28 @@
 #define STLUTILS_FUNCT_T
 #define STLUTILS_GVAR_T
 
-#define STLUTILS_CHAR   char
-#define STLUTILS_SCHAR  signed char
-#define STLUTILS_UCHAR  unsigned char
-#define STLUTILS_16	    short
-#define STLUTILS_U16    unsigned short
-#define STLUTILS_INT    int
-#define STLUTILS_UINT   unsigned int
-#define STLUTILS_32	    long
-#define STLUTILS_U32    unsigned long
-#define STLUTILS_FLOAT  float
-#define STLUTILS_DOUBLE double
-#define STLUTILS_BOOL   bool
+#define STLUTILS_CHAR_8_T	char
+#define STLUTILS_CHAR_S8_T	signed char
+#define STLUTILS_CHAR_U8_T	unsigned char
+#define STLUTILS_SHORT_S16_T	short
+#define STLUTILS_SHORT_U16_T    unsigned short
+#define STLUTILS_SINT_T		int
+#define STLUTILS_UINT_T         unsigned int
+#define STLUTILS_LONG_S32_T	long
+#define STLUTILS_LONG_U32_T     unsigned long
+#define STLUTILS_FLOAT_FP32_T   float
+#define STLUTILS_DOUBLE_FP64_T  double
+#define STLUTILS_BOOL_T		bool
+
+#define STLUTILS_32_TIME_T	long
+/* #define STLUTILS_64_TIME_T  */
+#define STLUTILS_U32_SIZE_T	STLUTILS_LONG_U32_T
+#define STLUTILS_S32_SSIZE_T	STLUTILS_LONG_S32_T
+
+#define STLUTILS_LITTLE_ENDIAN	1   // ie 1234
+// #define STLUTILS_BIG_ENDIAN  1   ie 4321 
+#define STLUTILS_DO_NET_CONV	1   // ie need to do Net2Host & Host2Net
+
 
 // Constants
 #define STLUTILS_DIR_DELIM	    '/'
@@ -137,6 +147,10 @@
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:21:53  houghton
+// Cleanup
+// Added portable types (STLUTILS*_T).
+//
 // Revision 4.1  1997/09/17 15:13:17  houghton
 // Changed to Version 4
 //
@@ -210,6 +224,10 @@
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:21:53  houghton
+// Cleanup
+// Added portable types (STLUTILS*_T).
+//
 // Revision 4.1  1997/09/17 15:13:17  houghton
 // Changed to Version 4
 //
