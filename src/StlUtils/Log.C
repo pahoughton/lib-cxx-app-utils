@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/12 18:00:02  houghton
+// Revision 2.3  1995/11/12 18:49:31  houghton
+// Bug fix - current (not lvl).
+//
+// Revision 2.2  1995/11/12  18:00:02  houghton
 // Added srcFile, srcLine args to level().
 //
 // Revision 2.1  1995/11/10  12:40:42  houghton
@@ -52,7 +55,7 @@ Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
 
   if( levelStamp )
     {
-      *this << rdbuf()->level().getName( lvl ) << ' ';
+      *this << rdbuf()->level().getName( current ) << ' ';
     }
 
   if( srcFile )
