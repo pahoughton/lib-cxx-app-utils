@@ -81,6 +81,23 @@ MemOverlap( const void * one, size_t lenOne, const void * two, size_t lenTwo )
 }
 
 
+template< class RangeType, class ValueType >
+inline
+bool
+Between( RangeType a, RangeType b, ValueType value )
+{
+  return( a < b ? a <= value && value <= b : b <= value && value <= a );
+}
+
+template< class NumType >
+inline
+bool
+Overlap( NumType startOne, NumType endOne, NumType startTwo, NumType endTwo )
+{
+  return( ( startOne <= endTwo && endOne >= startTwo )
+	  || ( startTwo <= endOne && endTwo >= startOne ) );
+}
+  
 #if !defined( STLUTILS_HAVE_LONG_ABS )
 inline
 long
@@ -202,6 +219,10 @@ RoundDown( NumberType value, int factor  )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.3  1999/03/02 12:49:15  houghton
+// Added Between.
+// Added Overlap.
+//
 // Revision 4.2  1998/10/23 13:06:26  houghton
 // Bug-Fix: the Round*() methods were not working correctly with negative
 //     values.
