@@ -1,0 +1,10 @@
+
+ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
+CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src \
+		  -I$(PRJ_TOPDIR)/src/arch/$(arch)/stdc++ \
+		  -I$(PRJ_TOPDIR)/src/arch/Unix/src \
+		  -I$(PRJ_TOPDIR)/src/arch/Clue1/src \
+		  -I$(PRJ_TOPDIR)/src/arch/src \
+		  -I$(PRJ_TOPDIR)/src/Clue 
+
+CLUE_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/Clue
