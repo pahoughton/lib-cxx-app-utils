@@ -1,21 +1,16 @@
 //
 // File:        StringCapitalize.C
+// Project:	Clue
 // Desc:        
 //
-//  
+//    Convert the first lower case alpha (a-z) char of
+//    every word to upper case and convert every other
+//    character in every word to lower case.
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/06/95 12:03 
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.1  1995/11/10 12:41:09  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:47  houghton
-// Ports and Version ID changes
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #if !defined( CLUE_SHORT_FN )
@@ -35,7 +30,7 @@ CLUE_FUNCT_VERSION(
 char *
 StringCapitalize( char * str, size_t len )
 {
-  if( len )
+  if( len != NPOS )
     {
       const char * end = str + len;
       for( char * s = str; s < end; s++ )
@@ -86,3 +81,18 @@ StringCapitalize( char * str, size_t len )
     }
   return( str );
 }
+
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:29:21  houghton
+// Restructure header comments layout.
+// Changed default len to be NPOS instead of 0.
+//
+// Revision 2.1  1995/11/10 12:41:09  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:47  houghton
+// Ports and Version ID changes
+//

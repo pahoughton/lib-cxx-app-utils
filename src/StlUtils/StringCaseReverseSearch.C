@@ -1,21 +1,19 @@
 //
-// File:        StringCaseSearch.C
+// File:        StringCaseReverseSearch.C
+// Project:	Clue
 // Desc:        
 //
-//  
-//  
+//    Search the string 'haystack' for the string 'needle' starting
+//    from the end of 'haystack' and ignoring case. If 'needle' is
+//    found in 'haystack' a pointer to the first char of 'needle'
+//    in 'haystack' is returned. If 'needle' is not found, a 0 is
+//    returned. Use NPOS for the len parameters if the corisponding
+//    string is null (0) terminated.
+//    
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     04/29/95 11:56 
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.1  1995/11/10 12:41:10  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:48  houghton
-// Ports and Version ID changes
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #if !defined( CLUE_SHORT_FN )
@@ -44,11 +42,15 @@ StringCaseReverseSearch(
 {
 #ifdef CLUE_SAFETY_ON
   // check for valid input params
-  if( ! haystack || ! needle ) return( 0 );
+  if( ! haystack ||
+      ! hayLen	 ||
+      ! needle   ||
+      ! needleLen )
+    return( 0 );
 #endif
   
-  size_t    nLen = (needleLen) ? needleLen : strlen( needle );
-  size_t    hLen = (hayLen) ? hayLen : strlen( haystack );
+  size_t    nLen = (needleLen != NPOS) ? needleLen : strlen( needle );
+  size_t    hLen = (hayLen != NPOS ) ? hayLen : strlen( haystack );
 
 #ifdef CLUE_SAFETY_ON
   if( ! hLen || ! nLen || nLen > hLen ) return( 0 );
@@ -87,6 +89,21 @@ StringCaseReverseSearch(
   return( 0 );
 }
 
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:30:09  houghton
+// Restructure header comments layout.
+// Changed default len to be NPOS instead of 0.
+//
+// Revision 2.1  1995/11/10 12:41:10  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:48  houghton
+// Ports and Version ID changes
+//
+//
 
 
      
