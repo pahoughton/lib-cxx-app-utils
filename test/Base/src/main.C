@@ -68,6 +68,7 @@ LibTest::TestItem   TestList[] =
   { "File",		    tFile },
   { "SortOrder",	    tSortOrder },
   { "Directory",	    tDirectory },
+  { "LruMap",		    tLruMap },
 #if defined( TEST_TIMEIT )
   { "TimeIt",		    tTimeIt },
 #endif
@@ -199,6 +200,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.8  1998/10/13 15:21:05  houghton
+// Added LruMap tests.
+//
 // Revision 4.7  1998/04/02 14:19:22  houghton
 // Cleanup and eliminate warnings.
 //

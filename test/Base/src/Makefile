@@ -340,6 +340,8 @@ CXX_C_SOURCES	=			\
 	tTimeIt.C			\
 	tTimeIt01.C			\
 	tVectorResync.C			\
+	tLruMap.C			\
+	tLruMap01.C			\
 	$(ARCH_CXX_C_SOURCES)           \
 
 CXX_CC_SOURCES	=			
@@ -461,6 +463,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.9  1998/10/13 15:20:59  houghton
+# Added LruMap tests.
+#
 # Revision 4.8  1998/08/13 10:56:10  houghton
 # Changed to use -lCommon_g.
 #

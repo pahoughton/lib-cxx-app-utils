@@ -94,6 +94,8 @@ bool	tDirectory( LibTest & tester );
 // TimeIt.hh
 bool	tTimeIt( LibTest & tester );
 
+bool	tLruMap( LibTest & tester );
+
 // libStlUtils works with LibCommon
 bool	tWithCommon( LibTest & tester );
 // libStlUtils works with Wcf
@@ -166,6 +168,9 @@ bool tVectorResync( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 4.7  1998/10/13 15:21:02  houghton
+// Added LruMap tests.
+//
 // Revision 4.6  1998/04/02 14:19:22  houghton
 // Cleanup and eliminate warnings.
 //
