@@ -2,38 +2,27 @@
 #define _Param_hh_
 //
 // File:        Param.hh
-// Desc:        
-//              
+// Desc:
+//
+//  This is the base class for providing command line argument parsing.
+//
+//  The most effective way to utilize this class is to create
+//  a subclass called 'AppParam' and customize it for your
+//  application (see Quick Start: at end of file).
+//
+// Notes:
+//
+//	The arg* methods contain types in there names because
+//	argFlag and argBool both take 'bool' types but function
+//	differently.
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     01/26/95 13:28
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
+// $Id$ 
 // 
-// $Log$
-// Revision 2.6  1996/04/27 13:07:59  houghton
-// Added support for LibLog.
-//
-// Revision 2.5  1996/02/29 19:06:43  houghton
-// *** empty log message ***
-//
-// Revision 2.4  1995/11/12 18:32:21  houghton
-// Added logging macros.
-//
-// Revision 2.3  1995/11/10  14:11:43  houghton
-// Cleanup (move final endif)
-//
-// Revision 2.2  1995/11/10  14:08:38  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:40:54  houghton
-// Change to Version 2
-//
-// Revision 1.6  1995/11/05  15:28:44  houghton
-// Revised
-//
-//
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
@@ -41,6 +30,9 @@
 #include <LibLog.hh>
 #include <Str.hh>
 #include <DateTime.hh>
+#include <rw/cstring.h>
+#include <rw/rwdate.h>
+#include <rw/rwtime.h>
 #include <cstdlib>
 #include <climits>
 #else
@@ -73,8 +65,6 @@ class Param
 
 public:
 
-  Param( int & m );
-  
   Param( int &		    mainArgc,
 	 char *		    mainArgv[],
 	 const char *	    version = 0,
@@ -93,16 +83,21 @@ public:
 
   inline const char *	env( const char * envVar ) const;
 
-  bool	argString( char * &  	    dest,
-		   const char *	    description,
-		   const char *     argId,
-		   const char *     envVar = 0 );
+  bool	argStr( char * &  	    dest,
+		const char *	    description,
+		const char *     argId,
+		const char *     envVar = 0 );
 
   bool	argStr( Str & 	    	dest,
 		const char *	description,
 		const char *    argId,
 		const char *    envVar = 0 );
 
+  bool	argStr( RWCString &	dest,
+		const char *	description,
+		const char *    argId,
+		const char *    envVar = 0 );
+		
   bool	argInt( int &	    	dest,
 		const char *	description,
 		const char *    argId,
@@ -110,7 +105,7 @@ public:
 		int	    	minVal = INT_MIN,
 		int	    	maxVal = INT_MAX );
 
-  bool	argInt( unsigned int &	dest,
+  bool	argUInt( unsigned int &	dest,
 		const char *	description,
 		const char *    argId,
 		const char *    envVar = 0,
@@ -124,7 +119,7 @@ public:
 		  short	    	minVal = SHRT_MIN,
 		  short	    	maxVal = SHRT_MAX );
 
-  bool	argShort( unsigned short & dest,
+  bool	argUShort( unsigned short & dest,
 		  const char *	description,
 		  const char *  argId,
 		  const char *  envVar = 0,
@@ -138,12 +133,12 @@ public:
 		 long	    	minVal = LONG_MIN,
 		 long	    	maxVal = LONG_MAX );
 
-  bool	argLong( unsigned long & dest,
-		 const char *	description,
-		 const char *   argId,
-		 const char *   envVar = 0,
-		 unsigned long 	minVal = 0,
-		 unsigned long 	maxVal = ULONG_MAX );
+  bool	argULong( unsigned long & dest,
+		  const char *	  description,
+		  const char *    argId,
+		  const char *    envVar = 0,
+		  unsigned long   minVal = 0,
+		  unsigned long   maxVal = ULONG_MAX );
 
   bool	argDouble( double & 	dest,
 		   const char *	description,
@@ -169,7 +164,32 @@ public:
 		     const char *   description,
 		     const char *   argId,
 		     const char *   envVar = 0 );
-		     
+
+  bool	argDateTime( RWTime &	    dest,
+		     const char *   description,
+		     const char *   argId,
+		     const char *   envVar = 0 );
+  
+  bool	argDate( DateTime &	    dest,
+		 const char *	    description,
+		 const char *	    argId,
+		 const char *	    envVar = 0 );
+  
+  bool	argDate( RWDate &	    dest,
+		 const char *       description,
+		 const char *       argId,
+		 const char *       envVar = 0 );
+
+  bool	argTime( DateTime &	    dest,
+		 const char *	    description,
+		 const char *	    argId,
+		 const char *	    envVar = 0 );
+
+  bool	argTime( RWTime &	    dest,
+		 const char *	    description,
+		 const char *	    argId,
+		 const char *	    envVar = 0 );
+  
   inline bool	help( void ) const;
 
   inline bool	allArgs( void ) const;
@@ -203,6 +223,10 @@ private:
 
   char *    getArgValue( const char * argId, const char * envVar );
   bool	    getArg( const char * argId, const char * envVar );
+
+  size_t    setHelp( const char * argId,
+		     const char * desc,
+		     const char * envVar );
   
   Str	    	    helpString;
   
@@ -220,6 +244,9 @@ private:
   bool	    	    logTee;
   unsigned long	    logMaxSize;
   unsigned long	    logTrimSize;
+  bool		    logTimeStamp;
+  bool		    logLevelStamp;
+  bool		    logLocStamp;
   
   bool	    	    ok;
   
@@ -233,6 +260,93 @@ private:
 
 
 //  Quick Start : - short example of class usage
+//
+//	Create a class called AppParam that is a subclass
+//	of param. Put all your arguments into it and instanciate
+//	it from main().
+//
+//	I highly recommend you 'new' it to a global pointer. This will
+//	give you both global access and control over construction order.
+//
+//	There are helper macros defined that depend on the existance of
+//	a global AppParam * App.
+//
+/***** AppParam.hh * * * START * * *
+
+#include <Param.hh>
+#include <FilePath.hh>
+
+class AppParam : public Param
+{
+
+public:
+
+  AppParam( int & argv, char ** argc, const char * ver = 0 );
+
+  const char *	inputFileName() { return( vInputFileName ); };
+  
+  ~AppParam( void );
+
+protected:
+
+private:
+
+  AppParam( const AppParam & copyFrom );
+  AppParam & operator=( const AppParam & assignFrom );
+
+  FilePath  vInputFileName;
+  
+};
+
+extern AppParam * App;
+
+inline
+AppParam::AppParam( int & argc, char ** argv, const char * ver )
+  : Param( argc, argv, ver ),
+    vInputFileName( "/inputfile.data" )
+{
+  argStr( vInputFileName, "input file name", "in" );
+
+  Str deltaDir;
+  argStr( deltaDir, "input delta directory", "dir", "DATA_DIR" );
+
+  if( deltaDir.size() )
+    vInputFileName.setPath( deltaDir );
+}
+
+inline
+AppParam::~AppParam( void )
+{
+}
+
+*****  AppParam.hh   * * * END * * */
+/****  main.C * * * START * * *
+
+#include "AppParam.hh"
+
+const char * Version = "Param Demo V1.1";
+
+AppParam * App = 0;
+
+int
+main( int argc, char * argv[] )
+{
+  if( ! (App = new AppParam( argc, argv, Version ) ) )
+    {
+       cerr << "Can't new AppParam!" << endl;
+       exit( 1 );
+    }
+
+  if( App->help() || ! App->good() )
+    {
+       cerr << *App << endl;
+       exit( 1 );
+    }
+
+  cout << "Input is: " << App->inputFileName() << endl;
+}
+
+***** main.C * * * END * * */
 //
 //  Data Types: - data types defined by this header
 //
@@ -388,6 +502,36 @@ private:
 //  Protected:
 //
 //  Private:
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.7  1996/10/22 22:07:09  houghton
+// Change: Added locStamp to turn on/off output of src file & line.
+// Change: Added Support for Rogue Tools++ RWCString, RWDate & RWTime.
+// Change: Rename arg methods for unsigned types.
+//
+// Revision 2.6  1996/04/27 13:07:59  houghton
+// Added support for LibLog.
+//
+// Revision 2.5  1996/02/29 19:06:43  houghton
+// *** empty log message ***
+//
+// Revision 2.4  1995/11/12 18:32:21  houghton
+// Added logging macros.
+//
+// Revision 2.3  1995/11/10  14:11:43  houghton
+// Cleanup (move final endif)
+//
+// Revision 2.2  1995/11/10  14:08:38  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:54  houghton
+// Change to Version 2
+//
+// Revision 1.6  1995/11/05  15:28:44  houghton
+// Revised
+//
 //
 
 #endif // ! def _Param_hh_ 

@@ -9,6 +9,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/10/22 22:07:00  houghton
+// Change: Added locStamp to turn on/off output of src file & line.
+// Change: Added Support for Rogue Tools++ RWCString, RWDate & RWTime.
+// Change: Rename arg methods for unsigned types.
+//
 // Revision 2.4  1996/04/27 13:07:54  houghton
 // Added support for LibLog.
 //
@@ -60,6 +65,9 @@ Param::Param(
     logTee( false ),
     logMaxSize( 0 ),
     logTrimSize( 0 ),
+    logTimeStamp( true ),
+    logLevelStamp( true ),
+    logLocStamp( true ),
     ok( true )
 {
   if( _LibLog  == 0 )
@@ -99,15 +107,30 @@ Param::Param(
 	   "logtee",
 	   "LOG_TEE" );
 
-  argLong( logMaxSize,
+  argULong( logMaxSize,
 	  "log file max size.",
 	  "logmax",
 	  "LOG_MAX" );
 
-  argLong( logTrimSize,
+  argULong( logTrimSize,
 	   "log file trim size.",
 	   "logtrim",
 	   "LOG_TRIM" );
+  
+  argBool( logTimeStamp,
+	   "output time stamp with log entry.",
+	   "logtime",
+	   "LOG_TIME" );
+
+  argBool( logLevelStamp,
+	   "output level with log entry.",
+	   "logstamplevel",
+	   "LOG_STAMP_LEVEL" );
+
+  argBool( logLocStamp,
+	   "output source location with log entry",
+	   "logloc",
+	   "LOG_LOC" );
   
 	  
   if( ! logFile.empty() )
@@ -122,27 +145,27 @@ Param::Param(
     }
 
   if( logTee )
-    {
-      appLog.tee( cerr );
-    }
+    appLog.tee( cerr );
+
+  appLog.setTimeStamp( logTimeStamp );
+  appLog.setLevelStamp( logLevelStamp );
+  appLog.setLocStamp( logLocStamp );
+    
   appLog.setOutputLevel( logOutputLevel );
 
 }
 
 
 bool
-Param::argString(
+Param::argStr(
   char * &  	dest,
   const char * 	desc,
   const char *  argId,
   const char * 	envVar
   )
 {
-  size_t hStart = helpString.length();
+  size_t hStart = setHelp( argId, desc, envVar );
   
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
-
   char * argValue = getArgValue( argId, envVar );
 
   if( argValue ) dest = argValue;
@@ -176,11 +199,43 @@ Param::argStr(
   const char * 	envVar
   )
 {
-  size_t hStart = helpString.length();
+  size_t hStart = setHelp( argId, desc, envVar );
   
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  char * argValue = getArgValue( argId, envVar );
 
+  if( argValue ) dest = argValue;
+
+  if( dest.length() )
+    {
+      if( (( helpString.length() - hStart ) +  dest.length()) < 80 )
+	{
+	  helpString << " '" << dest << "'\n";
+	}
+      else
+	{
+	  helpString << '\n'
+		     << "            '" << dest << "'\n";
+	}
+    }
+  else
+    {
+      helpString << "''\n";
+    }
+
+  return( argValue != 0 );
+  
+}
+
+bool
+Param::argStr(
+  RWCString &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  size_t hStart = setHelp( argId, desc, envVar );
+  
   char * argValue = getArgValue( argId, envVar );
 
   if( argValue ) dest = argValue;
@@ -216,9 +271,8 @@ Param::argInt(
   int	    	maxVal
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
-
+  setHelp( argId, desc, envVar );
+  
   char * argValue = getArgValue( argId, envVar );
 
   if( argValue ) dest = StringToInt( argValue );
@@ -239,7 +293,7 @@ Param::argInt(
 }
 
 bool
-Param::argInt(
+Param::argUInt(
   unsigned int & dest,
   const char * 	desc,
   const char *  argId,
@@ -248,9 +302,8 @@ Param::argInt(
   unsigned int 	maxVal
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
-
+  setHelp( argId, desc, envVar );
+  
   char * argValue = getArgValue( argId, envVar );
 
   if( argValue ) dest = StringToUInt( argValue );
@@ -280,9 +333,8 @@ Param::argShort(
   short	    	maxVal
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
-
+  setHelp( argId, desc, envVar );
+  
   char * argValue = getArgValue( argId, envVar );
 
   if( argValue ) dest = StringToInt( argValue );
@@ -303,7 +355,7 @@ Param::argShort(
 }
 
 bool
-Param::argShort(
+Param::argUShort(
   unsigned short & dest,
   const char * 	desc,
   const char *  argId,
@@ -312,8 +364,7 @@ Param::argShort(
   unsigned short maxVal
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  setHelp( argId, desc, envVar );
 
   char * argValue = getArgValue( argId, envVar );
 
@@ -344,8 +395,7 @@ Param::argLong(
   long	    	maxVal
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  setHelp( argId, desc, envVar );
 
   char * argValue = getArgValue( argId, envVar );
 
@@ -367,7 +417,7 @@ Param::argLong(
 }
 
 bool
-Param::argLong(
+Param::argULong(
   unsigned long & dest,
   const char * 	desc,
   const char *  argId,
@@ -376,8 +426,7 @@ Param::argLong(
   unsigned long maxVal
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  setHelp( argId, desc, envVar );
 
   char * argValue = getArgValue( argId, envVar );
 
@@ -406,8 +455,7 @@ Param::argDouble(
   const char * 	envVar
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  setHelp( argId, desc, envVar );
 
   char * argValue = getArgValue( argId, envVar );
 
@@ -427,8 +475,7 @@ Param::argBool(
   const char * 	envVar
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  setHelp( argId, desc, envVar );
 
   char * argValue = getArgValue( argId, envVar );
 
@@ -447,8 +494,7 @@ Param::argFlag(
   const char * 	envVar
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  setHelp( argId, desc, envVar );
 
   bool argValue = getArg( argId, envVar );
 
@@ -467,8 +513,7 @@ Param::argDateTime(
   const char * 	envVar
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  setHelp( argId, desc, envVar );
 
   char * argValue = getArgValue( argId, envVar );
 
@@ -495,8 +540,7 @@ Param::argDateTime(
   const char * 	envVar
   )
 {
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  setHelp( argId, desc, envVar );
 
   char * argValue = getArgValue( argId, envVar );
 
@@ -507,6 +551,129 @@ Param::argDateTime(
   return( argValue != 0 );
 }
 
+bool
+Param::argDateTime(
+  RWTime &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  setHelp( argId, desc, envVar );
+
+  char * argValue = getArgValue( argId, envVar );
+
+  if( argValue )
+    {
+      DateTime tmp;
+      tmp.set( argValue );
+      dest = RWTime( RWDate( tmp.getDayOfMonth(),
+			     tmp.getMonth(),
+			     tmp.getYear() ),
+		     tmp.getHour(),
+		     tmp.getMinute(),
+		     tmp.getSecond() );
+      
+    }
+  
+  helpString << " '" << dest << "'\n";
+
+  return( argValue != 0 );
+}
+
+bool
+Param::argDate(
+  DateTime &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  setHelp( argId, desc, envVar );
+
+  char * argValue = getArgValue( argId, envVar );
+
+  if( argValue )
+    {
+      dest.set( (time_t)0 );
+      dest.set( argValue );
+    }
+  
+  helpString << " '" << dest << "'\n";
+
+  return( argValue != 0 );
+}
+
+bool
+Param::argDate(
+  RWDate &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  setHelp( argId, desc, envVar );
+
+  char * argValue = getArgValue( argId, envVar );
+
+  if( argValue )
+    {
+      DateTime tmp;
+      tmp.set( argValue );
+      dest = RWDate( tmp.getDayOfMonth(), tmp.getMonth(), tmp.getYear() );
+    }
+  
+  helpString << " '" << dest << "'\n";
+
+  return( argValue != 0 );
+}
+
+bool
+Param::argTime(
+  DateTime &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  setHelp( argId, desc, envVar );
+
+  char * argValue = getArgValue( argId, envVar );
+
+  if( argValue )
+    {
+      dest.set( (time_t)0 );
+      dest.set( argValue );
+    }
+  
+  helpString << " '" << dest << "'\n";
+
+  return( argValue != 0 );
+}
+
+bool
+Param::argTime(
+  RWTime &  	dest,
+  const char * 	desc,
+  const char *  argId,
+  const char * 	envVar
+  )
+{
+  setHelp( argId, desc, envVar );
+
+  char * argValue = getArgValue( argId, envVar );
+
+  if( argValue )
+    {
+      DateTime tmp( (time_t) 0 );
+      tmp.set( argValue );
+      dest = RWTime( tmp.getHour(), tmp.getMinute(), tmp.getSecond() );
+    }
+  
+  helpString << " '" << dest << "'\n";
+
+  return( argValue != 0 );
+}
 
 char *
 Param::getArgValue( const char * argId, const char * envVar )
@@ -672,6 +839,22 @@ Param::dumpInfo(
     
   return( dest  );
 }
+
+size_t
+Param::setHelp(
+  const char * argId,
+  const char * desc,
+  const char * envVar
+  )
+{
+  size_t hStart =  helpString.length();
+  
+  helpString << "  -" << setw(8) << argId << ' ' << desc ;
+  if( envVar ) helpString << " (" << envVar << ')';
+
+  return( hStart );
+}
+
 
 #if !defined( AIX41 )
 #endif
