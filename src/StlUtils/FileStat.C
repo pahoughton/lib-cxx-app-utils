@@ -11,33 +11,28 @@
 // Revision History: (See end of file for Revision Log)
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "FileStat.hh"
+
+#if defined( CLUE_HAS_USER )
 #include <UserGroup.hh>
 #include <User.hh>
-#if defined( CLUE_USE_DATETIME )
+#endif
+
+#if defined( CLUE_HAS_DATETIME )
 #include <DateTime.hh>
 #else
 #include <rw/rwtime.h>
 #endif
-#include <Bit.hh>
+
+#include "Bit.hh"
 #include <iomanip>
-#include <strstream>
+#include <strstream.h>
 #include <cstring>
 #include <cerrno>
-#else
-#include "FileStat.hh"
-#include <UserGrp.hh>
-#include <User.hh>
-#include <DateTime.hh>
-#include <Bit.hh>
-#include <iomanip>
-#include <cstring>
-#include <cerrno>
-#endif
+#include <unistd.h>
 
 #if defined( CLUE_DEBUG )
-#include <FileStat.ii>
+#include "FileStat.ii"
 #endif
 
 CLUE_VERSION(
@@ -296,6 +291,7 @@ FileStat::dumpInfo(
 bool
 FileStat::canDo( mode_t uMode, mode_t gMode, mode_t oMode ) const
 {
+#if defined( CLUE_HAS_USER )
   User	me;
 
   if( me.getUID() == getUID() || me.effective().getUID() == getUID() )
@@ -305,7 +301,8 @@ FileStat::canDo( mode_t uMode, mode_t gMode, mode_t oMode ) const
 
   if( grp.isMember( me ) )
     return( ( getMode() & gMode ) ? true : false );
-
+#endif
+  
   return( ( getMode() & oMode ) ? true : false );
 }
 
@@ -333,17 +330,25 @@ FileStat::setStrings( const char * fileName )
 void
 FileStat::setUserString( void )
 {
+#if defined( CLUE_HAS_USER )
   User	u( getUID() );
 
   userName = u.getName();
+#else
+  userName = "nobody";
+#endif
 }
 
 void
 FileStat::setGroupString( void )
 {
+#if defined( CLUE_HAS_USER )
   UserGroup g( getGID() );
 
   groupName = g.getName();
+#else
+  groupName = "none";
+#endif
 }
 
 void
@@ -392,6 +397,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:30:58  houghton
+// Started work on support for Platforms that do not have users.
+//
 // Revision 3.1  1996/11/14 01:25:22  houghton
 // Changed to Release 3
 //
