@@ -20,6 +20,7 @@
 //
 
 
+#include "StlUtilsExceptions.hh"
 #include <Str.hh>
 #include <StringUtils.hh>
 #include <algorithm>
@@ -700,6 +701,9 @@ SubStr::operator =  ( const string & src )
 // Revision Log:
 // 
 // $Log$
+// Revision 5.2  2000/06/27 10:46:58  houghton
+// Bug-Fix: was not including StlUtilsExcpetions.hh.
+//
 // Revision 5.1  2000/05/25 10:33:18  houghton
 // Changed Version Num to 5
 //
