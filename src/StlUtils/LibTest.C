@@ -10,6 +10,12 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/10/28 12:08:14  houghton
+// Bug-Fix: if passed test should always call result.passed and pass it
+// 	 the progress flag. Also now check progress flag in
+// 	 DefaultResults::passed
+// Cleanup: Removed failed method and the call to it.
+//
 // Revision 2.2  1996/05/03 16:12:53  houghton
 // Added outputLineProgress. Ouptut source line for every test.
 //
@@ -141,17 +147,13 @@ LibTest::test(
   
   if( pass )
     {
-      if( progress )
-	{
-	  result.passed( *this, testList[currentTest].name,
-			 currentTest, currentPass,
-			 srcFn, srcLine ) ;
-	}
+      result.passed( *this, testList[currentTest].name,
+		     currentTest, currentPass,
+		     srcFn, srcLine, progress );
       return( true );
     }
   else
     {
-      failed( testList[currentTest].name, reason, srcFn, srcLine );
       return( result.failed( *this, testList[currentTest].name,
 			     currentTest, currentPass,
 			     reason,
@@ -268,7 +270,6 @@ LibTest::file( const char * srcFn, long srcLine, const char * testFileName )
   bool ret = file( srcFn, srcLine, testFileName, expFileName );
   delete expFileName;
   return( ret );
-
 }
 
   
@@ -337,9 +338,15 @@ LibTest::getVersion( bool withPrjVer ) const
 }
 
 ostream &
-LibTest::getOut( void )
+LibTest::getOutput( void )
 {
   return( out );
+}
+
+ostream &
+LibTest::getError( void )
+{
+  return( err );
 }
 
 ostream &
@@ -365,17 +372,6 @@ LibTest::testit( size_t tNum, size_t passNum )
 }
 
 void
-LibTest::failed(
-  const char *  /* name */,
-  const char *  /* reason */,
-  const char *  /* srcFn */,
-  long		/* line */
-  )
-{
-  return;
-}
-
-void
 LibTest::DefaultResults::start(
  LibTest &	tester,
  const char *	testName,
@@ -383,8 +379,8 @@ LibTest::DefaultResults::start(
  long		passNum
  )
 {
-  tester.getOut() << "Testing(" << passNum << "): "<< testName;
-  tester.getOut().flush();
+  tester.getOutput() << "Testing(" << passNum << "): "<< testName;
+  tester.getOutput().flush();
 }
 
 bool
@@ -398,7 +394,7 @@ LibTest::DefaultResults::completed(
 {
   if( passed )
     {
-      tester.getOut() << " passed." << endl;
+      tester.getOutput() << " passed." << endl;
       return( passed );
     }
 
@@ -417,8 +413,8 @@ LibTest::DefaultResults::failed(
   long		srcLine
   )
 {
-  tester.getOut() << " FAILED " << reason << endl;
-  tester.getOut() << srcFile << ':' << srcLine
+  tester.getOutput() << " FAILED " << reason << endl;
+  tester.getOutput() << srcFile << ':' << srcLine
 		  << ':' << " FAILED here." << endl;
   exit( 1 );
   return( false );
@@ -428,13 +424,17 @@ LibTest::DefaultResults::failed(
 void
 LibTest::DefaultResults::passed(
   LibTest &	tester,
-  const char *	/* testName */,
-  size_t	/* testNum */,
-  size_t	/* passNum */,
-  const char *	/* srcFile */,
-  long		/* srcLine */
+  const char *	CLUE_UNUSED( testName ),
+  size_t	CLUE_UNUSED( testNum ),
+  size_t	CLUE_UNUSED( passNum ),
+  const char *	CLUE_UNUSED( srcFile ),
+  long		CLUE_UNUSED( srcLine ),
+  bool		progress
   )
 {
-  tester.getOut() << '.';
-  tester.getOut().flush();
+  if( progress )
+    {
+      tester.getOutput() << '.';
+      tester.getOutput().flush();
+    }
 }
