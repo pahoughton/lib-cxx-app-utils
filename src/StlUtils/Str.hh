@@ -57,7 +57,7 @@ public:
   typedef pointer				iterator;
   typedef const_pointer				const_iterator;
 
-#if defined( STLTUTILS_STD_ITERATORS )
+#if defined( STLUTILS_STD_ITERATORS )
 
   typedef std::reverse_iterator< iterator,
     random_access_iterator_tag,
@@ -1812,6 +1812,9 @@ operator >> ( istream & src, Str & dest );
 // %PL%
 // 
 // $Log$
+// Revision 5.9  2001/08/07 23:34:24  houghton
+// *** empty log message ***
+//
 // Revision 5.8  2001/07/30 01:40:37  houghton
 // *** empty log message ***
 //
