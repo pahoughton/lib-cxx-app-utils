@@ -86,7 +86,13 @@ SigCatcher::caught( Signal sig ) const
     }
   return( false );
 }
-  
+
+inline
+bool
+SigCatcher::catchSig( Signal sig )
+{
+  return( catchSig( sig, None ) );
+}
 
 inline
 bool
@@ -110,6 +116,9 @@ SigCatcher::setError(
 // Revision Log:
 // 
 // $Log$
+// Revision 4.2  1998/02/02 15:32:07  houghton
+// Added support for specifying singal flags.
+//
 // Revision 4.1  1997/09/17 15:13:37  houghton
 // Changed to Version 4
 //

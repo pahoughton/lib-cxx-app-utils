@@ -22,6 +22,7 @@
 //
 
 #include <StlUtilsConfig.hh>
+#include <Bitmask.hh>
 #include <vector>
 #include <deque>
 #include <iostream>
@@ -39,6 +40,17 @@ public:
 
   typedef int		    Signal;
   typedef vector< Signal >  SigList;
+
+  typedef Bitmask Flag;
+  
+  static const Flag	None;
+  static const Flag	OnStack;
+  static const Flag	NoDefer;
+  static const Flag	Restart;
+  static const Flag	Siginfo;
+  static const Flag	NoChildWait;
+  static const Flag	NoChildStop;
+  static const Flag	WaitSig;
 
   class Caught
   {
@@ -70,6 +82,11 @@ public:
 	      size_t		catchCount,
 	      const Signal *	ignoreSigList = 0,
 	      size_t		ignCount = 0 );
+  SigCatcher( const Signal *	catchSigList,
+	      size_t		catchCount,
+	      const Signal *	ignoreSigList,
+	      size_t		ignCount,
+	      const Flag	flags );
 
   virtual ~SigCatcher( void );
   
@@ -78,7 +95,8 @@ public:
   
   inline bool	    caught( Signal sig ) const;
   
-  bool		    catchSig( Signal sig );
+  inline bool	    catchSig( Signal sig );
+  bool		    catchSig( Signal sig, const Flag & flags );
   bool		    ignoreSig( Signal sig );
 
   
@@ -217,6 +235,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/02/02 15:29:13  houghton
+// Added support for specifying singal flags.
+//
 // Revision 4.1  1997/09/17 15:13:37  houghton
 // Changed to Version 4
 //
