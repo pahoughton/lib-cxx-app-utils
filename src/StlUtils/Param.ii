@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/02/29 19:06:48  houghton
+// *** empty log message ***
+//
 // Revision 2.2  1995/12/04 11:18:23  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -130,5 +133,8 @@ operator<<( ostream & dest, const Param & obj )
   return( obj.toStream( dest ) );
 }
 
+#if defined( inline )
+#undef inline
+#endif
 
 #endif // ! def _Param_ii_ 

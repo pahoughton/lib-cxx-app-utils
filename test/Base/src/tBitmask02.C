@@ -19,10 +19,10 @@ tBitmask02( LibTest & tester )
     // compare( const Bitmask & ) const
     // compare( unsigned long ) const
 
-    const Bitmask t( 4 );
-    const Bitmask te( 4 );
-    const Bitmask tl( 3 );
-    const Bitmask tm( 5 );
+    const Bitmask t( Bitmask::b04 );
+    const Bitmask te( Bitmask::b04 );
+    const Bitmask tl( Bitmask::b03 );
+    const Bitmask tm( Bitmask::b05 );
 
     unsigned long le = 0x10;
     unsigned long ll = 0x04;
@@ -59,7 +59,7 @@ tBitmask02( LibTest & tester )
     t |= rhs;
 
     TEST( (unsigned long) t == 0x81 );
-    rhs.clear();
+    rhs.reset();
     rhs.set( 7 );
     rhs.set( 15 );
     t ^= rhs;
@@ -77,10 +77,10 @@ tBitmask02( LibTest & tester )
     // operator <  ( unsigned long ) const
     // operator >  ( unsigned long ) const
 
-    const Bitmask t( 4 );
-    const Bitmask te( 4 );
-    const Bitmask tl( 3 );
-    const Bitmask tm( 5 );
+    const Bitmask t( Bitmask::b04 );
+    const Bitmask te( Bitmask::b04 );
+    const Bitmask tl( Bitmask::b03 );
+    const Bitmask tm( Bitmask::b05 );
 
     unsigned long le = 0x10;
     unsigned long ll = 0x04;
@@ -106,7 +106,7 @@ tBitmask02( LibTest & tester )
     // operator unsigned long ( void ) const
 
     const Bitmask t1;
-    const Bitmask t2( 3 );
+    const Bitmask t2( Bitmask::b03 );
 
     TEST( ! t1 );
     TEST( t2 );

@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 2.5  1996/02/29 19:06:43  houghton
+// *** empty log message ***
+//
 // Revision 2.4  1995/11/12 18:32:21  houghton
 // Added logging macros.
 //
@@ -46,7 +49,7 @@
 #endif
 
 
-#define DEFAULT_LOGLEVEL "ERROR | WARNING"
+#define CLUE_DEFAULT_LOGLEVEL "ERROR | WARNING"
 
 #define ALog( lvl )	LogIf( App->log(), lvl )
 
@@ -65,7 +68,12 @@ class Param
 
 public:
 
-  Param( int & mainArgc, char * mainArgv[], const char * version = 0 );
+  Param( int & m );
+  
+  Param( int &		    mainArgc,
+	 char *		    mainArgv[],
+	 const char *	    version = 0,
+	 const char *	    logLevel = CLUE_DEFAULT_LOGLEVEL );
 
   inline Log &     log( void );
   inline Log &     log( LogLevel::Level lvl );
@@ -201,8 +209,8 @@ private:
 
   bool    	    helpFlag;
 
-  char *    	    logFile;
-  char *    	    logOutputLevel;
+  Str     	    logFile;
+  Str    	    logOutputLevel;
   
   bool	    	    logTee;
   unsigned long	    logMaxSize;

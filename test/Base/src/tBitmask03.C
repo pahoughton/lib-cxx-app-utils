@@ -17,9 +17,9 @@ tBitmask03( LibTest & tester )
     // ::operator ^ ( const Bitmask &, const Bitmask & )
     // ::operator ~ ( const Bitmask & )
 
-    const Bitmask   t1( 2 );
-    const Bitmask   t2( 4 );
-    const Bitmask   t3( 8 );
+    const Bitmask   t1( Bitmask::b02 );
+    const Bitmask   t2( Bitmask::b04 );
+    const Bitmask   t3( Bitmask::b08 );
 
     TEST( (unsigned long) (t1 & t2) == 0x00 );
     TEST( (unsigned long) (t1 & t1) == (unsigned long) t1 );
@@ -40,10 +40,10 @@ tBitmask03( LibTest & tester )
     // ::operator <  ( unsigned long, const Bitmask & )
     // ::operator >  ( unsigned long, const Bitmask & )
 
-    const Bitmask t( 4 );
-    const Bitmask te( 4 );
-    const Bitmask tl( 3 );
-    const Bitmask tm( 5 );
+    const Bitmask t( Bitmask::b04 );
+    const Bitmask te( Bitmask::b04 );
+    const Bitmask tl( Bitmask::b03 );
+    const Bitmask tm( Bitmask::b05 );
 
     unsigned long le = 0x10;
     unsigned long ll = 0x04;

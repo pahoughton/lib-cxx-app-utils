@@ -23,17 +23,18 @@ tBitmask01( LibTest & tester )
   }
 
   {
-    // Bitmask( size_t pos )
+    // Bitmask( const bit & )
     // operator == ( unsigned long ) const
 
-    Bitmask t( 2 );
+    Bitmask t( Bitmask::b02 );
     TEST( (unsigned long) t == 0x04 );
   }
 
   {
     // set( size_t )
-    // clear( size_t )
-    // clear( void )
+    // reset( size_t )
+    // reset( void )
+    
     Bitmask t;
 
     t.set( 0 );
@@ -42,23 +43,24 @@ tBitmask01( LibTest & tester )
     t.set( 7 );
     TEST( (unsigned long) t == 0x81 );
 
-    t.clear( 5 );
+    t.reset( 5 );
     TEST( (unsigned long) t == 0x81 );
 
     t.set( 8 );
     TEST( (unsigned long) t == 0x181 );
 
-    t.clear( 7 );
+    t.reset( 7 );
     TEST( (unsigned long) t == 0x101 );
 
-    t.clear();
+    t.reset();
     TEST( (unsigned long) t == 0 );
   }
 
   {
-    // isSet( size_t )
-    // isClear( size_t )
-    // all( void ) const
+    // test( size_t ) const
+    // any( void ) const
+    // none( void ) const
+    // to_ulong( void ) const
     
     Bitmask t;
 
@@ -68,26 +70,25 @@ tBitmask01( LibTest & tester )
 
     TEST( (unsigned long) t == 0x182 );
 
-    TEST( t.isSet( 1 ) );
-    TEST( t.isSet( 8 ) );
-    TEST( t.isSet( 7 ) );
+    TEST( t.test( 1 ) );
+    TEST( t.test( 8 ) );
+    TEST( t.test( 7 ) );
 
-    TEST( ! t.isSet( 0 ) );
-    TEST( ! t.isSet( 2 ) );
-    TEST( ! t.isSet( 6 ) );
-    TEST( ! t.isSet( 9 ) );
+    TEST( ! t.test( 0 ) );
+    TEST( ! t.test( 2 ) );
+    TEST( ! t.test( 6 ) );
+    TEST( ! t.test( 9 ) );
 
-    TEST( t.isClear( 0 ) );
-    TEST( t.isClear( 2 ) );
-    TEST( t.isClear( 6 ) );
-    TEST( t.isClear( 9 ) );
+    TEST( t.any() );
+    TEST( ! t.none() );
+    
+    TEST( t.to_ulong() == 0x182 );
 
-    TEST( ! t.isClear( 1 ) );
-    TEST( ! t.isClear( 7 ) );
-    TEST( ! t.isClear( 8 ) );
-
-    TEST( t.all() == 0x182 );
+    t.reset();
+    TEST( t.none() );
+    
   }
+
  
   return( true );
 }

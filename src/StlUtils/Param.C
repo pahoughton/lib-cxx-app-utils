@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/02/29 19:06:34  houghton
+// *** empty log message ***
+//
 // Revision 2.2  1995/12/04 11:18:23  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -29,21 +32,32 @@
 #include "StrUtil.hh"
 #endif
 
-#if defined( CLUE_DEBUG )
-#include <Param.ii>
-#endif
-
 CLUE_VERSION(
   Param,
   "$Id$" );
 
-char DefaultLogLevel[] = DEFAULT_LOGLEVEL;
+#if defined( CLUE_DEBUG )
+#include <Param.ii>
+#endif
 
-Param::Param( int & mainArgc, char ** mainArgv, const char * ver )
+// static char DefaultLogLevel[] = DEFAULT_LOGLEVEL;
+
+
+Param::Param(
+  int &		mainArgc,
+  char **	mainArgv,
+  const char *	ver,
+  const char *	logLevel
+  )
   : argc( mainArgc ),
     argv( mainArgv ),
-    appLog( cout, DEFAULT_LOGLEVEL )
-
+    appLog( cout, logLevel ),
+    helpFlag( false ),
+    logOutputLevel( logLevel ),
+    logTee( false ),
+    logMaxSize( 0 ),
+    logTrimSize( 0 ),
+    ok( true )
 {
   argv = mainArgv;
   
@@ -57,29 +71,22 @@ Param::Param( int & mainArgc, char ** mainArgv, const char * ver )
   ok = true;
   
   //
-  // get The standard values;
+  // set The standard values;
   //
 
-  helpFlag  	    = false;
-  logFile   	    = 0;
-  logOutputLevel    = DefaultLogLevel;
-  logTee    	    = false;
-  logMaxSize	    = 0;
-  logTrimSize	    = 0;
-  
   argFlag( helpFlag,
 	   "show usage help.",
 	   "help" );
 
-  argString( logFile,
-	     "log file name.",
-	     "log",
-	     "LOG_FILE" );
+  argStr( logFile,
+	  "log file name.",
+	  "log",
+	  "LOG_FILE" );
 
-  argString( logOutputLevel,
-	     "log output level.",
-	     "loglevel",
-	     "LOG_LEVEL" );
+  argStr( logOutputLevel,
+	  "log output level.",
+	  "loglevel",
+	  "LOG_LEVEL" );
 
   argFlag( logTee,
 	   "Tee log output to cerr.",
@@ -97,7 +104,7 @@ Param::Param( int & mainArgc, char ** mainArgv, const char * ver )
 	   "LOG_TRIM" );
   
 	  
-  if( logFile )
+  if( ! logFile.empty() )
     {
       appLog.setFileName( logFile );
 
@@ -113,9 +120,8 @@ Param::Param( int & mainArgc, char ** mainArgv, const char * ver )
       appLog.tee( cerr );
     }
   appLog.setOutputLevel( logOutputLevel );
-      
+
 }
-  
 
 
 bool
@@ -619,8 +625,7 @@ Param::dumpInfo(
   if( showVer )
     dest << Param::getClassName() << ":\n"
 	 << Param::getVersion() << '\n';
-  
-  
+    
   if( ! Param::good() )
     dest << prefix << "Error: " << Param::error() << '\n';
   else
@@ -656,8 +661,11 @@ Param::dumpInfo(
        << prefix << "logOutputLevel: " << logOutputLevel << '\n'
        << prefix << "logTee:         " << logTee << '\n'
     ;
- 
-  dest << '\n';
   
+  dest << '\n';
+    
   return( dest  );
 }
+
+#if !defined( AIX41 )
+#endif

@@ -19,7 +19,7 @@ static char 	CharArray[] =  	{ '1', '2', '3', '4' };
 static int 	IntArray[] = 	{ 1, 2, 3, 4, 5, 6 };
 static short 	ShortArray[] =  { 1, 2, 3, 4, 5, 6, 7 };
 static long 	LongArray[] =   { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-static char *	StringArray[] = { "1", "2", "3", "4", "5", 0 };
+static const char *	StringArray[] = { "1", "2", "3", "4", "5", 0 };
 
 static TestValue TestArray[] =
 {

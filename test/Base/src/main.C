@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/02/29 19:11:09  houghton
+// *** empty log message ***
+//
 // Revision 2.1  1995/11/10 12:48:40  houghton
 // Change to Version 2
 //
@@ -28,6 +31,16 @@
 #include <iostream>
 #endif
 
+bool	tArraySize( LibTest & tester );
+bool	tAbsLong( LibTest & tester );
+bool	tBit( LibTest & tester );
+bool	tBitmask( LibTest & tester );
+bool	tLog( LibTest & tester );
+bool	tParam( LibTest & tester );
+
+bool	tStrSet( LibTest & tester );
+
+#if defined( ALL )
 // Utils.hh
 bool	tArraySize( LibTest & tester );
 bool	tDwordAlign( LibTest & tester );
@@ -151,10 +164,12 @@ bool tLog03( LibTest & tester );
 bool tLog04( LibTest & tester );
 bool tLog05( LibTest & tester );
 
+#endif
 
 
 LibTest::TestItem   TestList[] =
 {
+#if defined( ALL )
   { "ArraySize",    	    tArraySize },
   { "DwordAlign",   	    tDwordAlign },
   { "MemOverlap",   	    tMemOverlap },
@@ -193,8 +208,11 @@ LibTest::TestItem   TestList[] =
   { "Param",		    tParam },
   { "WithCommon",	    tWithCommon },
   { "WithWcf",		    tWithWcf },
-#if 0
 #endif
+  { "StrSet",		    tStrSet },
+  { "Bitmask",		    tBitmask },
+  { "Log",		    tLog },
+  { "Param",		    tParam },
 #ifdef COMPONENT_TEST
   { "ArraySize",    	    tArraySize },
   { "DwordAlign",   	    tDwordAlign },
@@ -286,7 +304,6 @@ LibTest::TestItem   TestList[] =
   { "Log04",		    tLog04 },
   { "Log05",		    tLog05 },
   { "Param01",		    tParam01 },
-  
 #endif  
   { 0, 0 }
 };

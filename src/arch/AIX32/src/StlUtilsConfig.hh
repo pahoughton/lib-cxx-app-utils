@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/02/29 19:10:05  houghton
+// *** empty log message ***
+//
 // Revision 2.1  1995/11/10 12:43:23  houghton
 // Change to Version 2
 //
@@ -50,6 +53,8 @@
 #if !defined( CLUE_DIR_DELIM )
 #define CLUE_DIR_DELIM '/'
 #endif
+
+extern "C" size_t getpagesize( void );
 
 #include <AnsiBool.hh>
 #include <ClueVersion.hh>

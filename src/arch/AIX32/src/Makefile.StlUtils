@@ -27,7 +27,7 @@ ARCH_INCDIR	= $(ARCHSRC_INCDIR) $(UNIX_INCDIR) $(CLUE1_INCDIR)
 			  
 
 
-ARCH_C_SOURCES		=		\
+ARCHSRC_C_SOURCES	=		\
 	fnmatch.c			\
 
 ARCHSRC_CXX_C_SOURCES	=		\
@@ -188,6 +188,9 @@ objects/shared/%.o : $(ARCHSRC_DIR)/%.c
 
 #
 # $Log$
+# Revision 2.4  1996/02/29 19:10:10  houghton
+# *** empty log message ***
+#
 # Revision 2.3  1995/12/31 11:23:21  houghton
 # Bug Fix - AIX port.
 #
