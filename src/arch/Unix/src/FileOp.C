@@ -340,9 +340,6 @@ File::moveFile( void )
       
       if( rename( src.getName(), dest.getName() ) )
 	return( setError( errno, "renaming to dest", dest.getName() ) );
-
-      return( setDestStat() );
-      
     }
   else
     {
@@ -442,6 +439,9 @@ File::setError( int osErr, const char * desc, const char * fileName )
 // Revision Log:
 //
 // $Log$
+// Revision 1.3  1998/03/13 12:33:52  houghton
+// Bug-Fix: if just doing a rename, don't no reason to set times or mode.
+//
 // Revision 1.2  1998/03/11 16:08:22  houghton
 // Added setDestStat
 // Bug-Fix: a few.
