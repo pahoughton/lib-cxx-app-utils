@@ -43,7 +43,6 @@ UNIX_CXX_C_SOURCES	=	\
 	Semaphore.C		\
 	Whence.C		\
 	FileLock.C		\
-	FileOp.C		\
 	MesgQueue.C		\
 	HotSwap.C		\
 
@@ -62,7 +61,6 @@ UNIX_USER_HH_INCS	=	\
 	SigCatcher.hh		\
 	Semaphore.hh		\
 	FileLock.hh		\
-	FileOp.hh		\
 	MesgQueue.hh		\
 	HotSwap.hh		\
 
@@ -76,7 +74,6 @@ UNIX_USER_II_INCS	=	\
 	SigCatcher.ii		\
 	Semaphore.ii		\
 	FileLock.ii		\
-	FileOp.ii		\
 	MesgQueue.ii		\
 	HotSwap.ii
 
@@ -92,6 +89,9 @@ $(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 
 #
 # $Log$
+# Revision 5.3  2003/07/29 07:59:14  houghton
+# Removed FileOp now part of FileTools
+#
 # Revision 5.2  2001/07/26 19:28:57  houghton
 # *** empty log message ***
 #
