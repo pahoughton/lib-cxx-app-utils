@@ -23,8 +23,8 @@ include Make/make.cfg.3.4
 #
 
 NAME		= Clue
-BETA_LIB_DIR	= $(LOCAL_BETA_LIB_DIR)
-BETA_INC_DIR	= $(LOCAL_BETA_INC_DIR)
+BETA_LIB_DIR	= $(LOCAL_ALPHA_LIB_DIR)
+BETA_INC_DIR	= $(LOCAL_ALPHA_INC_DIR)
 
 PROD_LIB_DIR	= $(LOCAL_LIB_DIR)
 PROD_INC_DIR	= $(LOCAL_INC_DIR)
@@ -420,7 +420,10 @@ include .depend
 # =MAKEFILE_LOG=
 #
 # $Log$
-# Revision 1.19  1995/11/10 00:30:43  houghton
+# Revision 1.20  1995/11/10 12:03:21  houghton
+# Change install dir from BETA to ALPHA
+#
+# Revision 1.19  1995/11/10  00:30:43  houghton
 # Change to MakeConfigs 3.4
 #
 #
