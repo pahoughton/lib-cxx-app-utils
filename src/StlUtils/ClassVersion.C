@@ -2,26 +2,19 @@
 // File:        ClassVersion.C
 // Desc:        
 //
-//  
-//  
+//  Define non-inline ClassVersion methods.
+//
+//  See ClassVersion.hh for method declaration and documentation
+//  See ClassVersion.ii for inline methods
+//
+// Notes:
+//
+//  Methods are defined in order of declaration
+//
 // Author:      Paul Houghton - (houghton@cworld1.wiltel.com)
 // Created:     10/04/95 07:41
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.3  1996/04/27 12:52:21  houghton
-// Removed unneeded includes.
-//
-// Revision 2.2  1995/12/04 11:16:52  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:18  houghton
-// Change to Version 2
-//
-// Revision 1.1  1995/11/05  14:48:48  houghton
-// New Class Version id method
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #if !defined( CLUE_SHORT_FN )
@@ -67,7 +60,7 @@ ClassVersion::ClassVersion(
   strcpy( classVerString, className );
   strcat( classVerString, " - " );
   strcat( classVerString, fileName );
-  strcat( classVerString, " - Compiled " );
+  strcat( classVerString, " - Compiled: " );
   strcat( classVerString, compileDateString );
   strcat( classVerString, " " );
   strcat( classVerString, compileTimeString );
@@ -119,6 +112,23 @@ ClassVersion::getVer(
 }
 
 
+// $Log$
+// Revision 2.4  1996/10/28 11:56:50  houghton
+// Cleanup.
+//
+// Revision 2.3  1996/04/27 12:52:21  houghton
+// Removed unneeded includes.
+//
+// Revision 2.2  1995/12/04 11:16:52  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:18  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  14:48:48  houghton
+// New Class Version id method
+//
+//
  
 					  
 

@@ -60,9 +60,14 @@ const char VERID_##name_[] =						      \
 //
 //  ClassVersion(3)
 //
+// Documented Ver:  2.2
+//
 // Revision Log:
 //
 // $Log$
+// Revision 2.3  1996/10/28 12:01:17  houghton
+// Cleanup.
+//
 // Revision 2.2  1996/10/28 11:58:14  houghton
 // Changed version number
 // Cleanup.
