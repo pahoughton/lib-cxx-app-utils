@@ -55,15 +55,21 @@ CommaNum(
     buf[ pos -- ] = '.';
     ++ digits;
     digits %= 3;
+    
   }
-  
-  for( ; value > 0;
-       value /= 10, ++ digits, -- pos ) {
-    if( digits == 3 ) {
-      buf[ pos -- ] = ',';
-      digits = 0;
+
+  if { value = 0 ) {
+    buf[ -- pos ] = '0';
+  } else {
+    
+    for( ; value > 0;
+	 value /= 10, ++ digits, -- pos ) {
+      if( digits == 3 ) {
+	buf[ pos -- ] = ',';
+	digits = 0;
+      }
+      buf[ pos ] = CharDigits[ value % 10 ];
     }
-    buf[ pos ] = CharDigits[ value % 10 ];
   }
 
 
