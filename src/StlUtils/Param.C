@@ -150,9 +150,8 @@ Param::parseArgs( void )
   // remove first arg (i.e. appName )
   argv.erase( argv.begin() );
   
-  Str argFileEnvVar;
+  Str argFileEnvVar( appName() );
 
-  argFileEnvVar = appName();
   argFileEnvVar.upcase();
   argFileEnvVar << "_ARGFILE";
   
@@ -1181,6 +1180,9 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/02/13 01:21:04  houghton
+// Cleanup.
+//
 // Revision 4.3  1997/09/21 13:17:37  houghton
 // Bug-Fix: file arg values were overriding env var values.
 //
