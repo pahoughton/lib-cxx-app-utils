@@ -103,6 +103,39 @@ HotSwap::check( void )
 }
 
 bool
+HotSwap::swapLock( void )
+{
+  if( ! sem.lock( false ) )
+    return( false );
+  
+  if( ! filelock.lockwrite() )
+    {
+      sem.unlock();
+      return( false );
+    }
+  
+  return( true );
+}
+
+bool
+HotSwap::swapUnLock( void )
+{
+  if( sem.good() )
+    {
+      if( ! filelock.unlock() )
+	{
+	  sem.unlock();
+	  return( false );
+	}
+      
+      if( ! sem.unlock() )
+	return( false );
+    }
+  
+  return( true );
+}
+
+bool
 HotSwap::swap(
   const FilePath &  linkName,
   const FilePath &  linkDest
@@ -145,15 +178,9 @@ HotSwap::swap(
 
   if( linkExists )
     {
-      if( ! sem.lock( false ) )
-	  return( false );
+      if( ! swapLock() )
+	return( false );
       
-      if( ! filelock.lockwrite() )
-	{
-	  sem.unlock();
-	  return( false );
-	}
-
       // ok, all locked up.
       
       if( remove( linkName ) )
@@ -175,17 +202,8 @@ HotSwap::swap(
 
   if( linkExists )
     {
-      if( sem.good() )
-	{
-	  if( ! filelock.unlock() )
-	    {
-	      sem.unlock();
-	      return( false );
-	    }
-	  
-	  if( ! sem.unlock() )
-	    return( false );
-	}
+      if( ! swapUnLock() )
+	return( false );
     }
   
   return( true );
@@ -333,6 +351,9 @@ HotSwap::setErrorFnDesc( int osErr, const char * fn, const char * desc )
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  2000/03/21 23:31:23  houghton
+// Added swapLock() and swapUnLock() methods.
+//
 // Revision 4.2  1999/10/24 12:11:16  houghton
 // Bug-Fix: was not initializing osErrno;
 // Bug-Fix: lock() was not calling lockread unless sem was locked. should

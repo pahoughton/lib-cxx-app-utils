@@ -50,7 +50,10 @@ public:
   bool	    check( void );
   bool	    waitForSwap( void );
 
-  // swapper method
+  // swapper methods
+  bool	    swapLock( void );
+  bool	    swapUnLock( void );
+  
   bool	    swap( const FilePath &  linkName,
 		  const FilePath &  linkDest );
   
@@ -199,6 +202,9 @@ operator >> ( istream & src, const HotSwap & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  2000/03/21 23:30:56  houghton
+// Added swapLock() and swapUnLock() methods.
+//
 // Revision 4.1  1999/05/09 13:08:19  houghton
 // Initial Version.
 //
