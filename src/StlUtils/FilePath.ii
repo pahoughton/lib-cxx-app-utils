@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1996/11/22 12:23:33  houghton
+// Added 'set' methods that take 'string' (vs const char *).
+//
 // Revision 3.2  1996/11/20 12:06:44  houghton
 // Changed: Major rework to change base class from Str to string.
 //
@@ -154,8 +157,91 @@ inline
 bool
 FilePath::set( const string & fullPath )
 {
-  assign( fullPath );
-  return( true );
+  return( set( fullPath.c_str() ) );
+}
+
+inline
+bool
+FilePath::setPrefix( const string & prefix )
+{
+  return( setPrefix( prefix.c_str() ) );
+}
+
+inline
+bool
+FilePath::setPath( const string & path )
+{
+  return( setPath( path.c_str() ) );
+}
+
+inline
+bool
+FilePath::setFileName( const string & name )
+{
+  return( setFileName( name.c_str() ) );
+}
+
+inline
+bool
+FilePath::setName( const string & name )
+{
+  return( setName( name.c_str() ) );
+}
+
+inline
+bool
+FilePath::setName( const string & name, char ext )
+{
+  return( setName( name.c_str(), ext ) );
+}
+
+inline
+bool
+FilePath::setName( const string & name, const string & ext )
+{
+  return( setName( name.c_str(), ext.c_str() ) );
+}
+
+inline
+bool
+FilePath::setExt( const string & ext )
+{
+  return( setExt( ext.c_str() ) );
+}
+
+inline
+bool
+FilePath::setExt( const string & ext, char delim )
+{
+  return( setExt( ext.c_str(), delim ) );
+}
+
+inline
+bool
+FilePath::setExt( const string & oldExt, const string & newExt )
+{
+  return( setExt( oldExt.c_str(), newExt.c_str() ) );
+}
+
+inline
+bool
+FilePath::setTempName( const string & prefix )
+{
+  return( setTempName( prefix.c_str() ) );
+}
+
+inline
+bool
+FilePath::setTempName( const string & path, const string & prefix )
+{
+  return( setTempName( path.c_str(), prefix.c_str() ) );
+}
+
+inline
+bool
+FilePath::changePath( const string & oldDirs, const string & newDirs )
+{
+  return( changePath( oldDirs.c_str(), newDirs.c_str() ) );
 }
 
 inline

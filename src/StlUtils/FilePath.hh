@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1996/11/22 12:23:18  houghton
+// Added 'set' methods that take 'string' (vs const char *).
+//
 // Revision 3.2  1996/11/20 12:06:27  houghton
 // Changed: Major rework to change base class from Str to string.
 //
@@ -72,18 +75,31 @@ public:
   inline bool	    set( const char * fullPath );
   inline bool	    set( const string & fullPath );
   bool		    setPrefix( const char * prefix );
+  inline bool	    setPrefix( const string & prefix );
   bool		    setPath( const char * path );
+  inline bool	    setPath( const string & path );
   bool		    setFileName( const char * name );
+  inline bool	    setFileName( const string & name );
   bool		    setName( const char * name );
+  inline bool	    setName( const string & name );
   bool		    setName( const char * name, char ext );
+  inline bool	    setName( const string & name, char ext );
   bool		    setName( const char * name, const char * ext );
+  inline bool	    setName( const string & name, const string & ext );
   bool		    setExt( const char * ext );
+  bool		    setExt( const string & ext );
   bool		    setExt( const char * ext, char delim );
+  bool		    setExt( const string & ext, char delim );
   bool		    setExt( const char * oldExt, const char * newExt );
+  bool		    setExt( const string & oldExt, const string & newExt );
   bool		    setTempName( const char * prefix = 0 );
+  bool		    setTempName( const string & prefix );
   bool		    setTempName( const char * path, const char * prefix );
+  bool		    setTempName( const string & path, const string & prefix );
   
   bool		    changePath( const char * oldDirs, const char * newDirs );
+  bool		    changePath( const string & oldDirs,
+				const string & newDirs );
 
   virtual ostream &	toStream( ostream & dest ) const;
   
