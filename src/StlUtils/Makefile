@@ -131,7 +131,9 @@ CXX_C_SOURCES	=			\
 	DateRangeWeekly.C               \
 	DateTime.C                      \
 	DateTimeUtils.C                 \
+	FileBinStream.C			\
 	FilePath.C                      \
+	FileStream.C			\
 	HeapBinStream.C                 \
 	HeapNetStream.C                 \
 	HeapStream.C                    \
@@ -392,6 +394,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.21  1996/08/12 17:49:02  houghton
+# Added FileBinStream sources.
+#
 # Revision 2.20  1996/07/04 10:29:19  houghton
 # Change Version Number.
 #
