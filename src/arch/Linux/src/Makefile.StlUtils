@@ -20,15 +20,16 @@ ARCH_USER_H_INCS	=			\
 	$(UNIX_USER_H_INCS)			\
 
 ARCH_USER_STD_CXX_INCS	=			\
-	$(Linux_Dir)/../stdc++/ios		\
-	$(Linux_Dir)/../stdc++/streambuf	\
-	$(Linux_Dir)/../stdc++/iostream		\
-	$(Linux_Dir)/../stdc++/strstream	\
-	$(Linux_Dir)/../stdc++/fstream		\
-	$(Linux_Dir)/../stdc++/iomanip		\
+	$(Linux_DIR)/../stdc++/ios		\
+	$(Linux_DIR)/../stdc++/streambuf	\
+	$(Linux_DIR)/../stdc++/iostream		\
+	$(Linux_DIR)/../stdc++/strstream	\
+	$(Linux_DIR)/../stdc++/fstream		\
+	$(Linux_DIR)/../stdc++/iomanip		\
 
 ARCH_USER_HH_INCS	=			\
-	$(Linux_Dir)/ClueConfig.hh		\
+	$(Linux_DIR)/ClueConfig.hh		\
+	../arch/src/ClueExceptions.hh		\
 	$(ARCH_USER_STD_CXX_INCS)		\
 	$(UNIX_USER_HH_INCS)			\
 
@@ -36,7 +37,7 @@ ARCH_USER_II_INCS	=			\
 	$(UNIX_USER_II_INCS)			\
 
 ARCH_C_HEADERS		=			\
-	$(Linux_Dir)/_regexcfg.hh		\
+	$(Linux_DIR)/_regexcfg.hh		\
 	$(UNIX_C_HEADERS)			\
 
 ARCH_CXX_HEADERS	=			\
