@@ -299,6 +299,8 @@ FileOp::moveFile( void )
 	    
 	  if( ! removeFile( src.getName() ) )
 	    return( false );
+
+	  return( true );
 	}
     }
   else
@@ -396,11 +398,11 @@ FileOp::setError( int osErr, const char * desc, const char * fileName )
   errorDesc << desc << " '" << fileName << '\'';
 
   if( osErr )
-    errorDesc << "' - " << strerror( osError ) << '.';
+    errorDesc << " - " << strerror( osError ) << '.';
   else
     errorDesc << '.';
   
-  return( osError == 0 );
+  return( osError == 0 && errorDesc.size() == 0 );
 }
 
 bool
@@ -418,17 +420,21 @@ FileOp::setError(
   errorDesc << OpTypeName[ op ] << ' ' << desc << " '" << fileName << '\'';
 
   if( osErr )
-    errorDesc << "' - " << strerror( osError ) << '.';
+    errorDesc << " - " << strerror( osError ) << '.';
   else
     errorDesc << '.';
   
-  return( osError == 0 );
+  return( osError == 0 && errorDesc.size() == 0 );
 }
 
 
 // Revision Log:
 //
 // $Log$
+// Revision 1.5  1999/03/02 12:51:23  houghton
+// Bug-Fixes.
+// Cleanup.
+//
 // Revision 1.4  1998/11/02 19:20:33  houghton
 // Major rework.
 // Added protected:setDest();

@@ -93,7 +93,16 @@ public:
       qLast( 0 ),
       qSize( 0 ) {};
       
-  virtual ~LruSash( void ) {};
+  virtual ~LruSash( void ) {
+    Rec *   q;
+    Rec *   nq;
+    
+    for( q = qFirst; q; q = nq )
+      {
+	nq = (*q).next;
+	delete q;
+      }
+  };
 
   Obj &		obj( const ObjKey & objKey ) {
 
@@ -105,12 +114,20 @@ public:
 	if( qSize >= maxAlloc() )
 	  {
 	    // release the last entry in the queue
-	    sash[ (*qLast).key ] = 0;
+
+	    if( qLast )
+	      sash[ (*qLast).key ] = 0;
 
 	    Rec * pq( (*qLast).prev );
 	    delete qLast;
-	    (*pq).next = 0;
+
+	    if( pq )
+	      (*pq).next = 0;
+	    
 	    qLast = pq;
+	    if( ! qLast )
+	      qFirst = 0;
+	    
 	    -- qSize;
 	  }
 	it = new Rec( lruFunct( objKey ), qFirst );
@@ -265,6 +282,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/03/02 12:48:23  houghton
+// Bug-Fixes.
+// Cleanup.
+//
 // Revision 4.1  1998/11/02 15:26:14  houghton
 // Initial Version.
 //
