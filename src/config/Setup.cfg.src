@@ -23,19 +23,19 @@ INSTALL_INC_DIR			= %INSTALL_INC_DIR%
 INSTALL_LIB_DIR 		= %INSTALL_LIB_DIR%
 INSTALL_DOC_MAN_DIR 		= %INSTALL_DOC_MAN_DIR%
 
-INSTALL_DOC_HTML_BASE_DIR 	= \
-	%INSTALL_HTML_BASE_DIR%
+INSTALL_DOC_HTML_DIR 	= \
+	%INSTALL_DOC_HTML_DIR%
 
 
-help_config:
+help_setup_config:
 	@ echo ;							      \
 	echo "+ The following configuration variables are available:" ;       \
 	echo ;								      \
 	echo "    INSTALL_INC_DIR=$(INSTALL_INC_DIR)" ;			      \
 	echo "    INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)" ;			      \
 	echo "    INSTALL_DOC_MAN_DIR=$(INSTALL_DOC_MAN_DIR)" ;		      \
-	echo "    INSTALL_DOC_HTML_BASE_DIR=";				      \
-	echo "      $(INSTALL_DOC_HTML_BASE_DIR)" ;			      \
+	echo "    INSTALL_DOC_HTML_DIR=";				      \
+	echo "      $(INSTALL_DOC_HTML_DIR)" ;				      \
 	echo ;								      \
 	echo "    show_commands=$(show_commands)" ;			      \
 	echo "    check_install=$(check_install)" ;			      \
@@ -45,6 +45,10 @@ help_config:
 
 #
 # $Log$
+# Revision 5.2  2000/06/04 17:59:26  houghton
+# Changed doc vars.
+# Changed help target to help_setup_config.
+#
 # Revision 5.1  2000/05/25 10:33:23  houghton
 # Changed Version Num to 5
 #
