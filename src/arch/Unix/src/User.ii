@@ -12,6 +12,12 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/11/06 18:11:44  houghton
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+// Changed so that functions that need groups call findGroups
+//     if groups is empty.
+//
 // Revision 2.3  1995/12/31 11:24:12  houghton
 // Bug Fix - change compare statement for AIX port.
 //
@@ -177,6 +183,15 @@ User::getGroups( void ) const
 }
 
 inline
+const User::Groups &
+User::getGroups( void )
+{
+  if( groups.size() == 0 )
+    findGroups();
+  return( groups );
+}
+
+inline
 bool
 User::set( uid_t user, bool findGrps )
 {
@@ -194,7 +209,7 @@ inline
 int
 User::compare( const User & two ) const
 {
-  return( name.compare( two.name ) );
+  return( ::compare( name, two.name ) );
 }
 
 inline
