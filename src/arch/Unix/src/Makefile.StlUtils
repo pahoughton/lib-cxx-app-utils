@@ -27,6 +27,8 @@ UNIX_CXX_C_SOURCES	=	\
 	UserGroup.C		\
 	SigCatcher.C		\
 	Semaphore.C		\
+	Whence.C		\
+	FileLock.C		\
 
 UNIX_USER_H_INCS	=	\
 	SignalStrings.h		\
@@ -40,6 +42,7 @@ UNIX_USER_HH_INCS	=	\
 	UserGroup.hh		\
 	SigCatcher.hh		\
 	Semaphore.hh		\
+	FileLock.hh		\
 
 UNIX_USER_II_INCS	=	\
 	InboundProcessorBase.ii	\
@@ -50,6 +53,7 @@ UNIX_USER_II_INCS	=	\
 	UserGroup.ii		\
 	SigCatcher.ii		\
 	Semaphore.ii		\
+	FileLock.ii		\
 
 
 UNIX_C_HEADERS		=
@@ -63,6 +67,10 @@ $(UNIX_DIR)/SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 
 #
 # $Log$
+# Revision 3.8  1997/09/16 11:27:44  houghton
+# Added Whence.C
+# Added FileLock.C
+#
 # Revision 3.7  1997/08/08 13:29:01  houghton
 # Added support to generate SignalStrings.h.
 # Added UNIX_GENERATED_SOURCES.
