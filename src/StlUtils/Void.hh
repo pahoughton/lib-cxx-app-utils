@@ -11,30 +11,7 @@
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     11/11/95 05:08
 //
-// Revision History:
-//
-// $Log$
-// Revision 3.2  1996/11/20 12:13:11  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:24:29  houghton
-// Changed to Release 3
-//
-// Revision 2.5  1996/05/14 13:53:54  houghton
-// Added ::compare( const Void & lhs, const Void & rhs )
-//
-// Revision 2.4  1996/04/27 13:13:26  houghton
-// Bug-Fix: '#else was missing'
-//
-// Revision 2.3  1995/12/04 11:18:31  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.2  1995/11/13  11:31:02  houghton
-// Changed compare to const.
-// Changed date type from void * to char *.
-//
-// Revision 2.1  1995/11/12  18:33:34  houghton
-// Initial Version.
+// Revision History: (See end of file for Revision Log)
 //
 //
 
@@ -214,6 +191,34 @@ compare( const Void & lhs, const Void & rhs );
 //
 //  	ostream &
 //  	operator <<( ostream & dest, const Void & obj );
+//
+// Revision Log:
+//
+// $Log$
+// Revision 3.3  1997/03/07 11:56:37  houghton
+// Cleanup.
+//
+// Revision 3.2  1996/11/20 12:13:11  houghton
+// Removed support for BinStream.
+//
+// Revision 3.1  1996/11/14 01:24:29  houghton
+// Changed to Release 3
+//
+// Revision 2.5  1996/05/14 13:53:54  houghton
+// Added ::compare( const Void & lhs, const Void & rhs )
+//
+// Revision 2.4  1996/04/27 13:13:26  houghton
+// Bug-Fix: '#else was missing'
+//
+// Revision 2.3  1995/12/04 11:18:31  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.2  1995/11/13  11:31:02  houghton
+// Changed compare to const.
+// Changed date type from void * to char *.
+//
+// Revision 2.1  1995/11/12  18:33:34  houghton
+// Initial Version.
 //
 #endif // ! def _Void_hh_ 
 

@@ -413,18 +413,18 @@ public:
   
   size_type    scan( const RegexScan & exp, size_type start = 0 );
   
-  inline size_type    scan( const Str &	delimChars,
-			 bool		multiDelim = true,
-			 size_type		start = 0 );
+  inline size_type  scan( const Str &	delimChars,
+			  bool		multiDelim = true,
+			  size_type	start = 0 );
   
-  inline size_type    scan( const SubStr &	delimChars,
-			 bool		multiDelim = true,
-			 size_type		start = 0 );
+  inline size_type  scan( const SubStr &    delimChars,
+			  bool		    multiDelim = true,
+			  size_type	    start = 0 );
   
-  inline size_type    scan( const char *	delimChars,
+  size_type	    scan( const char *	delimChars,
 			 bool		multiDelim = true,
-			 size_type		start = 0,
-			 size_type		dLen = npos );
+			 size_type	start = 0,
+			 size_type	dLen = npos );
   
   size_type    scan( char delim, bool multiDelim = true, size_type start = 0 );
 
@@ -1671,6 +1671,9 @@ unsigned long	StringToULong( const Str & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/03/07 11:53:54  houghton
+// Cleanup.
+//
 // Revision 3.4  1997/03/02 13:20:24  houghton
 // Changed to use 'size_type'
 //
