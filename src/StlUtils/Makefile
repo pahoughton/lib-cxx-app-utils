@@ -28,9 +28,9 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Clue
 
-for_rpm		= true
+# for_rpm		= true
 
-TYPE_SUBDIR	= /pers
+TYPE_SUBDIR	= /beta
 
 ifeq ($(for_rpm),true)
 TYPE_SUBDIR	= /beta
@@ -42,7 +42,7 @@ INSTALL_INCDIR	= $(local_incdir)$(TYPE_SUBDIR)
 
 VER_MAJOR	= 3
 VER_MINOR	= 01
-VER_RELEASE	= 00.b.01
+VER_RELEASE	= 00.b.04
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -184,11 +184,14 @@ PRIME_USER_HH_INCS	=		\
 	LibTest.hh                      \
 	ClassVersion.hh                 \
 	ClueUtils.hh			\
+	Compare.hh			\
+	DumpInfo.hh			\
 	StringUtils.hh			\
 	Bitmask.hh			\
 	Mutex.hh                        \
 	RegexScan.hh                    \
 	FileStat.hh			\
+	LibLog.hh			\
 	LogLevel.hh			\
 	LogBuf.hh			\
 	Log.hh				\
@@ -197,6 +200,7 @@ PRIME_USER_HH_INCS	=		\
 
 ifneq ($(for_rpm),true)
 OTHER_USER_HH_INCS	=		\
+	Bit.hh				\
 	DateTimeUtils.hh                \
 	DateTime.hh                     \
 	DateRange.hh                    \
@@ -204,6 +208,7 @@ OTHER_USER_HH_INCS	=		\
 	DateRangeWeekly.hh              \
 	Param.hh                        \
 	SizeIt.hh                       \
+	SortOrder.hh			\
 	Str.hh                          \
 	StrStreambuf.hh                 \
 	SubStr.hh                       \
@@ -223,16 +228,17 @@ PRIME_USER_II_INCS	=		\
 	ClueUtils.ii			\
 	StringUtils.ii			\
 	Bitmask.ii			\
-	Mutex.ii                        \
+	FilePath.ii                     \
 	FileStat.ii			\
 	LogLevel.ii			\
 	LogBuf.ii			\
 	Log.ii				\
+	Mutex.ii                        \
 	Param.ii                        \
-	FilePath.ii                     \
 
 ifneq ($(for_rpm),true)
 OTHER_USER_II_INCS	=		\
+	Bit.ii				\
 	DateTimeUtils.ii                \
 	DateTime.ii                     \
 	DateRange.ii                    \
@@ -240,6 +246,7 @@ OTHER_USER_II_INCS	=		\
 	DateRangeWeekly.ii              \
 	Param.ii                        \
 	SizeIt.ii                       \
+	SortOrder.ii			\
 	Str.ii                          \
 	StrStreambuf.ii                 \
 	SubStr.ii                       \
@@ -331,6 +338,11 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.6  1997/01/18 17:32:14  houghton
+# Changed Ver number.
+# Added Compare.hh, DumpInfo.hh, LibLog.hh, Bit.hh, SortOrder.hh,
+#     Mutex.ii, Bit.ii & SortOrder.ii to installed headers.
+#
 # Revision 3.5  1996/11/22 12:27:04  houghton
 # Cleanup.
 #
