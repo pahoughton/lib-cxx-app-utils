@@ -11,7 +11,6 @@
 // Revision History: (See end of file for Revision Log)
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
@@ -21,17 +20,7 @@ extern "C" {
 };
 #include "RegexScan.hh"
 #include <algorithm>
-#include <strstream>
-#else
-#include <cstddef>
-#include <cstdlib>
-#include <cstring>
-#include <climits>
-extern "C" {
-#include "GnuRegex.h"
-};
-#include "RxScan.hh"
-#endif
+#include <rw/cstring.h>
 
 CLUE_VERSION(
   RegexScan,
@@ -361,6 +350,9 @@ RegexScan::cleanup()
 // Revision Log:
 //
 // $Log$
+// Revision 2.6  1996/11/13 17:01:47  houghton
+// Removed support for short file names.
+//
 // Revision 2.5  1996/11/11 13:35:52  houghton
 // Changed to use RWCString instead of strstream where possible because
 //     of an inconsitancy in the public member of strstream.
