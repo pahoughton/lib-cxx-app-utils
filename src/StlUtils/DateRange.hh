@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.2  1994/08/15 20:54:51  houghton
+// Revision 1.3  1995/02/13 16:08:34  houghton
+// New Style Avl an memory management. Many New Classes
+//
+// Revision 1.2  1994/08/15  20:54:51  houghton
 // Split Mapped out of mapped avl.
 // Fixed a bunch of bugs.
 // Fixed for ident of object modules.
@@ -83,7 +86,7 @@ DateRange::DateRange(
     )
 : DateTime( startTime )
 {
-  dur = stopTime - startTime;
+  dur = (time_t)stopTime - (time_t)startTime;
 }
 
 #endif // ! def _DateRange_hh_ 

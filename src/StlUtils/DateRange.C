@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1994/09/27 16:58:40  houghton
+// Revision 1.4  1995/02/13 16:08:34  houghton
+// New Style Avl an memory management. Many New Classes
+//
+// Revision 1.3  1994/09/27  16:58:40  houghton
 // Added RoundUp and some DateTime cleanup
 //
 // Revision 1.2  1994/08/15  20:54:51  houghton
@@ -32,7 +35,7 @@ static const char * RcsId =
 int
 DateRange::isValid( void ) const
 {
-  return( DateTime::isValid() );
+  return( DateTime::good() );
 }
 
 time_t

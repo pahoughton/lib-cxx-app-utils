@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.3  1994/09/27 16:58:39  houghton
+// Revision 1.4  1995/02/13 16:08:33  houghton
+// New Style Avl an memory management. Many New Classes
+//
+// Revision 1.3  1994/09/27  16:58:39  houghton
 // Added RoundUp and some DateTime cleanup
 //
 // Revision 1.2  1994/08/15  20:54:50  houghton
@@ -169,7 +172,10 @@ Round( long value, long factor )
     }
 }
 	
-  
+char * ChangeFileDir( const char * path,
+		      const char * newDir,
+		      Bool usePath = 0 );
+
 #endif // ! def _Common_plus_hh_ 
 //
 //              This software is the sole property of

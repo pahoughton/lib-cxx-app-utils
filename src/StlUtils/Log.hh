@@ -10,9 +10,14 @@
 //
 // Revision History:
 //
+//  1/29/95 - pah - split out LogLevel and LogBuf classses into
+//  	their own files (LogLevel.(hh C) & LogBuf.(hh C)
 // 
 // $Log$
-// Revision 1.2  1994/08/15 20:54:55  houghton
+// Revision 1.3  1995/02/13 16:08:45  houghton
+// New Style Avl an memory management. Many New Classes
+//
+// Revision 1.2  1994/08/15  20:54:55  houghton
 // Split Mapped out of mapped avl.
 // Fixed a bunch of bugs.
 // Fixed for ident of object modules.
@@ -23,7 +28,10 @@
 //
 //
 
-#include <Common.h>
+#include <Clue.hh>
+#include <LogLevel.hh>
+#include <LogBuf.hh>
+
 #include <iostream.h>
 #include <iomanip.h>
 
@@ -31,102 +39,24 @@
 
 #define WHERE  __FILE__ << " (" << __LINE__ << ") "
 
-class LogLevel 
-{
-public:
-  
-  enum Level {
-    NONE	= 0x0000,
-    ERROR	= 0x0001,
-    WARNING	= 0x0002,
-    USR_1	= 0x0100,
-    USR_2	= 0x0200,
-    USR_3	= 0x0400,
-    USR_4	= 0x0800,
-    TEST       	= 0x2000,
-    DEBUG	= 0x4000,
-    FUNCT	= 0x8000,
-    ALL		= 0xffff
-  };
-
-  LogLevel( Level out = NONE );
-  LogLevel( const char * out );
-  
-  
-  inline Level 	setOutput( Level lvl );
-  Level		setOutput( const char * lvl );
-  
-  inline Level 	setCurrent( Level lvl );
-  Level		setCurrent( const char * lvl );
-
-  inline Level		getOutput( void ) const;
-  inline Level		getCurrent( void  ) const;
-  
-  const char *	getName( Level lvl );
-  const char * 	getLevelNames( Level lvl );
-  
-  void		setName( Level lvl, const char * name );
-  int 		checkCurrent( void ) const;
-  
-private:
-
-  static const char * LevelNames[];
-  Level	output;
-  Level current;
-  
-};
-
-    
-class LogBuf : public streambuf
-{
-  
-public:
-  LogBuf( const LogLevel * lvl);
-  LogBuf( streambuf * buf, const LogLevel * lvl );
-  
-  LogBuf(int fd);
-  LogBuf(int fd, char*  p, int l) ;
-
-  Bool		isFile( void ) const;
-  filebuf *	open(const char * name, int om, int prot=filebuf::openprot);
-  void          close (void);
-  
-  virtual int	overflow(int=EOF);
-  virtual int	underflow();
-  virtual int	sync() ;
-  
-  streambuf *	rdbuf();
-  
-  
-protected:
-  
-private:
-
-  int			needToDelete;
-  streambuf *		stream;
-  Bool			streamIsFile;
-  const LogLevel *	level;
-  
-};
-
 
 class Log : public ostream
 {
 
 public:
-      
+
   Log( const char * 	fileName,
        LogLevel::Level 	out,
        int		openMode = ios::app,
        int		stampLevel = ON,
        int		stampTime = ON );
-  
+
   Log( const char * 	fileName,
        const char *     outLevel,
        int		openMode = ios::app,
        int		stampLevel = ON,
        int		stampTime = ON );
-  
+
   Log( ostream & 	outstr,
        LogLevel::Level 	out,
        int		stampLevel = ON,
@@ -137,11 +67,16 @@ public:
        int		stampLevel = ON,
        int		stampTime = ON );
 
-  Log & 		level( LogLevel::Level lvl );
-  Log & 		level( const char * lvl );
+  void 	    	    	tee( ostream & teeStream );
+  
+  Log & 		level( LogLevel::Level curren = LogLevel::ERROR );
+  Log &	    	    	operator()( LogLevel::Level current = LogLevel::ERROR );
 
-  void			on( LogLevel::Level out );
-  void			off( LogLevel::Level out );
+  Log & 		level( const char * current );  
+  Log &     	    	operator()( const char * current );
+  
+  void			on( LogLevel::Level output );
+  void			off( LogLevel::Level output );
   
   inline LogLevel::Level 	getCurrent( void  ) const;
   inline LogLevel::Level	getOutput( void ) const;
@@ -151,10 +86,14 @@ public:
   void			open( const char * outFn, int mode = ios::app );
   void			close( void );
   
-  LogLevel::Level	setOutputLevel( const char * outLevel );
-  inline int		setLevelStamp( int stamp );
-  inline int		setTimeStamp( int stamp );
+  LogLevel::Level	setOutputLevel( const char * output );
+  LogLevel::Level	setOutputLevel( LogLevel::Level output );
+  
+  inline Bool		setLevelStamp( Bool stamp );
+  inline Bool		setTimeStamp( Bool stamp );
 
+  inline LogBuf *  	rdbuf( void );
+  inline const LogBuf * rdbuf( void ) const;
   
 protected:
 
@@ -163,11 +102,8 @@ private:
   Log( const Log & copyFrom );
   Log & operator=( const Log & assignFrom );
 
-  LogBuf	buf;
-  
-  LogLevel	logLevel;
-  int		timeStamp;
-  int		levelStamp;
+  Bool		timeStamp;
+  Bool		levelStamp;
   
 };
 
@@ -176,64 +112,7 @@ private:
 // Inline methods
 //
 
-//
-// LogLevel Class
-//
 
-inline
-LogLevel::LogLevel( Level out )
-{
-  current = NONE;
-  output = out;
-}
-
-
-inline LogLevel::Level
-LogLevel::setCurrent( LogLevel::Level level )
-{
-  Level	prev = current;
-  current = level;
-  return( prev );
-}
-
-inline LogLevel::Level
-LogLevel::setOutput( LogLevel::Level level )
-{
-  Level	prev = output;
-  output = level;
-  return( prev );
-}
-
-inline  LogLevel::Level
-LogLevel::getOutput( void ) const
-{
-  return( output );
-}
-
-inline LogLevel::Level
-LogLevel::getCurrent( void  ) const
-{
-  return( current );
-}
-
-
-inline int
-LogLevel::checkCurrent( void ) const
-{
-//  cout << "out: " << output << " cur: " << current << endl;
-  return( output & current );
-}
-
-
-//
-// LogBuf Class inlines
-//
-
-inline Bool
-LogBuf::isFile( void ) const
-{
-  return( streamIsFile );
-}
 
 //
 // Log Class inlines
@@ -242,43 +121,69 @@ LogBuf::isFile( void ) const
 inline void
 Log::on( LogLevel::Level out )
 {
-  logLevel.setOutput( (LogLevel::Level) (getOutput() | out) );
+  rdbuf()->level().setOutput( (LogLevel::Level) (getOutput() | out) );
 }
 
 inline void
 Log::off( LogLevel::Level out )
 {
-  logLevel.setOutput( (LogLevel::Level) (getOutput() & out) );
+  rdbuf()->level().setOutput( (LogLevel::Level) (getOutput() & out) );
 }
 
 inline LogLevel::Level
 Log::getCurrent( void ) const
 {
-  return( logLevel.getCurrent() );
+  return( rdbuf()->level().getCurrent() );
 }
 
 inline LogLevel::Level
 Log::getOutput( void  ) const
 {
-  return( logLevel.getOutput() );
+  return( rdbuf()->level().getOutput() );
 }
 
-inline int
+inline
+Bool
 Log::setLevelStamp( int stamp )
 {
-  int prev = levelStamp;
+  Bool old = levelStamp;
   levelStamp = stamp;
-  return( prev );
+  return( old );
 }
 
-inline int
+inline
+Bool
 Log::setTimeStamp( int stamp )
 {
-  int prev = timeStamp;
+  Bool old = timeStamp;
   timeStamp = stamp;
-  return( prev );
+  return( old );
 }
 
+inline Log &
+Log::operator()( LogLevel::Level lvl )
+{
+  return( level( lvl ) );
+}
+
+inline Log &
+Log::operator()( const char * lvl )
+{
+  return( level( lvl ) );
+}
+
+inline
+LogBuf *
+Log::rdbuf( void )
+{
+  return( (LogBuf *)(ios::rdbuf()) );
+}
+
+const LogBuf *
+Log::rdbuf( void ) const
+{
+  return( (const LogBuf *)(bp) );
+}
 
 #endif // ! def _Log_hh_ 
 //

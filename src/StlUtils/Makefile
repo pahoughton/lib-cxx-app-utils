@@ -2,7 +2,7 @@
 # Makefile for Clue
 #
 #
-# Created: 7/2/94
+# Created: 0/23/95
 #
 # $Id$
 #
@@ -12,160 +12,195 @@
 # Include standard MakeConfig configuration for GNU make required
 #
 
-include make.cfg
+
+
+include Make/make.cfg.2.1
 
 BETA_LIB_DEST	= /rating/dev/lib
-# usr/local/lib/beta
 BETA_INC_DEST	= /rating/dev/include
-# /usr/local/include/beta
 
-PROD_LIB_DEST	= /rating/dev/lib
 PROD_INC_DEST	= /rating/dev/include
-
 
 LIBRARY		= libClue.a
 
-USER_INCS	= 	Avl.hh \
-			Clue.hh \
-			CdrBillNum.hh \
-			DLList.h \
-			DateRange.hh \
-			DateRangeDaily.hh \
-			DateRangeWeekly.hh \
-			DateTime.hh \
-			JumpTable.hh \
-			Log.hh \
-			Mapped.hh \
-			MappedAvl.hh \
-			Mcr.hh \
-			Pix.h \
-			SLList.h \
-			Str.hh \
-			TeleNum.h \
-			TeleNum.hh \
-			_G_config.h \
-			builtin.h \
-			gnubuiltin.h \
-			gnustd.h \
-			std.h \
-
-
+USER_INCS	=			\
+	Array.hh                        \
+	Avl.hh                          \
+	AvlTree.hh                      \
+	AvlTreeAddrBase.hh              \
+	AvlTreeBase.hh                  \
+	AvlTreeOffset.hh                \
+	AvlTreeOffsetBase.hh            \
+	CdrBillNum.hh                   \
+	Clue.hh                         \
+	Compare.hh  	    	    	\
+	DLList.h                        \
+	DateRange.hh                    \
+	DateRangeDaily.hh               \
+	DateRangeWeekly.hh              \
+	DateTime.hh                     \
+	DavlTreeOffset.hh               \
+	DavlTreeOffsetBase.hh           \
+	Directory.hh                    \
+	DelimCharRec.hh			\
+	DelimCharFile.hh		\
+	DoubleLink.hh                   \
+	Field.hh    	    	    	\
+	FileStat.hh                     \
+	FixedCharFile.hh    	    	\
+	FixedCharRec.hh			\
+	Group.hh                        \
+	JumpTable.hh                    \
+	LogLevel.hh			\
+	LogBuf.hh			\
+	Log.hh                          \
+	MCRtypes.h                      \
+	MapFile.hh                      \
+	MapMem.hh                       \
+	MapMemFixedDynamic.hh           \
+	Mcr.hh                          \
+	MultiMem.hh                     \
+	MultiMemOffset.hh               \
+	MultiMemOffsetMapFixed.hh       \
+	Record.hh			\
+	Param.hh    	    	    	\
+	Password.hh                     \
+	Pix.hh                          \
+	SLList.h                        \
+	Stack.hh                        \
+	State.hh                        \
+	Str.hh                          \
+	StringList.hh                   \
+	TeleNum.h                       \
+	TeleNum.hh                      \
+	Timer.hh                        \
+	gnustd.h                        \
+	std.h                           \
 
 PROTO_H		= _Clue_Proto.h
 
 # **** S O U R C E   F I L E S ****
 
-LIB_C_SOURCES   =   			\
-    TeleNumFromString.c            \
-    TeleNumToString.c              \
+LIB_C_SOURCES	=			\
+	TeleNumDataFromString.c         \
+	TeleNumDataToString.c           \
+
+LIB_CXX_SOURCES	=			\
+	AvlTreeAddrBase.C               \
+	AvlTreeOffsetBase.C             \
+	CdrBillNum.C                    \
+	ChangeFileDir.C			\
+	DLList.C                        \
+	DateRange.C                     \
+	DateRangeDaily.C                \
+	DateRangeWeekly.C               \
+	DateTime.C                      \
+	DavlTreeOffsetBase.C            \
+	DelimCharRec.C			\
+	DelimCharFile.C			\
+	Directory.C                     \
+	Field.C				\
+	FileStat.C                      \
+	FixedCharFile.C			\
+	FixedCharRec.C			\
+	Group.C                         \
+	JumpTable.C                     \
+	LogLevel.C			\
+	LogBuf.C			\
+	Log.C                           \
+	Mapped.C			\
+	MapFile.C                       \
+	MapMem.C                        \
+	MapMemFixedDynamic.C            \
+	Mcr.C                           \
+	MultiMem.C			\
+	MultiMemOffset.C		\
+	MultiMemOffsetMapFixed.C	\
+	Param.C				\
+	Password.C                      \
+	Record.C			\
+	SLList.C                        \
+	State.C                         \
+	StateToStateCode.C              \
+	StringList.C                    \
+	TeleNum.C                       \
 
 
-LIB_CXX_SOURCES = 			\
-    CdrBillNum.C                   \
-    DLList.C                       \
-    DateRange.C                    \
-    DateRangeDaily.C               \
-    DateRangeWeekly.C              \
-    DateTime.C                     \
-    JumpTable.C                    \
-    Log.C                          \
-    Mapped.C                       \
-    MappedAvl.C                    \
-    Mcr.C                          \
-    SLList.C                       \
-    State.C                        \
-    StateToStateCode.C             \
-    TeleNum.C                      \
-    error.C                        \
-
-
+# 
+# =USE_CURRENT_MAKEFILE=
+# When you re-gen a make file, every thing between 
+# these tags will be kept int the new makefile
+# if you want it re-gen'd, just delete the tags
+#
 
 # *****  D E F I N E S  *****
 #
 # see MakeConfig(1) for portable library defines
 #
 
-DEFINES		=
+DEFINES		= 
 
 # *****  I N C L U D E S *****
 #
 # see MakeConfig(1) for portable library includes
 #
 
+ifeq ($(arch),AIX)
+ARCHINCDIR = -Ignuinc
+endif
 
-SRCINCDIR	= -I.
-PRJINCDIR	= -I /rating/dev/include -I../../libCommon/src -I../../libmmalloc
+SRCINCDIR	= -I. 
+PRJINCDIR	= -I../../libCommon/src -I../../libmmalloc
 
 INCDIRS		= $(SRCINCDIR)	\
+		  $(ARCHINCDIR) \
 		  $(PRJINCDIR)
 
 
 # **** C O M P I L E / C P P ****
 
 CPPOTHER 	=
-CCDEBUG		= -Q -O2
+CCDEBUG		= -g
 CCOTHER		=
 
+INSTALL_LIB_FLAGS = -m 664 -g tools
+INSTALL_INC_FLAGS = -m 664 -g tools
 
 # ***** D E P E N D A N C I E S *****
 
+# =USE_CURRENT_MAKEFILE=
 
 all: $(PROTO_H) $(LIBRARY)
+
+
 
 $(LIBRARY): $(LIB_OBJECTS) 
 	$(UPDATELIB) $@ $?
 
-depend:: 
-	touch .depend
-	$(MKPROTO) $(CPPFLAGS) $(LIB_C_SOURCES) >$(PROTO_H)
-	$(DEPEND) -f.depend -- $(CPPFLAGS) -- $(LIB_SOURCES)
-	sed  's/^\([^ 	].*o:.*\)$(PROTO_H)\(.*\)/\1\2/' .depend >dep.out
-	mv dep.out .depend
-
-depend::
-	for i in $(SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "--- Making" depend "in $$i ..."; \
-	$(MAKE_COMMAND) depend TOPDIR='../$(TOPDIR)' TOP_PROTO_H=$(PROTO_H) ); \
-	done
-
-.depend: 
-	touch .depend
-	$(MKPROTO) $(CPPFLAGS) $(LIB_C_SOURCES) >$(PROTO_H)
-	$(DEPEND) -f.depend -- $(CPPFLAGS) -- $(LIB_SOURCES)
-	sed  's/^\([^ 	].*o:.*\)$(PROTO_H)\(.*\)/\1\2/' .depend >dep.out
-	mv dep.out .depend
-	for i in $(SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "--- Making" depend "in $$i ..."; \
-	$(MAKE_COMMAND) depend TOPDIR='../$(TOPDIR)' TOP_PROTO_H=$(PROTO_H) ); \
-	done
-
 clean:
-	rm -f $(LIBRARY) $(LIB_OBJECTS) $(PROTO_H)
+	rm -f $(LIBRARY) $(LIB_OBJECTS) 
 
-
-
+realclean:
+	rm -f $(LIBRARY) $(LIB_OBJECTS) $(PROTO_H) .depend.lib TAGS 
 
 install:
-	-( cd $(BETA_LIB_DEST); cp -f $(LIBRARY) old )
-	-( cd $(BETA_INC_DEST); cp -f $(USER_INCS) old )
-	cp -f $(LIBRARY) $(BETA_LIB_DEST)
-	chmod 664 $(BETA_LIB_DEST)/$(LIBRARY)
-	cp -f $(USER_INCS) $(BETA_INC_DEST)
-	(cd $(BETA_INC_DEST); chmod 664 $(USER_INCS) )
+	mkdirhier $(BETA_LIB_DIR)/old
+	mkdirhier $(BETA_INC_DIR)/old
+	-( cd $(BETA_LIB_DIR)/old; rm -f $(LIBRARY); cd ..; mv $(LIBRARY) old )
+	-( cd $(BETA_INC_DIR)/old; rm -f $(USER_INCS); cd ..; mv $(USER_INCS) old )
+	$(INSTALL) $(INSTALL_LIB_FLAGS) $(LIBRARY) $(BETA_LIB_DIR)
+	$(INSTALL) $(INSTALL_INC_FLAGS) $(USER_INCS) $(BETA_INC_DIR)
 	echo 'Beta Install Complete!'
 
 
 install_production:
-	-( cd $(PROD_LIB_DEST); cp -f $(LIBRARY) old )
-	-( cd $(PROD_INC_DEST); cp -f $(USER_INCS) old )
-	cp -f $(LIBRARY) $(PROD_LIB_DEST)
-	chmod 664 $(PROD_LIB_DEST)/$(LIBRARY)
-	cp -f $(USER_INCS) $(PROD_INC_DEST)
-	(cd $(PROD_INC_DEST); chmod 664 $(USER_INCS) )
-	echo 'Production Install Complete!'
-
+	mkdirhier $(PROD_LIB_DIR)/old
+	mkdirhier $(PROD_INC_DIR)/old
+	-( cd $(PROD_LIB_DIR)/old; rm -f $(LIBRARY); cd ..; mv $(LIBRARY) old )
+	-( cd $(PROD_INC_DIR)/old; rm -f $(USER_INCS); cd ..; mv $(USER_INCS) old )
+	$(INSTALL) $(INSTALL_LIB_FLAGS) $(LIBRARY) $(PROD_LIB_DIR)
+	$(INSTALL) $(INSTALL_INC_FLAGS) $(USER_INCS) $(PROD_INC_DIR)
+	echo 'Beta Install Complete!'
 
 proto: 
 	$(MKPROTO) $(CPPFLAGS) $(LIB_C_SOURCES) >$(PROTO_H)
@@ -178,16 +213,20 @@ $(PROTO_H): $(LIB_C_SOURCES)
 tags: 
 	etags -t *.h *.c *.C *.hh
 
+depend: depend.lib
 
 FORCE:
 #
 # include dependancies generated by 'make depend'
 #
-include .depend
+include .depend.lib
 
 # 
 # $Log$
-# Revision 1.6  1995/01/13 20:27:48  ichudov
+# Revision 1.7  1995/02/13 16:08:47  houghton
+# New Style Avl an memory management. Many New Classes
+#
+# Revision 1.6  1995/01/13  20:27:48  ichudov
 # Set the production destination
 #
 # Revision 1.5  1995/01/13  19:34:38  ichudov
@@ -205,7 +244,4 @@ include .depend
 # Fixed for ident of object modules.
 # Prep for Rating QA Testing
 #
-# Revision 1.1  1994/01/23  18:16:55  houghton
-# Production release 1.0 of MakeConfig system
-#
-#
+
