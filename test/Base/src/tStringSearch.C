@@ -1,3 +1,21 @@
+//
+// File:        tStringSearch.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for StringSearch, StringReverseSearch, StringCaseSearch
+//  and StringCaseReverseSearch Functions.
+//  
+// Source Header Version: StringUtils.hh 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/29/96 05:30
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -17,19 +35,25 @@ tStringSearch( LibTest & tester )
 {
   {
     // StringSearch( const char *, size_t, const char *, size_t )
-    // StringReverseSearch( const char *, size_t, const char *, size_t )
-    // StringCaseSearch( const char *, size_t, const char *, size_t )
-    // StringCaseReverseSearch( const char *, size_t, const char *, size_t )
 
     const char * hay = HAY;
     TEST( (StringSearch( hay, 53, "123xx", 3 ) - hay) == 12 );
-    TEST( (StringReverseSearch( hay, 53, "123xx", 3 ) - hay) == 38 );
-    TEST( (StringReverseSearch( hay, 0, "123xx", 3 ) - hay) == 54 );
-    TEST( (StringCaseSearch( hay, 53, "HayStackXXX", 8 ) - hay ) == 16 );
-    TEST( (StringCaseReverseSearch( hay, 53, "IsXX", 2 ) - hay ) == 5 );
+    TEST( (StringSearch( hay, NPOS, "123xx", 3 ) - hay) == 12 );
+    TEST( (StringSearch( hay, NPOS, "123", NPOS ) - hay) == 12 );
+
+    TEST( (StringSearch( hay, 13, "123", 3 )) == 0);    
+    TEST( (StringSearch( hay, 13, "123", NPOS )) == 0);
+    TEST( (StringSearch( hay, NPOS, "1234", NPOS )) == 0 );
+
+    // make sure case really matters
+
+    TEST( (StringSearch( hay, NPOS, "haystack", NPOS ) - hay) == 16 );
+    TEST( (StringSearch( hay, NPOS, "hayStack", NPOS )) == 0 );
+    
   }
 
   {
+    // Just verifing I can keep finding the next instance
     const char * hay = "test,string,search,,function";
 //                      012345678901234567890123456789
 //                                1         2         
@@ -54,8 +78,169 @@ tStringSearch( LibTest & tester )
     TEST( found == (const char *) 0 );
     
   }
+
+  {
+    // Bad args
+
+    const char * hay = "this is the hay with the needle";
+    const char * shortHay = "hay";
+    const char * needle = "needle";
+
+    size_t hayLen = strlen( hay );
+    size_t needleLen = strlen( needle );
+
+    TEST( StringSearch( 0, hayLen, needle, needleLen ) == 0 );
+    TEST( StringSearch( hay, 0, needle, needleLen ) == 0 );
+    TEST( StringSearch( hay, hayLen, 0, needleLen ) == 0 );
+    TEST( StringSearch( hay, hayLen, needle, 0 ) == 0 );
+    TEST( StringSearch( shortHay, NPOS, needle, NPOS ) == 0 );
+    TEST( StringSearch( shortHay, strlen( shortHay ), needle, NPOS ) == 0 );
+    TEST( StringSearch( shortHay, strlen( shortHay ),
+			needle, needleLen ) == 0 );
+    TEST( StringSearch( shortHay, NPOS,
+			needle, needleLen ) == 0 );
+    TEST( StringSearch( shortHay, NPOS,
+			needle, NPOS ) == 0 );
+    
+  }
+
+  {
+    // StringReverseSearch( const char *, size_t, const char *, size_t )
+
+    const char * hay = HAY;
+
+    TEST( (StringReverseSearch( hay, 53, "123xx", 3 ) - hay) == 38 );
+    TEST( (StringReverseSearch( hay, NPOS, "123xx", 3 ) - hay) == 54 );
+    TEST( (StringReverseSearch( hay, NPOS, "123", NPOS ) - hay) == 54 );
+    
+    
+    TEST( (StringReverseSearch( hay, 13, "123", 3 )) == 0 );
+    TEST( (StringReverseSearch( hay, 13, "123", NPOS )) == 0 );
+    TEST( (StringReverseSearch( hay, NPOS, "123x", NPOS )) == 0 );
+
+    // make sure case really matters
+    
+    TEST( (StringReverseSearch( hay, NPOS, "haystack", NPOS ) - hay) == 16 );
+    TEST( (StringReverseSearch( hay, NPOS, "hayStack", NPOS )) == 0 );
+
+  }
+  {
+    // Bad args
+
+    const char * hay = "this is the hay with the needle";
+    const char * shortHay = "hay";
+    const char * needle = "needle";
+
+    size_t hayLen = strlen( hay );
+    size_t needleLen = strlen( needle );
+
+    TEST( StringReverseSearch( 0, hayLen, needle, needleLen ) == 0 );
+    TEST( StringReverseSearch( hay, 0, needle, needleLen ) == 0 );
+    TEST( StringReverseSearch( hay, hayLen, 0, needleLen ) == 0 );
+    TEST( StringReverseSearch( hay, hayLen, needle, 0 ) == 0 );
+    TEST( StringReverseSearch( shortHay, NPOS, needle, NPOS ) == 0 );
+    TEST( StringReverseSearch( shortHay, strlen( shortHay ),
+			       needle, NPOS ) == 0 );
+    TEST( StringReverseSearch( shortHay, strlen( shortHay ),
+			       needle, needleLen ) == 0 );
+    TEST( StringReverseSearch( shortHay, NPOS,
+			       needle, needleLen ) == 0 );
+    TEST( StringReverseSearch( shortHay, NPOS,
+			       needle, NPOS ) == 0 );
+    
+  }
+
+
+  {
+    // StringCaseSearch( const char *, size_t, const char *, size_t )
+
+    const char * hay = HAY;
+
+    TEST( (StringCaseSearch( hay, 53, "HayStackXXX", 8 ) - hay ) == 16 );
+    TEST( (StringCaseSearch( hay, NPOS, "HayStackXXX", 8 ) - hay ) == 16 );
+    TEST( (StringCaseSearch( hay, NPOS, "HayStack", NPOS ) - hay ) == 16 );
+
+    TEST( (StringCaseSearch( hay, 15, "HayStackXXX", 8 )) == 0 );
+    TEST( (StringCaseSearch( hay, 15, "HayStack", NPOS )) == 0 );
+    TEST( (StringCaseSearch( hay, NPOS, "HayStackX", NPOS )) == 0 );
+  }
+ 
+  {
+    // Bad args
+
+    const char * hay = "this is the hay with the needle";
+    const char * shortHay = "hay";
+    const char * needle = "needle";
+
+    size_t hayLen = strlen( hay );
+    size_t needleLen = strlen( needle );
+
+    TEST( StringCaseSearch( 0, hayLen, needle, needleLen ) == 0 );
+    TEST( StringCaseSearch( hay, 0, needle, needleLen ) == 0 );
+    TEST( StringCaseSearch( hay, hayLen, 0, needleLen ) == 0 );
+    TEST( StringCaseSearch( hay, hayLen, needle, 0 ) == 0 );
+    TEST( StringCaseSearch( shortHay, NPOS, needle, NPOS ) == 0 );
+    TEST( StringCaseSearch( shortHay, strlen( shortHay ),
+			    needle, NPOS ) == 0 );
+    TEST( StringCaseSearch( shortHay, strlen( shortHay ),
+			    needle, needleLen ) == 0 );
+    TEST( StringCaseSearch( shortHay, NPOS,
+			    needle, needleLen ) == 0 );
+    TEST( StringCaseSearch( shortHay, NPOS,
+			    needle, NPOS ) == 0 );
+    
+  }
+
+  {
+    // StringCaseReverseSearch( const char *, size_t, const char *, size_t )
+
+    const char * hay = HAY;
+
+    TEST( (StringCaseReverseSearch( hay, 53, "IsXX", 2 ) - hay ) == 5 );
+    TEST( (StringCaseReverseSearch( hay, 5, "IsXX", 2 ) - hay ) == 2 );
+    
+    TEST( (StringCaseReverseSearch( hay, NPOS, "IsXX", 2 ) - hay ) == 5 );
+    TEST( (StringCaseReverseSearch( hay, NPOS, "Is", NPOS ) - hay ) == 5 );
+
+    TEST( (StringCaseReverseSearch( hay, 12, "HayStackXX", 8 )) == 0 );
+    TEST( (StringCaseReverseSearch( hay, 12, "HayStack", NPOS )) == 0 );
+    TEST( (StringCaseReverseSearch( hay, NPOS, "IsX", NPOS )) == 0 );
+
+  }
+    {
+    // Bad args
+
+    const char * hay = "this is the hay with the needle";
+    const char * shortHay = "hay";
+    const char * needle = "needle";
+
+    size_t hayLen = strlen( hay );
+    size_t needleLen = strlen( needle );
+
+    TEST( StringCaseReverseSearch( 0, hayLen, needle, needleLen ) == 0 );
+    TEST( StringCaseReverseSearch( hay, 0, needle, needleLen ) == 0 );
+    TEST( StringCaseReverseSearch( hay, hayLen, 0, needleLen ) == 0 );
+    TEST( StringCaseReverseSearch( hay, hayLen, needle, 0 ) == 0 );
+    TEST( StringCaseReverseSearch( shortHay, NPOS, needle, NPOS ) == 0 );
+    TEST( StringCaseReverseSearch( shortHay, strlen( shortHay ),
+				   needle, NPOS ) == 0 );
+    TEST( StringCaseReverseSearch( shortHay, strlen( shortHay ),
+				   needle, needleLen ) == 0 );
+    TEST( StringCaseReverseSearch( shortHay, NPOS,
+				   needle, needleLen ) == 0 );
+    TEST( StringCaseReverseSearch( shortHay, NPOS,
+				   needle, NPOS ) == 0 );
+    
+  }
+
   
-	 
   return( true );
 }
 
+//
+// $Log$
+// Revision 2.3  1996/11/04 14:52:46  houghton
+// Added header comments.
+// Changed test to verify new default len of NPOS (was 0).
+//
+//

@@ -1,3 +1,20 @@
+//
+// File:        tStringTo.C
+// Project:	Clue
+// Desc:        
+//
+//  Test StringTo* functions
+//
+// Source Header Version: StringUtils.hh 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/29/96 10:29
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -79,12 +96,13 @@ struct IntTestVal
 
 static struct IntTestVal IntTestValues[] =
 {
-  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5 },
-  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010 },
-  {"-15",   	    FALSE, FALSE,  0,  0, TRUE,      -15 },
-  {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
-  {"\t-033abc",	    FALSE, FALSE,  0,  0, TRUE,     -033 },
-  {"-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -0xabcd },
+  { " 5 ",   	    FALSE, FALSE,  0,  0, TRUE,       5 },
+  { " 010 ",   	    FALSE, FALSE,  0,  0, TRUE,      010 },
+  { "-15",   	    FALSE, FALSE,  0,  0, TRUE,      -15 },
+  { "0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
+  { "\t-033abc",    FALSE, FALSE,  0,  0, TRUE,     -033 },
+  { "-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -0xabcd },
+  { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
   
   { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
   { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
@@ -93,6 +111,7 @@ static struct IntTestVal IntTestValues[] =
   { "\t-033abc",    TRUE,  FALSE,  8,  0, TRUE,     -033 },
   { "-abcd",	    TRUE,  FALSE, 16,  0, TRUE,  -0xabcd },
   { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22 },
+  { "       ",	    TRUE,  FALSE,  16, 0, TRUE,        0 },
 
   { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010 },
@@ -100,6 +119,7 @@ static struct IntTestVal IntTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23 },
   { "-0xabcd",      TRUE,  TRUE,   0,  5, TRUE,    -0xab },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
+  { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0 },
   
   { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10 },
@@ -107,10 +127,11 @@ static struct IntTestVal IntTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23 },
   { "-0xabcd", 	    TRUE,  TRUE,  16,  5, TRUE,    -0xab },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110 },
+  { "       ",	    TRUE,  TRUE,   8,  5, TRUE,        0 },
 
-  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      -1 },
-  { "test", 	    FALSE, FALSE,  0,  0, FALSE,      -1 },
-  { "099",  	    FALSE, FALSE,  0,  0, FALSE,      -1 },
+  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0 },
+  { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0 },
+  { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0 },
   
   {0, FALSE, FALSE, 0, 0, 0}
 };
@@ -128,20 +149,22 @@ struct ShortTestVal
 
 static struct ShortTestVal ShortTestValues[] =
 {
-  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5 },
-  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010 },
-  {"-15",   	    FALSE, FALSE,  0,  0, TRUE,      -15 },
-  {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
-  {"\t-033abc",	    FALSE, FALSE,  0,  0, TRUE,     -033 },
-  {"-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -0xabcd },
+  { " 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5 },
+  { " 010 ",   	    FALSE, FALSE,  0,  0, TRUE,      010 },
+  { "-15",   	    FALSE, FALSE,  0,  0, TRUE,      -15 },
+  { "0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
+  { "\t-033abc",    FALSE, FALSE,  0,  0, TRUE,     -033 },
+  { "-0x4bcd",	    FALSE, FALSE,  0,  0, TRUE,  -0x4bcd },
+  { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
   
   { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
   { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
   { "-15", 	    TRUE,  FALSE, 10,  0, TRUE,      -15 },
   { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23 },
   { "\t-033abc",    TRUE,  FALSE,  8,  0, TRUE,     -033 },
-  { "-abcd",	    TRUE,  FALSE, 16,  0, TRUE,  -0xabcd },
+  { "-4bcd",	    TRUE,  FALSE, 16,  0, TRUE,  -0x4bcd },
   { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22 },
+  { "       ",	    TRUE,  FALSE, 16,  0, TRUE,        0 },
 
   { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010 },
@@ -149,6 +172,7 @@ static struct ShortTestVal ShortTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23 },
   { "-0xabcd", 	    TRUE,  TRUE,   0,  5, TRUE,    -0xab },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
+  { "       ",	    TRUE,  TRUE,   0,  4, TRUE,        0 },
   
   { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10 },
@@ -156,10 +180,11 @@ static struct ShortTestVal ShortTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23 },
   { "-0xabcd",      TRUE,  TRUE,  16,  5, TRUE,    -0xab },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110 },
+  { "       ",	    TRUE,  TRUE,  10,  4, TRUE,        0 },
 
-  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      -1 },
-  { "test", 	    FALSE, FALSE,  0,  0, FALSE,      -1 },
-  { "099",  	    FALSE, FALSE,  0,  0, FALSE,      -1 },
+  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0 },
+  { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0 },
+  { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0 },
   
   {0, FALSE, FALSE, 0, 0, 0}
 };
@@ -177,12 +202,13 @@ struct LongTestVal
 
 static struct LongTestVal LongTestValues[] =
 {
-  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5L },
-  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010L },
-  {"-15",   	    FALSE, FALSE,  0,  0, TRUE,      -15L },
-  {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23L },
-  {"\t-033abc",	    FALSE, FALSE,  0,  0, TRUE,     -033L },
-  {"-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -0xabcdL },
+  { " 5 ",     	    FALSE, FALSE,  0,  0, TRUE,        5L },
+  { " 010 ",	    FALSE, FALSE,  0,  0, TRUE,      010L },
+  { "-15",   	    FALSE, FALSE,  0,  0, TRUE,      -15L },
+  { "0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23L },
+  { "\t-033abc",    FALSE, FALSE,  0,  0, TRUE,     -033L },
+  { "-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -0xabcdL },
+  { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0L },
 
   { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5L },
   { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010L },
@@ -191,6 +217,7 @@ static struct LongTestVal LongTestValues[] =
   { "\t-033abc",    TRUE,  FALSE,  8,  0, TRUE,     -033L },
   { "-abcd",	    TRUE,  FALSE, 16,  0, TRUE,  -0xabcdL },
   { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22L },
+  { "       ",	    TRUE,  FALSE, 16,  0, TRUE,        0L },
 
   { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5L },
   { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010L },
@@ -198,6 +225,7 @@ static struct LongTestVal LongTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23L },
   { "-0xabcd",      TRUE,  TRUE,   0,  5, TRUE,    -0xabL },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110L },
+  { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0L },
 
   { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5L },
   { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10L },
@@ -205,9 +233,11 @@ static struct LongTestVal LongTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23L },
   { "-0xabcd", 	    TRUE,  TRUE,  16,  5, TRUE,    -0xabL },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110L },
-  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      -1L },
-  { "test", 	    FALSE, FALSE,  0,  0, FALSE,      -1L },
-  { "099",  	    FALSE, FALSE,  0,  0, FALSE,      -1L },
+  { "       ",	    TRUE,  TRUE,   8,  5, TRUE,        0L },
+  
+  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0L },
+  { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0L },
+  { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0L },
 
   { "0x0fffffff",   FALSE, FALSE,  0,  0, TRUE,	0x0fffffffL },
   { "-99999999",    FALSE, FALSE,  0,  0, TRUE,	-99999999L },
@@ -229,17 +259,18 @@ struct DoubleTestVal
 
 static struct DoubleTestVal DoubleTestValues[] =
 {
-  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5.0 },
-  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,       8.0 },
-  {"-15",   	    FALSE, FALSE,  0,  0, TRUE,     -15.0 },
-  {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,      35.0 },
-  {"\t-033abc",	    FALSE, FALSE,  0,  0, TRUE,     -27.0 },
-  {"-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -43981.0 },
+  { " 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5.0 },
+  { " 010 ",   	    FALSE, FALSE,  0,  0, TRUE,       8.0 },
+  { "-15",   	    FALSE, FALSE,  0,  0, TRUE,     -15.0 },
+  { "0x23",  	    FALSE, FALSE,  0,  0, TRUE,      35.0 },
+  { "\t-033abc",    FALSE, FALSE,  0,  0, TRUE,     -27.0 },
+  { "-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -43981.0 },
+  { "       ",	    FALSE, FALSE,  0,  0, TRUE,       0.0 },
 
-  {" 5.245 ",  	    FALSE, FALSE,  0,  0, TRUE,       5.245 },
-  {" 010.11 ", 	    FALSE, FALSE,  0,  0, TRUE,       8.140625 },
-  {"-15.44",   	    FALSE, FALSE,  0,  0, TRUE,     -15.44 },
-  {"0x23.23",  	    FALSE, FALSE,  0,  0, TRUE,      35.13671875 },
+  { " 5.245 ", 	    FALSE, FALSE,  0,  0, TRUE,       5.245 },
+  { " 010.11 ",	    FALSE, FALSE,  0,  0, TRUE,       8.140625 },
+  { "-15.44",  	    FALSE, FALSE,  0,  0, TRUE,     -15.44 },
+  { "0x23.23", 	    FALSE, FALSE,  0,  0, TRUE,      35.13671875 },
   
   { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5.0 },
   { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,        8.0 },
@@ -248,6 +279,7 @@ static struct DoubleTestVal DoubleTestValues[] =
   { "\t-033abc",    TRUE,  FALSE, 10,  0, TRUE,      -33.0 },
   { "-abcd",	    TRUE,  FALSE, 16,  0, TRUE,   -43981.0 },
   { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22.0 },
+  { "       ",	    TRUE,  FALSE,  2,  0, TRUE,        0.0 },
 
   { " 5.0 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5.0 },
   { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,        8.0 },
@@ -255,6 +287,7 @@ static struct DoubleTestVal DoubleTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,       35.0 },
   { "-0xabcd",      TRUE,  TRUE,   0,  5, TRUE,     -171.0 },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110.0 },
+  { "       ",	    TRUE,  TRUE,   0,  4, TRUE,        0.0 },
   
   { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5.0 },
   { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10.0 },
@@ -262,9 +295,11 @@ static struct DoubleTestVal DoubleTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,       35.0 },
   { "-0xabcd", 	    TRUE,  TRUE,  16,  5, TRUE,     -171.0 },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,       72.0 },
-  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      -1.0 },
-  { "test", 	    FALSE, FALSE,  0,  0, FALSE,      -1.0 },
-  { "099",  	    FALSE, FALSE,  0,  0, FALSE,      -1.0 },
+  { "       ",	    TRUE,  TRUE,  10,  4, TRUE,        0.0 },
+  
+  { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0.0 },
+  { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0.0 },
+  { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0.0 },
   
   {0, FALSE, FALSE, 0, 0, 0}
 };
@@ -282,24 +317,28 @@ struct UIntTestVal
 
 static struct UIntTestVal UIntTestValues[] =
 {
-  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5 },
-  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010 },
-  {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
+  { " 5 ",     	    FALSE, FALSE,  0,  0, TRUE,        5 },
+  { " 010 ",   	    FALSE, FALSE,  0,  0, TRUE,      010 },
+  { "0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
+  { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
   
   { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
   { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
   { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23 },
   { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22 },
+  { "       ",	    TRUE,  FALSE,  8,  0, TRUE,        0 },
 
   { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010 },
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23 },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
+  { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0 },
   
   { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10 },
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23 },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110 },
+  { "       ",	    TRUE,  TRUE,   8,  5, TRUE,        0 },
 
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      0 },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,      0 },
@@ -324,21 +363,25 @@ static struct UShortTestVal UShortTestValues[] =
   {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5 },
   {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010 },
   {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
+  { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
   
   { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
   { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
   { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23 },
   { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22 },
+  { "       ",	    TRUE,  FALSE,  0,  0, TRUE,        0 },
 
   { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010 },
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23 },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
+  { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0 },
   
   { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10 },
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23 },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110 },
+  { "       ",	    TRUE,  TRUE,  10,  5, TRUE,        0 },
 
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      0 },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,      0 },
@@ -363,21 +406,26 @@ static struct ULongTestVal ULongTestValues[] =
   {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5L },
   {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010L },
   {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23L },
+  { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
 
   { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5L },
   { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010L },
   { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23L },
   { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22L },
+  { "       ",	    TRUE,  FALSE,  8,  0, TRUE,        0L },
 
   { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5L },
   { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010L },
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23L },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110L },
+  { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0L },
 
   { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5L },
   { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10L },
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23L },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110L },
+  { "       ",	    TRUE,  TRUE,  16,  5, TRUE,        0L },
+
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0L },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0L },
   { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0L },
@@ -432,9 +480,14 @@ tStringTo( LibTest & tester )
 
     for( size_t t = 0; IntTestValues[t].str; t++ )
       {
+#if defined( DEBUG_TEST_STRINGTO )
+	tester.getOutput() << IntTestValues[t].str << ' '
+			   << IntTestValues[t].useLen << ' '
+			   << IntTestValues[t].len << endl;
+#endif
 	if( ! IntTestValues[t].useBase && ! IntTestValues[t].useLen )
 	  {
-	    int result = -1;
+	    int result = 0;
 	    TEST( StringTo( result, IntTestValues[t].str ) ==
 		  IntTestValues[t].good );
 	    TEST( result == IntTestValues[t].value );
@@ -442,7 +495,7 @@ tStringTo( LibTest & tester )
 
 	if( IntTestValues[t].useBase && ! IntTestValues[t].useLen )
 	  {
-	    int result = -1;
+	    int result = 0;
 	    TEST( StringTo( result,
 			    IntTestValues[t].str,
 			    IntTestValues[t].base ) ==
@@ -452,7 +505,7 @@ tStringTo( LibTest & tester )
 
 	if( IntTestValues[t].useBase && IntTestValues[t].useLen )
 	  {
-	    int result = -1;
+	    int result = 0;
 	    TEST( StringTo( result,
 			    IntTestValues[t].str,
 			    IntTestValues[t].base,
@@ -472,7 +525,7 @@ tStringTo( LibTest & tester )
       {
 	if( ! ShortTestValues[t].useBase && ! ShortTestValues[t].useLen )
 	  {
-	    short result = -1;
+	    short result = 0;
 	    TEST( StringTo( result, ShortTestValues[t].str ) ==
 		  ShortTestValues[t].good );
 	    TEST( result == ShortTestValues[t].value );
@@ -480,7 +533,7 @@ tStringTo( LibTest & tester )
 
 	if( ShortTestValues[t].useBase && ! ShortTestValues[t].useLen )
 	  {
-	    short result = -1;
+	    short result = 0;
 	    TEST( StringTo( result,
 			    ShortTestValues[t].str,
 			    ShortTestValues[t].base ) ==
@@ -490,7 +543,7 @@ tStringTo( LibTest & tester )
 
 	if( ShortTestValues[t].useBase && ShortTestValues[t].useLen )
 	  {
-	    short result = -1;
+	    short result = 0;
 	    TEST( StringTo( result,
 			    ShortTestValues[t].str,
 			    ShortTestValues[t].base,
@@ -510,7 +563,7 @@ tStringTo( LibTest & tester )
       {
 	if( ! LongTestValues[t].useBase && ! LongTestValues[t].useLen )
 	  {
-	    long result = -1;
+	    long result = 0;
 	    TEST( StringTo( result, LongTestValues[t].str ) ==
 		  LongTestValues[t].good );
 	    TEST( result == LongTestValues[t].value );
@@ -518,7 +571,7 @@ tStringTo( LibTest & tester )
 
 	if( LongTestValues[t].useBase && ! LongTestValues[t].useLen )
 	  {
-	    long result = -1;
+	    long result = 0;
 	    TEST( StringTo( result,
 			    LongTestValues[t].str,
 			    LongTestValues[t].base ) ==
@@ -528,7 +581,7 @@ tStringTo( LibTest & tester )
 
 	if( LongTestValues[t].useBase && LongTestValues[t].useLen )
 	  {
-	    long result = -1;
+	    long result = 0;
 	    TEST( StringTo( result,
 			    LongTestValues[t].str,
 			    LongTestValues[t].base,
@@ -548,7 +601,7 @@ tStringTo( LibTest & tester )
       {
 	if( ! DoubleTestValues[t].useBase && ! DoubleTestValues[t].useLen )
 	  {
-	    double result = -1;
+	    double result = 0;
 	    TEST( StringTo( result, DoubleTestValues[t].str ) ==
 		  DoubleTestValues[t].good );
 	    TEST( result == DoubleTestValues[t].value );
@@ -556,7 +609,7 @@ tStringTo( LibTest & tester )
 
 	if( DoubleTestValues[t].useBase && ! DoubleTestValues[t].useLen )
 	  {
-	    double result = -1;
+	    double result = 0;
 	    TEST( StringTo( result,
 			    DoubleTestValues[t].str,
 			    DoubleTestValues[t].base ) ==
@@ -566,7 +619,7 @@ tStringTo( LibTest & tester )
 
 	if( DoubleTestValues[t].useBase && DoubleTestValues[t].useLen )
 	  {
-	    double result = -1;
+	    double result = 0;
 	    TEST( StringTo( result,
 			    DoubleTestValues[t].str,
 			    DoubleTestValues[t].base,
@@ -925,3 +978,10 @@ tStringTo( LibTest & tester )
   return( TRUE );
 }
 
+//
+// $Log$
+// Revision 2.4  1996/11/04 14:52:54  houghton
+// Added header comments.
+// Changed test to verify new default len of NPOS (was 0).
+//
+//
