@@ -602,7 +602,7 @@ Directory::error( void ) const
       size_t eSize = errStr.size();
 
       if( osErrno != 0 )
-	errStr << errorPath << ": " << strerror( osErrno );
+	errStr << ": '" << errorPath << "' - " << strerror( osErrno );
 	  
       if( eSize == errStr.size() )
         errStr << ": unknown error";
@@ -740,9 +740,35 @@ Directory::set(
 	}
       else
 	{
-	  return( ( ret == GLOB_NOMATCH ) ? 
-		  setError( ENOENT, pattern ) : 
-		  setError( errno, path ) );
+	  if( ret == GLOB_NOMATCH )
+	    {
+	      if( pattern.getPath().size() )
+		{
+		  FileStat patDirStat( pattern.getPath() );
+
+		  if( patDirStat.good() )
+		    {
+		      if( patDirStat.isDir() )
+			// no error, just did not find any files.
+			return( true );
+		      else
+			return( setError( ENOTDIR, patDirStat.getName() ) );
+		    }
+		  else
+		    {
+		      return( setError( ENOENT, pattern.getPath() ) );
+		    }
+		}
+	      else
+		{
+		  // no error, just did not find any files.
+		  return( true );
+		}
+	    }
+	  else
+	    {
+	      return( setError( errno, pattern ) );
+	    }
 	}
     }
   else
@@ -828,6 +854,9 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/07/20 18:50:30  houghton
+// Changed so that no matching files found is not an error.
+//
 // Revision 3.4  1997/07/11 15:55:53  houghton
 // Bug-Fix: set() was not emptying list before adding new entries.
 // Bug-Fix: convert (opts & All) to a bool.
