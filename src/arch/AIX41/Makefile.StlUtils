@@ -14,16 +14,25 @@ include $(PRJ_TOPDIR)/src/Clue1/src/Makefile.Clue
 ARCH_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/src
 ARCH_SRC_DIR	= $(PRJ_TOPDIR)/src/arch/src
 ARCH_STDCPP_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/stdc++
-STDCPP_DIR	= $(PRJ_TOPDIR)/src/arch/stdc++
+STDCPP_DIR	= $(PRJ_TOPDIR)/src/stdc++
+ARCH_STL_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/stl
+STL_DIR		= $(PRJ_TOPDIR)/src/stl
 
-ARCH_SRC_VPATH	= $(ARCH_DIR):$(ARCH_SRC_DIR):$(ARCH_STDCPP_DIR):$(STDCPP_DIR)
 
-ARCH_VPATH	= $(ARCH_SRC_VPATH):$(UNIX_VPATH):$(CLUE1_VPATH)
+ARCH_SRC_VPATH		= $(ARCH_DIR):$(ARCH_SRC_DIR)
+ARCH_STDCPP_VPATH	= $(ARCH_STDCPP_DIR):$(STDCPP_DIR)
+ARCH_STL_VPATH		= $(ARCH_STL_DIR):$(STL_DIR)
+
+ARCH_ALL_VPATH	= $(ARCH_SRC_VPATH):$(ARCH_STDCPP_VPATH):$(ARCH_STL_VPATH)
+
+ARCH_VPATH	= $(ARCH_ALL_VPATH):$(UNIX_VPATH):$(CLUE1_VPATH)
 
 ARCHSRC_INC	= -I$(ARCH_DIR) 	\
 		  -I$(ARCH_SRC_DIR) 	\
 		  -I$(ARCH_STDCPP_DIR)	\
-		  -I$(STDCPP_DIR)
+		  -I$(STDCPP_DIR)	\
+		  -I$(ARCH_STL_DIR)	\
+		  -I$(STL_DIR)
 
 ARCH_DEFINES	= $(UNIX_DEFINES) $(CLUE1_DEFINES)
 
@@ -147,6 +156,10 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 1.3  1996/05/21 10:31:58  houghton
+# Add stl directories.
+# Cleanup.
+#
 # Revision 1.2  1996/05/14 14:18:24  houghton
 # Change dir handling.
 #
