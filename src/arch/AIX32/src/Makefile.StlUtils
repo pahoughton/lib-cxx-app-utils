@@ -3,7 +3,7 @@ include ../arch/Unix/src/Makefile.Clue
 
 AIX_DIR	= ../arch/$(arch)/src
 
-AIX_INCDIR	= -I$(AIX_DIR) -I../arch/$(arch)/stdc++
+AIX_INCDIR	= -I$(AIX_DIR) -I../arch/stdc++
 
 ARCH_DEFINES	=
 ARCH_INCDIR	= $(AIX_INCDIR) $(UNIX_INCDIR)
@@ -21,78 +21,78 @@ ARCH_USER_H_INCS	=			\
 	$(UNIX_USER_H_INCS)			\
 
 ARCH_USER_STD_CXX_INCS	=			\
-	$(AIX_DIR)/../stdc++/algo.h		\
-	$(AIX_DIR)/../stdc++/algobase.h		\
-	$(AIX_DIR)/../stdc++/algorithm		\
-	$(AIX_DIR)/../stdc++/bool.h		\
-	$(AIX_DIR)/../stdc++/bvector.h		\
-	$(AIX_DIR)/../stdc++/cctype		\
-	$(AIX_DIR)/../stdc++/cerrno		\
-	$(AIX_DIR)/../stdc++/climits		\
-	$(AIX_DIR)/../stdc++/cmath		\
-	$(AIX_DIR)/../stdc++/cstddef		\
-	$(AIX_DIR)/../stdc++/cstdio		\
-	$(AIX_DIR)/../stdc++/cstdlib		\
-	$(AIX_DIR)/../stdc++/cstring		\
-	$(AIX_DIR)/../stdc++/ctime		\
-	$(AIX_DIR)/../stdc++/defalloc.h		\
-	$(AIX_DIR)/../stdc++/deque.h		\
-	$(AIX_DIR)/../stdc++/faralloc.h		\
-	$(AIX_DIR)/../stdc++/fdeque.h		\
-	$(AIX_DIR)/../stdc++/flist.h		\
-	$(AIX_DIR)/../stdc++/fmap.h		\
-	$(AIX_DIR)/../stdc++/fmultmap.h		\
-	$(AIX_DIR)/../stdc++/fmultset.h		\
-	$(AIX_DIR)/../stdc++/fset.h		\
-	$(AIX_DIR)/../stdc++/fstream		\
-	$(AIX_DIR)/../stdc++/function.h		\
-	$(AIX_DIR)/../stdc++/functional		\
-	$(AIX_DIR)/../stdc++/hdeque.h		\
-	$(AIX_DIR)/../stdc++/heap.h		\
-	$(AIX_DIR)/../stdc++/hlist.h		\
-	$(AIX_DIR)/../stdc++/hmap.h		\
-	$(AIX_DIR)/../stdc++/hmultmap.h		\
-	$(AIX_DIR)/../stdc++/hmultset.h		\
-	$(AIX_DIR)/../stdc++/hset.h		\
-	$(AIX_DIR)/../stdc++/hugalloc.h		\
-	$(AIX_DIR)/../stdc++/hvector.h		\
-	$(AIX_DIR)/../stdc++/iomanip		\
-	$(AIX_DIR)/../stdc++/iostream		\
-	$(AIX_DIR)/../stdc++/iterator		\
-	$(AIX_DIR)/../stdc++/iterator.h		\
-	$(AIX_DIR)/../stdc++/lbvector.h		\
-	$(AIX_DIR)/../stdc++/ldeque.h		\
-	$(AIX_DIR)/../stdc++/list.h		\
-	$(AIX_DIR)/../stdc++/llist.h		\
-	$(AIX_DIR)/../stdc++/lmap.h		\
-	$(AIX_DIR)/../stdc++/lmultmap.h		\
-	$(AIX_DIR)/../stdc++/lmultset.h		\
-	$(AIX_DIR)/../stdc++/lngalloc.h		\
-	$(AIX_DIR)/../stdc++/lset.h		\
-	$(AIX_DIR)/../stdc++/map		\
-	$(AIX_DIR)/../stdc++/map.h		\
-	$(AIX_DIR)/../stdc++/multimap.h		\
-	$(AIX_DIR)/../stdc++/multiset.h		\
-	$(AIX_DIR)/../stdc++/neralloc.h		\
-	$(AIX_DIR)/../stdc++/new		\
-	$(AIX_DIR)/../stdc++/nmap.h 		\
-	$(AIX_DIR)/../stdc++/nmultmap.h		\
-	$(AIX_DIR)/../stdc++/nmultset.h		\
-	$(AIX_DIR)/../stdc++/nset.h		\
-	$(AIX_DIR)/../stdc++/pair.h		\
-	$(AIX_DIR)/../stdc++/projectn.h		\
-	$(AIX_DIR)/../stdc++/set		\
-	$(AIX_DIR)/../stdc++/set.h		\
-	$(AIX_DIR)/../stdc++/stack.h		\
-	$(AIX_DIR)/../stdc++/stddef		\
-	$(AIX_DIR)/../stdc++/strstream		\
-	$(AIX_DIR)/../stdc++/tempbuf.h		\
-	$(AIX_DIR)/../stdc++/tree.h		\
-	$(AIX_DIR)/../stdc++/vector		\
-	$(AIX_DIR)/../stdc++/vector.h		\
+	../arch/stdc++/algo.h			\
+	../arch/stdc++/algobase.h		\
+	../arch/stdc++/algorithm		\
+	../arch/stdc++/bool.h			\
+	../arch/stdc++/bvector.h		\
+	../arch/stdc++/cctype			\
+	../arch/stdc++/cerrno			\
+	../arch/stdc++/climits			\
+	../arch/stdc++/cmath			\
+	../arch/stdc++/cstddef			\
+	../arch/stdc++/cstdio			\
+	../arch/stdc++/cstdlib			\
+	../arch/stdc++/cstring			\
+	../arch/stdc++/ctime			\
+	../arch/stdc++/defalloc.h		\
+	../arch/stdc++/deque.h			\
+	../arch/stdc++/faralloc.h		\
+	../arch/stdc++/fdeque.h			\
+	../arch/stdc++/flist.h			\
+	../arch/stdc++/fmap.h			\
+	../arch/stdc++/fmultmap.h		\
+	../arch/stdc++/fmultset.h		\
+	../arch/stdc++/fset.h			\
+	../arch/stdc++/fstream			\
+	../arch/stdc++/function.h		\
+	../arch/stdc++/functional		\
+	../arch/stdc++/hdeque.h			\
+	../arch/stdc++/heap.h			\
+	../arch/stdc++/hlist.h			\
+	../arch/stdc++/hmap.h			\
+	../arch/stdc++/hmultmap.h		\
+	../arch/stdc++/hmultset.h		\
+	../arch/stdc++/hset.h			\
+	../arch/stdc++/hugalloc.h		\
+	../arch/stdc++/hvector.h		\
+	../arch/stdc++/iomanip			\
+	../arch/stdc++/iostream			\
+	../arch/stdc++/iterator			\
+	../arch/stdc++/iterator.h		\
+	../arch/stdc++/lbvector.h		\
+	../arch/stdc++/ldeque.h			\
+	../arch/stdc++/list.h			\
+	../arch/stdc++/llist.h			\
+	../arch/stdc++/lmap.h			\
+	../arch/stdc++/lmultmap.h		\
+	../arch/stdc++/lmultset.h		\
+	../arch/stdc++/lngalloc.h		\
+	../arch/stdc++/lset.h			\
+	../arch/stdc++/map			\
+	../arch/stdc++/map.h			\
+	../arch/stdc++/multimap.h		\
+	../arch/stdc++/multiset.h		\
+	../arch/stdc++/neralloc.h		\
+	../arch/stdc++/new			\
+	../arch/stdc++/nmap.h 			\
+	../arch/stdc++/nmultmap.h		\
+	../arch/stdc++/nmultset.h		\
+	../arch/stdc++/nset.h			\
+	../arch/stdc++/pair.h			\
+	../arch/stdc++/projectn.h		\
+	../arch/stdc++/set			\
+	../arch/stdc++/set.h			\
+	../arch/stdc++/stack.h			\
+	../arch/stdc++/stddef			\
+	../arch/stdc++/strstream		\
+	../arch/stdc++/tempbuf.h		\
+	../arch/stdc++/tree.h			\
+	../arch/stdc++/vector			\
+	../arch/stdc++/vector.h			\
 
 ARCH_USER_HH_INCS	=			\
-	../arch/src/AnsiBool.hh		\
+	../arch/stdc++/AnsiBool.hh		\
 	$(AIX_DIR)/ClueConfig.hh		\
 	$(ARCH_USER_STD_CXX_INCS)		\
 	$(UNIX_USER_HH_INCS)			\
