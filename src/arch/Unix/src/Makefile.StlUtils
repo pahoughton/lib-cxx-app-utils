@@ -1,42 +1,55 @@
+#
+# -*- Makefile -*- for libClue src/arc/Unix
+#
+# Created 11/20/95
+#
+# $Id$
+#
+#
 
-include ../Clue1/src/Makefile.Clue
 
 UNIX_DIR	= ../arch/Unix/src
 
-UNIX_INCDIR	= -I$(UNIX_DIR) $(CLUE1_INCDIR) -I../arch/src 
+UNIX_INCDIR	= -I$(UNIX_DIR)
 
-UNIX_C_SOURCES		=			\
-	$(CLUE1_C_SOURCES)			\
+UNIX_C_SOURCES		=		\
 
-UNIX_CXX_C_SOURCES	=			\
-	../arch/src/basename.C			\
-	../arch/src/FileStat.C			\
-	../arch/src/OpenFlags.C			\
-	$(UNIX_DIR)/User.C			\
-	$(UNIX_DIR)/UserGroup.C			\
-	$(CLUE1_CXX_C_SOURCES)			\
+UNIX_CXX_C_SOURCES	=		\
+	User.C				\
+	UserGroup.C			\
 
-UNIX_USER_H_INCS	=			\
-	$(CLUE1_USER_H_INCS)			\
+UNIX_USER_H_INCS	=		\
 
-UNIX_USER_HH_INCS	=			\
-	../arch/src/FileStat.hh			\
-	$(UNIX_DIR)/User.hh			\
-	$(UNIX_DIR)/UserGroup.hh		\
-	$(CLUE1_USER_HH_INCS)			\
+UNIX_USER_HH_INCS	=		\
+	$(UNIX_DIR)/User.hh		\
+	$(UNIX_DIR)/UserGroup.hh	\
 
-UNIX_USER_II_INCS	=			\
-	../arch/src/FileStat.ii			\
-	$(UNIX_DIR)/User.ii			\
-	$(UNIX_DIR)/UserGroup.ii		\
-	$(CLUE1_USER_II_INCS)			\
+UNIX_USER_II_INCS	=		\
+	$(UNIX_DIR)/User.ii		\
+	$(UNIX_DIR)/UserGroup.ii	\
 
-UNIX_C_HEADERS		=			\
-	$(CLUE1_C_HEADERS)			\
+UNIX_C_HEADERS		=
+UNIX_CXX_HEADERS	=
+UNIX_CXX_INLINES	=
 
-UNIX_CXX_HEADERS	=			\
-	$(CLUE1_CXX_HEADERS)			\
+UNIX_CXX_SOURCES	= $(UNIX_CXX_C_SOURCES)
 
-UNIX_CXX_INLINES	=			\
-	$(CLUE1_CXX_INLINES)			\
+UNIX_OBJECTS_DEFAULT	= $(UNIX_CXX_C_SOURCES:%.C=objects/default/%.o)
+UNIX_OBJECTS_DEBUG	= $(UNIX_CXX_C_SOURCES:%.C=objects/debug/%.o)
+UNIX_OBJECTS_PROFILE	= $(UNIX_CXX_C_SOURCES:%.C=objects/profile/%.o)
+UNIX_OBJECTS_SHARED	= $(UNIX_CXX_C_SOURCES:%.C=objects/shared/%.o)
 
+UNIX_DEPEND_CXX_SOURCES	= $(UNIX_CXX_SOURCES:%=$(UNIX_DIR)/%)
+
+objects/default/%.o 	\
+objects/debug/%.o 	\
+objects/profile/%.o 	\
+objects/shared/%.o : $(UNIX_DIR)/%.C
+	$(CXX_COMPILE)
+
+#
+# $Log$
+# Revision 2.2  1995/12/04 11:19:44  houghton
+# Changed to use MakeConfig 4.
+#
+#

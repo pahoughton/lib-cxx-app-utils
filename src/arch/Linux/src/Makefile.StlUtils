@@ -1,52 +1,121 @@
+#
+# -*- Makefile -*-
+#
+# Makefile for libCommon src/arch/Linux
+#
+# Created 11/20/95
+#
+# $Id$
+#
+#
 
 include ../arch/Unix/src/Makefile.Clue
+include ../Clue1/src/Makefile.Clue
 
-Linux_DIR	= ../arch/$(arch)/src
+ARCH_DIR	= ../arch/$(arch)/src
+ARCHSRC_DIR	= ../arch/src
+ARCHSTD_DIR	= ../arch/$(arch)/stdc++
 
-Linux_INCDIR	= -I$(Linux_DIR) -I../arch/$(arch)/stdc++
+
+ARCHSRC_INCDIR	= -I$(ARCH_DIR) -I$(ARCHSRC_DIR) -I$(ARCHSTD_DIR)
 
 ARCH_DEFINES	=
-ARCH_INCDIR	= $(Linux_INCDIR) $(UNIX_INCDIR)
+ARCH_INCDIR	= $(ARCHSRC_INCDIR) $(UNIX_INCDIR) $(CLUE1_INCDIR)
 			  
 
 
-ARCH_C_SOURCES		=			\
-	$(UNIX_C_SOURCES)			\
+ARCH_C_SOURCES		=
 
-ARCH_CXX_C_SOURCES	=			\
-	$(UNIX_CXX_C_SOURCES)			\
+ARCHSRC_CXX_C_SOURCES	=		\
+	basename.C			\
+	FileStat.C			\
+	OpenFlags.C			\
 
 ARCH_USER_H_INCS	=			\
 	$(UNIX_USER_H_INCS)			\
+	$(CLUE1_USER_H_INCS)			\
 
 ARCH_USER_STD_CXX_INCS	=			\
-	$(Linux_DIR)/../stdc++/ios		\
-	$(Linux_DIR)/../stdc++/streambuf	\
-	$(Linux_DIR)/../stdc++/iostream		\
-	$(Linux_DIR)/../stdc++/strstream	\
-	$(Linux_DIR)/../stdc++/fstream		\
-	$(Linux_DIR)/../stdc++/iomanip		\
+	$(ARCH_DIR)/../stdc++/ios		\
+	$(ARCH_DIR)/../stdc++/streambuf	\
+	$(ARCH_DIR)/../stdc++/iostream		\
+	$(ARCH_DIR)/../stdc++/strstream	\
+	$(ARCH_DIR)/../stdc++/fstream		\
+	$(ARCH_DIR)/../stdc++/iomanip		\
 
 ARCH_USER_HH_INCS	=			\
-	$(Linux_DIR)/ClueConfig.hh		\
-	../arch/src/ClueExceptions.hh		\
+	$(ARCHSRC_DIR)/FileStat.hh		\
+	$(ARCHSRC_DIR)/ClueExceptions.hh	\
+	$(ARCH_DIR)/ClueConfig.hh		\
 	$(ARCH_USER_STD_CXX_INCS)		\
 	$(UNIX_USER_HH_INCS)			\
+	$(CLUE1_USER_HH_INCS)			\
 
 ARCH_USER_II_INCS	=			\
+	$(ARCHSRC_DIR)/FileStat.ii		\
 	$(UNIX_USER_II_INCS)			\
+	$(CLUE1_USER_II_INCS)			\
 
 ARCH_C_HEADERS		=			\
-	$(Linux_DIR)/_regexcfg.hh		\
 	$(UNIX_C_HEADERS)			\
+	$(CLUE1_C_HEADERS)			\
 
 ARCH_CXX_HEADERS	=			\
 	$(UNIX_CXX_HEADERS)			\
+	$(CLUE1_CXX_HEADERS)			\
 
 ARCH_CXX_INLINES	=			\
 	$(UNIX_CXX_INLINES)			\
+	$(CLUE1_CXX_INLINES)			\
+
+ARCHSRC_CXX_SOURCES	= $(ARCHSRC_CXX_C_SOURCES)
+
+ARCHSRC_OBJECTS_DEFAULT = $(ARCHSRC_CXX_C_SOURCES:%.C=objects/default/%.o)
+ARCHSRC_OBJECTS_DEBUG   = $(ARCHSRC_CXX_C_SOURCES:%.C=objects/debug/%.o)
+ARCHSRC_OBJECTS_PROFILE = $(ARCHSRC_CXX_C_SOURCES:%.C=objects/profile/%.o)
+ARCHSRC_OBJECTS_SHARED  = $(ARCHSRC_CXX_C_SOURCES:%.C=objects/shared/%.o)
+
+ARCHSRC_DEPEND_CXX_SOURCES = $(ARCHSRC_CXX_SOURCES:%=$(ARCHSRC_DIR)/%)
+
+ARCH_DEPEND_C_SOURCES	= $(ARCHSRC_DEPEND_C_SOURCES)	\
+			  $(UNIX_DEPEND_C_SOURCES) 	\
+			  $(CLUE1_DEPEND_C_SOURCES)
+
+ARCH_DEPEND_CXX_SOURCES	= $(ARCHSRC_DEPEND_CXX_SOURCES)	\
+			  $(UNIX_DEPEND_CXX_SOURCES) 	\
+			  $(CLUE1_DEPEND_CXX_SOURCES)
+
+
+ARCH_OBJECTS_DEFAULT	= $(ARCHSRC_OBJECTS_DEFAULT) 	\
+			  $(UNIX_OBJECTS_DEFAULT) 	\
+			  $(CLUE1_OBJECTS_DEFAULT) 
+ARCH_OBJECTS_DEBUG	= $(ARCHSRC_OBJECTS_DEBUG) 	\
+			  $(UNIX_OBJECTS_DEBUG) 	\
+			  $(CLUE1_OBJECTS_DEBUG) 
+ARCH_OBJECTS_PROFILE	= $(ARCHSRC_OBJECTS_PROFILE) 	\
+			  $(UNIX_OBJECTS_PROFILE) 	\
+			  $(CLUE1_OBJECTS_PROFILE) 
+ARCH_OBJECTS_SHARED	= $(ARCHSRC_OBJECTS_SHARED) 	\
+			  $(UNIX_OBJECTS_SHARED) 	\
+			  $(CLUE1_OBJECTS_SHARED) 
+
+objects/default/%.o 	\
+objects/debug/%.o 	\
+objects/profile/%.o 	\
+objects/shared/%.o : $(ARCHSRC_DIR)/%.C
+	$(CXX_COMPILE)
+
+objects/default/%.o 	\
+objects/debug/%.o 	\
+objects/profile/%.o 	\
+objects/shared/%.o : $(ARCHSRC_DIR)/%.c
+	$(C_COMPILE)
 
 
 
-
-
+#
+# $Log$
+# Revision 2.3  1995/12/04 11:19:38  houghton
+# Changed to use MakeConfig 4.
+#
+#

@@ -1,47 +1,47 @@
 #
 # -*- Makefile -*- for Clue src/Clue dir
 #
-# Created: 10/9/95
+# Created: 11/21/95 using MakeConfigs 4.00.00.a.09
 #
 # $Id$
 #
 # (see end of file for Log info)
 
 #
-# Include standard MakeConfig configuration for GNU make required
-#
-
+# Do not modifiy 'makefile_type'
 makefile_type   = library
+# Uncomment 'show_compile_command' to output compile command.
+show_commands = # true
 
-include Make/make.cfg.3.5
+# Include standard MakeConfig configuration for GNU make required
+include Make/make.cfg.4.00
 
 # 
 # =USE_CURRENT_MAKEFILE=
 # When you re-gen a make file, every thing between 
-# these tags will be kept int the new makefile
+# these tags will be kept in the new makefile
 # if you want it re-gen'd, just delete the tags
 #
 
 NAME		= Clue
 
-BETA_LIB_DIR	= $(LOCAL_ALPHA_LIB_DIR)
-BETA_INC_DIR	= $(LOCAL_ALPHA_INC_DIR)
+INSTALL_LIBDIR	= $(LOCAL_ALPHA_LIBDIR)
+INSTALL_INCDIR	= $(LOCAL_ALPHA_INCDIR)
 
-PROD_LIB_DIR	= $(LOCAL_LIB_DIR)
-PROD_INC_DIR	= $(LOCAL_INC_DIR)
+VER_MAJOR	= 2
+VER_MINOR	= 00
+VER_RELEASE	= 00.a.06
+VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
-MAJOR_VER	= 2
-MINOR_VER	= 00.00.a.05
-VERSION		= $(MAJOR_VER).$(MINOR_VER)
-
-LIBRARY		= lib$(NAME).a
-
-PROTO_H	= _$(NAME)_Proto.h
+LIBRARY_DEFAULT	= lib$(NAME).a
+LIBRARY_DEBUG	= lib$(NAME)g.a
+LIBRARY_PROFILE	= lib$(NAME)pg.a
+LIBRARY_SHARED	= lib$(NAME).so
 
 include ../arch/$(arch)/src/Makefile.Clue
 
-# *****  D E F I N E S  *****
-#
+###### D E F I N E S  #####
+# 
 # Config defines avalable
 #
 # $(X11_DEF)	    defines for X11
@@ -54,39 +54,28 @@ include ../arch/$(arch)/src/Makefile.Clue
 # $(WCF_DEF)	    defines for libWcf (CommFabric)
 #
 
-SRCDEFINES	= -DCLUE_DEBUG=1
+
+SRCDEFINES	= 
 PRJDEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFINES		= $(PRJDEFINES) $(SRCDEFINES) 
 
-# *****  I N C L U D E S *****
+######  I N C L U D E S #####
 #
 # Config includes available
 #
 # $(X11_INC)
 # $(SYB_INC)
-# $(MMALLOC_BETA_INC)
-# $(MMALLOC_INC)
-# $(DATA_ALPHA_INC)
-# $(DATA_BETA_INC)
-# $(DATA_INC)
-# $(CLUE_ALPHA_INC)
-# $(CLUE_BETA_INC)
-# $(CLUE_INC)
-# $(COMMON_ALPHA_INC)
-# $(COMMON_BETA_INC)
-# $(COMMON_INC)
-# $(WT_ALPHA_INC)
-# $(WT_BETA_INC)
-# $(WT_INC)
-# $(WCF_ALPHA_INC)
-# $(WCF_BETA_INC)
-# $(WCF_INC)
+# $(MALLOC_ALPHA_INC)	$(MMALLOC_BETA_INC)	$(MMALLOC_INC)
+# $(DATA_ALPHA_INC) 	$(DATA_BETA_INC) 	$(DATA_INC)
+# $(CLUE_ALPHA_INC)	$(CLUE_BETA_INC) 	$(CLUE_INC)
+# $(COMMON_ALPHA_INC)	$(COMMON_BETA_INC) 	$(COMMON_INC)
+# $(WT_ALPHA_INC) 	$(WT_BETA_INC) 		$(WT_INC)
+# $(WCF_ALPHA_INC) 	$(WCF_BETA_INC) 	$(WCF_INC)
 #
-# $(LOCAL_ALPHA_INC)
-# $(LOCAL_BETA_INC)
-# $(LOCAL_INC)
+# $(LOCAL_ALPHA_INC) 	$(LOCAL_BETA_INC) 	$(LOCAL_INC)
 #
+
 
 #TOPDIR		=
 
@@ -96,25 +85,37 @@ PRJINCDIR	=
 INCDIRS		= $(SRCINCDIR)	\
 		  $(PRJINCDIR)
 
-
-# **** C O M P I L E / C P P ****
+###### C O M P I L E / C P P #####
 #
 # Config flags available
 #
-# $(CC_OPTIMIZE)
-# $(CC_DEBUG)
-# $(CC_PROFILE)
+# $(CC_OPTIMIZE) $(CXX_OPTIMIZE)
+# $(CC_DEBUG)	 $(CXX_DEBUG)
+# $(CC_PROFILE)	 $(CXX_PROFILE)
+# $(CC_WARN)	 $(CXX_WARN)
 #
 
+
 CPPOTHER 	=
-CCDEBUG		= $(CC_DEBUG)
-CCOTHER		=
+
+CCDEBUG		= $(CC_OPTIMIZE)
+CCOTHER		= $(CC_WARN)
+
+CXXDEBUG	= $(CXX_OPTIMIZE)
+CXXOTHER	= $(CXX_WARN)
 
 # **** I N S T A L L ****
 
-INSTALL_LIB_FLAGS	= -m 664
-INSTALL_INC_FLAGS	= -m 664
-INSTALL_MAN_FLAGS	= -m 664
+INSTALL_LIB_FLAGS	= 
+INSTALL_INC_FLAGS	= 
+
+
+OBJECTS_DEFAULT	= $(ARCH_OBJECTS_DEFAULT)
+OBJECTS_DEBUG	= $(ARCH_OBJECTS_DEBUG)
+OBJECTS_PROFILE	= $(ARCH_OBJECTS_PROFILE)
+OBJECTS_SHARED	= $(ARCH_OBJECTS_SHARED)
+
+DEPEND_CXX_SOURCES = $(CXX_SOURCES) $(ARCH_DEPEND_CXX_SOURCES)
 
 #
 # =USE_CURRENT_MAKEFILE=
@@ -161,8 +162,9 @@ CXX_C_SOURCES	=			\
 	StripWhite.C                    \
 	SubStr.C                        \
 	Timer.C                         \
-	Void.C				\
-	$(ARCH_CXX_C_SOURCES)		\
+	Void.C                          \
+	$(ARCH_CXX_C_SOURCES)           \
+
 
 USER_H_INCS	=			\
 	$(ARCH_USER_H_INCS)		\
@@ -201,27 +203,44 @@ USER_HH_INCS	=			\
 	StringUtils.hh                  \
 	SubStr.hh                       \
 	Timer.hh                        \
-	Void.hh				\
-	$(ARCH_USER_HH_INCS)		\
+	Void.hh                         \
+	$(ARCH_USER_HH_INCS)            \
 
 USER_II_INCS	=			\
-	ClassVersion.ii			\
-	Clue.ii				\
-	Bit.ii				\
-	StringUtils.ii			\
-	DateTimeUtils.ii		\
-	SortOrder.ii			\
-	$(ARCH_USER_II_INCS)		\
+	BinStream.ii                    \
+	Bit.ii                          \
+	Bitmask.ii                      \
+	ClassVersion.ii                 \
+	Clue.ii                         \
+	DateRange.ii                    \
+	DateRangeDaily.ii               \
+	DateRangeWeekly.ii              \
+	DateTime.ii                     \
+	DateTimeUtils.ii                \
+	FilePath.ii                     \
+	HeapStream.ii                   \
+	Log.ii                          \
+	LogBuf.ii                       \
+	LogLevel.ii                     \
+	Param.ii                        \
+	RandomBinStream.ii              \
+	RandomStream.ii                 \
+	SortOrder.ii                    \
+	Str.ii                          \
+	StrStreambuf.ii                 \
+	StringUtils.ii                  \
+	SubStr.ii                       \
+	Timer.ii                        \
+	Void.ii                         \
+	$(ARCH_USER_II_INCS)            \
 
-USER_INCS	=	\
-	$(USER_H_INCS)     \
-	$(USER_HH_INCS)    \
-	$(USER_II_INCS)    \
+USER_INCLUDES	=		\
+	$(USER_H_INCS)		\
+	$(USER_HH_INCS)		\
+	$(USER_II_INCS)		\
 
 C_HEADERS	=			\
-	ClueVersion.h                   \
-	_Clue_Proto.h                   \
-	$(ARCH_C_HEADER)		\
+	$(ARCH_C_HEADERS)               \
 
 CXX_HEADERS	=			\
 	BinStream.hh                    \
@@ -259,9 +278,9 @@ CXX_HEADERS	=			\
 	StringUtils.hh                  \
 	SubStr.hh                       \
 	Timer.hh                        \
-	Void.hh				\
+	Void.hh                         \
 	_Clue.hh                        \
-	$(ARCH_CXX_HEADER)		\
+	$(ARCH_CXX_HEADERS)             \
 
 CXX_INLINES	=			\
 	BinStream.ii                    \
@@ -275,7 +294,7 @@ CXX_INLINES	=			\
 	DateTime.ii                     \
 	DateTimeUtils.ii                \
 	FilePath.ii                     \
-	HeapStream.ii			\
+	HeapStream.ii                   \
 	Log.ii                          \
 	LogBuf.ii                       \
 	LogLevel.ii                     \
@@ -288,12 +307,12 @@ CXX_INLINES	=			\
 	StringUtils.ii                  \
 	SubStr.ii                       \
 	Timer.ii                        \
-	Void.ii				\
-	$(ARCH_CXX_INLINES)		\
+	Void.ii                         \
+	$(ARCH_CXX_INLINES)             \
 
 
 
-# ***** T A R G E T S *****
+###### T A R G E T S #####
 #
 # Targets defined in make.cfg.targets.
 #
@@ -305,126 +324,66 @@ CXX_INLINES	=			\
 # realclean:	rm -f LIB_OBJECTS LIBRARY .depend.lib PROTO_H TAGS
 # tags:		create TAGS using etags
 #
-#
 
-include Make/make.cfg.targets.3.5
 
-all: $(PROTO_H) $(LIBRARY)
+include Make/make.cfg.targets.4.00
 
-$(LIBRARY): $(OBJECTS) 
-	$(UPDATELIB) $@ $?
 
-install: beta_check_installed beta_install_lib
-	@echo $(BETA_LIB_DIR)/$(LIBRARY).$(VERSION) installed!
+default debug shared:: proto
 
-beta_check_installed: 
-	@if [ -e $(BETA_LIB_DIR)/$(LIBRARY).$(VERSION) ] ; then \
-	  echo $(BETA_LIB_DIR)/$(LIBRARY).$(VERSION) already installed!; \
-	  echo Change version number in makefile and try again.; \
-	  exit 1; \
-	fi
-	@echo + Installing $(NAME) Version: $(VERSION)
+default:: objects/default $(LIBRARY_DEFAULT)
 
-beta_install_lib: default beta_move_installed beta_install_new
+all::	default debug profile shared
 
-beta_move_installed: 
-	@if [ -e .installed.ver ] ; then \
-	  for line in `cat .installed.ver` ; do \
-	    case $$line in \
-	      installed_ver=*) \
-		installed_ver=$${line#installed_ver=};; \
-	      installed_inc_dir=*) \
-		installed_inc_dir=$${line#installed_inc_dir=};; \
-	      installed_lib_dir=*) \
-		installed_lib_dir=$${line#installed_lib_dir=};; \
-	    esac; \
-	  done; \
-	  echo + Moving Version $$installed_ver out of way; \
-	  if [ -d $$installed_inc_dir ] ; then \
-	    for fn in `cat .installed.inc` ; do \
-	      $(MKDIRHIER) $$installed_inc_dir/old/$(NAME).$$installed_ver; \
-	      echo  Moving $$installed_inc_dir/$$fn ; \
-	      echo -n "    to "; \
-	      echo $$installed_inc_dir/old/$(NAME).$$installed_ver/$$fn; \
-	      mv $$installed_inc_dir/$$fn \
-	         $$installed_inc_dir/old/$(NAME).$$installed_ver; \
-	    done; \
-	  fi; \
-	  if [ -d $$installed_lib_dir ] ; then \
-	    for fn in `cat .installed.lib` ; do \
-	      $(MKDIRHIER) $$installed_lib_dir/old/$(NAME).$$installed_ver; \
-	      echo  Moving $$installed_lib_dir/$$fn to; \
-	      echo -n "    to "; \
-	      echo $$installed_lib_dir/old/$(NAME).$$installed_ver/$(LIBRARY);\
-	      mv $$installed_lib_dir/$$fn \
-		 $$installed_lib_dir/old/$(NAME).$$installed_ver/$(LIBRARY); \
-	    done; \
-	  fi; \
-	fi
+debug:: objects/debug
+	$(HIDE) $(MAKE) CCDEBUG='$(CC_DEBUG)' CXXDEBUG='$(CXX_DEBUG)' \
+			PRJDEFINES='$(PRJDEFINES) -DCLUE_DEBUG=1' \
+			$(LIBRARY_DEBUG)
 
-beta_install_new: 
-	@echo + Installing $(VERSION)
-	@rm -f .installed.ver .installed.inc .installed.lib
-	$(INSTALL) $(INSTALL_INC_FLAGS) \
-	  $(USER_INCS) \
-	  $(BETA_INC_DIR)
-	@for fn in $(USER_INCS); do \
-	  basename $$fn >>.installed.inc; done
-	$(INSTALL) $(INSTALL_LIB_FLAGS) \
-	  $(LIBRARY) \
-	  $(BETA_LIB_DIR)/$(LIBRARY).$(VERSION)
-	(cd $(BETA_LIB_DIR); \
-	  rm $(LIBRARY); \
-	  ln -s $(LIBRARY).$(VERSION) $(LIBRARY) )
-	@echo $(LIBRARY).$(VERSION) >.installed.lib
-	@echo installed_ver=$(VERSION) >.installed.ver
-	@echo installed_inc_dir=$(BETA_INC_DIR) >>.installed.ver
-	@echo installed_lib_dir=$(BETA_LIB_DIR) >>.installed.ver
+profile:: objects/debug
+	$(HIDE) $(MAKE) CCDEBUG='$(CC_PROFILE)' CXXDEBUG='$(CXX_PROFILE)' \
+			$(LIBRARY_PROFILE)
 
-install_production: default
-	$(MKDIRHIER) $(PROD_LIB_DIR)/old
-	$(MKDIRHIER) $(PROD_INC_DIR)/old
-	if [ -e $(PROD_LIB_DIR)/$(LIBRARY).$(VERSION) ] ; then \
-	echo $(PROD_LIB_DIR)/$(LIBRARY).$(VERSION) already installed!; \
-	echo Change version number in makefile and try again.; \
-	exit 1; \
-	fi
-	if [ -e .installed.prod.ver ] ; then \
-	ver=`cat .installed.prod.ver`; \
-	for fn in `cat .installed.prod.lib`; do \
-	mv $(PROD_LIB_DIR)/$$fn $(PROD_LIB_DIR)/old; \
-	done; \
-	for fn in `cat .installed.prod.inc`; do \
-	mv $(PROD_INC_DIR)/$$fn $(PROD_INC_DIR)/old/$$fn.$$ver; \
-	done; \
-	fi
-	echo $(MAJOR_VER).$(MINOR_VER) >.installed.prod.ver
-	echo $(LIBRARY).$(VERSION) >.installed.prod.lib
-	rm -f .installed.prod.inc
-	for fn in $(USER_INCS); do basename $$fn >>.installed.inc; done
-	$(INSTALL) $(INSTALL_LIB_FLAGS) \
-		$(LIBRARY) \
-	  	$(PROD_LIB_DIR)/$(LIBRARY).$(VERSION)
-	(cd $(PROD_LIB_DIR); \
-	  rm $(LIBRARY); \
-	  ln -s $(LIBRARY).$(VERSION) $(LIBRARY) )
-	$(INSTALL) $(INSTALL_INC_FLAGS) $(USER_INCS) $(PROD_INC_DIR)
-	echo 'Production Install Complete!'
+shared:: objects/shared
+	$(HIDE) $(MAKE) CCDEBUG='$(CCDEBUG) $(CC_SHARED)' \
+			CXXDEBUG='$(CXXDEBUG) $(CXX_SHARED)' \
+			$(LIBRARY_SHARED)
 
-test:	default
+
+install:: install_lib_check install_default
+	$(HIDE) echo Installation Complete!
+
+install_all:: install_lib_check
+
+install_all:: install_default install_debug install_profile install_shared
+	$(HIDE) echo Installation Complete!
+
+install_default:: default $(INSTALL_LIBDIR)/$(LIBRARY_DEFAULT)
+install_debug::   debug   $(INSTALL_LIBDIR)/$(LIBRARY_DEBUG)
+install_profile:: profile $(INSTALL_LIBDIR)/$(LIBRARY_PROFILE)
+install_shared::  shared  $(INSTALL_LIBDIR)/$(LIBRARY_SHARED)
+
+tst:
+	@echo $(OBJECTS_DEFAULT)
+
+test::	default
+
+FORCE: 
 
 #
 # include dependancies generated by 'make depend'
 #
-ifndef CLEANING
-include .depend
-endif
+-include .depend
+
 
 #
 # =MAKEFILE_LOG=
 #
 # $Log$
-# Revision 2.3  1995/11/12 18:07:15  houghton
+# Revision 2.4  1995/12/04 11:18:02  houghton
+# Changed to use MakeConfig 4.
+#
+# Revision 2.3  1995/11/12  18:07:15  houghton
 # Change to use MakeConfigs 3.5.
 # Added Void.(C,hh,ii).
 # Removed regex.(c,h) (now in libCommon GnuRegex).
@@ -440,7 +399,6 @@ endif
 #
 # Revision 1.19  1995/11/10  00:30:43  houghton
 # Change to MakeConfigs 3.4
-#
 #
 # =MAKEFILE_LOG=
 #
