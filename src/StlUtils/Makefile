@@ -197,29 +197,15 @@ orig = \
 
 
 USER_H_INCS	=			\
-	ClueVersion.h                   \
 	$(ARCH_USER_H_INCS)             \
 
 USER_HH_INCS	=			\
-	BinStream.hh                    \
 	Bit.hh                          \
 	Bitmask.hh                      \
 	ClassVersion.hh                 \
 	ClueUtils.hh                    \
 	ClueVersion.hh                  \
 	Compare.hh                      \
-	DateRange.hh                    \
-	DateRangeDaily.hh               \
-	DateRangeWeekly.hh              \
-	DateTime.hh                     \
-	DateTimeUtils.hh                \
-	FileBinStream.hh		\
-	FilePath.hh                     \
-	FileStream.hh			\
-	HeapBinStream.hh                \
-	HeapNetStream.hh                \
-	HeapStream.hh                   \
-	HeapStreambuf.hh                \
 	LibLog.hh                       \
 	LibTest.hh                      \
 	Log.hh                          \
@@ -227,54 +213,24 @@ USER_HH_INCS	=			\
 	LogLevel.hh                     \
 	MinMax.hh                       \
 	Mutex.hh                        \
-	NetStream.hh                    \
 	Param.hh                        \
-	RandomBinStream.hh              \
-	RandomStream.hh                 \
 	RegexScan.hh                    \
-	SizeIt.hh                       \
-	Sort.hh                         \
-	SortOrder.hh                    \
-	Str.hh                          \
-	StrStreambuf.hh                 \
 	StringUtils.hh                  \
-	SubStr.hh                       \
-	ThreadBase.hh                   \
-	Timer.hh                        \
-	Void.hh                         \
 	$(ARCH_USER_HH_INCS)            \
 
 USER_II_INCS	=			\
-	BinStream.ii                    \
 	Bit.ii                          \
 	Bitmask.ii                      \
 	ClassVersion.ii                 \
 	ClueUtils.ii                    \
-	DateRange.ii                    \
-	DateRangeDaily.ii               \
-	DateRangeWeekly.ii              \
-	DateTime.ii                     \
-	DateTimeUtils.ii                \
-	FilePath.ii                     \
-	FileStream.ii			\
-	HeapStream.ii                   \
 	Log.ii                          \
 	LogBuf.ii                       \
 	LogLevel.ii                     \
 	Mutex.ii                        \
 	Param.ii                        \
-	RandomBinStream.ii              \
-	RandomStream.ii                 \
 	SizeIt.ii                       \
 	SortOrder.ii                    \
-	Str.ii                          \
-	StrStreambuf.ii                 \
 	StringUtils.ii                  \
-	SubStr.ii                       \
-	ThreadBase.ii                   \
-	Timer.ii                        \
-	ThreadBase.ii			\
-	Void.ii                         \
 	$(ARCH_USER_II_INCS)            \
 
 USER_INCLUDES	=		\
@@ -427,6 +383,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.3  1996/11/19 22:02:09  houghton
+# Cleanup install stuff from libClue2.
+#
 # Revision 3.2  1996/11/19 12:22:22  houghton
 # Added -m flag to install includes.
 # Added StringFrom
