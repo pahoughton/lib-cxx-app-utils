@@ -112,7 +112,9 @@ public:
 
   // from ostream
   virtual ostream &	write( const char * src, int size );
+#if defined( STLUTILS_STR_UNSIGNED )
   virtual ostream &	write( const unsigned char * src, int size );
+#endif
   virtual ostream &	write( const wchar_t * src, int size );
   virtual ostream &	write( const void * src, size_type size );
   
@@ -120,10 +122,19 @@ public:
 
   // from istream
   virtual istream &	read( char * dest, int size );
+#if defined( STLUTILS_STR_UNSIGNED )
   virtual istream &	read( unsigned char * dest, int size );
+#endif
   
   inline bool	    operator == ( const FilePath & rhs ) const;
   inline bool	    operator <  ( const FilePath & rhs ) const;
+
+#if defined( STLUTILS_RELOPS_BROKEN )
+  inline bool	    operator != ( const FilePath & rhs ) const;
+  inline bool	    operator >  ( const FilePath & rhs ) const;
+  inline bool	    operator <= ( const FilePath & rhs ) const;
+  inline bool	    operator >= ( const FilePath & rhs ) const;
+#endif
   
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
@@ -297,6 +308,9 @@ compare( const FilePath & one, const FilePath & two );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

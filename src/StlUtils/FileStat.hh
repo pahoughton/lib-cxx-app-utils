@@ -23,6 +23,8 @@
 #include <FilePath.hh>
 #include <DumpInfo.hh>
 
+#include <cerrno>
+
 #if defined( STLUTILS_DEBUG )
 #define inline
 #endif
@@ -124,6 +126,13 @@ public:
   
   inline bool	    	operator == ( const FileStat & rhs ) const;
   inline bool	    	operator <  ( const FileStat & rhs ) const;
+  
+#if defined( STLUTILS_RELOPS_BROKEN )
+  inline bool		operator != ( const FileStat & rhs ) const;
+  inline bool		operator >  ( const FileStat & rhs ) const;
+  inline bool		operator <= ( const FileStat & rhs ) const;
+  inline bool		operator >= ( const FileStat & rhs ) const;
+#endif
 
   // libStlUtils Common Class Methods
   
@@ -583,6 +592,9 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

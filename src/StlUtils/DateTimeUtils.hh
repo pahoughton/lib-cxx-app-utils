@@ -40,6 +40,9 @@ extern const time_t STLUTILS_GVAR_T MaxTimeT;
 extern const time_t STLUTILS_GVAR_T MinYear;
 extern const time_t STLUTILS_GVAR_T MaxYear;
 
+#if ! defined( COMMON_DATETIME_VALUES )
+#define COMMON_DATETIME_VALUES 1
+
 extern const int    STLUTILS_GVAR_T DaysInMonth[];
 extern const int    STLUTILS_GVAR_T DaysInMonthLeap[];
 
@@ -50,6 +53,7 @@ extern const char * STLUTILS_GVAR_T Months[];
 extern const char * STLUTILS_GVAR_T AbbrMonths[];
 extern const char * STLUTILS_GVAR_T WeekDays[];
 extern const char * STLUTILS_GVAR_T AbbrWeekDays[];
+#endif
 
 #if !defined( DAYOFWEEK_ENUM )
 #define DAYOFWEEK_ENUM 1
@@ -191,6 +195,9 @@ strptime( char * b, const char * fmt, struct tm * t );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:45  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:18  houghton
 // Changed Version Num to 5
 //
@@ -213,8 +216,14 @@ SubStr::read( istream & src )
 ostream &
 SubStr::toStream( ostream & dest ) const
 {
+#if defined( STLUTILS_HAS_IOSTREAM_SENTRY )
+  ostream::sentry   opfx( dest );
+  if( ! opfx )
+    return( dest );
+#else
   if( ! dest.opfx() )
     return( dest );
+#endif
   
   if( dest.width()
       && (dest.flags() & (ios::right | ios::internal ))
@@ -239,7 +248,9 @@ SubStr::toStream( ostream & dest ) const
 	}
     }
   dest.width(0);
+#if ! defined( STLUTILS_HAS_IOSTREAM_SENTRY )
   dest.osfx();
+#endif
   
   return( dest );
 }

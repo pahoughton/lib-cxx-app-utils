@@ -26,7 +26,9 @@ STLUTILS_VERSION(
 
 Log * _LibLog = 0;
 
-LogLevel::CommonLevelMap *	    Log::commonLevelMap = 0;
+static LogLevel::CommonLevelMap *	    commonLevelMap = 0;
+
+const long	Log::openprot( 0666 );
 
 Log::Log(
   ostream & 	    outstr,
@@ -290,6 +292,25 @@ Log::delFilter( LogBuf::FilterId id )
   return( rdbuf()->delFilter( id ) );
 }
 
+extern "C"  {
+  static void	commonLog( void *	closure,
+			   const char * srcFileName,
+			   long		srcLineNumber,
+			   LogLevelBit	level,
+			   const char * mesgFmt,
+			   va_list	mesgArgs );
+};
+  
+const LogLevel::CommonLevelMap &
+Log::getCommonLevelMap( void )
+{
+  if( ! commonLevelMap )
+    initCommonLevelMap();
+  
+  return( *commonLevelMap );
+}
+
+
 bool
 Log::tieCommonLogger( bool setStrings )
 {
@@ -471,8 +492,9 @@ Log::initCommonLevelMap()
     }
 }
 
+static
 void
-Log::commonLog(
+commonLog(
    void *	    closure,
    const char *     srcFileName,
    long		    srcLineNumber,
@@ -501,7 +523,7 @@ Log::commonLog(
 		   srcLineNumber ) << logMesg;
       
       if( self->rdbuf()->sync() == EOF )
-	self->setstate(failbit|eofbit);
+	self->setstate( ios::failbit | ios::eofbit );
   
       self->rdbuf()->setCurrentLevel( curLvl );
     }
@@ -511,6 +533,9 @@ Log::commonLog(
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

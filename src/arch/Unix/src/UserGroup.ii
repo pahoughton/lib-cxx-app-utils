@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:07:31  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:23  houghton
 // Changed Version Num to 5
 //
@@ -142,7 +145,8 @@ UserGroup::isMember( uid_t  user ) const
   if( members.size() == 0 )
     return( false );
   
-  return( pw ? members.find( pw->pw_name ) != members.end() : false );
+  // STUPID - end() first or sun cc 5.0 wines
+  return( pw ? members.end() != members.find( pw->pw_name ) : false );
 }
 
 inline
@@ -162,7 +166,7 @@ UserGroup::isMember( const char * user ) const
   if( members.size() == 0 )
     return( false );
   
-  return( members.find( user ) != members.end() );
+  return( members.end() != members.find( user ) );
 }
 
 inline
@@ -199,6 +203,36 @@ UserGroup::operator <  ( const UserGroup & two ) const
 {
   return( compare( two ) < 0 );
 }
+
+#if defined( STLUTILS_RELOPS_BROKEN )
+inline
+bool
+UserGroup::operator != ( const UserGroup & rhs ) const
+{
+  return( ! (*this == rhs) );
+}
+
+inline
+bool
+UserGroup::operator > ( const UserGroup & rhs ) const
+{
+  return( rhs < *this );
+}
+
+inline
+bool
+UserGroup::operator <= ( const UserGroup & rhs ) const
+{
+  return( ! (rhs < *this) );
+}
+
+inline
+bool
+UserGroup::operator >= ( const UserGroup & rhs ) const
+{
+  return( ! (*this < rhs) );
+}
+#endif 
 
 inline
 UserGroup::operator const char * ( void ) const

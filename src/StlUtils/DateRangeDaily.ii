@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:45  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:14  houghton
 // Changed Version Num to 5
 //
@@ -64,6 +67,36 @@ DateRangeDaily::operator <  ( const DateRangeDaily & two ) const
 }
  
 			      
+#if defined( STLUTILS_RELOPS_BROKEN )
+inline
+bool
+DateRangeDaily::operator != ( const DateRangeDaily & rhs ) const
+{
+  return( ! (*this == rhs) );
+}
+
+inline
+bool
+DateRangeDaily::operator > ( const DateRangeDaily & rhs ) const
+{
+  return( rhs < *this );
+}
+
+inline
+bool
+DateRangeDaily::operator <= ( const DateRangeDaily & rhs ) const
+{
+  return( ! (rhs < *this) );
+}
+
+inline
+bool
+DateRangeDaily::operator >= ( const DateRangeDaily & rhs ) const
+{
+  return( ! (*this < rhs) );
+}
+#endif 
+
 inline
 int
 compare( const DateRangeDaily & one, const DateRangeDaily & two )

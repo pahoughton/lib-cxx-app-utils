@@ -34,6 +34,14 @@ STLUTILS_VERSION(
   SigCatcher,
   "$Id$");
 
+static SigCatcher *	self(0);
+  
+extern "C"
+{
+  static void c_catchAction( int sig );
+};
+  
+
 const SigCatcher::Flag	    SigCatcher::None;
 const SigCatcher::Flag	    SigCatcher::OnStack( SA_ONSTACK );
 const SigCatcher::Flag	    SigCatcher::NoDefer( SA_NODEFER );
@@ -42,8 +50,6 @@ const SigCatcher::Flag	    SigCatcher::Siginfo( SA_SIGINFO );
 const SigCatcher::Flag	    SigCatcher::NoChildWait( SA_NOCLDWAIT );
 const SigCatcher::Flag	    SigCatcher::NoChildStop( SA_NOCLDSTOP );
 const SigCatcher::Flag	    SigCatcher::WaitSig( SA_WAITSIG );
-
-SigCatcher *	SigCatcher::self = 0;
 
 const char *
 SigCatcher::Caught::name( void ) const
@@ -175,7 +181,7 @@ SigCatcher::catchSig( Signal sig, const Flag & flags )
   struct sigaction catchSigAction;
   struct sigaction oldAction;
   
-  catchSigAction.sa_handler = (void (*)(int))catchAction;
+  catchSigAction.sa_handler = c_catchAction;
   catchSigAction.sa_flags = flags.to_ulong();
 #if defined( AIX41 )
   catchSigAction.sa_mask.losigs = 0;
@@ -183,7 +189,7 @@ SigCatcher::catchSig( Signal sig, const Flag & flags )
 #endif
 
   if( sigaction( sig, &catchSigAction, &oldAction ) )
-    return( setError( E_CATCH, sig, errno ) );
+    return( setError( E_CATCH, sig, ::errno ) );
 
   return( true );
 }
@@ -216,7 +222,7 @@ SigCatcher::ignoreSig( Signal sig )
 #endif
 
   if( sigaction( sig, &catchSigAction, &oldAction ) )
-    return( setError( E_IGNORE, sig, errno ) );
+    return( setError( E_IGNORE, sig, ::errno ) );
 
   return( true );
 }
@@ -330,26 +336,27 @@ SigCatcher::dumpInfo(
   return( dest );
 }
 
+static
 void
-SigCatcher::catchAction(
-  int			sig,
-  int			STLUTILS_UNUSED( code ),
-  struct sigcontext *	STLUTILS_UNUSED( context )
-  )
+c_catchAction( int sig )
 {
-  if( ! SigCatcher::self )
+  if( self )
     {
-      _LLg( LogLevel::Error )
-	<< "SigCatcher::self no set!" << endl;
+      SigCatcher::Caught caught( sig, time(0) );
+      self->caught().push_back( caught );
     }
-
-  Caught caught( sig, time(0) );
-  SigCatcher::self->caughtSigList.push_back( caught );
+  else
+    {
+      LLgError << "SigCatcher::self no set!" << endl;
+    }
 }
 
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:07:31  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:23  houghton
 // Changed Version Num to 5
 //

@@ -8,43 +8,6 @@
 // Author:      Paul Houghton - (houghton@cworld)
 // Created:     02/20/94 11:55
 //
-// Revision History:
-//
-// 
-// $Log$
-// Revision 5.1  2000/05/25 10:33:14  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:12:15  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:08:13  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/08/24 21:56:11  houghton
-// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
-//
-// Revision 3.2  1997/07/18 19:11:29  houghton
-// Cleanup.
-// Added compare( const DateTime & two ) const to eliminate compiler warnings.
-//
-// Revision 3.1  1996/11/14 01:23:33  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/04/27 12:57:00  houghton
-// Cleanup.
-//
-// Revision 2.2  1995/11/10 14:08:34  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:40:26  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  14:44:27  houghton
-// Ports and Version ID changes
-//
-//
-
 #include <StlUtilsConfig.hh>
 #include <DateRange.hh>
 
@@ -76,6 +39,12 @@ public:
   bool		    operator == ( const DateRangeDaily & two ) const;
   bool		    operator <  ( const DateRangeDaily & two ) const;
     
+#if defined( STLUTILS_RELOPS_BROKEN )
+  inline bool		operator != ( const DateRangeDaily & rhs ) const;
+  inline bool		operator >  ( const DateRangeDaily & rhs ) const;
+  inline bool		operator <= ( const DateRangeDaily & rhs ) const;
+  inline bool		operator >= ( const DateRangeDaily & rhs ) const;
+#endif
   // libStlUtils Common Class Methods
   
   virtual ostream & 	toStream( ostream & dest ) const;
@@ -102,11 +71,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( STLUTILS_SHORT_FN )
 #include <DateRangeDaily.ii>
-#else
-#include <DateRgDl.ii>
-#endif
 #else
 #undef inline
 
@@ -193,6 +158,46 @@ compare( const DateTime & one, const DateTime & two );
 //  Protected:
 //
 //  Private:
+//
+
+// Revision History:
+//
+// 
+// $Log$
+// Revision 5.2  2000/05/25 17:05:45  houghton
+// Port: Sun CC 5.0.
+//
+// Revision 5.1  2000/05/25 10:33:14  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:12:15  houghton
+// Changed to Version 4
+//
+// Revision 3.4  1997/09/17 11:08:13  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.3  1997/08/24 21:56:11  houghton
+// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
+//
+// Revision 3.2  1997/07/18 19:11:29  houghton
+// Cleanup.
+// Added compare( const DateTime & two ) const to eliminate compiler warnings.
+//
+// Revision 3.1  1996/11/14 01:23:33  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1996/04/27 12:57:00  houghton
+// Cleanup.
+//
+// Revision 2.2  1995/11/10 14:08:34  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:26  houghton
+// Change to Version 2
+//
+// Revision 1.4  1995/11/05  14:44:27  houghton
+// Ports and Version ID changes
+//
 //
 
 #endif // ! def _DateRangeDaily_hh_ 

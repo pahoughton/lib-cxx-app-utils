@@ -59,6 +59,8 @@ class Log : public ostream
 
 public:
 
+  static const long  openprot; // 0666
+  
   Log( ostream & 	outStream = cout,
        LogLevel::Level 	outLevel = ( LogLevel::Error |
 				     LogLevel::Warn |
@@ -78,7 +80,7 @@ public:
 				     LogLevel::Warn |
 				     LogLevel::Info ),
        ios::open_mode	mode = (ios::open_mode)(ios::app|ios::out),
-       int		prot = filebuf::openprot,
+       int		prot = openprot,
        bool		stampLevel = true,
        bool		stampTime = true,
        bool		stampLoc = true,
@@ -88,7 +90,7 @@ public:
   Log( const char * 	fileName,
        const char *	outLevel,
        ios::open_mode	mode = (ios::open_mode)(ios::app|ios::out),
-       int		prot = filebuf::openprot,
+       int		prot = openprot,
        bool		stampLevel = true,
        bool		stampTime = true,
        bool		stampLoc = true,
@@ -182,7 +184,7 @@ public:
 
   bool				tieCommonLogger( bool setStrings = false );
   
-  inline const LogLevel::CommonLevelMap & getCommonLevelMap( void );
+  static const LogLevel::CommonLevelMap & getCommonLevelMap( void );
   
   // mutex locking
 
@@ -201,7 +203,7 @@ public:
   
 protected:
 
-  void	initCommonLevelMap( void );
+  static void	initCommonLevelMap( void );
   
 private:
 
@@ -213,15 +215,6 @@ private:
   bool		locStamp;
   bool		localTimeStamp;
 
-  static void	commonLog( void *	closure,
-			   const char * srcFileName,
-			   long		srcLineNumber,
-			   LogLevelBit	level,
-			   const char * mesgFmt,
-			   va_list	mesgArgs );
-  
-  static LogLevel::CommonLevelMap *	    commonLevelMap;
-  
   
   Mutex		mutex;
   
@@ -657,6 +650,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

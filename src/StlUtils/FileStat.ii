@@ -15,8 +15,6 @@
 // $Id$
 //
 
-#include <cerrno>
-
 #if defined( STLUTILS_DEBUG )
 #define inline
 #endif
@@ -255,13 +253,13 @@ inline
 bool
 FileStat::canRead( Who who ) const
 {
-  if( (who & USER) && (getMode() & S_IRUSR ) )
+  if( (who & USER) == true && (getMode() & S_IRUSR ) )
     return( true );
     
-  if( (who & GROUP) && (getMode() & S_IRGRP ) )
+  if( (who & GROUP) == true && (getMode() & S_IRGRP) )
     return( true );
     
-  if( (who & OTHER) && (getMode() & S_IROTH ) )
+  if( (who & OTHER) == true && (getMode() & S_IROTH ) )
     return( true );
 
   return( false );
@@ -272,13 +270,13 @@ inline
 bool
 FileStat::canWrite( Who who ) const
 {
-  if( who & USER && (getMode() & S_IWUSR ) )
+  if( (who & USER) == true && (getMode() & S_IWUSR ) )
     return( true );
     
-  if( who & GROUP && (getMode() & S_IWGRP ) )
+  if( (who & GROUP) == true && (getMode() & S_IWGRP ) )
     return( true );
     
-  if( who & OTHER && (getMode() & S_IWOTH ) )
+  if( (who & OTHER) == true && (getMode() & S_IWOTH ) )
     return( true );    
 
   return( false );
@@ -289,13 +287,13 @@ inline
 bool
 FileStat::canExec( Who who ) const
 {
-  if( who & USER && (getMode() & S_IXUSR ) )
+  if( (who & USER) == true && (getMode() & S_IXUSR ) )
     return( true );
     
-  if( who & GROUP && (getMode() & S_IXGRP ) )
+  if( (who & GROUP) == true && (getMode() & S_IXGRP ) )
     return( true );
     
-  if( who & OTHER && (getMode() & S_IXOTH ) )
+  if( (who & OTHER) == true && (getMode() & S_IXOTH ) )
     return( true );    
 
   return( false );
@@ -344,7 +342,7 @@ FileStat::stat( const char * fileName )
   fd = badFd;
   
   if( ::stat( fileName, &st ) )
-    sysError = errno;
+    sysError = ::errno;
   else
     sysError = 0;
   
@@ -360,7 +358,7 @@ FileStat::stat( int fileDesc, bool keepName )
   fd = fileDesc;
 
   if( ::fstat( fd, &st ) )
-    sysError = errno;
+    sysError = ::errno;
   else
     sysError = 0;
 
@@ -376,7 +374,7 @@ FileStat::lstat( const char * fileName )
   fd = badFd;
   
   if( ::lstat( fileName, &st ) )
-    sysError = errno;
+    sysError = ::errno;
   else
     sysError = 0;
 
@@ -463,6 +461,36 @@ FileStat::operator <  ( const FileStat & two ) const
   return( compare( two ) < 0 );
 }
 
+#if defined( STLUTILS_RELOPS_BROKEN )
+inline
+bool
+FileStat::operator != ( const FileStat & rhs ) const
+{
+  return( ! (*this == rhs) );
+}
+
+inline
+bool
+FileStat::operator > ( const FileStat & rhs ) const
+{
+  return( rhs < *this );
+}
+
+inline
+bool
+FileStat::operator <= ( const FileStat & rhs ) const
+{
+  return( ! (rhs < *this) );
+}
+
+inline
+bool
+FileStat::operator >= ( const FileStat & rhs ) const
+{
+  return( ! (*this < rhs) );
+}
+#endif
+
 inline
 bool
 FileStat::exist( void ) const
@@ -495,6 +523,9 @@ FileStat::dump( const char * prefix, bool showVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

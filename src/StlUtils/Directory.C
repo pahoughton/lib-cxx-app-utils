@@ -663,13 +663,13 @@ Directory::dumpInfo(
 
   dest << prefix << "options:    ";
       
-  if( options )
+  if( options == true )
     {
-      if( options & Default )
+      if( (options & Default) == true )
 	dest << "Default ";
-      if( options & All )
+      if( (options & All) == true )
 	dest << "All ";
-      if( options & Recurs )
+      if( (options & Recurs) == true )
 	dest << "Recurs ";
     }
   else
@@ -747,7 +747,7 @@ Directory::buildDirList( void )
 		{
 		  list.push_back( fStat );
 	      
-		  if( (options & Recurs) && fStat.isDir() )
+		  if( (options & Recurs) == true && fStat.isDir() )
 		    {
 		      DIR * dir = opendir( fStat.getName() );
 
@@ -882,7 +882,7 @@ Directory::readDir(
       
 	  if( fs.good() && fs.isDir() &&
 	      strcmp( dEnt->d_name, "." ) && strcmp( dEnt->d_name, ".." ) &&
-	      ( opts & Recurs ) )
+	      ( opts & Recurs ) == true )
 	    {
 	      FilePath subDirPath;
 	      
@@ -908,6 +908,9 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:45  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

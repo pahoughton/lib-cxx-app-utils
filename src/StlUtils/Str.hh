@@ -24,6 +24,8 @@
 
 #include "StlUtilsConfig.hh"
 #include <iostream>
+#include <iterator>
+#include <functional>
 #include <utility>
 #include <vector>
 #include <cstddef>
@@ -51,6 +53,17 @@ public:
   typedef const char *				const_pointer;
   typedef pointer				iterator;
   typedef const_pointer				const_iterator;
+
+#if defined( STLTUTILS_STD_ITERATORS )
+
+  typedef std::reverse_iterator< iterator,
+    random_access_iterator_tag,
+    char >					    reverse_iterator;
+  typedef std::reverse_iterator< const_iterator,
+    random_access_iterator_tag,
+    const char >				    const_reverse_iterator;
+  
+#else
   
 #if defined( STDCXX_PARTIAL_SPECIALIZATION )
   typedef ::reverse_iterator< iterator >	reverse_iterator;
@@ -61,6 +74,7 @@ public:
   
   typedef ::reverse_iterator< const_iterator, char, const char &, ptrdiff_t >
 	const_reverse_iterator;
+#endif
 #endif
   
 #if defined( STLUTILS_HAVE_LONG_LONG )
@@ -565,23 +579,27 @@ public:
   inline Str &	    operator += ( char rhs );
   
   inline bool       operator == ( const Str & rhs ) const;
-  inline bool	    operator == ( const SubStr & rhs ) const;
-  inline bool	    operator == ( const char * rhs ) const;
-  
   inline bool	    operator <  ( const Str & rhs ) const;
+
+#if defined( STLUTILS_RELOPS_BROKEN )
+  inline bool		operator != ( const Str & rhs ) const;
+  inline bool		operator >  ( const Str & rhs ) const;
+  inline bool		operator <= ( const Str & rhs ) const;
+  inline bool		operator >= ( const Str & rhs ) const;
+#endif
+  
+  inline bool	    operator == ( const SubStr & rhs ) const;
   inline bool	    operator <  ( const SubStr & rhs ) const;
-  inline bool	    operator <  ( const char * rhs ) const;
-  
-  inline bool	    operator !=  ( const SubStr & rhs ) const;
-  inline bool	    operator !=  ( const char * rhs ) const;
-  
+  inline bool	    operator != ( const SubStr & rhs ) const;
   inline bool	    operator >  ( const SubStr & rhs ) const;
-  inline bool	    operator >  ( const char * rhs ) const;
-  
+  inline bool	    operator <  ( const char * rhs ) const;
   inline bool	    operator <= ( const SubStr & rhs ) const;
-  inline bool	    operator <= ( const char * rhs ) const;
-  
   inline bool	    operator >= ( const SubStr & rhs ) const;
+
+  inline bool	    operator == ( const char * rhs ) const;
+  inline bool	    operator != ( const char * rhs ) const;
+  inline bool	    operator >  ( const char * rhs ) const;
+  inline bool	    operator <= ( const char * rhs ) const;
   inline bool	    operator >= ( const char * rhs ) const;
   // libStlUtils Common Class Methods
   
@@ -591,8 +609,11 @@ public:
 
   // from ostream
   virtual ostream &	write( const char * src, int size );
+#if defined( STLUTILS_STR_UNSIGNED )
   virtual ostream &	write( const unsigned char * src, int size );
-#if !defined( Hpux10 ) && !defined( AIX41 )
+#endif
+  
+#if defined( STLUTILS_STR_WCHAR )
   virtual ostream &	write( const wchar_t * src, int size );
 #endif
   virtual ostream &	write( const void * src, size_type size );
@@ -601,7 +622,10 @@ public:
 
   // from istream
   virtual istream &	read( char * dest, int size );
+  
+#if defined( STLUTILS_STR_UNSIGNED )
   virtual istream &	read( unsigned char * dest, int size );
+#endif
   
   virtual istream &	fromStream( istream & src );
   virtual ostream &	toStream( ostream & dest = cout ) const;
@@ -736,6 +760,8 @@ operator >> ( istream & src, Str & dest );
 #endif
 
 #include <SubStr.hh>
+
+
 
 //  Quick Start: - short example of class usage
 //
@@ -1795,6 +1821,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:17  houghton
 // Changed Version Num to 5
 //

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:07:31  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:23  houghton
 // Changed Version Num to 5
 //
@@ -160,7 +163,7 @@ UserGroup::isMember( const User & user ) const
   if( members.size() == 0 )
     return( false );
 
-  return( members.find( user.getName() ) != members.end() );
+  return( members.end() != members.find( user.getName() ) );
 }
 
 
@@ -183,7 +186,7 @@ UserGroup::set( const struct group * gr, bool findMemb )
     {
       name = "";
       gid = bad;
-      osError = errno;      
+      osError = ::errno;      
       return( false );
     }
 }

@@ -158,7 +158,7 @@ FilePath::expand( void )
 	}
       else
 	{
-	  Str userName( *this, 1, find( '/' ) - 1 );
+	  Str userName( *this, (Str::size_type) 1, find( '/' ) - 1 );
 	  User user( userName.c_str() );
 	  if( user.good() && user.getHome() && strlen( user.getHome() ) )
 	    {
@@ -409,11 +409,13 @@ FilePath::write( const char * src, int size )
   return( Str::write( src, size ) );
 }
 
+#if defined( STLUTILS_STR_UNSIGNED )
 ostream &
 FilePath::write( const unsigned char * src, int size )
 {
   return( Str::write( src, size ) );
 }
+#endif
 
 ostream &
 FilePath::write( const wchar_t * src, int size )
@@ -455,12 +457,13 @@ FilePath::read( char * dest, int size )
   return( Str::read( dest, size ) );
 }
 
+#if defined( STLUTILS_STR_UNSIGNED )
 istream &
 FilePath::read( unsigned char * dest, int size )
 {
   return( Str::read( dest, size ) );
 }
-
+#endif
   
 
 bool
@@ -537,6 +540,9 @@ FilePath::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

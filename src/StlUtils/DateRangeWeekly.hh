@@ -8,46 +8,9 @@
 // Author:      Paul Houghton - (houghton@cworld)
 // Created:     02/20/94 09:25
 //
-// Revision History:
-//
-// 
-// $Log$
-// Revision 5.1  2000/05/25 10:33:14  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:12:16  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:08:14  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/08/24 21:54:53  houghton
-// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
-//
-// Revision 3.1  1996/11/14 01:23:35  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1995/11/10 18:46:51  houghton
-// Fixed error in comments
-//
-// Revision 2.2  1995/11/10  14:08:35  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:40:28  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  14:44:29  houghton
-// Ports and Version ID changes
-//
-//
 
-#if !defined( STLUTILS_SHORT_FN )
 #include <StlUtilsConfig.hh>
 #include <DateRangeDaily.hh>
-#else
-#include <StlUtilsCfg.hh>
-#include <DateRgDl.hh>
-#endif
 
 #if defined( STLUTILS_DEBUG )
 #define inline
@@ -89,11 +52,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( STLUTILS_SHORT_FN )
 #include <DateRangeWeekly.ii>
-#else
-#include <DateRgWk.ii>
-#endif
 #else
 #undef inline
 
@@ -160,4 +119,39 @@ compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
 //  Other Accociated Functions:
 //
 
+// Revision History:
+//
+// 
+// $Log$
+// Revision 5.2  2000/05/25 17:05:45  houghton
+// Port: Sun CC 5.0.
+//
+// Revision 5.1  2000/05/25 10:33:14  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:12:16  houghton
+// Changed to Version 4
+//
+// Revision 3.3  1997/09/17 11:08:14  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.2  1997/08/24 21:54:53  houghton
+// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
+//
+// Revision 3.1  1996/11/14 01:23:35  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1995/11/10 18:46:51  houghton
+// Fixed error in comments
+//
+// Revision 2.2  1995/11/10  14:08:35  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:28  houghton
+// Change to Version 2
+//
+// Revision 1.4  1995/11/05  14:44:29  houghton
+// Ports and Version ID changes
+//
+//
 #endif // ! def _DateRangeWeekly_hh_ 

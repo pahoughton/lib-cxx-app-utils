@@ -70,8 +70,8 @@ tParam03( LibTest & tester )
 
     if( ! t.parseArgs() )
       {
-	TESTR( "parseArgs", false );
 	tester.getError() << '\n' << t << endl;
+	TESTR( "parseArgs", false );
       }
     
     if( ! t.good() )
@@ -160,7 +160,11 @@ tParam03( LibTest & tester )
     TEST( t.count() == 0 );
 
     TEST( ! t.help( false ) );
-    
+
+    if( ! t.good() ) {
+      tester.getDump() << '\n' << t.error() << endl;
+      TEST( false );
+    }
   }
 
   {
@@ -179,6 +183,9 @@ tParam03( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:11:50  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:29  houghton
 // Changed Version Num to 5
 //

@@ -229,23 +229,12 @@ inline
 const LogBuf *
 Log::rdbuf( void ) const
 {
-#if defined( AIX41 ) || defined( Sun5 ) || defined( Hpux10 )
-  // aix does not have a const rdbuf
+#if !defined( STLUTILS_HAS_CONST_IOSRDBUF )
   return( (const LogBuf *)(bp) );
 #else
   return( (const LogBuf *)(ios::rdbuf()) );
 #endif
   
-}
-
-inline
-const LogLevel::CommonLevelMap &
-Log::getCommonLevelMap( void )
-{
-  if( ! commonLevelMap )
-    initCommonLevelMap();
-  
-  return( *commonLevelMap );
 }
 
 inline
@@ -270,6 +259,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

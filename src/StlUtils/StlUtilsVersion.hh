@@ -26,8 +26,8 @@
 // Constants
 #define STLUTILS_PRJ_NAME	"libStlUtils"
 #define STLUTILS_PRJ_VER	VERSION
-#define STLUTILS_PRJ_VER_NUM	0x04000001L
-#define STLUTILS_PRJ_VER_TAG    "BETA_4_01"
+#define STLUTILS_PRJ_VER_NUM	0x05000001L
+#define STLUTILS_PRJ_VER_TAG    "BETA_5_01"
 
 // Macros
 #define STLUTILS_VERSION( name_, verId_ )				      \
@@ -72,6 +72,9 @@ const char VERID_##name_[] =						      \
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:17  houghton
 // Changed Version Num to 5
 //

@@ -31,19 +31,23 @@
 #define STLUTILS_HAS_USER 1
 #define STLUTILS_HAS_USERGROUP 1
 #define STLUTILS_HAS_STRPTIME 1
+#define STLUTILS_HAS_IOSTREAM_SENTRY 1
 #define STLUTILS_HAVE_LONG_LONG	1
 
-/* #define STLUTILS_HAS_SEMUN		1 */
-/* #define STLUTILS_HAS_CONST_IOSRDBUF	    1 */
-/* #define STLUTILS_HAS_CONST_IOSRDSTATE	    1 */
-/* #define STLUTILS_HAS_CONST_IOSGOOD	    1 */
-/* #define STLUTILS_THREADS	1 */
+// #define STLUTILS_HAS_SEMUN		1 
+// #define STLUTILS_THREADS	1 
 
-#define STLUTILS_STRBUF_CONST_RDBUF
-#define STLUTILS_STRBUF_PBASE
+// #define STLUTILS_STRBUF_PBASE 1
 
-
-#define STLUTILS_HAS_USER	1
+// Standards
+#define STLUTILS_HAS_CONST_IOSRDBUF	1 
+#define STLUTILS_HAS_CONST_IOSGOOD	1 
+#define STLUTILS_HAS_CONST_IOSRDSTATE	1 
+#define STLTUTILS_STD_ITERATORS		1
+#define STLUTILS_STRBUF_CONST_RDBUF	const
+#define STLUTILS_RELOPS_BROKEN		1
+#define STLUTILS_STD_STREAMBUF_STUPID	1
+// #define STLUTILS_STR_UNSIGNED		1
 
 #if defined( STLUTILS_DEBUG )
 #define STLUTILS_SAFETY_ON 1
@@ -100,8 +104,9 @@
 // Macros
 #define STLUTILS_UNUSED( x )
 
-#include <AnsiBool.hh>
 // #include <climits>
+using namespace std;
+
 #include <cstddef>
 
 extern "C" int getrusage(int who, struct rusage * rusage);
@@ -163,6 +168,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:07:25  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:21  houghton
 // Changed Version Num to 5
 //

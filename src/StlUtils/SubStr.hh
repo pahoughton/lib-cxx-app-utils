@@ -482,6 +482,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:18  houghton
 // Changed Version Num to 5
 //
@@ -547,3 +550,4 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 //
 
 #endif // ! def _SubStr_hh_ 
+

@@ -304,10 +304,10 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 	}
     }
 
-  if( onBits )
+  if( onBits == true )
     tmp |= curLevel | onBits;
 
-  if( offBits )
+  if( offBits == true )
     tmp = (tmp | curLevel) & ~(offBits);
   
   return( tmp );
@@ -316,6 +316,9 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

@@ -197,7 +197,7 @@ LogBuf::open(
     }
 
  logFileName = name;
- openMode = mode;
+ openMode = (ios::open_mode)(mode & ~ios::in);
  openProt = prot;
 
  FileStat  stat( logFileName );
@@ -352,7 +352,11 @@ LogBuf::underflow( void )
   if( ! stream )
     return( EOF );
   
+#if defined( STLUTILS_STD_STREAMBUF_STUPID )
+  return( EOF );
+#else
   return( stream->underflow() );
+#endif
 }
 
 int
@@ -388,7 +392,11 @@ LogBuf::sync( void )
 	  if( teeStream )
 	    {
 	      sendToStream( teeStream, base, len );
+#if defined( STLUTILS_STD_STREAMBUF_STUPID )
+	      teeStream->pubsync();
+#else
 	      teeStream->sync();
+#endif
 	    }
 	}
       
@@ -410,26 +418,49 @@ LogBuf::sync( void )
 	  if( outputMesg )
 	    {
 	      sendToStream( (*them).dest, base, len );
+#if defined( STLUTILS_STD_STREAMBUF_STUPID )
+	      (*them).dest->pubsync();
+#else
 	      (*them).dest->sync();
+#endif
 	    }
 	}
-      
+#if defined( STLUTILS_STD_STREAMBUF_STUPID )
+      syncResult = stream->pubsync();
+#else
       syncResult = stream->sync();
-
+#endif
     }
 
   newMesg = false;
   
   setp( pbase(), epptr() );
 
-  size_t curSize = (size_t)stream->seekoff( 0, ios::cur, ios::out );
-		    
-  if( is_file() && maxSize && curSize > maxSize )
+  if( is_file() && maxSize )
     {
-      closeLog();
-      trimLog( curSize, maxSize );
+#if defined( STLUTILS_STD_STREAMBUF_STUPID )
+      // SUN5 BUG - FIXME - seekoff lies
+      size_t curSize = (size_t)stream->pubseekoff( 0, ios::end, ios::out );
+      // FileStat fdStat( logFd );
+      
+      // size_t curSize = (fdStat.good() ? fdStat.getSize() : 0 );
+#else  
+      size_t curSize = (size_t)stream->seekoff( 0, ios::cur, ios::out );
+#endif
+
+#if defined( DEBUG_LOG_TRIM )
+      cerr << "\nlog size: max(" << maxSize
+	   << ") cur (" << curSize << ")"
+	   << endl;
+#endif
+      
+      if( curSize > maxSize )
+	{
+	  closeLog();
+	  trimLog( curSize, maxSize );
+	}
     }
-    
+  
   return( syncResult );
 }
 
@@ -510,7 +541,7 @@ LogBuf::initLogBuffer( void )
 {
   buffer = new char[LOGBUF_SIZE];
   
-  setb( buffer, buffer + LOGBUF_SIZE );
+  setbuf( buffer, LOGBUF_SIZE );
   setp( buffer, buffer + LOGBUF_SIZE );
 }
 
@@ -575,10 +606,12 @@ LogBuf::openLog( ios::open_mode openMask )
 
   int prevMask = umask( 0 );
 
+  // FileStat stat( logFileName );
+  
   stream = file->open( logFileName,
 		       (ios::open_mode)(openMode | openMask),
 		       openProt );
-  
+
   umask( prevMask );
 
   if( ! stream )
@@ -586,11 +619,31 @@ LogBuf::openLog( ios::open_mode openMask )
       errorDesc << "open '" << logFileName
 		<< "' mode: " << IosOpenModeToString( openMode )
 		<< " prot: " << StringFrom( openProt, 8 ) << " failed: "
-		<< strerror( errno ) ;
+		<< strerror( ::errno ) ;
       
       delete file;
       file = 0;
     }
+  else
+    {
+      logFd = file->fd();
+#if defined( DEBUG_SEEK ) 
+      size_t curSize = (size_t)stream->pubseekoff( 0, ios::cur, ios::out );
+      size_t fcurSize = (size_t)file->pubseekoff( 0, ios::cur, ios::out );
+      size_t fendSize = (size_t)file->pubseekoff( 0, ios::end, ios::out );
+      FileStat fdStat( logFd );
+  
+      cerr << "Log size:\n"
+	   << "   stat: " << (stat.good() ? stat.getSize() : 0) << '\n'
+	   << "    cur: " << curSize << '\n'
+	   << "   fcur: " << fcurSize << '\n'
+	   << "   fend: " << fendSize << '\n'
+	   << "     fd: " << logFd << '\n'
+	   << "  fstat: " << fdStat.getSize() << '\n'
+	   << endl;
+#endif
+    }
+  
   return( file );
 }
 
@@ -621,20 +674,41 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
   if( rename( logFileName, tmpFn ) )
     {
       openLog( ios::app );
+      errorDesc << "rename '"
+		<< logFileName
+		<< "' to '"
+		<< tmpFn << "' failed - " << strerror( errno )
+	;
       return( 0 );
     }
   
   ifstream  in( tmpFn );
+  
+  if( ! in.good() )
+    {
+      errorDesc << "open read '" << tmpFn << "' failed - "
+		<< strerror( errno )
+	;
+      rename( tmpFn, logFileName );
+      openLog( ios::app );
+      return( 0 );
+    }
+
   ofstream  out( logFileName, openMode, openProt );
 
-  if( ! in.good() || ! out.good() )
+  if( ! out.good() )
     {
+      errorDesc << "open write '" << logFileName << "' failed - "
+		<< strerror( errno )
+	;
       rename( tmpFn, logFileName );
       openLog( ios::app );
       return( 0 );
     }
 
   size_t  trimAmount = ( trimSize ? trimSize : maxLogSize / 4 );
+
+  // cerr << "seek: " << (curSize - maxLogSize) + trimAmount << endl;
   
   in.seekg( (curSize - maxLogSize) + trimAmount );
 
@@ -718,6 +792,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

@@ -74,6 +74,13 @@ public:
   inline bool		operator == ( const User & two ) const;
   inline bool		operator <  ( const User & two ) const;
 
+#if defined( STLUTILS_RELOPS_BROKEN )
+  inline bool		operator != ( const User & rhs ) const;
+  inline bool		operator >  ( const User & rhs ) const;
+  inline bool		operator <= ( const User & rhs ) const;
+  inline bool		operator >= ( const User & rhs ) const;
+#endif
+  
   inline		operator const char * () const;
   inline		operator uid_t () const;
 
@@ -178,6 +185,9 @@ compare( const User & one, const User & two );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:07:31  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:23  houghton
 // Changed Version Num to 5
 //

@@ -159,11 +159,11 @@ tDateRangeDaily( LibTest & tester )
     TEST( gpos == 0 );
     
     tw.write( tStrm );
-    ppos += tw.getBinSize();
+    ppos += (streampos) tw.getBinSize();
     TEST( ppos == tStrm.tellp() );
       
     tr.read( tStrm );
-    gpos += tr.getBinSize();
+    gpos += (streampos) tr.getBinSize();
     TEST( gpos == tStrm.tellg() );
     TEST( tr == tw );
     TEST( tr.getTimeT() == tw.getTimeT() );

@@ -286,7 +286,7 @@ tLog03( LibTest & tester )
       Log t( TestFn,
 	     LogLevel::Test | LogLevel::Info,
 	     (ios::open_mode)(ios::app|ios::out),
-	     filebuf::openprot,
+	     Log::openprot,
 	     true,
 	     true,
 	     true,
@@ -311,7 +311,7 @@ tLog03( LibTest & tester )
       Log t( TestFn,
 	     LogLevel::Test | LogLevel::Info,
 	     (ios::open_mode)(ios::app|ios::out),
-	     filebuf::openprot,
+	     Log::openprot,
 	     true,
 	     true,
 	     true,
@@ -329,7 +329,7 @@ tLog03( LibTest & tester )
       FileStat t( TestFn );
 
       FileStat::size_type minSize = ((MaxSize / 4) * 3) - LineLen;
-      
+
       TEST( t.getSize() < MaxSize );
       TEST( t.getSize() > minSize );
     }
@@ -361,7 +361,7 @@ tLog03( LibTest & tester )
       Log t( TestFn,
 	     LogLevel::Test | LogLevel::Info,
 	     (ios::open_mode)(ios::app|ios::out),
-	     filebuf::openprot,
+	     Log::openprot,
 	     true,
 	     true,
 	     true,
@@ -492,6 +492,9 @@ tLog03( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:11:50  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:28  houghton
 // Changed Version Num to 5
 //

@@ -306,7 +306,7 @@ tBitmask02( LibTest & tester )
     const Bitmask t1;
     const Bitmask t2( Bitmask::b03 );
 
-    TEST( ! t1 );
+    TEST( ! (t1 == true) );
     TEST( t2 );
 
     TEST( (unsigned long)t1  == 0x0UL );
@@ -337,11 +337,11 @@ tBitmask02( LibTest & tester )
     TEST( gpos == 0 );
     
     tw.write( tStrm );
-    ppos += tw.getBinSize();
+    ppos += (streampos)tw.getBinSize();
     TEST( ppos == tStrm.tellp() );
       
     tr.read( tStrm );
-    gpos += tr.getBinSize();
+    gpos += (streampos)tr.getBinSize();
     TEST( gpos == tStrm.tellg() );
     TEST( tr == tw );
   }
@@ -382,6 +382,11 @@ tBitmask02( LibTest & tester )
 
       
       TEST( ! tr.fromStream( tStrm ).good() );
+      cerr << "\nWHAT? : '" << tStrm.rdstate()
+	   << "' eof(" << ios::eofbit
+	   << ") tr '" << tr 
+	   << "'."
+	   << endl;
       TEST( tStrm.rdstate() == ( ios::eofbit ) );      
       TEST( tr.to_ulong() == 0x0f );
     }
@@ -608,6 +613,9 @@ tBitmask02( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:11:50  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:27  houghton
 // Changed Version Num to 5
 //

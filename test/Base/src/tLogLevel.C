@@ -546,11 +546,11 @@ tLogLevel( LibTest & tester )
     TEST( gpos == 0 );
     
     tw.write( tStrm );
-    ppos += tw.getBinSize();
+    ppos += (streampos)tw.getBinSize();
     TEST( ppos == tStrm.tellp() );
       
     tr.read( tStrm );
-    gpos += tr.getBinSize();
+    gpos += (streampos)tr.getBinSize();
     TEST( gpos == tStrm.tellg() );
     TEST( tr == tw );
   }
@@ -641,6 +641,9 @@ tLogLevel( LibTest & tester )
  
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:11:50  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:29  houghton
 // Changed Version Num to 5
 //

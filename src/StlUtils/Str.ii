@@ -1515,13 +1515,14 @@ Str::getline( char * dest, int size, char delim )
   return( istream::getline( dest, size, delim ) );
 }
 
-
+#if defined( STLUTILS_STR_UNSIGNED )
 inline
 istream &
 Str::getline( unsigned char * dest, int size, char delim )
 {
   return( istream::getline( dest, size, delim ) );
 }
+#endif
 
 inline
 istream &
@@ -1537,19 +1538,21 @@ Str::get( char * dest, int size, char delim )
   return( istream::get( dest, size, delim ) );
 }
 
+#if defined( STLUTILS_STR_UNSIGNED )
 inline
 istream &
 Str::get( unsigned char * dest, int size, char delim )
 {
   return( istream::get( dest, size, delim ) );
 }
-	  
+
 inline
 istream &
 Str::get( unsigned char & dest )
 {
   return( istream::get( dest ) );
 }
+#endif
 
 inline
 int
@@ -1660,31 +1663,9 @@ Str::operator += ( char src )
 
 inline
 bool
-Str::operator == ( const SubStr & two ) const
-{
-  return( compare( two ) == 0 );
-}
-
-inline
-bool
 Str::operator == ( const Str & two ) const
 {
   return( compare( two ) == 0 );
-}
-
-inline
-bool
-Str::operator == ( const char * two ) const
-{
-  return( compare( two ) == 0 );
-}
-
-
-inline
-bool
-Str::operator <  ( const SubStr & two ) const
-{
-  return( compare( two ) < 0 );
 }
 
 inline
@@ -1694,9 +1675,46 @@ Str::operator <  ( const Str & two ) const
   return( compare( two ) < 0 );
 }
 
+#if defined( STLUTILS_RELOPS_BROKEN )
 inline
 bool
-Str::operator <  ( const char * two ) const
+Str::operator != ( const Str & rhs ) const
+{
+  return( ! (*this == rhs) );
+}
+
+inline
+bool
+Str::operator > ( const Str & rhs ) const
+{
+  return( rhs < *this );
+}
+
+inline
+bool
+Str::operator <= ( const Str & rhs ) const
+{
+  return( ! (rhs < *this) );
+}
+
+inline
+bool
+Str::operator >= ( const Str & rhs ) const
+{
+  return( ! (*this < rhs) );
+}
+#endif 
+
+inline
+bool
+Str::operator == ( const SubStr & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+Str::operator <  ( const SubStr & two ) const
 {
   return( compare( two ) < 0 );
 }
@@ -1710,21 +1728,7 @@ Str::operator != ( const SubStr & two ) const
 
 inline
 bool
-Str::operator != ( const char * two ) const
-{
-  return( !( *this == two ) );
-}
-
-inline
-bool
 Str::operator >  ( const SubStr & two ) const
-{
-  return( compare( two ) > 0 );
-}
-
-inline
-bool
-Str::operator >  ( const char * two ) const
 {
   return( compare( two ) > 0 );
 }
@@ -1738,16 +1742,45 @@ Str::operator <= ( const SubStr & two ) const
 
 inline
 bool
-Str::operator <=  ( const char * two ) const
+Str::operator >= ( const SubStr & two ) const
 {
-  return( compare( two ) <= 0 );
+  return( compare( two ) >= 0 );
 }
 
 inline
 bool
-Str::operator >= ( const SubStr & two ) const
+Str::operator == ( const char * two ) const
 {
-  return( compare( two ) >= 0 );
+  return( compare( two ) == 0 );
+}
+
+
+inline
+bool
+Str::operator <  ( const char * two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+bool
+Str::operator != ( const char * two ) const
+{
+  return( !( *this == two ) );
+}
+
+inline
+bool
+Str::operator >  ( const char * two ) const
+{
+  return( compare( two ) > 0 );
+}
+
+inline
+bool
+Str::operator <=  ( const char * two ) const
+{
+  return( compare( two ) <= 0 );
 }
 
 inline
@@ -2091,6 +2124,9 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:17  houghton
 // Changed Version Num to 5
 //

@@ -92,6 +92,12 @@ public:
   inline bool	    operator == ( const LogLevel & rhs ) const;
   inline bool	    operator <  ( const LogLevel & rhs ) const;
   
+#if defined( STLUTILS_RELOPS_BROKEN )
+  inline bool		operator != ( const LogLevel & rhs ) const;
+  inline bool		operator >  ( const LogLevel & rhs ) const;
+  inline bool		operator <= ( const LogLevel & rhs ) const;
+  inline bool		operator >= ( const LogLevel & rhs ) const;
+#endif
   // libStlUtils Common Class Methods
     
   virtual size_t	getBinSize( void ) const;
@@ -376,6 +382,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

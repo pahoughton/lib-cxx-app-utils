@@ -125,17 +125,27 @@ Bitmask::fromStream( istream & src )
 {
   char tmp[64];
 
+#if defined( STLUTILS_HAS_IOSTREAM_SENTRY )
+  istream::sentry   ipfx( src, true );
+  if( ! ipfx )
+    return( src );
+#else
   if( ! src.ipfx() )
     return( src );
+#endif
 
+  int c;
+  
+  // skip leading white space
+  for( c = src.rdbuf()->sbumpc();
+       c != EOF && ( c == ' ' || c == '\t' );
+       c = src.rdbuf()->sbumpc() );
+    
   char * in = tmp;
 
   // read input into tmp until EOF or sizeof tmp exceeded
 
-  // AIX BUG cant use char to test for EOF!
-  int c;
-
-  for( c = src.rdbuf()->sbumpc();
+  for( ; // alread have first digit
        c != EOF && ((in - tmp) < (int)sizeof( tmp ));
        ++in, c = src.rdbuf()->sbumpc() )
     {
@@ -211,6 +221,9 @@ Bitmask::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:27  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:14  houghton
 // Changed Version Num to 5
 //

@@ -304,6 +304,36 @@ FilePath::operator <  ( const FilePath & rhs ) const
   return( compare( rhs ) < 0 );
 }
 
+#if defined( STLUTILS_RELOPS_BROKEN )
+inline
+bool
+FilePath::operator != ( const FilePath & rhs ) const
+{
+  return( ! (*this == rhs) );
+}
+
+inline
+bool
+FilePath::operator > ( const FilePath & rhs ) const
+{
+  return( rhs < *this );
+}
+
+inline
+bool
+FilePath::operator <= ( const FilePath & rhs ) const
+{
+  return( ! (rhs < *this) );
+}
+
+inline
+bool
+FilePath::operator >= ( const FilePath & rhs ) const
+{
+  return( ! (*this < rhs) );
+}
+#endif 
+
 inline
 int
 compare( const FilePath & one, const FilePath & two )
@@ -325,6 +355,9 @@ operator << ( ostream & dest, const FilePath & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

@@ -32,7 +32,7 @@ STLUTILS_VERSION(
 
 const Str::size_type Str::npos = NPOS;
 
-#if defined( Sun5 ) 
+#if defined( Sun5 ) && defined( WS_42 ) && defined( BROKEN )
 // This is UNBELIEVABLE but ...
 void
 unsafe_ios::operator = ( unsafe_ios & )
@@ -1094,12 +1094,13 @@ Str::read( char * dest, int size )
   return( istream::read( dest, size ) );
 }
 
+#if defined( STLUTILS_STR_UNSIGNED )
 istream &
 Str::read( unsigned char * dest, int size )
 {
   return( istream::read( dest, size ) );
 }
-
+#endif
 
 ostream &
 Str::write( ostream & dest ) const
@@ -1116,13 +1117,15 @@ Str::write( const char * src, int size )
   return( ostream::write( src, size ) );
 }
 
+#if defined( STLUTILS_STR_UNSIGNED )
 ostream &
 Str::write( const unsigned char * src, int size )
 {
   return( ostream::write( src, size ) );
 }
+#endif
 
-#if !defined( Hpux10 ) && !defined( AIX41 )
+#if defined( STLUTILS_STR_WCHAR )
 ostream &
 Str::write( const wchar_t * src, int size )
 {
@@ -1403,6 +1406,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:17  houghton
 // Changed Version Num to 5
 //

@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:07:31  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:23  houghton
 // Changed Version Num to 5
 //
@@ -105,6 +108,13 @@ public:
   inline bool	    operator == ( const UserGroup & two ) const;
   inline bool	    operator <  ( const UserGroup & two ) const;
 
+#if defined( STLUTILS_RELOPS_BROKEN )
+  inline bool		operator != ( const UserGroup & rhs ) const;
+  inline bool		operator >  ( const UserGroup & rhs ) const;
+  inline bool		operator <= ( const UserGroup & rhs ) const;
+  inline bool		operator >= ( const UserGroup & rhs ) const;
+#endif
+  
   inline   	    operator const char * ( void ) const;
   inline   	    operator gid_t ( void ) const;
 

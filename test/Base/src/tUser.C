@@ -6,8 +6,15 @@
 #include <strstream.h>
 
 
+extern "C"
+{
+  typedef int (*CompFunct)( const void * a, const void * b );
+  static int compareGid( const gid_t * one, const gid_t * two );
+};
+
+static
 int
-compareGid( gid_t * one, gid_t * two )
+compareGid( const gid_t * one, const gid_t * two )
 {
   return( compare( *one, *two ) );
 }
@@ -298,8 +305,8 @@ tUser( LibTest & tester )
 	}
     }
 
-  qsort( groups, gCount, sizeof( groups[0] ),
-	 (int(*)(const void*,const void*))compareGid );
+  ::qsort( groups, gCount, sizeof( groups[0] ),
+	   (CompFunct)compareGid );
   
   {
     // findGroups( void )
@@ -319,12 +326,12 @@ tUser( LibTest & tester )
 	const UserGroup & it = *them;
 	gid_t key = it.getGID();
 	gid_t * found
-	  = (gid_t *)bsearch( &key,
-			      groups,
-			      gCount,
-			      sizeof( groups[0] ),
-			      (int(*)(const void*,const void*))compareGid );
-
+	  = (gid_t *)::bsearch( &key,
+				groups,
+				gCount,
+				sizeof( groups[0] ),
+				(CompFunct)compareGid );
+	
 	if( found == 0 )
 	  {
 	    TEST( key == t.getPrimaryGroup().getGID() );
@@ -576,11 +583,11 @@ tUser( LibTest & tester )
     TEST( gpos == 0 );
     
     tw.write( tStrm );
-    ppos += tw.getBinSize();
+    ppos += (streampos) tw.getBinSize();
     TEST( ppos == tStrm.tellp() );
       
     tr.read( tStrm );
-    gpos += tr.getBinSize();
+    gpos += (streampos) tr.getBinSize();
     TEST( gpos == tStrm.tellg() );
     TEST( tr == tw );
   }

@@ -58,15 +58,15 @@ tDateTime07( LibTest & tester )
     TEST( gpos == 0 );
     
     d1.write( testStream );
-    ppos += d1.getBinSize();
+    ppos += (streampos) d1.getBinSize();
     TEST( ppos == testStream.tellp() );
       
     d2.write( testStream );
-    ppos += d2.getBinSize();
+    ppos += (streampos) d2.getBinSize();
     TEST( ppos == testStream.tellp() );
       
     dl.write( testStream );
-    ppos += d1.getBinSize();
+    ppos += (streampos) d1.getBinSize();
     TEST( ppos == testStream.tellp() );
 
     d1.toStream( testStream );
@@ -75,19 +75,19 @@ tDateTime07( LibTest & tester )
     DateTime dr;
 
     dr.read( testStream );
-    gpos += dr.getBinSize();
+    gpos += (streampos) dr.getBinSize();
     TEST( testStream.gcount() == dr.getBinSize() );
     TEST( gpos == testStream.tellg() );
     TEST( dr == d1 );
 
     dr.read( testStream );
-    gpos += dr.getBinSize();
+    gpos += (streampos) dr.getBinSize();
     TEST( testStream.gcount() == dr.getBinSize() );
     TEST( gpos == testStream.tellg() );
     TEST( dr == d2 );
 
     dr.read( testStream );
-    gpos += dr.getBinSize();
+    gpos += (streampos) dr.getBinSize();
     TEST( testStream.gcount() == dr.getBinSize() );
     TEST( gpos == testStream.tellg() );
     TEST( dr == dl );

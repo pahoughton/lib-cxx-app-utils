@@ -141,6 +141,7 @@ public:
     RegexScan *	    regex;
   };
 
+  // do NOT use this
 protected:
   
   void initLogBuffer( void );
@@ -165,8 +166,10 @@ protected:
   ios::open_mode    openMode;
   int		    openProt;
   bool		    streamIsFile;
+  int		    logFd;
   
   char *    	buffer;
+  
   streambuf *	stream;
   streambuf * 	teeStream;
 
@@ -297,6 +300,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //

@@ -161,11 +161,11 @@ tDateRangeWeekly( LibTest & tester )
     TEST( gpos == 0 );
     
     tout.write( testStream );
-    ppos += tout.getBinSize();
+    ppos += (streampos) tout.getBinSize();
     TEST( ppos == testStream.tellp() );
       
     tin.read( testStream );
-    gpos += tin.getBinSize();
+    gpos += (streampos) tin.getBinSize();
     TEST( gpos == testStream.tellg() );
     TEST( tin.getTimeT() == tout.getTimeT() );
     TEST( tin.getStart() == tout.getStart() );

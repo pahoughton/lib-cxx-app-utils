@@ -24,7 +24,6 @@
 #include <iomanip>
 #include <strstream.h>
 #include <cstring>
-#include <cerrno>
 
 #include <utime.h>
 
@@ -60,7 +59,7 @@ FileStat::setTimes(
 
   if( utime( name, &tv ) )
     {
-      sysError = errno;
+      sysError = ::errno;
       return( false );
     }
   else
@@ -79,7 +78,7 @@ FileStat::setMode( mode_t mode )
 
   if( chmod( name, mode ) )
     {
-      sysError = errno;
+      sysError = ::errno;
       return( false );
     }
 
@@ -96,25 +95,25 @@ FileStat::setMode( Who who, What what, bool on )
   mode_t mode = getMode();
   mode_t change = 0;
 
-  if( who & OTHER )
+  if( (who & OTHER) == true )
     {
-      if( what & READ )	    change |= S_IROTH;
-      if( what & WRITE )    change |= S_IWOTH;
-      if( what & EXEC )	    change |= S_IXOTH;
+      if( (what & READ) == true )   change |= S_IROTH;
+      if( (what & WRITE) == true )  change |= S_IWOTH;
+      if( (what & EXEC) == true )   change |= S_IXOTH;
     }
   
-  if( who & GROUP )
+  if( (who & GROUP) == true )
     {
-      if( what & READ )	    change |= S_IRGRP;
-      if( what & WRITE )    change |= S_IWGRP;
-      if( what & EXEC )	    change |= S_IXGRP;
+      if( (what & READ) == true )   change |= S_IRGRP;
+      if( (what & WRITE) == true )  change |= S_IWGRP;
+      if( (what & EXEC) == true )   change |= S_IXGRP;
     }
   
-  if( who & USER )
+  if( (who & USER) == true )
     {
-      if( what & READ )	    change |= S_IRUSR;
-      if( what & WRITE )    change |= S_IWUSR;
-      if( what & EXEC )	    change |= S_IXUSR;
+      if( (what & READ) == true )   change |= S_IRUSR;
+      if( (what & WRITE) == true )  change |= S_IWUSR;
+      if( (what & EXEC) == true )   change |= S_IXUSR;
     }
 
   if( on )
@@ -133,7 +132,7 @@ FileStat::setUser( uid_t uid )
 
   if( chown( name, uid, getGID() ) )
     {
-      sysError = errno;
+      sysError = ::errno;
       return( false );
     }
 
@@ -151,7 +150,7 @@ FileStat::setGroup( gid_t gid )
 
   if( chown( name, getUID(), gid ) )
     {
-      sysError = errno;
+      sysError = ::errno;
       return( false );
     }
 
@@ -169,7 +168,7 @@ FileStat::setOwner( uid_t uid, gid_t gid )
 
   if( chown( name, uid, gid ) )
     {
-      sysError = errno;
+      sysError = ::errno;
       return( false );
     }
 
@@ -416,6 +415,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //
