@@ -50,6 +50,7 @@
 #define AppError    ALog( LogLevel::Error )
 #define AppInfo	    ALog( LogLevel::Info )
 #define AppDebug    ALog( LogLevel::Debug )
+#define AppTest     ALog( LogLevel::Test )
 
 
 #if defined( CLUE_DEBUG )
@@ -817,6 +818,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/03/17 14:16:27  houghton
+// Added AppTest macro.
+//
 // Revision 3.7  1997/03/03 19:04:13  houghton
 // Bug-Fix: had and extra ',' at last ErrorNum enum.
 //
