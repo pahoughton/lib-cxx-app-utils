@@ -14,7 +14,11 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/12 18:33:34  houghton
+// Revision 2.2  1995/11/13 11:31:02  houghton
+// Changed compare to const.
+// Changed date type from void * to char *.
+//
+// Revision 2.1  1995/11/12  18:33:34  houghton
 // Initial Version.
 //
 //
@@ -81,7 +85,7 @@ public:
   
   bool			resize( size_t newSize, bool trunc = false );
   
-  virtual int		compare( const Void & rhs );
+  virtual int		compare( const Void & rhs ) const;
   
   inline Void &	    operator =  ( const Void & rhs );
   
@@ -121,7 +125,7 @@ protected:
   
 private:
 
-  void *    data;
+  char *    data;
   size_t    dataSize;
   size_t    dataBufSize;
 
