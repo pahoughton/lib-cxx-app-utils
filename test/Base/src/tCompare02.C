@@ -1,3 +1,20 @@
+//
+// File:        tCompare02.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for Compare functions in Compare.hh
+//
+// Source Header Version: 2.3
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/27/96 04:15
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -73,16 +90,6 @@ tCompare02( LibTest & tester )
   char more[] = "z test";
 
   {
-    // compare( char *, char * )
-    char * l = less;
-    char * m = more;
-    
-    TEST( compare( l, l ) == 0 );
-    TEST( compare( l, m ) < 0 );
-    TEST( compare( m, l ) > 0 );
-  }
-  
-  {
     // compare( const char *, const char * )
     const char * l = less;
     const char * m = more;
@@ -93,8 +100,8 @@ tCompare02( LibTest & tester )
   }
   
   {
-    // compare( char *, const char * )
     // compare( const char *, char * )
+    // compare( char *, const char * )
     char * l = less;
     char * m = more;
     
@@ -110,7 +117,16 @@ tCompare02( LibTest & tester )
     TEST( compare( m, cl ) > 0 );
   }
   
-
+  {
+    // compare( char *, char * )
+    char * l = less;
+    char * m = more;
+    
+    TEST( compare( l, l ) == 0 );
+    TEST( compare( l, m ) < 0 );
+    TEST( compare( m, l ) > 0 );
+  }
+  
   {
     char * l = less;
     char * m = more;
@@ -130,75 +146,12 @@ tCompare02( LibTest & tester )
     const char * const * cpcl = &cl;
     const char * const * cpcm = &cm;
 
-    // compare( char **, char ** )
-    TEST( compare( pl, pl ) == 0 );
-    TEST( compare( pl, pm ) < 0 );
-    TEST( compare( pm, pl ) > 0 );
+    // compare( const char * const *, const char * const * )
+    TEST( compare( cpcl, cpcl ) == 0 );
+    TEST( compare( cpcl, cpcm ) < 0 );
+    TEST( compare( cpcm, cpcl ) > 0 );
 
-    // compare( char **, const char ** )
-    TEST( compare( pl, cpl ) == 0 );
-    TEST( compare( pl, cpm ) < 0 );
-    TEST( compare( pm, cpl ) > 0 );
-
-    // compare( char **, char * const * )
-    TEST( compare( pl, pcl ) == 0 );
-    TEST( compare( pl, pcm ) < 0 );
-    TEST( compare( pm, pcl ) > 0 );
-
-    // compare( char **, const char * const * )
-    TEST( compare( pl, cpcl ) == 0 );
-    TEST( compare( pl, cpcm ) < 0 );
-    TEST( compare( pm, cpcl ) > 0 );
-
-
-    // compare( const char **, char ** )
-    TEST( compare( cpl, pl ) == 0 );
-    TEST( compare( cpl, pm ) < 0 );
-    TEST( compare( cpm, pl ) > 0 );
-
-    // compare( const char **, const char ** )
-    TEST( compare( cpl, cpl ) == 0 );
-    TEST( compare( cpl, cpm ) < 0 );
-    TEST( compare( cpm, cpl ) > 0 );
-
-    // compare( const char **, char * const * )
-    TEST( compare( cpl, pcl ) == 0 );
-    TEST( compare( cpl, pcm ) < 0 );
-    TEST( compare( cpm, pcl ) > 0 );
-
-    // compare( const char **, const char * const * )
-    TEST( compare( cpl, cpcl ) == 0 );
-    TEST( compare( cpl, cpcm ) < 0 );
-    TEST( compare( cpm, cpcl ) > 0 );
-
-    
-    // compare( char * const *, char ** )
-    TEST( compare( pcl, pl ) == 0 );
-    TEST( compare( pcl, pm ) < 0 );
-    TEST( compare( pcm, pl ) > 0 );
-
-    // compare( char * const *, const char ** )
-    TEST( compare( pcl, cpl ) == 0 );
-    TEST( compare( pcl, cpm ) < 0 );
-    TEST( compare( pcm, cpl ) > 0 );
-
-    // compare( char * const *, char * const * )
-    TEST( compare( pcl, pcl ) == 0 );
-    TEST( compare( pcl, pcm ) < 0 );
-    TEST( compare( pcm, pcl ) > 0 );
-
-    // compare( char * const *, const char * const * )
-    TEST( compare( pcl, cpcl ) == 0 );
-    TEST( compare( pcl, cpcm ) < 0 );
-    TEST( compare( pcm, cpcl ) > 0 );
-
-    
-    // compare( const char * const *, char ** )
-    TEST( compare( cpcl, pl ) == 0 );
-    TEST( compare( cpcl, pm ) < 0 );
-    TEST( compare( cpcm, pl ) > 0 );
-
-    // compare( const char * const *, const char ** )
+    // compare( const char * const *, const char * * )
     TEST( compare( cpcl, cpl ) == 0 );
     TEST( compare( cpcl, cpm ) < 0 );
     TEST( compare( cpcm, cpl ) > 0 );
@@ -208,11 +161,86 @@ tCompare02( LibTest & tester )
     TEST( compare( cpcl, pcm ) < 0 );
     TEST( compare( cpcm, pcl ) > 0 );
 
-    // compare( const char * const *, const char * const * )
-    TEST( compare( cpcl, cpcl ) == 0 );
-    TEST( compare( cpcl, cpcm ) < 0 );
-    TEST( compare( cpcm, cpcl ) > 0 );
+    // compare( const char * const *, char * * )
+    TEST( compare( cpcl, pl ) == 0 );
+    TEST( compare( cpcl, pm ) < 0 );
+    TEST( compare( cpcm, pl ) > 0 );
+    
 
+    
+    // compare( const char * *, const char * const * )
+    TEST( compare( cpl, cpcl ) == 0 );
+    TEST( compare( cpl, cpcm ) < 0 );
+    TEST( compare( cpm, cpcl ) > 0 );
+
+    // compare( const char * *, const char * * )
+    TEST( compare( cpl, cpl ) == 0 );
+    TEST( compare( cpl, cpm ) < 0 );
+    TEST( compare( cpm, cpl ) > 0 );
+
+    // compare( const char * *, char * const * )
+    TEST( compare( cpl, pcl ) == 0 );
+    TEST( compare( cpl, pcm ) < 0 );
+    TEST( compare( cpm, pcl ) > 0 );
+
+    // compare( const char * *, char * * )
+    TEST( compare( cpl, pl ) == 0 );
+    TEST( compare( cpl, pm ) < 0 );
+    TEST( compare( cpm, pl ) > 0 );
+
+
+    
+    // compare( char * const *, const char * const * )
+    TEST( compare( pcl, cpcl ) == 0 );
+    TEST( compare( pcl, cpcm ) < 0 );
+    TEST( compare( pcm, cpcl ) > 0 );
+
+    // compare( char * const *, const char * * )
+    TEST( compare( pcl, cpl ) == 0 );
+    TEST( compare( pcl, cpm ) < 0 );
+    TEST( compare( pcm, cpl ) > 0 );
+
+    // compare( char * const *, char * const * )
+    TEST( compare( pcl, pcl ) == 0 );
+    TEST( compare( pcl, pcm ) < 0 );
+    TEST( compare( pcm, pcl ) > 0 );
+
+    // compare( char * const *, char * * )
+    TEST( compare( pcl, pl ) == 0 );
+    TEST( compare( pcl, pm ) < 0 );
+    TEST( compare( pcm, pl ) > 0 );
+
+
+
+    // compare( char * *, const char * const * )
+    TEST( compare( pl, cpcl ) == 0 );
+    TEST( compare( pl, cpcm ) < 0 );
+    TEST( compare( pm, cpcl ) > 0 );
+    
+    // compare( char * *, const char ** )
+    TEST( compare( pl, cpl ) == 0 );
+    TEST( compare( pl, cpm ) < 0 );
+    TEST( compare( pm, cpl ) > 0 );
+
+    // compare( char * *, char * const * )
+    TEST( compare( pl, pcl ) == 0 );
+    TEST( compare( pl, pcm ) < 0 );
+    TEST( compare( pm, pcl ) > 0 );
+
+    // compare( char * *, char * * )
+    TEST( compare( pl, pl ) == 0 );
+    TEST( compare( pl, pm ) < 0 );
+    TEST( compare( pm, pl ) > 0 );
+
+    
   }
   return( true );
 }
+
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:47:35  houghton
+// Added header comments.
+// Reorder test to match header.
+//
+//
