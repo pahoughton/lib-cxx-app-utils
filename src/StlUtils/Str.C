@@ -1273,9 +1273,15 @@ Str::dumpInfo(
   
   return( dest  );
 }  
-    
+
+#if defined( STLUTILS_HAVE_LONG_LONG )
+#define NumType unsigned long long
+#else
+#define NumType unsigned long
+#endif
+
 bool
-Str::writeNum( unsigned long num, unsigned short base, bool neg )
+Str::writeNum( NumType num, unsigned short base, bool neg )
 {
   static const char lDigits[] = "0123456789abcdefghijklmnopqrstuvwxyz";
   static const char uDigits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -1393,6 +1399,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.11  1999/05/09 13:00:40  houghton
+// Added long long support.
+//
 // Revision 4.10  1999/05/01 12:53:33  houghton
 // Added scan( quotechars ) to support delimited files with quoted fields.
 //

@@ -379,6 +379,11 @@ public:
   inline Str &	from( unsigned short 	src, unsigned short base = 0);
   inline Str &	from( unsigned long 	src, unsigned short base = 0);
 
+#if defined( STLUTILS_HAVE_LONG_LONG )
+  inline Str &	from( long long		src, unsigned short base = 0);
+  inline Str &	from( unsigned long long src, unsigned short base = 0);
+#endif
+
   inline bool	to( bool &		dest ) const;
   inline bool	to( int &   	    	dest,
 		    unsigned short	base = 0,
@@ -405,6 +410,15 @@ public:
 		    unsigned short	base = 0,
 		    bool		stopAtNonDigit = false ) const;
   
+#if defined( STLUTILS_HAVE_LONG_LONG )
+  inline bool	to( long long &	    	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
+  
+  inline bool	to( unsigned long long  &   dest,
+		    unsigned short	    base = 0,
+		    bool		    stopAtNonDigit = false ) const;
+#endif
   inline bool	    	toBool( void ) const;
   
   inline int	    	toInt( unsigned short base = 0,
@@ -422,6 +436,14 @@ public:
   inline unsigned long	toULong( unsigned short base = 0,
 				 bool	        stopAtNonDigit = false ) const;
 
+#if defined( STLUTILS_HAVE_LONG_LONG )
+  inline long long    	toLongLong( unsigned short base = 0,
+				    bool       stopAtNonDigit = false ) const;
+  
+  inline unsigned long long toULongLong( unsigned short base = 0,
+					 bool	stopAtNonDigit = false ) const;
+#endif
+  
   bool			to( Range & r, unsigned short base = 0 ) const;
   RangeList::size_type	to( RangeList & range, unsigned short base = 0 ) const;
   
@@ -596,8 +618,13 @@ protected:
   
   inline const char *	strbase() const;
 
+#if defined( STLUTILS_HAVE_LONG_LONG )
+  bool writeNum( unsigned long long num,
+		 unsigned short base = 0,
+		 bool neg = false);
+#else
   bool writeNum( unsigned long num, unsigned short base = 0, bool neg = false);
-
+#endif
   struct ScanMatch
   {
     size_type  pos;
@@ -1764,6 +1791,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.13  1999/05/09 13:00:50  houghton
+// Added long long support.
+//
 // Revision 4.12  1999/05/01 12:53:36  houghton
 // Added scan( quotechars ) to support delimited files with quoted fields.
 //
