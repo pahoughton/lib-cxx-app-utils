@@ -31,6 +31,7 @@ ARCH_C_SOURCES		=	\
 
 ARCH_CXX_C_SOURCES	=	\
 	basename.C		\
+	Directory.C		\
 	$(UNIX_CXX_C_SOURCES)	\
 
 ARCH_USER_H_INCS	=	\
@@ -40,10 +41,12 @@ ARCH_USER_H_INCS	=	\
 ARCH_USER_HH_INCS	=		\
 	ClueArch.hh			\
 	ClueSysStat.hh			\
-	ClueExceptions.hh	\
+	ClueExceptions.hh		\
+	Directory.hh			\
 	$(UNIX_USER_HH_INCS)		\
 
 ARCH_USER_II_INCS	=		\
+	Directory.ii			\
 	$(UNIX_USER_II_INCS)		\
 
 ARCH_C_HEADERS		=		\
@@ -58,6 +61,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 3.7  1997/06/09 12:02:56  houghton
+# Added 'Directory'
+#
 # Revision 3.6  1997/03/03 19:07:31  houghton
 # Cleanup.
 #
