@@ -13,6 +13,9 @@
 # See End of file for format specs
 #
 
+ENH Paul Houghton 09/20/97 06:02
+Add logdir to Param
+
 ENH Paul Houghton 08/28/97 15:45
 add test for new DateTime operator - ()
 add doc for new DateTime oprator - ()
@@ -179,6 +182,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 4.2  1997/09/21 13:16:33  houghton
+# *** empty log message ***
+#
 # Revision 4.1  1997/09/17 15:12:01  houghton
 # Changed to Version 4
 #
