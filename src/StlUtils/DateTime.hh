@@ -6,7 +6,9 @@
 //
 //  The DateTime class provides many methods for managing and converting
 //  date/time values. A time_t value is used inside the class for
-//  storage. Most methods do NOT verify the values passed.
+//  storage.
+//
+//  Most methods do NOT verify the values passed.
 //
 // Author:      Paul Houghton x2309 - (houghton@shoe)
 // Created:     02/09/94 12:24
@@ -15,6 +17,10 @@
 //
 // 
 // $Log$
+// Revision 2.4  1996/04/27 12:58:55  houghton
+// Removed unneeded includes.
+// Cleanup.
+//
 // Revision 2.3  1995/11/12 17:51:56  houghton
 // New default constructor.
 // Now default sets the value to current local time.
@@ -31,29 +37,23 @@
 //
 //
 
+
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-#include <RegexScan.hh>
-#include <DateTimeUtils.hh>
 #include <BinStream.hh>
-#include <iostream>
-#include <functional>
-#include <cstddef>
 #include <ctime>
 #else
 #include <ClueCfg.hh>
-#include <RxScan.hh>
-#include <DtTmUtil.hh>
 #include <BinStrm.hh>
-#include <iostream>
-#include <functional>
-#include <cstddef>
 #include <ctime>
 #endif
+
 
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
+
+class RegexScan;
 
 class CLUE_CLASS_T DateTime : public BinObject
 {
@@ -214,7 +214,7 @@ private:
   long	    	offset;
   struct tm   	tm;
 
-  time_t      	seconds;
+  time_t	seconds;
   
 };
 
@@ -255,6 +255,7 @@ compare( const DateTime & one, const DateTime & two );
 //  Constructors:
 //
 //	DateTime( void )
+//      
 //	    sets the initial value to current local time.
 //
 //  	DateTime( time_t setTime, bool addLocal = false );
@@ -408,14 +409,16 @@ compare( const DateTime & one, const DateTime & two );
 //  	    return the name of the timezone that has been set. If no
 //  	    timezone is set, 0 is returned.
 //
-//  	static long
+//  	static
+//	long
 //  	getGmtOffset( const char * timeZone = 0 )
 //  	    return the value of the offset from Greenwich Mean Time
 //  	    in seconds.(i.e. -21600 for CST6CDT ). The value is negative
 //  	    when used in the USA. (west of GMT), Uses the TZ environment
 //  	    variable.
 //
-//  	static const char *
+//  	static
+//	const char *
 //  	getSysTimeZone( void )
 //  	    return the name of the current system time zone.
 //  	    i.e (CST6CDT). Uses the TZ environment variable.
@@ -605,10 +608,10 @@ compare( const DateTime & one, const DateTime & two );
 //  	    be returned.  Only the actual date/time value is used
 //  	    for comparison
 //
-//  	operator time_t () const;
+//  	operator time_t ( void ) const;
 //  	    return the current date/time as a time_t value.
 //
-//  	operator const char * () const
+//  	operator const char * ( void ) const
 //    	    return the current date/time as strings. The getString
 //  	    method is used to provide to string.
 //
