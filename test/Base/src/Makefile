@@ -265,6 +265,7 @@ CXX_C_SOURCES	=			\
 	tParam.C                        \
 	tParam01.C                      \
 	tSortOrder.C                    \
+	tFileBinStream.C		\
 
 hold = \
 	tStrSet.C                       \
@@ -384,6 +385,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.16  1996/08/12 17:50:11  houghton
+# Added test for FileBinStream.
+#
 # Revision 2.15  1996/07/09 11:35:16  houghton
 # Change Libs
 #

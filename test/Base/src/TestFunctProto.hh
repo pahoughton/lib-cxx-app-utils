@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 2.3  1996/08/12 17:50:11  houghton
+// Added test for FileBinStream.
+//
 // Revision 2.2  1996/06/09 09:46:43  houghton
 // Added tHeapNetStream.
 //
@@ -148,6 +151,8 @@ bool tLog02( LibTest & tester );
 bool tLog03( LibTest & tester );
 bool tLog04( LibTest & tester );
 bool tLog05( LibTest & tester );
+// FileBinStream.hh
+bool	tFileBinStream( LibTest & tester );
 
 #endif // ! def _TestFunctProto_hh_ 
 

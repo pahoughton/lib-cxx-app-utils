@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/08/12 17:50:12  houghton
+// Added test for FileBinStream.
+//
 // Revision 2.5  1996/06/09 09:47:01  houghton
 // Added tHeapNetStream.
 // Added LibLog.
@@ -86,6 +89,7 @@ LibTest::TestItem   TestList[] =
   { "Log",		    tLog },
   { "Param",		    tParam },
   { "SortOrder",	    tSortOrder },
+  { "FileBinStream",	    tFileBinStream },
 #if defined( ALL )
   { "WithCommon",	    tWithCommon },
   { "WithWcf",		    tWithWcf },
