@@ -62,7 +62,7 @@ public:
   
   Obj &		obj( const ObjKey & objKey ) {
 
-    Index::pair_iterator_bool	ins = index.insert(
+    pair< Index::iterator, bool >	ins = index.insert(
       Index::value_type( lruFunct( objKey ), (Rec *)0 ) );
 
     if( ! (*ins.first).second )
@@ -246,6 +246,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/10/23 13:05:14  houghton
+// Changed: the 'map' class no longer defines the type 'pair_iterator_bool'.
+//
 // Revision 4.1  1998/10/13 15:19:14  houghton
 // Initial Version.
 //
