@@ -22,6 +22,7 @@
 //
 
 #include <ClueConfig.hh>
+#include <vector>
 
 template < class T >
 class SortOrder
@@ -163,6 +164,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/07/18 19:26:09  houghton
+// Bug-Fix: added include <vector>
+//
 // Revision 3.2  1997/06/09 12:02:33  houghton
 // Complete rework.
 //
