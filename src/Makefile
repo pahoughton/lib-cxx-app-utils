@@ -84,6 +84,11 @@ $(BUILD_TARGETS):
 		$($(@)_exports)					\
 		$(exports))
 
+check: test
+	$(call make_subdirs,$(PRJ_TOPDIR)/test,$@,	\
+		$($(@)_exports)				\
+		$(exports))
+
 $(INSTALL_LIB_TARGETS):
 	$(call make_subdirs,$(patsubst install_lib_%,install_%,$@),	\
 		$(LIB_SUBDIRS),						\
