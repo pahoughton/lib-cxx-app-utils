@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1995/12/31 11:20:59  houghton
+// Bug fix - remove 'inline' statement.
+//
 // Revision 2.2  1995/12/04 11:16:21  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 // Bug Fix - Now there is a special type for all single 'bit' values.
@@ -105,7 +108,6 @@ Bitmask::write( ostream & dest ) const
   return( dest );
 }
 
-inline
 istream &
 Bitmask::read( istream & src )
 {
