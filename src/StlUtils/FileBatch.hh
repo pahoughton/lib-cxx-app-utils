@@ -73,6 +73,8 @@ class FileBatch : public FileBatchBase
 
 public:
 
+  typedef FileBatch< Rec >	self;
+  
   typedef STLUTILS_U32_SIZE_T	size_type;
   typedef ptrdiff_t		difference_type;
   typedef Rec &			reference;
@@ -82,7 +84,11 @@ public:
 
   // * iterator *
   class iterator
-    : public bidirectional_iterator< Rec, difference_type >
+    : public std::iterator< bidirectional_iterator_tag,
+                            Rec,
+                            difference_type,
+                            Rec *,
+                            Rec & >
   {
   public:
 
@@ -98,7 +104,7 @@ public:
       {};
 
     inline iterator &	operator ++ ( void ) {
-      pos += sizeof( Rec );
+      pos += (streampos) sizeof( Rec );
       return( *this );
     };
 
@@ -109,7 +115,7 @@ public:
     };
 
     inline iterator &	operator -- ( void ) {
-      pos -= sizeof( Rec );
+      pos -= (streampos) sizeof( Rec );
       return( *this );
     };
 
@@ -173,7 +179,11 @@ public:
 
   // * const_iterator *
   class const_iterator
-    : public bidirectional_iterator< Rec, difference_type >
+    : public std::iterator< bidirectional_iterator_tag,
+                            Rec,
+                            difference_type,
+                            Rec *,
+                            Rec & >
   {
   public:
     inline const_iterator( void )
@@ -187,7 +197,7 @@ public:
 	readPos( from.readPos )
       {};
 
-    inline const_iterator( const iterator & from )
+    inline const_iterator( const self::iterator & from )
       : owner( from.owner ),
 	rec( from.rec ),
 	pos( from.pos ),
@@ -195,7 +205,7 @@ public:
       {};
 
     inline const_iterator &	operator ++ ( void ) {
-      pos += sizeof( Rec );
+      pos += (streampos) sizeof( Rec );
       return( *this );
     };
 
@@ -206,7 +216,7 @@ public:
     };
 
     inline const_iterator &	operator -- ( void ) {
-      pos -= sizeof( Rec );
+      pos -= (streampos) sizeof( Rec );
       return( *this );
     };
 
@@ -236,7 +246,7 @@ public:
       return( *this );
     };
       
-    inline const_iterator &	operator = ( const iterator & rhs ) {
+    inline const_iterator &	operator = ( const self::iterator & rhs ) {
       owner	= rhs.owner;
       rec	= rhs.rec;
       pos	= rhs.pos;
@@ -248,10 +258,14 @@ public:
       return( owner == rhs.owner && pos == rhs.pos );
     };
 
-    inline bool	    operator == ( const iterator & rhs ) const {
+    inline bool	    operator == ( const self::iterator & rhs ) const {
       return( owner == rhs.owner && pos == rhs.pos );
     };
 
+    inline bool	    operator != ( const self::iterator & rhs ) const {
+      return( !(*this == rhs));
+    };
+    
   protected:
 
     friend class iterator;
@@ -430,6 +444,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/06/27 10:46:05  houghton
+// Port(Sun C++ 5.0): change to use 'std' iterator classes.
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //
