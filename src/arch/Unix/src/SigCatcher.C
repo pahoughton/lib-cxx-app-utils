@@ -34,15 +34,21 @@ CLUE_VERSION(
 SigCatcher *	SigCatcher::self = 0;
 
 SigCatcher::SigCatcher( void )
+  : errorNum( E_OK ),
+    osErrno( 0 )
 {
 }
 
 SigCatcher::SigCatcher( Signal sig )
+  : errorNum( E_OK ),
+    osErrno( 0 )
 {
   catchSig( sig );
 }
 
 SigCatcher::SigCatcher( const SigList & catchSigList )
+  : errorNum( E_OK ),
+    osErrno( 0 )
 {
   for( SigList::const_iterator them = catchSigList.begin();
        them != catchSigList.end();
@@ -56,6 +62,8 @@ SigCatcher::SigCatcher(
   const SigList & catchSigList,
   const SigList & ignoreSigList
   )
+  : errorNum( E_OK ),
+    osErrno( 0 )
 {
   {
     for( SigList::const_iterator them = catchSigList.begin();
@@ -82,6 +90,8 @@ SigCatcher::SigCatcher(
   const Signal *    ignoreSigList,
   size_t	    ignoreCount
   )
+  : errorNum( E_OK ),
+    osErrno( 0 )
 {
   {
     for( size_t s = 0; s < catchCount; ++ s )
@@ -297,6 +307,9 @@ SigCatcher::catchAction(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/04/21 12:15:54  houghton
+// Bug-Fix: errorNum and osErrno initializers where missing from constructors.
+//
 // Revision 3.2  1997/04/21 09:57:51  houghton
 // Port: include errno.h.
 //
