@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:00  houghton
+// Revision 2.2  1995/11/12 18:33:01  houghton
+// Changed to use GnuRegex in libCommon.
+//
+// Revision 2.1  1995/11/10  12:41:00  houghton
 // Change to Version 2
 //
 // Revision 1.2  1995/11/05  14:44:41  houghton
@@ -24,7 +27,7 @@
 #include <cstring>
 #include <climits>
 extern "C" {
-#include <regex.h>
+#include "GnuRegex.h"
 };
 #include "RegexScan.hh"
 #include "Str.hh"
@@ -34,7 +37,7 @@ extern "C" {
 #include <cstring>
 #include <climits>
 extern "C" {
-#include <regex.h>
+#include "GnuRegex.h"
 };
 #include "RxScan.hh"
 #include "Str.hh"
@@ -118,7 +121,7 @@ RegexScan::setPattern(
   )
 {
   
-  unsigned int oldSyntax = re_set_syntax( reSyntax );
+  unsigned int oldSyntax = GnuRe_set_syntax( reSyntax );
 
   cleanup();
 
@@ -127,11 +130,11 @@ RegexScan::setPattern(
   
   size_t    patLen = (pattern) ? strlen( pattern ) : 0;
 
-  buf = (re_pattern_buffer *)malloc( sizeof(re_pattern_buffer) );
-  memset( buf, 0, sizeof( re_pattern_buffer ) );
+  buf = (GnuRe_pattern_buffer *)malloc( sizeof(GnuRe_pattern_buffer) );
+  memset( buf, 0, sizeof( GnuRe_pattern_buffer ) );
 
-  reg = (re_registers *)malloc( sizeof( re_registers ) );
-  memset( reg, 0, sizeof( re_registers ) );
+  reg = (GnuRe_registers *)malloc( sizeof( GnuRe_registers ) );
+  memset( reg, 0, sizeof( GnuRe_registers ) );
   
   if( fast )
     buf->fastmap = (char *)malloc( 1 << CHAR_BIT );
@@ -141,12 +144,12 @@ RegexScan::setPattern(
 
   buf->allocated = max( bufSize, patLen );
   buf->buffer = (unsigned char*)malloc( buf->allocated );
-  if( (re_msg = re_compile_pattern( pattern, patLen, buf )) )
+  if( (re_msg = GnuRe_compile_pattern( pattern, patLen, buf )) )
       return;
   if( fast )
-    re_compile_fastmap( buf );
+    GnuRe_compile_fastmap( buf );
 
-  re_set_syntax( oldSyntax );
+  GnuRe_set_syntax( oldSyntax );
 }
   
 bool
@@ -160,7 +163,7 @@ RegexScan::match(
   
   size_t    strLen = (strLength == NPOS ) ? strlen( str )  : strLength;  
   
-  return( re_match_2( buf, 0, 0, (char *)str,
+  return( GnuRe_match_2( buf, 0, 0, (char *)str,
 		      strLen, strStart, reg, strLen ) != -1 );
 }
 
@@ -175,7 +178,7 @@ RegexScan::search(
   
   size_t    strLen = (strLength == NPOS ) ? strlen( str ) : strLength;  
   
-  if( re_search_2( buf, 0, 0, (char *)str, strLen, strStart,
+  if( GnuRe_search_2( buf, 0, 0, (char *)str, strLen, strStart,
 		   strLen, reg, strLen) >= 0 )
     {
       return( true );
@@ -234,16 +237,16 @@ RegexScan::operator =  ( const char * pattern )
 
 void
 RegexScan::copy(
-  re_pattern_buffer * srcBuf,
-  re_registers * srcReg,
+  GnuRe_pattern_buffer * srcBuf,
+  GnuRe_registers * srcReg,
   const char * pattern
   )
 {
   patternString = new char[ strlen( pattern ) + 5 ];
   strcpy( patternString, pattern );
   
-  buf = new re_pattern_buffer;
-  memcpy( buf, srcBuf, sizeof( re_pattern_buffer ) );
+  buf = (GnuRe_pattern_buffer *)malloc( sizeof(GnuRe_pattern_buffer) );
+  memcpy( buf, srcBuf, sizeof( GnuRe_pattern_buffer ) );
 
   if( buf->allocated )
     {
@@ -256,15 +259,20 @@ RegexScan::copy(
       memcpy( buf->fastmap, srcBuf->fastmap, (1 << CHAR_BIT) );
     }
   
-  reg = new re_registers;
+  reg = (GnuRe_registers *)malloc( sizeof( GnuRe_registers ) );
+  
   reg->num_regs = srcReg->num_regs;
 
   if( buf->regs_allocated == REGS_REALLOCATE )
     {
-      reg->start = (regoff_t*)malloc( reg->num_regs * sizeof( regoff_t ) );
-      reg->end   = (regoff_t*)malloc( reg->num_regs * sizeof( regoff_t ) );
-      memcpy( reg->start, srcReg->start, reg->num_regs * sizeof( regoff_t ) );
-      memcpy( reg->end, srcReg->end, reg->num_regs * sizeof( regoff_t ) );
+      reg->start = (GnuRegoff_t*)malloc( reg->num_regs *
+					 sizeof( GnuRegoff_t ) );
+      reg->end   = (GnuRegoff_t*)malloc( reg->num_regs *
+					 sizeof( GnuRegoff_t ) );
+      memcpy( reg->start, srcReg->start,
+	      reg->num_regs * sizeof( GnuRegoff_t ) );
+      memcpy( reg->end, srcReg->end,
+	      reg->num_regs * sizeof( GnuRegoff_t ) );
     } 
 }
 

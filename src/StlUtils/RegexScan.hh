@@ -11,7 +11,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/10 14:08:38  houghton
+// Revision 2.3  1995/11/12 18:33:05  houghton
+// Changed to use GnuRegex in libCommon.
+//
+// Revision 2.2  1995/11/10  14:08:38  houghton
 // Updated documentation comments
 //
 // Revision 2.1  1995/11/10  12:41:00  houghton
@@ -96,14 +99,14 @@ public:
   
 protected:
 
-  struct re_pattern_buffer *   buf;
-  struct re_registers *        reg;
+  struct GnuRe_pattern_buffer *   buf;
+  struct GnuRe_registers *        reg;
 
   char *		patternString;
   const char * 	    	re_msg;
 
-  void	    copy( struct re_pattern_buffer *	srcBuf,
-		  struct re_registers *		srcReg,
+  void	    copy( struct GnuRe_pattern_buffer *	srcBuf,
+		  struct GnuRe_registers *	srcReg,
 		  const char *			pattern );
 
   void 	    cleanup();
