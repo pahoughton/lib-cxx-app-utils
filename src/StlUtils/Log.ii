@@ -182,6 +182,12 @@ Log::getLocStamp( void ) const
   return( locStamp );
 }
 
+inline
+const FilePath &
+Log::getLogFileName( void ) const
+{
+  return( (*rdbuf()).getLogFileName() );
+}
 
 inline
 LogBuf *
@@ -235,6 +241,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/03/02 12:47:42  houghton
+// Added getLogFileName().
+//
 // Revision 4.2  1998/07/20 11:21:22  houghton
 // Port(Hpux): it also does not have a 'const' version of rdbuf().
 //

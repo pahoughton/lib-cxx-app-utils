@@ -128,6 +128,8 @@ public:
   inline bool		    getLevelStamp( void ) const;
   inline bool		    getTimeStamp( void ) const;
   inline bool		    getLocStamp( void ) const;
+
+  inline const FilePath &    getLogFileName() const;
   
   inline LogLevel::Level    setOutputLevel( const LogLevel::Level & output );
   inline LogLevel::Level    setOutputLevel( const char * output );
@@ -646,6 +648,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/03/02 12:47:38  houghton
+// Added getLogFileName().
+//
 // Revision 4.2  1998/07/20 11:20:47  houghton
 // Port(Hpux): reordered includes.
 //
