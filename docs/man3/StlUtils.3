@@ -14,20 +14,854 @@ class, functions and macros. They should be usefull for
 any application developement effort that uses C++.
 .SH CLASSES
 .TP
+Bitmask(3)
+Provides for easy to use high perfomance
+bit manipulations. It can be used to manipulate up to
+32 bits (i.e. a long on most architectures). To work with
+more than 32 bits, see bit_vector in the STL.
+.TP
 ClassVersion(3)
 Provides information about a class's version information that
 is accessible at run time. (ClassVersion.hh)
+.TP
+LibTest(3)
+LibTest was designed to make it easier to test C++ classes
+and functions. (LibTest.hh)
+.TP
+RegexScan(3)
+Regular expresion pattern matcher. This is a wrapper
+around Gnu's regex 'c' functions.
 .SH FUNCTIONS
 .TP
+Bit(3)
+This is a collection of defines and macros and inline functions
+to help with bit manipulations. The following are declared in
+Bit.hh:
+.PP
+.RS
+.PD 0
+CHAR_BITS
+.PP
+SHORT_BITS
+.PP
+INT_BITS
+.PP
+LONG_BITS
+.PP
+CHAR_ALL_BITS
+.PP
+SHORT_ALL_BITS
+.PP
+INT_ALL_BITS
+.PP
+LONG_ALL_BITS
+.PD
+.PP
+.PD 0
+Bit( n ) 
+.PD
+.PP
+.PD 0
+template< class T > inline
+.PP
+size_t
+.PP
+BitSizeof( T value ) 
+.PD
+.PP
+.PD 0
+template< class T, class NumberType > inline
+.PP
+T
+.PP
+StripHigh( T value, NumberType keepCount ) 
+.PD
+.PP
+.PD 0
+template< class T, class NumberType > inline
+.PP
+T
+.PP
+StripLow( T value, NumberType stripCount ) 
+.PD
+.PP
+.PD 0
+template< class T, class NumberType > inline
+.PP
+T
+.PP
+ShiftRight( T value, NumberType count ) 
+.PD
+.PP
+.PD 0
+template< class T, class NumberType > inline
+.PP
+T
+.PP
+ShiftLeft( T value, NumberType start ) 
+.PD
+.PP
+.PD 0
+template< class T, class NumberType > inline
+.PP
+T
+.PP
+ShiftLeft( T value, NumberType start, NumberType len ) 
+.PD
+.PP
+.PD 0
+template< class T, class NumberType > inline
+.PP
+T
+.PP
+ExtractBits( T value, NumberType start, NumberType len ) 
+.PD
+.PP
+.PD 0
+template< class Dest, class T, class NumberType > inline
+.PP
+void
+.PP
+SetBits(
+.RS 2
+.TP 25
+Dest &
+dest,
+.TP 25
+Value
+value,
+.TP 25
+NubmerType
+start,
+.TP 25
+NumberType
+len ) 
+.RE
+.PD
+.RE
+.TP
+ClueUtils(3)
+This is a collection of general purpose functions. The
+following functions are declared in ClueUtils.hh:
+.PP
+.RS
+.PD 0
+ArraySize( array ) 
+.PD
+.PP
+.PD 0
+int
+.PP
+OpenFlags( ios::open_mode openMode ) 
+.PD
+.PP
+.PD 0
+template< class NumberType > inline
+.PP
+NumberType
+.PP
+Align( NumberType value, size_t alignSize ) 
+.PD
+.PP
+.PD 0
+template< class NumberType > inline
+.PP
+NumberType
+.PP
+Aligh( NumberType value ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+unsigned long
+.PP
+DwordAlign( unsigned long value ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+void *
+.PP
+DwordAlign( void * addr ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+bool
+.PP
+MemOverlap(
+.RS 2
+.TP 25
+const void *   
+one,
+.TP 25
+size_t	   
+lenOne,
+.TP 25
+const void *   
+two,
+.TP 25
+size_t	   
+lenTwo ) 
+.RE
+.PD
+.PP
+.PD 0
+inline
+.PP
+long
+.PP
+abs( long value ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+bool
+.PP
+IsBaseDigit( int d, unsigned short base ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+unsigned long
+.PP
+UnionOf(
+.RS 2
+.TP 25
+long
+startOne,
+.TP 25
+long
+endOne,
+.TP 25
+long
+startTwo,
+.TP 25
+long
+endTwo ) 
+.RE
+.PD
+.PP
+.PD 0
+inline
+.PP
+unsigned long
+.PP
+UnionOfDur(
+.RS 2
+.TP 25
+long   
+startOne,
+.TP 25
+long   
+durOne,
+.TP 25
+long   
+startTwo,
+.TP 25
+long   
+durTwo ) 
+.RE
+.PD
+.PP
+.PD 0
+inline
+.PP
+unsigned long
+.PP
+UnionOfDur(
+.RS 2
+.TP 25
+unsigned long   
+startOne,
+.TP 25
+unsigned long   
+durOne,
+.TP 25
+unsigned long   
+startTwo,
+.TP 25
+unsigned long   
+durTwo,
+.TP 25
+unsigned long   
+frequency ) 
+.RE
+.PD
+.PP
+.PD 0
+inline
+.PP
+NumberType
+.PP
+Round( NumberType value, int factor ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+NumberType
+.PP
+RoundUp( NumberType value, int factor ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+NumberType
+.PP
+RoundDown( NumberType value, int factor ) 
+.PD
+.RE
+.TP
 Compare(3)
-Compares two values of the same time and returns a value
+Compares two values of the same type and returns a value
 that is 0, < 0 or > 0. (Compare.hh)
+.TP
+StringUtils(3)
+This is a collection of char string utility functions. They
+all operate on char * or const char * objects. The follwing
+functinos are declared in StringUtils.hh:
+.PP
+.RS
+.PD 0
+char *
+.PP
+StripWhite(
+.RS 2
+.TP 25
+char *  	   
+buffer,
+.TP 25
+const char *   
+white = " \\n\\t\\r\\v\\f",
+.TP 25
+size_t         
+bufSize = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+const char *
+.PP
+StringSearch(
+.RS 2
+.TP 25
+const char * 
+haystack,
+.TP 25
+size_t       
+hayLen,
+.TP 25
+const char * 
+needle,
+.TP 25
+size_t       
+needleLen ) 
+.RE
+.PD
+.PP
+.PD 0
+const char *
+.PP
+StringReverseSearch(
+.RS 2
+.TP 25
+const char * 
+haystack,
+.TP 25
+size_t       
+hayLen,
+.TP 25
+const char * 
+needle,
+.TP 25
+size_t       
+needleLen ) 
+.RE
+.PD
+.PP
+.PD 0
+const char * 
+.PP
+StringCaseSearch(
+.RS 2
+.TP 25
+const char * 
+haystack,
+.TP 25
+size_t       
+hayLen,
+.TP 25
+const char * 
+needle,
+.TP 25
+size_t       
+needleLen ) 
+.RE
+.PD
+.PP
+.PD 0
+const char * 
+.PP
+StringCaseReverseSearch(
+.RS 2
+.TP 25
+const char * 
+haystack,
+.TP 25
+size_t       
+hayLen,
+.TP 25
+const char * 
+needle,
+.TP 25
+size_t       
+needleLen ) 
+.RE
+.PD
+.PP
+.PD 0
+int
+.PP
+StringCaseCompare(
+.RS 2
+.TP 25
+const char *
+one,
+.TP 25
+const char *
+two )
+.RE
+.PD
+.PP
+.PD 0
+int
+.PP
+StringCaseCompare(
+.RS 2
+.TP 25
+const char *
+one,
+.TP 25
+const char *
+two,
+.TP 25
+size_t
+len )
+.RE
+.PD
+.PD 0
+int
+.PP
+StringCaseCompare(
+.RS 2
+.TP 25
+const char *
+one,
+.TP 25
+size_t
+lenOne,
+.TP 25
+const char *
+two,
+.TP 25
+size_t
+lenTwo ) 
+.RE
+.PD
+.PP
+.PD 0
+char *
+.PP
+StringLower( char * str, size_t len = NPOS ) 
+.PD
+.PP
+.PD 0
+char *
+.PP
+StringUpper( char * str, size_t len = NPOS ) 
+.PD
+.PP
+.PD 0
+char *
+.PP
+StringCapitalize( char * str, size_t len = NPOS ) 
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringTo(
+.RS 2
+.TP 25
+bool & 	    
+dest,
+.TP 25
+const char *  
+str,
+.TP 25
+size_t 	    
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringTo(
+.RS 2
+.TP 25
+int &     	   
+dest,
+.TP 25
+const char * 	   
+str,
+.TP 25
+unsigned short   
+base = 0,
+.TP 25
+size_t    	   
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringTo(
+.RS 2
+.TP 25
+short &     	   
+dest,
+.TP 25
+const char * 	   
+str,
+.TP 25
+unsigned short   
+base = 0,
+.TP 25
+size_t    	   
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringTo(
+.RS 2
+.TP 25
+long &     	   
+dest,
+.TP 25
+const char * 	   
+str,
+.TP 25
+unsigned short   
+base = 0,
+.TP 25
+size_t    	   
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringTo(
+.RS 2
+.TP 25
+float &     	   
+dest,
+.TP 25
+const char * 	   
+str,
+.TP 25
+unsigned short   
+base = 0,
+.TP 25
+size_t    	   
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringTo(
+.RS 2
+.TP 25
+double &     	   
+dest,
+.TP 25
+const char * 	   
+str,
+.TP 25
+unsigned short   
+base = 0,
+.TP 25
+size_t    	   
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringTo(
+.RS 2
+.TP 25
+unsigned int &   
+dest,
+.TP 25
+const char * 	   
+str,
+.TP 25
+unsigned short   
+base = 0,
+.TP 25
+size_t    	   
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringTo(
+.RS 2
+.TP 25
+unsigned short & 
+dest,
+.TP 25
+const char * 	   
+str,
+.TP 25
+unsigned short   
+base = 0,
+.TP 25
+size_t    	   
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringTo(
+.RS 2
+.TP 25
+unsigned long &  
+dest,
+.TP 25
+const char * 	   
+str,
+.TP 25
+unsigned short   
+base = 0,
+.TP 25
+size_t    	   
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+bool
+.PP
+StringToBool( const char * str, size_t len = NPOS ) 
+.PD
+.PP
+.PD 0
+int
+.PP
+StringToInt(
+.RS 2
+.TP 25
+const char *  
+str,
+.TP 25
+unsigned short
+base = 0,
+.TP 25
+size_t	   
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+short
+.PP
+StringToShort(
+.RS 2
+.TP 25
+const char *
+str,
+.TP 25
+unsigned short
+base = 0,
+.TP 25
+size_t	
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+long
+.PP
+StringToLong(
+.RS 2
+.TP 25
+const char *
+str,
+.TP 25
+unsigned short
+base = 0,
+.TP 25
+size_t	
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+float
+.PP
+StringToFloat(
+.RS 2
+.TP 25
+const char *
+str,
+.TP 25
+unsigned short
+base = 0,
+.TP 25
+size_t	
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+double
+.PP
+StringToDouble(
+.RS 2
+.TP 25
+const char *
+str,
+.TP 25
+unsigned short 
+base = 0,
+.TP 25
+size_t         
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+unsigned int
+.PP
+StringToUInt(
+.RS 2
+.TP 25
+const char *
+str,
+.TP 25
+unsigned short
+base = 0,
+.TP 25
+size_t	
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+unsigned short
+.PP
+StringToUShort(
+.RS 2
+.TP 25
+const char *
+str,
+.TP 25
+unsigned short 
+base = 0,
+.TP 25
+size_t	
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+unsigned long
+.PP
+StringToULong(
+.RS 2
+.TP 25
+const char *
+str,
+.TP 25
+unsigned short
+base = 0,
+.TP 25
+size_t	
+len = NPOS  ) 
+.RE
+.PD
+.PP
+.PD 0
+const char *
+.PP
+basename( const char * fn ) 
+.PD
+.PP
+.PD 0
+char *
+.PP
+basename( char * fn ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+char *
+.PP
+SafeStrcpy( char * dest, const char * src, size_t size ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+int
+.PP
+CharToInt( char c ) 
+.PD
+.PP
+.PD 0
+inline
+.PP
+bool
+.PP
+CharIsBaseDigit( char c, unsigned short base ) 
+.PD
+.RE
 .SH FILES
 libClue.a
 .SH SEE ALSO
 .SH AUTHOR
-Paul Houghton (paul_houghton@wcom.com) /- 10/26/96
+Paul Houghton (paul_houghton@wcom.com) \- 10/26/96
 .\" $Log$
+.\" Revision 1.2  1996/11/04 18:20:37  houghton
+.\" Added Bitmask class.
+.\" Added RegexScan class.
+.\" Added Bit functions.
+.\" Added ClueUtils functions.
+.\" Added StringUtils funtions.
+.\"
 .\" Revision 1.1  1996/10/28 12:00:42  houghton
 .\" Initial Version.
 .\"
