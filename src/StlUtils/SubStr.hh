@@ -15,7 +15,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/10 14:08:41  houghton
+// Revision 2.3  1995/11/10 18:47:27  houghton
+// Fixed error in comments
+//
+// Revision 2.2  1995/11/10  14:08:41  houghton
 // Updated documentation comments
 //
 // Revision 2.1  1995/11/10  12:41:17  houghton
@@ -323,7 +326,7 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 //  	int
 //  	compare( const char * two,
 //  	    	 size_t start = 0,
-    	    	 size_t len = NPOS ) const;
+//    	    	 size_t len = NPOS ) const;
 //
 //  	friend int
 //  	compare( const char * one,

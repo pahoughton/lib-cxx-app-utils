@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 2.2  1995/11/10 14:08:35  houghton
+// Revision 2.3  1995/11/10 18:46:51  houghton
+// Fixed error in comments
+//
+// Revision 2.2  1995/11/10  14:08:35  houghton
 // Updated documentation comments
 //
 // Revision 2.1  1995/11/10  12:40:28  houghton
@@ -116,7 +119,7 @@ compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
 //  	    return the number of seconds from the start of DateRange (two)
 //  	    that is within DateRange (one). If the start of DateRange (two)
 //          is before the start of DateRange (one) a zero(0) is returned.
-/  
+//  
 //  	virtual
 //  	bool
 //  	good( void ) const;
