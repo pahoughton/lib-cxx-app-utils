@@ -161,6 +161,7 @@ CXX_C_SOURCES =				\
 	Log.C				\
 	LogBuf.C			\
 	LogLevel.C			\
+	MfNumTo.C			\
 	Mutex.C                         \
 	Param.C                         \
 	RegexScan.C                     \
@@ -332,6 +333,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.4  1997/11/18 15:06:50  houghton
+# Added MfNumTo.
+#
 # Revision 4.3  1997/09/19 11:22:53  houghton
 # Cleanup.
 #
