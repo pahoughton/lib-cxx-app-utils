@@ -15,7 +15,9 @@
 //
 //
 
-#include "ClueConfig.hh"
+#include <ClueConfig.hh>
+#include <DumpInfo.hh>
+
 #include <iostream>
 
 #if defined( CLUE_DEBUG )
@@ -102,6 +104,10 @@ public:
 
   static const ClassVersion version;
 
+  inline
+  DumpInfo< Void >	dump( const char *  prefix = "    ",
+			      bool	    showVer = true ) const;
+  
 protected:
 
   
@@ -195,6 +201,9 @@ compare( const Void & lhs, const Void & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/03/14 14:48:15  houghton
+// Added dump() method.
+//
 // Revision 3.3  1997/03/07 11:56:37  houghton
 // Cleanup.
 //

@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/03/14 14:48:15  houghton
+// Added dump() method.
+//
 // Revision 3.1  1996/11/14 01:24:30  houghton
 // Changed to Release 3
 //
@@ -133,6 +136,12 @@ Void::setError( ErrorNum err )
 }
 
 
+inline
+DumpInfo< Void >
+Void::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< Void >( *this, prefix, showVer ) );
+}
 
 inline
 ostream &
