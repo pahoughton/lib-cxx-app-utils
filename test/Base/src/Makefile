@@ -344,6 +344,8 @@ CXX_C_SOURCES	=			\
 	tVectorResync.C			\
 	tLruMap.C			\
 	tLruMap01.C			\
+	tLruSash.C			\
+	tLruSash01.C			\
 	$(ARCH_CXX_C_SOURCES)           \
 
 CXX_CC_SOURCES	=			
@@ -468,6 +470,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.12  1998/11/02 15:28:31  houghton
+# Added LruSash
+#
 # Revision 4.11  1998/10/23 13:08:31  houghton
 # Changed to use MakeConfigs 5.06.
 #

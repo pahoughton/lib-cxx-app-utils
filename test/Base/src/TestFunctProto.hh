@@ -95,6 +95,7 @@ bool	tDirectory( LibTest & tester );
 bool	tTimeIt( LibTest & tester );
 
 bool	tLruMap( LibTest & tester );
+bool	tLruSash( LibTest & tester );
 
 // libStlUtils works with LibCommon
 bool	tWithCommon( LibTest & tester );
@@ -168,6 +169,9 @@ bool tVectorResync( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 4.8  1998/11/02 15:28:34  houghton
+// Added LruSash
+//
 // Revision 4.7  1998/10/13 15:21:02  houghton
 // Added LruMap tests.
 //

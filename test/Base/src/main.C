@@ -69,6 +69,7 @@ LibTest::TestItem   TestList[] =
   { "SortOrder",	    tSortOrder },
   { "Directory",	    tDirectory },
   { "LruMap",		    tLruMap },
+  { "LruSash",		    tLruSash },
 #if defined( TEST_TIMEIT )
   { "TimeIt",		    tTimeIt },
 #endif
@@ -200,6 +201,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.9  1998/11/02 15:28:37  houghton
+// Added LruSash
+//
 // Revision 4.8  1998/10/13 15:21:05  houghton
 // Added LruMap tests.
 //
