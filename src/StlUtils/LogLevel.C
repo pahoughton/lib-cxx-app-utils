@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/02/29 19:05:36  houghton
+// Bug Fix: Cant use static class object to construct other static objects
+//
 // Revision 2.4  1995/12/04 11:17:24  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -34,11 +37,13 @@
 #include "LogLevel.hh"
 #include "Clue.hh"
 #include "Str.hh"
+#include "Bit.hh"
 #include <cstring>
 #else
 #include "LogLvl.hh"
 #include "Clue.hh"
 #include "Str.hh"
+#include "Bit.hh"
 #include <cstring>
 #endif
 
@@ -55,25 +60,25 @@ CLUE_VERSION(
   "$Id$" );
 
 const LogLevel::Level	LogLevel::None;
-const LogLevel::Level	LogLevel::Error( Bitmask::b00 );
-const LogLevel::Level	LogLevel::Err( Bitmask::b00 );
-const LogLevel::Level	LogLevel::Warning( Bitmask::b01 );
-const LogLevel::Level	LogLevel::Warn( Bitmask::b01 );
-const LogLevel::Level	LogLevel::App1( Bitmask::b02 );
-const LogLevel::Level	LogLevel::App2( Bitmask::b03 );
-const LogLevel::Level	LogLevel::App3( Bitmask::b04 );
-const LogLevel::Level	LogLevel::App4( Bitmask::b05 );
-const LogLevel::Level	LogLevel::App5( Bitmask::b06 );
-const LogLevel::Level	LogLevel::App6( Bitmask::b07 );
-const LogLevel::Level	LogLevel::Lib1( Bitmask::b08 );
-const LogLevel::Level	LogLevel::Lib2( Bitmask::b09 );
-const LogLevel::Level	LogLevel::Lib3( Bitmask::b10 );
-const LogLevel::Level	LogLevel::Lib4( Bitmask::b11 );
-const LogLevel::Level	LogLevel::Info( Bitmask::b12 );
-const LogLevel::Level	LogLevel::Test( Bitmask::b13 );
-const LogLevel::Level	LogLevel::Debug( Bitmask::b14 );
-const LogLevel::Level	LogLevel::Funct( Bitmask::b15 );
-const LogLevel::Level	LogLevel::All( Bitmask::all );
+const LogLevel::Level	LogLevel::Error( Bit(0) );
+const LogLevel::Level	LogLevel::Err( Bit(0) );
+const LogLevel::Level	LogLevel::Warning( Bit(1) );
+const LogLevel::Level	LogLevel::Warn( Bit(1) );
+const LogLevel::Level	LogLevel::App1( Bit(2) );
+const LogLevel::Level	LogLevel::App2( Bit(3) );
+const LogLevel::Level	LogLevel::App3( Bit(4) );
+const LogLevel::Level	LogLevel::App4( Bit(5) );
+const LogLevel::Level	LogLevel::App5( Bit(6) );
+const LogLevel::Level	LogLevel::App6( Bit(7) );
+const LogLevel::Level	LogLevel::Lib1( Bit(8) );
+const LogLevel::Level	LogLevel::Lib2( Bit(9) );
+const LogLevel::Level	LogLevel::Lib3( Bit(10) );
+const LogLevel::Level	LogLevel::Lib4( Bit(11) );
+const LogLevel::Level	LogLevel::Info( Bit(12) );
+const LogLevel::Level	LogLevel::Test( Bit(13) );
+const LogLevel::Level	LogLevel::Debug( Bit(14) );
+const LogLevel::Level	LogLevel::Funct( Bit(15) );
+const LogLevel::Level	LogLevel::All( ~0UL );
 
 const char * LogLevel::LevelNames[] =
 {
@@ -163,7 +168,7 @@ LogLevel::setOutput( const char * level )
     {
       if( strstr( level, LevelNames[l] ) != 0 )
 	{
-	  Level  n( l - 1 );
+	  Level  n( Bit( l - 1 ) );
 	  setOutput( n | output );
 	}
     }
@@ -179,7 +184,7 @@ LogLevel::setCurrent( const char * lvl )
     {
       if( strstr( lvl, LevelNames[l] ) != 0 )
 	{
-	  Level  n( l - 1 );
+	  Level  n( Bit( l - 1 ) );
 	  setCurrent( n );
 	}
     }
