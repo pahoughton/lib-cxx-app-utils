@@ -86,7 +86,7 @@ $(BUILD_TARGETS):
 		$(exports))
 
 check: test
-	$(call make_subdirs,$(PRJ_TOPDIR)/test,$@,	\
+	$(call make_subdirs,$@,$(PRJ_TOPDIR)/test,	\
 		$($(@)_exports)				\
 		$(exports))
 
