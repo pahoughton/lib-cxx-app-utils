@@ -20,7 +20,8 @@
 //  $Id$
 //
 
-#include "StlUtilsConfig.hh"
+#include <StlUtilsConfig.hh>
+#include <DumpInfo.hh>
 #include <iostream>
 #include <iterator>
 #include <functional>
@@ -636,6 +637,9 @@ public:
 				  const char *  prefix = "    ",
 				  bool		showVer = true ) const;
     
+  inline DumpInfo< Str >
+  dump( const char * preifx = "    ", bool showVer = true ) const;
+
   static const ClassVersion version;
   
 protected:
@@ -1819,6 +1823,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 5.4  2000/06/27 11:58:11  houghton
+// Added dump().
+//
 // Revision 5.3  2000/06/04 17:58:05  houghton
 // Updated documentation.
 //
