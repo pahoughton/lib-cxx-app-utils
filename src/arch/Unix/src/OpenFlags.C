@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/09/16 11:27:58  houghton
+// Changed to include ClueUtils.hh
+//
 // Revision 3.2  1996/11/24 19:10:12  houghton
 // Removed support for short filenames.
 //
@@ -25,7 +28,7 @@
 //
 
 
-#include "ClueConfig.hh"
+#include "ClueUtils.hh"
 #include <iostream>
 #include <fcntl.h>
 
