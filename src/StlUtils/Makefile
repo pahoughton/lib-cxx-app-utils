@@ -55,7 +55,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 4
 VER_MINOR	= 00
-VER_RELEASE	= 00.b.01
+VER_RELEASE	= 00.b.02
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -335,6 +335,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.8  1998/01/09 10:41:06  houghton
+# Changed versin number.
+#
 # Revision 4.7  1998/01/05 13:08:17  houghton
 # Added VectorResync.hh
 #
