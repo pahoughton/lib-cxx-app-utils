@@ -1,0 +1,50 @@
+#
+#
+# Title:        Makefile.Test
+# Project:	Clue
+# Desc:
+# 
+#   
+# 
+# Notes:
+# 
+# Author:	Paul Houghton 719-527-7834 - (paul.houghton@wcom.com)
+# Created:	07/18/97 06:44
+#
+# Revision History: (See end of file for Revision Log)
+#
+#   Last Mod By:    $Author$
+#   Last Mod:	    $Date$
+#   Version:	    $Revision$
+#
+#   $Id$
+# 
+
+TEST_DATA_DIR	= ../data
+TEST_USER	= $(LOGNAME)
+TEST_GROUP	= staff
+TEST_UID	= 10148
+TEST_GID	= 10
+
+ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
+CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src 		\
+		  -I$(PRJ_TOPDIR)/src/arch/Unix/src 		\
+		  -I$(PRJ_TOPDIR)/src/arch/src 			\
+		  -I$(PRJ_TOPDIR)/src/Clue 
+
+CLUE_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/Clue
+
+ARCH_DEBUG_LIBS		= -lGnuRegex 
+ARCH_DEFAULT_LIBS 	= -lGnuRegex
+
+#
+# $Log$
+# Revision 1.1  1997/07/18 19:51:02  houghton
+# Initial Version.
+#
+#
+
+# Local Variables:
+# mode:makefile
+# End:
+

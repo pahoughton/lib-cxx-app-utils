@@ -1,0 +1,69 @@
+# -*- makefile -*-
+#
+# Makefile for libClue src/arch/Sun5
+#
+# Created 7/17/97
+#
+# $Id$
+#
+#
+
+include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.Clue
+
+ARCH_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/src
+ARCH_SRC_DIR	= $(PRJ_TOPDIR)/src/arch/src
+
+ARCH_SRC_VPATH	= $(ARCH_DIR):$(ARCH_SRC_DIR)
+
+ARCH_VPATH	= $(ARCH_SRC_VPATH):$(UNIX_VPATH)
+
+ARCHSRC_INC	= -I$(ARCH_DIR) -I$(ARCH_SRC_DIR) 
+
+ARCH_DEFINES	= $(UNIX_DEFINES)
+
+ARCH_INC	= $(ARCHSRC_INC) $(UNIX_INC)
+ 
+
+
+ARCH_C_SOURCES		=	\
+	$(UNIX_C_SOURCES)	\
+
+
+ARCH_CXX_C_SOURCES	=	\
+	basename.C		\
+	Directory.C		\
+	$(UNIX_CXX_C_SOURCES)	\
+
+ARCH_USER_H_INCS	=	\
+	$(UNIX_USER_H_INCS)	\
+
+
+ARCH_USER_HH_INCS	=		\
+	ClueArch.hh			\
+	ClueDirent.hh			\
+	ClueSysStat.hh			\
+	ClueExceptions.hh		\
+	Directory.hh			\
+	$(UNIX_USER_HH_INCS)		\
+
+ARCH_USER_II_INCS	=		\
+	Directory.ii			\
+	$(UNIX_USER_II_INCS)		\
+
+ARCH_C_HEADERS		=		\
+	$(UNIX_C_HEADERS)		\
+
+ARCH_CXX_HEADERS	=		\
+	$(UNIX_CXX_HEADERS)		\
+
+ARCH_CXX_INLINES	=		\
+	$(UNIX_CXX_INLINES)		\
+
+
+#
+# $Log$
+# Revision 1.1  1997/07/18 19:51:01  houghton
+# Initial Version.
+#
+#
+
