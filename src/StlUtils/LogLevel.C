@@ -269,6 +269,8 @@ LogLevel::levelFromString( const char * level, Level curLevel )
     }
 
   Level	    tmp = None;
+  Level	    offBits;
+  Level	    onBits;
   
   for( size_t l = 0; l < (ArraySize( Name2LevelList ) - 2 ); l++ )
     {
@@ -284,11 +286,11 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 	      switch( *( pos - 1) )
 		{
 		case '+':
-		  tmp |= curLevel | *(Name2LevelList[ l ].level);
+		  onBits |= *(Name2LevelList[ l ].level);
 		  break;
 
 		case '-':
-		  tmp = (tmp | curLevel) & ~(*(Name2LevelList[l].level));
+		  offBits |= *(Name2LevelList[l].level);
 		  break;
 
 		default:
@@ -301,12 +303,22 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 	    }
 	}
     }
+
+  if( onBits )
+    tmp |= curLevel | onBits;
+
+  if( offBits )
+    tmp = (tmp | curLevel) & ~(offBits);
+  
   return( tmp );
 }
 
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/03/21 15:38:45  houghton
+// Bug-Fix: + and - flags in logLevelfromString were not working.
+//
 // Revision 3.4  1997/03/21 12:24:04  houghton
 // Changed string to log level converter to support +level and
 //     -level. These will turn the level on or off respectivly without
