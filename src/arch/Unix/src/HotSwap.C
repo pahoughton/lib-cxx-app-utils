@@ -45,7 +45,8 @@ HotSwap::HotSwap(
   )
   : lockFn( lockFileName ),
     filelock( lockFn, lockMode ),
-    errorNum( E_OK )
+    errorNum( E_OK ),
+    osErrno( 0 )
 {
   if( ! sem.open( lockFn ) )
     {
@@ -76,10 +77,10 @@ HotSwap::lock( void )
     {      
       if( ! sem.waitfor() )
 	return( false );
-
-      if( ! filelock.lockread() )
-	return( false );
     }
+  
+  if( ! filelock.lockread() )
+    return( false );
 
   return( true );
 }
@@ -332,6 +333,11 @@ HotSwap::setErrorFnDesc( int osErr, const char * fn, const char * desc )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/10/24 12:11:16  houghton
+// Bug-Fix: was not initializing osErrno;
+// Bug-Fix: lock() was not calling lockread unless sem was locked. should
+//     always call it.
+//
 // Revision 4.1  1999/05/09 13:08:19  houghton
 // Initial Version.
 //
