@@ -1,0 +1,77 @@
+#
+# File:		Makefile.StlUtils
+# Project:	StlUtils 
+# Desc:
+#
+#   
+#
+# Notes:
+#
+# Author(s):   Paul Houghton <paul.houghton@mci.com>
+# Created:     07/19/2003 04:19
+#
+# Revision Info: (See ChangeLog or cvs log for revision history)
+#
+#	$Author$
+#	$Date$
+#	$Name$
+#	$Revision$
+#	$State$
+#
+# $Id$
+#
+
+include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.StlUtils
+
+ARCH_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/src
+ARCH_SRC_DIR	= $(PRJ_TOPDIR)/src/arch/src
+
+ARCH_SRC_VPATH	= $(ARCH_DIR):$(ARCH_SRC_DIR)
+
+ARCH_VPATH	= $(ARCH_SRC_VPATH):$(UNIX_VPATH)
+
+ARCHSRC_INC	= -I$(ARCH_DIR) -I$(ARCH_SRC_DIR) 
+
+ARCH_DEFINES	= $(UNIX_DEFINES)
+
+ARCH_INC	= $(ARCHSRC_INC) $(UNIX_INC)
+
+ARCH_GENERATED_SOURCES = $(UNIX_GENERATED_SOURCES)
+
+
+
+ARCH_C_SOURCES		=	\
+	$(UNIX_C_SOURCES)	\
+
+
+ARCH_CXX_C_SOURCES	=	\
+	basename.C		\
+	Directory.C		\
+	$(UNIX_CXX_C_SOURCES)	\
+
+ARCH_USER_H_INCS	=	\
+	$(UNIX_USER_H_INCS)	\
+
+
+ARCH_USER_HH_INCS	=		\
+	StlUtilsArch.hh			\
+	StlUtilsDirent.hh			\
+	StlUtilsSysStat.hh			\
+	StlUtilsExceptions.hh		\
+	Directory.hh			\
+	$(UNIX_USER_HH_INCS)		\
+
+ARCH_USER_II_INCS	=		\
+	Directory.ii			\
+	$(UNIX_USER_II_INCS)		\
+
+ARCH_C_HEADERS		=		\
+	$(UNIX_C_HEADERS)		\
+
+ARCH_CXX_HEADERS	=		\
+	$(UNIX_CXX_HEADERS)		\
+
+ARCH_CXX_INLINES	=		\
+	$(UNIX_CXX_INLINES)		\
+
+

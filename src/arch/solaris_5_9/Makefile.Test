@@ -1,0 +1,47 @@
+#
+# File:		Makefile.Test
+# Project:	StlUtils 
+# Desc:
+#
+#   
+#
+# Notes:
+#
+# Author(s):   Paul Houghton <paul.houghton@mci.com>
+# Created:     07/19/2003 04:19
+#
+# Revision Info: (See ChangeLog or cvs log for revision history)
+#
+#	$Author$
+#	$Date$
+#	$Name$
+#	$Revision$
+#	$State$
+#
+# $Id$
+#
+
+
+TEST_DATA_DIR	= ../data
+TEST_USER	= $(shell /usr/xpg4/bin/id -u -n)
+TEST_GROUP	= $(shell /usr/xpg4/bin/id -g -n)
+TEST_UID	= $(shell /usr/xpg4/bin/id -u)
+TEST_GID	= $(shell /usr/xpg4/bin/id -g)
+
+ARCH_DEFINES	= -DSTLUTILS_TEST_NO_GROUPS=1
+ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
+STLUTILS_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src 		\
+		  -I$(PRJ_TOPDIR)/src/arch/Unix/src 		\
+		  -I$(PRJ_TOPDIR)/src/arch/src 			\
+		  -I$(PRJ_TOPDIR)/src/StlUtils 
+
+STLUTILS_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/StlUtils
+
+ARCH_DEBUG_LIBS		= -lGnuRegex 
+ARCH_DEFAULT_LIBS 	= -lGnuRegex
+
+
+# Local Variables:
+# mode:makefile
+# End:
+
