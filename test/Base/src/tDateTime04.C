@@ -93,7 +93,7 @@ tDateTime04( LibTest & tester )
     // setHHMMSS( const char * )
 
     DateTime 	dt( "6/28/95 18:30" );
-  
+
     dt.setTimeZone();
 
     dt.setHHMMSS( "120203" );
