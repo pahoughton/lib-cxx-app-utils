@@ -77,9 +77,9 @@ STATIC_DEFINES	= -DTCLUE_STATIC=1
 
 
 SRC_INC		= $(ARCH_INC) -I. 
-PRJ_INC		= $($($(make_target))_PRJ_INC)
+PRJ_INC		= $($($(make_target))_PRJ_INC) -I$(beta_incdir)
 
-DEFAULT_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
+DEFAULT_PRJ_INC	= -I$(alpha_incdir)
 DEBUG_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
 PROFILE_PRJ_INC = $(CLUE_SRC_INC) -I$(alpha_incdir)
 STATIC_PRJ_INC	= -I$(alpha_incdir)
@@ -139,8 +139,8 @@ DEBUG_LD_FLAGS		= $(ld_debug)
 PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
-DEFAULT_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(local_libdir)
-DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(local_libdir)
+DEFAULT_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(local_libdir) -L$(beta_libdir)
+DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(local_libdir) -L$(beta_libdir)
 PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
@@ -185,6 +185,7 @@ CXX_C_SOURCES	=			\
 	tStringUpper.C                  \
 	tStringCapitalize.C             \
 	tStringTo.C                     \
+	tStringFrom.C			\
 	tbasename.C                     \
 	tSafeStrcpy.C			\
 	tCharToInt.C			\
@@ -389,11 +390,12 @@ test: test_data default
 	 LD_LIBRARY_PATH=$(TOOL_DIR)/lib/alpha $(NAME) $(TEST)
 
 test_debug: test_data debug
-	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha \
+	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:$(beta_libdir) \
 	  $(NAME)_g $(TEST)
 
 test_data: 
 	chgrp $(TEST_GROUP) $(TEST_DATA_DIR)/FileStat.01
+	chmod 664 $(TEST_DATA_DIR)/FileStat.01
 	(cd $(TEST_DATA_DIR); ln -s FileStat.01 FileStat.l1)
 	-touch $(TEST_DATA_DIR)/FileStat.set
 	chmod 6 $(TEST_DATA_DIR)/FileStat.set
@@ -443,6 +445,10 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.2  1996/11/19 12:32:58  houghton
+# Added StringFrom.
+# Cleanup
+#
 # Revision 3.1  1996/11/14 01:26:13  houghton
 # Changed to Release 3
 #
