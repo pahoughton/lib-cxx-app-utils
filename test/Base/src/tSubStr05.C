@@ -27,7 +27,7 @@ tSubStr05( LibTest & tester )
     const Str stw( "123" OutStr "junk" );
     const SubStr tw( stw, 3, strlen( OutStr ) );
 
-    TEST( tw.getBinSize() == (sizeof(STLUTILS_U32) + tw.size() ) );
+    TEST( tw.getBinSize() == (sizeof(STLUTILS_LONG_U32_T) + tw.size() ) );
   }
   
   {
