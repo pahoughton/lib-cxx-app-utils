@@ -13,6 +13,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/05/01 11:01:26  houghton
+// Bug-Fix: static const User eff was causing segv.
+//   change so the effective() method just returns a new 'User'
+//
 // Revision 2.2  1995/12/04 11:20:21  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -71,7 +75,7 @@ public:
 
   inline const UserGroup & 	getPrimaryGroup( void ) const;
 
-  static const User &		effective( void );
+  static User			effective( void );
 
   size_t    	findGroups( void );
   
@@ -136,7 +140,7 @@ private:
 
   Groups    	groups;
 
-  static const User	eff;
+  //  static const User	eff;
 };
 
 #if !defined( inline )

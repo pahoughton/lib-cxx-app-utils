@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/05/01 11:01:21  houghton
+// Bug-Fix: static const User eff was causing segv.
+//   change so the effective() method just returns a new 'User'
+//
 // Revision 2.2  1995/12/04 11:20:20  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -35,16 +39,16 @@ CLUE_VERSION(
 
 
 const uid_t User::bad = (uid_t) ULONG_MAX;
-const User  User::eff( geteuid(), false );
+// const User  User::eff( geteuid(), false );
 
 User::~User( void )
 {
 }
 
-const User &
+User 
 User::effective( void )
 {
-  return( eff );
+  return( User( geteuid(), false ) );
 }
 
 
@@ -240,18 +244,18 @@ User::dumpInfo(
 	}
     }
 
-  if( eff.uid == uid )
+  if( effective().uid == uid )
     {
       dest << prefix << "Effective:  Same\n";
     }
   else
     {
-      dest << prefix << "effective uid:    " << eff.uid << '\n'
-	   << prefix << "effective name:   " << eff.name << '\n'
-	   << prefix << "effective passwd: " << eff.passwd << '\n'
-	   << prefix << "effective gecos:  " << eff.gecos << '\n'
-	   << prefix << "effective home:   " << eff.home << '\n'
-	   << prefix << "effective shell:  " << eff.shell << '\n'
+      dest << prefix << "effective uid:    " << effective().uid << '\n'
+	   << prefix << "effective name:   " << effective().name << '\n'
+	   << prefix << "effective passwd: " << effective().passwd << '\n'
+	   << prefix << "effective gecos:  " << effective().gecos << '\n'
+	   << prefix << "effective home:   " << effective().home << '\n'
+	   << prefix << "effective shell:  " << effective().shell << '\n'
 	;
     }
 
