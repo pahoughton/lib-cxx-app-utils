@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 13:13:26  houghton
+// Bug-Fix: '#else was missing'
+//
 // Revision 2.3  1995/12/04 11:18:31  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -154,6 +157,7 @@ private:
 #else
 #include <Void.ii>
 #endif
+#else
 #undef inline
 #endif
 
