@@ -703,8 +703,8 @@ Str::scan( const RegexScan & exp, size_type start )
     {
       for( size_type r = 0; r <= exp.matchCount(); r++ )
 	{
-	  int mBeg = 0;
-	  int mLen = 0;
+	  ssize_t mBeg = 0;
+	  ssize_t mLen = 0;
 
 	  exp.matchInfo( mBeg, mLen, r );
 
@@ -1414,6 +1414,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.4  2003/06/25 08:51:35  houghton
 // Change: read() - added call to rdbuf() readPrep - still need to
 // improve this.

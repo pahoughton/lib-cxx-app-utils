@@ -268,16 +268,16 @@ bool
 Compress::compress( int inFd, int outFd )
 {
   long		hp;
-  int		rpos;
+  long		rpos;
   long		fc;
-  int		outbits;
-  int		rlop;
-  int		rsize;
-  int		stcode;
+  long		outbits;
+  long		rlop;
+  long		rsize;
+  long		stcode;
   long		free_ent;
-  int		boff;
-  int		n_bits;
-  int		ratio;
+  long		boff;
+  long		n_bits;
+  long		ratio;
   long		checkpoint;
   long		extcode;
   
@@ -361,7 +361,7 @@ Compress::compress( int inFd, int outFd )
 		/* 8 fractional bits */
 		rat = (bytes_in << 8) / (bytes_out+(outbits>>3));	
 	      if (rat >= ratio)
-		ratio = (int)rat;
+		ratio = rat;
 	      else
 		{
 		  ratio = 0;
@@ -390,16 +390,16 @@ Compress::compress( int inFd, int outFd )
 	    }
 
 	  {
-	    int		i;
+	    long		i;
 
 	    i = rsize-rlop;
 
-	    if ((long)i > extcode-free_ent)	i = (int)(extcode-free_ent);
+	    if (i > extcode-free_ent)	i = (extcode-free_ent);
 	    if (i > ((sizeof(outbuf) - 32)*8 - outbits)/n_bits)
 	      i = ((sizeof(outbuf) - 32)*8 - outbits)/n_bits;
 					
-	    if (!stcode && (long)i > checkpoint-bytes_in)
-	      i = (int)(checkpoint-bytes_in);
+	    if (!stcode && i > checkpoint-bytes_in)
+	      i = (checkpoint-bytes_in);
 
 	    rlop += i;
 	    bytes_in += i;
@@ -565,19 +565,19 @@ Compress::decompress( int inFd, int outFd )
 {
   unsigned char 		*stackp;
   long		 code;
-  int				 finchar;
+  long				 finchar;
   long		 oldcode;
   long		 incode;
-  int				 inbits;
-  int				 posbits;
-  int				 outpos;
-  int				 insize;
-  int				 bitmask;
+  long				 inbits;
+  long				 posbits;
+  long				 outpos;
+  long				 insize;
+  long				 bitmask;
   long		 free_ent;
   long		 maxcode;
   long		 maxmaxcode;
-  int				 n_bits;
-  int				 rsize;
+  long				 n_bits;
+  long				 rsize;
 
   bytes_in = 0;
   bytes_out = 0;
@@ -627,9 +627,9 @@ Compress::decompress( int inFd, int outFd )
     {
     resetbuf:	;
     {
-      int	i;
-      int				e;
-      int				o;
+      long	i;
+      long				e;
+      long				o;
 
       e = insize-(o = (posbits>>3));
 
@@ -672,7 +672,7 @@ Compress::decompress( int inFd, int outFd )
 
 	if (oldcode == -1)
 	  {
-	    outbuf[outpos++] = (unsigned char)(finchar = (int)(oldcode = code));
+	    outbuf[outpos++] = (unsigned char)(finchar = (long)(oldcode = code));
 	    continue;
 	  }
 
@@ -704,11 +704,11 @@ Compress::decompress( int inFd, int outFd )
 
 		  desc << "corrupt input: insize:" << insize
 		       << " posbits:" << posbits
-		       << " inbuf:" << (int)p[-1]
-		       << ' ' << (int) p[0]
-		       << ' ' << (int) p[1]
-		       << ' ' << (int) p[2]
-		       << ' ' << (int) p[3]
+		       << " inbuf:" << (long)p[-1]
+		       << ' ' << (long) p[0]
+		       << ' ' << (long) p[1]
+		       << ' ' << (long) p[2]
+		       << ' ' << (long) p[3]
 		       << " (" << (posbits&07) << ')'
 		    ;
 		  return( setError( E_CORRUPT, desc ) );
@@ -730,7 +730,7 @@ Compress::decompress( int inFd, int outFd )
 	/* And put them out in forward order */
 
 	{
-	  int	i;
+	  long	i;
 
 	  if (outpos+(i = (de_stack-stackp)) >= OBUFSIZ)
 	    {
@@ -973,6 +973,9 @@ Compress::setError( ErrorNum errNum, const char * desc )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.3  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //

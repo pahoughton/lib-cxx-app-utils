@@ -57,43 +57,43 @@
 //
 
 inline
-long
-SecInTimeT( long sec )
+time_t
+SecInTimeT( time_t sec )
 {
   return(sec % 60 );
 }
 
 inline
-long
-SecOfDay( long sec )
+time_t
+SecOfDay( time_t sec )
 {
   return( sec % (60 * 60 * 24) );
 }
 
 inline
-long
-MinInTimeT( long sec )
+time_t
+MinInTimeT( time_t sec )
 {
   return( (sec % (60 * 60)) / 60 );
 }
 
 inline
-long
-HourInTimeT( long sec )
+time_t
+HourInTimeT( time_t sec )
 {
   return( (sec % (60 * 60 * 24)) / (60 * 60) );
 }
 
 inline
-long
-HoursInTimeT( long sec )
+time_t
+HoursInTimeT( time_t sec )
 {
   return( sec / (60 * 60) );
 }
 
 inline
-long
-DaysInTimeT( long sec )
+time_t
+DaysInTimeT( time_t sec )
 {
   return( (sec / (60 * 60 * 24) ) );
 }
@@ -142,6 +142,9 @@ YYMMDDtoYYYYMMDD( char * dest, const char * src )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

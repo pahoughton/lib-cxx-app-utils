@@ -40,7 +40,7 @@ public:
   
 protected:
   
-  typedef STLUTILS_U32_SIZE_T	size_type;
+  typedef STLUTILS_U64_SIZE_T	size_type;
   
   FileBatchBase( const char * fileName, size_type recordSize );
   
@@ -79,7 +79,7 @@ public:
 
   typedef T			Rec;
   
-  typedef STLUTILS_U32_SIZE_T	size_type;
+  typedef STLUTILS_U64_SIZE_T	size_type;
   typedef ptrdiff_t		difference_type;
   typedef Rec &			reference;
   typedef const Rec &		const_reference;
@@ -407,6 +407,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.8  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.7  2003/06/07 16:48:23  houghton
 // Added typedef Rec.
 //

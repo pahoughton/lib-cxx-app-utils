@@ -36,14 +36,15 @@ class Bitmask
 
 public:
 
-  typedef STLUTILS_LONG_U32_T  value_type;
-
+  typedef STLUTILS_U32_T  value_type;
+  typedef STLUTILS_U32_T  size_type;
+  
   class bit
   {
   public:
     
     inline bit &    flip( void );
-    inline size_t   pos( void ) const;
+    inline size_type   pos( void ) const;
     
     inline bit &    operator =  ( bool rhs );
     inline bit &    operator =  ( const bit & rhs );
@@ -65,47 +66,48 @@ public:
   private:
     friend class Bitmask;
 
-    inline bit( Bitmask & owner, size_t pos );
+    inline bit( Bitmask & owner, size_type pos );
 
     Bitmask &	bitmask;
-    size_t	bitpos;
+    size_type	bitpos;
     
   };
      
   inline Bitmask( void );
-  inline Bitmask( unsigned long val, bool flip = false );
+  inline Bitmask( value_type val, bool flip = false );
   inline Bitmask( const bit & val );
   inline Bitmask( const Bitmask & from );
 
   inline Bitmask &  set( void );
-  inline Bitmask &  set( size_t pos, bool val = true );
+  inline Bitmask &  set( size_type pos, bool val = true );
   
   inline Bitmask &  reset( void );
-  inline Bitmask &  reset( size_t pos );
+  inline Bitmask &  reset( size_type pos );
 
   inline Bitmask &  flip( void );
-  inline Bitmask &  flip( size_t pos );
+  inline Bitmask &  flip( size_type pos );
 
-  inline bool	    test( size_t pos ) const;
+  inline bool	    test( size_type pos ) const;
   inline bool	    any( void ) const;
   inline bool	    none( void ) const;
 
-  inline size_t	    count( void ) const;
-  inline size_t	    size( void ) const;
+  inline size_type	    count( void ) const;
+  inline size_type	    size( void ) const;
   
   inline unsigned long	to_ulong( void ) const;
   inline const char *	to_string( void ) const;
+  inline value_type	to_value_type( void ) const;
   
   inline int		compare( const Bitmask & two ) const;
-  inline int		compare( unsigned long two ) const;
+  inline int		compare( value_type two ) const;
   
-  inline bit		operator [] ( size_t pos );
-  inline bit	    	operator () ( size_t pos );
+  inline bit		operator [] ( size_type pos );
+  inline bit	    	operator () ( size_type pos );
   
-  inline bool		operator [] ( size_t pos ) const;
-  inline bool  	    	operator () ( size_t pos ) const;
+  inline bool		operator [] ( size_type pos ) const;
+  inline bool  	    	operator () ( size_type pos ) const;
   
-  inline Bitmask &	operator =  ( unsigned long rhs );
+  inline Bitmask &	operator =  ( value_type rhs );
 
   inline Bitmask &	operator =  ( const bit & rhs );
   inline Bitmask & 	operator &= ( const bit & rhs );
@@ -127,19 +129,19 @@ public:
   inline bool		operator == ( bool rhs ) const;
   inline bool		operator != ( bool rhs ) const;
   
-  inline bool		operator == ( unsigned long rhs ) const;
-  inline bool		operator != ( unsigned long rhs ) const;
-  inline bool		operator <  ( unsigned long rhs ) const;
-  inline bool		operator <= ( unsigned long rhs ) const;
-  inline bool		operator >  ( unsigned long rhs ) const;
-  inline bool		operator >= ( unsigned long rhs ) const;
+  inline bool		operator == ( value_type rhs ) const;
+  inline bool		operator != ( value_type rhs ) const;
+  inline bool		operator <  ( value_type rhs ) const;
+  inline bool		operator <= ( value_type rhs ) const;
+  inline bool		operator >  ( value_type rhs ) const;
+  inline bool		operator >= ( value_type rhs ) const;
   
   inline    	    	operator bool ( void ) const;
-  inline    	    	operator unsigned long ( void ) const;
+  inline    	    	operator value_type ( void ) const;
 
   // libStlUtils Common Class Methods
     
-  virtual size_t	getBinSize( void ) const;
+  virtual size_type	getBinSize( void ) const;
   
   virtual ostream &	write( ostream & dest ) const;
   virtual istream &	read( istream & src );
@@ -189,7 +191,7 @@ public:
   static const bit b30;
   static const bit b31;
 
-  static const size_t	maxPos;
+  static const size_type	maxPos;
   
   static const ClassVersion version;
   
@@ -237,28 +239,28 @@ int
 compare( const Bitmask & one, const Bitmask & two );
 
 int
-compare( const Bitmask & one, unsigned long two );
+compare( const Bitmask & one, Bitmask::value_type two );
 
 int
-compare( unsigned long one, const Bitmask & two );
+compare( Bitmask::value_type one, const Bitmask & two );
 
 bool
-operator == ( unsigned long lhs, const Bitmask & rhs );
+operator == ( Bitmask::value_type lhs, const Bitmask & rhs );
 
 bool
-operator != ( unsigned long lhs, const Bitmask & rhs );
+operator != ( Bitmask::value_type lhs, const Bitmask & rhs );
 
 bool
-operator <  ( unsigned long lhs, const Bitmask & rhs );
+operator <  ( Bitmask::value_type lhs, const Bitmask & rhs );
 
 bool
-operator <= ( unsigned long lhs, const Bitmask & rhs );
+operator <= ( Bitmask::value_type lhs, const Bitmask & rhs );
 
 bool
-operator >  ( unsigned long lhs, const Bitmask & rhs );
+operator >  ( Bitmask::value_type lhs, const Bitmask & rhs );
 
 bool
-operator >= ( unsigned long lhs, const Bitmask & rhs );
+operator >= ( Bitmask::value_type lhs, const Bitmask & rhs );
 
 #endif
 
@@ -287,7 +289,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   	static const Bitmask all
   	    This is a static Bitmask with all bits set to 1;
   
-  	static const size_t maxPos;
+  	static const size_type maxPos;
   	    This static variable contains the maximum number of positions
   	    available in the bit mask (i.e. 32).
   
@@ -301,7 +303,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   	    Construct a default Bitmask with its value set to all 0's.
   
   	inline
-  	Bitmask( unsigned long val, bool flip = false )
+  	Bitmask( value_type val, bool flip = false )
   	    Construct a bitmask, setting its value to 'val'. If
   	    flip is true, all 0's in val will be 1's, and all 1's
             will be 0's, in the new bitmask object.
@@ -326,7 +328,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   
   	inline
     	Bitmask &
-    	set( size_t pos, bool val = true );
+    	set( size_type pos, bool val = true );
   	    Set the bit at 'pos' to 'val'. 
   
   	inline
@@ -336,7 +338,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   
   	inline
   	Bitmask &
-  	reset( size_t pos );
+  	reset( size_type pos );
   	    Set the bit a pos to '0';
   
   	inline
@@ -348,13 +350,13 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   
   	inline
   	Bitmask &
-  	flip( size_t pos );
+  	flip( size_type pos );
   	    Flip the bit at pos. If it was a '0', set it to a '1'.
   	    If it was a '1', set it to '0'.
   
   	inline
   	bool
-  	test( size_t pos ) const;
+  	test( size_type pos ) const;
   	    Return true if the bit at 'pos' is a '1' or false if
   	    it a '0';
   
@@ -371,20 +373,20 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   	    else return false.
   
   	inline
-  	size_t
+  	size_type
   	count( void ) const;
   	    Return the number of bits in the Bitmask that are
   	    set to '1'. (i.e. '0101000' will return 2).
   
   	inline
-  	size_t
+  	size_type
   	size( void ) const;
   	    Return the maximum number of bits (i.e. 32).
   
   	inline
-  	unsigned long
+  	Bitmask::value_type
   	to_ulong( void ) const
-  	    Return the Bitmask as a unsigned long.
+  	    Return the Bitmask as a value_type.
   
   	inline
   	const char *
@@ -401,34 +403,34 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   
   	inline
   	int
-  	compare( unsigned long two ) const
+  	compare( value_type two ) const
   	    Compare the Bitmask value with the value of two.
   	    return 0 if Bitmask == two, return < 0 if Bitmask < two
             or return > 0 if Bitmask > two.
   
   	inline
   	bit
-  	operator [] ( size_t pos )
+  	operator [] ( size_type pos )
   	    Return a bit for the value at pos.
   
   	inline
   	bit
-  	operator () ( size_t pos )
+  	operator () ( size_type pos )
   	    Return a bit for the value at pos.
   
   	inline
   	bool
-  	operator [] ( size_t pos ) const
+  	operator [] ( size_type pos ) const
   	    Return a bool value for the value at pos.
   
   	inline
   	bool
-  	operator () ( size_t pos ) const
+  	operator () ( size_type pos ) const
   	    Return a bool value for the value at pos.
   
   	inline
   	Bitmask &
-  	operator =  ( unsigned long rhs );
+  	operator =  ( value_type rhs );
   	    Assign the Bitmask to the value of rhs.
   
   	inline
@@ -491,37 +493,37 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   
   	inline
   	bool
-  	operator == ( unsigned long rhs ) const
+  	operator == ( value_type rhs ) const
   	    Return true if the value of the Bitmask is == rhs. Else return
             false.
   
   	inline
   	bool
-  	operator != ( unsigned long rhs ) const
+  	operator != ( value_type rhs ) const
   	    Return true if the value of the Bitmask is != rhs. Else return
             false.
   
   	inline
   	bool
-  	operator <  ( unsigned long rhs ) const
+  	operator <  ( value_type rhs ) const
   	    Return true if the value of the Bitmask is < rhs. Else return
             false.
   
   	inline
   	bool
-  	operator <= ( unsigned long rhs ) const
+  	operator <= ( value_type rhs ) const
   	    Return true if the value of the Bitmask is <= rhs. Else return
             false.
   
   	inline
   	bool
-  	operator <  ( unsigned long rhs ) const
+  	operator <  ( value_type rhs ) const
   	    Return true if the value of the Bitmask is < rhs. Else return
             false.
   
   	inline
   	bool
-  	operator >= ( unsigned long rhs ) const
+  	operator >= ( value_type rhs ) const
   	    Return true if the value of the Bitmask is >= rhs. Else return
             false.
   
@@ -531,11 +533,11 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   	    is a '1'.
   
   	inline
-  	operator unsigned long ( void ) const
-  	    Convert the Bitmask to an unsigned long.
+  	operator value_type ( void ) const
+  	    Convert the Bitmask to an value_type.
   
   	virtual
-  	size_t
+  	size_type
   	getBinSize( void ) const;
   	    Return the number of bytes that would be written to
   	    a ostream to store the data for this
@@ -545,7 +547,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   	ostream &
   	write( ostream & dest ) const
   	    Write the Bimask in binary to an ostream.
-  	    Format: unsigned long
+  	    Format: value_type
   
   	virtual
   	istream &
@@ -589,7 +591,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   	    it was '1' change it to '0'.
   
   	inline
-  	size_t
+  	size_type
   	bit::pos( void ) const
   	    Return the position in the bitmask of this bit.
   
@@ -669,44 +671,44 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
   
   	inline
   	int
-  	compare( const Bitmask & one, unsigned long two )
+  	compare( const Bitmask & one, Bitmask::value_type two )
   	    Return the difference of one and two by comparing there
   	    values.
   
   	inline
   	int
-  	compare( unsigned long one, const Bitmask & two )
+  	compare( Bitmask::value_type one, const Bitmask & two )
   	    Return the difference of one and two by comparing there
   	    values.
   
   	inline
   	bool
-  	operator == ( unsigned long lhs, const Bitmask & rhs )
+  	operator == ( Bitmask::value_type lhs, const Bitmask & rhs )
   	    Return true if lhs == rhs. Else return false.
   
   	inline
   	bool
-  	operator != ( unsigned long lhs, const Bitmask & rhs )
+  	operator != ( Bitmask::value_type lhs, const Bitmask & rhs )
   	    Return true if lhs != rhs. Else return false.
   
   	inline
   	bool
-  	operator <  ( unsigned long lhs, const Bitmask & rhs )
+  	operator <  ( Bitmask::value_type lhs, const Bitmask & rhs )
   	    Return true if lhs < rhs. Else return false.
   
   	inline
   	bool
-  	operator <= ( unsigned long lhs, const Bitmask & rhs )
+  	operator <= ( Bitmask::value_type lhs, const Bitmask & rhs )
   	    Return true if lhs <= rhs. Else return false.
   
   	inline
   	bool
-  	operator >  ( unsigned long lhs, const Bitmask & rhs )
+  	operator >  ( Bitmask::value_type lhs, const Bitmask & rhs )
   	    Return true if lhs > rhs. Else return false.
   
   	inline
   	bool
-  	operator >= ( unsigned long lhs, const Bitmask & rhs )
+  	operator >= ( Bitmask::value_type lhs, const Bitmask & rhs )
   	    Return true if lhs >= rhs. Else return false.
   
   	
@@ -729,6 +731,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.5  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //

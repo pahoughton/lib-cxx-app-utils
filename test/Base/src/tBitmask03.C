@@ -202,13 +202,13 @@ tBitmask03( LibTest & tester )
     const Bitmask   t2( Bitmask::b04 );
     const Bitmask   t3( Bitmask::b08 );
 
-    TEST( (unsigned long) (t1 & t2) == 0x00 );
-    TEST( (unsigned long) (t1 & t1) == (unsigned long) t1 );
-    TEST( (unsigned long) (t1 | t2 ) == 0x14 );
-    TEST( (unsigned long) (t1 | t1 ) == 0x04 );
-    TEST( (unsigned long) (t1 ^ t3 ) == 0x104 );
-    TEST( (unsigned long) (t2 ^ t2 ) == 0x00 );
-    TEST( (unsigned long) (~t1) == 0xfffffffb );
+    TEST( (unsigned int) (t1 & t2) == 0x00 );
+    TEST( (unsigned int) (t1 & t1) == (unsigned int) t1 );
+    TEST( (unsigned int) (t1 | t2 ) == 0x14 );
+    TEST( (unsigned int) (t1 | t1 ) == 0x04 );
+    TEST( (unsigned int) (t1 ^ t3 ) == 0x104 );
+    TEST( (unsigned int) (t2 ^ t2 ) == 0x00 );
+    TEST( (unsigned int) (~t1) == 0xfffffffb );
     
   }
 
@@ -272,6 +272,9 @@ tBitmask03( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.2  2003/07/19 09:17:28  houghton
+// Port to 64 bit.
+//
 // Revision 5.1  2000/05/25 10:33:27  houghton
 // Changed Version Num to 5
 //

@@ -38,7 +38,7 @@ class SubStr
 
 public:
 
-  typedef STLUTILS_U32_SIZE_T	size_type;
+  typedef size_t	size_type;
   
   static const size_type npos;
   
@@ -485,6 +485,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.4  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

@@ -32,7 +32,7 @@ inline
 T
 StripHigh( T value, NumberType keepCount )
 {
-  return( ( ( ~0UL ) >> ( BitSizeof( (unsigned long)0 ) - keepCount ) ) &
+  return( ( ( ~0U ) >> ( BitSizeof( 0U ) - keepCount ) ) &
 	   value );
 }
 
@@ -99,6 +99,9 @@ SetBits( Dest & dest, Value value, NumberType start, NumberType len )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.2  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //

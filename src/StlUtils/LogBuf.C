@@ -375,7 +375,7 @@ LogBuf::sync( void )
     }
   
   char *    base = pbase();
-  int	    len = pptr() - pbase();
+  long	    len = pptr() - pbase();
   int	    syncResult = 0;
   
   if( base && len > 0 )
@@ -580,11 +580,11 @@ LogBuf::initbuf(
  
 }
 
-int
-LogBuf::sendToStream( streambuf * dest, char * base, int len )
+size_t
+LogBuf::sendToStream( streambuf * dest, char * base, size_t len )
 {
-  int total = 0;
-  int cnt = 0;
+  long total = 0;
+  long cnt = 0;
   
   for( cnt = dest->sputn( base, len );
        cnt > 0 && cnt < len && len > 0;
@@ -801,6 +801,9 @@ LogBuf::closeLog( void )
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.4  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

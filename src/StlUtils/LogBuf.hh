@@ -158,7 +158,7 @@ protected:
 		size_t m,
 		size_t t );
   
-  int		sendToStream( streambuf * dest, char * base, int len );
+  size_t	sendToStream( streambuf * dest, char * base, size_t len );
   
   filebuf *	openLog( ios::open_mode modeMask );
   size_t	trimLog( size_t curSize, size_t maxLogSize );
@@ -309,6 +309,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.3  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

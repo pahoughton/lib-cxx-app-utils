@@ -198,20 +198,23 @@ RegexScan::matchCount( void ) const
   return( buf->re_nsub );
 }
 
-int
+ssize_t
 RegexScan::matchStart( unsigned short regNum ) const
 {
   return( reg->start[regNum] );
 }
 
-int
+ssize_t
 RegexScan::matchLength( unsigned short regNum ) const
 {
   return( reg->end[regNum] - reg->start[regNum] );
 }
 
 void
-RegexScan::matchInfo( int & start, int & len, unsigned short regNum ) const
+RegexScan::matchInfo(
+  ssize_t & start,
+  ssize_t & len,
+  unsigned short regNum ) const
 {
   start = matchStart( regNum );
   len = matchLength( regNum );
@@ -403,6 +406,9 @@ RegexScan::cleanup()
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

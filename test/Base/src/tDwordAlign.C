@@ -43,9 +43,9 @@ tDwordAlign( LibTest & tester )
 
   {
     // DwordAlign( void * addr )
-    long    num = 400;
+    int    num = 400;
     
-    long * lPtr = &num;
+    int * lPtr = &num;
     
     char * ptr = (char *)lPtr;
 
@@ -55,13 +55,13 @@ tDwordAlign( LibTest & tester )
     TEST( ( ((long*)(ptr + 2)) == (ptr + 2) ) );
 #endif
     
-    TEST( ( ((long*)DwordAlign( ptr )) == lPtr ) );
+    TEST( ( ((int*)DwordAlign( ptr )) == lPtr ) );
 
     lPtr++;
-    TEST( ( ((long*)DwordAlign( ptr + 1 )) == lPtr ) );
-    TEST( ( ((long*)DwordAlign( ptr + 2 )) == lPtr ) );
-    TEST( ( ((long*)DwordAlign( ptr + 3 )) == lPtr ) );
-    TEST( ( ((long*)DwordAlign( ptr + 4 )) == lPtr ) );
+    TEST( ( ((int*)DwordAlign( ptr + 1 )) == lPtr ) );
+    TEST( ( ((int*)DwordAlign( ptr + 2 )) == lPtr ) );
+    TEST( ( ((int*)DwordAlign( ptr + 3 )) == lPtr ) );
+    TEST( ( ((int*)DwordAlign( ptr + 4 )) == lPtr ) );
   }
   
   return( true );
@@ -69,6 +69,9 @@ tDwordAlign( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.2  2003/07/19 09:17:28  houghton
+// Port to 64 bit.
+//
 // Revision 5.1  2000/05/25 10:33:28  houghton
 // Changed Version Num to 5
 //

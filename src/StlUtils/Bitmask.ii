@@ -38,7 +38,7 @@ Bitmask::bit::flip( void )
 }
 
 inline
-size_t
+Bitmask::size_type
 Bitmask::bit::pos( void ) const
 {
   return( bitpos );
@@ -81,7 +81,7 @@ Bitmask::bit::operator bool ( void ) const
 }
 
 inline
-Bitmask::bit::bit( Bitmask & owner, size_t position )
+Bitmask::bit::bit( Bitmask & owner, size_type position )
   : bitmask( owner ),
     bitpos( position )
 {
@@ -108,7 +108,7 @@ Bitmask::Bitmask( void )
 }
 
 inline
-Bitmask::Bitmask( unsigned long val, bool flip )
+Bitmask::Bitmask( value_type val, bool flip )
   : value( val )
 {
   if( flip )
@@ -133,18 +133,18 @@ inline
 Bitmask &
 Bitmask::set( void )
 {
-  value = ~0UL;
+  value = ~0U;
   return( *this );
 }
 
 inline
 Bitmask &
-Bitmask::set( size_t pos, bool val )
+Bitmask::set( size_type pos, bool val )
 {
   if( val )
-    value |= 1UL << pos;
+    value |= 1U << pos;
   else
-    value &= ~(1UL << pos );
+    value &= ~(1U << pos );
   
   return( *this );
 }
@@ -159,7 +159,7 @@ Bitmask::reset( void )
 
 inline
 Bitmask &
-Bitmask::reset( size_t pos )
+Bitmask::reset( size_type pos )
 {
   return( set( pos, false ) );
 }
@@ -174,16 +174,16 @@ Bitmask::flip( void )
 
 inline
 Bitmask &
-Bitmask::flip( size_t pos )
+Bitmask::flip( size_type pos )
 {
   return( set( pos, ! test( pos ) ) );
 }
 
 inline
 bool
-Bitmask::test( size_t pos ) const
+Bitmask::test( size_type pos ) const
 {
-  return( value & (1UL << pos) );
+  return( value & (1U << pos) );
 }
 
 inline
@@ -201,18 +201,18 @@ Bitmask::none( void ) const
 }
 
 inline
-size_t
+Bitmask::size_type
 Bitmask::count( void ) const
 {
-  size_t cnt = 0;
-  for( size_t p = 0; p < maxPos; p++ )
+  size_type cnt = 0;
+  for( size_type p = 0; p < maxPos; p++ )
     if( test( p ) ) cnt++;
 
   return( cnt );
 }
 
 inline
-size_t
+Bitmask::size_type
 Bitmask::size( void ) const
 {
   return( maxPos );
@@ -240,6 +240,12 @@ Bitmask::to_string( void ) const
   return( tmp );
 }
 
+inline
+Bitmask::value_type
+Bitmask::to_value_type( void ) const
+{
+  return( value );
+}
 
 inline
 int
@@ -250,42 +256,42 @@ Bitmask::compare( const Bitmask & two ) const
 
 inline
 int
-Bitmask::compare( unsigned long two ) const
+Bitmask::compare( value_type two ) const
 {
   return( ::compare( value, two ) );
 }
 
 inline
 Bitmask::bit
-Bitmask::operator () ( size_t pos )
+Bitmask::operator () ( size_type pos )
 {
   return( bit( *this, pos ) );
 }
 
 inline
 Bitmask::bit
-Bitmask::operator [] ( size_t pos )
+Bitmask::operator [] ( size_type pos )
 {
   return( bit( *this, pos ) );
 }
 
 inline
 bool
-Bitmask::operator () ( size_t pos ) const
+Bitmask::operator () ( size_type pos ) const
 {
   return( test( pos ) );
 }
 
 inline
 bool
-Bitmask::operator [] ( size_t pos ) const
+Bitmask::operator [] ( size_type pos ) const
 {
   return( test( pos ) );
 }
 
 inline
 Bitmask &
-Bitmask::operator = ( unsigned long rhs )
+Bitmask::operator = ( value_type rhs )
 {
   value = rhs;
   return( *this );
@@ -381,42 +387,42 @@ Bitmask::operator != ( bool rhs ) const
 
 inline
 bool
-Bitmask::operator == ( unsigned long rhs ) const
+Bitmask::operator == ( value_type rhs ) const
 {
   return( compare( rhs ) == 0 );
 }
 
 inline
 bool
-Bitmask::operator != ( unsigned long rhs ) const
+Bitmask::operator != ( value_type rhs ) const
 {
   return( compare( rhs ) != 0 );
 }
 
 inline
 bool
-Bitmask::operator <  ( unsigned long rhs ) const
+Bitmask::operator <  ( value_type rhs ) const
 {
   return( compare( rhs ) <  0 );
 }
 
 inline
 bool
-Bitmask::operator <= ( unsigned long rhs ) const
+Bitmask::operator <= ( value_type rhs ) const
 {
   return( compare( rhs ) <=  0 );
 }
 
 inline
 bool
-Bitmask::operator >  ( unsigned long rhs ) const
+Bitmask::operator >  ( value_type rhs ) const
 {
   return( compare( rhs ) >  0 );
 }
 
 inline
 bool
-Bitmask::operator >= ( unsigned long rhs ) const
+Bitmask::operator >= ( value_type rhs ) const
 {
   return( compare( rhs ) >= 0 );
 }
@@ -428,9 +434,9 @@ Bitmask::operator bool ( void ) const
 }
 
 inline
-Bitmask::operator unsigned long ( void ) const
+Bitmask::operator value_type ( void ) const
 {
-  return( to_ulong() );
+  return( value );
 }
 
   
@@ -465,7 +471,7 @@ inline
 Bitmask
 operator ~ ( const Bitmask & mask )
 {
-  unsigned long nValue = mask;
+  Bitmask::value_type nValue = mask;
   Bitmask ret;
 
   ret = ~nValue;
@@ -495,56 +501,56 @@ compare( const Bitmask & one, const Bitmask & two )
 
 inline
 int
-compare( unsigned long one, const Bitmask & two )
+compare( Bitmask::value_type one, const Bitmask & two )
 {
-  return( compare( one, two.to_ulong() ) );
+  return( compare( one, two.to_value_type() ) );
 }
 
 inline
 int
-compare( const Bitmask & one, unsigned long two )
+compare( const Bitmask & one, Bitmask::value_type two )
 {
   return( one.compare( two ) );
 }
 
 inline
 bool
-operator == ( unsigned long lhs, const Bitmask & rhs )
+operator == ( Bitmask::value_type lhs, const Bitmask & rhs )
 {
   return( ::compare( lhs, rhs ) == 0 );
 }
 
 inline
 bool
-operator != ( unsigned long lhs, const Bitmask & rhs )
+operator != ( Bitmask::value_type lhs, const Bitmask & rhs )
 {
   return( ::compare( lhs, rhs ) != 0 );
 }
 
 inline
 bool
-operator <  ( unsigned long lhs, const Bitmask & rhs )
+operator <  ( Bitmask::value_type lhs, const Bitmask & rhs )
 {
   return( ::compare( lhs, rhs ) <  0 );
 }
 
 inline
 bool
-operator <= ( unsigned long lhs, const Bitmask & rhs )
+operator <= ( Bitmask::value_type lhs, const Bitmask & rhs )
 {
   return( ::compare( lhs, rhs ) <= 0 );
 }
 
 inline
 bool
-operator >  ( unsigned long lhs, const Bitmask & rhs )
+operator >  ( Bitmask::value_type lhs, const Bitmask & rhs )
 {
   return( ::compare( lhs, rhs ) >  0 );
 }
 
 inline
 bool
-operator >= ( unsigned long lhs, const Bitmask & rhs )
+operator >= ( Bitmask::value_type lhs, const Bitmask & rhs )
 {
   return( ::compare( lhs, rhs ) >=  0 );
 }
@@ -582,6 +588,9 @@ operator << ( ostream & dest, const Bitmask::bit & obj )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.2  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //

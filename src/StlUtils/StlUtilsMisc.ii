@@ -81,6 +81,25 @@ DwordAlign( void * addr )
   return( (void *)( DwordAlign( value ) ) );
 }
 
+template< class NumType >
+inline
+NumType
+QwordAlign( NumType value )
+{
+  return( Align( value, (NumType)8 ) );
+}
+
+inline
+void *
+QwordAlign( void * addr )
+{
+#if defined( STLUTILS_DEBUG )
+  if( sizeof( unsigned long ) != sizeof( void * ) ) return( 0 );
+#endif
+  unsigned long value = (unsigned long)addr;
+  return( (void *)( QwordAlign( value ) ) );
+}
+ 
 
 // tMemOverlap
 inline
@@ -247,6 +266,9 @@ RoundDown( NumberType value, int factor  )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.3  2003/06/07 16:48:33  houghton
 // Added IsUnionOf
 //

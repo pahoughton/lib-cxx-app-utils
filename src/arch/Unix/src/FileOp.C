@@ -501,7 +501,7 @@ FileOp::setDestStat( void )
 FileOp::size_type
 FileOp::readfd( int fd, void * destBuf, size_t destSize )
 {
-  int bytes;
+  ssize_t bytes;
 
   if( destSize <= 0 )
     return( destSize );
@@ -590,6 +590,9 @@ FileOp::setError(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/07/19 09:17:23  houghton
+// Port to 64 bit.
+//
 // Revision 5.3  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

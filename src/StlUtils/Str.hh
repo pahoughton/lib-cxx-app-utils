@@ -48,14 +48,14 @@ class STLUTILS_CLASS_T Str : public iostream
 
 public:
 
-  typedef STLUTILS_U32_SIZE_T			size_type;
-  typedef ptrdiff_t				difference_type;
-  typedef char &				reference;
-  typedef const char &				const_reference;
-  typedef char *				pointer;
-  typedef const char *				const_pointer;
-  typedef pointer				iterator;
-  typedef const_pointer				const_iterator;
+  typedef size_t		size_type;
+  typedef ptrdiff_t		difference_type;
+  typedef char &		reference;
+  typedef const char &		const_reference;
+  typedef char *		pointer;
+  typedef const char *		const_pointer;
+  typedef pointer		iterator;
+  typedef const_pointer		const_iterator;
 
 #if defined( STLUTILS_STD_ITERATORS )
 
@@ -1812,6 +1812,9 @@ operator >> ( istream & src, Str & dest );
 // %PL%
 // 
 // $Log$
+// Revision 5.10  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.9  2001/08/07 23:34:24  houghton
 // *** empty log message ***
 //

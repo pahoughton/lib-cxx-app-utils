@@ -34,7 +34,7 @@ Log * _LibLog = 0;
 
 static LogLevel::CommonLevelMap *	    commonLevelMap = 0;
 
-const long	Log::openprot( 0666 );
+const int	Log::openprot( 0666 );
 
 Log::Log(
   ostream & 	    outstr,
@@ -549,6 +549,9 @@ commonLog(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

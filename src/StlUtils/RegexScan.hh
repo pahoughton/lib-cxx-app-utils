@@ -77,9 +77,11 @@ public:
   // regNum 0 == the entire pattern, the first \(.\) is regNum 1
   
   size_t    matchCount( void ) const;
-  int	    matchStart( unsigned short  regNum = 0 ) const;
-  int	    matchLength( unsigned short regNum = 0 ) const;
-  void 	    matchInfo( int & start, int & len, unsigned short regNum = 0 ) const;
+  ssize_t   matchStart( unsigned short  regNum = 0 ) const;
+  ssize_t   matchLength( unsigned short regNum = 0 ) const;
+  void 	    matchInfo( ssize_t &	start,
+		       ssize_t &	len,
+		       unsigned short	regNum = 0 ) const;
   
   RegexScan &   operator =  ( const RegexScan & assignFrom );
   RegexScan & 	operator =  ( const char * pattern );
@@ -573,6 +575,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.3  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

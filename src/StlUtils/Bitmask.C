@@ -23,7 +23,7 @@ STLUTILS_VERSION(
   Bitmask,
   "%PID%" );
 
-const size_t Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::value_type );
+const Bitmask::size_type Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::value_type );
 
 static Bitmask	allBits( 0, true );
 
@@ -94,7 +94,7 @@ Bitmask::bit::dumpInfo(
 }
 
 
-size_t
+Bitmask::size_type
 Bitmask::getBinSize( void ) const
 {
   return( sizeof( value ) );
@@ -208,7 +208,7 @@ Bitmask::dumpInfo(
 
   dest << prefix << "bits:  " ;
   
-  for( size_t p = maxPos; p > 0; p-- )
+  for( size_type p = maxPos; p > 0; p-- )
     {
       if( p != maxPos && (p % 4) == 0 )
 	dest << ' ';
@@ -225,6 +225,9 @@ Bitmask::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.3  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //

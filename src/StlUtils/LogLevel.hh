@@ -45,6 +45,7 @@ class LogLevel
 public:
 
   typedef Bitmask Level;
+  typedef Bitmask::size_type	size_type;
   
   typedef map< LogLevelBit, Level, less< LogLevelBit > >  CommonLevelMap;
   
@@ -391,6 +392,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.4  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

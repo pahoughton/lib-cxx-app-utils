@@ -53,7 +53,7 @@ class FileOp
 
 public:
 
-  typedef int	size_type;
+  typedef STLUTILS_SSIZE_T	size_type;
   
   FileOp( void );
   FileOp( const char * src );
@@ -237,6 +237,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/07/19 09:17:23  houghton
+// Port to 64 bit.
+//
 // Revision 5.3  2001/07/26 19:28:57  houghton
 // *** empty log message ***
 //

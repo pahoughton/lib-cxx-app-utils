@@ -542,7 +542,7 @@ Str::at( const RegexScan & pat, size_type start )
 {
   size_type patBeg = find( pat, start );
 
-  SubStr sub( *this, patBeg, (patBeg == npos) ? 0 : pat.matchLength() );
+  SubStr sub( *this, patBeg, (patBeg == npos) ? 0UL : pat.matchLength() );
   return( sub );
 }
 
@@ -551,7 +551,9 @@ const SubStr
 Str::at( const RegexScan & pat, size_type start ) const
 {
   size_type    	patBeg = find( pat, start );
-  const SubStr  sub( *this, patBeg, (patBeg == npos) ? 0 : pat.matchLength() );
+  const SubStr  sub( *this,
+		     patBeg,
+		     (patBeg == npos) ? 0UL : pat.matchLength() );
   return( sub );
 }
 
@@ -2137,6 +2139,9 @@ Str::dump( const char * prefix, bool showVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.4  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

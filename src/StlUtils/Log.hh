@@ -65,7 +65,7 @@ class Log : public ostream
 
 public:
 
-  static const long  openprot; // 0666
+  static const int  openprot; // 0666
   
   Log( ostream & 	outStream = cout,
        LogLevel::Level 	outLevel = ( LogLevel::Error |
@@ -683,6 +683,9 @@ private:
    %PL%
    
    $Log$
+   Revision 5.6  2003/07/19 09:17:12  houghton
+   Port to 64 bit.
+
    Revision 5.5  2001/07/29 19:56:38  houghton
    *** empty log message ***
 

@@ -231,7 +231,7 @@ tBit( LibTest & tester )
   {
     // ShiftLeft( unsigned long, number, number )
     
-    unsigned long t = 0xff0dffff;
+    unsigned int t = 0xff0dffff;
     
     TEST( ShiftLeft( t, 16, 3 ) == 0xbfffe000 );
   }
@@ -353,6 +353,9 @@ tBit( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.2  2003/07/19 09:17:28  houghton
+// Port to 64 bit.
+//
 // Revision 5.1  2000/05/25 10:33:27  houghton
 // Changed Version Num to 5
 //

@@ -51,7 +51,7 @@ const LogLevel::Level	LogLevel::Info( Bit(12) );
 const LogLevel::Level	LogLevel::Test( Bit(13) );
 const LogLevel::Level	LogLevel::Debug( Bit(14) );
 const LogLevel::Level	LogLevel::Funct( Bit(15) );
-const LogLevel::Level	LogLevel::All( LONG_ALL_BITS );
+const LogLevel::Level	LogLevel::All( INT_ALL_BITS );
 
 const char * LogLevel::LevelNames[] =
 {
@@ -116,7 +116,7 @@ LogLevel::getName( const Level & level )
   if( level == All )
     return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
     
-  for( size_t l = 0; l < (ArraySize( LevelNames )  - 3); l++ )
+  for( size_type l = 0; l < (ArraySize( LevelNames )  - 3); l++ )
     {
       if( level( l ) )
 	return( LevelNames[ l + 1 ] );
@@ -325,6 +325,9 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.3  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

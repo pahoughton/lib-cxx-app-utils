@@ -40,7 +40,7 @@ class Void
 
 public:
 
-  typedef STLUTILS_U32_SIZE_T	size_type;
+  typedef STLUTILS_U64_SIZE_T	size_type;
   
   Void( void );
   Void( const void * src, size_type size );
@@ -216,6 +216,9 @@ compare( const Void & lhs, const Void & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/07/19 09:17:12  houghton
+// Port to 64 bit.
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

@@ -243,14 +243,13 @@ tStr16( LibTest & tester )
 
     t.from( num, 16 );
     
-    if( sizeof( int ) == sizeof( long ) )
-      {
-	TEST( t == "ffffffff" );
-      }
-    else
-      {
-	TEST( t == "ffff" );
-      }
+    if( sizeof( int ) == 4 ) {
+      TEST( t == "ffffffff" );
+    } else if( sizeof( int ) == 2 ) {
+      TEST( t == "ffff" );
+    } else {
+      TEST( false );
+    }
   }
     
   {
@@ -299,8 +298,14 @@ tStr16( LibTest & tester )
     num = ULONG_MAX;
     t.reset();
     t.from( num, 16 );
-    
-    TEST( t == "ffffffff" );    
+
+    if( sizeof( num ) == 8 ) {
+      TEST( t == "ffffffffffffffff" );    
+    } else if( sizeof( num ) == 4 ) {
+      TEST( t == "ffffffff" );
+    } else {
+      TEST( false );
+    }
   }
     
   return( true );

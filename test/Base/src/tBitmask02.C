@@ -276,9 +276,9 @@ tBitmask02( LibTest & tester )
     const Bitmask tl( 0x04 );
     const Bitmask tm( 0x20 );
 
-    unsigned long le = 0x10;
-    unsigned long ll = 0x04;
-    unsigned long lm = 0x20;
+    unsigned int le = 0x10;
+    unsigned int ll = 0x04;
+    unsigned int lm = 0x20;
 
     TEST( t == te );
     TEST( t != tl );
@@ -309,8 +309,8 @@ tBitmask02( LibTest & tester )
     TEST( ! (t1 == true) );
     TEST( t2 );
 
-    TEST( (unsigned long)t1  == 0x0UL );
-    TEST( (unsigned long)t2 == 0x08 );
+    TEST( (unsigned)t1  == 0x0U );
+    TEST( (unsigned)t2 == 0x08U );
   }
 
   {
@@ -613,6 +613,9 @@ tBitmask02( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.3  2003/07/19 09:17:28  houghton
+// Port to 64 bit.
+//
 // Revision 5.2  2000/05/25 17:11:50  houghton
 // Port: Sun CC 5.0.
 //
