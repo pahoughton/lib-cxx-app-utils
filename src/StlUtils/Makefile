@@ -54,8 +54,8 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= StlUtils
 
-INSTALL_LIB_DIR	= $(local_libdir)
-INSTALL_INC_DIR	= $(local_incdir)
+PRJ_TOPDIR	= ../..
+CFG_DIR		= $(PRJ_TOPDIR)/src/config
 
 VER_MAJOR	= 4
 VER_MINOR	= 01
@@ -68,10 +68,10 @@ LIBRARY_TEST	= lib$(NAME)_tg.a
 LIBRARY_PROFILE	= lib$(NAME)_pg.a
 LIBRARY_SHARED	= lib$(NAME)_s.$(shlib_ext)
 
-PRJ_TOPDIR	= ../..
-
 # include any arch specific makefile component
 -include $(PRJ_TOPDIR)/src/arch/$(rpm_arch)$(arch)/Makefile.$(NAME)
+
+include $(CFG_DIR)/00-Makefile.cfg
 
 VPATH		= $(ARCH_VPATH):.
 
@@ -353,6 +353,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.25  2000/01/03 14:20:44  houghton
+# Added include 00-Makefile.cfg.
+#
 # Revision 4.24  1999/11/09 11:01:45  houghton
 # Added ArchiveFile.
 #
