@@ -24,6 +24,12 @@
 #define inline
 #endif
 
+inline
+bool
+InboundProcessorBase::caughtSignal( void ) const
+{
+  return( sigCatcher && sigCatcher->caught().size() != 0 );
+}
 
 inline
 DumpInfo< InboundProcessorBase >
@@ -40,6 +46,9 @@ InboundProcessorBase::dump( const char * prefix, bool showVer ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 3.2  1997/07/25 12:56:01  houghton
+// Added caughtSignal() method.
+//
 // Revision 3.1  1997/07/25 12:26:56  houghton
 // Changed version number to 3.
 //
