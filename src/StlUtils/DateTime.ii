@@ -13,6 +13,12 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/08/24 21:59:52  houghton
+// Cleanup comments.
+// Bug-Fix: set( const struct tm & ) the range of the year would not be
+//     verified. Fixed.
+// Added dump().
+//
 // Revision 3.1  1996/11/14 01:23:37  houghton
 // Changed to Release 3
 //
@@ -397,7 +403,7 @@ inline
 time_t
 DateTime::set( const struct tm & tmTime )
 {
-  return( set( tmTime.tm_year,
+  return( set( 1900 + tmTime.tm_year,
 	       tmTime.tm_mon+1,
 	       tmTime.tm_mday,
 	       tmTime.tm_hour,
@@ -619,6 +625,13 @@ int
 DateTime::operator < ( const DateTime & two ) const
 {
   return( getTimeT() < two.getTimeT() );
+}
+
+inline
+DumpInfo< DateTime >
+DateTime::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< DateTime >( *this, prefix, showVer ) );
 }
 
 // resetFlags - reset all state related variables
