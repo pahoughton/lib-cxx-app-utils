@@ -1,3 +1,4 @@
+# -*- TODO -*-
 #
 # TODO
 #
@@ -12,14 +13,23 @@
 # See End of file for format specs
 #
 
-ADM Paul Houghton 11/09/95 10:00
-Regen Makefile using lastest MakeConfigs
+ADM Paul Houghton 11/10/95 10:01
+move regexcfg.h to _regexcfg.h in arch dirs
+
+ADM Paul Houghton 11/10/95 10:11
+Compile & test without CLUE_DEBUG defined
 
 ADM Paul Houghton 11/09/95 10:00
 Build and run test
 
+ADM Paul Houghton 11/10/95 10:13
+run test against installed
+
 BUG Chris Boys 11/08/95 12:00
 Bitmask::toStream on AIX does not detect bits that are set
+
+ENH Paul Houghton 11/10/95 10:40
+class Bitset (Bitmask with any number of bits)
 
 ENH Paul Houghton 11/09/95 10:00
 class Void
@@ -32,6 +42,10 @@ FilePath - temp file name - tempnam does not work as expected
 Grab TempFileName from lib Common and use it.
 
 === COMPLETED ===
+
+ADM Paul Houghton 11/09/95 10:00
+Regen Makefile using lastest MakeConfigs
+comp Paul Houghton 11/10/95 10:01
 
 # Format spec:
 #
@@ -67,7 +81,10 @@ Grab TempFileName from lib Common and use it.
 
 #
 # $Log$
-# Revision 2.1  1995/11/10 12:39:56  houghton
+# Revision 2.2  1995/11/10 18:46:29  houghton
+# Updated
+#
+# Revision 2.1  1995/11/10  12:39:56  houghton
 # Change to Version 2
 #
 # Revision 1.2  1995/11/09  18:14:35  houghton
