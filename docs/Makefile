@@ -32,13 +32,17 @@ CFG_DIR		= $(PRJ_TOPDIR)/src/config
 
 include $(CFG_DIR)/00-Makefile.cfg
 
-INSTALL_HTML_DIR	= $(INSTALL_DOC_HTML_BASE_DIR)
+INSTALL_HTML_DIR	= $(INSTALL_DOC_HTML_DIR)
 
 HTML_FILES	=							      \
 	00-Index.html
 
 HTML_SUBDIRS	=							      \
-	user
+	user								      \
+	devel
+
+MAN_SUBDIRS	=							      \
+	devel
 
 install install_docs:
 
@@ -58,6 +62,12 @@ install_html: $(INSTALL_HTML_DIR)
 	  $(MAKE) -C $$dir $@ $(exports) ;				      \
 	done
 
+install_man:
+	$(hide) for dir in $(MAN_SUBDIRS) ; do				      \
+	  echo "+ Making $@ in $$dir";					      \
+	  $(MAKE) -C $$dir $@ $(exports) ;				      \
+	done
+
 clean:
 
 realclean:
@@ -67,6 +77,9 @@ realclean:
 
 #
 # $Log$
+# Revision 5.2  2000/06/04 17:56:21  houghton
+# Added devel subdir.
+#
 # Revision 5.1  2000/05/25 10:33:13  houghton
 # Changed Version Num to 5
 #
