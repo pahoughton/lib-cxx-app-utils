@@ -17,12 +17,12 @@ bool tLog05( LibTest & tester );
 bool
 tLog( LibTest & tester )
 {
-  TESTP( tLogLevel( tester ), true );
-  TESTP( tLog01( tester ), true );
-  TESTP( tLog02( tester ), true );
-  TESTP( tLog03( tester ), true );
-  TESTP( tLog04( tester ), true );
-  TESTP( tLog05( tester ), true );
+  TESTP( tLogLevel( tester ) );
+  TESTP( tLog01( tester ) );
+  TESTP( tLog02( tester ) );
+  TESTP( tLog03( tester ) );
+  TESTP( tLog04( tester ) );
+  TESTP( tLog05( tester ) );
 
   return( true );
 }
