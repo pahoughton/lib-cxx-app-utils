@@ -30,7 +30,7 @@ UNIX_CXX_C_SOURCES	=	\
 	Semaphore.C		\
 	Whence.C		\
 	FileLock.C		\
-	File.C			\
+	FileOp.C		\
 
 UNIX_USER_H_INCS	=	\
 	StrSignal.h		\
@@ -46,7 +46,7 @@ UNIX_USER_HH_INCS	=	\
 	SigCatcher.hh		\
 	Semaphore.hh		\
 	FileLock.hh		\
-	File.hh			\
+	FileOp.hh		\
 
 UNIX_USER_II_INCS	=	\
 	InboundProcessorBase.ii	\
@@ -58,7 +58,7 @@ UNIX_USER_II_INCS	=	\
 	SigCatcher.ii		\
 	Semaphore.ii		\
 	FileLock.ii		\
-	File.ii
+	FileOp.ii
 
 
 UNIX_C_HEADERS		=
@@ -72,6 +72,9 @@ $(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 
 #
 # $Log$
+# Revision 4.6  1998/11/02 19:21:46  houghton
+# Changed: the File class was renamed to FileOp().
+#
 # Revision 4.5  1998/07/20 11:29:16  houghton
 # Bug-Fix: had to quote '' $(CC).
 #

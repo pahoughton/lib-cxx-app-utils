@@ -16,11 +16,14 @@
 //
 
 #include "InboundProcessorBase.hh"
+
 #include <Str.hh>
 #include <Directory.hh>
+#include <FileOp.hh>
 #include <Semaphore.hh>
 #include <SigCatcher.hh>
 #include <LibLog.hh>
+
 #include <cstdio>
 
 #if defined( STLUTILS_DEBUG )
@@ -115,11 +118,13 @@ InboundProcessorBase::run( void )
 
 	  if( sem.lock( false ) )
 	    {
+	      FileOp	fileOp;
+	      
 	      _LLg( LogLevel::Debug ) << "locked: '"
 				      << (*them).getName() << '\'' << endl;
 	  
 	      // this one is mine to process.
-	      if( ! file.move( (*them).getName(), procDir ) )
+	      if( ! fileOp.move( (*them).getName(), procDir ) )
 		{
 		  // rename failed.
 		  
@@ -129,8 +134,8 @@ InboundProcessorBase::run( void )
 		  if( inStat.good() )
 		    {
 		      // nope, I can NOT move it
-		      return( setError( file.error(),
-					file.getDest().getName() ) );
+		      return( setError( fileOp.error(),
+					fileOp.getDest().getName() ) );
 		    }
 		  else
 		    {
@@ -145,7 +150,7 @@ InboundProcessorBase::run( void )
 
 		  ++ fileProcCounter;
 	      
-		  if( ! processInbound( file.getDest().getName() ) )
+		  if( ! processInbound( fileOp.getDest().getName() ) )
 		    return( true );
 
 		  if( sigCatcher && sigCatcher->caught().size() )
@@ -287,6 +292,9 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/11/02 19:21:33  houghton
+// Changed: the File class was renamed to FileOp().
+//
 // Revision 4.2  1998/03/11 16:09:44  houghton
 // Changed to use new File class.
 //
