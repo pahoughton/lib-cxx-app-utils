@@ -1,14 +1,8 @@
-#if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
 #include <functional>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
-#include <functional>
-#endif
+#include <cstring>
 
 bool
 tDateTime06( LibTest & tester )
