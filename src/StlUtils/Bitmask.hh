@@ -35,7 +35,7 @@ class Bitmask
 
 public:
 
-  typedef STLUTILS_U32  ValueType;
+  typedef STLUTILS_LONG_U32_T  ValueType;
 
   class bit
   {
@@ -714,6 +714,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:20:30  houghton
+// Changed to use new portable types (STLUTILS*_T).
+//
 // Revision 4.1  1997/09/17 15:12:10  houghton
 // Changed to Version 4
 //

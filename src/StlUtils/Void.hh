@@ -32,47 +32,49 @@ class Void
 
 public:
 
+  typedef STLUTILS_U32_SIZE_T	size_type;
+  
   Void( void );
-  Void( const void * src, size_t size );
+  Void( const void * src, size_type size );
   Void( const Void & src );
 
   virtual ~Void( void );
 
-  inline size_t		size( void ) const;
+  inline size_type		size( void ) const;
 
   inline const void *	vptr( void ) const;
   
   inline bool		get( void * 	dest,
-			     size_t	destSize,
-			     size_t	start = 0 ) const;
+			     size_type	destSize,
+			     size_type	start = 0 ) const;
   
-  Void &		append( const void * src, size_t size );
+  Void &		append( const void * src, size_type size );
   inline Void &		append( const Void & src );
   
-  inline Void &		assign( const void * src, size_t size );
+  inline Void &		assign( const void * src, size_type size );
   inline Void &		assign( const Void & src );
 
-  inline Void &		insert( size_t 	    	before,
+  inline Void &		insert( size_type 	before,
 				const void * 	src,
-				size_t		srcSize );
-  inline Void &		insert( size_t 	    	before,
+				size_type	srcSize );
+  inline Void &		insert( size_type 	before,
 				const Void & 	src );
   
-  Void &		replace( size_t     	start,
-				 size_t     	len,
+  Void &		replace( size_type     	start,
+				 size_type     	len,
 				 const void * 	src,
-				 size_t		srcSize );
+				 size_type	srcSize );
   
-  inline Void &		replace( size_t     	start,
-				 size_t     	len,
+  inline Void &		replace( size_type     	start,
+				 size_type     	len,
 				 const Void & 	src );
   
-  inline Void &		remove( size_t start, size_t len = NPOS );
+  inline Void &		remove( size_type start, size_type len = NPOS );
 
   
   inline void		reset( void );
   
-  bool			resize( size_t newSize, bool trunc = false );
+  bool			resize( size_type newSize, bool trunc = false );
   
   virtual int		compare( const Void & rhs ) const;
   
@@ -85,7 +87,7 @@ public:
   
   // libStlUtils Common Class Methods
   
-  virtual size_t    	getBinSize( void ) const;
+  virtual size_type    	getBinSize( void ) const;
   
   virtual ostream & 	write( ostream & dest ) const;
   virtual istream & 	read( istream & src );
@@ -115,9 +117,9 @@ protected:
   
 private:
 
-  char *    data;
-  size_t    dataSize;
-  size_t    dataBufSize;
+  char *	data;
+  size_type     dataSize;
+  size_type     dataBufSize;
 
   enum ErrorNum
   {
@@ -203,6 +205,9 @@ compare( const Void & lhs, const Void & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:21:24  houghton
+// Changed to use new portable types (STLUTILS*_T).
+//
 // Revision 4.1  1997/09/17 15:13:09  houghton
 // Changed to Version 4
 //

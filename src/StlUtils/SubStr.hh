@@ -38,7 +38,7 @@ class SubStr
 
 public:
 
-  typedef size_t	size_type;
+  typedef STLUTILS_U32_SIZE_T	size_type;
   
   static const size_type npos;
   
@@ -52,7 +52,7 @@ public:
   inline Str &		of( void );
   inline const Str &	of( void ) const;
 
-  inline size_type    	    copy( char * dest,
+  inline size_type    	    copy( char *    dest,
 				  size_type destLen,
 				  size_type start = 0 ) const;
 
@@ -75,35 +75,35 @@ public:
   inline unsigned long	toULong( unsigned short base = 0 ) const;	    
 
   int 	    compare( const Str &    two,
-		     size_t         start = 0,
-		     size_t         len = NPOS ) const; 
+		     size_type      start = 0,
+		     size_type      len = npos ) const; 
   int	    compare( const SubStr & two,
-		     size_t         start = 0,
-		     size_t         len = NPOS ) const; 
+		     size_type      start = 0,
+		     size_type      len = npos ) const; 
   int	    compare( const char *   two,
-		     size_t         start = 0,
-		     size_t         len = NPOS ) const; 
+		     size_type      start = 0,
+		     size_type      len = npos ) const; 
   
   friend int	compare( const char * 	one,
 			 const SubStr & two,
-			 size_t         len = NPOS ); 
+			 size_type      len = npos ); 
   
   int	    fcompare( const Str &    two,
-		      size_t         start = 0,
-		      size_t         len = NPOS ) const; 
+		      size_type      start = 0,
+		      size_type      len = npos ) const; 
   int	    fcompare( const SubStr & two,
-		      size_t 	     start = 0,
-		      size_t 	     len = NPOS ) const; 
+		      size_type      start = 0,
+		      size_type      len = npos ) const; 
   int	    fcompare( const char *   two,
-		      size_t 	     start = 0,
-		      size_t         len = NPOS ) const; 
+		      size_type      start = 0,
+		      size_type      len = npos ) const; 
   
   friend int	fcompare( const char *    one,
 			  const SubStr &  two,
-			  size_t          len = NPOS ); 
+			  size_type       len = npos ); 
 
-  inline char &     operator [] ( size_t index ); 
-  inline char       operator [] ( size_t index ) const;
+  inline char &     operator [] ( size_type index ); 
+  inline char       operator [] ( size_type index ) const;
   
   inline SubStr &   operator =  ( const SubStr & rhs ); 
   inline SubStr &   operator =  ( const Str & rhs ); 
@@ -141,7 +141,7 @@ public:
   
   // libStlUtils Common Class Methods
 
-  size_t	    getBinSize( void ) const;
+  size_type	    getBinSize( void ) const;
 
   ostream &	    write( ostream & dest ) const;
   istream &	    read( istream & src );
@@ -185,14 +185,14 @@ private:
 // be available when STLUTILS_DEBUG is defined.
 
 int
-compare( const SubStr & one,
-	 const char *   two,
-	 size_t         len = SubStr::npos ); 
+compare( const SubStr &	    one,
+	 const char *	    two,
+	 SubStr::size_type  len = SubStr::npos ); 
   
 int
-fcompare( const SubStr & one,
-	  const char *   two,
-	  size_t         len = SubStr::npos ); 
+fcompare( const SubStr &    one,
+	  const char *	    two,
+	  SubStr::size_type len = SubStr::npos ); 
 
 Str
 operator + ( const SubStr & lhs, const Str & rhs );
@@ -248,10 +248,10 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 //
 //  Public Interface:
 //
-//  	size_t
+//  	size_type
 //  	size( void ) const;
 //
-//  	size_t
+//  	size_type
 //  	length( void ) const;
 //
 //  	bool
@@ -304,49 +304,49 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 //
 //  	int
 //  	compare( const Str & two,
-//  	    	 size_t start = 0,
-//  	    	 size_t len = NPOS ) const;
+//  	    	 size_type start = 0,
+//  	    	 size_type len = NPOS ) const;
 //
 //  	int
 //  	compare( const SubStr & two,
-//  	    	 size_t start = 0,
-//  	    	 size_t len = NPOS ) const;
+//  	    	 size_type start = 0,
+//  	    	 size_type len = NPOS ) const;
 //
 //  	int
 //  	compare( const char * two,
-//  	    	 size_t start = 0,
-//    	    	 size_t len = NPOS ) const;
+//  	    	 size_type start = 0,
+//    	    	 size_type len = NPOS ) const;
 //
 //  	friend int
 //  	compare( const char * one,
-//  	    	 size_t start = 0,
-//  	    	 size_t len = NPOS ) const;
+//  	    	 size_type start = 0,
+//  	    	 size_type len = NPOS ) const;
 //
 //  	int
 // 	fcompare( const Str & two,
-//  	    	  size_t start = 0,
-//  	    	  size_t len = NPOS ) const;
+//  	    	  size_type start = 0,
+//  	    	  size_type len = NPOS ) const;
 //
 //  	int
 //  	fcompare( const SubStr & two,
-//  	    	  size_t start = 0,
-//  	    	  size_t len = NPOS ) const;
+//  	    	  size_type start = 0,
+//  	    	  size_type len = NPOS ) const;
 //
 //  	int
 //  	fcompare( const char * two,
-//  	    	  size_t start = 0,
-//  	    	  size_t len = NPOS ) const;
+//  	    	  size_type start = 0,
+//  	    	  size_type len = NPOS ) const;
 //
 //  	friend int
 //  	fcompare( const char * one,
-//  	    	  size_t start = 0,
-//  	    	  size_t len = NPOS ) const;
+//  	    	  size_type start = 0,
+//  	    	  size_type len = NPOS ) const;
 //
 //  	char &
-//  	operator [] ( size_t index );
+//  	operator [] ( size_type index );
 //
 //  	char
-//  	operator [] ( size_t index ) const;
+//  	operator [] ( size_type index ) const;
 //
 //  	SubStr &
 //  	operator = ( const SubStr & src );
@@ -438,6 +438,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:21:16  houghton
+// Changed to use new portable types (STLUTILS*_T).
+//
 // Revision 4.1  1997/09/17 15:13:06  houghton
 // Changed to Version 4
 //

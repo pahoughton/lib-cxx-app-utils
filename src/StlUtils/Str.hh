@@ -43,9 +43,9 @@ class STLUTILS_CLASS_T Str : public iostream
 
 public:
 
-  typedef char *    	iterator;
-  typedef const char * 	const_iterator;
-  typedef size_t	size_type;
+  typedef char *		iterator;
+  typedef const char *		const_iterator;
+  typedef STLUTILS_U32_SIZE_T	size_type;
 
   typedef pair< unsigned long, unsigned long >	Range;
   
@@ -1703,6 +1703,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:21:10  houghton
+// Changed to use new portable types (STLUTILS*_T).
+//
 // Revision 4.1  1997/09/17 15:12:53  houghton
 // Changed to Version 4
 //
