@@ -38,7 +38,7 @@ Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
 
   if( timeStamp )
     {
-      DateTime  now(time(0));
+      DateTime  now(time(0), localTimeStamp);
 
       *this << now << ' ';
     }
@@ -186,6 +186,9 @@ Log::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/03/21 15:37:54  houghton
+// Bug-Fix: date stamp was not using localTimeStamp.
+//
 // Revision 3.3  1997/03/21 12:21:16  houghton
 // Added localTimeStamp var to determin if logtime stamp should be
 //     local or GMT.
