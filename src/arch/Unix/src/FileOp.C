@@ -394,10 +394,32 @@ FileOp::catFile( void )
 bool
 FileOp::removeFile( const char * fn )
 {
-  if( ::remove( fn ) )
-    return( setError( errno, "removing", fn ) );
+  FileStat  fnStat( fn, true );
+
+  if( fnStat.good() )
+    {
+      if( fnStat.isDir() && ! fnStat.isLink() )
+	{
+	  if( ::rmdir( fn ) )
+	    return( setError( errno, "removing dir", fn ) );
+	  else
+	    return( true );
+	}
+      else
+	{
+	  if( ::remove( fn ) )
+	    return( setError( errno, "removing", fn ) );
+	  else
+	    return( true );
+	}
+    }
   else
-    return( true );
+    {
+      if( fnStat.getSysError() != ENOENT )
+	return( setError( errno, "removing", fn ) );
+      else
+	return( true );
+    }
 }
 
 bool
@@ -513,6 +535,9 @@ FileOp::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 1.8  1999/10/07 09:45:45  houghton
+// Changed: remove() to work for files and directories.
+//
 // Revision 1.7  1999/09/29 14:17:43  houghton
 // Bug-Fix: it is not a crittical error if you get permission denied
 //     setting mode or time after a 'move'.
