@@ -28,7 +28,7 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Clue
 
-for_rpm		= false
+for_rpm		= true
 
 TYPE_SUBDIR	= /pers
 
@@ -40,7 +40,7 @@ endif
 INSTALL_LIBDIR	= $(local_libdir)$(TYPE_SUBDIR)
 INSTALL_INCDIR	= $(local_incdir)$(TYPE_SUBDIR)
 
-VER_MAJOR	= 2
+VER_MAJOR	= 3
 VER_MINOR	= 01
 VER_RELEASE	= 00.b.01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
@@ -131,7 +131,6 @@ C_SOURCES	=			\
 PRIME_CXX_C_SOURCES =			\
 	LibTest.C                       \
 	ClassVersion.C                  \
-	OpenFlags.C			\
 	StripWhite.C                    \
 	StringSearch.C                  \
 	StringReverseSearch.C           \
@@ -144,7 +143,6 @@ PRIME_CXX_C_SOURCES =			\
 	StringCapitalize.C              \
 	StringTo.C			\
 	StringFrom.C			\
-	basename.C			\
 	Bitmask.C			\
 	Mutex.C                         \
 	RegexScan.C                     \
@@ -155,7 +153,7 @@ PRIME_CXX_C_SOURCES =			\
 	Param.C                         \
 	FilePath.C                      \
 
-ifneq ($(for_rpm), true )
+ifneq ($(for_rpm),true)
 OTHER_CXX_C_SOURCES	=		\
 	DateTimeUtils.C                 \
 	DateTime.C                      \
@@ -197,7 +195,7 @@ PRIME_USER_HH_INCS	=		\
 	Param.hh                        \
 	FilePath.hh                     \
 
-ifneq ($(for_rpm), true )
+ifneq ($(for_rpm),true)
 OTHER_USER_HH_INCS	=		\
 	DateTimeUtils.hh                \
 	DateTime.hh                     \
@@ -221,13 +219,11 @@ USER_HH_INCS	=			\
 	$(ARCH_USER_HH_INCS)		\
 
 PRIME_USER_II_INCS	=		\
-	LibTest.ii                      \
 	ClassVersion.ii                 \
 	ClueUtils.ii			\
 	StringUtils.ii			\
 	Bitmask.ii			\
 	Mutex.ii                        \
-	RegexScan.ii                    \
 	FileStat.ii			\
 	LogLevel.ii			\
 	LogBuf.ii			\
@@ -235,7 +231,7 @@ PRIME_USER_II_INCS	=		\
 	Param.ii                        \
 	FilePath.ii                     \
 
-ifneq ($(for_rpm), true )
+ifneq ($(for_rpm),true)
 OTHER_USER_II_INCS	=		\
 	DateTimeUtils.ii                \
 	DateTime.ii                     \
@@ -335,6 +331,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.5  1996/11/22 12:27:04  houghton
+# Cleanup.
+#
 # Revision 3.4  1996/11/20 12:13:51  houghton
 # Major rework to support both rpm sources (for ani server) and
 #     other sources (for distributor).
