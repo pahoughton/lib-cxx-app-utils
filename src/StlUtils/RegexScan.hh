@@ -14,7 +14,7 @@
 //  ordinary characters. An ordinary character is a simple regular
 //  expression which matches that character and nothing else. The special
 //  characters are `.', `*', `+', `?', `[', `]', `$', `^', '\', '|'
-//  '(', ')'. '{', '}', 
+//  '(', ')', and '{', '}'.
 //  
 // `.'	    is a special character that matches anything except a newline. 
 //	    Using concatenation, we can make regular expressions like `a.b'
@@ -525,6 +525,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 2.6  1996/11/04 18:22:22  houghton
+// Cleanup header comment doc.
+//
 // Revision 2.5  1996/11/04 14:27:53  houghton
 // Restructure header comments layout.
 // Updated and verified header comment documentation.
