@@ -20,6 +20,8 @@
 
 #include <iostream>
 
+#include <cstring>
+
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
@@ -201,6 +203,9 @@ compare( const Void & lhs, const Void & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/07/18 19:31:22  houghton
+// Port(Sun5): added include <cstring>.
+//
 // Revision 3.4  1997/03/14 14:48:15  houghton
 // Added dump() method.
 //
