@@ -35,11 +35,11 @@ RegexScan::RegexScan(
   size_t    	bufSize,
   const char *	tranTable
   )
+  : buf( 0 ),
+    reg( 0 ),
+    patternString( 0 ),
+    re_msg( 0 )
 {
-  buf = 0;
-  reg = 0;
-  re_msg = 0;
-  patternString = 0;
   setPattern( defaultSyntax, pattern, fast, bufSize, tranTable );
 }
 
@@ -50,20 +50,20 @@ RegexScan::RegexScan(
   size_t    	bufSize,
   const char *	tranTable
   )
+  : buf( 0 ),
+    reg( 0 ),
+    patternString( 0 ),
+    re_msg( 0 )
 {
-  buf = 0;
-  reg = 0;
-  re_msg = 0;
-  patternString = 0;
   setPattern( reSyntax, pattern, fast, bufSize, tranTable );
 }
 
 RegexScan::RegexScan( const RegexScan & exp )
+  : buf( 0 ),
+    reg( 0 ),
+    patternString( 0 ),
+    re_msg( 0 )
 {
-  buf = 0;
-  reg = 0;
-  re_msg = 0;
-  patternString = 0;
   copy( exp.buf, exp.reg, exp.patternString );
 }
 
@@ -78,6 +78,12 @@ RegexScan::setDefaultSyntax( unsigned int newSyntax )
   unsigned int old = defaultSyntax;
   defaultSyntax = newSyntax;
   return( old );
+}
+
+const char *
+RegexScan::getPattern( void ) const
+{
+  return( patternString );
 }
 
 void
@@ -351,6 +357,9 @@ RegexScan::cleanup()
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/04/02 13:45:00  houghton
+// Added getPattern().
+//
 // Revision 3.2  1997/03/03 14:37:24  houghton
 // Removed support for RW Tools++.
 //

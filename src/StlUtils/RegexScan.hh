@@ -222,6 +222,8 @@ public:
   virtual ~RegexScan( void );
 
   static unsigned int	setDefaultSyntax( unsigned int syntax );
+
+  const char *	getPattern( void ) const;
   
   void 	    setPattern( const char *    pattern,
 			bool   	    	fast = 0,
@@ -520,6 +522,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/04/02 13:44:52  houghton
+// Added getPattern().
+//
 // Revision 3.1  1996/11/14 01:23:56  houghton
 // Changed to Release 3
 //
