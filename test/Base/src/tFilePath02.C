@@ -59,6 +59,52 @@ tFilePath02( LibTest & tester )
   }
 
   {
+    // expand( void ) 70% tested
+
+    FilePath	t( "~/afile" );
+
+    TEST( t.expand() );
+
+    Str expect( getenv( "HOME" ) );
+
+    TEST( expect.size() > 1 );
+    
+    expect << "/afile";
+		
+    TESTR( t.getFullName().c_str(),
+	   compare( t.getFullName().c_str(), expect.c_str() ) == 0 );
+
+    TEST( ! putenv( "FP_EMTPY=" ) );
+    TEST( ! putenv( "FP_1=fp_one" ) );
+    TEST( ! putenv( "FP_2=fp_two" ) );
+    TEST( ! putenv( "FP_3=fp_three" ) );
+
+    t.set( "~" TEST_USER "/afile" );
+    TESTR( t.c_str(), t.expand() );
+    
+    TESTR( t.getFullName().c_str(),
+	   compare( t.getFullName().c_str(), expect.c_str() ) == 0 );
+
+    TEST( getenv( "FP_1" ) && strlen( getenv( "FP_1" ) ) );
+    
+    t.set( "ab/$FP_1/${FP_2}${FP_EMPTY}${FP_3}/$FP_1$F$FP_JUNK/$FP_3$FP_1" );
+    expect.assign( "ab/fp_one/fp_twofp_three/fp_one/fp_threefp_one" );
+    TESTR( t.c_str(), t.expand() );
+    TESTR( t.getFullName().c_str(),
+	   compare( t.getFullName().c_str(), expect.c_str() ) == 0 );
+
+    TEST( ! putenv( "FP_USER=" TEST_USER ) );
+    t.set( "~$FP_USER/afile" );
+
+    expect.assign( getenv( "HOME" ) );
+    expect << "/afile";
+
+    TEST( t.expand() );
+    TESTR( t.getFullName().c_str(),
+	   compare( t.getFullName().c_str(), expect.c_str() ) == 0 );
+  }
+		   
+  {
     // setPrefix( const char * )
 
     FilePath	t( D DD F DE E );
