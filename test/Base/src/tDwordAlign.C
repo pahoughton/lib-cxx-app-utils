@@ -69,6 +69,9 @@ tDwordAlign( LibTest & tester )
 
 //
 // $Log$
+// Revision 6.1  2003/08/09 11:22:50  houghton
+// Changed to version 6
+//
 // Revision 5.2  2003/07/19 09:17:28  houghton
 // Port to 64 bit.
 //

@@ -178,6 +178,9 @@ realclean:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 6.1  2003/08/09 11:22:39  houghton
+# Changed to version 6
+#
 # Revision 1.3  2000/06/11 13:20:30  houghton
 # Added Prerequisites.
 #

@@ -98,6 +98,9 @@ VectorResync(
 // %PL%
 // 
 // $Log$
+// Revision 6.1  2003/08/09 11:22:44  houghton
+// Changed to version 6
+//
 // Revision 5.4  2003/08/09 11:21:00  houghton
 // Changed ver strings.
 //

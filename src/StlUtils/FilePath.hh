@@ -351,6 +351,9 @@ compare( const FilePath & one, const FilePath & two );
 // %PL%
 // 
 // $Log$
+// Revision 6.1  2003/08/09 11:22:41  houghton
+// Changed to version 6
+//
 // Revision 5.6  2003/08/09 11:20:58  houghton
 // Changed ver strings.
 //

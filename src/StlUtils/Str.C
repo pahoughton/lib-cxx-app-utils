@@ -1414,6 +1414,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.1  2003/08/09 11:22:43  houghton
+// Changed to version 6
+//
 // Revision 5.6  2003/08/09 11:21:00  houghton
 // Changed ver strings.
 //

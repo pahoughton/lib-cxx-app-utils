@@ -492,6 +492,9 @@ tLog03( LibTest & tester )
 
 //
 // $Log$
+// Revision 6.1  2003/08/09 11:22:51  houghton
+// Changed to version 6
+//
 // Revision 5.2  2000/05/25 17:11:50  houghton
 // Port: Sun CC 5.0.
 //

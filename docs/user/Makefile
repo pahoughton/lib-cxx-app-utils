@@ -52,6 +52,9 @@ install_html: $(INSTALL_HTML_DIR)
 
 #
 # $Log$
+# Revision 6.1  2003/08/09 11:22:40  houghton
+# Changed to version 6
+#
 # Revision 5.2  2000/06/05 13:13:29  houghton
 # Fixed problems.
 #

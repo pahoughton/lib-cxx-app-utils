@@ -252,6 +252,9 @@ tParam03( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 6.1  2003/08/09 11:22:51  houghton
+// Changed to version 6
+//
 // Revision 5.4  2001/07/26 19:28:56  houghton
 // *** empty log message ***
 //

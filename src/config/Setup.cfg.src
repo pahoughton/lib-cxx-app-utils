@@ -45,6 +45,9 @@ help_setup_config:
 
 #
 # $Log$
+# Revision 6.1  2003/08/09 11:22:47  houghton
+# Changed to version 6
+#
 # Revision 5.2  2000/06/04 17:59:26  houghton
 # Changed doc vars.
 # Changed help target to help_setup_config.

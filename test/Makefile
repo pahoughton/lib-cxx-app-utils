@@ -57,6 +57,9 @@ check:
 
 #
 # $Log$
+# Revision 6.1  2003/08/09 11:22:48  houghton
+# Changed to version 6
+#
 # Revision 5.3  2001/07/30 12:28:09  houghton
 # *** empty log message ***
 #

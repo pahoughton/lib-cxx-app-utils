@@ -37,6 +37,9 @@ tAbsLong( LibTest & tester )
 
 //
 // $Log$
+// Revision 6.1  2003/08/09 11:22:49  houghton
+// Changed to version 6
+//
 // Revision 5.2  2001/07/26 19:28:56  houghton
 // *** empty log message ***
 //

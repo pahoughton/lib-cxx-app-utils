@@ -164,6 +164,9 @@ double	    	CompDouble[] =
 
 //
 // $Log$
+// Revision 6.1  2003/08/09 11:22:50  houghton
+// Changed to version 6
+//
 // Revision 5.1  2000/05/25 10:33:27  houghton
 // Changed Version Num to 5
 //

@@ -172,6 +172,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 6.1  2003/08/09 11:22:46  houghton
+// Changed to version 6
+//
 // Revision 5.10  2001/08/07 23:34:24  houghton
 // *** empty log message ***
 //

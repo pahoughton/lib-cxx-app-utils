@@ -100,6 +100,9 @@ exit $exit_code
 #
 # 
 # $Log$
+# Revision 6.1  2003/08/09 11:22:48  houghton
+# Changed to version 6
+#
 # Revision 1.3  2003/08/09 11:21:01  houghton
 # Changed ver strings.
 #
