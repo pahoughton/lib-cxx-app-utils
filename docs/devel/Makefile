@@ -133,12 +133,18 @@ POD_SOURCES	=
 
 GEN_PODS	= $(GEN_POD_HTML_FILES:.html=.pod)
 
+INSTALL_SPECIAL	= $(GEN_PODS)
+
 include Make/make.cfg.targets.$(makefile_type).$(make_cfg_ver)
 
 $(GEN_PODS):	gen_prj_pod
 
+show_html:
+	@echo "docs_html '$(docs_html)'"
+
 gen_prj_pod:
-	GenC++Pod.pl $(PROJECT) $(PRJ_TOPDIR)/src Library
+	$(hide) GenC++Pods.pl $(PROJECT) $(PRJ_TOPDIR)/src Library
+	@echo "+ GenC++Pods Complete."
 
 help:
 	@echo ""
@@ -171,6 +177,9 @@ realclean:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 1.2  2000/06/05 13:13:07  houghton
+# Fixed minor problems.
+#
 # Revision 1.1  2000/06/04 18:01:13  houghton
 # Initial Version.
 #
