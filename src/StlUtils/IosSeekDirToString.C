@@ -15,7 +15,7 @@
 //  Version:	    $Revision$
 //
 
-#include <StlUtilsUtils.hh>
+#include <StlUtilsMisc.hh>
 
 const char * 
 IosSeekDirToString( ios::seek_dir dir )
@@ -28,6 +28,9 @@ IosSeekDirToString( ios::seek_dir dir )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/17 14:10:15  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.2  1997/09/17 11:08:24  houghton
 // Changed: renamed library to StlUtils.
 //

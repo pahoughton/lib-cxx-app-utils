@@ -12,7 +12,7 @@
 //
 
 #include "LogLevel.hh"
-#include "StlUtilsUtils.hh"
+#include "StlUtilsMisc.hh"
 #include "Bit.hh"
 #include "StringUtils.hh"
 #include "Str.hh"
@@ -316,6 +316,9 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/09/17 14:10:16  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.7  1997/09/17 11:08:31  houghton
 // Changed: renamed library to StlUtils.
 //

@@ -14,7 +14,7 @@
 
 #include "Param.hh"
 #include "StringUtils.hh"
-#include "StlUtilsUtils.hh"
+#include "StlUtilsMisc.hh"
 #include "Str.hh"
 #include "DateTime.hh"
 
@@ -1172,6 +1172,9 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.20  1997/09/17 14:10:18  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.19  1997/09/17 11:08:36  houghton
 // Changed: renamed library to StlUtils.
 //

@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.5  1997/09/17 14:10:14  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.4  1997/09/17 11:08:13  houghton
 // Changed: renamed library to StlUtils.
 //
@@ -43,7 +46,7 @@
 #if !defined( STLUTILS_SHORT_FN )
 #include "DateRangeDaily.hh"
 #include "DateTimeUtils.hh"
-#include "StlUtilsUtils.hh"
+#include "StlUtilsMisc.hh"
 #include "Str.hh"
 #include <iomanip>
 #else

@@ -12,7 +12,7 @@
 //
 
 #include "LogBuf.hh"
-#include "StlUtilsUtils.hh"
+#include "StlUtilsMisc.hh"
 #include "StringUtils.hh"
 #include "FileStat.hh"
 #include "FilePath.hh"
@@ -703,6 +703,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.10  1997/09/17 14:10:15  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.9  1997/09/17 11:08:29  houghton
 // Changed: renamed library to StlUtils.
 //

@@ -16,7 +16,7 @@
 //
 
 #include "Str.hh"
-#include "StlUtilsUtils.hh"
+#include "StlUtilsMisc.hh"
 #include "Compare.hh"
 
 
@@ -1217,6 +1217,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/09/17 14:10:20  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.7  1997/09/17 11:08:44  houghton
 // Changed: renamed library to StlUtils.
 //

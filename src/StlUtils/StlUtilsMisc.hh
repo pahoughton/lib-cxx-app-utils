@@ -42,7 +42,7 @@ const char *
 IosSeekDirToString( ios::seek_dir dir );
 
 // See StlUtilsUtils.ii for inline Functions
-#include <StlUtilsUtils.ii>
+#include <StlUtilsMisc.ii>
 
 
 //
@@ -171,6 +171,9 @@ IosSeekDirToString( ios::seek_dir dir );
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/17 14:10:19  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
 // Revision 3.5  1997/09/17 11:08:42  houghton
 // Changed: renamed library to StlUtils.
 //
