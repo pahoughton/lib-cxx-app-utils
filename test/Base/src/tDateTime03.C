@@ -118,6 +118,12 @@ tDateTime03( LibTest & tester )
     TEST( dt.getYearOfCentury() == 92 );
     TEST( dt.getYear() == 1992 );
 
+    dt.set( "06/26/1776", "%m/%d/%Y" );
+    TEST( dt.getTimeT() == MinTimeT );
+    
+    dt.set( "06/26/2076", "%m/%d/%Y" );
+    TEST( dt.getTimeT() == MaxTimeT );
+    
   }
 
   {
@@ -151,14 +157,65 @@ tDateTime03( LibTest & tester )
     year = 10;
 
     dt.set( year, month, day, hour, min, sec );
-
+    
     TEST( dt.getYear() == 2010 );
     TEST( dt.getMonth() == month );
     TEST( dt.getDayOfMonth() == day );
     TEST( dt.getHour() == hour );
     TEST( dt.getMinute() == min );
     TEST( dt.getSecond() == sec );
-        
+
+    year = 1920;
+    month = 1;
+    day = 1;
+    hour = 0;
+    min = 0;
+    sec = 0;
+
+    dt.set( year, month, day, hour, min, sec );
+
+    TEST( dt.getYear() == year );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == hour );
+    TEST( dt.getMinute() == min );
+    TEST( dt.getSecond() == sec );
+
+
+    year = 2000;
+    
+    dt.set( year, month, day, hour, min, sec );
+
+    TEST( dt.getYear() == year );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == hour );
+    TEST( dt.getMinute() == min );
+    TEST( dt.getSecond() == sec );
+
+    year = 2030;
+    
+    dt.set( year, month, day, hour, min, sec );
+
+    TEST( dt.getYear() == year );
+    TEST( dt.getMonth() == month );
+    TEST( dt.getDayOfMonth() == day );
+    TEST( dt.getHour() == hour );
+    TEST( dt.getMinute() == min );
+    TEST( dt.getSecond() == sec );
+
+    year = MinYear - 1;
+
+    dt.set( year, month, day, hour, min, sec );
+
+    TEST( dt.getTimeT() == MinTimeT );
+
+    year = MaxYear + 1;
+    
+    dt.set( year, month, day, hour, min, sec );
+
+    TEST( dt.getTimeT() == MaxTimeT );
+
   }
 
   {
