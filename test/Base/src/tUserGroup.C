@@ -203,26 +203,40 @@ tUserGroup( LibTest & tester )
     size_t mCount = 0;
     {
       for( size_t m = 0; gent->gr_mem[m]; m++ )
-	mCount++;
+        {
+        // use getpwnam to see if user really exists
+        if(getpwnam(gent->gr_mem[m]) != NULL)
+          {
+	  mCount++;
+          }
+        }
     }
 
     g.gr_mem = (char **)malloc( (sizeof( char * ) * mCount) + 1 );
     
     {
+      size_t n = 0;
       for( size_t m = 0; gent->gr_mem[m]; m++ )
 	{
-	  g.gr_mem[m] = strdup( gent->gr_mem[m] );
+          // use getpwnam to see if user really exists
+          if(getpwnam(gent->gr_mem[m]) != NULL)
+            {
+	      g.gr_mem[n++] = strdup( gent->gr_mem[m] );
+            }
 	}
       g.gr_mem[mCount] = 0;
     }
     
+
     TEST( t.getMembers().size() >= mCount );
 
     {
+
+
       for( size_t m = 0; g.gr_mem[m]; m++ )
 	{
 	  const User u( g.gr_mem[m] );
-	  
+	 
 	  TEST( t.isMember( u ) );
 	}
     }
@@ -250,15 +264,25 @@ tUserGroup( LibTest & tester )
     size_t mCount = 0;
     {
       for( size_t m = 0; gent->gr_mem[m]; m++ )
-	mCount++;
+        {
+        if(getpwnam(gent->gr_mem[m]) != NULL)
+          {
+  	    mCount++;
+          }
+        }
     }
 
     g.gr_mem = (char **)malloc( (sizeof( char * ) * mCount) + 1 );
     
     {
+      size_t n = 0;
       for( size_t m = 0; gent->gr_mem[m]; m++ )
 	{
-	  g.gr_mem[m] = strdup( gent->gr_mem[m] );
+          // use getpwnam to see if user really exists
+          if(getpwnam(gent->gr_mem[m]) != NULL)
+            {
+	      g.gr_mem[n++] = strdup( gent->gr_mem[m] );
+            }
 	}
       g.gr_mem[mCount] = 0;
     }
@@ -298,15 +322,25 @@ tUserGroup( LibTest & tester )
     size_t mCount = 0;
     {
       for( size_t m = 0; gent->gr_mem[m]; m++ )
-	mCount++;
+        {
+        if(getpwnam(gent->gr_mem[m]) != NULL)
+          {
+	  mCount++;
+          }
+        }
     }
 
     g.gr_mem = (char **)malloc( (sizeof( char * ) * mCount) + 1 );
     
     {
+      size_t n = 0;
       for( size_t m = 0; gent->gr_mem[m]; m++ )
 	{
-	  g.gr_mem[m] = strdup( gent->gr_mem[m] );
+          // use getpwnam to see if user really exists
+          if(getpwnam(gent->gr_mem[m]) != NULL)
+            {
+	      g.gr_mem[n++] = strdup( gent->gr_mem[m] );
+            }
 	}
       g.gr_mem[mCount] = 0;
     }
@@ -345,15 +379,25 @@ tUserGroup( LibTest & tester )
     size_t mCount = 0;
     {
       for( size_t m = 0; gent->gr_mem[m]; m++ )
-	mCount++;
+        {
+        if(getpwnam(gent->gr_mem[m]) != NULL)
+          {
+	  mCount++;
+          }
+        }
     }
 
     g.gr_mem = (char **)malloc( (sizeof( char * ) * mCount) + 1 );
     
     {
+      size_t n = 0;
       for( size_t m = 0; gent->gr_mem[m]; m++ )
 	{
-	  g.gr_mem[m] = strdup( gent->gr_mem[m] );
+          // use getpwnam to see if user really exists
+          if(getpwnam(gent->gr_mem[m]) != NULL)
+            {
+	      g.gr_mem[n++] = strdup( gent->gr_mem[m] );
+            }
 	}
       g.gr_mem[mCount] = 0;
     }
@@ -393,15 +437,25 @@ tUserGroup( LibTest & tester )
     size_t mCount = 0;
     {
       for( size_t m = 0; gent->gr_mem[m]; m++ )
-	mCount++;
+        {
+        if(getpwnam(gent->gr_mem[m]) != NULL)
+          {
+	  mCount++;
+          }
+        }
     }
 
     g.gr_mem = (char **)malloc( (sizeof( char * ) * mCount) + 1 );
     
     {
+      size_t n = 0;
       for( size_t m = 0; gent->gr_mem[m]; m++ )
 	{
-	  g.gr_mem[m] = strdup( gent->gr_mem[m] );
+          // use getpwnam to see if user really exists
+          if(getpwnam(gent->gr_mem[m]) != NULL)
+            {
+	      g.gr_mem[n++] = strdup( gent->gr_mem[m] );
+            }
 	}
       g.gr_mem[mCount] = 0;
     }
@@ -437,15 +491,25 @@ tUserGroup( LibTest & tester )
     size_t mCount = 0;
     {
       for( size_t m = 0; gent->gr_mem[m]; m++ )
-	mCount++;
+        {
+        if(getpwnam(gent->gr_mem[m]) != NULL)
+          {
+	  mCount++;
+          }
+        }
     }
 
     g.gr_mem = (char **)malloc( (sizeof( char * ) * mCount) + 1 );
     
     {
+      size_t n = 0;
       for( size_t m = 0; gent->gr_mem[m]; m++ )
 	{
-	  g.gr_mem[m] = strdup( gent->gr_mem[m] );
+          // use getpwnam to see if user really exists
+          if(getpwnam(gent->gr_mem[m]) != NULL)
+            {
+	      g.gr_mem[n++] = strdup( gent->gr_mem[m] );
+            }
 	}
       g.gr_mem[mCount] = 0;
     }
