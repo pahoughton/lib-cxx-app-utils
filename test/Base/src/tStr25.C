@@ -148,10 +148,10 @@ tStr25( LibTest & tester )
     // ::getline( istream &, Str &, char )
     
     Str t( T1 T2 );
-#ifdef SHORT_NAMES
-    const char * fn = TESTDATA_PATH "glstr.in";
-#else
+#if !defined( CLUE_SHORT_FN )
     const char * fn = TESTDATA_PATH "getline.Str.input";
+#else
+    const char * fn = TESTDATA_PATH "glstr.in";
 #endif
 
     ifstream in( fn );
