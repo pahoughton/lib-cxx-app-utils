@@ -21,6 +21,8 @@ tFileStat03( LibTest & tester )
     
     const FileStat t( "data/FileStat.h.t.yyy.yyy.yyy" );
 
+    TEST(   t.good() );
+    
     TEST(   t.canRead() );
     TEST(   t.canWrite() );
     TEST(   t.canExec() );
