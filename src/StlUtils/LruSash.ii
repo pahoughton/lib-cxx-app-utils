@@ -1,0 +1,40 @@
+#ifndef _LruSash_ii_
+#define _LruSash_ii_
+//
+// File:        LruSash.ii
+// Project:	StlUtils
+// Desc:        
+//
+//  	Inline source for LruSash
+//
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Created:     10/29/98 05:19
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( FIXME )
+inline
+DumpInfo< LruSash >
+LruSash::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< LruSash >( *this, prefix, showVer ) );
+}
+#endif
+
+
+// Revision Log:
+// 
+// $Log$
+// Revision 4.1  1998/11/02 15:26:18  houghton
+// Initial Version.
+//
+//
+#endif // ! def _LruSash_ii_ 
