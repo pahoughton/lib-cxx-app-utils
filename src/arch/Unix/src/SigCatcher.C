@@ -48,7 +48,7 @@ SigCatcher *	SigCatcher::self = 0;
 const char *
 SigCatcher::Caught::name( void ) const
 {
-  return( StrSignal( signal ) );
+  return( StrSignal( sigCaught ) );
 }
 
 SigCatcher::SigCatcher( void )
@@ -350,6 +350,10 @@ SigCatcher::catchAction(
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/03/30 14:08:19  houghton
+// Renamed signal variable to sigCaught to avoid name clashes with the
+//     'signal' function.
+//
 // Revision 4.3  1998/02/13 01:24:57  houghton
 // Changed include _StlUtilsSignal.h (vs signal.h).
 //

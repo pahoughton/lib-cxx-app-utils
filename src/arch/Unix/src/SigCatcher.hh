@@ -68,7 +68,7 @@ public:
     
   private:
 
-    SigCatcher::Signal	signal;
+    SigCatcher::Signal	sigCaught;
     time_t		whenCaught;
   };
 
@@ -235,6 +235,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/03/30 14:08:22  houghton
+// Renamed signal variable to sigCaught to avoid name clashes with the
+//     'signal' function.
+//
 // Revision 4.2  1998/02/02 15:29:13  houghton
 // Added support for specifying singal flags.
 //

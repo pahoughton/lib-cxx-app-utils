@@ -26,14 +26,14 @@
 
 inline
 SigCatcher::Caught::Caught( void )
-  : signal( 0 ),
+  : sigCaught( 0 ),
     whenCaught( 0 )
 {
 }
 
 inline
 SigCatcher::Caught::Caught( SigCatcher::Signal caughtSig, time_t timeCaught )
-  : signal( caughtSig ),
+  : sigCaught( caughtSig ),
     whenCaught( timeCaught )
 {
 }
@@ -42,7 +42,7 @@ inline
 SigCatcher::Signal
 SigCatcher::Caught::sig( void ) const
 {
-  return( signal );
+  return( sigCaught );
 }
 
 inline
@@ -56,7 +56,7 @@ inline
 bool
 SigCatcher::Caught::operator == ( const Caught & rhs ) const
 {
-  return( signal == rhs.signal && whenCaught == rhs.whenCaught );
+  return( sigCaught == rhs.sigCaught && whenCaught == rhs.whenCaught );
 }
 
 inline
@@ -116,6 +116,10 @@ SigCatcher::setError(
 // Revision Log:
 // 
 // $Log$
+// Revision 4.3  1998/03/30 14:08:25  houghton
+// Renamed signal variable to sigCaught to avoid name clashes with the
+//     'signal' function.
+//
 // Revision 4.2  1998/02/02 15:32:07  houghton
 // Added support for specifying singal flags.
 //
