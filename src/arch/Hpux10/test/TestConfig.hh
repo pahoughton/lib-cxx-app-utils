@@ -38,16 +38,12 @@
 #define TEST_DUMP_DEST TESTDATA_PATH "TestOuput.txt"
 #endif
 
-#if defined( HOST_BLURR ) && !defined( TEST_BLOCK_DEVICE )
-#define TEST_BLOCK_DEVICE "/dev/dsk/c0t0d0s0"
-#endif
-
-#if defined( HOST_SIDESWIPE ) && !defined( TEST_BLOCK_DEVICE )
-#define TEST_BLOCK_DEVICE "/dev/vx/dsk/rootdg/rootvol"
+#if !defined( TEST_BLOCK_DEVICE )
+#define TEST_BLOCK_DEVICE "/dev/root"
 #endif
 
 #if !defined( TEST_CHAR_DEVICE )
-#define TEST_CHAR_DEVICE  "/dev/fd/0"
+#define TEST_CHAR_DEVICE  "/dev/mem"
 #endif
 
 #if !defined( TEST_SETUID_FILE )
@@ -55,7 +51,7 @@
 #endif
 
 #if !defined( TEST_SETGID_FILE )
-#define TEST_SETGID_FILE    "/usr/bin/write"
+#define TEST_SETGID_FILE    "/usr/bin/iostat"
 #endif
 
 // #define STLUTILS_TEST_MULTI_GROUPS 1
@@ -75,6 +71,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1998/08/13 10:54:12  houghton
+// *** empty log message ***
+//
 // Revision 1.1  1998/07/20 11:28:30  houghton
 // Initial Version.
 //
