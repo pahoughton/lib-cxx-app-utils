@@ -39,16 +39,22 @@ class TimeIt
 public:
 
   TimeIt( bool start = false );
-
+  TimeIt( const timeval & realStop, const rusage & usageStop );
+  // TimeIt( const TimeIt & from ); default ok
+  
   virtual ~TimeIt( void );
 
-  inline void	    start( void );
+  inline void	    start( bool realOnly = false );
   inline void	    stop( void );
 
+  inline timeval    getRealDiff( void ) const;
+  inline rusage	    getUsageDiff( void ) const;
   
   virtual ostream &	toStream( ostream & dest ) const;
   // virtual istream &	fromStream( istream & src );
 
+  // TimeIt &		operator = ( const TimeIt & from ); default ok
+  
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
@@ -63,15 +69,12 @@ public:
   DumpInfo<TimeIt> dump( const char *   prefix = "    ",
 			 bool		showVer = true ) const;
 
+  timeval diffTimeVal( const timeval & t1,
+		       const timeval & t2 ) const;
+  
 protected:
 
-  struct timeval diffTimeVal( const timeval & t1,
-			      const timeval & t2 ) const;
-  
 private:
-
-  TimeIt( const TimeIt & from );
-  TimeIt & operator =( const TimeIt & from );
 
   struct timeval realStart;
   struct timeval realStop;
@@ -98,6 +101,141 @@ operator >> ( istream & src, const TimeIt & dest );
 
 #endif
 
+template< class TimeItIterator >
+inline
+TimeIt
+TimeItAverage( TimeItIterator first, TimeItIterator last )
+{
+  timeval   accumReal;
+  rusage    accumUsage;
+
+  accumReal.tv_usec	= 0;
+  accumReal.tv_sec	= 0;
+
+  accumUsage.ru_maxrss	    = 0;
+  accumUsage.ru_ixrss	    = 0;
+  accumUsage.ru_idrss	    = 0;
+  accumUsage.ru_isrss	    = 0;
+  accumUsage.ru_minflt	    = 0;
+  accumUsage.ru_majflt	    = 0;
+  accumUsage.ru_nswap	    = 0;
+  accumUsage.ru_inblock	    = 0;
+  accumUsage.ru_oublock	    = 0;
+  accumUsage.ru_msgsnd	    = 0;
+  accumUsage.ru_msgrcv	    = 0;
+  accumUsage.ru_nsignals    = 0;
+  accumUsage.ru_nvcsw	    = 0;
+  accumUsage.ru_nivcsw	    = 0;
+    
+  long counter = 0;
+  
+  for( TimeItIterator it = first; it != last; ++ it )
+    {
+      ++ counter;
+      
+      accumReal.tv_usec += (*it).getRealDiff().tv_usec;
+     
+      if( accumReal.tv_usec > 1000000 )
+	{
+	  accumReal.tv_sec += (accumReal.tv_usec / 1000000);
+	  accumReal.tv_usec = (accumReal.tv_usec % 1000000);
+	}
+	  
+      accumReal.tv_sec += (*it).getRealDiff().tv_sec;
+      
+      accumUsage.ru_maxrss	+= (*it).getUsageDiff().ru_maxrss;
+      accumUsage.ru_ixrss	+= (*it).getUsageDiff().ru_ixrss;
+      accumUsage.ru_idrss	+= (*it).getUsageDiff().ru_idrss;
+      accumUsage.ru_isrss	+= (*it).getUsageDiff().ru_isrss;
+      accumUsage.ru_minflt	+= (*it).getUsageDiff().ru_minflt;
+      accumUsage.ru_majflt	+= (*it).getUsageDiff().ru_majflt;
+      accumUsage.ru_nswap	+= (*it).getUsageDiff().ru_nswap;
+      accumUsage.ru_inblock	+= (*it).getUsageDiff().ru_inblock;
+      accumUsage.ru_oublock	+= (*it).getUsageDiff().ru_oublock;
+      accumUsage.ru_msgsnd	+= (*it).getUsageDiff().ru_msgsnd;
+      accumUsage.ru_msgrcv	+= (*it).getUsageDiff().ru_msgrcv;
+      accumUsage.ru_nsignals	+= (*it).getUsageDiff().ru_nsignals;
+      accumUsage.ru_nvcsw	+= (*it).getUsageDiff().ru_nvcsw;
+      accumUsage.ru_nivcsw	+= (*it).getUsageDiff().ru_nivcsw;
+    }
+  
+  if( counter )
+    {
+      accumReal.tv_usec	/= counter;
+      accumReal.tv_sec	/= counter;
+
+      accumUsage.ru_maxrss	/= counter;
+      accumUsage.ru_ixrss	/= counter;
+      accumUsage.ru_idrss	/= counter;
+      accumUsage.ru_isrss	/= counter;
+      accumUsage.ru_minflt	/= counter;
+      accumUsage.ru_majflt	/= counter;
+      accumUsage.ru_nswap	/= counter;
+      accumUsage.ru_inblock	/= counter;
+      accumUsage.ru_oublock	/= counter;
+      accumUsage.ru_msgsnd	/= counter;
+      accumUsage.ru_msgrcv	/= counter;
+      accumUsage.ru_nsignals	/= counter;
+      accumUsage.ru_nvcsw	/= counter;
+      accumUsage.ru_nivcsw	/= counter;
+    }
+
+  TimeIt    timer( accumReal, accumUsage );
+
+  return( timer );
+}
+
+template< class TimeItIterator >
+inline
+TimeItIterator
+TimeItBestReal( TimeItIterator first, TimeItIterator last )
+{
+  TimeItIterator    best = first;
+
+  for( TimeItIterator them = first;
+       them != last;
+       ++ them )
+    {
+      if( (*them).tv_sec == (*best).tv_sec )
+	{
+	  if( (*them).tv_usec < (*best).tv_usec )
+	    best = them;
+	}
+      else
+	{
+	  if( (*them).tv_sec < (*best).tv_sec )
+	    best = them;
+	}
+    }
+
+  return( best );
+}
+
+template< class TimeItIterator >
+inline
+TimeItIterator
+TimeItWorstReal( TimeItIterator first, TimeItIterator last )
+{
+  TimeItIterator    worst = first;
+
+  for( TimeItIterator them = first;
+       them != last;
+       ++ them )
+    {
+      if( (*them).tv_sec == (*worst).tv_sec )
+	{
+	  if( (*them).tv_usec > (*worst).tv_usec )
+	    worst = them;
+	}
+      else
+	{
+	  if( (*them).tv_sec > (*worst).tv_sec )
+	    worst = them;
+	}
+    }
+
+  return( worst );
+}
 
 //
 // Detail Documentation
@@ -183,6 +321,12 @@ operator >> ( istream & src, const TimeIt & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/19 16:26:48  houghton
+// Added constructor.
+// Added TimeItAverate template funct.
+// Added TimeItBestReal template funct.
+// Added TimeItWorstReal template funct.
+//
 // Revision 3.1  1997/03/03 14:37:42  houghton
 // Initial Version.
 //
