@@ -13,7 +13,11 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:18  houghton
+// Revision 2.2  1995/12/04 11:16:45  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Now there is a special type for all single 'bit' values.
+//
+// Revision 2.1  1995/11/10  12:40:18  houghton
 // Change to Version 2
 //
 // Revision 1.3  1995/11/05  15:28:32  houghton
@@ -21,74 +25,192 @@
 //
 //
 
-#if !defined( inline )
 #include <Compare.hh>
+
+#if defined( CLUE_DEBUG )
+#define inline
 #endif
 
-inline
-Bitmask::Bitmask( void )
-{
-  value = 0;
-}
 
 inline
-Bitmask::Bitmask( size_t bit )
+Bitmask::bit &
+Bitmask::bit::flip( void )
 {
-  value = 0;
-  set( bit );
-}
-
-inline
-Bitmask::Bitmask( unsigned long set, bool flip )
-{
-  if( flip )	value = ~set;
-  else		value = set;
-}
-
-inline
-Bitmask &
-Bitmask::set( size_t pos )
-{
-  value |= 1UL << pos;
+  bitmask.flip( bitpos );
   return( *this );
 }
 
 inline
-Bitmask &
-Bitmask::clear( size_t pos )
+size_t
+Bitmask::bit::pos( void ) const
 {
-  value &= ~(1UL << pos);
+  return( bitpos );
+}
+
+inline
+Bitmask::bit &
+Bitmask::bit::operator = ( bool rhs )
+{
+  bitmask.set( bitpos, (rhs) ? 1 : 0 );
   return( *this );
 }
 
 inline
-Bitmask &
-Bitmask::clear( void )
+Bitmask::bit &
+Bitmask::bit::operator = ( const bit & rhs )
 {
-  value = 0;
+  bitmask.set( bitpos, rhs.bitmask.test( rhs.bitpos ) );
   return( *this );
 }
 
 inline
 bool
-Bitmask::isSet( size_t pos ) const
+Bitmask::bit::operator ~ ( void ) const
+{
+  return( ! bitmask.test( bitpos ) );
+}
+
+inline
+Bitmask::bit::operator bool ( void ) const
+{
+  return( bitmask.test( bitpos ) );
+}
+
+inline
+Bitmask::bit::bit( Bitmask & owner, size_t position )
+  : bitmask( owner ),
+    bitpos( position )
+{
+}
+
+
+inline
+Bitmask::Bitmask( void )
+  : value( 0 )
+{
+}
+
+inline
+Bitmask::Bitmask( const Bitmask::bit & val )
+  : value( 0 )
+{
+  set( val.pos(), val );
+}
+
+inline
+Bitmask::Bitmask( unsigned long val, bool flip )
+  : value( val )
+{
+  if( flip )
+    value = ~val;
+}
+
+inline
+Bitmask &
+Bitmask::set( void )
+{
+  value = ~0UL;
+  return( *this );
+}
+
+inline
+Bitmask &
+Bitmask::set( size_t pos, bool val )
+{
+  if( val )
+    value |= 1UL << pos;
+  else
+    value &= ~(1UL << pos );
+  
+  return( *this );
+}
+
+inline
+Bitmask &
+Bitmask::reset( void )
+{
+  value = 0;
+  return( *this );
+}
+
+inline
+Bitmask &
+Bitmask::reset( size_t pos )
+{
+  return( set( pos, false ) );
+}
+
+inline
+Bitmask &
+Bitmask::flip( void )
+{
+  value = ~value;
+  return( *this );
+}
+
+inline
+Bitmask &
+Bitmask::flip( size_t pos )
+{
+  return( set( pos, ! test( pos ) ) );
+}
+
+inline
+bool
+Bitmask::test( size_t pos ) const
 {
   return( value & (1UL << pos) );
 }
 
 inline
 bool
-Bitmask::isClear( size_t pos ) const
+Bitmask::any( void ) const 
 {
-  return( ! isSet( pos ) );
+  return( value != 0 );
 }
 
 inline
+bool
+Bitmask::none( void ) const
+{
+  return( value == 0 );
+}
+
+inline
+size_t
+Bitmask::count( void ) const
+{
+  size_t cnt = 0;
+  for( size_t p = 0; p < maxPos; p++ )
+    if( test( p ) ) cnt++;
+
+  return( cnt );
+}
+
+inline
+size_t
+Bitmask::size( void ) const
+{
+  return( maxPos );
+}
+
+
+inline
 unsigned long
-Bitmask::all( void ) const
+Bitmask::to_ulong( void ) const
 {
   return( value );
 }
+
+inline
+Str
+Bitmask::to_string( void ) const
+{
+  Str tmp;
+  toStream( tmp );
+  return( tmp );
+}
+
 
 inline
 int
@@ -111,7 +233,32 @@ Bitmask::operator = ( unsigned long rhs )
   value = rhs;
   return( *this );
 }
-  
+
+inline
+Bitmask &
+Bitmask::operator = ( const Bitmask::bit & rhs )
+{
+  reset();
+  set( rhs.pos(), rhs );
+  return( *this );
+}
+
+inline
+Bitmask &
+Bitmask::operator &= ( const Bitmask::bit & rhs )
+{
+  set( rhs.pos(), test( rhs.pos() ) && rhs );
+  return( *this );
+}
+
+inline
+Bitmask &
+Bitmask::operator |= ( const Bitmask::bit & rhs )
+{
+  set( rhs.pos(), test( rhs.pos() ) || rhs );
+  return( *this );
+}
+
 inline
 Bitmask &
 Bitmask::operator &= ( const Bitmask & rhs )
@@ -137,10 +284,31 @@ Bitmask::operator ^= ( const Bitmask & rhs )
 }
 
 inline
+Bitmask::bit
+Bitmask::operator () ( size_t pos )
+{
+  return( bit( *this, pos ) );
+}
+
+inline
+Bitmask::bit
+Bitmask::operator [] ( size_t pos )
+{
+  return( bit( *this, pos ) );
+}
+
+inline
 bool
 Bitmask::operator () ( size_t pos ) const
 {
-  return( isSet( pos ) );
+  return( test( pos ) );
+}
+
+inline
+bool
+Bitmask::operator [] ( size_t pos ) const
+{
+  return( test( pos ) );
 }
 
 inline
@@ -194,7 +362,7 @@ Bitmask::operator bool ( void ) const
 inline
 Bitmask::operator unsigned long ( void ) const
 {
-  return( all() );
+  return( to_ulong() );
 }
 
   
@@ -247,7 +415,7 @@ inline
 int
 compare( unsigned long one, const Bitmask & two )
 {
-  return( compare( one, two.all() ) );
+  return( compare( one, two.to_ulong() ) );
 }
 
 inline

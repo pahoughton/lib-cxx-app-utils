@@ -11,7 +11,11 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/10 14:08:33  houghton
+// Revision 2.3  1995/12/04 11:16:41  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Now there is a special type for all single 'bit' values.
+//
+// Revision 2.2  1995/11/10  14:08:33  houghton
 // Updated documentation comments
 //
 // Revision 2.1  1995/11/10  12:40:17  houghton
@@ -25,12 +29,14 @@
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <BinStream.hh>
+#include <Str.hh>
 #include <iostream>
 #include <algorithm>
 #include <cstddef>
 #else
 #include <ClueCfg.hh>
 #include <BinStrm.hh>
+#include <Str.hh>
 #include <iostream>
 #include <algorithm>
 #include <cstddef>
@@ -47,28 +53,72 @@ public:
 
   typedef ULong  ValueType;
 
-  inline Bitmask( void );
-  inline Bitmask( size_t pos );
-  inline Bitmask( unsigned long set, bool flip );
-  
-  inline Bitmask &  set( size_t pos );
-  inline Bitmask &  clear( size_t pos );
-  inline Bitmask &  clear( void );
-  
-  inline bool		isSet( size_t pos ) const;
-  inline bool		isClear( size_t pos ) const;
+  class bit
+  {
+  public:
+    
+    inline bit &    flip( void );
+    inline size_t   pos( void ) const;
+    
+    inline bit &    operator =  ( bool rhs );
+    inline bit &    operator =  ( const bit & rhs );
+    
+    inline bool	    operator ~  ( void ) const;
+    inline	    operator bool ( void ) const;
 
-  inline unsigned long	all( void ) const;
+  private:
+    friend class Bitmask;
+
+    inline bit( Bitmask & owner, size_t pos );
+
+    Bitmask &	bitmask;
+    size_t	bitpos;
+    
+  };
+     
+  inline Bitmask( void );
+  inline Bitmask( const bit & val );
+  inline Bitmask( unsigned long val, bool flip = false );
+
+  inline Bitmask &  set( void );
+  inline Bitmask &  set( size_t pos, bool val = true );
   
-  inline int	    compare( const Bitmask & two ) const;
-  inline int	    compare( unsigned long two ) const;
+  inline Bitmask &  reset( void );
+  inline Bitmask &  reset( size_t pos );
+
+  inline Bitmask &  flip( void );
+  inline Bitmask &  flip( size_t pos );
+
+  inline bool	    test( size_t pos ) const;
+  inline bool	    any( void ) const;
+  inline bool	    none( void ) const;
+
+  inline size_t	    count( void ) const;
+  inline size_t	    size( void ) const;
+  
+  inline unsigned long	to_ulong( void ) const;
+  inline Str		to_string( void ) const;
+  
+  inline int		compare( const Bitmask & two ) const;
+  inline int		compare( unsigned long two ) const;
   
   inline Bitmask &	operator =  ( unsigned long rhs );
+
+  inline Bitmask &	operator =  ( const bit & rhs );
+  inline Bitmask & 	operator &= ( const bit & rhs );
+  inline Bitmask & 	operator |= ( const bit & rhs );
+  inline Bitmask & 	operator ^= ( const bit & rhs );
+
   inline Bitmask & 	operator &= ( const Bitmask & rhs );
   inline Bitmask & 	operator |= ( const Bitmask & rhs );
   inline Bitmask & 	operator ^= ( const Bitmask & rhs );
 
+  inline bit		operator [] ( size_t pos );
+  inline bit	    	operator () ( size_t pos );
+  
+  inline bool		operator [] ( size_t pos ) const;
   inline bool  	    	operator () ( size_t pos ) const;
+  
   inline bool		operator == ( const Bitmask & rhs ) const;
   inline bool		operator <  ( const Bitmask & rhs ) const;
 
@@ -99,9 +149,44 @@ public:
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
-  static const ClassVersion version;
-  
+  static const bit b00;
+  static const bit b01;
+  static const bit b02;
+  static const bit b03;
+  static const bit b04;
+  static const bit b05;
+  static const bit b06;
+  static const bit b07;
+  static const bit b08;
+  static const bit b09;
+  static const bit b10;
+  static const bit b11;
+  static const bit b12;
+  static const bit b13;
+  static const bit b14;
+  static const bit b15;
+  static const bit b16;
+  static const bit b17;
+  static const bit b18;
+  static const bit b19;
+  static const bit b20;
+  static const bit b21;
+  static const bit b22;
+  static const bit b23;
+  static const bit b24;
+  static const bit b25;
+  static const bit b26;
+  static const bit b27;
+  static const bit b28;
+  static const bit b29;
+  static const bit b30;
+  static const bit b31;
+  static const bit b32;
+  static const Bitmask all;
+
   static const size_t	maxPos;
+  
+  static const ClassVersion version;
   
 protected:
 
