@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/02/20 14:24:44  houghton
+// Revision 1.3  1995/03/02 16:38:41  houghton
+// Linux Port
+//
+// Revision 1.2  1995/02/20  14:24:44  houghton
 // Complete DateTime class test
 //
 // Revision 1.1  1995/02/13  16:12:05  houghton
@@ -17,9 +20,15 @@
 //
 //
 static const char * RcsId =
+<<<<<<< tDateTime.C
 "$Id$";
 
 #include <ClueTest.hh>
+=======
+"$Id$";
+
+#include <ClueTest.hh>
+>>>>>>> 1.2
 
 #include <DateTime.hh>
 
