@@ -65,7 +65,7 @@ Directory::DirFieldName::DirFieldName( void )
 
 inline
 Directory::DirFieldName::DirFieldName( const DirFieldName & from )
-  : DirField( from ),
+  : Directory::DirField( from ),
     value( from.value )
 {
 }
@@ -117,7 +117,7 @@ Directory::DirFieldName::DirFieldName(
   CompareType	compType,
   const char *	compValue
   )
-  : DirField( compType ),
+  : Directory::DirField( compType ),
     value( compValue )
 {
 }
@@ -132,7 +132,7 @@ Directory::DirFieldSize::DirFieldSize( void )
 
 inline
 Directory::DirFieldSize::DirFieldSize( const DirFieldSize & from )
-  : DirField( from ),
+  : Directory::DirField( from ),
     value( from.value )
 {
 }
@@ -184,7 +184,7 @@ Directory::DirFieldSize::DirFieldSize(
   CompareType	compType,
   size_type	compValue
   )
-  : DirField( compType ),
+  : Directory::DirField( compType ),
     value( compValue )
 {
 }
@@ -199,7 +199,7 @@ Directory::DirFieldTime::DirFieldTime( void )
 
 inline
 Directory::DirFieldTime::DirFieldTime( const DirFieldTime & from )
-  : DirField( from ),
+  : Directory::DirField( from ),
     value( from.value )
 {
 }
@@ -251,7 +251,7 @@ Directory::DirFieldTime::DirFieldTime(
   CompareType	compType,
   time_t	compValue
   )
-  : DirField( compType ),
+  : Directory::DirField( compType ),
     value( compValue )
 {
 }
@@ -272,7 +272,7 @@ Directory::Where::Where( void )
 
 inline
 Directory::Where::Where( const DirField & fld )
-  : fld( fld.newCopy() ),
+  : fld( fld.dup() ),
     left( 0 ),
     and( false ),
     right( 0 ),
@@ -477,6 +477,9 @@ Directory::empty( void ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 3.3  1997/06/09 14:37:41  houghton
+// Changed AIX41 - had to use Directory::DirField in constructors.
+//
 // Revision 3.2  1997/06/09 12:04:01  houghton
 // Completed initial coding.
 //
