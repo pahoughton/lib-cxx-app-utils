@@ -22,7 +22,8 @@ ARCHSRC_INC	= -I$(ARCH_DIR) -I$(ARCH_SRC_DIR)
 ARCH_DEFINES	= $(UNIX_DEFINES)
 
 ARCH_INC	= $(ARCHSRC_INC) $(UNIX_INC)
- 
+
+ARCH_GENERATED_SOURCES = $(UNIX_GENERATED_SOURCES)
 
 
 ARCH_C_SOURCES		=	\
@@ -59,6 +60,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 3.10  1997/08/08 13:28:29  houghton
+# Added ARCH_GENERATED_SOURCES.
+#
 # Revision 3.9  1997/07/19 19:58:57  houghton
 # Removed Directory (now part of main src).
 #
