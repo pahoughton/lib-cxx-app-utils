@@ -210,6 +210,7 @@ USER_HH_INCS	=			\
 	StlUtilsVersion.hh		\
 	StlUtilsMisc.hh			\
 	Compare.hh			\
+	Compress.hh			\
 	DateRange.hh                    \
 	DateRangeDaily.hh               \
 	DateRangeWeekly.hh              \
@@ -245,6 +246,7 @@ USER_HH_INCS	=			\
 
 USER_II_INCS	=			\
 	Bit.ii				\
+	Compress.ii			\
 	DateTimeUtils.ii                \
 	DateTime.ii                     \
 	DateRange.ii                    \
@@ -350,6 +352,10 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.23  1999/10/08 10:21:08  houghton
+# Added Compress.hh
+# Added Compress.ii
+#
 # Revision 4.22  1999/10/07 13:10:13  houghton
 # Added Compress.C
 #
