@@ -405,7 +405,8 @@ FileOp::setDestStat( void )
 {
   dest( dest.getName() );
   
-  if( ! dest.setTimes( src.getAccessTime(), src.getModificationTime() ) )
+  if( ! dest.setTimes( src.getAccessTime(), src.getModificationTime() )
+      && dest.getSysError() != EPERM )
     return( setError( dest.getSysError(), "setting times", dest.getName() ) );
   
   if( src.getUID() == 0 )
@@ -416,7 +417,8 @@ FileOp::setDestStat( void )
 			  dest.getName() ) );
     }
   
-  if( ! dest.setMode( src.getMode() & 07777 ) )
+  if( ! dest.setMode( src.getMode() & 07777 )
+      && dest.getSysError() != EPERM )
     return( setError( dest.getSysError(), "setting mode", dest.getName() ) );
 
   return( true );
@@ -477,8 +479,8 @@ FileOp::setError( int osErr, const char * desc, const char * fileName )
 
   errorDesc << desc << " '" << fileName << '\'';
 
-  if( osErr )
-    errorDesc << " - " << strerror( osError ) << '.';
+  if( osError )
+    errorDesc << " - " << strerror( osError ) << '(' << osError << ").";
   else
     errorDesc << '.';
   
@@ -499,8 +501,8 @@ FileOp::setError(
 
   errorDesc << OpTypeName[ op ] << ' ' << desc << " '" << fileName << '\'';
 
-  if( osErr )
-    errorDesc << " - " << strerror( osError ) << '.';
+  if( osError )
+    errorDesc << " - " << strerror( osError ) << '(' << osError << ").";
   else
     errorDesc << '.';
   
@@ -511,6 +513,10 @@ FileOp::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 1.7  1999/09/29 14:17:43  houghton
+// Bug-Fix: it is not a crittical error if you get permission denied
+//     setting mode or time after a 'move'.
+//
 // Revision 1.6  1999/05/01 12:54:26  houghton
 // Added catFile()
 //
