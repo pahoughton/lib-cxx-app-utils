@@ -44,14 +44,14 @@ InboundProcessor<Proc>::InboundProcessor(
   const char *		inDirName,
   const char *		procDirName,
   long			rescanWaitSecs,
-  const SigCatcher *	sigCatcher,
+  const SigCatcher *	signalCatcher,
   Proc &		processor
   )
   : InboundProcessorBase( fileNamePattern,
 			  inDirName,
 			  procDirName,
 			  rescanWaitSecs,
-			  sigCatcher ),
+			  signalCatcher ),
     proc( processor )
 {
 }
@@ -59,6 +59,10 @@ InboundProcessor<Proc>::InboundProcessor(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.4  1997/09/02 21:30:09  houghton
+// Port(Sun5): Changed variable name 'sigCatcher' to signalCatcher to
+//     avoid compiler warning.
+//
 // Revision 3.3  1997/07/28 16:47:17  houghton
 // Bug-Fix: forgot to specify 'inline'.
 //
