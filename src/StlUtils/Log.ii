@@ -118,6 +118,22 @@ Log::willOutput( const LogLevel::Level & outLevel ) const
 }
 
 inline
+bool
+Log::changeCheckOutput( const LogLevel::Level & newLevel )
+{
+  if( rdbuf()->sync() == EOF )
+    {
+      setstate(failbit|eofbit);
+    }
+  else
+    {
+      rdbuf()->setCurrentLevel( newLevel );
+    }
+
+  return( willOutput( newLevel ) );
+}
+
+inline
 LogLevel::Level
 Log::setOutputLevel( const char * level )
 {
@@ -240,6 +256,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1999/11/04 17:32:32  houghton
+// Bug-Fix: LogIf was not changing log levels.
+//
 // Revision 4.4  1999/05/01 12:52:39  houghton
 // Cleanup.
 //

@@ -43,7 +43,7 @@
 
 #if defined( STLUTILS_LOG_WHERE )
 #define LogIf( lg, lvl ) \
-  if( (lg)(lvl, __FILE__, __LINE__ ).willOutput( lvl ) ) (lg)
+  if( (lg)(lvl, __FILE__, __LINE__ ).changeCheckOutput( lvl ) ) (lg)
 #else
 #define LogIf( lg, lvl ) \
   if( (lg)(lvl, 0, 0 ).willOutput( lvl ) ) (lg)
@@ -101,6 +101,7 @@ public:
   inline LogLevel::Level    getOutput( void ) const;
 
   inline bool	    willOutput( const LogLevel::Level & outLevel ) const;
+  inline bool	    changeCheckOutput( const LogLevel::Level & outLevel );
   
   Log &		    level( const LogLevel::Level &  current = LogLevel::Error,
 			   const char *		    srcFile = 0,
@@ -653,6 +654,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1999/11/04 17:32:22  houghton
+// Bug-Fix: LogIf was not changing log levels.
+//
 // Revision 4.5  1999/10/07 13:56:23  houghton
 // Added appendFile().
 //

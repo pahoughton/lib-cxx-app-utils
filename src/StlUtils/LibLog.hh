@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 4.3  1999/11/04 17:32:13  houghton
+// Bug-Fix: LogIf was not changing log levels.
+//
 // Revision 4.2  1999/03/02 12:47:19  houghton
 // Added LLgError
 // Added LLgWarn
@@ -45,8 +48,8 @@
 
 extern Log *	_LibLog;
 
-#define _LLg( level_ )							      \
-    if( _LibLog && _LibLog->willOutput( level_ ) )			      \
+#define _LLg( level_ ) 							      \
+    if( _LibLog && (*_LibLog).changeCheckOutput( level_ ) )		      \
         ( (*_LibLog)( level_, __FILE__, __LINE__ ) )
 
 #define _LLgLock    if( _LibLog ) _LibLog->lock()
@@ -54,7 +57,7 @@ extern Log *	_LibLog;
 #define _LLgUnLock  if( _LibLog ) _LibLog->unlock()
 
 #define _LLgDumpInfo( class_, level_ )					      \
-    if( _LibLog && _LibLog->willOutput( level_ ) )			      \
+    if( _LibLog && (*_LibLog).changeCheckOutput( level_ ) )		      \
         class_.dumpInfo( _LibLog->level( level_ ) ).flush()
 
 #define LLgError _LLg( LogLevel::Error )
