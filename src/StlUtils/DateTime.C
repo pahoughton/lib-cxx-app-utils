@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.6  1995/08/29 19:36:28  ichudov
+// Revision 1.7  1995/11/05 12:04:22  houghton
+// Removed additonal DST stuff
+//
+// Revision 1.6  1995/08/29  19:36:28  ichudov
 // DST and MakeDateFromSybase added.
 //
 // Revision 1.5  1995/02/20  14:24:25  houghton
@@ -548,8 +551,6 @@ ostream & operator<<( ostream & dest, const DateTime & time )
   
   return( dest );
 }
-
-Dst * DateTime::globalDst = 0;
 
 
 

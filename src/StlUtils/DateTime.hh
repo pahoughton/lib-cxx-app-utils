@@ -408,7 +408,10 @@
 //
 // 
 // $Log$
-// Revision 1.8  1995/09/25 19:16:31  ichudov
+// Revision 1.9  1995/11/05 12:04:28  houghton
+// Removed additonal DST stuff
+//
+// Revision 1.8  1995/09/25  19:16:31  ichudov
 // Added hasHistory function to DavlTreeOffset.
 //
 // Revision 1.7  1995/08/29  19:36:29  ichudov
@@ -444,8 +447,6 @@
 
 #include <iomanip.h>
 #include <stdlib.h>
-
-#include "Dst.hh"
 
 class DateTime
 {
@@ -492,8 +493,6 @@ public:
   inline Bool	    	isLocal( void ) const;
   Bool	    	    	isDST( void ) const;
   Bool	    	    	isDST( void );
-  time_t		getClassicDstOffset( void ) const;
-  Bool			isClassicDst( void ) const;
   inline const char *	getTimeZone( void ) const;
 
   static long       	getGmtOffset( const char * timeZone = 0 );
@@ -571,8 +570,6 @@ private:
   struct tm   	tm;
 
   time_t      	seconds;
-  static Dst *	globalDst;
-
   
 };
 
@@ -644,7 +641,6 @@ DateTime::DateTime( time_t day, time_t timeOfDay )
   resetFlags();
   seconds = day + timeOfDay;
 }
-
 
 // Constructor - initialize from year, month, day, hour, min sec
 inline
@@ -1235,25 +1231,7 @@ Compare( const DateTime & one, const DateTime & two )
 {
   return( one.compare( two ) );
 }
-
-inline
-time_t
-DateTime::getClassicDstOffset( void ) const
-{
-  if ( globalDst == 0 )
-      {
-        globalDst = new Dst();
-      }
-  return ( globalDst->getDstOffset( this->getTimeT() ) );
-}
-
-
-inline
-Bool
-DateTime::isClassicDst( void ) const
-{
-  return ( getClassicDstOffset() != 0 ); 
-}
+	  
 
 
        
