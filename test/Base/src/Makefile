@@ -77,6 +77,8 @@ PROGRAM_SHARED	= $(NAME)_s
 # include any arch specific makefile component
 include $(PRJ_TOPDIR)/src/arch/$(arch)/Makefile.$(NAME)
 
+include $(PRJ_TOPDIR)/src/config/00-Makefile.cfg
+
 VPATH		= $(ARCH_VPATH):.
 
 ###### D E F I N E S  #####
@@ -112,7 +114,7 @@ SHARED_DEFINES	= -DTEST_SHARED=1
 
 
 SRC_INC		= $(ARCH_INC) -I. $($($(make_target))_PRJ_INC)
-PRJ_INC		= -I$(local_incdir)
+PRJ_INC		= -I$(INSTALL_INC_DIR)
 
 DEFAULT_PRJ_INC	= 
 DEBUG_PRJ_INC	= $(STLUTILS_SRC_INC)
@@ -185,7 +187,7 @@ PROFILE_LD_FLAGS	= $(ld_profile_flags)
 STATIC_LD_FLAGS		= $(ld_static_flags) $(ld_optimize_flags)
 SHARED_LD_FLAGS		= $(ld_shared_flags) $(ld_optimize_flags)
 
-DEFAULT_LD_LIBDIRS	= -L$(local_libdir)
+DEFAULT_LD_LIBDIRS	= -L$(INSTALL_LIB_DIR)
 DEBUG_LD_LIBDIRS	= $(STLUTILS_SRC_LDIR) $(DEFAULT_LD_LIBDIRS)
 TEST_LD_LIBDIRS		= $(DEBUG_LD_LIBDIRS)
 PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
@@ -474,6 +476,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.17  1999/11/10 10:07:56  houghton
+# Bug-Fix: need to include 00-Makefile.cfg.
+#
 # Revision 4.16  1999/11/09 11:11:00  houghton
 # Added tParam03.C.
 #
