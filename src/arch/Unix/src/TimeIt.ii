@@ -51,6 +51,13 @@ TimeIt::stop( void )
 }
 
 inline
+const timeval &
+TimeIt::getStartRealTime( void ) const
+{
+  return( realStart );
+}
+
+inline
 timeval
 TimeIt::getRealDiff( void ) const
 {
@@ -117,6 +124,9 @@ operator >> ( istream & dest, const TimeIt & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.5  1997/08/08 13:25:53  houghton
+// Added getStartRealTime().
+//
 // Revision 3.4  1997/07/18 21:31:31  houghton
 // Cleanup.
 //

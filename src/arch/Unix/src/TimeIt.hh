@@ -49,6 +49,8 @@ public:
   inline void	    start( bool realOnly = false );
   inline void	    stop( void );
 
+  inline const timeval &    getStartRealTime( void ) const;
+  
   inline timeval    getRealDiff( void ) const;
   inline rusage	    getUsageDiff( void ) const;
   
@@ -364,6 +366,9 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/08/08 13:25:48  houghton
+// Added getStartRealTime().
+//
 // Revision 3.4  1997/07/11 15:53:25  houghton
 // Bug-Fix: TimeItAverage() - was not averageing stime or utime.
 // Changed TimeItAverage() to use new TimeItAccumulate.
