@@ -64,6 +64,7 @@ VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
 LIBRARY_DEBUG	= lib$(NAME)_g.a
+LIBRARY_TEST	= lib$(NAME)_tg.a
 LIBRARY_PROFILE	= lib$(NAME)_pg.a
 LIBRARY_SHARED	= lib$(NAME)_s.$(shlib_ext)
 
@@ -86,6 +87,7 @@ PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFAULT_DEFINES = -DSTLUTILS_DEFAULT=1
 DEBUG_DEFINES	= -DSTLUTILS_DEBUG=1
+TEST_DEFINES	= $(DEBUG_DEFINES) -DSTLUTILS_TEST=1
 PROFILE_DEFINES	= -DSTLUTILS_PROFILE=1
 SHARED_DEFINES	= -DSTLUTILS_SHARED=1
 
@@ -310,7 +312,7 @@ default debug profile shared:: $(generated_files)
 
 default:: $(LIBRARY_$($(make_target)))
 
-debug profile shared:: 
+debug test profile shared:: 
 	$(hide) $(MAKE) make_target=$@ $(LIBRARY_$($@))
 
 all::	default debug profile shared
@@ -330,8 +332,6 @@ install_profile:: profile $(INSTALL_LIB_DIR)/$(LIBRARY_PROFILE)
 install_shared::  shared  $(INSTALL_LIB_DIR)/$(LIBRARY_SHARED)
 
 
-test::	default
-
 FORCE: 
 
 #
@@ -344,6 +344,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.15  1998/10/13 16:21:03  houghton
+# Added test version of the library.
+#
 # Revision 4.14  1998/10/13 15:18:56  houghton
 # Added LruMap.
 #
