@@ -44,6 +44,8 @@ public:
   public:
     inline Caught( void );
     inline Caught( SigCatcher::Signal caughtSig, time_t timeCaught );
+
+    inline ~Caught(void) {};
     
     inline SigCatcher::Signal   sig( void ) const;
     inline time_t		when( void ) const;
@@ -212,6 +214,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/04/21 09:58:14  houghton
+// Port: include destructor.
+//
 // Revision 3.1  1997/04/19 09:53:04  houghton
 // Initial Version.
 //
