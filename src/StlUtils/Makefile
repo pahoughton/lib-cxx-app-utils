@@ -7,6 +7,10 @@
 # 
 # Notes:
 # 
+#   This Makefile requres MakeConfig and GNU's make version 3.75
+#
+#   Try 'make help' for a list of standard targets.
+# 
 # Author:	Paul A. Houghton - (paul.houghton@wcom.com)
 # Created:	06/06/1994 using MakeConfigs 5.01.00.a.02
 #
@@ -32,7 +36,7 @@
 #
 
 makefile_type   = lib
-make_cfg_ver	= 5.04
+make_cfg_ver	= 5.05
 make_target	= default
 show_commands 	= # true
 proto_dep	= true
@@ -55,13 +59,13 @@ INSTALL_INC_DIR	= $(beta_incdir)
 
 VER_MAJOR	= 4
 VER_MINOR	= 00
-VER_RELEASE	= 00.b.03
+VER_RELEASE	= 00.b.04
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
 LIBRARY_DEBUG	= lib$(NAME)_g.a
 LIBRARY_PROFILE	= lib$(NAME)_pg.a
-LIBRARY_SHARED	= lib$(NAME)$(shlib_ext)
+LIBRARY_SHARED	= lib$(NAME)_s.$(shlib_ext)
 
 PRJ_TOPDIR	= ../..
 
@@ -112,19 +116,21 @@ CPP_FLAGS		= $(ARCH_CPP_FLAGS)
 #
 
 
-CC_FLAGS		= $(cc_warn) $(ARCH_CC_FLAGS)
+CC_FLAGS		= $(cc_warn_flags) $(ARCH_CC_FLAGS) $(CC_OTHER)
 
-DEFAULT_CC_FLAGS	= $(cc_default) $(cc_optimize_flags)
-DEBUG_CC_FLAGS		= $(cc_debug) $(cc_debug_flags)
-PROFILE_CC_FLAGS	= $(cc_profile) $(cc_profile_flags)
-SHARED_CC_FLAGS		= $(cc_shared) $(cc_shared_flags) $(cc_optimize_flags)
+DEFAULT_CC_FLAGS	= $(cc_optimize_flags)
+DEBUG_CC_FLAGS		= $(cc_debug_flags)
+TEST_CC_FLAGS		= $(cc_debug_flags)
+PROFILE_CC_FLAGS	= $(cc_profile_flags)
+SHARED_CC_FLAGS		= $(cc_shared_flags) $(cc_optimize_flags)
 
-CXX_FLAGS		= $(cxx_warn) $(ARCH_CXX_FLAGS)
+CXX_FLAGS		= $(cxx_warn_flags) $(ARCH_CXX_FLAGS) $(CXX_OTHER)
 
-DEFAULT_CXX_FLAGS	= $(cxx_default) $(cxx_optimize_flags)
-DEBUG_CXX_FLAGS		= $(cxx_debug) $(cxx_debug_flags)
-PROFILE_CXX_FLAGS	= $(cxx_profile) $(cxx_profile_flags)
-SHARED_CXX_FLAGS	= $(cxx_shared) $(cxx_shared_flags) $(cxx_optimize_flags)
+DEFAULT_CXX_FLAGS	= $(cxx_optimize_flags)
+DEBUG_CXX_FLAGS		= $(cxx_debug_flags)
+TEST_CXX_FLAGS		= $(cxx_debug_flags)
+PROFILE_CXX_FLAGS	= $(cxx_profile_flags)
+SHARED_CXX_FLAGS	= $(cxx_shared_flags) $(cxx_optimize_flags)
 
 # **** S H A R E D   D E P   L I B S *****
 
@@ -335,6 +341,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.12  1998/03/23 10:43:50  houghton
+# Changed to work with MakeConfigs 5.05.
+#
 # Revision 4.11  1998/02/02 15:22:38  houghton
 # Fixed to work with MakeConfigs 5.04 correctly.\
 #
