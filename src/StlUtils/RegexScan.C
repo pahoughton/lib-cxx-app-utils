@@ -10,6 +10,12 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/11/04 14:24:35  houghton
+// Chagned error to use strstream instead of Str.
+//     (as required by Mike Alexandar).
+// Reorder methods to match header.
+// Change dumpInfo to output syntax.
+//
 // Revision 2.2  1995/11/12 18:33:01  houghton
 // Changed to use GnuRegex in libCommon.
 //
@@ -30,7 +36,8 @@ extern "C" {
 #include "GnuRegex.h"
 };
 #include "RegexScan.hh"
-#include "Str.hh"
+#include <algorithm>
+#include <strstream>
 #else
 #include <cstddef>
 #include <cstdlib>
@@ -40,7 +47,6 @@ extern "C" {
 #include "GnuRegex.h"
 };
 #include "RxScan.hh"
-#include "Str.hh"
 #endif
 
 CLUE_VERSION(
@@ -122,7 +128,7 @@ RegexScan::setPattern(
 {
   
   unsigned int oldSyntax = GnuRe_set_syntax( reSyntax );
-
+  
   cleanup();
 
   patternString = new char [ strlen( pattern ) + 5 ];
@@ -217,7 +223,7 @@ RegexScan::matchInfo( int & start, int & len, unsigned short regNum ) const
 
 
 RegexScan &
-RegexScan::operator =( const RegexScan & from )
+RegexScan::operator = ( const RegexScan & from )
 {
   cleanup();
   copy( from.buf, from.reg, from.patternString );
@@ -229,6 +235,75 @@ RegexScan::operator =  ( const char * pattern )
 {
   setPattern( pattern );
   return( *this );
+}
+
+// getClassName - return the name of this class
+const char *
+RegexScan::getClassName( void ) const
+{
+  return( "RegexScan" );
+}
+
+// good - return TRUE if no detected errors
+bool
+RegexScan::good( void ) const
+{
+  return( re_msg == 0 );
+}
+
+// error - return a string describing the current state
+const char *
+RegexScan::error( void ) const
+{
+  static strstream errStr;
+  errStr.freeze(0);
+  errStr.seekp(0);
+  errStr.seekg(0);
+
+  errStr << getClassName();
+
+  if( good() )
+    {
+       errStr << ": ok";
+    }
+  else
+    {
+      errStr << ": " << re_msg;
+    }
+
+  return( errStr.str() );
+}
+
+ostream &
+RegexScan::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+ ) const
+{
+  if( showVer )
+    dest << RegexScan::getClassName() << ":\n"
+	 << RegexScan::getVersion() << '\n';
+
+  if( ! RegexScan::good() )
+    dest << prefix << "Error: " << RegexScan::error() << '\n';
+  else
+    dest << prefix << "Good!" << '\n';
+
+  dest << prefix << "syntax:  " << ( buf ? buf->syntax : 0 ) << '\n'
+       << prefix << "pattern: " << patternString << '\n'
+    ;
+    
+  
+  dest << '\n';
+
+  return( dest  );
+}  
+
+const char *
+RegexScan::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer) );
 }
 
 //
@@ -301,66 +376,3 @@ RegexScan::cleanup()
 }
   
 
-// getClassName - return the name of this class
-const char *
-RegexScan::getClassName( void ) const
-{
-  return( "RegexScan" );
-}
-
-// good - return TRUE if no detected errors
-bool
-RegexScan::good( void ) const
-{
-  return( re_msg == 0 );
-}
-
-// error - return a string describing the current state
-const char *
-RegexScan::error( void ) const
-{
-  static Str errStr;
-  errStr.reset();
-
-  errStr << getClassName();
-
-  if( good() )
-    {
-       errStr << ": Ok";
-    }
-  else
-    {
-      errStr << ": " << re_msg;
-    }
-
-  return( errStr.cstr() );
-}
-
-ostream &
-RegexScan::dumpInfo(
-  ostream &	dest,
-  const char *  prefix,
-  bool		showVer
- ) const
-{
-  if( showVer )
-    dest << RegexScan::getClassName() << ":\n"
-	 << RegexScan::getVersion() << '\n';
-
-  if( ! RegexScan::good() )
-    dest << prefix << "Error: " << RegexScan::error() << '\n';
-  else
-    dest << prefix << "Good!" << '\n';
-
-  dest << prefix << "pattern: " << patternString << '\n';
-  
-  dest << '\n';
-
-  return( dest  );
-}  
-
-const char *
-RegexScan::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer) );
-}
