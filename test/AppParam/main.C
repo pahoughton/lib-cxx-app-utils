@@ -53,6 +53,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1997/03/21 15:58:14  houghton
+// Changed base version to 3
+//
 // Revision 1.1  1997/03/21 15:57:48  houghton
 // Initial Version.
 //
