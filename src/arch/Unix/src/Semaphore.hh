@@ -57,6 +57,9 @@ public:
 		    int		    numSems = 1,
 		    int		    flags = (IPC_CREAT | 0664) );
 
+  bool	    open( key_t semKey, int numSems = 1 );
+  bool	    open( const char * keyPath, char proj = ' ', int numSems = 1 );
+  
   bool	    remove( void );
   
   bool	    lock( bool wait = true );
@@ -66,6 +69,8 @@ public:
   bool	    waitfor( void );
 
   inline bool	wouldBlock( void ) const;
+
+  bool			clear( void );
   
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
@@ -188,6 +193,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/03/30 14:17:44  houghton
+// Added open() and clear() methods.
+//
 // Revision 4.1  1997/09/17 15:13:36  houghton
 // Changed to Version 4
 //

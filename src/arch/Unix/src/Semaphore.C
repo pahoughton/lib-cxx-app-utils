@@ -110,6 +110,24 @@ Semaphore::create(
 }
 
 bool
+Semaphore::open( key_t semKey, int numSems )
+{
+  key = semKey;
+  semId = semget( key, numSems, 0 );
+  return( (semId == badSem ) ? setError( errno ) : setError( 0 ) );
+}
+
+bool
+Semaphore::open( const char * keyPath, char proj, int numSems )
+{
+  key = ftok( (char *)keyPath, proj );
+
+  return( (key == badKey) ?
+	  setError( errno ) :
+	  open( key, numSems ) );
+}
+
+bool
 Semaphore::remove( void )
 {
   if( semId != badSem )
@@ -207,7 +225,12 @@ Semaphore::waitfor( void )
   return( false );
 }
 
-		    
+bool
+Semaphore::clear( void )
+{
+  osErrno = 0;
+  return( good() );
+}
       
 bool
 Semaphore::good( void ) const
@@ -309,6 +332,9 @@ Semaphore::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/03/30 14:17:52  houghton
+// Added open() and clear() methods.
+//
 // Revision 4.1  1997/09/17 15:13:35  houghton
 // Changed to Version 4
 //
