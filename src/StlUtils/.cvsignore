@@ -7,3 +7,5 @@ Templates.DB
 _Clue_Proto.h
 ir.out
 objects
+sig.awk
+sig.lst
