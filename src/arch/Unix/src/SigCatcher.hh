@@ -38,9 +38,10 @@ class SigCatcher
 
 public:
 
-  typedef int		    Signal;
-  typedef vector< Signal >  SigList;
-
+  typedef int			Signal;
+  typedef vector< Signal >	SigList;
+  typedef SigList::size_type	size_type;
+  
   typedef Bitmask Flag;
   
   static const Flag	None;
@@ -79,13 +80,13 @@ public:
   SigCatcher( const SigList & catchSigList );
   SigCatcher( const SigList & catchSigList, const SigList & ignoreSigList );
   SigCatcher( const Signal *	catchSigList,
-	      size_t		catchCount,
+	      size_type		catchCount,
 	      const Signal *	ignoreSigList = 0,
-	      size_t		ignCount = 0 );
+	      size_type		ignCount = 0 );
   SigCatcher( const Signal *	catchSigList,
-	      size_t		catchCount,
+	      size_type		catchCount,
 	      const Signal *	ignoreSigList,
-	      size_t		ignCount,
+	      size_type		ignCount,
 	      const Flag	flags );
 
   virtual ~SigCatcher( void );
@@ -235,6 +236,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/03/02 12:52:50  houghton
+// Added size_type.
+// Cleanup.
+//
 // Revision 4.3  1998/03/30 14:08:22  houghton
 // Renamed signal variable to sigCaught to avoid name clashes with the
 //     'signal' function.
