@@ -18,7 +18,7 @@
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <Clue.hh>
+#include <ClueUtils.hh>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -43,6 +43,9 @@ tAbsLong( LibTest & tester )
 
 //
 // $Log$
+// Revision 2.3  1996/11/04 18:22:39  houghton
+// Chaged include becuase Clue.hh renamed to ClueUtils.hh.
+//
 // Revision 2.2  1996/11/04 14:43:56  houghton
 // Added header comments.
 //
