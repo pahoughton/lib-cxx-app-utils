@@ -31,12 +31,14 @@ UNIX_CXX_C_SOURCES	=	\
 	Whence.C		\
 	FileLock.C		\
 	FileOp.C		\
+	MesgQueue.C		\
 
 UNIX_USER_H_INCS	=	\
 	StrSignal.h		\
 
 UNIX_USER_HH_INCS	=	\
 	StlUtilsSem.hh		\
+	StlUtilsMsgq.hh		\
 	InboundProcessorBase.hh	\
 	InboundProcessor.hh	\
 	TimeIt.hh		\
@@ -47,6 +49,7 @@ UNIX_USER_HH_INCS	=	\
 	Semaphore.hh		\
 	FileLock.hh		\
 	FileOp.hh		\
+	MesgQueue.hh		\
 
 UNIX_USER_II_INCS	=	\
 	InboundProcessorBase.ii	\
@@ -58,7 +61,8 @@ UNIX_USER_II_INCS	=	\
 	SigCatcher.ii		\
 	Semaphore.ii		\
 	FileLock.ii		\
-	FileOp.ii
+	FileOp.ii		\
+	MesgQueue.ii		\
 
 
 UNIX_C_HEADERS		=
@@ -72,6 +76,9 @@ $(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 
 #
 # $Log$
+# Revision 4.7  1999/03/02 12:51:40  houghton
+# Added MesgQueue.
+#
 # Revision 4.6  1998/11/02 19:21:46  houghton
 # Changed: the File class was renamed to FileOp().
 #
