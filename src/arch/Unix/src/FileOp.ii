@@ -1,0 +1,70 @@
+#ifndef _File_ii_
+#define _File_ii_
+//
+// File:        File.ii
+// Project:	StlUtils
+// Desc:        
+//
+//  	Inline source for File
+//
+// Author:      Paul Houghton 719-527-7834 - (paul.houghton@wcom.com)
+// Created:     03/08/98 08:32
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( STLUTILS_DEBUG )
+#define inline
+#endif
+
+inline
+bool
+File::copy( const char * srcFn, const char * destFn )
+{
+  clear();
+  src( srcFn );
+  if( src.good() )
+    return( copy( destFn ) );
+  else
+    return( false );
+}
+
+inline
+bool
+File::move( const char * srcFn, const char * destFn )
+{
+  clear();
+  src( srcFn );
+  if( src.good() )
+    return( move( destFn ) );
+  else
+    return( false );
+}
+
+inline
+DumpInfo< File >
+File::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< File >( *this, prefix, showVer ) );
+}
+
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 1.1  1998/03/08 18:08:29  houghton
+// Initial Version.
+//
+//
+#endif // ! def _File_ii_ 
