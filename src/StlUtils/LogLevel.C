@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.7  1996/06/11 09:52:35  houghton
+// Bug-Fix: setOutput now understands any case.
+//
 // Revision 2.6  1996/05/03 16:13:21  houghton
 // Bug-Fix: remove inline statement.
 //
@@ -41,6 +44,7 @@
 #include "Clue.hh"
 #include "Str.hh"
 #include "Bit.hh"
+#include "StringUtils.hh"
 #include <cstring>
 #else
 #include "LogLvl.hh"
@@ -161,7 +165,7 @@ LogLevel::setOutput( const char * level )
   output = None;
 
   // check for ALL
-  if( strstr( level, LevelNames[ ArraySize( LevelNames ) - 2 ] ) != 0 )
+  if( StringCaseSearch( level, 0, LevelNames[ ArraySize( LevelNames ) - 2 ], 0 ) != 0 )
     {
       setOutput( All );
       return( old );
@@ -169,7 +173,7 @@ LogLevel::setOutput( const char * level )
   
   for( size_t l = 0; l < (ArraySize( LevelNames ) - 2 ); l++ )
     {
-      if( strstr( level, LevelNames[l] ) != 0 )
+      if( StringCaseSearch( level, 0, LevelNames[l], 0 ) != 0 )
 	{
 	  Level  n( Bit( l - 1 ) );
 	  setOutput( n | output );
@@ -185,7 +189,7 @@ LogLevel::setCurrent( const char * lvl )
   
   for( int l = 0; LevelNames[l] != 0; l++ )
     {
-      if( strstr( lvl, LevelNames[l] ) != 0 )
+      if( StringCaseSearch( lvl, 0, LevelNames[l], 0 ) != 0 )
 	{
 	  Level  n( Bit( l - 1 ) );
 	  setCurrent( n );
