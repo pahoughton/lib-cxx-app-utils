@@ -119,7 +119,22 @@ public:
   
   static const ClassVersion version;
   static const FilterId	    badFilterId;
-  
+
+  // do NOT use this.
+  class Filter
+  {
+  public:
+    inline Filter( void );
+    inline Filter( const Filter & from );
+    inline ~Filter( void );
+
+    inline Filter & operator = ( const Filter & rhs );
+      
+    streambuf *	    dest;
+    LogLevel::Level outputLevel;
+    RegexScan *	    regex;
+  };
+
 protected:
   
   void initLogBuffer( void );
@@ -135,20 +150,6 @@ protected:
   filebuf *	openLog( ios::open_mode modeMask );
   size_t	trimLog( size_t curSize, size_t maxLogSize );
   void		closeLog( void );
-
-  class Filter
-  {
-  public:
-    inline Filter( void );
-    inline Filter( const Filter & from );
-    inline ~Filter( void );
-
-    inline Filter & operator = ( const Filter & rhs );
-      
-    streambuf *	    dest;
-    LogLevel::Level outputLevel;
-    RegexScan *	    regex;
-  };
 
   typedef vector< Filter > FilterList;
 
@@ -290,6 +291,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.11  1997/07/18 19:23:38  houghton
+// Port(Sun5): had to make 'class Filter' a public member to eliminate
+//     compiler errors.
+//
 // Revision 3.10  1997/05/02 12:16:12  houghton
 // Changed all LogLevel::Level args to const & to avoid copy constructor calls.
 //
