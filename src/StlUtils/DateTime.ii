@@ -13,13 +13,25 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:32  houghton
+// Revision 2.2  1995/11/12 17:52:35  houghton
+// New default constructor that sets the value to current local time.
+//
+// Revision 2.1  1995/11/10  12:40:32  houghton
 // Change to Version 2
 //
 // Revision 1.2  1995/11/05  14:44:31  houghton
 // Ports and Version ID changes
 //
 //
+
+// Constructor - set to current local time
+inline
+DateTime::DateTime( void )
+{
+  timeZoneName = 0;
+  resetFlags();
+  set( time(0), true );
+}
 
 // Constructor - initialize to setTime value
 inline
