@@ -54,8 +54,8 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= StlUtils
 
-INSTALL_LIB_DIR	= $(beta_libdir)
-INSTALL_INC_DIR	= $(beta_incdir)
+INSTALL_LIB_DIR	= $(local_libdir)
+INSTALL_INC_DIR	= $(local_incdir)
 
 VER_MAJOR	= 4
 VER_MINOR	= 00
@@ -223,6 +223,7 @@ USER_HH_INCS	=			\
 	LogBuf.hh			\
 	LogLevel.hh			\
 	LruMap.hh			\
+	LruSash.hh			\
 	Mutex.hh                        \
 	Net2Host.hh			\
 	Param.hh                        \
@@ -266,6 +267,7 @@ USER_II_INCS	=			\
 	LogBuf.ii			\
 	Log.ii				\
 	LruMap.ii			\
+	LruSash.ii			\
 	Mutex.ii                        \
 	Param.ii                        \
 	$(ARCH_USER_II_INCS)		\
@@ -344,6 +346,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.17  1998/11/02 15:26:36  houghton
+# Added LruSash.
+#
 # Revision 4.16  1998/10/23 13:07:21  houghton
 # Changed to use MakeConfigs 5.06.
 #
