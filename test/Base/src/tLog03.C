@@ -57,11 +57,11 @@ tLog03( LibTest & tester )
       t( LogLevel::Err ) << "good" << '\n';
       t << "good" << '\n';
     
-      t( LogLevel::Warning ) << "BAD" << '\n';
-      t << "BAD" << '\n';
+      t( LogLevel::Warning ) << "good" << '\n';
+      t << "good" << '\n';
     
-      t( LogLevel::Warn ) << "BAD" << '\n';
-      t << "BAD" << '\n';
+      t( LogLevel::Warn ) << "good" << '\n';
+      t << "good" << '\n';
     
       t( LogLevel::App1 ) << "BAD" << '\n';
       t << "BAD" << '\n';
@@ -75,8 +75,8 @@ tLog03( LibTest & tester )
       t( LogLevel::App4 ) << "BAD" << '\n';
       t << "BAD" << '\n';
     
-      t( LogLevel::Info ) << "BAD" << '\n';
-      t << "BAD" << '\n';
+      t( LogLevel::Info ) << "good" << '\n';
+      t << "good" << '\n';
     
       t( LogLevel::Test ) << "BAD" << '\n';
       t << "BAD" << '\n';
@@ -102,7 +102,10 @@ tLog03( LibTest & tester )
       t( LogLevel::Error ) << "good" << '\n';
       t << "good" << '\n';
     
-      t( LogLevel::Warning ) << "BAD" << '\n';
+      t( LogLevel::Warning ) << "good" << '\n';
+      t << "good" << '\n';
+    
+      t( LogLevel::Test ) << "BAD" << '\n';
       t << "BAD" << '\n';
     
     }
@@ -255,7 +258,7 @@ tLog03( LibTest & tester )
       FileStat t( TestFn );
 
       TEST( t.good() );
-      TEST( t.getSize() == 1133 );
+      TEST( t.getSize() == 1274 );
     }
   }
 
@@ -418,6 +421,9 @@ tLog03( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1997/03/21 15:41:06  houghton
+// Changed for new default output level.
+//
 // Revision 3.1  1996/11/14 01:26:46  houghton
 // Changed to Release 3
 //

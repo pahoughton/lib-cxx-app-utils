@@ -68,7 +68,9 @@ tLog01( LibTest & tester )
     
     Log	    t;
 
-    TEST( t.getOutput() == LogLevel::Error );
+    TEST( t.getOutput() == ( LogLevel::Error |
+			     LogLevel::Warn |
+			     LogLevel::Info ) );
 
     // these three should return true because that is the
     // default setting and they return the previous setting.
@@ -84,8 +86,10 @@ tLog01( LibTest & tester )
 
     Log	t(logDest);
 
-    TEST( t.getOutput() == LogLevel::Error );
-    
+    TEST( t.getOutput() == ( LogLevel::Error |
+			     LogLevel::Warn |
+			     LogLevel::Info ) );
+
     TEST( t.setLevelStamp( false ) );
     TEST( t.setTimeStamp( false ) );
     TEST( t.setLocStamp( false ) );
@@ -183,6 +187,7 @@ tLog01( LibTest & tester )
     TEST( t.getOutput() == (LogLevel::Error |
 			    LogLevel::Warn |
 			    LogLevel::Info) );
+    
     TEST( t.setLevelStamp( false ) );
     TEST( t.setTimeStamp( false ) );
     TEST( t.setLocStamp( false ) );
@@ -266,7 +271,9 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName );
 
-      TEST( t.getOutput() == LogLevel::Error );
+      TEST( t.getOutput() == (LogLevel::Error |
+			      LogLevel::Warn |
+			      LogLevel::Info) );
     
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
@@ -774,6 +781,9 @@ tLog01( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.4  1997/03/21 15:41:02  houghton
+// Changed for new default output level.
+//
 // Revision 3.3  1996/11/20 12:16:23  houghton
 // Cleanup.
 //
