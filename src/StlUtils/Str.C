@@ -358,7 +358,7 @@ fcompare( const char * one, const Str & two, Str::size_type len )
 bool
 Str::to( Range & r, unsigned short base ) const
 {
-  size_type rangeInd = find_first_of( "-." );
+  size_type rangeInd = find_first_of( ":." );
   
   if( rangeInd != npos )
     {
@@ -374,7 +374,11 @@ Str::to( Range & r, unsigned short base ) const
 	}
       else
 	{
-	  r.second = ULONG_MAX;
+#if defined( STLUTILS_HAVE_LONG_LONG )
+	  r.second = LLONG_MAX;
+#else
+	  r.second = LONG_MAX;
+#endif
 	}
 		  
       if( ! substr(0, rangeInd).to( r.first, base ) )
@@ -403,7 +407,7 @@ Str::to( RangeList & range, unsigned short base ) const
   // scan is non const, so we need a temp
   Str	tmp( *this );
 
-  size_type matcheCount = tmp.scan( " \t,;:" );
+  size_type matcheCount = tmp.scan( " \t,;" );
 
   Range r;
   
@@ -1399,6 +1403,10 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.12  2000/04/19 10:14:05  houghton
+// Changed Range to use 'long long' vs unsigned long.
+// Changed to support - range value.
+//
 // Revision 4.11  1999/05/09 13:00:40  houghton
 // Added long long support.
 //
