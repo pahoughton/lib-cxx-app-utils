@@ -19,6 +19,7 @@
 #include "StlUtilsConfig.hh"
 #include "cstdlib"
 
+class FilePath;
 
 // Macros
 
@@ -40,6 +41,12 @@ IosOpenModeToString( ios::open_mode mode );
 
 const char * 
 IosSeekDirToString( ios::seek_dir dir );
+
+bool
+ArchiveFile( const FilePath &	srcFn,
+	     const FilePath &	archiveDir,
+	     time_t		archiveTimeStamp,
+	     bool		compressIt );
 
 // See StlUtilsUtils.ii for inline Functions
 #include <StlUtilsMisc.ii>
@@ -178,6 +185,9 @@ IosSeekDirToString( ios::seek_dir dir );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/11/09 11:09:24  houghton
+// Added ArchiveFile declaration.
+//
 // Revision 4.2  1999/03/02 12:48:53  houghton
 // Added Between.
 //
