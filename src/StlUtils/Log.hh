@@ -105,7 +105,12 @@ public:
   Log &		    level( const LogLevel::Level &  current = LogLevel::Error,
 			   const char *		    srcFile = 0,
 			   long			    srcLine = 0 );
-  
+
+  Log &	    appendFile( const LogLevel::Level &	current,
+			const char *		srcFile,
+			long			srcLine,
+			const char *		fileName );
+
   inline Log &	    operator () ( void );
   inline Log &	    operator () ( const LogLevel::Level &   current );
   inline Log &	    operator () ( const LogLevel::Level &   current,
@@ -648,6 +653,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1999/10/07 13:56:23  houghton
+// Added appendFile().
+//
 // Revision 4.4  1999/05/01 12:52:34  houghton
 // Cleanup.
 //

@@ -143,6 +143,36 @@ Log::level(
 }
 
 Log &
+Log::appendFile(
+  const LogLevel::Level &   current,
+  const char *		    srcFile,
+  long			    srcLine,
+  const char *		    fileName 
+  )
+{
+  level( current, srcFile, srcLine );
+
+  ifstream  infile( fileName );
+
+  if( ! infile.good() )
+    {
+      (*this) << "appending '" << fileName << "' open failed - "
+	      << strerror( errno ) << endl;
+    }
+  else
+    {
+      (*this) << "contents of '" << fileName << "':\n";
+      Str   line;
+      while( line.getline( infile ).good() )
+	{
+	  (*this) << "    " << line << '\n';
+	}
+      (*this) << "end of '" << fileName << '\'' << endl;
+    }
+  return( *this );
+}
+	  
+Log &
 Log::level( const char * lvl, const char * srcFile, long srcLine )
 {
   if( rdbuf()->sync() == EOF )
@@ -481,6 +511,9 @@ Log::commonLog(
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/10/07 13:56:18  houghton
+// Added appendFile().
+//
 // Revision 4.1  1997/09/17 15:12:31  houghton
 // Changed to Version 4
 //
