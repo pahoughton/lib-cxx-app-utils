@@ -31,7 +31,9 @@ char * argv02[] =
   "-logmax",	"10240",
   "-logtrim",	"1024",
   "-string",	"test string",
+#if defined( CLUE_USE_STR )
   "-str",	"test str",
+#endif
   "-int",	"-123",
   "-uint",	"123",
   "-short",	"-456",
@@ -41,8 +43,10 @@ char * argv02[] =
   "-double",	"10.10",
   "-bool",	"yes",
   "-flag",
+#if defined( CLUE_USE_DATETIME )
   "-timet",	"7/15/95 08:15:15",
   "-datetime",	"8/1/95 06:00:10",
+#endif
   0
 };
 
@@ -118,11 +122,12 @@ tParam01( LibTest & tester )
     char * string = "init";
     TEST( t.argStr( string, "argString test args", "string" ) );
     TEST( compare( string, "test string" ) == 0 );
-    
+
+#if defined( CLUE_STR )
     Str str( "init" );
     TEST( t.argStr( str, "argStr test args", "str" ) );
     TEST( compare( str, "test str" ) == 0 );
-
+#endif
     int i = 0;
     TEST( t.argInt( i, "argInt test args", "int" ) );
     TEST( i == -123 );
@@ -159,6 +164,7 @@ tParam01( LibTest & tester )
     TEST( t.argFlag( f, "argFlag test args", "flag" ) );
     TEST( f == true );
 
+#if defined( CLUE_DATETIME )
     time_t tt = 0;
     DateTime tval( "7/15/95 08:15:15" );
     TEST( t.argDateTime( tt, "argDateTime time_t test args", "timet" ) );
@@ -168,7 +174,7 @@ tParam01( LibTest & tester )
     DateTime dtval( "8/1/95 06:00:10" );
     TEST( t.argDateTime( dt, "argDateTime DateTime test args", "datetime" ) );
     TEST( dt == dtval );
-
+#endif
     ALog( LogLevel::Test ) << t;
 
     TEST( t.count() == 1 );
