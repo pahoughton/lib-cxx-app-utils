@@ -303,7 +303,7 @@ bool
 Log::good( void ) const
 {
   return( rdbuf() != 0 && rdbuf()->good() &&
-#if defined( CLUE_HAS_CONST_IOS_GOOD )
+#if defined( CLUE_HAS_CONST_IOSGOOD )
 	  ios::good()
 #else
 	  ios::state == 0
@@ -481,6 +481,9 @@ Log::commonLog(
 // Revision Log:
 //
 // $Log$
+// Revision 3.10  1997/07/19 19:58:25  houghton
+// Bug-Fix: CLUE_HAS_CONST_IOSGOOD is the correct define name.
+//
 // Revision 3.9  1997/07/18 19:21:02  houghton
 // Port(Sun5): changed local variable names to eliminate compiler
 //     warnings.
