@@ -158,10 +158,7 @@ public:
   
   static const ClassVersion version;
 
-protected:
-  
-private:
-
+  // do not use this!
   class CLUE_CLASS_T DefaultResults : public Results
   {
   public:
@@ -192,6 +189,10 @@ private:
 				long		srcLine,
 				bool		progress );
   };
+
+protected:
+  
+private:
 
   bool	testit( size_t tNum, size_t passNum );
   
@@ -486,6 +487,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/07/18 19:18:58  houghton
+// Port(Sun5): had to make 'class DefaultResults' a public member due to
+//     compile errors.
+//
 // Revision 3.2  1996/11/24 19:04:21  houghton
 // Removed support for short filenames.
 // Changed include lines from < > to " " for rpm.
