@@ -11,7 +11,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:46:58  houghton
+// Revision 2.2  1995/12/04 11:20:22  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:46:58  houghton
 // Change to Version 2
 //
 // Revision 1.3  1995/11/05  15:49:19  houghton
@@ -68,8 +71,8 @@ public:
   
   inline const Members &    getMembers( void ) const;
 
-  inline bool	isMember( const User & user );
-  inline bool	isMember( const User & user ) const;
+  bool		isMember( const User & user );
+  bool		isMember( const User & user ) const;
   inline bool	isMember( uid_t user );
   inline bool	isMember( uid_t user ) const;
   inline bool	isMember( const char * userName );

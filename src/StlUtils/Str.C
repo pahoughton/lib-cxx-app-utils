@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:03  houghton
+// Revision 2.2  1995/12/04 11:18:26  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:03  houghton
 // Change to Version 2
 //
 // Revision 1.3  1995/11/05  15:28:46  houghton
@@ -57,10 +60,15 @@ Str::pos( const char * at )
 }
   
 
-#ifdef   CLUE_DEBUG
-#define  inline
+#if defined( CLUE_DEBUG )
 #include <Str.ii>
 #endif
+
+
+Str::~Str( void )
+{
+  delete rdbuf();
+}
 
 
 // append  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1081,6 +1089,13 @@ Str::writeNum( unsigned long num, unsigned short base, bool neg )
     }
   return( true );
 }
+
+istream &
+operator >> ( istream & src, Str & dest )
+{
+  return( dest.getDelim( src, " \t\n\r\f" ) );
+}
+
 
 #ifdef STD_STRING
 int

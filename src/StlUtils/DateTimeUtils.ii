@@ -35,7 +35,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:34  houghton
+// Revision 2.2  1995/12/04 11:17:21  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:34  houghton
 // Change to Version 2
 //
 // Revision 1.1  1995/11/05  13:23:22  houghton
@@ -97,6 +100,9 @@ DateInTimeT( time_t sec )
   return( sec - (sec % (60 * 60 * 24) ) );
 }
 
+#if !defined( COMMON_IsLeapYear )
+#define CLUE_IsLeapYear 1
+
 inline
 bool
 IsLeapYear( int year)
@@ -104,6 +110,7 @@ IsLeapYear( int year)
   return( ( ( !(year % 4) ) && ( (year % 100) || !(year % 400) ) ));
 }
 
+#endif
 
 
 #endif // ! def _DateTimeUtils_ii_ 

@@ -13,7 +13,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:46:57  houghton
+// Revision 2.2  1995/12/04 11:20:21  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:46:57  houghton
 // Change to Version 2
 //
 // Revision 1.3  1995/11/05  15:49:17  houghton
@@ -105,8 +108,6 @@ public:
 
   virtual ostream &	toStream( ostream & dest = cout ) const;
 
-  friend inline ostream & operator << ( ostream & dest, const User & obj );
-    
   virtual bool		good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char *	getClassName( void ) const;
@@ -142,6 +143,9 @@ private:
 #include <User.ii>
 #else
 #undef inline
+
+ostream &
+operator << ( ostream & dest, const User & obj );
 
 int
 compare( const User & one, const User & two );

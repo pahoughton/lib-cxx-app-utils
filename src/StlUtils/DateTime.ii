@@ -13,7 +13,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/12 17:52:35  houghton
+// Revision 2.3  1995/12/04 11:17:21  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.2  1995/11/12  17:52:35  houghton
 // New default constructor that sets the value to current local time.
 //
 // Revision 2.1  1995/11/10  12:40:32  houghton
@@ -23,6 +26,18 @@
 // Ports and Version ID changes
 //
 //
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+#if !defined( CLUE_SHORT_FN )
+#include <StringUtils.hh>
+#include <cstdlib>
+#else
+#include <StrUtil.hh>
+#include <cstdlib>
+#endif
 
 // Constructor - set to current local time
 inline

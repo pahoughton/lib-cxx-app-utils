@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:53  houghton
+// Revision 2.2  1995/12/04 11:18:23  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:53  houghton
 // Change to Version 2
 //
 // Revision 1.5  1995/11/05  15:28:43  houghton
@@ -27,7 +30,6 @@
 #endif
 
 #if defined( CLUE_DEBUG )
-#define  inline
 #include <Param.ii>
 #endif
 
@@ -35,6 +37,7 @@ CLUE_VERSION(
   Param,
   "$Id$" );
 
+char DefaultLogLevel[] = DEFAULT_LOGLEVEL;
 
 Param::Param( int & mainArgc, char ** mainArgv, const char * ver )
   : argc( mainArgc ),
@@ -59,7 +62,7 @@ Param::Param( int & mainArgc, char ** mainArgv, const char * ver )
 
   helpFlag  	    = false;
   logFile   	    = 0;
-  logOutputLevel    = DEFAULT_LOGLEVEL;
+  logOutputLevel    = DefaultLogLevel;
   logTee    	    = false;
   logMaxSize	    = 0;
   logTrimSize	    = 0;

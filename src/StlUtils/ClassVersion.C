@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:18  houghton
+// Revision 2.2  1995/12/04 11:16:52  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:18  houghton
 // Change to Version 2
 //
 // Revision 1.1  1995/11/05  14:48:48  houghton
@@ -38,7 +41,7 @@ ClassVersion::ClassVersion(
   const char * fileName,		    // __FILE__
   const char * compileDateString,	    // __DATE__
   const char * compileTimeString,	    // __TIME__
-  const char * versionString,		    // "$Id$"
+  const char * versionString,		    // Id:
   const char * prjName,
   const char * prjVer,
   unsigned long prjVerNumber

@@ -13,7 +13,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:55  houghton
+// Revision 2.2  1995/12/04 11:18:23  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:55  houghton
 // Change to Version 2
 //
 // Revision 1.2  1995/11/05  15:28:45  houghton
@@ -21,13 +24,16 @@
 //
 //
 
-#if !defined( inline )
 #if !defined( CLUE_SHORT_FN )
 #include <StringUtils.hh>
 #else
 #include <StrUtil.hh>
 #endif
+
+#if defined( CLUE_DEBUG )
+#define inline
 #endif
+
 
 inline
 Log &

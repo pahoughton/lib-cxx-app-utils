@@ -12,7 +12,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/12 18:01:54  houghton
+// Revision 2.3  1995/12/04 11:17:23  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.2  1995/11/12  18:01:54  houghton
 // Added srcFile, srcLine args to level().
 // Change LogLevel::XXXX to LogLevel::Xxxxx.
 //
@@ -24,6 +27,9 @@
 //
 //
 
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
 
 inline
 Log::Log(

@@ -13,7 +13,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:06  houghton
+// Revision 2.2  1995/12/04 11:18:27  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:06  houghton
 // Change to Version 2
 //
 // Revision 1.3  1995/11/05  15:28:47  houghton
@@ -21,9 +24,20 @@
 //
 //
 
-#ifndef inline
-#include <RegexScan.hh>
+#if !defined( CLUE_SHORT_FN )
 #include <ClueExceptions.hh>
+#include <RegexScan.hh>
+#include <SubStr.hh>
+#include <StringUtils.hh>
+#else
+#include <ClueExcp.hh>
+#include <RxScan.hh>
+#include <SubStr.hh>
+#include <StrUtil.hh>
+#endif
+
+#if defined( CLUE_DEBUG )
+#define inline
 #endif
 
 // constructors  * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -91,12 +105,6 @@ Str::Str( istream & src, bool text, bool line )
 }
 
     
-inline
-Str::~Str( void )
-{
-  delete rdbuf();
-}
-
 
 // append  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -1671,13 +1679,6 @@ operator << ( ostream & dest, const Str & str )
 {
   dest.write( str.strbase(), str.size() );
   return( dest );
-}
-
-inline
-istream &
-operator >> ( istream & src, Str & dest )
-{
-  return( dest.getDelim( src, " \t\n\r\f" ) );
 }
 
   

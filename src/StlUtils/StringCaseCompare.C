@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:09  houghton
+// Revision 2.2  1995/12/04 11:18:29  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:09  houghton
 // Change to Version 2
 //
 // Revision 1.2  1995/11/05  14:44:47  houghton
@@ -60,7 +63,7 @@ StringCaseCompare( const char * one, const char * two )
 int
 StringCaseCompare( const char * one, const char * two, size_t len )
 {
-  register int diff;
+  register int diff = 0;
   register size_t maxChars = len;
   register const char * s1 = one;
   register const char * s2 = two;

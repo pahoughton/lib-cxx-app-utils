@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:46:58  houghton
+// Revision 2.2  1995/12/04 11:20:22  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:46:58  houghton
 // Change to Version 2
 //
 // Revision 1.3  1995/11/05  15:49:18  houghton
@@ -35,7 +38,6 @@
 #endif
 
 #if defined( CLUE_DEBUG )
-#define  inline
 #if !defined( CLUE_SHORT_FN )
 #include <UserGroup.ii>
 #else
@@ -93,6 +95,25 @@ UserGroup::findMembers( void )
   return( members.size() );
   
 }
+
+bool
+UserGroup::isMember( const User & user )
+{
+  if( members.size() == 0 )
+    findMembers();
+
+  return( members.find( user.getName() ) != members.end() );
+}
+
+bool
+UserGroup::isMember( const User & user ) const
+{
+  if( members.size() == 0 )
+    return( false );
+
+  return( members.find( user.getName() ) != members.end() );
+}
+
 
 bool
 UserGroup::set( const struct group * gr, bool findMemb )

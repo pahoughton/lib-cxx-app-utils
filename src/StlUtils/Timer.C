@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:19  houghton
+// Revision 2.2  1995/12/04 11:18:31  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:19  houghton
 // Change to Version 2
 //
 // Revision 1.3  1995/11/05  15:28:50  houghton
@@ -33,7 +36,6 @@ CLUE_VERSION(
   "$Id$" );
 
 #if defined( CLUE_DEBUG )
-#define  inline
 #include "Timer.ii"
 #endif
 

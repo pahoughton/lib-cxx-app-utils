@@ -14,7 +14,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/13 11:31:02  houghton
+// Revision 2.3  1995/12/04 11:18:31  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.2  1995/11/13  11:31:02  houghton
 // Changed compare to const.
 // Changed date type from void * to char *.
 //

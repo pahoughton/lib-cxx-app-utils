@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:41:07  houghton
+// Revision 2.2  1995/12/04 11:18:28  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:07  houghton
 // Change to Version 2
 //
 // Revision 1.4  1995/11/05  16:04:05  houghton
@@ -25,7 +28,6 @@
 #endif
 
 #if defined( CLUE_DEBUG )
-#define  inline
 #if !defined( CLUE_SHORT_FN )
 #include "StrStreambuf.ii"
 #else

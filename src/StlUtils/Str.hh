@@ -16,7 +16,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/10 14:08:39  houghton
+// Revision 2.3  1995/12/04 11:18:27  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.2  1995/11/10  14:08:39  houghton
 // Updated documentation comments
 //
 // Revision 2.1  1995/11/10  12:41:04  houghton
@@ -30,7 +33,6 @@
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <StrStreambuf.hh>
-#include <SubStr.hh>
 #include <BinStream.hh>
 #include <iostream>
 #include <algorithm>
@@ -40,7 +42,6 @@
 #else
 #include <ClueCfg.hh>
 #include <StrSbuf.hh>
-#include <SubStr.hh>
 #include <BinStream.hh>
 #include <iostream>
 #include <algorithm>
@@ -99,7 +100,7 @@ public:
 
   inline Str( istream & src, bool text = false, bool line = false );
   
-  inline ~Str( void );
+  virtual ~Str( void );
 
   
   // misc support
@@ -521,8 +522,8 @@ public:
   
   virtual ostream & toStream( ostream & dest = cout ) const;
   
-  friend inline ostream &  operator << ( ostream & dest, const Str & src );
-  friend inline istream &  operator >> ( istream & src, Str & dest );
+  friend inline ostream &   operator << ( ostream & dest, const Str & src );
+  friend istream &	    operator >> ( istream & src, Str & dest );
 
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
@@ -641,7 +642,7 @@ unsigned long	StringToULong( const Str & str, unsigned short base = 0 );
 
 #endif
 
-
+#include <SubStr.hh>
 
 //  Quick Start: - short example of class usage
 //

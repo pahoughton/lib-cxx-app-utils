@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.3  1995/11/12 22:08:05  houghton
+// Revision 2.4  1995/12/04 11:17:24  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.3  1995/11/12  22:08:05  houghton
 // Bug fix - setName() - junk code from copy (cut out).
 //
 // Revision 2.2  1995/11/12  18:04:21  houghton
@@ -40,7 +43,6 @@
 #endif
 
 #if defined( CLUE_DEBUG )
-#define  inline
 #if !defined( CLUE_SHORT_FN )
 #include "LogLevel.ii"
 #else
@@ -53,25 +55,25 @@ CLUE_VERSION(
   "$Id$" );
 
 const LogLevel::Level	LogLevel::None;
-const LogLevel::Level	LogLevel::Error( 0 );
-const LogLevel::Level	LogLevel::Err( 0 );
-const LogLevel::Level	LogLevel::Warning( 1 );
-const LogLevel::Level	LogLevel::Warn( 1 );
-const LogLevel::Level	LogLevel::App1( 2 );
-const LogLevel::Level	LogLevel::App2( 3 );
-const LogLevel::Level	LogLevel::App3( 4 );
-const LogLevel::Level	LogLevel::App4( 5 );
-const LogLevel::Level	LogLevel::App5( 6 );
-const LogLevel::Level	LogLevel::App6( 7 );
-const LogLevel::Level	LogLevel::Lib1( 8 );
-const LogLevel::Level	LogLevel::Lib2( 9 );
-const LogLevel::Level	LogLevel::Lib3( 10 );
-const LogLevel::Level	LogLevel::Lib4( 11 );
-const LogLevel::Level	LogLevel::Info( 12 );
-const LogLevel::Level	LogLevel::Test( 13 );
-const LogLevel::Level	LogLevel::Debug( 14 );
-const LogLevel::Level	LogLevel::Funct( 15 );
-const LogLevel::Level	LogLevel::All( 0, true );
+const LogLevel::Level	LogLevel::Error( Bitmask::b00 );
+const LogLevel::Level	LogLevel::Err( Bitmask::b00 );
+const LogLevel::Level	LogLevel::Warning( Bitmask::b01 );
+const LogLevel::Level	LogLevel::Warn( Bitmask::b01 );
+const LogLevel::Level	LogLevel::App1( Bitmask::b02 );
+const LogLevel::Level	LogLevel::App2( Bitmask::b03 );
+const LogLevel::Level	LogLevel::App3( Bitmask::b04 );
+const LogLevel::Level	LogLevel::App4( Bitmask::b05 );
+const LogLevel::Level	LogLevel::App5( Bitmask::b06 );
+const LogLevel::Level	LogLevel::App6( Bitmask::b07 );
+const LogLevel::Level	LogLevel::Lib1( Bitmask::b08 );
+const LogLevel::Level	LogLevel::Lib2( Bitmask::b09 );
+const LogLevel::Level	LogLevel::Lib3( Bitmask::b10 );
+const LogLevel::Level	LogLevel::Lib4( Bitmask::b11 );
+const LogLevel::Level	LogLevel::Info( Bitmask::b12 );
+const LogLevel::Level	LogLevel::Test( Bitmask::b13 );
+const LogLevel::Level	LogLevel::Debug( Bitmask::b14 );
+const LogLevel::Level	LogLevel::Funct( Bitmask::b15 );
+const LogLevel::Level	LogLevel::All( Bitmask::all );
 
 const char * LogLevel::LevelNames[] =
 {
@@ -132,7 +134,7 @@ LogLevel::getLevelNames( const Level level ) const
   
   for( size_t l = 0; l < (ArraySize( LevelNames )  - 1); l++ )
     {
-      if( level.isSet( l ) )
+      if( level.test( l ) )
 	{
 	  strcat( names, LevelNames[l + 1] );
 	  strcat( names, " | " );

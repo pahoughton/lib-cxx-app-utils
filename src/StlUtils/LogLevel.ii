@@ -12,7 +12,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/12 18:05:44  houghton
+// Revision 2.3  1995/12/04 11:17:25  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.2  1995/11/12  18:05:44  houghton
 // Change LogLevel::XXXX to LogLevel::Xxxxx.
 // Move setName to LogLevel.C.
 //
@@ -24,6 +27,9 @@
 //
 //
 
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
 
 inline
 LogLevel::LogLevel( const Level out )

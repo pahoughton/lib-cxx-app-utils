@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/10 12:40:25  houghton
+// Revision 2.2  1995/12/04 11:17:19  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:25  houghton
 // Change to Version 2
 //
 // Revision 1.4  1995/11/05  14:44:27  houghton
@@ -31,7 +34,6 @@
 
 
 #if defined( CLUE_DEBUG )
-#define inline
 #if !defined( CLUE_SHORT_FN )
 #include "DateRangeDaily.ii"
 #else

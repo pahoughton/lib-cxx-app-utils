@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.3  1995/11/12 18:49:31  houghton
+// Revision 2.4  1995/12/04 11:17:23  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.3  1995/11/12  18:49:31  houghton
 // Bug fix - current (not lvl).
 //
 // Revision 2.2  1995/11/12  18:00:02  houghton
@@ -27,7 +30,6 @@
 #include "DateTime.hh"
 
 #if defined( CLUE_DEBUG )
-#define  inline
 #include <Log.ii>
 #endif
 
