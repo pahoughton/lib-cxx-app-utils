@@ -482,7 +482,6 @@ public:
   
   // from istream
   inline istream &  getline( char * dest, int size, char delim = '\n' );
-  inline istream &  getline( wchar_t * dest, int size, wchar_t delim = L'\n');
   inline istream &  getline( unsigned char * dest, int size, char d = '\n' );
   
   istream & 	getDelim( istream & 	src,
@@ -500,8 +499,6 @@ public:
   inline istream &  get( char * dest, int size, char delim = '\n' );
   inline istream &  get( unsigned char * dest, int size, char delim = '\n' );
   inline istream &  get( unsigned char & dest );
-  inline istream &  get( wchar_t & dest );
-  inline istream &  get( wchar_t * dest, int size, wchar_t delim = L'\n' );
   inline int	    get( void );
   inline istream &  get( streambuf & dest, char delim = '\n' );
   
@@ -1757,6 +1754,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1998/03/30 14:06:32  houghton
+// Removed get( wchar ) and getline( wchar ) - not standard.
+//
 // Revision 4.4  1998/03/23 10:45:45  houghton
 // Changed to eliminate Sun5 compiler warnings.
 //
