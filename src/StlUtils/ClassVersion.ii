@@ -4,31 +4,14 @@
 // File:        ClassVersion.ii
 // Desc:        
 //
-//  	inlines for ClassVersion
+//  	Inlines sources for ClassVersion
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     10/04/95 07:15
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.1  1996/11/14 01:23:28  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/10/28 11:56:17  houghton
-// Added: operator const char * ()
-// Cleanup.
-//
-// Revision 2.2  1996/04/27 12:52:54  houghton
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
-//
-// Revision 2.1  1995/11/10 12:40:20  houghton
-// Change to Version 2
-//
-// Revision 1.1  1995/11/05  14:48:49  houghton
-// New Class Version id method
-//
+// $Id$
 //
 
 
@@ -95,4 +78,29 @@ operator << ( ostream & dest, const ClassVersion & obj )
 #undef inline
 #endif
 
+//
+// Revision Log:
+//
+// $Log$
+// Revision 3.2  1996/11/19 12:20:40  houghton
+// Restructure header comments.
+//
+// Revision 3.1  1996/11/14 01:23:28  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1996/10/28 11:56:17  houghton
+// Added: operator const char * ()
+// Cleanup.
+//
+// Revision 2.2  1996/04/27 12:52:54  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.1  1995/11/10 12:40:20  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  14:48:49  houghton
+// New Class Version id method
+//
+//
 #endif // ! def _ClassVersion_ii_ 

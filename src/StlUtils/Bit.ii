@@ -2,29 +2,17 @@
 #define _Bit_ii_
 //
 // File:        Bit.ii
+// Project:	Clue
 // Desc:        
 //
-//
+//  Inline source for Bit manipulation functions.
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     02/22/95 09:46
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.1  1996/11/14 01:23:25  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1996/11/04 13:16:57  houghton
-// Reorder functions to match header comments.
-//
-// Revision 2.1  1995/11/10 12:40:15  houghton
-// Change to Version 2
-//
-// Revision 1.1  1995/11/05  13:23:16  houghton
-// Initaial implementation
-//
-//
+// $Id$
 //
 
 // T = any type;
@@ -102,7 +90,24 @@ SetBits( Dest & dest, Value value, NumberType start, NumberType len )
   result |= StripLow( dest, start + len );
   dest = result;
 }
-    
 
-
+//
+// Revision Log:
+//
+// $Log$
+// Revision 3.2  1996/11/19 12:19:13  houghton
+// Restructure header comments.
+//
+// Revision 3.1  1996/11/14 01:23:25  houghton
+// Changed to Release 3
+//
+// Revision 2.2  1996/11/04 13:16:57  houghton
+// Reorder functions to match header comments.
+//
+// Revision 2.1  1995/11/10 12:40:15  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  13:23:16  houghton
+// Initaial implementation
+//
 #endif // ! def _Bit_ii_ 
