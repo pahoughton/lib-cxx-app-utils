@@ -31,11 +31,12 @@ stdcxx_hh	= $(INSTALL_INC_DIR)/StdCxxConfig.hh
 tools_build_dir		= $(TOOL_DIR)/src/Build/Tools
 libs_build_dir		= $(TOOL_DIR)/src/Build/Libs
 
-exports	    = 					\
-	INSTALL_INC_DIR=$(INSTALL_INC_DIR)	\
-	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)	\
-	INSTALL_DOC_DIR=$(INSTALL_DOC_DIR)	\
-	show_commands=$(show_commands)		\
+exports	    = 							\
+	INSTALL_INC_DIR=$(INSTALL_INC_DIR)			\
+	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)			\
+	INSTALL_DOC_MAN_DIR=$(INSTALL_DOC_MAN_DIR)		\
+	INSTALL_DOC_HTML_BASE_DIR=$(INSTALL_DOC_HTML_BASE_DIR)	\
+	show_commands=$(show_commands)				\
 	check_install=$(check_install)
 
 no_target:
@@ -103,9 +104,10 @@ $(stdcxx_hh): $(libs_build_dir)/libStdC++-2
 gen_setup_cfg:
 	rm -f $(CFG_DIR)/Setup.cfg
 	sed								      \
-		-e 's!%INSTALL_INC_DIR%!$(INSTALL_INC_DIR)!'		      \
-		-e 's!%INSTALL_LIB_DIR%!$(INSTALL_LIB_DIR)!'		      \
-		-e 's!%INSTALL_DOC_DIR%!$(INSTALL_DOC_DIR)!'		      \
+	    -e 's!%INSTALL_INC_DIR%!$(INSTALL_INC_DIR)!'		      \
+	    -e 's!%INSTALL_LIB_DIR%!$(INSTALL_LIB_DIR)!'		      \
+	    -e 's!%INSTALL_DOC_MAN_DIR%!$(INSTALL_DOC_MAN_DIR)!'	      \
+	    -e 's!%INSTALL_DOC_HTML_BASE_DIR%!$(INSTALL_DOC_HTML_BASE_DIR)!'  \
 	  < $(CFG_DIR)/Setup.cfg.src					      \
 	  > $(CFG_DIR)/Setup.cfg
 	chmod 444 $(CFG_DIR)/Setup.cfg
@@ -116,6 +118,9 @@ setup: check_cvs $(common_h) $(gnuregex_h) $(stdcxx_hh) gen_setup_cfg
 
 #
 # $Log$
+# Revision 1.4  2000/04/19 11:04:48  houghton
+# Added INSTALL_DOC_HTML_BASE_DIR.
+#
 # Revision 1.3  2000/01/03 14:21:32  houghton
 # Bug-Fix: forgot to use exports.
 #

@@ -19,9 +19,10 @@
 #   $Id$
 # 
 
-INSTALL_INC_DIR	= %INSTALL_INC_DIR%
-INSTALL_LIB_DIR = %INSTALL_LIB_DIR%
-INSTALL_DOC_DIR = %INSTALL_DOC_DIR%
+INSTALL_INC_DIR			= %INSTALL_INC_DIR%
+INSTALL_LIB_DIR 		= %INSTALL_LIB_DIR%
+INSTALL_DOC_MAN_DIR 		= %INSTALL_DOC_MAN_DIR%
+INSTALL_DOC_HTML_BASE_DIR 	= %INSTALL_HTML_BASE_DIR%
 
 
 help_config:
@@ -30,7 +31,10 @@ help_config:
 	echo ;								      \
 	echo "    INSTALL_INC_DIR=$(INSTALL_INC_DIR)" ;			      \
 	echo "    INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)" ;			      \
-	echo "    INSTALL_DOC_DIR=$(INSTALL_DOC_DIR)" ;			      \
+	echo "    INSTALL_DOC_MAN_DIR=$(INSTALL_DOC_MAN_DIR)" ;		      \
+	echo "    INSTALL_DOC_HTML_BASE_DIR=";				      \
+	echo "      $(INSTALL_DOC_HTML_BASE_DIR)" ;			      \
+	echo ;								      \
 	echo "    show_commands=$(show_commands)" ;			      \
 	echo "    check_install=$(check_install)" ;			      \
 	echo ;								      \
@@ -39,6 +43,9 @@ help_config:
 
 #
 # $Log$
+# Revision 1.2  2000/04/19 11:04:39  houghton
+# Added INSTALL_DOC_HTML_BASE_DIR.
+#
 # Revision 1.1  1999/11/09 11:09:52  houghton
 # Initial Version.
 #
