@@ -17,13 +17,8 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <Common.h>
-#else
-#include <ClueCfg.hh>
-#include <Common.h>
-#endif
 
 inline
 short
@@ -169,6 +164,9 @@ Host2Net( unsigned long num )
 // Revision Log
 //
 // $Log$
+// Revision 2.2  1997/03/02 13:19:40  houghton
+// Changed includes.
+//
 // Revision 2.1  1996/11/04 14:20:41  houghton
 // Initial Version.
 //
