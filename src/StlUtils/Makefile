@@ -114,14 +114,14 @@ CPP_FLAGS		= $(ARCH_CPP_FLAGS)
 
 CC_FLAGS		= $(cc_warn) $(ARCH_CC_FLAGS)
 
-DEFAULT_CC_FLAGS	= $(cc_optimize)
+DEFAULT_CC_FLAGS	= $(cc_default) $(cc_optimize)
 DEBUG_CC_FLAGS		= $(cc_debug)
 PROFILE_CC_FLAGS	= $(cc_profile)
 SHARED_CC_FLAGS		= $(cc_shared) $(cc_optimize)
 
 CXX_FLAGS		= $(cxx_warn) $(ARCH_CXX_FLAGS)
 
-DEFAULT_CXX_FLAGS	= $(cxx_optimize)
+DEFAULT_CXX_FLAGS	= $(cxx_default) $(cxx_optimize)
 DEBUG_CXX_FLAGS		= $(cxx_debug)
 PROFILE_CXX_FLAGS	= $(cxx_profile)
 SHARED_CXX_FLAGS	= $(cxx_shared) $(cxx_optimize)
@@ -333,6 +333,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.5  1997/12/19 14:00:03  houghton
+# Added cc_default and cxx_default vars.
+#
 # Revision 4.4  1997/11/18 15:06:50  houghton
 # Added MfNumTo.
 #
