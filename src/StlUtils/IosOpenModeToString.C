@@ -50,9 +50,11 @@ IosOpenModeToString( ios::open_mode mode )
   if( mode & ios::noreplace )
     modeStr << "ios::noreplace | ";
 
+#if !defined( AIX41 )
   if( mode & ios::binary )
     modeStr << "ios::binary | ";
-
+#endif
+  
   if( modeStr.size() > 3 )
     modeStr.remove( modeStr.size() - 3 );
 
@@ -63,6 +65,9 @@ IosOpenModeToString( ios::open_mode mode )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/04/05 11:57:41  houghton
+// Changed AIX41 does not have ios::binary.
+//
 // Revision 3.1  1997/04/04 20:51:48  houghton
 // Initial Versionn.
 //
