@@ -19,6 +19,8 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
+#if !defined( PROTO_GEN )
+
 /* AIX requires this to be the first thing in the file. */
 #include <regexcfg.h>
 
@@ -3134,7 +3136,6 @@ re_search_2 (bufp, string1, size1, string2, size2, startpos, range, regs, stop)
 
 /* Declarations and macros for re_match_2.  */
 
-static int bcmp_translate ();
 static boolean alt_match_null_string_p (),
                common_op_match_null_string_p (),
                group_match_null_string_p ();
@@ -3289,8 +3290,8 @@ re_match (bufp, string, size, pos, regs)
 static boolean group_match_null_string_p( unsigned char ** p,
 					  unsigned char *  end,
 					  register_info_type * reg_info);
-static int bcmp_translate( unsigned char * s1,
-			   unsigned char * s2,
+static int bcmp_translate( const unsigned char * s1,
+			   const unsigned char * s2,
 			   register int    len,
 			   char *          translate);
 
@@ -4750,12 +4751,13 @@ common_op_match_null_string_p (p, end, reg_info)
    bytes; nonzero otherwise.  */
    
 static int
-bcmp_translate (s1, s2, len, translate)
-     unsigned char *s1, *s2;
-     register int len;
-     char *translate;
+bcmp_translate(
+  const unsigned char * s1,
+  const unsigned char * s2,
+  register int len,
+  char * translate )
 {
-  register unsigned char *p1 = s1, *p2 = s2;
+  register const unsigned char *p1 = s1, *p2 = s2;
   while (len)
     {
       if (translate[*p1++] != translate[*p2++]) return 1;
@@ -5109,3 +5111,5 @@ version-control: t
 trim-versions-without-asking: nil
 End:
 */
+
+#endif /* ! def PROTO_GEN */
