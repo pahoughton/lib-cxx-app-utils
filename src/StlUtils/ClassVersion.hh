@@ -2,8 +2,7 @@
 #define _ClassVersion_hh_
 //
 // File:        ClassVersion.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provides information about a class's version that is accessible
@@ -34,12 +33,12 @@
 //
 //    See StlUtilsVersion.hh for another example of a helper macro.
 //
-// Author:      Paul Houghton - (paul_houghton@wcom.com)
+// Author:      Paul Houghton - (paul_houghton@mci.com)
 // Created:     10/04/95 07:04
 //
 // Revision History: (See end of file for Revision Log)
 //
-// %PID%
+// $Id$ 
 //
 
 #include "StlUtilsConfig.hh"
@@ -284,6 +283,9 @@ const ClassVersion className_::version( #className_,			      \
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/28 01:15:00  houghton
 // *** empty log message ***
 //

@@ -2,8 +2,7 @@
 #define _DateRangeDaily_h_
 //
 // File:        DateRangeDaily.ii
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  	inlines for DateRangeDaily
@@ -13,12 +12,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 
 #if defined( STLUTILS_DEBUG )
 #define inline
@@ -101,6 +101,9 @@ operator << ( ostream & dest, const DateRangeDaily & obj )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

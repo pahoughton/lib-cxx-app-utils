@@ -1,7 +1,6 @@
 //
 // File:        Timer.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled source for Timer
@@ -11,10 +10,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #if !defined( STLUTILS_SHORT_FN )
@@ -29,7 +29,7 @@
 
 STLUTILS_VERSION(
   Timer,
-  "%PID%" );
+  "$Id$ " );
 
 #if defined( STLUTILS_DEBUG )
 #include "Timer.ii"
@@ -101,6 +101,9 @@ Timer::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

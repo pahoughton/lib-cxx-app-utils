@@ -1,7 +1,6 @@
 //
 // File:        LibTest.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for LibTest.
@@ -11,10 +10,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "LibTest.hh"
@@ -28,7 +28,7 @@
 #include <cctype>
 
 STLUTILS_VERSION( LibTest,
-	      "%PID%" );
+	      "$Id$ " );
 
 LibTest::DefaultResults LibTest::defaultResultsObj;
 
@@ -541,6 +541,9 @@ LibTest::DefaultResults::passed(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

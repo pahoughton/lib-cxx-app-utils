@@ -1,7 +1,6 @@
 //
 // File:        Param.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //              
 //  Compiled sources for the Param class
@@ -11,12 +10,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 
 
 #include "Param.hh"
@@ -36,7 +36,7 @@
 
 STLUTILS_VERSION(
   Param,
-  "%PID%" );
+  "$Id$ " );
 
 #if defined( STLUTILS_DEBUG )
 #include <Param.ii>
@@ -1711,12 +1711,13 @@ Param::genArgFile( bool exitApp ) const
 	"#\n" 
 	"# Revision History: (See end of file for Revision Log)\n" 
 	"#\n"
-	"#   Last Mod By:    %PO%\n" 
-	"#   Last Mod:       %PRT%\n"
-	"#   Version:        %PIV%\n"
-	"#   Status:         %PS%\n" 
+	"#   $Author$ \n"
+	"#   $Date$ \n"
+	"#   $Name$ \n"
+	"#   $Revision$ \n"
+	"#   $State$ \n"
 	"#\n" 
-	"#   %PID%\n" 
+	"#   $Id$ \n" 
 	"#\n\n" 
 	;
 
@@ -1733,13 +1734,7 @@ Param::genArgFile( bool exitApp ) const
 	(*out) << '#' << comment;
       }
 
-      (*out) << '\n' <<
-	"\n#\n" <<
-	"# Revision Log\n"
-	"#\n"
-	"#  %P"  "L%" <<
-	"#\n" <<
-	"#\n"
+      (*out) << '\n' 
 	;
     }
 
@@ -1774,6 +1769,9 @@ Param::genArgFile( bool exitApp ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.7  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.6  2001/08/06 17:19:33  houghton
 // *** empty log message ***
 //

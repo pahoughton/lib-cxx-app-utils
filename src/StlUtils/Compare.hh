@@ -2,8 +2,7 @@
 #define _Compare_hh_
 //
 // File:        Compare.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  This file defines inline functions to two compare values of the
@@ -19,12 +18,12 @@
 //  All 'char *' functions (i.e. * **) check the actual
 //  characters and not the pointers.
 // 
-// Author:      Paul Houghton (paul_houghton@wcom.com)
+// Author:      Paul Houghton (paul_houghton@mci.com)
 // Created:     05/01/95 9:00
 //
 // Revision History: (See end of file for Revision Log)
 //
-// %PID%
+// $Id$ 
 //
 
 #include <cstring>	// needed for strcmp calls
@@ -242,6 +241,9 @@ SC_TYPE::operator SC_OPERATOR ( const SC_TYPE & rhs ) const		      \
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //

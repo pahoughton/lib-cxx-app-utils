@@ -1,20 +1,20 @@
 //
 // File:        DateTimeUtils.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for DateTimeUtils
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     05/02/95 06:57 
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "DateTimeUtils.hh"
@@ -22,7 +22,7 @@
 
 STLUTILS_FUNCT_VERSION(
   DateTimeUtils,
-  "%PID%" );
+  "$Id$ " );
 
 const time_t  SecPerMin	    = 60;
 const time_t  SecPerHour    = 60 * 60;
@@ -114,6 +114,9 @@ const char * AbbrWeekDays[] =
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

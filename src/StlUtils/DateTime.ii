@@ -2,23 +2,23 @@
 #define _DateTime_ii_
 //
 // File:        DateTime.ii
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  	Inline source for DateTime
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     06/15/95 03:39
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <DateTimeUtils.hh>
@@ -787,6 +787,9 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2001/08/02 16:34:20  houghton
 // *** empty log message ***
 //

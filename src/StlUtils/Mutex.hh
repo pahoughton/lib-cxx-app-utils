@@ -2,8 +2,7 @@
 #define _Mutex_hh_
 //
 // File:        Mutex.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provides an interface to Thread mutexes.
@@ -15,12 +14,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 
 #if !defined( STLUTILS_SHORT_FN )
 #include <StlUtilsConfig.hh>
@@ -143,6 +143,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

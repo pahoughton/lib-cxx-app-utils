@@ -1,7 +1,6 @@
 #
 # Title:        Makefile
-# Project:	StlUtils (%PP%)
-# Item:   	%PI% (%PF%)
+# Project:	StlUtils ()
 # Desc:
 # 
 #   This is a 'convienance' Makefile. It is only to simplify
@@ -9,17 +8,18 @@
 # 
 # Notes:
 # 
-# Author:	Paul Houghton - (paul.houghton@wcom.com)
+# Author:	Paul Houghton - (paul.houghton@mci.com)
 # Created:	05/04/99 07:03
 #
 # Revision History: (See end of file for Revision Log)
 #
-#   Last Mod By:    %PO%
-#   Last Mod:	    %PRT%
-#   Version:	    %PIV%
-#   Status: 	    %PS%
+#   $Author$ 
+#   $Date$ 
+#   $Name$ 
+#   $Revision$ 
+#   $State$ 
 # 
-#  %PID%
+#  $Id$ 
 # 
 
 
@@ -29,6 +29,9 @@ debug:
 
 #
 # $Log$
+# Revision 5.3  2003/08/09 11:21:01  houghton
+# Changed ver strings.
+#
 # Revision 5.2  2001/07/26 19:28:57  houghton
 # *** empty log message ***
 #

@@ -2,23 +2,23 @@
 #define _Param_ii_
 //
 // File:        Param.ii
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  	Inline source for Param
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     06/16/95 04:11
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 
@@ -244,6 +244,9 @@ Param::matchArg( const Str & arg, const char * id, Str::size_type endPos )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

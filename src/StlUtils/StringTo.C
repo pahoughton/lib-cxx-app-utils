@@ -1,20 +1,20 @@
 //
 // File:        StringTo.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Convert string to a number (See Description at end of file).
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     05/06/95 09:31 
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 
@@ -24,7 +24,7 @@
 
 STLUTILS_FUNCT_VERSION(
   StringTo,
-  "%PID%" );
+  "$Id$ " );
 
 
 const int _CharToNumber[] =
@@ -711,6 +711,9 @@ StringToTm( const char * src, const char * fmt )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

@@ -2,8 +2,7 @@
 #define _Net2Host_hh_
 //
 // File:        Net2Host.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provides fucntions for converting data between host and network format.
@@ -15,12 +14,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -123,6 +123,9 @@ Host2Net( unsigned long num )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //

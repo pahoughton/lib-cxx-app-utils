@@ -2,8 +2,7 @@
 #define _Param_hh_
 //
 // File:        Param.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:
 //
 //  This is the base class for providing command line argument parsing.
@@ -34,12 +33,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID% 
+// $Id$  
 // 
 
 #include <StlUtilsConfig.hh>
@@ -1129,6 +1129,9 @@ operator << ( ostream & dest, const Param & obj );
 // %PL%
 // 
 // $Log$
+// Revision 5.7  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.6  2001/08/06 17:19:32  houghton
 // *** empty log message ***
 //

@@ -1,20 +1,20 @@
 //
 // File:        Directory.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for Directory
 //  
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul.houghton@mci.com)
 // Created:     09/19/95 08:18
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "Directory.hh"
@@ -35,7 +35,7 @@
 
 STLUTILS_VERSION(
   Directory,
-  "%PID%");
+  "$Id$ ");
 
 
 //
@@ -913,6 +913,9 @@ Directory::readDir(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

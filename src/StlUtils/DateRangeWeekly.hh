@@ -2,8 +2,7 @@
 #define _DateRangeWeekly_hh_
 //
 // File:        DateRangeWeekly.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //              
 //  A DateRange who's operations only apply to a specific day of the week.
@@ -13,12 +12,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -144,6 +144,9 @@ compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.5  2003/06/25 08:49:26  houghton
 // Change: rename in method it isIn.
 //

@@ -2,24 +2,24 @@
 #define _SubStr_hh_
 //
 // File:        SubStr.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  A 'SubStr' is a section of a 'Str'. Any modifications to
 //  the 'SubStr' modify the 'Str' it is a section of.
 //
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul.houghton@mci.com)
 // Created:     05/30/95 14:59
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include "StlUtilsConfig.hh"
@@ -485,6 +485,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.5  2003/07/19 09:17:12  houghton
 // Port to 64 bit.
 //

@@ -2,25 +2,25 @@
 #define _FileLock_hh_
 //
 // File:        FileLock.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provides unix file locking (flock) functionallity.
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul.houghton@mci.com)
 // Created:     09/12/97 11:04
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -225,6 +225,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

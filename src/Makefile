@@ -1,24 +1,24 @@
 #
 # File:         Makefile
-# Project:	StlUtils %PP%
-# Item:   	%PI% (%PF%)
+# Project:	StlUtils 
 # Desc:
 #
 #   This Makefile builds the targets in all the source subdirectories.
 #
 # Notes:
 #
-# Author:	Paul Houghton <Paul.Houghton@wcom.com>
+# Author:	Paul Houghton <Paul.Houghton@mci.com>
 # Created:	5/31/101 using GenProject 6.01.01
 #
 # Revision History: (See end of file for Revision Log)
 #
-#   Last Mod By:    %PO%
-#   Last Mod:	    %PRT%
-#   Version:	    %PIV%
-#   Status:	    %PS%
+#   $Author$ 
+#   $Date$ 
+#   $Name$ 
+#   $Revision$ 
+#   $State$ 
 #
-#   %PID%
+#   $Id$ 
 #
 
 #
@@ -75,41 +75,41 @@ PHONY_TARGETS	= $(TARGETS)
 include Make/make.cfg.targets.common.$(make_cfg_ver)
 
 $(DEPEND_TARGETS):
-	$(call make_subdirs,$@,$(LIB_SUBDIRS) $(BIN_SUBDIRS),	\
+	$(hide) $(call make_subdirs,$@,$(LIB_SUBDIRS) $(BIN_SUBDIRS),	\
 		$(exports)					\
 		$(depend_exports)				\
 		$($(@)_exports))
 
 $(BUILD_TARGETS):
-	$(call make_subdirs,$@,$(LIB_SUBDIRS) $(BIN_SUBDIRS),	\
+	$(hide) $(call make_subdirs,$@,$(LIB_SUBDIRS) $(BIN_SUBDIRS),	\
 		$(exports)					\
 		$($(@)_exports))
 
 check: test
-	$(call make_subdirs,$@,$(PRJ_TOPDIR)/test,	\
+	$(hide) $(call make_subdirs,$@,$(PRJ_TOPDIR)/test,	\
 		$(exports)				\
 		$(test_exports)				\
 		$($(@)_exports))
 
 $(INSTALL_LIB_TARGETS):
-	$(call make_subdirs,$(patsubst install_lib_%,install_%,$@),	\
+	$(hide) $(call make_subdirs,$(patsubst install_lib_%,install_%,$@),	\
 		$(LIB_SUBDIRS),						\
 		$(exports)						\
 		$(install_lib_exports)					\
 		$($(@)_exports))
 
 $(INSTALL_TARGETS):
-	$(call make_subdirs,install_shared,	\
+	$(hide) $(call make_subdirs,install_shared,	\
 		$(LIB_SUBDIRS),			\
 		$(exports)			\
 		$(install_lib_exports)		\
 		$($(@)_exports))
-	$(call make_subdirs,$@,		\
+	$(hide) $(call make_subdirs,$@,		\
 		$(BIN_SUBDIRS),		\
 		$(exports)		\
 		$(install_exports)	\
 		$($(@)_exports))
-	$(call make_subdirs,install,	\
+	$(hide) $(call make_subdirs,install,	\
 		$(INSTALL_SUBDIRS),	\
 		$(exports)		\
 		$(install_exports)	\

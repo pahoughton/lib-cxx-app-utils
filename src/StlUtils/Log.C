@@ -1,7 +1,6 @@
 //
 // File:        Log.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //              
 //  Compiled source for Log class.
@@ -11,10 +10,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "Log.hh"
@@ -27,7 +27,7 @@
 
 STLUTILS_VERSION(
   Log,
-  "%PID%" );
+  "$Id$ " );
 
 
 Log * _LibLog = 0;
@@ -549,6 +549,9 @@ commonLog(
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2003/07/19 09:17:12  houghton
 // Port to 64 bit.
 //

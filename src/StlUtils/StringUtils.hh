@@ -2,8 +2,7 @@
 #define _StringUtils_hh_
 //
 // File:        StringUtils.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  This is a collection of char string utility functions. They
@@ -18,12 +17,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID% 
+// $Id$  
 //
 
 #include "StlUtilsConfig.hh"
@@ -858,6 +858,9 @@ basename( const char * fn );
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

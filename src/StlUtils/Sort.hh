@@ -2,8 +2,7 @@
 #define _Sort_hh_
 //
 // File:        Sort.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provides templates for sorting collections of objects.
@@ -15,12 +14,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 
 #include <StlUtilsConfig.hh>
 
@@ -107,6 +107,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //

@@ -1,7 +1,6 @@
 //
 // File:        RegexScan.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compile source code for RegexScan class.
@@ -11,10 +10,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include <cstddef>
@@ -31,7 +31,7 @@ extern "C" {
 
 STLUTILS_VERSION(
   RegexScan,
-  "%PID%" );
+  "$Id$ " );
 
 unsigned int	RegexScan::defaultSyntax =
 #if !defined( Hpux10 )
@@ -406,6 +406,9 @@ RegexScan::cleanup()
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2003/07/19 09:17:12  houghton
 // Port to 64 bit.
 //

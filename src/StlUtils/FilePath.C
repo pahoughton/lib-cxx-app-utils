@@ -1,20 +1,20 @@
 //
 // File:        FilePath.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for FilePath
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     06/15/95 07:48 
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 
@@ -38,7 +38,7 @@
 
 STLUTILS_VERSION(
   FilePath,
-  "%PID%" );
+  "$Id$ " );
 
 const char FilePath::DirDelim = STLUTILS_DIR_DELIM;
 
@@ -545,6 +545,9 @@ FilePath::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

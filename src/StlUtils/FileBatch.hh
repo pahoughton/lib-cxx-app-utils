@@ -2,25 +2,25 @@
 #define _FileBatch_hh_
 //
 // File:        FileBatch.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provides an iterator interface to a file containing fixed length records.
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     11/10/98 10:47
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -407,6 +407,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.9  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.8  2003/07/19 09:17:12  houghton
 // Port to 64 bit.
 //

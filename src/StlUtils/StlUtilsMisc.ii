@@ -2,24 +2,24 @@
 #define _StlUtilsMisc_ii_
 //
 // File:        StlUtilsMisc.ii
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  This file contains the source for the inline
 //  functions documented in StlUtilsUtils.hh
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     05/02/95 06:32
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #if defined( inline )
@@ -266,6 +266,9 @@ RoundDown( NumberType value, int factor  )
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2003/07/19 09:17:12  houghton
 // Port to 64 bit.
 //

@@ -1,20 +1,20 @@
 //
 // File:        StringFirstNotOf.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for StringFirstNotOf
 //  
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul.houghton@mci.com)
 // Created:     08/11/97 08:47
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 
@@ -25,7 +25,7 @@
 
 STLUTILS_FUNCT_VERSION(
   StringFirstNotOf,
-  "%PID%" );
+  "$Id$ " );
 
 size_t
 STLUTILS_FUNCT_T
@@ -81,6 +81,9 @@ StringFirstNotOf(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

@@ -2,23 +2,23 @@
 #define _PidFile_ii_
 //
 // File:        PidFile.ii
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  	Inline source for PidFile
 //
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul.houghton@mci.com)
 // Created:     04/15/97 06:38
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 
@@ -44,6 +44,9 @@ PidFile::dump( const char * prefix, bool showVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:01  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:57  houghton
 // *** empty log message ***
 //

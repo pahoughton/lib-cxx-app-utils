@@ -1,7 +1,6 @@
 //
 // File:        LogBuf.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //	Compiled source for for the LogBuf class.
@@ -11,10 +10,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "LogBuf.hh"
@@ -35,7 +35,7 @@
 
 STLUTILS_VERSION(
   LogBuf,
-  "%PID%" );
+  "$Id$ " );
 
 
 #define LOGBUF_SIZE 2048
@@ -801,6 +801,9 @@ LogBuf::closeLog( void )
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.5  2003/07/19 09:17:12  houghton
 // Port to 64 bit.
 //

@@ -2,8 +2,7 @@
 #define _SizeIt_hh_
 //
 // File:        SizeIt.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  This class provides an object that can be used to manage the size of
@@ -25,17 +24,18 @@
 //  delete array;
 //  array = new long[ size() ];
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     03/11/96 05:59
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -283,6 +283,9 @@ operator >> ( istream & src, const SizeIt & dest );
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

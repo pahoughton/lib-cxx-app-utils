@@ -2,8 +2,7 @@
 #define _DumpInfo_hh_
 //
 // File:        DumpInfo.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Most of my classes have a method called dumpInfo that is
@@ -54,12 +53,12 @@
 //	dumpInfo( cerr ) << endl; 
 //
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     12/08/96 07:46
 //
 // Revision History: (See end of file for Revision Log)
 //
-// %PID%
+// $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -141,6 +140,9 @@ operator << ( ostream & dest, const DumpInfo<T> & src )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

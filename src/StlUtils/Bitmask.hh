@@ -2,8 +2,7 @@
 #define _Bitmask_hh_
 /**
    File:        Bitmask.hh
-   Project:	StlUtils (%PP%)
-   Item:   	%PI% (%PF%)
+   Project:	StlUtils ()
    Desc:        
   
     This class provides for easy to use high perfomance
@@ -19,7 +18,7 @@
   
    Revision History: (See end of file for Revision Log)
   
-   %PID%
+   $Id$ 
 **/
 
 
@@ -731,6 +730,9 @@ operator >= ( Bitmask::value_type lhs, const Bitmask & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 5.7  2003/08/09 11:20:57  houghton
+// Changed ver strings.
+//
 // Revision 5.6  2003/07/19 09:17:12  houghton
 // Port to 64 bit.
 //

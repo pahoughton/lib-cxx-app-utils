@@ -1,7 +1,6 @@
 //
 // File:        ThreadBase.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled source for ThreadBase
@@ -11,12 +10,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 
 #if !defined( STLUTILS_SHORT_FN )
 #include "ThreadBase.hh"
@@ -38,7 +38,7 @@
 
 STLUTILS_VERSION(
   ThreadBase,
-  "%PID%");
+  "$Id$ ");
 
 #if defined( STLUTILS_THREADS )
 
@@ -291,6 +291,9 @@ ThreadBase::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

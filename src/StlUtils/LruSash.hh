@@ -2,8 +2,7 @@
 #define _LruSash_hh_
 //
 // File:        LruSash.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provides a Least Recently Used manager that uses a hash table for
@@ -11,17 +10,18 @@
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     10/29/98 04:30
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -288,6 +288,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

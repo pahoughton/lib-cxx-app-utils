@@ -2,8 +2,7 @@
 #define _FileOp_hh_
 //
 // File:        FileOp.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  FileOp provides operations on entire files, such as copy and
@@ -25,17 +24,18 @@
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton 719-527-7834 - (paul.houghton@wcom.com)
+// Author:      Paul Houghton 719-527-7834 - (paul.houghton@mci.com)
 // Created:     03/08/98 07:31
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -237,6 +237,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:21:01  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2003/07/19 09:17:23  houghton
 // Port to 64 bit.
 //

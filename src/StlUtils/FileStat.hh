@@ -2,8 +2,7 @@
 #define _FileStat_hh_
 /**
    File:        FileStat.hh
-   Project:	StlUtils (%PP%)
-   Item:   	%PI% (%PF%)
+   Project:	StlUtils ()
    Desc:        
   
     FileStat is provides information about files and modification
@@ -15,12 +14,13 @@
   
    Revision History: (See end of file for Revisio Log)
   
-    Last Mod By:    %PO%
-    Last Mod:	    %PRT%
-    Version:	    %PIV%
-    Status: 	    %PS%
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
   
-   %PID%
+   $Id$ 
 **/
 
 #include <StlUtilsConfig.hh>
@@ -601,6 +601,9 @@ compare( const FileStat & one, const FileStat & two );
    %PL%
    
    $Log$
+   Revision 5.5  2003/08/09 11:20:58  houghton
+   Changed ver strings.
+
    Revision 5.4  2001/07/29 19:56:38  houghton
    *** empty log message ***
 

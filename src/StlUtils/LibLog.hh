@@ -2,8 +2,7 @@
 #define _LibLog_hh_
 //
 // File:        LibLog.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provides and interface to an applications instance of the Log class
@@ -16,12 +15,13 @@
 //
 // Revision History:
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 //
 
 #if !defined( STLUTILS_SHORT_FN )
@@ -55,6 +55,9 @@ extern Log *	_LibLog;
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

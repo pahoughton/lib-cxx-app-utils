@@ -2,25 +2,25 @@
 #define _TimeIt_hh_
 //
 // File:        TimeIt.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Time an operation.
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul.houghton@mci.com)
 // Created:     01/17/97 07:55
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include "StlUtilsConfig.hh"
@@ -375,6 +375,9 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:21:01  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:28:57  houghton
 // *** empty log message ***
 //

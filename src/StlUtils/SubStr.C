@@ -1,7 +1,6 @@
 //
 // File:        SubStr.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled source for SubStr
@@ -11,10 +10,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #if !defined( STLUTILS_SHORT_FN )
@@ -39,7 +39,7 @@
 
 STLUTILS_VERSION(
   SubStr,
-  "%PID%" );
+  "$Id$ " );
 
 
 const SubStr::size_type SubStr::npos = NPOS;
@@ -343,6 +343,9 @@ SubStr::compare( const string & two, size_t start, size_t len ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

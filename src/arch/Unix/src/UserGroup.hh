@@ -2,8 +2,7 @@
 #define _UserGroup_hh_
 //
 // File:        UserGroup.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provide a Unix user's Group information.
@@ -13,12 +12,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 
 #include <StlUtilsConfig.hh>
 #include <Str.hh>
@@ -183,6 +183,9 @@ compare( const UserGroup & one, const UserGroup & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:21:01  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:28:57  houghton
 // *** empty log message ***
 //

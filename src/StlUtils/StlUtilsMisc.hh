@@ -2,8 +2,7 @@
 #define _StlUtilsUtils_hh_
 //
 // File:        StlUtilsMisc.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  This is a collection of general purpose functions and
@@ -14,12 +13,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 //
 
 #include "StlUtilsConfig.hh"
@@ -209,6 +209,9 @@ IosSeekDirToString( ios::seek_dir dir );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.5  2003/07/25 12:59:01  houghton
 // Removed ArchiveFile prototype .. the funtion was moved to FileTools
 // project.

@@ -1,20 +1,20 @@
 //
 // File:        SizeIt.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for SizeIt
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     03/11/96 06:03
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "SizeIt.hh"
@@ -26,7 +26,7 @@
 
 STLUTILS_VERSION(
   SizeIt,
-  "%PID%");
+  "$Id$ ");
 
 
 const size_t	SizeIt::factor = STLUTILS_SIZEIT_SIZE;
@@ -148,6 +148,9 @@ SizeIt::setSize( size_type size )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

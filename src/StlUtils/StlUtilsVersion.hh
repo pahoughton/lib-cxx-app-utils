@@ -2,8 +2,7 @@
 #define _StlUtilsVersion_hh_
 //
 // File:        StlUtilsVersion.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Version macros for libStlUtils. 
@@ -21,12 +20,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 //
 
 // Constants
@@ -81,6 +81,9 @@ const char VERID_##name_[] =						\
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //

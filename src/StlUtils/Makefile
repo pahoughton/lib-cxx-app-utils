@@ -1,8 +1,7 @@
 #
 #
 # Title:        Makefile
-# Project:	StlUtils %PP%
-# Item:		%PI% (%PF%)
+# Project:	StlUtils 
 # Desc:
 # 
 #   Makefile for building the c/c++ library StlUtils
@@ -18,17 +17,18 @@
 #   Try 'make help' for a list of standard targets.
 #
 #
-# Author:	Paul Houghton <Paul.Houghton@wcom.com>
+# Author:	Paul Houghton <Paul.Houghton@mci.com>
 # Created:	6/4/101 using MakeConfigs 6.01.01
 #
 # Revision History: (See end of file for Revision Log)
 #
-#   Last Mod By:    %PO%
-#   Last Mod:	    %PRT%
-#   Version:	    %PIV%
-#   Status:	    %PS%
+#   $Author$ 
+#   $Date$ 
+#   $Name$ 
+#   $Revision$ 
+#   $State$ 
 #
-#   %PID%
+#   $Id$ 
 
 #
 # The following variables control the behavior of MakeConfigs.

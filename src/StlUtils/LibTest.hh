@@ -2,8 +2,7 @@
 #define _LibTest_hh_
 //
 // File:        LibTest.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  LibTest was designed to make it easier to test C++ classes
@@ -28,12 +27,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 //
 
 #include "StlUtilsConfig.hh"
@@ -506,6 +506,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //

@@ -2,8 +2,7 @@
 #define _LogBuf_hh_
 //
 // File:        LogBuf.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //              
 //  This is a specialized streambuf used by Log to
@@ -14,12 +13,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -309,6 +309,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2003/07/19 09:17:12  houghton
 // Port to 64 bit.
 //

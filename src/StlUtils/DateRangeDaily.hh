@@ -2,8 +2,7 @@
 #define _DateRangeDaily_hh_
 //
 // File:        DateRangeDaily.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //              
 //	Used in comparing two DateRanges. A DateRangeDaily has a start 
@@ -15,12 +14,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 
 #include <StlUtilsConfig.hh>
 #include <DateRange.hh>
@@ -186,6 +186,9 @@ compare( const DateTime & one, const DateTime & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.5  2003/06/25 08:49:06  houghton
 // Change: rename in method it isIn.
 //

@@ -2,25 +2,25 @@
 #define _MesgQueue_hh_
 //
 // File:        MesgQueue.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  This class provides an interface to the Unix Message Queue IPC facility.
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     11/06/98 06:19
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -207,6 +207,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:01  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:57  houghton
 // *** empty log message ***
 //

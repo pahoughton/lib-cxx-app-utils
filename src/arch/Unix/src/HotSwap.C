@@ -1,20 +1,20 @@
 //
 // File:        HotSwap.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for HotSwap
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     05/04/99 05:32
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "HotSwap.hh"
@@ -31,7 +31,7 @@
 
 STLUTILS_VERSION(
   HotSwap,
-  "%PID%");
+  "$Id$ ");
 
 const char * HotSwap::ErrorDesc[] =
 {
@@ -356,6 +356,9 @@ HotSwap::setErrorFnDesc( int osErr, const char * fn, const char * desc )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:01  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:57  houghton
 // *** empty log message ***
 //

@@ -2,8 +2,7 @@
 #define _StlUtilsException_hh_
 //
 // File:        StlUtilsException.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Provides a specialized excpetion.
@@ -12,17 +11,18 @@
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton 719-527-7834 - (paul.houghton@wcom.com)
+// Author:      Paul Houghton 719-527-7834 - (paul.houghton@mci.com)
 // Created:     02/17/01 11:42
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -210,6 +210,9 @@ operator >> ( istream & src, const StlUtilsException & dest );
 // %PL%
 // 
 // $Log$
+// Revision 5.2  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.1  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

@@ -1,7 +1,6 @@
 //
 // File:        DateRangeDaily.cc
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //              
 //	Compiled sources for DateRangeDaily.
@@ -11,12 +10,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 
 
 #if !defined( STLUTILS_SHORT_FN )
@@ -44,7 +44,7 @@
 
 STLUTILS_VERSION(
   DateRangeDaily,
-  "%PID%" );
+  "$Id$ " );
 
 
 const time_t DateRangeDaily::freq = (24 * 60 * 60); // SecPerDay
@@ -246,6 +246,9 @@ DateRangeDaily::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2003/06/25 08:49:01  houghton
 // Change: rename in method it isIn.
 //

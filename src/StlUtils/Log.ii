@@ -2,8 +2,7 @@
 #define _Log_ii_
 //
 // File:        Log.ii
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  	Definition for Log class inline functions.
@@ -13,12 +12,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 //
 
 #if defined( STLUTILS_DEBUG )
@@ -312,6 +312,9 @@ Log::unlock( void )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

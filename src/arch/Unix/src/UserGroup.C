@@ -1,6 +1,6 @@
 //
 // File:        UserGroup.C
-// Project:	StlUtils (%PP%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled source for UserGroup
@@ -10,10 +10,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #if !defined( STLUTILS_SHORT_FN )
@@ -43,7 +44,7 @@
 
 STLUTILS_VERSION(
   UserGroup,
-  "%PID%" );
+  "$Id$ " );
   
 
 #if defined( AIX )
@@ -291,6 +292,9 @@ UserGroup::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:21:01  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:28:57  houghton
 // *** empty log message ***
 //

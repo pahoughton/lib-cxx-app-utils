@@ -1,20 +1,20 @@
 //
 // File:        DateTime.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for DateTime
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     02/24/94 06:46 
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "DateTime.hh"
@@ -29,7 +29,7 @@
 
 STLUTILS_VERSION(
   DateTime,
-  "%PID%" );
+  "$Id$ " );
 
 
 RegexScan
@@ -978,6 +978,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2003/06/07 16:47:36  houghton
 // Chaged setValid calls to return bool (was time_t)
 //

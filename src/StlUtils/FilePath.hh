@@ -2,9 +2,7 @@
 #define _FilePath_hh_
 /**
    File:        FilePath.hh
-   Project:	StlUtils (%PP%)
-   Item:   	%PI% (%PF%)
-   Item:   	%PI% (%PF%)
+   Project:	StlUtils ()
    Desc:        
   
     A FilePath is a specialized string that provides methods for
@@ -15,17 +13,18 @@
   
    Quick Start: - short example of class usage
   
-   Author:      Paul Houghton - (paul.houghton@wcom.com)
+   Author:      Paul Houghton - (paul.houghton@mci.com)
    Created:     05/18/95 07:43
   
    Revision History: (See end of file for Revision Log)
   
-    Last Mod By:    %PO%
-    Last Mod:	    %PRT%
-    Version:	    %PIV%
-    Status: 	    %PS%
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
   
-    %PID%
+    $Id$ 
 **/
 
 
@@ -352,6 +351,9 @@ compare( const FilePath & one, const FilePath & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.5  2001/07/30 01:40:37  houghton
 // *** empty log message ***
 //

@@ -1,7 +1,6 @@
 //
 // File:        DateRange.cc
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //              
 //  Compiled sources for DateRange class.
@@ -11,12 +10,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 
@@ -46,7 +46,7 @@
 
 STLUTILS_VERSION(
   DateRange,
-  "%PID%");
+  "$Id$ ");
 
 
 time_t
@@ -250,6 +250,9 @@ DateRange::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2003/06/25 08:48:25  houghton
 // Added isIn method.
 //

@@ -1,7 +1,6 @@
 //
 // File:        Void.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for Void.
@@ -11,10 +10,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "Void.hh"
@@ -29,7 +29,7 @@
 
 STLUTILS_VERSION(
   Void,
-  "%PID%");
+  "$Id$ ");
 
 
 const char * Void::ErrorStrings[] =
@@ -318,6 +318,9 @@ Void::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2003/06/07 16:48:45  houghton
 // Cleanup dump output.
 //

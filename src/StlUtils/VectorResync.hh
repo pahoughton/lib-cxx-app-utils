@@ -2,25 +2,25 @@
 #define _VectorResync_hh_
 //
 // File:        VectorResync.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  The VectorResync template function will modify the record indexes for
 //  two vectors so that they both point to the same 'key' value. The 'key'
 //  is determined by the 'Compare' object. 
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     11/04/97 07:36
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -98,6 +98,9 @@ VectorResync(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //

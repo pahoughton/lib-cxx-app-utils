@@ -1,7 +1,6 @@
 //
 // File:        Mutex.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled source for Mutex.
@@ -11,12 +10,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 
 #include "Mutex.hh"
 #include "Str.hh"
@@ -28,7 +28,7 @@
 
 STLUTILS_VERSION(
   Mutex,
-  "%PID%");
+  "$Id$ ");
 
 #if defined( STLUTILS_THREADS )
 
@@ -232,6 +232,9 @@ Mutex::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

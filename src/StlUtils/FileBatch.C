@@ -1,20 +1,20 @@
 //
 // File:        FileBatch.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for FileBatch
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     03/24/99 06:54
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "FileBatch.hh"
@@ -115,6 +115,9 @@ FileBatchBase::setError( ErrorNum errNum, streampos errPos, int osErr )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

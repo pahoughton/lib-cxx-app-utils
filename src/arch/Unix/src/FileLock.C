@@ -1,20 +1,20 @@
 //
 // File:        FileLock.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for FileLock
 //  
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul.houghton@mci.com)
 // Created:     09/12/97 11:35
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "FileLock.hh"
@@ -31,7 +31,7 @@
 
 STLUTILS_VERSION(
   FileLock,
-  "%PID%");
+  "$Id$ ");
 
 // NOTE these expects the 'Type' enum values to be correct
 //   if you change one, you need to change the other
@@ -264,6 +264,9 @@ FileLock::typeName( Type t )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //

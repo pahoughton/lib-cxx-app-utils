@@ -2,8 +2,7 @@
 #define _Log_hh_
 /**
    File:        Log.hh
-   Project:	StlUtils (%PP%)
-   Item:   	%PI% (%PF%)
+   Project:	StlUtils ()
    Desc:        
   
     Log is a specialized ostream. It provides control over
@@ -30,12 +29,13 @@
   
    Revision History: (See end of file for Revision Log)
   
-    Last Mod By:    %PO%
-    Last Mod:	    %PRT%
-    Version:	    %PIV%
-    Status: 	    %PS%
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
   
-   %PID%
+   $Id$ 
 **/
 
 #include "StlUtilsConfig.hh"
@@ -683,6 +683,9 @@ private:
    %PL%
    
    $Log$
+   Revision 5.7  2003/08/09 11:20:59  houghton
+   Changed ver strings.
+
    Revision 5.6  2003/07/19 09:17:12  houghton
    Port to 64 bit.
 

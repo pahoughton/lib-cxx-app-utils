@@ -1,23 +1,23 @@
 # Title:        Makefile
-# Project:	StlUtils (%PP%)
-# Item:   	%PI% (%PF%)
+# Project:	StlUtils ()
 # Desc:
 # 
 #   Build rules and targets for Unix sources.
 # 
 # Notes:
 # 
-# Author:	Paul Houghton - (paul.houghton@wcom.com)
+# Author:	Paul Houghton - (paul.houghton@mci.com)
 # Created:	11/20/96
 #
 # Revision History: (See end of file for Revision Log)
 #
-#   Last Mod By:    %PO%
-#   Last Mod:	    %PRT%
-#   Version:	    %PIV%
-#   Status: 	    %PS%
+#   $Author$ 
+#   $Date$ 
+#   $Name$ 
+#   $Revision$ 
+#   $State$ 
 # 
-#  %PID%
+#  $Id$ 
 #
 
 
@@ -88,10 +88,14 @@ UNIX_CXX_INLINES	=
 UNIX_GENERATED_SOURCES = $(UNIX_DIR)/_SignalStrings.h
 
 $(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
+	$(hide) chmod +x $(UNIX_DIR)/GenSigList.sh
 	$(hide) $(UNIX_DIR)/GenSigList.sh '$(CC)' $@
 
 #
 # $Log$
+# Revision 5.5  2003/08/09 11:21:01  houghton
+# Changed ver strings.
+#
 # Revision 5.4  2003/08/03 09:57:12  houghton
 # Added FileOp back (used by Param)
 #

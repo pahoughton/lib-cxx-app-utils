@@ -1,20 +1,20 @@
 //
 // File:        FileOp.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for FileOp
 //  
-// Author:      Paul Houghton 719-527-7834 - (paul.houghton@wcom.com)
+// Author:      Paul Houghton 719-527-7834 - (paul.houghton@mci.com)
 // Created:     03/08/98 07:33
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "FileOp.hh"
@@ -33,7 +33,7 @@
 
 STLUTILS_VERSION(
   FileOp,
-  "%PID%");
+  "$Id$ ");
 
 const char *	FileOp::OpTypeName[] =
 {
@@ -590,6 +590,9 @@ FileOp::setError(
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2003/07/19 09:17:23  houghton
 // Port to 64 bit.
 //

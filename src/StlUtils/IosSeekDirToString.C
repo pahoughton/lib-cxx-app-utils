@@ -1,20 +1,20 @@
 //
 // File:        IosSeekDirToString.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for IosSeekDirToString
 //  
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul.houghton@mci.com)
 // Created:     09/12/97 12:57
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include <StlUtilsMisc.hh>
@@ -33,6 +33,9 @@ IosSeekDirToString( ios::seek_dir dir )
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

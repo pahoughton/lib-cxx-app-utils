@@ -2,8 +2,7 @@
 #define _DateTime_hh_
 //
 // File:        DateTime.hh
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  The DateTime class provides many methods for managing and converting
@@ -18,17 +17,18 @@
 //  value passed would exceed the range ( 1901 < year < 2038) of legal
 //  values, the DateTime will be set to MinTimeT or MaxTimeT accordingly.
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul.houghton@mci.com)
 // Created:     02/09/94 12:24
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-//  %PID%
+//  $Id$ 
 //
 
 #include <StlUtilsConfig.hh>
@@ -690,6 +690,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2003/08/09 11:20:58  houghton
+// Changed ver strings.
+//
 // Revision 5.5  2003/06/07 16:47:47  houghton
 // Chaged setValid calls to return bool (was time_t)
 //

@@ -1,7 +1,6 @@
 //
 // File:        Bitmask.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled source code for Bitmask.
@@ -21,7 +20,7 @@
 
 STLUTILS_VERSION(
   Bitmask,
-  "%PID%" );
+  "$Id$ " );
 
 const Bitmask::size_type Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::value_type );
 
@@ -225,6 +224,9 @@ Bitmask::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/08/09 11:20:57  houghton
+// Changed ver strings.
+//
 // Revision 5.4  2003/07/19 09:17:12  houghton
 // Port to 64 bit.
 //

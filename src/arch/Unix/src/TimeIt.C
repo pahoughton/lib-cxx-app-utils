@@ -1,20 +1,20 @@
 //
 // File:        TimeIt.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  Compiled sources for TimeIt
 //  
-// Author:      Paul A. Houghton - (houghton@cshore.wcom.com)
+// Author:      Paul A. Houghton - (houghton@cshore.mci.com)
 // Created:     01/17/97 07:59
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
 
 #include "TimeIt.hh"
@@ -29,7 +29,7 @@
 
 STLUTILS_VERSION(
   TimeIt,
-  "%PID%");
+  "$Id$ ");
 
 
 TimeIt::TimeIt( bool startTimer )
@@ -244,6 +244,9 @@ TimeIt::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:01  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:57  houghton
 // *** empty log message ***
 //

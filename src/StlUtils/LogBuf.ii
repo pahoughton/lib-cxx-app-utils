@@ -2,8 +2,7 @@
 #define _LogBuf_ii_
 //
 // File:        LogBuf.ii
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //  	Definitions for LogBuf inline functions.
@@ -13,12 +12,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 //
 
 #include <RegexScan.hh>
@@ -189,6 +189,9 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/08/09 11:20:59  houghton
+// Changed ver strings.
+//
 // Revision 5.3  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

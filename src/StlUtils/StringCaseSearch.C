@@ -1,7 +1,6 @@
 //
 // File:        StringCaseSearch.C
-// Project:	StlUtils (%PP%)
-// Item:   	%PI% (%PF%)
+// Project:	StlUtils ()
 // Desc:        
 //
 //    Search the string 'haystack' for the string 'needle' ignoring
@@ -15,12 +14,13 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    %PO%
-//  Last Mod:	    %PRT%
-//  Version:	    %PIV%
-//  Status: 	    %PS%
+//  $Author$ 
+//  $Date$ 
+//  $Name$ 
+//  $Revision$ 
+//  $State$ 
 //
-// %PID%
+// $Id$ 
 
 #include "StringUtils.hh"
 #include <cstddef>
@@ -29,7 +29,7 @@
 
 STLUTILS_FUNCT_VERSION(
   StringCaseSearch,
-  "%PID%" );
+  "$Id$ " );
 
 const char *
 StringCaseSearch(
@@ -91,6 +91,9 @@ StringCaseSearch(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/08/09 11:21:00  houghton
+// Changed ver strings.
+//
 // Revision 5.2  2001/07/26 19:28:58  houghton
 // *** empty log message ***
 //
