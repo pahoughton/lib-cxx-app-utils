@@ -34,15 +34,17 @@
 // $Id$ 
 // 
 
-#include "ClueConfig.hh"
-#include "Log.hh"
-#include "LibLog.hh"
+#include <ClueConfig.hh>
+#include <Log.hh>
+#include <LibLog.hh>
+#include <DumpInfo.hh>
+#include <deque>
 #include <iostream>
 #include <cstdlib>
 #include <climits>
 #include <ctime>
 
-#define CLUE_DEFAULT_LOGLEVEL "INFO | ERROR | WARNING"
+#define CLUE_DEFAULT_LOGLEVEL "ERROR | WARNING | INFO"
 
 #define ALog( lvl )	LogIf( App->log(), lvl )
 
@@ -65,7 +67,7 @@ class Param
 
 public:
 
-  typedef vector< Str >	Args;
+  typedef deque< Str >	Args;
   
   Param( int 		    mainArgc,
 	 char *		    mainArgv[],
@@ -196,6 +198,10 @@ public:
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
+  inline
+  DumpInfo< Param >	dump( const char *  prefix = "    ",
+			      bool	    showVer = true ) const;
+  
   static const ClassVersion version;
   
   enum ErrorNum
@@ -226,6 +232,8 @@ private:
 
   Args		    allArgv;
   Args		    argv;
+  Args		    allFileArgs;
+  Args		    fileArgs;
   
   Str		    ver;
   
@@ -818,6 +826,10 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.9  1997/03/21 12:27:26  houghton
+// Changed Args to a deque (should improve performance).
+// Added dump().
+//
 // Revision 3.8  1997/03/17 14:16:27  houghton
 // Added AppTest macro.
 //
