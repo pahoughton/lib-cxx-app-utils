@@ -12,7 +12,13 @@
 //
 // 
 // $Log$
-// Revision 1.1  1994/06/06 13:19:45  houghton
+// Revision 1.2  1994/08/15 20:54:59  houghton
+// Split Mapped out of mapped avl.
+// Fixed a bunch of bugs.
+// Fixed for ident of object modules.
+// Prep for Rating QA Testing
+//
+// Revision 1.1  1994/06/06  13:19:45  houghton
 // Lib Clue beta version used for Rating 1.0
 //
 //

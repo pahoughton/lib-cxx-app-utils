@@ -9,11 +9,17 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1994/06/06 13:19:39  houghton
+// Revision 1.2  1994/08/15 20:54:55  houghton
+// Split Mapped out of mapped avl.
+// Fixed a bunch of bugs.
+// Fixed for ident of object modules.
+// Prep for Rating QA Testing
+//
+// Revision 1.1  1994/06/06  13:19:39  houghton
 // Lib Clue beta version used for Rating 1.0
 //
 //
-static const char RcsId[] =
+static const char * RcsId =
 "$Id$";
 
 #include "Log.hh"
@@ -143,7 +149,8 @@ LogLevel::Level
 LogLevel::setOutput( const char * lvl )
 {
   Level old = output;
-  
+  output = LogLevel::NONE;
+
   for( int l = 0;
        LevelNames[l] != 0;
        l++ )
@@ -191,7 +198,8 @@ LogBuf::LogBuf( const LogLevel * lvl  )
   setbuf( new char[512], 512 );
   needToDelete = 1;
   stream = 0;
-  
+
+  streamIsFile = FALSE;
   level = lvl;
 }
 
@@ -204,6 +212,7 @@ LogBuf::LogBuf(
   needToDelete = 0;
   stream = buf;
   
+  streamIsFile = FALSE;
   level = lvl;
 }
 
@@ -213,7 +222,7 @@ LogBuf::open(
     int          om,
     int          prot )
 {
-  if( stream != 0 )
+  if( stream != 0 && isFile() )
     {
       close();
     }
@@ -222,20 +231,27 @@ LogBuf::open(
   filebuf * file = new filebuf();
 
   stream = file;
-  
+
+  streamIsFile = TRUE;
   return( file->open( name, om, prot ) );
+  
 }
 
 
 void
 LogBuf::close( void )
 {
-  if( stream != 0 )
+  if( isFile() )
     {
-      filebuf * file = (filebuf *)stream;
+      if( stream != 0 )
+	{
+	  filebuf * file = (filebuf *)stream;
   
-      file->close();
+	  file->close();
+	  delete file;
+	}
     }
+  streamIsFile = FALSE;
   stream = 0;
 }
 
@@ -338,6 +354,10 @@ Log::open( const char * outFn, int mode )
 void
 Log::setFileName( const char * outFn, int mode )
 {
+  if( buf.sync() == EOF )
+    {
+      setstate( eofbit | failbit );
+    }
   open( outFn, mode );
 }
 

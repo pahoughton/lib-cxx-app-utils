@@ -12,7 +12,13 @@
 //
 // 
 // $Log$
-// Revision 1.1  1994/06/06 13:19:40  houghton
+// Revision 1.2  1994/08/15 20:54:55  houghton
+// Split Mapped out of mapped avl.
+// Fixed a bunch of bugs.
+// Fixed for ident of object modules.
+// Prep for Rating QA Testing
+//
+// Revision 1.1  1994/06/06  13:19:40  houghton
 // Lib Clue beta version used for Rating 1.0
 //
 //
@@ -81,6 +87,7 @@ public:
   LogBuf(int fd);
   LogBuf(int fd, char*  p, int l) ;
 
+  Bool		isFile( void ) const;
   filebuf *	open(const char * name, int om, int prot=filebuf::openprot);
   void          close (void);
   
@@ -97,7 +104,7 @@ private:
 
   int			needToDelete;
   streambuf *		stream;
-  
+  Bool			streamIsFile;
   const LogLevel *	level;
   
 };
@@ -216,7 +223,17 @@ LogLevel::checkCurrent( void ) const
 //  cout << "out: " << output << " cur: " << current << endl;
   return( output & current );
 }
-  
+
+
+//
+// LogBuf Class inlines
+//
+
+inline Bool
+LogBuf::isFile( void ) const
+{
+  return( streamIsFile );
+}
 
 //
 // Log Class inlines

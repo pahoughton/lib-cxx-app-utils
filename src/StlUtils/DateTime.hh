@@ -12,7 +12,13 @@
 //
 // 
 // $Log$
-// Revision 1.1  1994/06/06 13:19:38  houghton
+// Revision 1.2  1994/08/15 20:54:54  houghton
+// Split Mapped out of mapped avl.
+// Fixed a bunch of bugs.
+// Fixed for ident of object modules.
+// Prep for Rating QA Testing
+//
+// Revision 1.1  1994/06/06  13:19:38  houghton
 // Lib Clue beta version used for Rating 1.0
 //
 //
@@ -112,6 +118,7 @@ public:
 //  inline void		setSecond( short second );
   
   inline void setTm( void );
+  inline const DateTime &   addSeconds( long seconds );
   inline const DateTime &   addHours( long hours );
 
   inline operator time_t () const;
@@ -359,6 +366,12 @@ DateTime::setTm( void )
     }
 }
 
+inline const DateTime &
+DateTime::addSeconds( long sec )
+{
+  seconds += sec;
+  return( *this );
+}
 
 inline const DateTime & 
 DateTime::addHours( long hours )

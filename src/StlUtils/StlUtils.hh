@@ -12,7 +12,13 @@
 //
 // 
 // $Log$
-// Revision 1.1  1994/06/06 13:19:34  houghton
+// Revision 1.2  1994/08/15 20:54:50  houghton
+// Split Mapped out of mapped avl.
+// Fixed a bunch of bugs.
+// Fixed for ident of object modules.
+// Prep for Rating QA Testing
+//
+// Revision 1.1  1994/06/06  13:19:34  houghton
 // Lib Clue beta version used for Rating 1.0
 //
 //
@@ -22,20 +28,6 @@
 #include <Common.h>
 #include <iostream.h>
 
-
-
-
-inline long
-min( long v1, long v2 )
-{
-  return( ( v1 < v2 ) ? v1 : v2 );	
-}
-
-inline long
-max( long v1, long v2 )
-{
-  return( ( v1 > v2 ) ? v1 : v2 );	
-}
 
 //
 // Inline methods
