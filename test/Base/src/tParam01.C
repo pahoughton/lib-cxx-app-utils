@@ -82,12 +82,12 @@ tParam01( LibTest & tester )
 	
   {
     for( size_t a = 0; a < ArraySize( Argv_02 ); ++ a )
-      argv_01[a] = strdup( Argv_02[a] );
+      argv_02[a] = strdup( Argv_02[a] );
   }
 	
   {
     for( size_t a = 0; a < ArraySize( Argv_03 ); ++ a )
-      argv_01[a] = strdup( Argv_03[a] );
+      argv_03[a] = strdup( Argv_03[a] );
   }
 	
   {
@@ -99,7 +99,7 @@ tParam01( LibTest & tester )
 
     t.parseArgs();
     
-    TEST( compare( t.appName(), APP_NAME_01 ) == 0 );
+    TESTR( t.appName(), compare( t.appName(), APP_NAME_01 ) == 0 );
     TEST( compare( t.appFullName(), APP_FULLNAME_01 ) == 0 );
   }
 
@@ -178,6 +178,9 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 4.4  1998/10/13 16:40:32  houghton
+// Bug-Fix: was putting the wrong args in argv_01.
+//
 // Revision 4.3  1998/04/02 14:19:26  houghton
 // Cleanup and eliminate warnings.
 //
