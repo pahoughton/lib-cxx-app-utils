@@ -13,6 +13,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:25:48  houghton
+// Major re-work to use 'string'
+// Major re-work to use vector<string> for managing argv.
+//
 // Revision 3.1  1996/11/14 01:23:54  houghton
 // Changed to Release 3
 //
@@ -59,30 +63,72 @@ inline
 const char *
 Param::appName( void ) const
 {
-  return( basename( argv[0] ) );
+  return( basename( argv[0].c_str() ) );
 }
 
 inline
 const char *
 Param::appFullName( void ) const
 {
-  return( argv[0] );
+  return( argv[0].c_str() );
 }
 
 inline
-char *
+const char *
+Param::appVersion( void ) const
+{
+  return( ver.c_str() );
+}
+
+inline
+size_t
+Param::count( void ) const
+{
+  return( argv.size() );
+}
+
+inline
+Param::Args::const_iterator
+Param::begin( void ) const
+{
+  return( argv.begin() );
+}
+
+inline
+Param::Args::const_iterator
+Param::end( void ) const
+{
+  return( argv.end() );
+}
+
+inline
+Param::Args::const_iterator
+Param::beginAll( void ) const
+{
+  return( allArgv.begin() );
+}
+
+inline
+Param::Args::const_iterator
+Param::endAll( void ) const
+{
+  return( allArgv.end() );
+}
+
+inline
+const char *
 Param::arg( size_t which )
 {
-  return( (which < count()) ? argv[which] : 0 );
+  return( (which < count()) ? argv[which].c_str() : 0 );
 }
 
 inline
-int
-Param::argInt( size_t which )
+long
+Param::argLong( size_t which )
 {
   if( which < count() )
     {
-      return( StringToInt( argv[which] ) );
+      return( StringToLong( argv[which].c_str() ) );
     }
   else
     {
@@ -91,10 +137,17 @@ Param::argInt( size_t which )
 }
 
 inline
-size_t
-Param::count( void ) const
+double
+Param::argDouble( size_t which )
 {
-  return( argc );
+  if( which < count() )
+    {
+      return( StringToDouble( argv[which].c_str() ) );
+    }
+  else
+    {
+      return( -1.0 );
+    }  
 }
 
 inline
@@ -120,11 +173,28 @@ Param::allArgs( void ) const
 
 inline
 void
-Param::abort( int exitStatus, bool showArgs, ostream & dest )
+Param::abort(
+  int		exitStatus,
+  bool		showArgs,
+  const char *	srcFile,
+  long		srcLine,
+  ostream &	mesgDest )
 {
-  if( showArgs ) dest << *this << endl;
+  if( showArgs )
+    mesgDest << *this << endl;
+
+  if( exitStatus )
+    mesgDest << "Aborted(" << exitStatus << ") : ";
+  else
+    mesgDest << "Exited: ";
   
-  dest << "Aborted - see log for more info" << endl;
+  if( srcFile )
+    mesgDest << srcFile << ':' << srcLine << ' ';
+
+  if( log().rdbuf()->is_file() )
+    mesgDest << "see log (" << log().rdbuf()->getLogFileName()
+	     << ") for more info" << endl;
+
   exit( exitStatus );
 }
 
