@@ -44,5 +44,44 @@ tDateTimeUtils( LibTest & tester )
     TEST( ! IsLeapYear( 1900 ) );
   }
 
+  {
+    // YYMMDDtoYYYYMMDD( char * dest, const char * src )
+
+    char t[10];
+    memset( t, 'x', sizeof( t ) );
+    t[9] = 0;
+    
+    const char * s1 = "500101";
+    const char * e1 = "19500101x";
+
+    YYMMDDtoYYYYMMDD( t, s1 );
+    TESTR( t, strcmp( t, e1 ) == 0 );
+
+    const char * s2 = "991231";
+    const char * e2 = "19991231x";
+
+    YYMMDDtoYYYYMMDD( t, s2 );
+    TESTR( t, strcmp( t, e2 ) == 0 );
+
+    const char * s3 = "000101";
+    const char * e3 = "20000101x";
+
+    YYMMDDtoYYYYMMDD( t, s3 );
+    TESTR( t, strcmp( t, e3 ) == 0 );
+
+    const char * s4 = "491231";
+    const char * e4 = "20491231x";
+
+    YYMMDDtoYYYYMMDD( t, s4 );
+    TESTR( t, strcmp( t, e4 ) == 0 );
+
+    const char * s5 = "      ";
+    const char * e5 = "        x";
+
+    YYMMDDtoYYYYMMDD( t, s5 );
+    TESTR( t, strcmp( t, e5 ) == 0 );
+
+  }
+    
   return( true );
 }
