@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1995/12/31 11:24:12  houghton
+// Bug Fix - change compare statement for AIX port.
+//
 // Revision 2.2  1995/12/04 11:20:21  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -191,7 +194,7 @@ inline
 int
 User::compare( const User & two ) const
 {
-  return( ::compare( name, two.name ) );
+  return( name.compare( two.name ) );
 }
 
 inline
