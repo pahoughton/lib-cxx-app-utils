@@ -691,52 +691,54 @@ Param::getArgValue( const char * argId, const char * envVar )
   if( ! argId || ! argId[0] )
     return( value );
   
-  // first look in fileArgs
-  {
-    bool foundArg = false;
+  // if there is not an env value, look in fileArgs first
+  if( ! envValue )
+    {
+      bool foundArg = false;
+
+      // we don't want file args to override env values
+      for( Args::iterator them = fileArgs.begin();
+	   them != fileArgs.end();
+	   ++ them )
+	{
+	  if( (*them).size() > 1 &&
+	      (*them)[0] == '-' &&
+	      (*them).substr( 1 ).compare( argId ) == 0 )
+	    {
+	      foundArg = true;
+	      // found it
+	      for( ++ them; them != fileArgs.end(); ++ them )
+		{
+		  if( (*them).size() && (*them)[0] != '-' )
+		    {
+		      foundArg = true;
+		      value = *them;
+		      fileArgs.erase( them );
+		      break;
+		    }
+		}
+	      if( ! value.size() )
+		setError( E_NO_VALUE, argId, envVar, 0 );
+	      break;
+	    }
+	}
     
-    for( Args::iterator them = fileArgs.begin();
-	 them != fileArgs.end();
-	 ++ them )
-      {
-	if( (*them).size() > 1 &&
-	    (*them)[0] == '-' &&
-	    (*them).substr( 1 ).compare( argId ) == 0 )
-	  {
-	    foundArg = true;
-	    // found it
-	    for( ++ them; them != fileArgs.end(); ++ them )
-	      {
-		if( (*them).size() && (*them)[0] != '-' )
-		  {
-		    foundArg = true;
-		    value = *them;
-		    fileArgs.erase( them );
-		    break;
-		  }
-	      }
-	    if( ! value.size() )
-	      setError( E_NO_VALUE, argId, envVar, 0 );
-	    break;
-	  }
-      }
-    
-    if( foundArg )
-      {
-	for( Args::iterator them = fileArgs.begin();
-	     them != fileArgs.end();
-	     ++ them )
-	  {
-	    if( (*them).size() > 1 &&
-		(*them)[0] == '-' &&
-		(*them).substr( 1 ).compare( argId ) == 0 )
-	      {
-		fileArgs.erase( them );
-		break;
-	      }
-	  }
-      }
-  }
+      if( foundArg )
+	{
+	  for( Args::iterator them = fileArgs.begin();
+	       them != fileArgs.end();
+	       ++ them )
+	    {
+	      if( (*them).size() > 1 &&
+		  (*them)[0] == '-' &&
+		  (*them).substr( 1 ).compare( argId ) == 0 )
+		{
+		  fileArgs.erase( them );
+		  break;
+		}
+	    }
+	}
+    }
 
   // now look for it in command line args
   {
@@ -803,31 +805,35 @@ Param::getArgFlag( const char * argId, const char * envVar )
 {
   bool value = false;
 
-  if( env( envVar ) )
+  const char *	envValue = env( envVar );
+
+  if( envValue )
     {
-      Str envStr( env( envVar ) );
+      Str envStr( envValue );
       value = envStr.toBool();
     }
   
   if( !argId || ! argId[0] )
     return( value );
-  
-  {
-    for( Args::iterator them = fileArgs.begin();
-	 them != fileArgs.end();
-	 ++ them )
-      {
-	if( (*them).size() > 1 &&
-	    (*them)[0] == '-' &&
-	    (*them).substr( 1 ).compare( argId ) == 0 )
-	  {
-	    // found it
-	    value = true;
-	    fileArgs.erase( them );
-	    break;
-	  }
-      }
-  }
+
+  // if there is not an env value, look in fileArgs first
+  if( ! envValue )
+    {
+      for( Args::iterator them = fileArgs.begin();
+	   them != fileArgs.end();
+	   ++ them )
+	{
+	  if( (*them).size() > 1 &&
+	      (*them)[0] == '-' &&
+	      (*them).substr( 1 ).compare( argId ) == 0 )
+	    {
+	      // found it
+	      value = true;
+	      fileArgs.erase( them );
+	      break;
+	    }
+	}
+    }
 
   if( count() > 0 )
     {
@@ -1172,6 +1178,9 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/20 10:46:43  houghton
+// Bug-Fix: arg file was overriding env values.
+//
 // Revision 4.1  1997/09/17 15:12:43  houghton
 // Changed to Version 4
 //
