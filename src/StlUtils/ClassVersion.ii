@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/10/28 11:56:17  houghton
+// Added: operator const char * ()
+// Cleanup.
+//
 // Revision 2.2  1996/04/27 12:52:54  houghton
 // Bug-Fix: if inline gets defined at the top, it needs to be undef at
 //   at the bottom.
@@ -32,7 +36,14 @@ ClassVersion::getVer( bool withPrjVer ) const
   if( withPrjVer )
     return( verString );
   else
-    return( classVerString );
+    return( getClassVer() );
+}
+
+inline
+const char *
+ClassVersion::getClassVer( void ) const
+{
+  return( classVerString );
 }
 
 inline
@@ -44,13 +55,6 @@ ClassVersion::getPrjVerNum( void ) const
 
 inline
 const char *
-ClassVersion::getClassVer( void ) const
-{
-  return( classVerString );
-}
-
-inline
-const char *
 ClassVersion::getPrjVer( void ) const
 {
   return( prjVerString );
@@ -58,9 +62,22 @@ ClassVersion::getPrjVer( void ) const
 
 inline
 const char *
+ClassVersion::getClassName( void ) const
+{
+  return( "ClassVersion" );
+}
+
+inline
+const char *
 ClassVersion::getVersion( bool withPrjVer ) const
 {
   return( version.getVer( withPrjVer ) );
+}
+
+inline
+ClassVersion::operator const char * ( void ) const
+{
+  return( getVer( true ) );
 }
 
 inline
