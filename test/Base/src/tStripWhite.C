@@ -28,8 +28,8 @@
 
 struct TestVals
 {
-  char      	from[ 100 ];
-  char      	to[ 100 ];
+  const char *  from;
+  const char *  to; //     	to[ 100 ];
   const char *  stripChars;
 };
 
@@ -52,23 +52,26 @@ tStripWhite( LibTest & tester )
   
   char * result;
   char reason[1024];
+  char from[ 100 ];
   
   for( int t = 0; TestValues[t].from[0]; t++ )
     {
+      strcpy( from, TestValues[t].from );
+      
       if( TestValues[t].stripChars )
 	{
-	  result = StripWhite( TestValues[t].from, TestValues[t].stripChars );
+	  result = StripWhite( from, TestValues[t].stripChars );
 	}
       else
 	{
-	  result = StripWhite( TestValues[t].from );
+	  result = StripWhite( from );
 	}
 
-      if( result != TestValues[t].from ||
-	  strcmp( TestValues[t].from, TestValues[t].to ) )
+      if( result != from ||
+	  strcmp( from, TestValues[t].to ) )
 	{
 	  sprintf( reason, "'%s' should be '%s'",
-		   TestValues[t].from,
+		   from,
 		   TestValues[t].to );
 	  
 	  TESTR( reason, false );
@@ -108,6 +111,9 @@ tStripWhite( LibTest & tester )
   
 //
 // $Log$
+// Revision 4.2  1998/07/20 11:33:40  houghton
+// Port(Hpux): had to change test struct vars from char [] to char *.
+//
 // Revision 4.1  1997/09/17 15:14:47  houghton
 // Changed to Version 4
 //
