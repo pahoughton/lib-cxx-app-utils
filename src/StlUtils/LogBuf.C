@@ -225,7 +225,7 @@ LogBuf::sync( void )
 	  if( ! (*them).dest )
 	    continue;
 	  
-	  outputMesg = ((*them).outputLevel & logLevel.getCurrent());
+	  outputMesg = (bool)(((*them).outputLevel & logLevel.getCurrent()));
 
 	  if( newMesg && (*them).regex )
 	    {
@@ -289,10 +289,12 @@ LogBuf::dumpInfo(
     ;
 
   {
-    strstream pre;
-    pre << prefix << "logLevel:" << logLevel.getClassName() << "::";
+    RWCString pre;
+    pre = prefix;
+    pre += "logLevel:" ;
+    pre += logLevel.getClassName() ;
+    pre += "::";
     logLevel.dumpInfo( dest, pre.str(), false );
-    pre.freeze(0);
   }
 
   dest << '\n';
@@ -501,6 +503,11 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 2.5  1996/11/11 13:34:45  houghton
+// Changed to specificly cast to a bool to get around a problem with AIX.
+// Changed to use RWCString instead of strstream where possible because
+//     of an inconsitancy in the public member of strstream.
+//
 // Revision 2.4  1996/11/06 18:05:22  houghton
 // Bug-Fix: removed ';' from for loop in sendToStream.
 //
