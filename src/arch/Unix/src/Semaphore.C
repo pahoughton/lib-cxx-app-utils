@@ -18,6 +18,7 @@
 #include "Semaphore.hh"
 #include <Str.hh>
 #include <ClueUtils.hh>
+#include <cstring>
 
 #if defined( CLUE_DEBUG )
 #include "Semaphore.ii"
@@ -113,11 +114,9 @@ Semaphore::remove( void )
 {
   if( semId != badSem )
     {
-#if defined( Linux )
+#if defined( CLUE_HAS_SEMUN )
       static union semun  OpRemove = { 0 };
-#endif
-
-#if defined( AIX41 )
+#else
       long OpRemove = 0;
 #endif
       
@@ -259,12 +258,10 @@ Semaphore::dumpInfo(
   if( semId != badSem )
     {
       struct semid_ds	semInfo;
-#if defined( Linux )
+#if defined( CLUE_HAS_SEMUN )
       union semun	buff;
       buff.buf =	&semInfo;
-#endif
-
-#if defined( AIX41 )
+#else
       struct semid_ds *	    buff;
       buff = &semInfo;
 #endif
@@ -291,6 +288,10 @@ Semaphore::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/07/18 21:30:44  houghton
+// Cleanup
+// Port(Sun5): reworked to use CLUE_HAS_SEMUN define.
+//
 // Revision 3.3  1997/07/15 20:20:45  houghton
 // Bug-Fix: changed defined( LINUX ) to defined( Linux ).
 //
