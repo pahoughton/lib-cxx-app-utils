@@ -160,7 +160,7 @@ tDateRangeDaily( LibTest & tester )
     // BinStream::write( const BinObject & );
     // BinStream::read( BinObject );
     
-    HeapBinStream tStrm( 4096 );
+    HeapBinStream tStrm;
     
     const DateRangeDaily tw( 6 * SecPerHour, 30 );
     DateRangeDaily	 tr( 0, 0 );

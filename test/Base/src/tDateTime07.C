@@ -20,7 +20,7 @@ tDateTime07( LibTest & tester )
     // write( BinStream & dest ) const;
     // read( BinStream & src )
     
-    HeapBinStream tStrm( 4096 );
+    HeapBinStream tStrm;
     
     const char * d1String = "02/17/95 11:30:30";
 

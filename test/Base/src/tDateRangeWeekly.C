@@ -141,7 +141,7 @@ tDateRangeWeekly( LibTest & tester )
     // write( BinStream & ) const
     // read( BinStream & )
     
-    HeapBinStream tStrm( 4096 );
+    HeapBinStream tStrm;
     
     const DateRangeWeekly   tw( Friday, 6 * SecPerHour, 30 );
     DateRangeWeekly	    tr( Sunday, 0, 0 );

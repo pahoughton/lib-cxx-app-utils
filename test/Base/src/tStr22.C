@@ -179,7 +179,7 @@ tStr22( LibTest & tester )
     // BinStream::write( const BinObject & );
     // BinStream::read( BinObject );
     
-    HeapBinStream tStrm( 4096 );
+    HeapBinStream tStrm;
     
     Str tw;
     Str tr;

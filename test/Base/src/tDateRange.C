@@ -205,7 +205,7 @@ tDateRange( LibTest & tester )
     // BinStream::write( const BinObject & );
     // BinStream::read( BinObject );
     
-    HeapBinStream tStrm( 4096 );
+    HeapBinStream tStrm;
     
     time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
 

@@ -33,7 +33,7 @@ tSubStr05( LibTest & tester )
 
     TEST( tw.getBinSize() == (sizeof(BinObject::ULong) + tw.size() ) );
 
-    HeapBinStream tStrm( 4096 );
+    HeapBinStream tStrm;
     
     tw.write( tStrm );
     tr.read( tStrm );
