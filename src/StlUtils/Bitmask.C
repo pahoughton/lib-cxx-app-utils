@@ -10,6 +10,15 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/11/04 13:20:09  houghton
+// Added Bitmask::bit::toStream
+// Added Bitmask::bit::dumpInfo
+// Removed BinObject/BinStream support.
+// Changed BinObject/BinString 'Sizeof' calls to 'sizeof'
+// Changed Bitmask::toStream to use to_string().
+// Added Bitmask::fromStream().
+// Changed Bitmask::dumpInfo to make output more readable.
+//
 // Revision 2.4  1996/04/27 12:50:22  houghton
 // Removed unneeded includes.
 //
@@ -35,7 +44,7 @@
 //
 
 #include "Bitmask.hh"
-
+#include <StringUtils.hh>
 
 #if defined( CLUE_DEBUG )
 #include <Bitmask.ii>
@@ -85,47 +94,106 @@ const Bitmask::bit  Bitmask::b31( allBits, 31 );
   
 const size_t Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::ValueType );
 
+ostream &
+Bitmask::bit::toStream( ostream & dest ) const
+{
+  dest << (bitmask.test(bitpos) ? "true" : "false" );
+  return( dest );
+}
+
+ostream &
+Bitmask::bit::dumpInfo( 
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << "Bitmask::bit" << ":\n"
+	 << bitmask.getVersion() << '\n';
+
+
+  dest << prefix << "pos:     " << bitpos << '\n'
+       << prefix << "value:   " << (bitmask.test( bitpos ) ?
+				    "true" : "false" ) << '\n'
+    ;
+    
+  return( dest  );
+}
+
+
 size_t
 Bitmask::getBinSize( void ) const
 {
-  return( Sizeof( value ) );
-}
-
-BinStream &
-Bitmask::write( BinStream & dest ) const
-{
-  return( dest.write( value ) );
-}
-
-BinStream &
-Bitmask::read( BinStream & src )
-{
-  return( src.read( value ) );
+  return( sizeof( value ) );
 }
 
 ostream &
 Bitmask::write( ostream & dest ) const
 {
-  dest.write( (const char *)&value, Sizeof( value ) );
+  dest.write( (const char *)&value, sizeof( value ) );
   return( dest );
 }
 
 istream &
 Bitmask::read( istream & src )
 {
-  src.read( (char *)&value, Sizeof( value ) );
+  src.read( (char *)&value, sizeof( value ) );
   return( src );
 }
 
 ostream &
 Bitmask::toStream( ostream & dest ) const
 {
-  for( int p = maxPos - 1; p >= 0; p-- )
-    dest << (( test( p ) ) ? '1' : '0' );
-  
+  dest << to_string();
   return( dest );
 }
 
+istream &
+Bitmask::fromStream( istream & src )
+{
+  char tmp[64];
+
+  if( ! src.ipfx() )
+    return( src );
+
+  char * in = tmp;
+
+  // read input into tmp until EOF or sizeof tmp exceeded
+  
+  for( *in = src.rdbuf()->sbumpc();
+       *in != EOF && ((in - tmp) < (int)sizeof( tmp ));
+       ++in, *in = src.rdbuf()->sbumpc() )
+    {
+      // if non-binary digit, put the char it back and break;
+      if( *in != '0' && *in != '1' )
+	{
+	  src.rdbuf()->sputbackc( *in );
+	  break;
+	}
+    }
+
+  if( in == tmp )
+    {
+      src.set( ios::failbit );
+      return ( src );
+    }
+
+  bool wasEof = (*in == EOF );
+  
+  // null terminate the string
+  *in = 0;
+
+  // convert it to an unsigned long
+  if( ! StringTo( value, tmp, 2 ) )
+    src.set( ios::failbit );
+
+  if( wasEof )
+    src.set( ios::eofbit );
+
+  return( src );
+}
+  
 const char *
 Bitmask::getClassName( void ) const
 {
@@ -149,13 +217,17 @@ Bitmask::dumpInfo(
   if( showVer )
     dest << Bitmask::getClassName() << ":\n"
 	 << Bitmask::getVersion() << '\n';
+
+
+  dest << prefix << "bits:  " ;
   
-  dest << prefix << "bits:    ";
-  Bitmask::toStream( dest );
-  dest << '\n';
-
-  dest << '\n';
-
+  for( size_t p = maxPos; p > 0; p-- )
+    {
+      if( p != maxPos && (p % 4) == 0 )
+	dest << ' ';
+      dest <<  (test(p-1) ? '1' : '0');
+    }
+  
   return( dest  );
 }
 
