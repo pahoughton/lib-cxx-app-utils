@@ -29,6 +29,10 @@
 //  	DateInTimeT( long sec )
 //  	    return the date portion only.
 //
+//	void
+//	YYMMDDtoYYYYMMDD( char * dest, const char * src )
+//	    convert 970304 to 19970304. if the first digit is < 5
+//	    the year is assumed to be 2000, so 050304 will be 20050304.
 //
 // Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     05/02/95 06:32
@@ -115,7 +119,7 @@ YYMMDDtoYYYYMMDD( char * dest, const char * src )
 {
   if( isdigit( src[0] )  )
     {
-      if( src[0] < 5 )
+      if( src[0] < '5' )
 	memcpy( dest, "20", 2 );
       else
 	memcpy( dest, "19", 2 );
@@ -131,6 +135,9 @@ YYMMDDtoYYYYMMDD( char * dest, const char * src )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.3  1997/12/20 16:09:11  houghton
+// Bug-Fix: YYMMDDtoYYYYMMDD test src[0] < '5' (was 5).
+//
 // Revision 4.2  1997/12/19 12:48:59  houghton
 // Cleanup
 // Added YYMMDDtoYYYYMMDD.
