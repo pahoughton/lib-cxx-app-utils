@@ -30,12 +30,12 @@ LogLevel::CommonLevelMap *	    Log::commonLevelMap = 0;
 
 Log::Log(
   ostream & 	    outstr,
-  LogLevel::Level   out,
+  LogLevel::Level   outLvl,
   bool		    stampLevel,
   bool		    stampTime,
   bool		    stampLoc
   )
-  : ostream( new LogBuf( out, outstr.rdbuf() ) ),
+  : ostream( new LogBuf( outLvl, outstr.rdbuf() ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
@@ -46,12 +46,12 @@ Log::Log(
 
 Log::Log(
   ostream & 	outstr,
-  const char *	out,
+  const char *	outLvl,
   bool		stampLevel,
   bool		stampTime,
   bool		stampLoc
   )
-  : ostream( new LogBuf( out, outstr.rdbuf() ) ),
+  : ostream( new LogBuf( outLvl, outstr.rdbuf() ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
@@ -62,7 +62,7 @@ Log::Log(
 
 Log::Log(
   const char *	    fileName,
-  LogLevel::Level   out,
+  LogLevel::Level   outLvl,
   ios::open_mode    mode,
   int		    prot,
   bool		    stampLevel,
@@ -71,7 +71,7 @@ Log::Log(
   size_t	    maxSize,
   size_t	    trimSize
   )
-  : ostream( new LogBuf(fileName, out, mode, prot, maxSize, trimSize ) ),
+  : ostream( new LogBuf(fileName, outLvl, mode, prot, maxSize, trimSize ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
@@ -83,7 +83,7 @@ Log::Log(
 
 Log::Log(
   const char *	    fileName,
-  const char *	    out,
+  const char *	    outLvl,
   ios::open_mode    mode,
   int		    prot,
   bool		    stampLevel,
@@ -92,7 +92,7 @@ Log::Log(
   size_t	    maxSize,
   size_t	    trimSize
   )
-  : ostream( new LogBuf(fileName, out, mode, prot, maxSize, trimSize ) ),
+  : ostream( new LogBuf(fileName, outLvl, mode, prot, maxSize, trimSize ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
@@ -302,7 +302,13 @@ Log::tieCommonLogger( bool setStrings )
 bool
 Log::good( void ) const
 {
-  return( rdbuf() != 0 && rdbuf()->good() && ios::good() );
+  return( rdbuf() != 0 && rdbuf()->good() &&
+#if defined( CLUE_HAS_CONST_IOS_GOOD )
+	  ios::good()
+#else
+	  ios::state == 0
+#endif
+	  );
 }
 
 const char *
@@ -325,7 +331,8 @@ Log::error( void ) const
 
       if( rdbuf() && ! rdbuf()->good() )
 	errStr << ": " << rdbuf()->error() ;
-      
+
+#if defined( CLUE_HAS_CONST_IOSRDSTATE )
       if( ! ios::good() )
 	{
 	  if( ios::rdstate() & ios::eofbit )
@@ -335,6 +342,17 @@ Log::error( void ) const
 	  if( ios::rdstate() & ios::badbit )
 	    errStr += ": BAD bit set";
 	}
+#else
+      if( state != 0 )
+	{
+	  if( ios::state & ios::eofbit )
+	    errStr += ": EOF bit set";
+	  if( ios::state & ios::failbit )
+	    errStr += ": FAIL bit set";
+	  if( ios::state & ios::badbit )
+	    errStr += ": BAD bit set";
+	}
+#endif
       
       if( eSize == errStr.length() )
 	errStr += ": unknown error";      
@@ -446,7 +464,7 @@ Log::commonLog(
     }
   else
     {
-      LogLevel::Level cur( self->getCurrent() );
+      LogLevel::Level curLvl( self->getCurrent() );
       
       self->level( (*commonLevelMap)[ level ],
 		   srcFileName,
@@ -455,7 +473,7 @@ Log::commonLog(
       if( self->rdbuf()->sync() == EOF )
 	self->setstate(failbit|eofbit);
   
-      self->rdbuf()->setCurrentLevel( cur );
+      self->rdbuf()->setCurrentLevel( curLvl );
     }
 }
 
@@ -463,6 +481,12 @@ Log::commonLog(
 // Revision Log:
 //
 // $Log$
+// Revision 3.9  1997/07/18 19:21:02  houghton
+// Port(Sun5): changed local variable names to eliminate compiler
+//     warnings.
+// Port(Sun5): changed '#if defined' because sun also does not have any
+//     const member functions in ios or iostream.
+//
 // Revision 3.8  1997/05/02 12:14:41  houghton
 // Bug-Fix: changed commonLevelMap to a * to remove any posibilities of
 //     problems with static instanciation.
