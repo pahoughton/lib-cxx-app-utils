@@ -199,6 +199,12 @@ Log::rdbuf( void ) const
   
 }
 
+inline
+const LogLevel::CommonLevelMap &
+Log::getCommonLevelMap( void ) const
+{
+  return( commonLevelMap );
+}
 
 inline
 bool
@@ -222,6 +228,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/04/26 14:11:35  houghton
+// Added getCommonLevelMap().
+//
 // Revision 3.5  1997/04/04 03:09:57  houghton
 // Changed constructors (and some other methods) to non-inline.
 //
