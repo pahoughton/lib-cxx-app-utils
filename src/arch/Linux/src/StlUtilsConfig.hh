@@ -1,11 +1,11 @@
 #ifndef _ClueConfig_hh_
 #define _ClueConfig_hh_
 //
-// File:        UtilsConfig.hh
+// File:        ClueConfig.hh
 // Project:	Clue
 // Desc:        
 //
-//  Architecture dependant configuration values.
+//  Architecture dependant configuration values for Linux (2.0)
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     06/16/95 08:01
@@ -15,26 +15,25 @@
 // $Id$
 //
 
-
+// Configuration Flags
 #define _BSD_SOURCE	1
 #define _SVID_SOURCE	1
 
+#define CLUE_HAVE_LONG_ABS 1
+#define CLUE_LOG_WHERE 1
 /* #define CLUE_THREADS	1 */
+
+#define CLUE_STRBUF_CONST_RDBUF const
+
+#if defined( CLUE_DEBUG )
+#define CLUE_SAFETY_ON 1
+#endif
 
 #if defined( CLUE_THREADS )
 #define _MIT_POSIX_THREADS  1
 #include <pthread.h>
 #endif
 
-#if defined( CLUE_DEBUG )
-#define CLUE_SAFETY_ON 1
-#endif
-
-// Configuration Flags
-#define CLUE_HAVE_LONG_ABS 1
-#define CLUE_LOG_WHERE 1
-
-#define CLUE_STRBUF_CONST_RDBUF const
 
 // Types
 #define CLUE_CLASS_T
@@ -64,13 +63,8 @@
 // #include <climits>
 #include <stddef>   // for NPOS
 
-#if !defined( CLUE_SHORT_FN )
 #include <ClueVersion.hh>
 #include <ClassVersion.hh>
-#else
-#include <ClueVer.hh>
-#include <ClassVer.hh>
-#endif
 
 //
 // Detail Documentation
@@ -129,6 +123,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 2.9  1996/11/06 18:09:37  houghton
+// Rework orginization of defines and macros.
+//
 // Revision 2.8  1996/11/04 14:35:19  houghton
 // Added include stddef to get NPOS
 //
