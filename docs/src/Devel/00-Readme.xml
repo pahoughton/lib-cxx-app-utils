@@ -52,6 +52,12 @@
     <item>
       <doc>SupportTools</doc>
     </item>
+    <item>
+      <subdir dir="CxxApi" usedesc="no">C++ Api Documentation</subdir>
+      <desc>
+	Documentation for the C++ classes and functions provided.
+      </desc>
+    </item>
   </toc>
 
 </contents>
