@@ -39,6 +39,9 @@ InboundProcessor<Proc>::InboundProcessor(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.1  1997/07/25 12:07:19  houghton
+// Added constructor that takes a SigCatcher.
+//
 // Revision 1.1  1997/07/20 18:52:01  houghton
 // Initial Version.
 //
