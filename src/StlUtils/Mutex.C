@@ -10,6 +10,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/11/13 17:00:13  houghton
+// Removed support for short file names.
+// Bug-Fix: fixed some compile errors associated with the chagne to
+//     RWCString.
+//
 // Revision 2.4  1996/11/11 13:34:57  houghton
 // Changed to use RWCString instead of strstream where possible because
 //     of an inconsitancy in the public member of strstream.
@@ -26,20 +31,12 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "Mutex.hh"
-#include <strstream>
-#else
-#include "Mutex.hh"
-#include <strstream>
-#endif
+#include <strstream.h>
+#include <rw/cstring.h>
 
 #if defined( CLUE_DEBUG )
-#if !defined( CLUE_SHORT_FN )
 #include "Mutex.ii"
-#else
-#include "Mutex.ii"
-#endif
 #endif
 
 CLUE_VERSION(
@@ -196,7 +193,7 @@ Mutex::error( void ) const
     }
   else
     {
-      streampos eSize = errStr.length();
+      size_t eSize = errStr.length();
 
       errStr += ": unsupported";
       
