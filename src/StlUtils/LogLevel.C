@@ -1,55 +1,26 @@
 //
 // File:        LogLevel.C
+// Project:	Clue
 // Desc:        
 //              
+//  Source code for LogLevel methods.
 //
 // Author:      Paul Houghton x2309 - (houghton@shoe.wiltel.com)
 // Created:     01/29/95 12:45 
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.7  1996/06/11 09:52:35  houghton
-// Bug-Fix: setOutput now understands any case.
-//
-// Revision 2.6  1996/05/03 16:13:21  houghton
-// Bug-Fix: remove inline statement.
-//
-// Revision 2.5  1996/02/29 19:05:36  houghton
-// Bug Fix: Cant use static class object to construct other static objects
-//
-// Revision 2.4  1995/12/04 11:17:24  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.3  1995/11/12  22:08:05  houghton
-// Bug fix - setName() - junk code from copy (cut out).
-//
-// Revision 2.2  1995/11/12  18:04:21  houghton
-// Change LogLevel::XXXX to LogLevel::Xxxxx.
-// Bug fix - setOutput( const char * ) was not detecting 'ALL' correctly.
-//
-// Revision 2.1  1995/11/10  12:40:46  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  15:28:40  houghton
-// Revised
-//
-// Revision 1.1  1995/02/13  16:08:46  houghton
-// New Style Avl an memory management. Many New Classes
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #if !defined( CLUE_SHORT_FN )
 #include "LogLevel.hh"
 #include "Clue.hh"
-#include "Str.hh"
 #include "Bit.hh"
 #include "StringUtils.hh"
+#include <strstream>
 #include <cstring>
 #else
 #include "LogLvl.hh"
 #include "Clue.hh"
-#include "Str.hh"
 #include "Bit.hh"
 #include <cstring>
 #endif
@@ -85,7 +56,7 @@ const LogLevel::Level	LogLevel::Info( Bit(12) );
 const LogLevel::Level	LogLevel::Test( Bit(13) );
 const LogLevel::Level	LogLevel::Debug( Bit(14) );
 const LogLevel::Level	LogLevel::Funct( Bit(15) );
-const LogLevel::Level	LogLevel::All( ~0UL );
+const LogLevel::Level	LogLevel::All( LONG_ALL_BITS );
 
 const char * LogLevel::LevelNames[] =
 {
@@ -110,16 +81,46 @@ const char * LogLevel::LevelNames[] =
   0
 };
 
+static const char * LLErr  = "ERR";
+static const char * LLWarn = "WARN";
+
+
+const LogLevel::Name2Level LogLevel::Name2LevelList[] =
+{
+  { &LogLevel::LevelNames[0],	&LogLevel::None },
+  { &LogLevel::LevelNames[1],	&LogLevel::Error },
+  { &LLErr,			&LogLevel::Error },
+  { &LogLevel::LevelNames[2],	&LogLevel::Warning },
+  { &LLWarn,			&LogLevel::Warning },
+  { &LogLevel::LevelNames[3],	&LogLevel::App1 },
+  { &LogLevel::LevelNames[4],	&LogLevel::App2 },
+  { &LogLevel::LevelNames[5],	&LogLevel::App3 },
+  { &LogLevel::LevelNames[6],	&LogLevel::App4 },
+  { &LogLevel::LevelNames[7],	&LogLevel::App5 },
+  { &LogLevel::LevelNames[8],	&LogLevel::App6 },
+  { &LogLevel::LevelNames[9],	&LogLevel::Lib1 },
+  { &LogLevel::LevelNames[10],	&LogLevel::Lib2 },
+  { &LogLevel::LevelNames[11],	&LogLevel::Lib3 },
+  { &LogLevel::LevelNames[12],	&LogLevel::Lib4 },
+  { &LogLevel::LevelNames[13],	&LogLevel::Info },
+  { &LogLevel::LevelNames[14],	&LogLevel::Test },
+  { &LogLevel::LevelNames[15],	&LogLevel::Debug },
+  { &LogLevel::LevelNames[16],	&LogLevel::Funct },
+  { &LogLevel::LevelNames[17],	&LogLevel::All },
+  { 0, &LogLevel::None },
+};
+
 const char *
-LogLevel::getName( const Level level ) const
+LogLevel::getName( const Level level )
 {
   // NONE is always first
-  if( level == None ) return( LevelNames[0] );
+  if( level == None )
+    return( LevelNames[0] );
   
   // all is always the last name
-  if( level == All ) return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
+  if( level == All )
+    return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
     
-
   for( size_t l = 0; l < (ArraySize( LevelNames )  - 1); l++ )
     {
       if( level( l ) )
@@ -130,7 +131,7 @@ LogLevel::getName( const Level level ) const
 }
 
 const char * 
-LogLevel::getLevelNames( const Level level ) const
+LogLevel::getLevelNames( const Level level )
 {
   static char  names[512];
   names[0] = 0;
@@ -158,46 +159,6 @@ LogLevel::getLevelNames( const Level level ) const
   return( names );
 }    
 
-LogLevel::Level
-LogLevel::setOutput( const char * level )
-{
-  Level old = output;
-  output = None;
-
-  // check for ALL
-  if( StringCaseSearch( level, 0, LevelNames[ ArraySize( LevelNames ) - 2 ], 0 ) != 0 )
-    {
-      setOutput( All );
-      return( old );
-    }
-  
-  for( size_t l = 0; l < (ArraySize( LevelNames ) - 2 ); l++ )
-    {
-      if( StringCaseSearch( level, 0, LevelNames[l], 0 ) != 0 )
-	{
-	  Level  n( Bit( l - 1 ) );
-	  setOutput( n | output );
-	}
-    }
-  return( old );
-}
-      
-LogLevel::Level
-LogLevel::setCurrent( const char * lvl )
-{
-  Level old = current;
-  
-  for( int l = 0; LevelNames[l] != 0; l++ )
-    {
-      if( StringCaseSearch( lvl, 0, LevelNames[l], 0 ) != 0 )
-	{
-	  Level  n( Bit( l - 1 ) );
-	  setCurrent( n );
-	}
-    }
-  
-  return( old );
-}
 
 bool
 LogLevel::setName( const Level level, const char * name )
@@ -231,23 +192,7 @@ LogLevel::setName( const Level level, const char * name )
 size_t
 LogLevel::getBinSize( void ) const
 {
-  return( Sizeof( output ) + Sizeof( current ) );
-}
-
-BinStream &
-LogLevel::write( BinStream & dest ) const
-{
-  dest.write( output );
-  dest.write( current );
-  return( dest );
-}
-
-BinStream &
-LogLevel::read( BinStream & src )
-{
-  src.read( output );
-  src.read( current );
-  return( src );
+  return( output.getBinSize() + current.getBinSize() );
 }
 
 ostream &
@@ -297,23 +242,91 @@ LogLevel::dumpInfo(
     dest << LogLevel::getClassName() << ":\n"
 	 << LogLevel::getVersion() << '\n';
 
-  Str pre;
-  pre = prefix ;
-  pre << "output:" << output.getClassName() << "::";
-  output.dumpInfo( dest, pre, false );
+  {
+    strstream pre;
+    pre << prefix << "output:  " << output.getClassName() << "::" << ends;
+    output.dumpInfo( dest, pre.str(), false ) << '\n';
+    pre.freeze(0);
+  }
 
-  pre = prefix;
-  pre << "current:" << current.getClassName() << "::";
-  current.dumpInfo( dest, pre, false );
+  {
+    strstream pre;
+    pre << prefix << "current: " << current.getClassName() << "::" << ends;
+    current.dumpInfo( dest, pre.str(), false ) << '\n';
+    pre.freeze(0);
+  }
   
-  dest << prefix << "output:    " << getLevelNames( output ) << '\n'
-       << prefix << "current:   " << getLevelNames( current ) << '\n'
-    ;
+  dest << prefix << "output:    " << getLevelNames( output ) << '\n';
+  dest << prefix << "current:   " << getLevelNames( current ) << '\n';
+    
   
   dest << '\n';
 
   return( dest  );
 }
 
+LogLevel::Level
+LogLevel::levelFromString( const char * level )
+{
+  // check for ALL
+  if( StringCaseSearch( level, NPOS, "All", NPOS ) )
+    {
+      return( All );
+    }
   
-  
+  Level tmp = None;
+
+  for( size_t l = 0; l < (ArraySize( Name2LevelList ) - 2 ); l++ )
+    {
+      if( StringCaseSearch( level, NPOS,
+			    *(Name2LevelList[l].name), NPOS ) )
+	{
+	  tmp |= *(Name2LevelList[l].level);
+	}
+    }
+  return( tmp );
+}
+
+// Revision Log:
+//
+// $Log$
+// Revision 2.8  1996/11/04 14:14:16  houghton
+// Restructure header comments layout.
+// Added static Name2Level[] to improve name translation support. Now
+//     "Err" and "Warn" can be translated.
+// Changed getLevelNames to be a const
+// Removed BinStream support.
+// Changed dumpInfo to use strstream instead of Str.
+//     (as required by Mike Alexandar).
+// Added private levelFromString method to convert a string
+//     representation of the level to a Level mask.
+//
+// Revision 2.7  1996/06/11 09:52:35  houghton
+// Bug-Fix: setOutput now understands any case.
+//
+// Revision 2.6  1996/05/03 16:13:21  houghton
+// Bug-Fix: remove inline statement.
+//
+// Revision 2.5  1996/02/29 19:05:36  houghton
+// Bug Fix: Cant use static class object to construct other static objects
+//
+// Revision 2.4  1995/12/04 11:17:24  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.3  1995/11/12  22:08:05  houghton
+// Bug fix - setName() - junk code from copy (cut out).
+//
+// Revision 2.2  1995/11/12  18:04:21  houghton
+// Change LogLevel::XXXX to LogLevel::Xxxxx.
+// Bug fix - setOutput( const char * ) was not detecting 'ALL' correctly.
+//
+// Revision 2.1  1995/11/10  12:40:46  houghton
+// Change to Version 2
+//
+// Revision 1.4  1995/11/05  15:28:40  houghton
+// Revised
+//
+// Revision 1.1  1995/02/13  16:08:46  houghton
+// New Style Avl an memory management. Many New Classes
+//
+//
