@@ -53,9 +53,38 @@
     <version status="devel">&PRJ.VER;</version>
     <date></date>
     <desc>
-      <p>
-	Release Desc
-      </p>
+      <dl>
+	<dt>DateTime</dt>
+	<dd>
+	  <dl>
+	    <dt>Added</dt>
+	    <dd>
+	      <dl>
+		<dt>bool setValidHHMMSS( const char * hhmmss )</dt>
+		<dt>bool setValidHHMM( const char * hhmm )</dt>
+	      </dl>
+	    </dd>
+	    <dt>Changed</dt>
+	    <dd>
+	      <dl>
+		<dt>
+		  bool setValid( int year, int month, int day,
+		  int hour = 0, int min = 0, int sec = 0 );
+		</dt>
+		<dt>bool setValid( const char * dateString,
+		  const char * fmt = 0 );
+		</dt>
+		<dt>bool setValidYYMMDD( const char * yymmdd );</dt>
+		<dt>bool setValidYYYYMMDD( const char * yyyymmdd );</dt>
+		<dd>
+		  All these methods used to return the previous time_t
+		  value, now they return true if successfull.
+		</dd>
+	      </dl>
+	    </dd>
+	  </dl>
+	</dd>
+      </dl>
     </desc>
   </release>
 </rel-notes>
