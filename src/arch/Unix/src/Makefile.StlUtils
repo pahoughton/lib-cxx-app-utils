@@ -30,6 +30,7 @@ UNIX_CXX_C_SOURCES	=	\
 	Semaphore.C		\
 	Whence.C		\
 	FileLock.C		\
+	File.C			\
 
 UNIX_USER_H_INCS	=	\
 	StrSignal.h		\
@@ -45,6 +46,7 @@ UNIX_USER_HH_INCS	=	\
 	SigCatcher.hh		\
 	Semaphore.hh		\
 	FileLock.hh		\
+	File.hh			\
 
 UNIX_USER_II_INCS	=	\
 	InboundProcessorBase.ii	\
@@ -56,6 +58,7 @@ UNIX_USER_II_INCS	=	\
 	SigCatcher.ii		\
 	Semaphore.ii		\
 	FileLock.ii		\
+	File.ii
 
 
 UNIX_C_HEADERS		=
@@ -69,6 +72,9 @@ $(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 
 #
 # $Log$
+# Revision 4.4  1998/03/08 18:08:00  houghton
+# Added File class for copy and move.
+#
 # Revision 4.3  1998/02/02 15:24:08  houghton
 # Removed SignalStrings.h
 # Added StrSignal.c and StrSignal.h
