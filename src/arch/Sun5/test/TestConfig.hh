@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/08/18 10:32:11  houghton
+// Changed block device name.
+//
 // Revision 3.1  1997/07/25 12:26:42  houghton
 // Changed version number to 3.
 //
@@ -52,7 +55,7 @@
 #endif
 
 #if !defined( TEST_BLOCK_DEVICE )
-#define TEST_BLOCK_DEVICE "/dev/vx/dsk/usr"
+#define TEST_BLOCK_DEVICE "/dev/vx/dsk/rootdg/vol01"
 #endif
 
 #if !defined( TEST_CHAR_DEVICE )
