@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1995/12/31 11:25:52  houghton
+// Bug Fix - Added include for 'cerrno'
+//
 // Revision 2.2  1995/12/04 11:20:33  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -22,6 +25,8 @@
 // Revised
 //
 //
+
+#include <cerrno>
 
 #if defined( CLUE_DEBUG )
 #define inline
