@@ -3,5 +3,6 @@
 .depend_profile
 .depend_shared
 Clue.exp
+Templates.DB
 _Clue_Proto.h
 objects
