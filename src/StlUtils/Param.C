@@ -126,10 +126,17 @@ bool
 Param::parseArgs( void )
 {
   argv	    = allArgv;
+
+  Str argFileEnvVar;
+
+  argFileEnvVar = appName();
+  argFileEnvVar.upcase();
+  argFileEnvVar << "_ARGFILE";
   
   argStr( argFile,
 	  "Name of file to read args from.",
-	  "argfile" );
+	  "argfile",
+	  argFileEnvVar );
 
   if( argFile.size() )
     {
@@ -1104,6 +1111,9 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.12  1997/04/26 16:47:28  houghton
+// Added env var for argfile.
+//
 // Revision 3.11  1997/04/04 20:54:26  houghton
 // Changed constructor.
 // Added logmode & logprot args.
