@@ -217,6 +217,16 @@ LogBuf::delFilter( FilterId id )
   return( dest );
 }
 
+inline
+const char *
+LogBuf::getLogFileName( void ) const
+{
+  if( is_file() )
+    return( logFileName );
+  else
+    return( "" );
+}
+
 #if defined( inline )
 #undef inline
 #endif
@@ -225,6 +235,9 @@ LogBuf::delFilter( FilterId id )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:21:40  houghton
+// Added getLogFileName method.
+//
 // Revision 3.1  1996/11/14 01:23:48  houghton
 // Changed to Release 3
 //

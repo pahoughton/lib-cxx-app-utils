@@ -92,6 +92,7 @@ public:
 
   inline streambuf *	delFilter( FilterId id );
 
+  inline const char *	getLogFileName( void ) const;
   
   // streambuf virtuals
   virtual int	    overflow(int=EOF);
@@ -272,6 +273,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:21:32  houghton
+// Added getLogFileName method.
+//
 // Revision 3.1  1996/11/14 01:23:47  houghton
 // Changed to Release 3
 //
