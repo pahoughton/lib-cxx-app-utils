@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/03/03 14:35:53  houghton
+// Changed base class from string back to Str (Massive improvement of
+//     functionallity )
+//
 // Revision 3.2  1996/11/20 12:06:10  houghton
 // Changed: Major rework to change base class from Str to string.
 //
@@ -49,10 +53,10 @@ CLUE_VERSION(
 
 const char FilePath::DirDelim = CLUE_DIR_DELIM;
 
-string
+Str
 FilePath::getName( void ) const
 {
-  string name;
+  Str name;
   
   size_type beg = rfind( dirDelim );
   size_type end = rfind( extDelim );
@@ -264,7 +268,7 @@ FilePath::setTempName( const char * prefix )
 bool
 FilePath::setTempName( const char * path, const char * prefix )
 {
-  string fnPrefix;
+  Str fnPrefix;
   
   if( prefix != 0 )
     fnPrefix = prefix;
@@ -283,7 +287,7 @@ FilePath::setTempName( const char * path, const char * prefix )
 ostream &
 FilePath::toStream( ostream & dest ) const
 {
-  dest << (const string &)*this;
+  dest << (const Str &)*this;
   return( dest );
 }
 
@@ -335,11 +339,11 @@ FilePath::good( void ) const
   return( true );
 }
 
-// error - return a string describing the current state
+// error - return a Str describing the current state
 const char *
 FilePath::error( void ) const
 {
-  static string errStr;
+  static Str errStr;
   
   errStr = getClassName();
 

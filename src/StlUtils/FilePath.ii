@@ -13,6 +13,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/03/03 14:35:57  houghton
+// Changed base class from string back to Str (Massive improvement of
+//     functionallity )
+//
 // Revision 3.3  1996/11/22 12:23:33  houghton
 // Added 'set' methods that take 'string' (vs const char *).
 //
@@ -83,17 +87,17 @@ FilePath::FilePath( const FilePath & from )
 }
 
 inline
-string
+Str
 FilePath::getFullName( void ) const
 {
   return( c_str() );
 }
 
 inline
-string
+Str
 FilePath::getPath( void ) const
 {
-  string path = ".";
+  Str path = ".";
 
   size_t end = rfind( dirDelim );
 
@@ -104,10 +108,10 @@ FilePath::getPath( void ) const
 }
 
 inline
-string
+Str
 FilePath::getFileName( void ) const
 {
-  string name;
+  Str name;
   
   size_t beg = rfind( dirDelim );
 
@@ -119,10 +123,10 @@ FilePath::getFileName( void ) const
 
 
 inline
-string
+Str
 FilePath::getExt( void ) const
 {
-  string ext;
+  Str ext;
   
   size_t beg = rfind( extDelim );
 
@@ -155,91 +159,91 @@ FilePath::set( const char * fullPath )
 
 inline
 bool
-FilePath::set( const string & fullPath )
+FilePath::set( const Str & fullPath )
 {
   return( set( fullPath.c_str() ) );
 }
 
 inline
 bool
-FilePath::setPrefix( const string & prefix )
+FilePath::setPrefix( const Str & prefix )
 {
   return( setPrefix( prefix.c_str() ) );
 }
 
 inline
 bool
-FilePath::setPath( const string & path )
+FilePath::setPath( const Str & path )
 {
   return( setPath( path.c_str() ) );
 }
 
 inline
 bool
-FilePath::setFileName( const string & name )
+FilePath::setFileName( const Str & name )
 {
   return( setFileName( name.c_str() ) );
 }
 
 inline
 bool
-FilePath::setName( const string & name )
+FilePath::setName( const Str & name )
 {
   return( setName( name.c_str() ) );
 }
 
 inline
 bool
-FilePath::setName( const string & name, char ext )
+FilePath::setName( const Str & name, char ext )
 {
   return( setName( name.c_str(), ext ) );
 }
 
 inline
 bool
-FilePath::setName( const string & name, const string & ext )
+FilePath::setName( const Str & name, const Str & ext )
 {
   return( setName( name.c_str(), ext.c_str() ) );
 }
 
 inline
 bool
-FilePath::setExt( const string & ext )
+FilePath::setExt( const Str & ext )
 {
   return( setExt( ext.c_str() ) );
 }
 
 inline
 bool
-FilePath::setExt( const string & ext, char delim )
+FilePath::setExt( const Str & ext, char delim )
 {
   return( setExt( ext.c_str(), delim ) );
 }
 
 inline
 bool
-FilePath::setExt( const string & oldExt, const string & newExt )
+FilePath::setExt( const Str & oldExt, const Str & newExt )
 {
   return( setExt( oldExt.c_str(), newExt.c_str() ) );
 }
 
 inline
 bool
-FilePath::setTempName( const string & prefix )
+FilePath::setTempName( const Str & prefix )
 {
   return( setTempName( prefix.c_str() ) );
 }
 
 inline
 bool
-FilePath::setTempName( const string & path, const string & prefix )
+FilePath::setTempName( const Str & path, const Str & prefix )
 {
   return( setTempName( path.c_str(), prefix.c_str() ) );
 }
 
 inline
 bool
-FilePath::changePath( const string & oldDirs, const string & newDirs )
+FilePath::changePath( const Str & oldDirs, const Str & newDirs )
 {
   return( changePath( oldDirs.c_str(), newDirs.c_str() ) );
 }

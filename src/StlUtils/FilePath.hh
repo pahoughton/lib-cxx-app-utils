@@ -13,6 +13,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/03/03 14:35:49  houghton
+// Changed base class from string back to Str (Massive improvement of
+//     functionallity )
+//
 // Revision 3.3  1996/11/22 12:23:18  houghton
 // Added 'set' methods that take 'string' (vs const char *).
 //
@@ -37,13 +41,13 @@
 //
 
 #include "ClueConfig.hh"
-#include <string>
+#include "Str.hh"
 
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
 
-class FilePath : public string
+class FilePath : public Str
 {
 
 public:
@@ -63,43 +67,43 @@ public:
 
   inline FilePath( const FilePath & from );
   
-  inline string	    getFullName( void ) const;
-  inline string	    getPath( void ) const;
-  inline string	    getFileName( void ) const;
-  string	    getName( void ) const;
-  inline string	    getExt( void ) const;
+  inline Str	    getFullName( void ) const;
+  inline Str	    getPath( void ) const;
+  inline Str	    getFileName( void ) const;
+  Str		    getName( void ) const;
+  inline Str	    getExt( void ) const;
   inline size_t	    getDepth( void ) const;
   
   bool		    match( const char * pattern );
   
   inline bool	    set( const char * fullPath );
-  inline bool	    set( const string & fullPath );
+  inline bool	    set( const Str & fullPath );
   bool		    setPrefix( const char * prefix );
-  inline bool	    setPrefix( const string & prefix );
+  inline bool	    setPrefix( const Str & prefix );
   bool		    setPath( const char * path );
-  inline bool	    setPath( const string & path );
+  inline bool	    setPath( const Str & path );
   bool		    setFileName( const char * name );
-  inline bool	    setFileName( const string & name );
+  inline bool	    setFileName( const Str & name );
   bool		    setName( const char * name );
-  inline bool	    setName( const string & name );
+  inline bool	    setName( const Str & name );
   bool		    setName( const char * name, char ext );
-  inline bool	    setName( const string & name, char ext );
+  inline bool	    setName( const Str & name, char ext );
   bool		    setName( const char * name, const char * ext );
-  inline bool	    setName( const string & name, const string & ext );
+  inline bool	    setName( const Str & name, const Str & ext );
   bool		    setExt( const char * ext );
-  bool		    setExt( const string & ext );
+  bool		    setExt( const Str & ext );
   bool		    setExt( const char * ext, char delim );
-  bool		    setExt( const string & ext, char delim );
+  bool		    setExt( const Str & ext, char delim );
   bool		    setExt( const char * oldExt, const char * newExt );
-  bool		    setExt( const string & oldExt, const string & newExt );
+  bool		    setExt( const Str & oldExt, const Str & newExt );
   bool		    setTempName( const char * prefix = 0 );
-  bool		    setTempName( const string & prefix );
+  bool		    setTempName( const Str & prefix );
   bool		    setTempName( const char * path, const char * prefix );
-  bool		    setTempName( const string & path, const string & prefix );
+  bool		    setTempName( const Str & path, const Str & prefix );
   
   bool		    changePath( const char * oldDirs, const char * newDirs );
-  bool		    changePath( const string & oldDirs,
-				const string & newDirs );
+  bool		    changePath( const Str & oldDirs,
+				const Str & newDirs );
 
   virtual ostream &	toStream( ostream & dest ) const;
   
