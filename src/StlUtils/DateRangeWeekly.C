@@ -61,10 +61,10 @@ DateRangeWeekly::getFrequency( void ) const
 }
 
 bool
-DateRangeWeekly::in( const DateTime & dateTwo ) const
+DateRangeWeekly::isIn( const DateTime & dateTwo ) const
 {
   return( getDayOfWeek() == dateTwo.getDayOfWeek()
-	  && DateRangeDaily::in( dateTwo ) );
+	  && DateRangeDaily::isIn( dateTwo ) );
 }
 
 time_t
@@ -202,6 +202,9 @@ DateRangeWeekly::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/06/25 08:49:15  houghton
+// Change: rename in method it isIn.
+//
 // Revision 5.3  2003/05/12 15:51:25  houghton
 // Added in( const DateTime & dateTwo ) const.
 //

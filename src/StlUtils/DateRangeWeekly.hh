@@ -38,7 +38,7 @@ public:
   virtual DayOfWeek getDayOfWeek( void ) const;
   virtual time_t    getFrequency( void ) const;
 
-  virtual bool	    in( const DateTime & dateTwo ) const;
+  virtual bool	    isIn( const DateTime & dateTwo ) const;
   virtual time_t    secIn( const DateRange & dateTwo ) const;
   virtual time_t    startsIn( const DateRange & dateTwo ) const;
   
@@ -144,6 +144,9 @@ compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/06/25 08:49:26  houghton
+// Change: rename in method it isIn.
+//
 // Revision 5.4  2003/05/12 15:51:33  houghton
 // Added in( const DateTime & dateTwo ) const.
 //

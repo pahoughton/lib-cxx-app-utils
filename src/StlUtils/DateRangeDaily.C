@@ -56,7 +56,7 @@ DateRangeDaily::getFrequency( void ) const
 }
 
 bool
-DateRangeDaily::in( const DateTime & dateTwo )  const
+DateRangeDaily::isIn( const DateTime & dateTwo )  const
 {
   return(   getSecOfDay() <= dateTwo.getSecOfDay()
 	 && dateTwo.getSecOfDay() <= (getSecOfDay() + dur) );
@@ -246,6 +246,9 @@ DateRangeDaily::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/06/25 08:49:01  houghton
+// Change: rename in method it isIn.
+//
 // Revision 5.3  2003/05/12 15:51:07  houghton
 // Added in( const DateTime & dateTwo ) const.
 //
