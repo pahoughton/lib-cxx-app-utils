@@ -374,7 +374,7 @@ private:
 			const char *	envVar,
 			const char *	value );
 
-  void	    genArgFile( bool exitApp );
+  void	    genArgFile( bool exitApp ) const;
 
   DateTime	    appStartTime;
   
@@ -1129,6 +1129,9 @@ operator << ( ostream & dest, const Param & obj );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2001/08/06 17:19:32  houghton
+// *** empty log message ***
+//
 // Revision 5.5  2001/07/28 01:15:00  houghton
 // *** empty log message ***
 //

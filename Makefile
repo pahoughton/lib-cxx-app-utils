@@ -78,70 +78,70 @@ PHONY_TARGETS	= $(HELP_TARGETS)
 include Make/make.cfg.targets.common.$(make_cfg_ver)
 
 $(DEPEND_TARGETS):
-	$(call make_subdirs,$@,src,		\
-		BUILD_TYPE=$(subst depend_,,$@)	\
-		$($(@)_exports)			\
-		$(depend_exports)		\
-		$(exports))
+	$(call make_subdirs,$@,src,			\
+		$(exports)				\
+		$(depend_exports)			\
+		$($(@)_exports)				\
+		BUILD_TYPE=$(subst depend_,,$@))
 
 $(BUILD_TARGETS):
 	$(call make_subdirs,$@,src,	\
-		BUILD_TYPE=$@		\
+		$(exports)		\
 		$($(@)_exports)		\
-		$(exports))
+		BUILD_TYPE=$@)
 
 check:
-	$(call make_subdirs,$@,src,			\
-		$($(@)_exports)				\
-		$(exports))
+	$(call make_subdirs,$@,src,	\
+		$(exports)		\
+		$($(@)_exports))
 
 $(INSTALL_LIB_TARGETS):
 	$(call make_subdirs,$@,src,			\
-		BUILD_TYPE=$(subst install_lib_,,$@)	\
-		$($(@)_exports)				\
+		$(exports)				\
 		$(install_lib_exports)			\
-		$(exports))
+		$($(@)_exports)				\
+		BUILD_TYPE=$(subst install_lib_,,$@))
 
 $(INSTALL_TARGETS):
 	$(hide) $(MAKE) -C support -f Install.Makefile $@	\
-		$($(@)_exports)					\
-		$(install_exports)				\
+		INSTALL_BASE_DIR=$(RUN_BASE_DIR)		\
 		$(exports)					\
+		$(install_exports)				\
+		$($(@)_exports)					\
 		BUILD_TYPE=$(subst install_,,$@)
 
 install: install_shared
 
 install_support_lib_all install_support_lib_shared:
 	$(hide) $(MAKE) -C support -f Install.Makefile $@	\
-		$($(@)_exports)					\
 		$(install_lib_exports)				\
-		$(exports))
+		$(exports)					\
+		$($(@)_exports)
 
 html man:
 	$(call make_subdirs,$@,doc,	\
-		BUILD_TYPE=$@		\
-		$($(@)_exports)		\
+		$(exports)		\
 		$(doc_exports)		\
-		$(exports))
+		$($(@)_exports))
 
 install_html install_man:
 	$(call make_subdirs,$@,doc,	\
-		BUILD_TYPE=$@		\
-		$($(@)_exports)		\
-		$(install_doc_exports)	\
+		$(exports)		\
 		$(doc_exports)		\
-		$(exports))
+		$(install_doc_exports)	\
+		$($(@)_exports))
 
 dist:
 	$(call make_dist_from_dim,infr_objs,mcmain,$(PROJECT_DIR))
 
 dist_binary:
 	$(hide) $(MAKE) -C support -f Install.Makefile $@	\
-		$($(@)_exports)					\
-		$(exports)
+		$(exports)					\
+		$(install_exports)				\
+		$($(@)_exports)
 
 dist_html:
-	$(call make_subdirs,$@,docs,$($(@)_exports) $(exports))
+	$(call make_subdirs,$@,docs,$(exports) $($(@)_exports))
 
 realclean::
 	rm -rf install

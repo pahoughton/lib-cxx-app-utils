@@ -49,11 +49,20 @@ INSTALL_VERSION		= $(INSTALL_VER_$(INSTALL_VER))
 
 INSTALL_TARGETS		= $(patsubst %,install_%,$(BUILD_TYPE_LIST))
 
+DIST_BINARY_TYPE_LIST	= shared debug
+
+DIST_BASE_DIR			= $(shell cd $(PRJ_TOPDIR) && pwd)/install
+
+override INSTALL_BASE_DIR	=			\
+	$(DIST_BASE_DIR)$(strip				\
+	    $(if $(RUN_BASE_DIR),/$(RUN_BASE_DIR)))
+
 DIST_INSTALL_DIR_EXPORTS	=				\
 	$(foreach var,$(RUN_DIR_VAR_LIST),			\
   INSTALL_$(var)_DIR=$(strip $(subst $(RUN_BASE_DIR),		\
 				     $(INSTALL_BASE_DIR),	\
 				     $(RUN_$(var)_DIR))))
+
 
 SUBDIRS		=
 
@@ -68,11 +77,20 @@ PHONY_TARGETS	= $(HELP_TARGETS)
 
 include Make/make.cfg.targets.install.$(make_cfg_ver)
 
+dist_install:
+	$(hide) $(MAKE) -f Install.Makefile				\
+		$(patsubst %,install_%,$(DIST_BINARY_TYPE_LIST))	\
+		$(exports)						\
+		$(install_exports)					\
+		$($(@)_exports)						\
+		$(DIST_INSTALL_DIR_EXPORTS)
+
 
 create_dist_cpio:
 	$(hide) MakeInstallCpio						\
 		--project=$(PROJECT_NAME)				\
 		--prj-version=$(FULL_VERSION)				\
+		--dist-base-dir=$(DIST_BASE_DIR)			\
 		$(if $(INSTALL_FS_BASE_DIR),				\
 		     --install-fs-base-dir=$(INSTALL_FS_BASE_DIR),)	\
 		--install-base-dir=$(INSTALL_BASE_DIR)			\
@@ -81,7 +99,7 @@ create_dist_cpio:
 		--run-base-dir=$(RUN_BASE_DIR)				\
 		--install-script=$(INSTALL_SCRIPT)
 
-dist_binary: create_dist_cpio
+dist_binary: dist_install create_dist_cpio
 
 
 #

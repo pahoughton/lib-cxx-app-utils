@@ -1225,13 +1225,12 @@ bool
 Param::good( void ) const
 {
   // This is a cheat!
-  //   If param is used, the app will most likely call good
-  //   after all the args have been processed. If the user
-  //   requested an argfile (i.e. -gen-argfile) then we
-  //   should generate it, tell him about it and exit.
-  //
+
+  // If we are going to generate an args file, the logs man not
+  // be good, but that doesn't matter for args generation.
+  
   if( generateArgFile )
-    genArgFile( true );
+    return( true );
 
   
   return( appLog.good() && errors.size() == 0 );
@@ -1634,7 +1633,7 @@ int Stlutils_Prama_Gen_NoDate( 0 );
 // should generate it, tell him about it and exit.bool
 
 void
-Param::genArgFile( bool exitApp )
+Param::genArgFile( bool exitApp ) const
 {
   ostream * out;
 
@@ -1651,10 +1650,11 @@ Param::genArgFile( bool exitApp )
 	  destFn << ".bak";
 	  if( ! fileOp.copy( argFile, destFn ) )
 	    {
-	      LogIf( log(), LogLevel::Error )
+	      LLgError
 		<< "gen args file - " << fileOp.error()
 		<< endl;
-	      log().close();
+	      if( _LibLog )
+		(*_LibLog).close();
 	      
 	      if( errorLogFile )
 		delete errorLogFile;
@@ -1774,6 +1774,9 @@ Param::genArgFile( bool exitApp )
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2001/08/06 17:19:33  houghton
+// *** empty log message ***
+//
 // Revision 5.5  2001/08/05 23:00:46  houghton
 // *** empty log message ***
 //

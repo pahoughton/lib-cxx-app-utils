@@ -76,45 +76,46 @@ include Make/make.cfg.targets.common.$(make_cfg_ver)
 
 $(DEPEND_TARGETS):
 	$(call make_subdirs,$@,$(LIB_SUBDIRS) $(BIN_SUBDIRS),	\
-		$($(@)_exports)					\
+		$(exports)					\
 		$(depend_exports)				\
-		$(exports))
+		$($(@)_exports))
 
 $(BUILD_TARGETS):
 	$(call make_subdirs,$@,$(LIB_SUBDIRS) $(BIN_SUBDIRS),	\
-		$($(@)_exports)					\
-		$(exports))
+		$(exports)					\
+		$($(@)_exports))
 
 check: test
 	$(call make_subdirs,$@,$(PRJ_TOPDIR)/test,	\
-		$($(@)_exports)				\
-		$(exports))
+		$(exports)				\
+		$(test_exports)				\
+		$($(@)_exports))
 
 $(INSTALL_LIB_TARGETS):
 	$(call make_subdirs,$(patsubst install_lib_%,install_%,$@),	\
 		$(LIB_SUBDIRS),						\
-		$($(@)_exports)						\
+		$(exports)						\
 		$(install_lib_exports)					\
-		$(exports))
+		$($(@)_exports))
 
 $(INSTALL_TARGETS):
 	$(call make_subdirs,install_shared,	\
 		$(LIB_SUBDIRS),			\
-		INSTALL_INC_DIR=$(RUN_NO_DIR)	\
-		$($(@)_exports)			\
+		$(exports)			\
 		$(install_lib_exports)		\
-		$(exports))
+		$($(@)_exports))
 	$(call make_subdirs,$@,		\
 		$(BIN_SUBDIRS),		\
-		$($(@)_exports)		\
+		$(exports)		\
 		$(install_exports)	\
-		$(exports))
+		$($(@)_exports))
 	$(call make_subdirs,install,	\
 		$(INSTALL_SUBDIRS),	\
-		$($(@)_exports)		\
+		$(exports)		\
 		$(install_exports)	\
-		$(exports))
+		$($(@)_exports))
 
+install: install_shared
 
 #
 # Revision Log:

@@ -57,17 +57,11 @@ INSTALL_SUPPORT_LIB_TARGETS	=				\
 INSTALL_SUPPORT_TARGETS	=					\
 	$(patsubst %,install_support_%,$(BUILD_TYPE_LIST))
 
-DIST_BINARY_TYPE_LIST	= shared debug
-
-DIST_INSTALL_BASE_DIR	=						\
-	$(shell cd $(PRJ_TOPDIR) && pwd)/install
-
 TARGETS		= help					\
 		  install_dirs				\
 		  $(INSTALL_SUPPORT_LIB_TARGETS)	\
 		  $(INSTALL_SUPPORT_TARGETS)		\
 		  $(INSTALL_TARGETS)			\
-		  dist_install				\
 		  dist_binary				\
 		  clean					\
 		  realclean
@@ -77,12 +71,12 @@ HELP_TARGETS	= $(TARGETS)
 PHONY_TARGETS	= $(HELP_TARGETS)
 
 
-include Make/make.cfg.targets.common.$(make_cfg_ver)
+include Make/make.cfg.targets.install.$(make_cfg_ver)
 
 install_dirs:
 	$(hide) $(MAKE) -f Dir-$(INSTALL_VERSION).Makefile install_dirs	\
-		$(install_dir_exports)					\
-		$(exports)
+		$(exports)						\
+		$(install_dir_exports)
 
 $(INSTALL_SUPPORT_LIB_TARGETS):
 	$(call make_subdirs,$@,						\
@@ -90,22 +84,24 @@ $(INSTALL_SUPPORT_LIB_TARGETS):
 		$(if $($(var)_LIBS)$($(var)_DEP_LIBS),			\
 		    $(if $($(var)_BUILD_DIR),				\
 			$($(var)_EXTRACT_DIR)/$($(var)_BUILD_DIR)))),	\
-	    $($(@)_exports)						\
+	    $(exports)							\
 	    $(install_lib_exports)					\
-	    $(exports))
+	    $($(@)_exports)						\
+	    INSTALL_INC_DIR=$(RUN_NO_DIR))
 	$(call make_subdirs,$(subst _support,,$@),$(PRJ_TOPDIR),	\
-		$($(@)_exports)						\
+		$(exports)						\
 		$(install_lib_exports)					\
-		$(exports))
+		$($(@)_exports)						\
+		INSTALL_INC_DIR=$(RUN_NO_DIR))
 
 $(INSTALL_SUPPORT_TARGETS):
 	$(call make_subdirs,$(subst _support,,$@),			\
 	    $(foreach var,$(SUPPORT_INSTALL_ITEMS),			\
 		$(if $($(var)_BUILD_DIR),				\
 		    $($(var)_EXTRACT_DIR)/$($(var)_BUILD_DIR))),	\
-	    $($(@)_exports)						\
+	    $(exports)							\
 	    $(install_exports)						\
-	    $(exports))
+	    $($(@)_exports))
 
 
 $(INSTALL_TARGETS): 	install_dirs			\
@@ -113,23 +109,16 @@ $(INSTALL_TARGETS): 	install_dirs			\
 			install_support_shared		\
 			install_support_debug
 	$(hide) $(MAKE) -C $(PRJ_TOPDIR)/src $@	\
-		$($(@)_exports)			\
+		$(exports)			\
 		$(install_exports)		\
-		$(exports)
+		$($(@)_exports)
 
 
-dist_install:
-	$(hide) $(MAKE) -f Install.Makefile				\
-		$(patsubst %,install_%,$(DIST_BINARY_TYPE_LIST))	\
-		INSTALL_BASE_DIR=$(DIST_INSTALL_BASE_DIR)		\
-		$($(@)_exports)						\
-		$(exports)
-
-dist_binary: dist_install
-	$(MAKE) -f Dist-$(INSTALL_VERSION).Makefile $@		\
-		$($(@)_exports)					\
-		$(exports)					\
-		INSTALL_BASE_DIR=$(DIST_INSTALL_BASE_DIR)
+dist_binary:
+	$(MAKE) -f Dist-$(INSTALL_VERSION).Makefile $@	\
+		$(exports)				\
+		$(install_exports)			\
+		$($(@)_exports)
 
 
 #
