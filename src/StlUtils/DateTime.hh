@@ -197,8 +197,9 @@
 //  	    set the date/time according to year, month, day, hour, min & sec.
 //  	    These value are checked to be sure they are in range. If
 //  	    any value is not in range, the date/time value is set to 0
-//  	    and a flag is set so 'good()' will return FALSE. The timezone
-//  	    is reset to GMT.
+//  	    and a flag is set so 'good()' will return FALSE. The year
+//  	    range has been limited to 1970 -> 2050, 0 -> 50, 70 -> 99.
+//  	    The timezone is reset to GMT.
 //  	    Returns the previous date/time value.
 //
 //  	time_t
@@ -239,10 +240,9 @@
 //  	time_t
 //  	setYear( short year )
 //  	    set the year. If year is < 50, it is considered to be
-//  	    for the next century (10 = 2010). WARNING: This method
-//  	    is VERY litteral. If the current value is 2/29/92 (leap year)
-//  	    and you setYear( 95 ), the new value will be 3/1/95. It
-//  	    does not try to solve this problem.
+//  	    for the next century (10 = 2010). WARNING: If current value
+//  	    is 2/29/92 (leap year) and you setYear( 95 ) (non leap year),
+//  	    the new value will be 3/1/95. 
 //  	    Returns the previous date/time value.
 //
 //  	time_t
@@ -408,7 +408,10 @@
 //
 // 
 // $Log$
-// Revision 1.4  1995/02/13 16:08:35  houghton
+// Revision 1.5  1995/02/20 14:24:25  houghton
+// Linux port and Fix bugs in DateTime found with new test.
+//
+// Revision 1.4  1995/02/13  16:08:35  houghton
 // New Style Avl an memory management. Many New Classes
 //
 // Revision 1.3  1994/09/27  16:58:40  houghton
@@ -491,16 +494,16 @@ public:
 			     int hour = 0, int min = 0, int sec = 0 );
   inline time_t		set( const struct tm & tmTime );
 
-  inline time_t         setValid( int year, int month, int day,
+  time_t            	setValid( int year, int month, int day,
 				  int hour = 0, int min = 0, int sec = 0 );
-  inline time_t	    	setValid( const char * dateString, const char * fmt = 0 );
+  time_t	    	setValid( const char * dateString, const char * fmt = 0 );
   
   inline time_t		setYYYYMMDD( const char * yyyymmdd);
   inline time_t		setYYMMDD( const char * yymmdd);
   inline time_t		setHHMMSS( const char * hhmmss);
   
-  inline time_t		setYear( short year );
-  inline time_t		setMonth( short month );
+  time_t		setYear( short year );
+  time_t		setMonth( short month );
   inline time_t		setDayOfYear( short dayOfYear );
   inline time_t		setDayOfMonth( short dayOfMonth );
   inline time_t		setHour( short hour );
@@ -619,8 +622,6 @@ DateTime::DateTime( time_t setTime, Bool addLocal )
 inline 
 DateTime::DateTime( time_t day, time_t timeOfDay )
 {
-  timeZoneName = 0;
-  offset = 0;
   resetFlags();
   seconds = day + timeOfDay;
 }
@@ -629,9 +630,6 @@ DateTime::DateTime( time_t day, time_t timeOfDay )
 inline 
 DateTime::DateTime( const char * yymmdd, const char * hhmmss )
 {
-  timeZoneName = 0;
-  offset = 0;
-  seconds = 0;
   setHHMMSS( hhmmss );
   setYYMMDD( yymmdd );
 }
@@ -647,8 +645,6 @@ DateTime::DateTime(
     int 	sec
     )
 {  
-  timeZoneName = 0;
-  offset = 0;
   set( year, month, day, hour, min, sec );
 }
 
@@ -657,17 +653,13 @@ DateTime::DateTime(
 inline 
 DateTime::DateTime( const struct tm & setTime )
 {
-  timeZoneName = 0;
-  offset = 0;
-  set( tm );
+  set( setTime );
 }
 
 // Constructor - initialize from dateString
 inline
 DateTime::DateTime( const char * dateString )
 {
-  timeZoneName = 0;
-  offset = 0;
   set( dateString, 0 );
 }
 
@@ -886,10 +878,8 @@ time_t
 DateTime::setTimeT( time_t timeSec )
 {
   time_t    old = seconds;
-  seconds = timeSec;
-  timeZoneName = 0;
-  offset = 0;
   resetFlags();
+  seconds = timeSec;
   
   return( old );
 }
@@ -900,10 +890,8 @@ time_t
 DateTime::set( time_t timeSec, Bool addLocal )
 {
   time_t    old = seconds;
-  seconds = timeSec;
-  timeZoneName = 0;
-  offset = 0;
   resetFlags();
+  seconds = timeSec;
   
   if( addLocal )
     {
@@ -918,10 +906,8 @@ inline
 time_t
 DateTime::set( const char * dateStr, const char * fmt )
 {
-  resetFlags();
   time_t old = seconds;
-  timeZoneName = 0;
-  offset = 0;
+  resetFlags();
   seconds = DateStringToTimeT( dateStr, fmt );
   return( old );
 }
@@ -938,16 +924,11 @@ DateTime::set(
   int sec
   )
 {
-  timeZoneName = 0;
-  offset = 0;
-  resetFlags();
-  
   time_t old = seconds;
+  resetFlags();
 
-  seconds = YearMonthDayToTimeT( year, month, day );
-  seconds += hour * SEC_PER_HOUR;
-  seconds += min * SEC_PER_MIN;
-  seconds += sec;
+  seconds = ( YearMonthDayToTimeT( year, month, day ) +
+	      HourMinSecToTimeT( hour, min, sec ) );
 
   return( old );
 }
@@ -957,17 +938,12 @@ inline
 time_t
 DateTime::set( const struct tm & tmTime )
 {
-  timeZoneName = 0;
-  offset = 0;
-  time_t old = seconds;
-  seconds = YearMonthDayToTimeT( tmTime.tm_year,
-				 tmTime.tm_mon+1,
-				 tmTime.tm_mday );
-  seconds += tmTime.tm_hour * SEC_PER_HOUR;
-  seconds += tmTime.tm_min * SEC_PER_MIN;
-  seconds += tmTime.tm_sec;
-
-  return( old );
+  return( set( tmTime.tm_year,
+	       tmTime.tm_mon+1,
+	       tmTime.tm_mday,
+	       tmTime.tm_hour,
+	       tmTime.tm_min,
+	       tmTime.tm_sec ) );
 }
 
 // setYYYYMMDD - set the date from the string ( ie 19950131 )
@@ -975,9 +951,10 @@ inline
 time_t
 DateTime::setYYYYMMDD( const char * yyyymmdd )
 {
-  resetFlags();
   time_t old = seconds;
   seconds = YYYYMMDDtoTimeT( yyyymmdd ) + (seconds % SEC_PER_DAY );
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( old );
 }
 
@@ -986,9 +963,10 @@ inline
 time_t
 DateTime::setYYMMDD( const char * yymmdd )
 {
-  resetFlags();
   time_t old = seconds;
   seconds = YYMMDDtoTimeT( yymmdd ) + (seconds % SEC_PER_DAY );
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( old );
 }
 
@@ -997,9 +975,10 @@ inline
 time_t
 DateTime::setHHMMSS( const char * hhmmss )
 {
-  resetFlags();
   time_t old = seconds;
   seconds = (seconds - (seconds % SEC_PER_DAY)) + HHMMSStoTimeT( hhmmss );
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( old );
 }
 
@@ -1009,11 +988,10 @@ time_t
 DateTime::setDayOfYear( short dayOfYear )
 {
   time_t old = seconds;
-
   seconds -= getDayOfYear() * SEC_PER_DAY;
   seconds += dayOfYear * SEC_PER_DAY;
-  
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( old );
 }
 
@@ -1023,11 +1001,10 @@ time_t
 DateTime::setDayOfMonth( short dayOfMonth )
 {
   time_t old = seconds;
-
   seconds -= getDayOfMonth() * SEC_PER_DAY;
   seconds += dayOfMonth * SEC_PER_DAY;
-
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( old );
 }
 
@@ -1037,11 +1014,10 @@ time_t
 DateTime::setHour( short hour )
 {
   time_t old = seconds;
-
   seconds -= getHour() * SEC_PER_HOUR;
   seconds += hour * SEC_PER_HOUR;
-
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( old );
 }
 
@@ -1051,11 +1027,10 @@ time_t
 DateTime::setMinute( short minute )
 {
   time_t old = seconds;
-
   seconds -= getMinute() * SEC_PER_MIN;
   seconds += minute * SEC_PER_MIN;
-
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( old );
 }
 
@@ -1065,11 +1040,10 @@ time_t
 DateTime::setSecond( short sec )
 {
   time_t old = seconds;
-
   seconds -= getSecond();
   seconds += sec;
-
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( old );
 }
 
@@ -1078,7 +1052,9 @@ inline
 long
 DateTime::setTimeZone( const char * zone )
 {
-  seconds -= offset;
+  seconds -= offset;  
+  flags.dstKnown = FALSE;
+  flags.tmValid = FALSE;
   offset = getGmtOffset( zone );
   timeZoneName = zone;
   seconds += offset;
@@ -1092,7 +1068,8 @@ DateTime &
 DateTime::add( const DateTime & dt )
 {
   seconds += dt.getTimeT();
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( *this );
 }
 
@@ -1102,7 +1079,8 @@ DateTime &
 DateTime::add( long sec )
 {
   seconds += sec;
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( *this );
 }
 
@@ -1112,7 +1090,8 @@ DateTime &
 DateTime::addSec( long sec )
 {
   seconds += sec;
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( *this );
 }
 
@@ -1122,7 +1101,8 @@ DateTime &
 DateTime::addMin( long minutes )
 {
   seconds += minutes * SEC_PER_MIN;
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( *this );
 }
 
@@ -1132,7 +1112,8 @@ DateTime &
 DateTime::addHour( long hours )
 {
   seconds += hours * SEC_PER_HOUR;
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( *this );
 }
 
@@ -1142,7 +1123,8 @@ DateTime &
 DateTime::addDay( long days )
 {
   seconds += days * SEC_PER_DAY;
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
   return( *this );
 }
 
@@ -1211,6 +1193,8 @@ DateTime::resetFlags( void )
   flags.valid = TRUE;
   flags.dstKnown = FALSE;
   flags.tmValid = FALSE;
+  offset = 0;
+  timeZoneName = 0;
 }
 
 // Compare - return the diff beween 2 DateTime values

@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.4  1995/02/13 16:08:35  houghton
+// Revision 1.5  1995/02/20 14:24:25  houghton
+// Linux port and Fix bugs in DateTime found with new test.
+//
+// Revision 1.4  1995/02/13  16:08:35  houghton
 // New Style Avl an memory management. Many New Classes
 //
 // Revision 1.3  1994/08/16  20:50:16  houghton
@@ -119,44 +122,6 @@ DateTime::isDST( void )
   return( FALSE );
 }
 
-// setTmOffset - set the tm struct using a local time offset
-void
-DateTime::setTmOffset( void )
-{
-  const char * oldZone = getenv( "TZ" );
-
-  if( timeZoneName && strcmp( oldZone, timeZoneName ) )
-    {      
-      static char * zone = 0;
-      static char * delZone = 0;
-      
-      delZone = zone;
-      zone = new char[30];
-      
-      strcpy( zone, "TZ=" );
-      strcat( zone, timeZoneName );
-      putenv( zone );
-	  
-      seconds -= offset;
-      memcpy( &tm, localtime( &seconds ), sizeof( struct tm ) );
-      seconds += offset;
-
-      strcpy( zone, "TZ=" );
-      strcat( zone, oldZone );
-      putenv( oldZone );
-
-      if( delZone ) delete delZone;
-    }
-  else
-    {
-      seconds -= offset;
-      memcpy( &tm, localtime( &seconds ), sizeof( struct tm ) );
-      seconds += offset;
-    }
-  flags.dstKnown = TRUE;
-  flags.dst = tm.tm_isdst;  
-}
-
 long	DateTime::localSysOffset = 0;
 
 // getGmtOffset - return the gmt offset for 'timeZone'
@@ -194,7 +159,7 @@ DateTime::getGmtOffset( const char * timeZone )
 	  
 	  strcpy( zone, "TZ=" );
 	  strcat( zone, oldZone );
-	  putenv( oldZone );
+	  putenv( zone );
 
 	  tzset();
 	  
@@ -241,9 +206,9 @@ DateTime::setValid(
 	( year >= 0 && year < 50 ) ||
 	( year > 70 && year < 100 ) ) &&
       ( month > 0 && month <= 12 ) &&
-      ( hour >= 0 && hour <= 23 ) &&
-      ( min >= 0 && min <= 60 ) &&
-      ( sec >= 0 && sec <= 60 ) )
+      ( hour >= 0 && hour < 24 ) &&
+      ( min >= 0 && min < 60 ) &&
+      ( sec >= 0 && sec < 60 ) )
     {
       if( day  > DaysInMonth[ month-1 ] )
 	{
@@ -263,7 +228,7 @@ DateTime::setValid(
 	}
       else
 	{
-	  if( day >= 0 )
+	  if( day > 0 )
 	    {
 	      return( set( year, month, day, hour, min, sec ) );
 	    }
@@ -292,7 +257,14 @@ DateTime::setValid( const char * dateString, const char * fmt )
     {
       struct tm tmTime;
       
-      if( strptime( dateString, fmt, &tm ) )
+      tmTime.tm_year = 0;
+      tmTime.tm_mon = 0;
+      tmTime.tm_mday = 0;
+      tmTime.tm_hour = 0;
+      tmTime.tm_min = 0;
+      tmTime.tm_sec = 0;
+      
+      if( strptime( dateString, fmt, &tmTime ) )
 	{
 	  return( setValid( tmTime.tm_year + 1900,
 			    tmTime.tm_mon + 1,
@@ -389,15 +361,18 @@ time_t
 DateTime::setYear( short year )
 {
   time_t old = seconds;
-  
+
+  int oldMonth = getMonth();
   // first get the year
-  short oldYear = getYear();
+  short oldYear = getYear() - 1900;
 
   // now take it away from seconds
 
   short leapCount = ((oldYear - 70) + 2) / 4;
 
-  if( IsLeapYear( oldYear ) )
+  int oldIsLeap = IsLeapYear( oldYear );
+
+  if( oldIsLeap )
     {
       leapCount--;
     }
@@ -412,14 +387,32 @@ DateTime::setYear( short year )
   
   leapCount = ((year - 70) + 2) / 4;
 
-  if( IsLeapYear( year ) )
+  int newIsLeap = IsLeapYear( year );
+  if( newIsLeap )
     {
       leapCount--;
     }
 
   seconds += ((year - 70) * SEC_PER_YEAR ) + (leapCount * SEC_PER_DAY );
 
-  resetFlags();
+  if( oldIsLeap )
+    {
+      if( ! newIsLeap && oldMonth > 2 )
+	{
+	  seconds -= SEC_PER_DAY;
+	}
+    }
+  else
+    {
+      if( newIsLeap && oldMonth > 2 )
+	{
+	  seconds += SEC_PER_DAY;
+	}
+    }
+  
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
+  
   return( old );
 }
 
@@ -450,7 +443,9 @@ DateTime::setMonth( short month )
       seconds += SEC_PER_DAY;
     }
 
-  resetFlags();
+  flags.tmValid = FALSE;
+  if( offset ) setTm();
+  
   return( old );
 }
 
@@ -489,6 +484,58 @@ DateTime::error( void ) const
   return( errStr.cstr() );  
 }
   
+// setTmOffset - set the tm struct using a local time offset
+void
+DateTime::setTmOffset( void )
+{
+  const char * oldZone = getenv( "TZ" );
+
+  if( flags.dstKnown && flags.dst )
+    {
+      seconds -= offset;
+      offset -= SEC_PER_HOUR;
+      seconds += offset;
+    }     
+
+  if( timeZoneName )
+    {      
+      static char * zone = 0;
+      static char * delZone = 0;
+      
+      delZone = zone;
+      zone = new char[30];
+      
+      strcpy( zone, "TZ=" );
+      strcat( zone, timeZoneName );
+      putenv( zone );
+	  
+      seconds -= offset;
+      memcpy( &tm, localtime( &seconds ), sizeof( struct tm ) );
+      seconds += offset;
+
+      strcpy( zone, "TZ=" );
+      strcat( zone, oldZone );
+      putenv( zone );
+
+      if( delZone ) delete delZone;
+    }
+  else
+    {
+      seconds -= offset;
+      memcpy( &tm, localtime( &seconds ), sizeof( struct tm ) );
+      seconds += offset;
+    }
+  
+  flags.dstKnown = TRUE;
+  flags.dst = tm.tm_isdst;
+  if( flags.dst )
+    {
+      seconds -= offset;
+      offset += SEC_PER_HOUR;
+      seconds += offset;
+    }     
+}
+
 	  
 ostream & operator<<( ostream & dest, const DateTime & time )
 {

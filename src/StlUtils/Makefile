@@ -114,7 +114,6 @@ LIB_CXX_SOURCES	=			\
 	MapFile.C                       \
 	MapMem.C                        \
 	MapMemFixedDynamic.C            \
-	Mcr.C                           \
 	MultiMem.C			\
 	MultiMemOffset.C		\
 	MultiMemOffsetMapFixed.C	\
@@ -127,6 +126,7 @@ LIB_CXX_SOURCES	=			\
 	StringList.C                    \
 	TeleNum.C                       \
 
+#	Mcr.C                           \
 
 # 
 # =USE_CURRENT_MAKEFILE=
@@ -225,7 +225,10 @@ include .depend.lib
 
 # 
 # $Log$
-# Revision 1.8  1995/02/13 17:37:07  houghton
+# Revision 1.9  1995/02/20 14:24:27  houghton
+# Linux port and Fix bugs in DateTime found with new test.
+#
+# Revision 1.8  1995/02/13  17:37:07  houghton
 # Add SybaseParam
 #
 # Revision 1.7  1995/02/13  16:08:47  houghton

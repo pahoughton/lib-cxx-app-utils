@@ -14,7 +14,10 @@
 //  	their own files (LogLevel.(hh C) & LogBuf.(hh C)
 // 
 // $Log$
-// Revision 1.3  1995/02/13 16:08:45  houghton
+// Revision 1.4  1995/02/20 14:24:27  houghton
+// Linux port and Fix bugs in DateTime found with new test.
+//
+// Revision 1.3  1995/02/13  16:08:45  houghton
 // New Style Avl an memory management. Many New Classes
 //
 // Revision 1.2  1994/08/15  20:54:55  houghton
@@ -182,7 +185,13 @@ Log::rdbuf( void )
 const LogBuf *
 Log::rdbuf( void ) const
 {
+#ifdef AIX
+  // aix does not have a const rdbuf
   return( (const LogBuf *)(bp) );
+#else
+  return( (LogBuf *)(ios::rdbuf()) );
+#endif
+  
 }
 
 #endif // ! def _Log_hh_ 
