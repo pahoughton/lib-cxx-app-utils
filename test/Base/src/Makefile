@@ -48,15 +48,25 @@ PRJ_TOPDIR	= ../../..
 
 VPATH		= $(ARCH_VPATH):.
 
-TEST_DATA_DIR	= ../data
 ###### D E F I N E S  #####
 # 
 # Config defines avalable
 #
 #
 
+TEST_DATA_DIR	= ../data
+TEST_USER	= houghton
+TEST_GROUP	= cirinv
+TEST_UID	= 253
+TEST_GID	= 233
 
-SRC_DEFINES	= -DTEST_DATA_DIR=\"$(TEST_DATA_DIR)\"
+SRC_DEFINES	= -DTEST_DATA_DIR=\"$(TEST_DATA_DIR)\" 	\
+		  -DTEST_USER=\"$(TEST_USER)\"		\
+		  -DTEST_GROUP=\"$(TEST_GROUP)\"	\
+		  -DTEST_UID=$(TEST_UID)		\
+		  -DTEST_GID=$(TEST_GID)		\
+		  -DTEST_LINE_PROGRESS=false
+
 PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFAULT_DEFINES = -DTEST_DEFAULT=1
@@ -328,7 +338,7 @@ test_debug: test_data debug
 	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha $(NAME)_g
 
 test_data: 
-	chgrp tools $(TEST_DATA_DIR)/FileStat.01
+	chgrp $(TEST_GROUP) $(TEST_DATA_DIR)/FileStat.01
 	(cd $(TEST_DATA_DIR); ln -s FileStat.01 FileStat.l1)
 	-touch $(TEST_DATA_DIR)/FileStat.set
 	chmod 6 $(TEST_DATA_DIR)/FileStat.set
@@ -378,6 +388,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.9  1996/05/03 16:17:19  houghton
+# Added defines to easy multi platform test.
+#
 # Revision 2.8  1996/05/02 11:06:24  houghton
 # Changed PRJ_TOPDIR for new dir structure.
 # Rework test_data targets.
