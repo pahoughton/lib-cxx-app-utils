@@ -123,9 +123,9 @@ const ClassVersion className_::version( #className_,			      \
 //
 // Detail Documentation
 //
-//  Data Types: - data types defined by this header
+//  Types:
 //
-//  	ClassVersion	class
+//  	class	ClassVersion
 //
 //  Constructors:
 //
@@ -198,16 +198,16 @@ const ClassVersion className_::version( #className_,			      \
 //	    Return the project's version number. This is the same value
 //	    passed to the constructor as 'prjVer';
 //
+//  	inline
+//	const char *
+//  	getClassName( void ) const;
+//  	    Return the name of this class (i.e. ClassVersion)
+//
 //	inline
 //	const char *
 //	getVersion( bool withPrjVer = true ) const;
 //	    Return the version information for ClassVersion. Calls
 //	    ClassVersion::version.getVer( withPrjVer );
-//
-//  	inline
-//	const char *
-//  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. ClassVersion)
 //
 //	inline
 //	operator const char * () const;
@@ -221,7 +221,18 @@ const ClassVersion className_::version( #className_,			      \
 //
 //  Private Methods:
 //
-//  Other Associated Functions:
+//  Associated Macros:
+//
+//	CLASS_VERSION( className, verId, prj, prjVerNum, prjVer )
+//	    This is a helper macro for your .C files that will
+//	    instantiate a static const ClassVersion className::version
+//	    variable for you. Where 'className' is the name of the
+//	    class (do NOT quoute), 'verId' is the version id string,
+//	    'project' is the project name string, 'prjVerNum' is the project
+//	    version number string, and 'prjVer' is a long that identifies
+//	    the project's version.
+//
+//  Associated Functions:
 //
 //	inline
 //  	ostream &
@@ -271,6 +282,10 @@ const ClassVersion className_::version( #className_,			      \
 // Revision Log:
 //
 // $Log$
+// Revision 2.6  1996/11/04 13:28:37  houghton
+// Added Associated Macros to header comments
+// Cleanup header comments.
+//
 // Revision 2.5  1996/10/28 11:55:23  houghton
 // Added: ostream & operator << ( ostream & dest, const ClassVersion & obj )
 // Added: operator const char * ()
