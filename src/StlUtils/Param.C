@@ -522,7 +522,7 @@ Param::argFlag(
   dest = getArgFlag( argId, envVar );
   
   appendHelp( argId, desc, envVar,
-	      (dest ? "true" : "false" ) );
+	      (dest ? "true" : "flag") );
 
   return( dest );
 }
@@ -1113,6 +1113,10 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.14  1997/07/25 12:17:09  houghton
+// Changed help for flag type args to output 'flag' instead of false
+//     when the flag is not set.
+//
 // Revision 3.13  1997/07/18 19:25:17  houghton
 // Cleanup.
 // Port(Sun5): changed local variable names to eliminate compiler warnings.
