@@ -17,6 +17,7 @@ UNIX_DEFINES	=
 UNIX_INC	= -I$(UNIX_DIR)
 
 UNIX_C_SOURCES		=	\
+	StrSignal.c		\
 
 UNIX_CXX_C_SOURCES	=	\
 	InboundProcessorBase.C	\
@@ -31,7 +32,7 @@ UNIX_CXX_C_SOURCES	=	\
 	FileLock.C		\
 
 UNIX_USER_H_INCS	=	\
-	SignalStrings.h		\
+	StrSignal.h		\
 
 UNIX_USER_HH_INCS	=	\
 	StlUtilsSem.hh		\
@@ -61,13 +62,17 @@ UNIX_C_HEADERS		=
 UNIX_CXX_HEADERS	=
 UNIX_CXX_INLINES	=
 
-UNIX_GENERATED_SOURCES = $(UNIX_DIR)/SignalStrings.h
+UNIX_GENERATED_SOURCES = $(UNIX_DIR)/_SignalStrings.h
 
-$(UNIX_DIR)/SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
+$(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 	$(hide) $(UNIX_DIR)/GenSigList.sh $(CC) $@
 
 #
 # $Log$
+# Revision 4.3  1998/02/02 15:24:08  houghton
+# Removed SignalStrings.h
+# Added StrSignal.c and StrSignal.h
+#
 # Revision 4.2  1997/10/03 15:51:56  houghton
 # Added StlUtilsSem.hh
 #
