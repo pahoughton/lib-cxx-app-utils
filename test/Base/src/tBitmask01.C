@@ -70,7 +70,7 @@ tBitmask01( LibTest & tester )
     for( size_t pos = 0; pos < 8; pos++ )
     {
       Bitmask t( s(pos) );
-      TEST( t.to_ulong() == ( 0x24 & (1 << pos) ) );
+      TEST( t.to_ulong() == ((unsigned long)( 0x24 & (1 << pos) )) );
     }
   }
 
@@ -467,6 +467,9 @@ tBitmask01( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:19:22  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.1  1997/09/17 15:14:04  houghton
 // Changed to Version 4
 //

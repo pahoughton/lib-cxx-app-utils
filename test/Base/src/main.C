@@ -67,6 +67,7 @@ LibTest::TestItem   TestList[] =
   { "Param",		    tParam },
   { "File",		    tFile },
   { "SortOrder",	    tSortOrder },
+  { "Directory",	    tDirectory },
 #if defined( TEST_TIMEIT )
   { "TimeIt",		    tTimeIt },
 #endif
@@ -198,6 +199,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.7  1998/04/02 14:19:22  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.6  1998/03/21 13:56:01  houghton
 // Added test for 'File'.
 //

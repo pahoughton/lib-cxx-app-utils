@@ -1,11 +1,11 @@
 #include <LibTest.hh>
 
-bool tDirectory01( LibTest & test );
+bool tDirectory01( LibTest & tester );
 
 bool
-tDirectory( LibTest & test )
+tDirectory( LibTest & tester )
 {
-  test( tDirectory01( test ), true );
+  TESTP( tDirectory01( tester ) );
 
   return( true );
 }

@@ -72,7 +72,7 @@ tLog07( LibTest & tester )
     const char *    TestF2 = TEST_DATA_DIR "/log.30";
     const char *    TestF3 = TEST_DATA_DIR "/log.31";
 
-    const char *    Src = "Test.C";
+    // const char *    Src = "Test.C";
     size_t	    Line = 0;
 
     {
@@ -212,6 +212,8 @@ tLog07( LibTest & tester )
       t( LogLevel::Debug,   "Src", ++Line ) << "test Debug" << '\n';
       t( LogLevel::Funct,   "Src", ++Line ) << "test Funct" << '\n';
 
+      TEST( t.delFilter( fid3 ) == f3.rdbuf() );
+
     }
 
     {
@@ -319,6 +321,8 @@ tLog07( LibTest & tester )
       t( LogLevel::Debug )
 	<< "This should be in both f2 & f3 because of this 'x' and 'all'.\n";
       
+      TEST( t.delFilter( fid2 ) == f2.rdbuf() );
+
     }
 
     {
@@ -334,6 +338,9 @@ tLog07( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:19:25  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.1  1997/09/17 15:14:25  houghton
 // Changed to Version 4
 //

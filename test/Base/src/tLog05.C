@@ -62,12 +62,12 @@ tLog05( LibTest & tester )
     
     const char *    TestFn = TEST_DATA_DIR "/log.19";
 
-    const size_t    MaxSize = 40960;
-    const size_t    TrimSize = 1024;
+    const FileStat::size_type	MaxSize = 40960;
+    const FileStat::size_type	TrimSize = 1024;
     
     const char *    EntryText =
       "good test checking maxSize.\n";
-    const size_t    EntrySize =
+    const FileStat::size_type    EntrySize =
       strlen( "mm/dd/yy hh:mm:ss INFO Test.C:n") +
       strlen( EntryText );
 
@@ -76,7 +76,9 @@ tLog05( LibTest & tester )
       
       Log t( TestFn, LogLevel::Info, ios::out );
 
-      for( int l = EntrySize; l < (MaxSize * 2); l += EntrySize )
+      for( FileStat::size_type l = EntrySize;
+	   l < (MaxSize * 2);
+	   l += EntrySize )
 	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
 
     }
@@ -152,6 +154,9 @@ tLog05( LibTest & tester )
       
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:19:24  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.1  1997/09/17 15:14:24  houghton
 // Changed to Version 4
 //

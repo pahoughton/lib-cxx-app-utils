@@ -28,10 +28,10 @@ bool
 tTimeIt01( LibTest & tester )
 {
   {
-    TimeIt	t;
-    List	tList;
-    Directory	dir;
-    long	maxTests = 50;
+    TimeIt		t;
+    List		tList;
+    Directory		dir;
+    List::size_type	maxTests = 50;
     
     double	realAvg = 0;
     double      realBest = 5000.0;
@@ -39,7 +39,7 @@ tTimeIt01( LibTest & tester )
     
     {
       double	real;
-      for( long cnt = 0; cnt < maxTests; ++ cnt )
+      for( List::size_type cnt = 0; cnt < maxTests; ++ cnt )
 	{
 	  t.start();
 	  long loops = (10 + (rand() % 40));
@@ -130,6 +130,9 @@ tTimeIt01( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:19:26  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.1  1997/09/17 15:14:51  houghton
 // Changed to Version 4
 //

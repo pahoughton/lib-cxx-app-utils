@@ -31,12 +31,12 @@ tLog06( LibTest & tester )
 
     const char *    TestFn = TEST_DATA_DIR "/log.20";
 
-    const size_t    MaxSize = 40960;
-    const size_t    TrimSize = 1024;
+    const FileStat::size_type    MaxSize = 40960;
+    const FileStat::size_type    TrimSize = 1024;
     
     const char *    EntryText =
       "good test checking trim( void ).\n";
-    const size_t    EntrySize =
+    const FileStat::size_type    EntrySize =
       strlen( "mm/dd/yy hh:mm:ss INFO ") +
       strlen( EntryText );
 
@@ -45,7 +45,7 @@ tLog06( LibTest & tester )
 	     LogLevel::Info,
 	     ios::out );
 
-      for( size_t e = EntrySize;
+      for( FileStat::size_type e = EntrySize;
 	   e < (MaxSize - (EntrySize * 2));
 	   e += EntrySize )
 	t( LogLevel::Info ) << EntryText;
@@ -310,6 +310,9 @@ tLog06( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:19:25  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.1  1997/09/17 15:14:25  houghton
 // Changed to Version 4
 //

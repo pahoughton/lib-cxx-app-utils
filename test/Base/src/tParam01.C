@@ -25,7 +25,7 @@
 #define APP_NAME_01	"TestParam_01"
 #define APP_FULLNAME_01	"test/src/Base/" APP_NAME_01
 
-static char * argv_01[] =
+static const char * Argv_01[] =
 {
   APP_FULLNAME_01,
 };
@@ -33,7 +33,7 @@ static char * argv_01[] =
 #define APP_NAME_02	"TestParam_01"
 #define APP_FULLNAME_02	"test/src/Base/" APP_NAME_01
 
-static char * argv_02[] =
+static const char * Argv_02[] =
 {
   APP_FULLNAME_02,
   "arg  1",
@@ -43,7 +43,7 @@ static char * argv_02[] =
   "10.10"
 };
 
-static char * argv_03[] =
+static const char * Argv_03[] =
 {
   "test/src/Base/TestParam_03",
   "-help",
@@ -66,12 +66,36 @@ static char * argv_03[] =
 bool
 tParam01( LibTest & tester )
 {
+  int	argc_01( ArraySize( Argv_01 ) );
+  int	argc_02( ArraySize( Argv_02 ) );
+  int	argc_03( ArraySize( Argv_03 ) );
+  
+  char ** argv_01( new char * [ argc_01 ] );
+  char ** argv_02( new char * [ argc_02 ] );
+  char ** argv_03( new char * [ argc_03 ] );
+  
+  
+  {
+    for( size_t a = 0; a < ArraySize( Argv_01 ); ++ a )
+      argv_01[a] = strdup( Argv_01[a] );
+  }
+	
+  {
+    for( size_t a = 0; a < ArraySize( Argv_02 ); ++ a )
+      argv_01[a] = strdup( Argv_02[a] );
+  }
+	
+  {
+    for( size_t a = 0; a < ArraySize( Argv_03 ); ++ a )
+      argv_01[a] = strdup( Argv_03[a] );
+  }
+	
   {
     // Param( int, char * [] )
     // appName( void ) const;
     // appFullName( void ) const;
     
-    Param t( ArraySize( argv_01 ), argv_01 );
+    Param t( argc_01, argv_01 );
 
     t.parseArgs();
     
@@ -88,12 +112,12 @@ tParam01( LibTest & tester )
     // beginAll( void ) const
     // endAll( void ) const;
     
-    Param t( ArraySize( argv_02 ), argv_02, APP_VER );
+    Param t( argc_02, argv_02, APP_VER );
 
     t.parseArgs();
     
     TEST( compare( t.appVersion(), APP_VER ) == 0 );
-    TEST( t.count() == ArraySize( argv_02 ) -1  );
+    TEST( (int)t.count() == argc_02  -1  );
     
     size_t  count = 1;
 
@@ -105,7 +129,7 @@ tParam01( LibTest & tester )
 	  TESTR( (*them), (*them) == argv_02[count] );
 	}
       
-      TEST( count == ArraySize( argv_02 ) );
+      TEST( (int)count == argc_02 );
     }
     
     count = 0;
@@ -117,7 +141,7 @@ tParam01( LibTest & tester )
 	  TESTR( (*them), (*them) == argv_02[count] );
 	}
       
-      TEST( count == ArraySize( argv_02 ) );
+      TEST( (int)count == argc_02 );
     }
   }
 
@@ -128,7 +152,7 @@ tParam01( LibTest & tester )
     // argLong( size_t );
     // argDouble( size_t );
     
-    Param t( ArraySize( argv_02 ), argv_02, APP_VER );
+    Param t( argc_02, argv_02, APP_VER );
 
     t.parseArgs();
     
@@ -139,6 +163,13 @@ tParam01( LibTest & tester )
     TEST( t.argDouble( 4 ) == 10.10 );
   }
 
+  {
+    Param t( argc_03, argv_03, APP_VER );
+
+    t.parseArgs();
+  }
+    
+    
   return( true );
 }
 	 
@@ -147,6 +178,9 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 4.3  1998/04/02 14:19:26  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.2  1997/12/20 16:13:30  houghton
 // Changed test to match lastest version.
 //

@@ -33,7 +33,6 @@ tDateTime01( LibTest & tester )
 
     time_t	dtime = dt.getTimeT();
     
-    struct tm dtm;
     struct tm ltm;
 
     memcpy( &ltm, localtime( &gtime ), sizeof( ltm ) );

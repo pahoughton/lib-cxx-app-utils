@@ -245,7 +245,7 @@ tLog04( LibTest & tester )
     {
       FileStat t( TestFn );
 
-      TEST( t.getSize() == LogSize );
+      TEST( t.getSize() == (FileStat::size_type)LogSize );
     }
 
   }
@@ -440,6 +440,9 @@ tLog04( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:19:24  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.1  1997/09/17 15:14:23  houghton
 // Changed to Version 4
 //

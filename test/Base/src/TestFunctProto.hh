@@ -89,8 +89,10 @@ bool	tParam( LibTest & tester );
 bool	tFile( LibTest & tester );
 // SortOrder.hh
 bool	tSortOrder( LibTest & tester );
+// Directory.hh
+bool	tDirectory( LibTest & tester );
 // TimeIt.hh
-bool tTimeIt( LibTest & tester );
+bool	tTimeIt( LibTest & tester );
 
 // libStlUtils works with LibCommon
 bool	tWithCommon( LibTest & tester );
@@ -164,6 +166,9 @@ bool tVectorResync( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1998/04/02 14:19:22  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.5  1998/03/21 13:55:53  houghton
 // Added test for 'File'.
 //

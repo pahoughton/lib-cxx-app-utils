@@ -68,7 +68,7 @@ tBitmask03( LibTest & tester )
 
     Bitmask t( 0x24 );
 
-    for( int p = 0 ; p < 30; p++ )
+    for( unsigned int p = 0 ; p < 30; p++ )
       {
 	TEST( t[p].pos() == p );
       }
@@ -272,6 +272,9 @@ tBitmask03( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:19:23  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.1  1997/09/17 15:14:05  houghton
 // Changed to Version 4
 //

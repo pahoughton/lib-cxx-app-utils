@@ -263,9 +263,9 @@ tLog03( LibTest & tester )
   }
 
   {
-    const char *    TestFn = TEST_DATA_DIR "/log.07";
-    const size_t    MaxSize = 10240;
-    const size_t    LineLen = strlen(
+    const char *		TestFn = TEST_DATA_DIR "/log.07";
+    const FileStat::size_type   MaxSize = 10240;
+    const size_t		LineLen = strlen(
 	  "mm/dd/yy hh:mm:ss TEST good test with log trimming.\n" );
 
     
@@ -301,7 +301,8 @@ tLog03( LibTest & tester )
       FileStat t( TestFn );
 
       // the math works because of int rounding by the compiler.
-      TEST( t.getSize() == ((MaxSize / LineLen) * LineLen) );
+      TEST( t.getSize()
+	    == (FileStat::size_type)((MaxSize / LineLen) * LineLen) );
     }
 
     {
@@ -325,7 +326,7 @@ tLog03( LibTest & tester )
       
       FileStat t( TestFn );
 
-      size_t minSize = ((MaxSize / 4) * 3) - LineLen;
+      FileStat::size_type minSize = ((MaxSize / 4) * 3) - LineLen;
       
       TEST( t.getSize() < MaxSize );
       TEST( t.getSize() > minSize );
@@ -333,10 +334,10 @@ tLog03( LibTest & tester )
   }
   
   {
-    const char *    TestFn = TEST_DATA_DIR "/log.08";
-    const size_t    MaxSize = 10240;
-    const size_t    TrimSize = 1024;
-    const size_t    LineLen = strlen(
+    const char *		TestFn = TEST_DATA_DIR "/log.08";
+    const FileStat::size_type   MaxSize = 10240;
+    const size_t		TrimSize = 1024;
+    const size_t		LineLen = strlen(
 	  "mm/dd/yy hh:mm:ss TEST good test with log trimming.\n" );
 
     
@@ -374,7 +375,8 @@ tLog03( LibTest & tester )
       FileStat t( TestFn );
 
       TEST( t.getSize() < MaxSize );
-      TEST( t.getSize() > (MaxSize - (TrimSize + LineLen) ));
+      TEST( t.getSize()
+	    > (FileStat::size_type)(MaxSize - (TrimSize + LineLen) ));
     }
   }
 
@@ -385,7 +387,7 @@ tLog03( LibTest & tester )
     const char *    EntryText =
       "good test checking close sync.\n"
       "    Using multi line entry with no 'endl'.\n";
-    const size_t    EntrySize =
+    const FileStat::size_type    EntrySize =
       strlen( "mm/dd/yy hh:mm:ss TEST ") +
       strlen( EntryText );
 
@@ -412,8 +414,9 @@ tLog03( LibTest & tester )
     {
       FileStat t( TestFn );
 
-      TEST( t.getSize() == ( (EntrySize * 2) +
-			     strlen( "mm/dd/yy hh:mm:ss TEST ") + 1 ) );
+      TEST( t.getSize() ==
+	    (FileStat::size_type)( (EntrySize * 2) +
+				   strlen( "mm/dd/yy hh:mm:ss TEST ") + 1 ));
     }      
   }
   return( true );
@@ -421,6 +424,9 @@ tLog03( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:19:24  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.1  1997/09/17 15:14:22  houghton
 // Changed to Version 4
 //

@@ -279,8 +279,6 @@ tLogLevel( LibTest & tester )
   {
     // getLevelNames( void ) const
 
-    const LogLevel t;
-
     TEST( compare( LogLevel::getLevelNames( LogLevel::App1 ), "APP1" ) == 0 );
     TEST( compare( LogLevel::getLevelNames( LogLevel::Warn |
 				    LogLevel::Debug |
@@ -643,6 +641,9 @@ tLogLevel( LibTest & tester )
  
 //
 // $Log$
+// Revision 4.2  1998/04/02 14:19:25  houghton
+// Cleanup and eliminate warnings.
+//
 // Revision 4.1  1997/09/17 15:14:27  houghton
 // Changed to Version 4
 //
