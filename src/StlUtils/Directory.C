@@ -792,7 +792,23 @@ Directory::set(
       DIR * dir = opendir( path );
 
       if( ! dir )
-	return( setError( errno, path ) );
+	{
+	  if( errno == ENOTDIR )
+	    {
+	      FileStat	stat( path );
+	      
+	      if( ! stat.good() )
+		{
+		  return( setError( stat.getSysError(), path ) );
+		}
+
+	      list.push_back( stat );
+	    }
+	  else
+	    {
+	      return( setError( errno, path ) );
+	    }  
+	}
       else
 	{
 	  bool status = readDir( dir, pattern, where, options );
@@ -870,6 +886,11 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1999/10/06 12:47:54  houghton
+// Changed: now if a valid single file name is pass that is not
+//     a direcotry it will be put in the dir list. (before it would fail
+//     because the file was not a directory).
+//
 // Revision 4.5  1998/10/13 16:19:38  houghton
 // Port(Linux): work around compiler problem using SortOrder<> typedef'ed
 //     in the class.
