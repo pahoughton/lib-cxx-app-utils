@@ -94,8 +94,8 @@
 #define STLUTILS_S32_T		int
 #define STLUTILS_U32_T		unsigned int
 
-#define STLUTILS_S64_T		long long
-#define STLUTILS_U64_T		unsigned long long
+#define STLUTILS_S64_T		long
+#define STLUTILS_U64_T		unsigned long
 
 #define STLUTILS_64_TIME_T	long
 /* #define STLUTILS_64_TIME_T  */
