@@ -225,6 +225,14 @@ long
 STLUTILS_FUNCT_T
 MfNumToLong( const char * src, size_t len = NPOS );
 
+bool
+STLUTILS_FUNCT_T
+MfNumTo( char *		dest,
+	 size_t		destSize,
+	 size_t		decimalPlaces,
+	 const char *	src,
+	 size_t		srcSize );
+
 const char *
 STLUTILS_FUNCT_T
 StringFrom( int num, short base = 10, bool prefix = false );
@@ -673,6 +681,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1997/12/19 12:50:36  houghton
+// Added MfNumTo string converter.
+//
 // Revision 4.2  1997/11/18 15:07:02  houghton
 // Added MfNumTo functions.
 //
