@@ -140,7 +140,7 @@ MfNumTo(
 
   bool isNeg = false;
 
-  if( StringFirstNotOf( src, srcLen - 1, "0123456789", NPOS ) != NPOS )
+  if( StringFirstNotOf( src, srcLen - 1, " 0123456789", NPOS ) != NPOS )
     {
       return( false );
     }
@@ -239,6 +239,9 @@ MfNumTo(
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/02/13 23:32:43  houghton
+// Bug-Fix: was not converting all spaces to '0'.
+//
 // Revision 4.3  1998/01/05 13:21:12  houghton
 // Changed: now test that all input chars are valid digits.
 //
