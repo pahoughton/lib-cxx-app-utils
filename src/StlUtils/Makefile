@@ -28,12 +28,12 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Clue
 
-INSTALL_LIBDIR	= $(alpha_libdir)
-INSTALL_INCDIR	= $(alpha_incdir)
+INSTALL_LIBDIR	= $(beta_libdir)
+INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 2
 VER_MINOR	= 01
-VER_RELEASE	= 00.a.14
+VER_RELEASE	= 00.b.01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -142,8 +142,6 @@ CXX_C_SOURCES	=			\
 	OpenFlags.C			\
 	Bitmask.C			\
 	LogLevel.C			\
-	LogBuf.C			\
-	Log.C				\
 	RegexScan.C                     \
 
 
@@ -421,6 +419,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.24  1996/11/04 18:21:56  houghton
+# Changed version and install directory to beta.
+#
 # Revision 2.23  1996/11/04 14:19:53  houghton
 # Changed to use rw inclues.
 # Changed to only compile sources that are ready for latest release.
