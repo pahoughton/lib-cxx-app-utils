@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/07/18 19:10:23  houghton
+// Added compare( const DateTime & two ) const to eliminate compiler warnings.
+//
 // Revision 3.2  1996/11/20 12:11:31  houghton
 // Removed support for BinStream.
 //
@@ -120,6 +123,16 @@ DateRange::compare( const DateRange & two ) const
     return( diff );
   else
     return( ::compare( dur, two.dur ) );
+}
+
+int
+DateRange::compare( const DateTime & two ) const
+{
+  int diff = DateTime::compare( two );
+  if( diff )
+    return( diff );
+  else
+    return( 1 );
 }
 
 size_t
