@@ -26,7 +26,10 @@
 
 // #define STDCXX_PARTIAL_SPECIALIZATION	1
 
-#define STLUTILS_HAVE_LONG_ABS 1
+#if !defined( __SunOS_5_8 )
+#define STLUTILS_HAVE_LONG_LONG	1
+#endif
+
 #define STLUTILS_LOG_WHERE 1
 #define STLUTILS_HAS_STR 1
 #define STLUTILS_HAS_DATETIME 1
@@ -34,9 +37,6 @@
 #define STLUTILS_HAS_USERGROUP 1
 #define STLUTILS_HAS_STRPTIME 1
 #define STLUTILS_HAS_IOSTREAM_SENTRY 1
-#if !defined( __SunOS_5_8 )
-#define STLUTILS_HAVE_LONG_LONG	1
-#endif
 // #define STLUTILS_HAS_SEMUN		1 
 // #define STLUTILS_THREADS	1 
 
@@ -171,6 +171,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 5.7  2001/08/07 19:45:50  houghton
+// *** empty log message ***
+//
 // Revision 5.6  2001/08/07 19:31:49  houghton
 // *** empty log message ***
 //
