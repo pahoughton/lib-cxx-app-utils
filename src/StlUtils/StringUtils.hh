@@ -131,6 +131,17 @@ StringTo( long &     	    dest,
 	  size_t    	    len = NPOS,
 	  bool		    stopAtNonDigit = false );
 
+#if defined( STLUTILS_HAVE_LONG_LONG )
+bool
+STLUTILS_FUNCT_T
+StringTo( long long &  	    dest,
+	  const char * 	    str,
+	  unsigned short    base = 0,
+	  size_t    	    len = NPOS,
+	  bool		    stopAtNonDigit = false );
+
+#endif
+
 bool
 STLUTILS_FUNCT_T
 StringTo( float &     	    dest,
@@ -171,6 +182,17 @@ StringTo( unsigned long &   dest,
 	  size_t    	    len = NPOS,
 	  bool		    stopAtNonDigit = false );
 
+#if defined( STLUTILS_HAVE_LONG_LONG )
+bool
+STLUTILS_FUNCT_T
+StringTo( unsigned long long &  dest,
+	  const char *		str,
+	  unsigned short	base = 0,
+	  size_t		len = NPOS,
+	  bool			stopAtNonDigit = false );
+#endif
+
+
 bool
 STLUTILS_FUNCT_T
 StringTo( struct tm &	    dest,
@@ -201,6 +223,15 @@ StringToLong( const char *	str,
 	      unsigned short	base = 0,
 	      size_t		len = NPOS,
 	      bool		stopAtNonDigit = false );
+
+#if defined( STLUTILS_HAVE_LONG_LONG )
+long long
+STLUTILS_FUNCT_T
+StringToLongLong( const char *	    str,
+		  unsigned short    base = 0,
+		  size_t	    len = NPOS,
+		  bool		    stopAtNonDigit = false );
+#endif
 
 float
 STLUTILS_FUNCT_T
@@ -236,6 +267,15 @@ StringToULong( const char *	str,
 	       unsigned short	base = 0,
 	       size_t		len = NPOS,
 	       bool		stopAtNonDigit = false);
+
+#if defined( STLUTILS_HAVE_LONG_LONG )
+unsigned long long
+STLUTILS_FUNCT_T
+StringToULongLong( const char *	    str,
+		  unsigned short    base = 0,
+		  size_t	    len = NPOS,
+		  bool		    stopAtNonDigit = false );
+#endif
 
 struct tm
 STLUTILS_FUNCT_T
@@ -305,6 +345,16 @@ StringFrom( double num, short precision = 2 );
 const char *
 StringFrom( const struct tm & src, const char * fmt = "%m/%d/%y %H:%M:%S" );
 
+#if defined( STLUTILS_HAVE_LONG_LONG )
+const char *
+STLUTILS_FUNCT_T
+StringFrom( long long num, short base = 10, bool prefix = false );
+
+const char *
+STLUTILS_FUNCT_T
+StringFrom( unsigned long long num, short base = 10, bool prefix = false );
+#endif
+
 char *
 STLUTILS_FUNCT_T
 StringFrom( char *	dest,
@@ -358,6 +408,25 @@ StringFrom( char *	    dest,
 	    char	    fill = '0',
 	    short	    base = 10,
 	    bool	    prefix = false );
+
+#if defined( STLUTILS_HAVE_LONG_LONG )
+char *
+STLUTILS_FUNCT_T
+StringFrom( char *	    dest,
+	    size_t	    destSize,
+	    long long	    num,
+	    char	    fill = '0',
+	    short	    base = 10,
+	    bool	    prefix = false );
+char *
+STLUTILS_FUNCT_T
+StringFrom( char *		dest,
+	    size_t		destSize,
+	    unsigned long long  num,
+	    char		fill = '0',
+	    short		base = 10,
+	    bool		prefix = false );
+#endif
 
 #if !defined( STLUTILS_HAS_BASENAME )
 
@@ -780,6 +849,9 @@ basename( const char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 4.9  1999/05/09 13:06:49  houghton
+// Added long long support.
+//
 // Revision 4.8  1998/10/13 16:25:51  houghton
 // Removed const char * version of basename().
 //

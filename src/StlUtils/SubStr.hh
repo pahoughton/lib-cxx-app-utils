@@ -81,6 +81,16 @@ public:
   inline bool	to( unsigned long  &	dest,
 		    unsigned short	base = 0,
 		    bool		stopAtNonDigit = false ) const;
+
+#if defined( STLUTILS_HAVE_LONG_LONG )
+  inline bool	to( long long  &	dest,
+		    unsigned short	base = 0,
+		    bool		stopAtNonDigit = false ) const;
+  
+  inline bool	to( unsigned long long  &   dest,
+		    unsigned short	    base = 0,
+		    bool		    stopAtNonDigit = false ) const;
+#endif
   
   inline bool	    	toBool( void ) const;
   
@@ -99,6 +109,14 @@ public:
   inline unsigned long	toULong( unsigned short base = 0,
 				 bool	        stopAtNonDigit = false ) const;
 
+
+#if defined( STLUTILS_HAVE_LONG_LONG )
+  inline long long	toLongLong( unsigned short base = 0,
+				    bool stopAtNonDigit = false ) const;
+
+  inline unsigned long long toULongLong( unsigned short base = 0,
+					 bool stopAtNonDigit = false ) const;
+#endif
 
   int 	    compare( const Str &    two,
 		     size_type      start = 0,
@@ -464,6 +482,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1999/05/09 13:07:00  houghton
+// Added long long support.
+//
 // Revision 4.5  1998/10/13 16:26:19  houghton
 // Changed to use new standard includes.
 // Cleanup #if def Linux.

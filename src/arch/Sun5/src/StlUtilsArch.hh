@@ -31,6 +31,8 @@
 #define STLUTILS_HAS_USER 1
 #define STLUTILS_HAS_USERGROUP 1
 #define STLUTILS_HAS_STRPTIME 1
+#define STLUTILS_HAVE_LONG_LONG	1
+
 /* #define STLUTILS_HAS_SEMUN		1 */
 /* #define STLUTILS_HAS_CONST_IOSRDBUF	    1 */
 /* #define STLUTILS_HAS_CONST_IOSRDSTATE	    1 */
@@ -70,6 +72,15 @@
 #define STLUTILS_FLOAT_FP32_T   float
 #define STLUTILS_DOUBLE_FP64_T  double
 #define STLUTILS_BOOL_T		bool
+
+#define STLUTILS_S16_T		short
+#define STLUTILS_U16_T		unsigned short
+
+#define STLUTILS_S32_T		long
+#define STLUTILS_U32_T		unsigned long
+
+#define STLUTILS_S64_T		long long
+#define STLUTILS_U64_T		unsigned long long
 
 #define STLUTILS_32_TIME_T	long
 /* #define STLUTILS_64_TIME_T  */
@@ -151,6 +162,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/05/09 13:07:41  houghton
+// Added long long support.
+//
 // Revision 4.2  1997/09/19 11:22:01  houghton
 // Cleanup
 // Added portable types (STLUTILS*_T).

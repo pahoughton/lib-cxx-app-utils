@@ -223,61 +223,66 @@ STRING_TO_TYPE( int )
   
 STRING_TO_TYPE( short )
 STRING_TO_TYPE( long )
-
-#define STRING_TO_UTYPE( _type_ )						\
-bool										\
-StringTo(									\
-  _type_ &	    dest,							\
-  const char * 	    src,							\
-  unsigned short    baseToUse,							\
-  size_t    	    len,							\
-  bool		    stopAtNonDigit						\
-  )										\
-{										\
-  _type_  value = 0;								\
-										\
-  const char * 	    end = src + ( len != NPOS ? len : strlen( src ) );		\
-  unsigned short    base = baseToUse;						\
-  bool	    	    neg = false;						\
-										\
-  const char * conv = _StringToNumPrep( src, end, base, neg );			\
-										\
-  if( ! conv || conv >= end )							\
-    {										\
-      dest = 0;									\
-      return( true );								\
-    }										\
-										\
-  for( ; conv < end; conv++ )							\
-    {										\
-      if( CharIsBaseDigit( *conv, base ) )					\
-	{									\
-	  value *= base;							\
-	  value += CharToInt( *conv );						\
-	}									\
-      else									\
-	{									\
-	  if( ! stopAtNonDigit )						\
-	    {									\
-	      return( false );							\
-	    }									\
-	  else									\
-	    {									\
-	      dest = value;							\
-	      return( true );							\
-	    }									\
-	}									\
-    }										\
-  dest = value;									\
-  return( true );								\
+#if defined( STLUTILS_HAVE_LONG_LONG )
+STRING_TO_TYPE( long long )
+#endif
+  
+#define STRING_TO_UTYPE( _type_ )					      \
+bool									      \
+StringTo(								      \
+  _type_ &	    dest,						      \
+  const char * 	    src,						      \
+  unsigned short    baseToUse,						      \
+  size_t    	    len,						      \
+  bool		    stopAtNonDigit					      \
+  )									      \
+{									      \
+  _type_  value = 0;							      \
+									      \
+  const char * 	    end = src + ( len != NPOS ? len : strlen( src ) );	      \
+  unsigned short    base = baseToUse;					      \
+  bool	    	    neg = false;					      \
+									      \
+  const char * conv = _StringToNumPrep( src, end, base, neg );		      \
+									      \
+  if( ! conv || conv >= end )						      \
+    {									      \
+      dest = 0;								      \
+      return( true );							      \
+    }									      \
+									      \
+  for( ; conv < end; conv++ )						      \
+    {									      \
+      if( CharIsBaseDigit( *conv, base ) )				      \
+	{								      \
+	  value *= base;						      \
+	  value += CharToInt( *conv );					      \
+	}								      \
+      else								      \
+	{								      \
+	  if( ! stopAtNonDigit )					      \
+	    {								      \
+	      return( false );						      \
+	    }								      \
+	  else								      \
+	    {								      \
+	      dest = value;						      \
+	      return( true );						      \
+	    }								      \
+	}								      \
+    }									      \
+  dest = value;								      \
+  return( true );							      \
 }
 
 
 STRING_TO_UTYPE( unsigned int )
 STRING_TO_UTYPE( unsigned short )
 STRING_TO_UTYPE( unsigned long )
-
-
+#if defined( STLUTILS_HAVE_LONG_LONG )
+STRING_TO_UTYPE( unsigned long long )
+#endif
+  
 #include <cmath>
 
 bool
@@ -378,43 +383,51 @@ StringTo(
   return( true );
 }
 
-#define STRING_TO_RET_TYPE( _type_, _name_ )					\
-_type_										\
-StringTo##_name_(								\
-  const char *	    src,							\
-  unsigned short    base,							\
-  size_t	    len,							\
-  bool		    stopAtNonDigit						\
-  )										\
-{										\
-  _type_  value = 0;								\
-  StringTo( value, src, base, len, stopAtNonDigit );				\
-  return( value );								\
+#define STRING_TO_RET_TYPE( _type_, _name_ )				      \
+_type_									      \
+StringTo##_name_(							      \
+  const char *	    src,						      \
+  unsigned short    base,						      \
+  size_t	    len,						      \
+  bool		    stopAtNonDigit					      \
+  )									      \
+{									      \
+  _type_  value = 0;							      \
+  StringTo( value, src, base, len, stopAtNonDigit );			      \
+  return( value );							      \
 }
 
-#define STRING_TO_U_RET_TYPE( _type_, _name_ )					\
-_type_										\
-StringTo##_name_(								\
-  const char *	    src,							\
-  unsigned short    base,							\
-  size_t	    len,							\
-  bool		    stopAtNonDigit						\
-  )										\
-{										\
-  _type_  value = 0;								\
-  StringTo( value, src, base, len, stopAtNonDigit );				\
-  return( value );								\
+#define STRING_TO_U_RET_TYPE( _type_, _name_ )				      \
+_type_									      \
+StringTo##_name_(							      \
+  const char *	    src,						      \
+  unsigned short    base,						      \
+  size_t	    len,						      \
+  bool		    stopAtNonDigit					      \
+  )									      \
+{									      \
+  _type_  value = 0;							      \
+  StringTo( value, src, base, len, stopAtNonDigit );			      \
+  return( value );							      \
 }
 
 STRING_TO_RET_TYPE( int, Int )
 STRING_TO_RET_TYPE( short, Short )
 STRING_TO_RET_TYPE( long, Long )
+  
+#if defined( STLUTILS_HAVE_LONG_LONG )
+STRING_TO_RET_TYPE( long long, LongLong )
+#endif
+  
 STRING_TO_RET_TYPE( float, Float )
 STRING_TO_RET_TYPE( double, Double )
 STRING_TO_U_RET_TYPE( unsigned int, UInt )
 STRING_TO_U_RET_TYPE( unsigned short, UShort )
 STRING_TO_U_RET_TYPE( unsigned long, ULong )
-
+  
+#if defined( STLUTILS_HAVE_LONG_LONG )
+STRING_TO_U_RET_TYPE( unsigned long long, ULongLong )
+#endif
 
 //
 // Bools are special
@@ -693,6 +706,9 @@ StringToTm( const char * src, const char * fmt )
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1999/05/09 13:06:41  houghton
+// Added long long support.
+//
 // Revision 4.5  1999/05/09 11:32:42  houghton
 // Cleanup.
 //

@@ -313,18 +313,18 @@ StringFrom( NumType num, short base, bool prefix )			      \
 				     true ) );				      \
 }
 
-#define UNSIGNED_STR_FRM_TYPE( NumType )					\
-const char *									\
-StringFrom( NumType num, short base, bool prefix )				\
-{										\
-  return( _StlUtilsStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,		\
-				       sizeof( NumBuf ),			\
-				       num,					\
-				       false,					\
-				       (char)0,					\
-				       base,					\
-				       prefix,					\
-				       true ) );				\
+#define UNSIGNED_STR_FRM_TYPE( NumType )				      \
+const char *								      \
+StringFrom( NumType num, short base, bool prefix )			      \
+{									      \
+  return( _StlUtilsStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,	      \
+				       sizeof( NumBuf ),		      \
+				       num,				      \
+				       false,				      \
+				       (char)0,				      \
+				       base,				      \
+				       prefix,				      \
+				       true ) );			      \
 }
 
 				     
@@ -344,50 +344,13 @@ UNSIGNED_STR_FRM_TYPE( unsigned short );
 UNSIGNED_STR_FRM_TYPE( unsigned int );
 UNSIGNED_STR_FRM_TYPE( unsigned long );
 
-
-#if defined( FIXME_OLDWAY )
-const char *
-StringFrom( int num, short base, bool prefix )
-{
-  return( _StlUtilsStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,
-				 num, base, prefix ) );
-}
-
-const char *
-StringFrom( short num, short base, bool prefix )
-{
-  return( _StlUtilsStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,
-				 num, base, prefix ) );
-}
-
-const char *
-StringFrom( long num, short base, bool prefix )
-{
-  return( _StlUtilsStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,
-				 num, base, prefix ) );
-}
-
-const char *
-StringFrom( unsigned int num, short base, bool prefix )
-{
-  return( _StlUtilsStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,
-				   num, false, base, prefix ) );
-}
-
-const char *
-StringFrom( unsigned short num, short base, bool prefix )
-{
-  return( _StlUtilsStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,
-				   num, false, base, prefix ) );
-}
-
-const char *
-StringFrom( unsigned long num, short base, bool prefix )
-{
-  return( _StlUtilsStringUnsignedFrom( NumBuf + sizeof( NumBuf ) - 1,
-				   num, false, base, prefix ) );
-}
+#if defined( STLUTILS_HAVE_LONG_LONG )
+SIGNED_STR_FRM_FIXED_TYPE( long long );
+UNSIGNED_STR_FRM_FIXED_TYPE( unsigned long long );
+SIGNED_STR_FRM_TYPE( long long );
+UNSIGNED_STR_FRM_TYPE( unsigned long long );
 #endif
+
 
 const char *
 StringFrom( double num, short prec )
@@ -416,6 +379,9 @@ StringFrom( const struct tm & src, const char * fmt )
 
 //
 // $Log$
+// Revision 4.5  1999/05/09 13:06:34  houghton
+// Added long long support.
+//
 // Revision 4.4  1999/05/09 11:32:27  houghton
 // Cleanup.
 //

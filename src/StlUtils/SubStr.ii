@@ -158,6 +158,22 @@ SubStr::to( unsigned long & dest, unsigned short base, bool sand ) const
   return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
 }
 
+#if defined( STLUTILS_HAVE_LONG_LONG )
+inline
+bool
+SubStr::to( long long & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( unsigned long long & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+#endif
+
 inline
 bool
 SubStr::toBool( void ) const
@@ -211,6 +227,26 @@ SubStr::toULong( unsigned short base, bool sand ) const
   to( dest, base, sand );
   return( dest );
 }
+
+#if defined( STLUTILS_HAVE_LONG_LONG )
+inline
+long long
+SubStr::toLongLong( unsigned short base, bool sand ) const
+{
+  long long dest = 0;
+  to( dest, base, sand );
+  return( dest );
+}
+
+inline
+unsigned long long
+SubStr::toULongLong( unsigned short base, bool sand ) const
+{
+  unsigned long long dest = 0;
+  to( dest, base, sand );
+  return( dest );
+}
+#endif
 
 inline
 char &
@@ -664,6 +700,9 @@ SubStr::operator =  ( const string & src )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.6  1999/05/09 13:07:09  houghton
+// Added long long support.
+//
 // Revision 4.5  1998/10/13 16:26:33  houghton
 // Cleanup #if def Linux.
 //
