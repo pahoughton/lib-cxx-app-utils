@@ -180,6 +180,7 @@ CXX_C_SOURCES =				\
 	StringSearch.C                  \
 	StringTo.C			\
 	StringUpper.C                   \
+	StripTrailing.C			\
 	StripWhite.C                    \
 	SubStr.C                        \
 	ThreadBase.C                    \
@@ -333,6 +334,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.6  1997/12/20 16:09:28  houghton
+# Added StripTrailing.
+#
 # Revision 4.5  1997/12/19 14:00:03  houghton
 # Added cc_default and cxx_default vars.
 #

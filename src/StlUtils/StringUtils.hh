@@ -30,6 +30,13 @@ StripWhite( char *  	    buffer,
 	    const char *    white = " \n\t\r\v\f",
 	    size_t          bufSize = NPOS );
 
+char *
+STLUTILS_FUNCT_T
+StripTrailing( char *		buffer,
+	       const char *	white = " \n\t\r\v\f",
+	       size_t		bufferSize = NPOS );
+
+
 const char *
 STLUTILS_FUNCT_T
 StringSearch( const char *  haystack,
@@ -681,6 +688,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1997/12/20 16:09:45  houghton
+// Added StripTrailing.
+//
 // Revision 4.3  1997/12/19 12:50:36  houghton
 // Added MfNumTo string converter.
 //
