@@ -332,7 +332,7 @@ StringTo(
 	      if( fract )
 		{
 		  fract--;
-		  value *= pow( base, -1 * fract );
+		  value *= pow( (double)base, -1 * fract );
 		}
 	      dest =  (neg) ? value * -1 : value;
 	      return( true );
@@ -343,7 +343,7 @@ StringTo(
   if( fract )
     {
       fract--;
-      value *= pow( base, -1 * fract );
+      value *= pow( (double)base, -1 * fract );
     }
   
   dest =  (neg) ? value * -1 : value;
@@ -693,6 +693,9 @@ StringToTm( const char * src, const char * fmt )
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/08/13 10:53:21  houghton
+// Port(Hpux10): had to cast args to 'pow()'.
+//
 // Revision 4.3  1998/02/13 23:32:53  houghton
 // Cleanup.
 //
