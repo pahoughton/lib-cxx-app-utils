@@ -9,6 +9,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/07/18 19:11:07  houghton
+// Cleanup.
+// Added compare( const DateTime & two ) const to eliminate compiler warnings.
+//
 // Revision 3.1  1996/11/14 01:23:33  houghton
 // Changed to Release 3
 //
@@ -110,6 +114,12 @@ time_t
 DateRangeDaily::setStart( time_t newStart )
 {
   return( setTimeT( newStart ) );
+}
+
+int
+DateRangeDaily::compare( const DateTime & two ) const
+{
+  return( DateRange::compare( two ) );
 }
 
 int

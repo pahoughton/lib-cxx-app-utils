@@ -12,6 +12,10 @@
 //
 // 
 // $Log$
+// Revision 3.2  1997/07/18 19:11:29  houghton
+// Cleanup.
+// Added compare( const DateTime & two ) const to eliminate compiler warnings.
+//
 // Revision 3.1  1996/11/14 01:23:33  houghton
 // Changed to Release 3
 //
@@ -29,13 +33,8 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <DateRange.hh>
-#else
-#include <ClueCfg.hh>
-#include <DateRg.hh>
-#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -57,7 +56,8 @@ public:
   virtual time_t    startsIn( const DateRange & dateTwo ) const;
 
   virtual time_t    setStart( time_t newStart );
-  
+
+  virtual int	    compare( const DateTime & two ) const;
   virtual int	    compare( const DateRange & two ) const;
   virtual int	    compare( const DateRangeDaily & two ) const;
 

@@ -12,6 +12,10 @@
 //
 // 
 // $Log$
+// Revision 3.3  1997/07/18 19:10:47  houghton
+// Cleanup.
+// Added compare( const DateTime & two ) const to eliminate compiler warnings.
+//
 // Revision 3.2  1996/11/20 12:11:40  houghton
 // Removed support for BinStream.
 //
@@ -32,14 +36,8 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <DateTime.hh>
-#else
-#include <ClueCfg.hh>
-#include <DateTime.hh>
-#endif
-
 
 
 #if defined( CLUE_DEBUG )
@@ -61,6 +59,7 @@ public:
   virtual time_t    secIn( const DateRange & dateTwo ) const;
   virtual time_t    startsIn( const DateRange & dateTwo ) const;
 
+  virtual int	    compare( const DateTime & two ) const;
   virtual int	    compare( const DateRange & two ) const;
   
   bool		    operator == ( const DateRange & two ) const;
