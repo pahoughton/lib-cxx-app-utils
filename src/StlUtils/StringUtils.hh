@@ -359,13 +359,17 @@ StringFrom( char *	    dest,
 	    short	    base = 10,
 	    bool	    prefix = false );
 
-const char *
-STLUTILS_FUNCT_T
-basename( const char * fn );
+#if !defined( STLUTILS_HAS_BASENAME )
 
 char *
 STLUTILS_FUNCT_T
 basename( char * fn );
+
+const char *
+STLUTILS_FUNCT_T
+basename( const char * fn );
+
+#endif
 
 
 #include <StringUtils.ii>
@@ -776,6 +780,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 4.8  1998/10/13 16:25:51  houghton
+// Removed const char * version of basename().
+//
 // Revision 4.7  1998/01/22 18:34:05  houghton
 // Changed - added stopAtNonDigit arg to all StringTo functions.
 //
