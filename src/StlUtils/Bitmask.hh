@@ -52,8 +52,13 @@ public:
     inline bit &    operator =  ( const bit & rhs );
     
     inline bool	    operator ~  ( void ) const;
+    inline bool	    operator !  ( void ) const;
+    
     inline	    operator bool ( void ) const;
 
+    inline bool	    operator == ( bool rhs ) const;
+    inline bool	    operator != ( bool rhs ) const;
+    
     ostream &	    toStream( ostream & dest = cout ) const;
     
     ostream &	    dumpInfo( ostream &	    dest = cerr,
@@ -217,6 +222,12 @@ operator ^ ( const Bitmask & lhs, const Bitmask & rhs );
 
 Bitmask
 operator ~ ( const Bitmask & mask );
+
+bool
+operator == ( bool lhs, const Bitmask::bit & rhs );
+
+bool
+operator != ( bool lhs, const Bitmask::bit & rhs );
 
 int
 compare( const Bitmask & one, const Bitmask & two );
@@ -707,6 +718,13 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 2.8  1996/11/11 13:30:11  houghton
+// Added Bitmask::bit::operator ! ( void )
+// Added Bitmask::bit::operator == ( bool )
+// Added Bitmask::bit::operator != ( bool )
+// Added ::operator == ( bool lhs, const Bitmask::bit & rhs );
+// Added ::operator != ( bool lhs, const Bitmask::bit & rhs );
+//
 // Revision 2.7  1996/11/04 13:24:14  houghton
 // Restructure header comments layout.
 // Updated and verified header comment documentation.

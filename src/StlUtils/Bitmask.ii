@@ -13,6 +13,13 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.7  1996/11/11 13:30:24  houghton
+// Added Bitmask::bit::operator ! ( void )
+// Added Bitmask::bit::operator == ( bool )
+// Added Bitmask::bit::operator != ( bool )
+// Added ::operator == ( bool lhs, const Bitmask::bit & rhs );
+// Added ::operator != ( bool lhs, const Bitmask::bit & rhs );
+//
 // Revision 2.6  1996/11/04 13:27:10  houghton
 // Restructure header comments layout.
 // Added Copy Constructor.
@@ -90,6 +97,13 @@ Bitmask::bit::operator ~ ( void ) const
 }
 
 inline
+bool
+Bitmask::bit::operator ! ( void ) const
+{
+  return( ! bitmask.test( bitpos ) );
+}
+
+inline
 Bitmask::bit::operator bool ( void ) const
 {
   return( bitmask.test( bitpos ) );
@@ -102,6 +116,19 @@ Bitmask::bit::bit( Bitmask & owner, size_t position )
 {
 }
 
+inline
+bool
+Bitmask::bit::operator == ( bool rhs ) const
+{
+  return( bitmask.test( bitpos ) ? rhs : ! rhs );
+}
+
+inline
+bool
+Bitmask::bit::operator != ( bool rhs ) const
+{
+  return( ! ( *this == rhs ) );
+}
 
 inline
 Bitmask::Bitmask( void )
@@ -463,6 +490,20 @@ operator ~ ( const Bitmask & mask )
 
   ret = ~nValue;
   return( ret );
+}
+
+inline
+bool
+operator == ( bool lhs, const Bitmask & rhs )
+{
+  return( rhs == lhs );
+}
+
+inline
+bool
+operator != ( bool lhs, const Bitmask & rhs )
+{
+  return( rhs != lhs );
 }
 
 inline
