@@ -45,6 +45,7 @@
 
 #include <StlUtilsConfig.hh>
 #include <FilePath.hh>
+#include <File.hh>
 #include <DumpInfo.hh>
 #include <iostream>
 
@@ -100,6 +101,8 @@ private:
   FilePath		procDir;
   long			waitSecs;
 
+  File			file;
+  
   const SigCatcher *	sigCatcher;
 
   long			dirScanCounter;
@@ -244,6 +247,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/03/11 16:10:27  houghton
+// Changed to use new File class.
+//
 // Revision 4.1  1997/09/17 15:13:33  houghton
 // Changed to Version 4
 //

@@ -63,7 +63,6 @@ InboundProcessorBase::run( void )
 
   Directory	dirList;
   Semaphore	sem;
-  FilePath	procFn;
   
   for( ;; )
     {
@@ -120,15 +119,9 @@ InboundProcessorBase::run( void )
 				      << (*them).getName() << '\'' << endl;
 	  
 	      // this one is mine to process.
-
-	      procFn = (*them).getName();
-	      procFn.changePath( inDir, procDir );
-
-	      if( rename( (*them).getName(), procFn ) )
+	      if( ! file.move( (*them).getName(), procDir ) )
 		{
 		  // rename failed.
-		  
-		  int renameError = errno;
 		  
 		  // is it because the file is nolonger there?
 		  
@@ -136,7 +129,8 @@ InboundProcessorBase::run( void )
 		  if( inStat.good() )
 		    {
 		      // nope, I can NOT move it
-		      return( setError( strerror( renameError ), procFn ) );
+		      return( setError( file.error(),
+					file.getDest().getName() ) );
 		    }
 		  else
 		    {
@@ -151,7 +145,7 @@ InboundProcessorBase::run( void )
 
 		  ++ fileProcCounter;
 	      
-		  if( ! processInbound( procFn ) )
+		  if( ! processInbound( file.getDest().getName() ) )
 		    return( true );
 
 		  if( sigCatcher && sigCatcher->caught().size() )
@@ -293,6 +287,9 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/03/11 16:09:44  houghton
+// Changed to use new File class.
+//
 // Revision 4.1  1997/09/17 15:13:32  houghton
 // Changed to Version 4
 //
