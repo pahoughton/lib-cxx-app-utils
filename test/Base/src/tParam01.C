@@ -95,31 +95,30 @@ tParam01( LibTest & tester )
     TEST( compare( t.appVersion(), APP_VER ) == 0 );
     TEST( t.count() == ArraySize( argv_02 ) -1  );
     
-    size_t  count = 0;
+    size_t  count = 1;
 
-#if !defined( Linux )
     {
       for( Param::Args::const_iterator them = t.begin();
 	   them != t.end();
 	   ++them, ++count )
 	{
-	  TEST( (*them) == argv_02[count] );
+	  TESTR( (*them), (*them) == argv_02[count] );
 	}
       
       TEST( count == ArraySize( argv_02 ) );
     }
+    
     count = 0;
     {
       for( Param::Args::const_iterator them = t.beginAll();
 	   them != t.endAll();
 	   ++them, ++count )
 	{
-	  TEST( (*them) == argv_02[count] );
+	  TESTR( (*them), (*them) == argv_02[count] );
 	}
       
       TEST( count == ArraySize( argv_02 ) );
     }
-#endif
   }
 
   {
@@ -148,6 +147,9 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 4.2  1997/12/20 16:13:30  houghton
+// Changed test to match lastest version.
+//
 // Revision 4.1  1997/09/17 15:14:28  houghton
 // Changed to Version 4
 //
