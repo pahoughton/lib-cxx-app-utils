@@ -61,11 +61,20 @@ InboundProcessorBase::InboundProcessorBase(
 	  tmp.assign( fnPattern.scanMatch( p ) );
 	  tmp.stripEnds( "\t \n" );
 	  fnPatList.push_back( tmp );
+	  LLgDebug << "looking for(" << p << "):\n"
+		   << "  '" << inDir << "'\n"
+		   << "  '" << tmp << "'"
+		   << endl;
 	}
     }
   else
     {
       fnPatList.push_back( fnPattern );
+      LLgDebug << "looking for:\n"
+	       << "  '" << inDir << "'\n"
+	       << "  '" << fnPattern << "'"
+	       << endl;
+      
     }
 }
 
@@ -314,6 +323,9 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/12/28 01:47:40  houghton
+// Added some debug output.
+//
 // Revision 5.1  2000/05/25 10:33:22  houghton
 // Changed Version Num to 5
 //
