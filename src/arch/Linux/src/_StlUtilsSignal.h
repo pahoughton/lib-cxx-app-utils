@@ -26,8 +26,6 @@
 #include <signal.h>
 
 #define SA_WAITSIG	0
-#define SA_ONSTACK	0
-#define SA_SIGINFO	0
 #define SA_NOCLDWAIT	0
 
 #if defined( __cplusplus )
@@ -43,6 +41,9 @@ extern "C" {
  * Revision Log:
  *
  * $Log$
+ * Revision 4.4  1999/05/14 11:34:07  houghton
+ * Port(Linux): port for Gnu Libc 2
+ *
  * Revision 4.3  1998/10/13 16:32:34  houghton
  * Added defines for missing SA_* options.
  *

@@ -26,6 +26,8 @@
 
 #include <cstdio>
 
+#include <unistd.h>
+
 #if defined( STLUTILS_DEBUG )
 #include "InboundProcessorBase.ii"
 #endif
@@ -292,6 +294,9 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/05/14 11:34:24  houghton
+// Port(Linux): port for Gnu Libc 2
+//
 // Revision 4.3  1998/11/02 19:21:33  houghton
 // Changed: the File class was renamed to FileOp().
 //

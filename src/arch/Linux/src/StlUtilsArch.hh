@@ -23,7 +23,9 @@
 #define _BSD_SOURCE	1
 #define _SVID_SOURCE	1
 
-#define STLUTILS_HAS_BASENAME		1
+#define STDCXX_PARTIAL_SPECIALIZATION	1
+
+// #define STLUTILS_HAS_BASENAME		1
 #define STLUTILS_HAVE_LONG_ABS		1
 #define STLUTILS_LOG_WHERE		1
 
@@ -34,7 +36,7 @@
 #define STLUTILS_HAS_STRPTIME		1
 #define STLUTILS_HAS_USER		1
 #define STLUTILS_HAS_USERGROUP		1
-#define STLUTILS_HAS_SEMUN		1 
+// #define STLUTILS_HAS_SEMUN		1 
 #define STLUTILS_HAS_CONST_IOSRDBUF	1 
 #define STLUTILS_HAS_CONST_IOSRDSTATE   1
 #define STLUTILS_HAS_CONST_IOSGOOD	1
@@ -148,6 +150,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/05/14 11:34:01  houghton
+// Port(Linux): port for Gnu Libc 2
+//
 // Revision 4.3  1998/10/13 16:32:08  houghton
 // Reworked for latest version of Compiler.
 //
@@ -228,6 +233,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1999/05/14 11:34:01  houghton
+// Port(Linux): port for Gnu Libc 2
+//
 // Revision 4.3  1998/10/13 16:32:08  houghton
 // Reworked for latest version of Compiler.
 //

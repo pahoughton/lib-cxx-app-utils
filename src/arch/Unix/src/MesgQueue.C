@@ -90,7 +90,7 @@ MesgQueue::~MesgQueue( void )
 bool
 MesgQueue::send( const Mesg & mesg, size_type size )
 {
-  if( msgsnd( queueId, &mesg, size, 0 ) < 0 )
+  if( msgsnd( queueId, (void *)&mesg, size, 0 ) < 0 )
     return( setError( E_SEND, errno ) );
   else
     return( true );
@@ -231,11 +231,11 @@ MesgQueue::dumpInfo(
   
   if( msgctl( queueId, IPC_STAT, &qData ) >= 0 )
     {
-      User	creator( qData.msg_perm.cuid );
-      UserGroup	creatorGroup( qData.msg_perm.cgid );
+      User	creator( (uid_t) qData.msg_perm.cuid );
+      UserGroup	creatorGroup( (gid_t) qData.msg_perm.cgid );
       
-      User	user( qData.msg_perm.uid );
-      UserGroup group( qData.msg_perm.gid );
+      User	user( (uid_t) qData.msg_perm.uid );
+      UserGroup group( (gid_t) qData.msg_perm.gid );
 
       DateTime	lastSend( qData.msg_stime );
       DateTime  lastRecv( qData.msg_rtime );
@@ -280,6 +280,9 @@ MesgQueue::setError( ErrorNum errNum, int osErr )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/05/14 11:34:41  houghton
+// Port(Linux): port for Gnu Libc 2
+//
 // Revision 4.1  1999/03/02 12:51:49  houghton
 // Initial Version.
 //
