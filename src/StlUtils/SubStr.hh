@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/02/29 19:07:29  houghton
+// Added some ifndefs for GNU
+//
 // Revision 2.3  1995/11/10 18:47:27  houghton
 // Fixed error in comments
 //
@@ -221,12 +224,15 @@ operator + ( const char * lhs, const SubStr & rhs );
 bool
 operator == ( const char * lhs, const SubStr & rhs );
 
+#if !defined( __GNUC__ )
 bool
 operator != ( const char * lhs, const SubStr & rhs );
+#endif
 
 bool
 operator <  ( const char * lhs, const SubStr & rhs );
 
+#if !defined( __GNUC__ )
 bool
 operator >  ( const char * lhs, const SubStr & rhs );
 
@@ -235,6 +241,8 @@ operator <= ( const char * lhs, const SubStr & rhs );
 
 bool
 operator >= ( const char * lhs, const SubStr & rhs );
+#endif
+
 
 bool	    	StringToBool( const SubStr & str );
 int 	    	StringToInt( const SubStr & str, unsigned short base = 0 );

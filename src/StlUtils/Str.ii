@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/02/29 19:07:22  houghton
+// Added some ifndefs for GNU
+//
 // Revision 2.2  1995/12/04 11:18:27  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -1603,12 +1606,14 @@ Str::operator != ( const SubStr & two ) const
   return( !( *this == two ) );
 }
 
+#if !defined( __GNUC__ ) && !defined( inline )
 inline
 bool
 Str::operator != ( const char * two ) const
 {
   return( !( *this == two ) );
 }
+#endif
 
 inline
 bool
@@ -1666,12 +1671,14 @@ Str::operator >= ( const SubStr & two ) const
   return( compare( two ) >= 0 );
 }
 
+#if !defined( __GNUC__ )  && !defined( inline )
 inline
 bool
 Str::operator >= ( const char * two ) const
 {
   return( compare( two ) >= 0 );
 }
+#endif
 
 inline
 ostream &
@@ -1696,44 +1703,50 @@ Str::strbase( void ) const
 
 // NON MEMBERS  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+#if !defined( inline )
+#define STR_COMP_LEN	= Str::npos
+#else
+#define STR_COMP_LEN
+#endif
+
 inline
 int
-compare( const Str & one, const Str & two, size_t len )
+compare( const Str & one, const Str & two, size_t len STR_COMP_LEN )
 {
   return( one.compare( two, 0, len ) );
 }
 
 inline
 int
-compare( const Str & one, const SubStr & two, size_t len )
+compare( const Str & one, const SubStr & two, size_t len STR_COMP_LEN )
 {
   return( one.compare( two, 0, len ) );
 }
 
 inline
 int
-compare( const Str & one, const char * two, size_t len )
+compare( const Str & one, const char * two, size_t len STR_COMP_LEN )
 {
   return( one.compare( two, 0, len ) );
 }
 
 inline
 int
-fcompare( const Str & one, const Str & two, size_t len )
+fcompare( const Str & one, const Str & two, size_t len STR_COMP_LEN )
 {
   return( one.fcompare( two, 0, len ) );
 }
 
 inline
 int
-fcompare( const Str & one, const SubStr & two, size_t len )
+fcompare( const Str & one, const SubStr & two, size_t len STR_COMP_LEN )
 {
   return( one.fcompare( two, 0, len ) );
 }
 
 inline
 int
-fcompare( const Str & one, const char * two, size_t len )
+fcompare( const Str & one, const char * two, size_t len STR_COMP_LEN )
 {
   return( one.fcompare( two, 0, len ) );
 }
@@ -1783,13 +1796,14 @@ operator == ( const char * lhs, const Str & rhs )
   return( compare( lhs, rhs ) == 0 );
 }
 
-
+#if !defined( __GNUC__ ) && !defined( inline )
 inline
 bool
 operator != ( const char * lhs, const Str & rhs )
 {
   return( compare( lhs, rhs ) != 0 );
 }
+#endif
 
 inline
 bool
@@ -1798,6 +1812,7 @@ operator <  ( const char * lhs, const Str & rhs )
   return( compare( lhs, rhs ) < 0 );
 }
 
+#if !defined( __GNUC__ ) && !defined( inline )
 inline
 bool
 operator >  ( const char * lhs, const Str & rhs )
@@ -1818,10 +1833,17 @@ operator >= ( const char * lhs, const Str & rhs )
 {
   return( compare( lhs, rhs ) >= 0 );
 }
+#endif
+
+#if !defined( inline )
+#define STR_LINEDELIM = '\n'
+#else
+#define STR_LINEDELIM
+#endif
 
 inline
 istream &
-getline( istream & src, Str & dest, char delim )
+getline( istream & src, Str & dest, char delim STR_LINEDELIM )
 {
   return( dest.getDelim( src, delim ) );
 }
@@ -1833,37 +1855,44 @@ StringToBool( const Str & str )
   return( str.toBool() );
 }
 
+#if defined( inline )
+#define STR_DEF_BASE
+#else
+#define STR_DEF_BASE = 0
+#endif
+
+
 inline
 int
-StringToInt( const Str & str, unsigned short base )
+StringToInt( const Str & str, unsigned short base STR_DEF_BASE )
 {
   return( str.toInt( base ) );
 }
 
 inline
 long
-StringToLong( const Str & str, unsigned short base )
+StringToLong( const Str & str, unsigned short base STR_DEF_BASE )
 {
   return( str.toLong( base ) );
 }
 
 inline
 double
-StringToDouble( const Str & str, unsigned short base )
+StringToDouble( const Str & str, unsigned short base STR_DEF_BASE )
 {
   return( str.toDouble( base ) );
 }
 
 inline
 unsigned int
-StringToUInt( const Str & str, unsigned short base )
+StringToUInt( const Str & str, unsigned short base STR_DEF_BASE )
 {
   return( str.toUInt( base ) );
 }
 
 inline
 unsigned long
-StringToULong( const Str & str, unsigned short base )
+StringToULong( const Str & str, unsigned short base STR_DEF_BASE )
 {
   return( str.toULong( base ) );
 }

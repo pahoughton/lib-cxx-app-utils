@@ -16,6 +16,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/02/29 19:07:08  houghton
+// Added some ifndefs for GNU
+//
 // Revision 2.3  1995/12/04 11:18:27  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -497,7 +500,9 @@ public:
 
   inline bool       operator !=  ( const Str & rhs ) const;
   inline bool	    operator !=  ( const SubStr & rhs ) const;
+#if !defined(__GNUC__)
   inline bool	    operator !=  ( const char * rhs ) const;
+#endif
   
   inline bool       operator >  ( const Str & rhs ) const;
   inline bool	    operator >  ( const SubStr & rhs ) const;
@@ -509,8 +514,10 @@ public:
   
   inline bool       operator >= ( const Str & rhs ) const;
   inline bool	    operator >= ( const SubStr & rhs ) const;
+#if !defined( __GNUC__ )
   inline bool	    operator >= ( const char * rhs ) const;
-
+#endif
+  
   // libClue Common Class Methods
   
   virtual size_t	getBinSize( void ) const;
@@ -614,12 +621,15 @@ operator + ( const char * lhs, const Str & rhs );
 bool
 operator == ( const char * lhs, const Str & rhs );
 
+#if !defined( __GNUC__ )
 bool
 operator != ( const char * lhs, const Str & rhs );
+#endif
 
 bool
 operator <  ( const char * lhs, const Str & rhs );
 
+#if !defined( __GNUC__ )
 bool
 operator >  ( const char * lhs, const Str & rhs );
 
@@ -628,6 +638,7 @@ operator <= ( const char * lhs, const Str & rhs );
 
 bool
 operator >= ( const char * lhs, const Str & rhs );
+#endif
 
 istream &
 getline( istream & src, Str & dest, char delim = '\n' );
