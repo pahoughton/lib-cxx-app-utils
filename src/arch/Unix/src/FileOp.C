@@ -17,6 +17,8 @@
 
 #include "FileOp.hh"
 #include <Str.hh>
+#include <Directory.hh>
+#include <LibLog.hh>
 #include <cstdio>
 #include <cstring>
 #include <cerrno>
@@ -423,6 +425,54 @@ FileOp::removeFile( const char * fn )
 }
 
 bool
+FileOp::removeDir( const char * dn, bool recurse )
+{
+  LLgDebug << "removeDir( " << dn << ", " << recurse << ")." << endl;
+  
+  if( recurse )
+    {
+      Directory	dir( dn, Directory::All );
+
+      for( Directory::const_iterator them = dir.begin();
+	   them != dir.end();
+	   ++ them )
+	{
+	  if( (*them).getName().getFileName() != "."
+	      && (*them).getName().getFileName() != ".."
+	      && (*them).getName() != dn )
+	    {
+	      if( (*them).isDir() )
+		{
+		  LLgDebug << "removing dir  '" << (*them).getName() << "'."
+			   << endl;
+		  
+		  if( ! removeDir( (*them).getName(), true ))
+		    return( false );
+		}
+	      else
+		{
+		  LLgDebug << "removing file '" << (*them).getName() << "'."
+			   << endl;
+		  
+		  if( ! removeFile( (*them).getName() ) )
+		    return( false );
+		}
+	    }
+	}
+    }
+
+  LLgDebug << "removing dir  '" << dn << "'."
+	   << endl;
+  
+  if( ::rmdir( dn ) )
+    {
+      return( setError( errno, "removing directory", dn ) );
+    }
+
+  return( true );
+}
+	  
+bool
 FileOp::setDestStat( void )
 {
   dest( dest.getName() );
@@ -535,6 +585,9 @@ FileOp::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/07/31 13:38:54  houghton
+// Added removeDir().
+//
 // Revision 5.1  2000/05/25 10:33:22  houghton
 // Changed Version Num to 5
 //
