@@ -10,6 +10,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/11/06 18:12:27  houghton
+// Removed BinStream support.
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
 // Revision 2.4  1996/05/01 11:01:41  houghton
 // Bug-Fix: static const UserGroup eff was causing segv.
 //   change so the effective() method just returns a new 'UserGroup'
@@ -32,6 +37,7 @@
 #include "UserGroup.hh"
 #include "User.hh"
 #include "Compare.hh"
+#include <strstream>
 #include <climits>
 #include <cerrno>
 #include <pwd.h>
@@ -65,10 +71,14 @@ extern "C" { void endpwent( void ); };
 
 const gid_t    UserGroup::bad = (gid_t) ULONG_MAX;
 
-UserGroup
+const UserGroup &
 UserGroup::effective( void )
 {
-  return( UserGroup( getegid() ) );
+  static UserGroup * effGroup = 0;
+  if( ! effGroup )
+    effGroup = new UserGroup( getegid() );
+
+  return( *effGroup );
 }
 
 size_t
@@ -139,7 +149,7 @@ UserGroup::set( const struct group * gr, bool findMemb )
     }
   else
     {
-      name.clear();
+      name = "";
       gid = bad;
       osError = errno;      
       return( false );
@@ -150,23 +160,6 @@ size_t
 UserGroup::getBinSize( void ) const
 {
   return( sizeof( gid ) );
-}
-
-BinStream &
-UserGroup::write( BinStream & dest ) const
-{
-  dest.write( gid );
-  return( dest );
-}
-
-BinStream &
-UserGroup::read( BinStream & src )
-{
-  gid_t	grp;
-  src.read( grp );
-  if( src.good() )
-    set( grp );
-  return( src );
 }
 
 ostream &
@@ -193,6 +186,16 @@ UserGroup::toStream( ostream & dest ) const
   return( dest );
 }
 
+istream &
+UserGroup::fromStream( istream & src )
+{
+  RWCString inName;
+
+  src >> inName;
+  set( inName );
+  return( src );
+}
+  
 // good - return TRUE if no detected errors
 bool
 UserGroup::good( void ) const
@@ -204,8 +207,10 @@ UserGroup::good( void ) const
 const char *
 UserGroup::error( void ) const
 {
-  static Str errStr;
-  errStr.reset();
+  static strstream errStr;
+  errStr.freeze(0);
+  errStr.seekp(0);
+  errStr.seekg(0);
 
   errStr << getClassName();
 
@@ -225,7 +230,8 @@ UserGroup::error( void ) const
 	}
     }
 
-  return( errStr.cstr() );
+  errStr << ends;
+  return( errStr.str() );
 }
 
 // getClassName - return the name of this class
@@ -238,7 +244,7 @@ UserGroup::getClassName( void ) const
 const char *
 UserGroup::getVersion( bool withPrjVer ) const
 {
-  return( version.getVer( withPrjVer, name.getVersion( false ) ) );
+  return( version.getVer( withPrjVer ) );
 }
   
 
