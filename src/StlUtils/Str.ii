@@ -544,9 +544,9 @@ inline
 SubStr
 Str::at( const RegexScan & pat, size_type start )
 {
-  size_type beg = find( pat, start );
+  size_type patBeg = find( pat, start );
 
-  SubStr sub( *this, beg, (beg == npos) ? 0 : pat.matchLength() );
+  SubStr sub( *this, patBeg, (patBeg == npos) ? 0 : pat.matchLength() );
   return( sub );
 }
 
@@ -554,8 +554,8 @@ inline
 const SubStr
 Str::at( const RegexScan & pat, size_type start ) const
 {
-  size_type    	beg = find( pat, start );
-  const SubStr  sub( *this, beg, (beg == npos) ? 0 : pat.matchLength() );
+  size_type    	patBeg = find( pat, start );
+  const SubStr  sub( *this, patBeg, (patBeg == npos) ? 0 : pat.matchLength() );
   return( sub );
 }
 
@@ -1446,11 +1446,10 @@ inline
 StrStreambuf *
 Str::rdbuf( void ) const
 {
-#ifdef AIX
-  // aix does not have a const rdbuf
-  return( (StrStreambuf *)(bp) );
-#else
+#if defined( CLUE_HAS_CONST_IOSRDBUF )
   return( (StrStreambuf *)ios::rdbuf() );
+#else
+  return( (StrStreambuf *)(bp) );
 #endif
 }
 
@@ -1686,8 +1685,14 @@ inline
 ostream &
 operator << ( ostream & dest, const Str & str )
 {
-  dest.write( str.strbase(), str.size() );
-  return( dest );
+  return( str.toStream( dest ) );
+}
+
+inline
+istream &
+operator >> ( istream & src, Str & dest )
+{
+  return( dest.fromStream( src ) );
 }
 
   
@@ -2012,6 +2017,10 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.6  1997/07/18 19:16:34  houghton
+// Port(Sun5): changed all locale variables named beg and end to
+//     eliminate compiler warnings.
+//
 // Revision 3.5  1997/07/11 15:51:24  houghton
 // Bug-Fix: copy() - null terminate dest if there is room.
 //

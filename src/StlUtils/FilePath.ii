@@ -123,10 +123,10 @@ FilePath::getFileName( void ) const
 {
   Str name;
   
-  size_t beg = rfind( dirDelim );
+  size_t dirBeg = rfind( dirDelim );
 
-  if( beg != npos )
-    name = substr( beg + 1 );
+  if( dirBeg != npos )
+    name = substr( dirBeg + 1 );
 
   return( name );
 }
@@ -138,10 +138,10 @@ FilePath::getExt( void ) const
 {
   Str ext;
   
-  size_t beg = rfind( extDelim );
+  size_t extBeg = rfind( extDelim );
 
-  if( beg != npos )
-    ext = substr( beg + 1 );
+  if( extBeg != npos )
+    ext = substr( extBeg + 1 );
 
   return( ext );
 }
@@ -293,6 +293,10 @@ operator << ( ostream & dest, const FilePath & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.6  1997/07/18 19:13:26  houghton
+// Port(Sun5): changed all locale variables named beg and end to
+//     eliminate compiler warnings.
+//
 // Revision 3.5  1997/03/12 12:01:41  houghton
 // Added FilePath( dir, fn, ext, ddelim, edelim ) constructor.
 // Cleanup comments.

@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.6  1997/07/18 19:13:04  houghton
+// Port(Sun5): changed all locale variables named beg and end to
+//     eliminate compiler warnings.
+//
 // Revision 3.5  1997/06/09 12:01:18  houghton
 // Changed 'match' to be a const method.
 //
@@ -65,26 +69,26 @@ FilePath::getName( void ) const
 {
   Str name;
   
-  size_type beg = rfind( dirDelim );
-  size_type end = rfind( extDelim );
+  size_type nameBeg = rfind( dirDelim );
+  size_type nameEnd = rfind( extDelim );
 
-  if( beg == npos )
+  if( nameBeg == npos )
     {
-      if( end == npos )
+      if( nameEnd == npos )
 	{
 	  return( *this );
 	}
       else
 	{
-	  name = substr( 0, end );
+	  name = substr( 0, nameEnd );
 	  return( name );
 	}
     }
       
-  if( end == npos )
-    name = substr( beg + 1 );
+  if( nameEnd == npos )
+    name = substr( nameBeg + 1 );
   else
-    name = substr( beg + 1, end  - (beg + 1) );
+    name = substr( nameBeg + 1, nameEnd  - (nameBeg + 1) );
 
   return( name );  
 }
@@ -161,12 +165,12 @@ FilePath::setPath( const char * path )
 bool
 FilePath::changePath( const char * oldDirs, const char * newDirs )
 {
-  size_type beg = find( oldDirs );
+  size_type pathBeg = find( oldDirs );
 
-  if( beg == npos )
+  if( pathBeg == npos )
     return( false );
 
-  replace( beg, strlen( oldDirs ), newDirs );
+  replace( pathBeg, strlen( oldDirs ), newDirs );
   
   return( true );
 }
@@ -174,15 +178,15 @@ FilePath::changePath( const char * oldDirs, const char * newDirs )
 bool
 FilePath::setFileName( const char * name )
 {
-  size_t beg = rfind( dirDelim );
+  size_t fnBeg = rfind( dirDelim );
 
-  if( beg == npos )
+  if( fnBeg == npos )
     {
       assign( name );
     }
   else
     {
-      replace( beg + 1, npos, name );
+      replace( fnBeg + 1, npos, name );
     }
   return( true );
 }
@@ -196,18 +200,18 @@ FilePath::setName( const char * name )
 bool
 FilePath::setName( const char * name, char ext )
 {
-  size_t beg = rfind( dirDelim );
-  size_t end = rfind( ext );
+  size_t nameBeg = rfind( dirDelim );
+  size_t nameEnd = rfind( ext );
 
-  if( beg == npos )
-    beg = 0;
+  if( nameBeg == npos )
+    nameBeg = 0;
   else
-    beg++;
+    nameBeg++;
   
-  if( end == npos )
-    end = size();
+  if( nameEnd == npos )
+    nameEnd = size();
 
-  replace( beg, end - beg, name );
+  replace( nameBeg, nameEnd - nameBeg, name );
 
   return( true );
 }
@@ -215,18 +219,18 @@ FilePath::setName( const char * name, char ext )
 bool
 FilePath::setName( const char * name, const char * ext )
 {
-  size_t beg = rfind( dirDelim );
-  size_t end = find( ext);
+  size_t nameBeg = rfind( dirDelim );
+  size_t nameEnd = find( ext);
 
-  if( beg == npos )
-    beg = 0;
+  if( nameBeg == npos )
+    nameBeg = 0;
   else
-    beg++;
+    nameBeg++;
   
-  if( end == npos )
-    end = size();
+  if( nameEnd == npos )
+    nameEnd = size();
 
-  replace( beg, end - beg, name );
+  replace( nameBeg, nameEnd - nameBeg, name );
   
   return( true );
 }
@@ -240,16 +244,16 @@ FilePath::setExt( const char * ext )
 bool
 FilePath::setExt( const char * ext, char delim )
 {
-  size_t beg = rfind( delim );
+  size_t extBeg = rfind( delim );
 
-  if( beg == npos )
+  if( extBeg == npos )
     {
       append( 1, extDelim );
       append( ext );
     }
   else
     {
-      replace( beg + 1, npos, ext );
+      replace( extBeg + 1, npos, ext );
     }
   return( true );
 }
@@ -257,12 +261,12 @@ FilePath::setExt( const char * ext, char delim )
 bool
 FilePath::setExt( const char * oldExt, const char * newExt )
 {
-  size_t beg = rfind( oldExt );
+  size_t extBeg = rfind( oldExt );
 
-  if( beg == npos || (beg + strlen( oldExt )) != size() )
+  if( extBeg == npos || (extBeg + strlen( oldExt )) != size() )
     return( false );
 
-  replace( beg, size() - beg, newExt );
+  replace( extBeg, size() - extBeg, newExt );
   return( true );
 }
 
@@ -294,8 +298,7 @@ FilePath::setTempName( const char * path, const char * prefix )
 ostream &
 FilePath::toStream( ostream & dest ) const
 {
-  dest << (const Str &)*this;
-  return( dest );
+  return( Str::toStream( dest ) );
 }
 
 size_t
