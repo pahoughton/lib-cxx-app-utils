@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/10/22 22:05:45  houghton
+// Change: Added locStamp to turn on/off output of src file & line.
+//
 // Revision 2.5  1996/04/27 13:02:48  houghton
 // Added thread locking support.
 //
@@ -71,17 +74,20 @@ public:
   inline Log( ostream & 	outStream = cout,
 	      LogLevel::Level 	outLevel = LogLevel::Error,
 	      bool		stampLevel = true,
-	      bool		stampTime = true );
+	      bool		stampTime = true,
+	      bool		stampLoc = true );
 
   inline Log( ostream & 	outStream,
 	      const char *      outLevel,
 	      bool		stampLevel = true,
-	      bool		stampTime = true ); 
+	      bool		stampTime = true,
+	      bool		stampLoc = true ); 
   
   inline Log( const char * 	fileName,
 	      LogLevel::Level 	outLevel = LogLevel::Error,
 	      bool		stampLevel = true,
 	      bool		stampTime = true,
+	      bool		stampLoc = true,
 	      ios::open_mode	mode = ios::app,
 	      int		prot = filebuf::openprot,
 	      size_t		maxSize = 0,
@@ -91,6 +97,7 @@ public:
 	      const char *	outLevel,
 	      bool		stampLevel = true,
 	      bool		stampTime = true,
+	      bool		stampLoc = true,
 	      ios::open_mode	mode = ios::app,
 	      int		prot = filebuf::openprot,
 	      size_t		maxSize = 0,
@@ -109,12 +116,18 @@ public:
   
   inline Log &	    operator () ( void );
   inline Log &	    operator () ( LogLevel::Level   current );
-  inline Log &	    operator () ( LogLevel::Level   current,
+  Log &		    operator () ( LogLevel::Level   current,
 				  const char *	    srcFile,
 				  long		    srcLine );
 
-  Log &		    level( const char * current );  
-  inline Log &      operator () ( const char * current );
+  Log &		    level( const char *	    current,
+			   const char *	    srcFile = 0,
+			   long		    srcLine = 0 );
+  
+  inline Log &      operator () ( const char *	    current );
+  inline Log &      operator () ( const char *	    current,
+				  const char *	    srcFile,
+				  long		    srcLine );
   
   inline void		    on( LogLevel::Level output );
   inline void		    off( LogLevel::Level output );
@@ -134,6 +147,7 @@ public:
 
   inline bool		    setLevelStamp( bool stamp );
   inline bool		    setTimeStamp( bool stamp );
+  inline bool		    setLocStamp( bool stamp );
 
   inline LogBuf *	    rdbuf( void );
   inline const LogBuf *	    rdbuf( void ) const;
@@ -162,7 +176,8 @@ private:
 
   bool		timeStamp;
   bool		levelStamp;
-
+  bool		locStamp;
+  
   Mutex		mutex;
   
 };

@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/10/22 22:05:33  houghton
+// Change: Added locStamp to turn on/off output of src file & line.
+//
 // Revision 2.5  1996/04/27 13:02:32  houghton
 // Added global _LibLog variable.
 //
@@ -65,7 +68,7 @@ Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
       *this << rdbuf()->level().getName( current ) << ' ';
     }
 
-  if( srcFile )
+  if( locStamp && srcFile )
     {
       *this << srcFile << ':' << srcLine << ' ';
     }
@@ -74,7 +77,7 @@ Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
 }
 
 Log &
-Log::level( const char * lvl )
+Log::level( const char * lvl, const char * srcFile, long srcLine )
 {
   if( rdbuf()->sync() == EOF )
     {
@@ -94,6 +97,11 @@ Log::level( const char * lvl )
   if( levelStamp )
     {
       *this << lvl  << ' ';
+    }
+  
+  if( locStamp && srcFile )
+    {
+      *this << srcFile << ':' << srcLine << ' ';
     }
   
   return( *this );
@@ -157,6 +165,8 @@ Log::getVersion( bool withPrjVer ) const
     return( version.getVer( withPrjVer ) );
 }
 
+#define bool2str( _b_ ) ((_b_) == true ? "on" : "off" )
+
 ostream &
 Log::dumpInfo(
   ostream &	dest,
@@ -173,9 +183,11 @@ Log::dumpInfo(
   else
     dest << prefix << "Good!" << '\n';
 
-  dest << prefix << "timeStamp:    " << (timeStamp == true ? "on" : "off" ) << '\n';
-  dest << prefix << "levelStamp:   " << (levelStamp == true ? "on" : "off" ) << '\n';
-
+  dest << prefix << "timeStamp:    " << bool2str( timeStamp ) << '\n'
+       << prefix << "levelStamp:   " << bool2str( levelStamp ) << '\n'
+       << prefix << "locStamp:     " << bool2str( locStamp ) << '\n'
+    ;
+  
   if( rdbuf() )
     {
       Str pre;
