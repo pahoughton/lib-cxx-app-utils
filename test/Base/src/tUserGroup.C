@@ -6,6 +6,7 @@
 #include <User.hh>
 #include <Compare.hh>
 #include <strstream>
+#include <cstring>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>

@@ -1,3 +1,8 @@
 .depend
+.depend_debug
+.depend_default
+.depend_profile
+Test
+Test_g
 objects
 tg
