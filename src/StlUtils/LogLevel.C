@@ -13,7 +13,7 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include "LogLevel.hh"
-#include "Clue.hh"
+#include "ClueUtils.hh"
 #include "Bit.hh"
 #include "StringUtils.hh"
 #include <strstream>
@@ -290,6 +290,9 @@ LogLevel::levelFromString( const char * level )
 // Revision Log:
 //
 // $Log$
+// Revision 2.9  1996/11/04 18:21:40  houghton
+// Chaged include becuase Clue.hh was renamed to ClueUtils.hh.
+//
 // Revision 2.8  1996/11/04 14:14:16  houghton
 // Restructure header comments layout.
 // Added static Name2Level[] to improve name translation support. Now
