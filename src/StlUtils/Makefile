@@ -31,7 +31,7 @@ USER_INCS	=			\
 	AvlTreeBase.hh                  \
 	AvlTreeOffset.hh                \
 	AvlTreeOffsetBase.hh            \
-	CdrBillNum.hh                   \
+	BillNum.hh  	    	    	\
 	Clue.hh                         \
 	Compare.hh  	    	    	\
 	DLList.h                        \
@@ -49,6 +49,7 @@ USER_INCS	=			\
 	FileStat.hh                     \
 	FixedCharFile.hh    	    	\
 	FixedCharRec.hh			\
+	FixedNetBitRec.hh   	    	\
 	Group.hh                        \
 	JumpTable.hh                    \
 	LogLevel.hh			\
@@ -62,9 +63,11 @@ USER_INCS	=			\
 	MultiMem.hh                     \
 	MultiMemOffset.hh               \
 	MultiMemOffsetMapFixed.hh       \
+	NetBitPack.hh	    	    	\
 	Record.hh			\
 	Param.hh    	    	    	\
 	Password.hh                     \
+	Pind.hh	    	    	    	\
 	Pix.hh                          \
 	SLList.h                        \
 	Stack.hh                        \
@@ -72,6 +75,8 @@ USER_INCS	=			\
 	Str.hh                          \
 	StringList.hh                   \
 	SybaseParam.hh			\
+	TableMapFixedDynamic.hh		\
+	Tbcd.hh	    	    	    	\
 	TeleNum.h                       \
 	TeleNum.hh                      \
 	Timer.hh                        \
@@ -90,7 +95,7 @@ LIB_C_SOURCES	=			\
 LIB_CXX_SOURCES	=			\
 	AvlTreeAddrBase.C               \
 	AvlTreeOffsetBase.C             \
-	CdrBillNum.C                    \
+	BillNum.C                    	\
 	ChangeFileDir.C			\
 	DLList.C                        \
 	DateRange.C                     \
@@ -105,6 +110,7 @@ LIB_CXX_SOURCES	=			\
 	FileStat.C                      \
 	FixedCharFile.C			\
 	FixedCharRec.C			\
+	FixedNetBitRec.C		\
 	Group.C                         \
 	JumpTable.C                     \
 	LogLevel.C			\
@@ -119,11 +125,14 @@ LIB_CXX_SOURCES	=			\
 	MultiMemOffsetMapFixed.C	\
 	Param.C				\
 	Password.C                      \
+	Pind.C	    	    	    	\
 	Record.C			\
 	SLList.C                        \
 	State.C                         \
 	StateToStateCode.C              \
 	StringList.C                    \
+	TableMapFixedDynamic.C		\
+	Tbcd.C	    	    	    	\
 	TeleNum.C                       \
 
 #	Mcr.C                           \
@@ -225,7 +234,10 @@ include .depend.lib
 
 # 
 # $Log$
-# Revision 1.9  1995/02/20 14:24:27  houghton
+# Revision 1.10  1995/03/02 16:35:35  houghton
+# Linux ports & new Classes
+#
+# Revision 1.9  1995/02/20  14:24:27  houghton
 # Linux port and Fix bugs in DateTime found with new test.
 #
 # Revision 1.8  1995/02/13  17:37:07  houghton

@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.1  1995/02/13 16:08:59  houghton
+// Revision 1.2  1995/03/02 16:35:41  houghton
+// Linux ports & new Classes
+//
+// Revision 1.1  1995/02/13  16:08:59  houghton
 // New Style Avl an memory management. Many New Classes
 //
 //
@@ -32,8 +35,6 @@ public:
   time_t    	getDur( void ) const;
   time_t    	getStart( void ) const;
   time_t    	getStop( void ) const;
-  
-  friend ostream & operator<<( ostream & dest, const Timer & timer );
   
 protected:
 

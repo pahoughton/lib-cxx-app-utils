@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/02/13 16:08:53  houghton
+// Revision 1.2  1995/03/02 16:35:37  houghton
+// Linux ports & new Classes
+//
+// Revision 1.1  1995/02/13  16:08:53  houghton
 // New Style Avl an memory management. Many New Classes
 //
 //
@@ -65,7 +68,8 @@ operator<<( ostream & dest, const Param & param )
 	    {
 	    case Param::ARG_STRING:
 
-	      if( strlen( *((char **)(param.helpList(a)->value)) ) > 20 )
+	      if( *((char **)(param.helpList(a)->value)) &&
+		  strlen( *((char **)(param.helpList(a)->value)) ) > 20 )
 		{
 		  dest << "\n            '"
 		       << *((char **)(param.helpList(a)->value)) << "'\n";
