@@ -1,39 +1,19 @@
 //
 // File:        Log.C
+// Project:	Clue
 // Desc:        
 //              
+//  Compiled source for Log class.
 //
 // Author:      Paul Houghton x2309 - (houghton@shoe)
 // Created:     03/14/94 12:22 
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.6  1996/10/22 22:05:33  houghton
-// Change: Added locStamp to turn on/off output of src file & line.
-//
-// Revision 2.5  1996/04/27 13:02:32  houghton
-// Added global _LibLog variable.
-//
-// Revision 2.4  1995/12/04 11:17:23  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.3  1995/11/12  18:49:31  houghton
-// Bug fix - current (not lvl).
-//
-// Revision 2.2  1995/11/12  18:00:02  houghton
-// Added srcFile, srcLine args to level().
-//
-// Revision 2.1  1995/11/10  12:40:42  houghton
-// Change to Version 2
-//
-// Revision 1.6  1995/11/05  15:28:36  houghton
-// Revised
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #include "Log.hh"
-#include "DateTime.hh"
+#include <rw/rwtime.h>
+#include <strstream>
 
 #if defined( CLUE_DEBUG )
 #include <Log.ii>
@@ -54,18 +34,18 @@ Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
       return( *this );
     }
   
-  rdbuf()->level().setCurrent( current );
+  rdbuf()->setCurrentLevel( current );
 
   if( timeStamp )
     {
-      DateTime  now( time(0), true );
+      RWTime  now;
 
       *this << now << ' ';
     }
 
   if( levelStamp )
     {
-      *this << rdbuf()->level().getName( current ) << ' ';
+      *this << rdbuf()->getLogLevel() << ' ';
     }
 
   if( locStamp && srcFile )
@@ -85,18 +65,18 @@ Log::level( const char * lvl, const char * srcFile, long srcLine )
       return( *this );
     }
   
-  rdbuf()->level().setCurrent( lvl );
+  rdbuf()->setCurrentLevel( lvl );
 
   if( timeStamp )
     {
-      DateTime  now( time(0), true );
+      RWTime  now;
 
       *this << now << ' ';
     }
 
   if( levelStamp )
     {
-      *this << lvl  << ' ';
+      *this << rdbuf()->getLogLevel() << ' ';
     }
   
   if( locStamp && srcFile )
@@ -116,8 +96,10 @@ Log::good( void ) const
 const char *
 Log::error( void ) const
 {
-  static Str errStr;
-  errStr.reset();
+  static strstream errStr;
+  errStr.freeze(0);
+  errStr.seekp(0);
+  errStr.seekg(0);
 
   errStr << getClassName();
 
@@ -127,7 +109,7 @@ Log::error( void ) const
     }
   else
     {
-      size_t eSize = errStr.size();
+      streampos eSize = errStr.tellp();
 
       if( rdbuf() == 0 )
 	errStr << ": no 'streambuf'";
@@ -142,12 +124,13 @@ Log::error( void ) const
 	    errStr << ": BAD bit set";
 	}
       
-      if( eSize == errStr.size() )
+      if( eSize == errStr.tellp() )
 	errStr << ": unknown error";
       
     }
 
-  return( errStr.cstr() );
+  errStr << ends;
+  return( errStr.str() );
 }
   
 const char *
@@ -190,14 +173,48 @@ Log::dumpInfo(
   
   if( rdbuf() )
     {
-      Str pre;
-      pre = prefix;
-      pre << "rdbuf: " << rdbuf()->getClassName() << "::";
-
-      rdbuf()->dumpInfo( dest, pre, false );
+      strstream pre;
+      pre << prefix << "rdbuf: " << rdbuf()->getClassName() << "::";
+      rdbuf()->dumpInfo( dest, pre.str(), false );
+      pre.freeze(0);
     }
   
   dest << '\n';
   
   return( dest  );
 }
+
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.7  1996/11/04 13:39:33  houghton
+// Restructure header comments layout.
+// Changed to use rwtime instead of DateTime for time stamp output.
+//     (as required by Mike Alexandar).
+// Changed to work with modifications to LogBuf class.
+// Changed error to use a strstream instead of an Str
+//     (as required by Mike Alexandar).
+//
+// Revision 2.6  1996/10/22 22:05:33  houghton
+// Change: Added locStamp to turn on/off output of src file & line.
+//
+// Revision 2.5  1996/04/27 13:02:32  houghton
+// Added global _LibLog variable.
+//
+// Revision 2.4  1995/12/04 11:17:23  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.3  1995/11/12  18:49:31  houghton
+// Bug fix - current (not lvl).
+//
+// Revision 2.2  1995/11/12  18:00:02  houghton
+// Added srcFile, srcLine args to level().
+//
+// Revision 2.1  1995/11/10  12:40:42  houghton
+// Change to Version 2
+//
+// Revision 1.6  1995/11/05  15:28:36  houghton
+// Revised
+//
+//
