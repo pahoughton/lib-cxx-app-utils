@@ -359,6 +359,10 @@ RegexScan::cleanup()
 	    }
 	  free( reg );
 	}
+      
+      if( buf->allocated )
+	free( buf->buffer );
+      
       free( buf );
     }
 }
@@ -367,6 +371,9 @@ RegexScan::cleanup()
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/10/23 13:05:53  houghton
+// Bug-Fix: 'Memory Leak' - the 'buffer' was not being free'ed.
+//
 // Revision 4.2  1998/07/20 11:25:29  houghton
 // Port(Hpux): RE_SYNTAX_POSIX_EGREP was causing an error.
 //
