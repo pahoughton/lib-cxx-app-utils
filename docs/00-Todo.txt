@@ -13,6 +13,9 @@
 # See End of file for format specs
 #
 
+ENH Paul Houghton 08/03/97 07:54
+Added argFileMode( ios::open_mode & mode ) to Param.
+
 BUG Paul Houghton 07/27/97 08:25
 StringFrom returns 0 if value is 0 ??
 CODE Paul Houghton 07/28/97 11:35
@@ -150,6 +153,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 3.3  1997/08/03 13:55:58  houghton
+# *** empty log message ***
+#
 # Revision 3.2  1997/07/28 16:45:32  houghton
 # *** empty log message ***
 #
