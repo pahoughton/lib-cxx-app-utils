@@ -17,10 +17,15 @@
 
 #include <sys/stat.h>
 
+#define CLUE_STAT_SIZE_TYPE	off_t
+
 //
 // Revision Log
 //
 // $Log$
+// Revision 3.2  1997/06/09 14:29:33  houghton
+// Added CLUE_STAT_SIZE_TYPE.
+//
 // Revision 3.1  1997/03/21 15:44:21  houghton
 // Changed base version to 3
 //
