@@ -1,27 +1,22 @@
 
 TEST_DATA_DIR	= ../data
-TEST_USER	= houghton
-TEST_GROUP	= cirinv# tools
+TEST_USER	= $(USER)
+TEST_GROUP	= cirinv
 TEST_UID	= 253
 TEST_GID	= 233
 
-CC		= xlc_r
-CXX		= xlC_r
+# CC		= xlc_r
+# CXX		= xlC_r
 
 
 ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
 CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src 		\
-		  -I$(PRJ_TOPDIR)/src/arch/$(arch)/stdc++ 	\
-		  -I$(PRJ_TOPDIR)/src/arch/$(arch)/stl		\
 		  -I$(PRJ_TOPDIR)/src/arch/Unix/src 		\
-		  -I$(PRJ_TOPDIR)/src/arch/Clue1/src 		\
 		  -I$(PRJ_TOPDIR)/src/arch/src 			\
-		  -I$(PRJ_TOPDIR)/src/arch/stdc++ 		\
-		  -I$(PRJ_TOPDIR)/src/arch/stl	 		\
 		  -I$(PRJ_TOPDIR)/src/Clue 
 
 CLUE_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/Clue
 
-ARCH_LIBS	=
-
+ARCH_DEBUG_LIBS	= -lGnuRegex 
+ARCH_DEFAULT_LIBS = -lGnuRegex
 

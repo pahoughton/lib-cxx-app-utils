@@ -9,154 +9,57 @@
 #
 
 include $(PRJ_TOPDIR)/src/arch/Unix/src/Makefile.Clue
-include $(PRJ_TOPDIR)/src/Clue1/src/Makefile.Clue
 
 ARCH_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/src
 ARCH_SRC_DIR	= $(PRJ_TOPDIR)/src/arch/src
-ARCH_STDCPP_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/stdc++
-STDCPP_DIR	= $(PRJ_TOPDIR)/src/stdc++
-ARCH_STL_DIR	= $(PRJ_TOPDIR)/src/arch/$(arch)/stl
-STL_DIR		= $(PRJ_TOPDIR)/src/stl
 
+ARCH_SRC_VPATH	= $(ARCH_DIR):$(ARCH_SRC_DIR)
 
-ARCH_SRC_VPATH		= $(ARCH_DIR):$(ARCH_SRC_DIR)
-ARCH_STDCPP_VPATH	= $(ARCH_STDCPP_DIR):$(STDCPP_DIR)
-ARCH_STL_VPATH		= $(ARCH_STL_DIR):$(STL_DIR)
+ARCH_VPATH	= $(ARCH_SRC_VPATH):$(UNIX_VPATH)
 
-ARCH_ALL_VPATH	= $(ARCH_SRC_VPATH):$(ARCH_STDCPP_VPATH):$(ARCH_STL_VPATH)
+ARCHSRC_INC	= -I$(ARCH_DIR) -I$(ARCH_SRC_DIR)
 
-ARCH_VPATH	= $(ARCH_ALL_VPATH):$(UNIX_VPATH):$(CLUE1_VPATH)
+ARCH_DEFINES	= $(UNIX_DEFINES)
 
-ARCHSRC_INC	= -I$(ARCH_DIR) 	\
-		  -I$(ARCH_SRC_DIR) 	\
-		  -I$(ARCH_STDCPP_DIR)	\
-		  -I$(STDCPP_DIR)	\
-		  -I$(ARCH_STL_DIR)	\
-		  -I$(STL_DIR)
+ARCH_INC	= $(ARCHSRC_INC) $(UNIX_INC)
 
-ARCH_DEFINES	= $(UNIX_DEFINES) $(CLUE1_DEFINES)
-
-ARCH_INC	= $(ARCHSRC_INC) $(UNIX_INC) $(CLUE1_INC)
-			  
 
 
 ARCH_C_SOURCES		=	\
 	$(UNIX_C_SOURCES)	\
-	$(CLUE1_C_SOURCES)	\
 
 
 ARCH_CXX_C_SOURCES	=	\
 	basename.C		\
-	FileStat.C		\
-	OpenFlags.C		\
 	$(UNIX_CXX_C_SOURCES)	\
-	$(CLUE1_CXX_C_SOURCES)	\
 
 ARCH_USER_H_INCS	=	\
 	$(UNIX_USER_H_INCS)	\
-	$(CLUE1_USER_H_INCS)	\
-
-ARCH_USER_STD_CXX_INCS	=	\
-	algo.h			\
-	algobase.h		\
-	algorithm		\
-	bool.h			\
-	bvector.h		\
-	cctype			\
-	cerrno			\
-	climits			\
-	cmath			\
-	cstddef			\
-	cstdio			\
-	cstdlib			\
-	cstring			\
-	ctime			\
-	defalloc.h		\
-	deque			\
-	deque.h			\
-	faralloc.h		\
-	fdeque.h		\
-	flist.h			\
-	fmap.h			\
-	fmultmap.h		\
-	fmultset.h		\
-	fset.h			\
-	fstream			\
-	function.h		\
-	functional		\
-	hdeque.h		\
-	heap.h			\
-	hlist.h			\
-	hmap.h			\
-	hmultmap.h		\
-	hmultset.h		\
-	hset.h			\
-	hugalloc.h		\
-	hvector.h		\
-	iomanip			\
-	iostream		\
-	iterator		\
-	iterator.h		\
-	lbvector.h		\
-	ldeque.h		\
-	list.h			\
-	llist.h			\
-	lmap.h			\
-	lmultmap.h		\
-	lmultset.h		\
-	lngalloc.h		\
-	lset.h			\
-	map			\
-	map.h			\
-	multimap.h		\
-	multiset.h		\
-	neralloc.h		\
-	new			\
-	nmap.h 			\
-	nmultmap.h		\
-	nmultset.h		\
-	nset.h			\
-	pair.h			\
-	projectn.h		\
-	set			\
-	set.h			\
-	stack.h			\
-	stddef			\
-	strstream		\
-	tempbuf.h		\
-	tree.h			\
-	vector			\
-	vector.h		\
-	AnsiBool.hh		\
 
 ARCH_USER_HH_INCS	=		\
-	FileStat.hh			\
+	ClueArch.hh			\
+	ClueSysStat.hh			\
 	ClueExceptions.hh		\
-	ClueConfig.hh			\
-	$(ARCH_USER_STD_CXX_INCS)	\
 	$(UNIX_USER_HH_INCS)		\
-	$(CLUE1_USER_HH_INCS)		\
 
 ARCH_USER_II_INCS	=		\
-	FileStat.ii			\
 	$(UNIX_USER_II_INCS)		\
-	$(CLUE1_USER_II_INCS)		\
 
 ARCH_C_HEADERS		=		\
 	$(UNIX_C_HEADERS)		\
-	$(CLUE1_C_HEADERS)		\
 
 ARCH_CXX_HEADERS	=		\
 	$(UNIX_CXX_HEADERS)		\
-	$(CLUE1_CXX_HEADERS)		\
 
 ARCH_CXX_INLINES	=		\
 	$(UNIX_CXX_INLINES)		\
-	$(CLUE1_CXX_INLINES)		\
 
 
 #
 # $Log$
+# Revision 3.2  1997/03/03 19:05:51  houghton
+# Reworked for version 3.
+#
 # Revision 3.1  1996/11/14 01:24:57  houghton
 # Changed to Release 3
 #
