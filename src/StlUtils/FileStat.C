@@ -15,7 +15,11 @@
 #include "FileStat.hh"
 #include <UserGroup.hh>
 #include <User.hh>
+#if defined( CLUE_USE_DATETIME )
 #include <DateTime.hh>
+#else
+#include <rw/rwtime.h>
+#endif
 #include <Bit.hh>
 #include <iomanip>
 #include <strstream>
@@ -179,8 +183,12 @@ FileStat::toStream( ostream & dest ) const
       
       dest.unsetf( ios::left );
 
+#if defined( CLUE_USE_DATETIME )
       DateTime mdt( getModificationTime(), true );
-      
+#else
+      time_t tmpMdt = getModificationTime();
+      RWTime mdt( localtime( &tmpMdt ) );
+#endif
       dest << setw( 10 ) << getSize() << ' '
 	   << mdt << ' '
 	   << getName()
@@ -384,6 +392,10 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 2.7  1996/11/08 11:46:36  houghton
+// Changed to use RWTime instead of DateTime.
+//     (as required by Mike Alexander)
+//
 // Revision 2.6  1996/11/06 18:13:34  houghton
 // Changed use of Str to RWCString.
 //     (as required per Mike Alexander)
