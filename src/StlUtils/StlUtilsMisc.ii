@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.7  1996/11/11 13:32:59  houghton
+// Bug-Fix: had to change Align to use a template class for SizeType
+//
 // Revision 2.6  1996/11/04 18:21:19  houghton
 // Renamed Clue.hh to ClueUtils.hh.
 //
@@ -49,10 +52,10 @@
 
 
 
-template< class NumberType >
+template< class NumberType, class SizeType >
 inline
 NumberType
-Align( NumberType value, size_t alignSize )
+Align( NumberType value, SizeType alignSize )
 {
   return( ((value % alignSize) == 0) ?
 	  value ? value : alignSize:
