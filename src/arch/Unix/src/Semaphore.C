@@ -113,7 +113,13 @@ Semaphore::remove( void )
 {
   if( semId != badSem )
     {
+#if defined( Linux )
       static union semun  OpRemove = { 0 };
+#endif
+
+#if defined( AIX41 )
+      long OpRemove = 0;
+#endif
       
       if( semctl( semId, 0, IPC_RMID, OpRemove ) != -1 )
 	{
@@ -252,11 +258,18 @@ Semaphore::dumpInfo(
 
   if( semId != badSem )
     {
-      struct semid_ds semInfo;
-      union	semun	semUn;
-      semUn.buf = &semInfo;
+      struct semid_ds	semInfo;
+#if defined( LINUX )
+      union semun	buff;
+      buff.buf =	&semInfo;
+#endif
+
+#if defined( AIX41 )
+      struct semid_ds *	    buff;
+      buff = &semInfo;
+#endif
       
-      if( semctl( semId, 0, IPC_STAT, semUn ) != -1 )
+      if( semctl( semId, 0, IPC_STAT, buff ) != -1 )
 	{
 	  dest << prefix << "perm:     " << semInfo.sem_perm.mode << '\n'
 	       << prefix << "otime:    " << semInfo.sem_otime << '\n'
@@ -278,6 +291,10 @@ Semaphore::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/07/14 10:32:42  houghton
+// Port: short term fix because aix does not have semun. The long
+//     term solution should eliminate the #if defined().
+//
 // Revision 3.1  1997/06/10 13:54:25  houghton
 // Initial Version.
 //
