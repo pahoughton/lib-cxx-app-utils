@@ -92,7 +92,7 @@ public:
   
   inline size_type    	    copy( char * dest,
 				  size_type destLen,
-				  size_type start = 0 );
+				  size_type start = 0 ) const;
 
   inline StrStreambuf *     rdbuf( void ) const;
   inline StrStreambuf *     rdbuf( void );
@@ -1675,6 +1675,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/08/08 13:24:25  houghton
+// Changed copy() to const.
+//
 // Revision 3.7  1997/07/18 19:29:02  houghton
 // Added fromStream.
 // Port(Sun5): had to create a default constructor for 'ScanMatch' to

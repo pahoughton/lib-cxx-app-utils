@@ -1433,7 +1433,7 @@ Str::c_str( void ) const
 
 inline
 Str::size_type
-Str::copy( char * dest, size_type destLen, size_type start )
+Str::copy( char * dest, size_type destLen, size_type start ) const
 {
   size_type len = min( destLen, size() - start );
   strncpy( dest, strbase() + start, len );
@@ -2017,6 +2017,9 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.7  1997/08/08 13:24:52  houghton
+// Changed copy() to const.
+//
 // Revision 3.6  1997/07/18 19:16:34  houghton
 // Port(Sun5): changed all locale variables named beg and end to
 //     eliminate compiler warnings.
