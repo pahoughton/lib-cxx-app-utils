@@ -1,20 +1,47 @@
-# -*- makefile -*- for tStlUtils
 #
-# Created: 4/28/96 using MakeConfigs 5.01.00.a.03
+# Title:        make.cfg.template.prog
+# Project:	Test
+# Desc:
+# 
+#   Makefile for Test.
+# 
+# Notes:
+# 
+#   This Makefile requres MakeConfig and GNU's make version 3.75
 #
-# $Id$
+#   Try 'make help' for a list of standard targets.
+# 
+# Author:	Paul A. Houghton,,, (paul.houghton@wcom.com)
+# Created:	4/2/98 using MakeConfigs 5.05.00.b.03
 #
-# (see end of file for Log info)
+# Revision History: (See end of file for Revision Log)
+#
+#   Last Mod By:    $Author$
+#   Last Mod:	    $Date$
+#   Version:	    $Revision$
+#
+#   $Id$
+# 
 
 #
-# Do not modifiy 'makefile_type'
-makefile_type = prog
-# This is the make.cfg version that will be used
-make_cfg_ver	= 5.02
-# Default target type
+# The following variables control the behavior of MakeConfigs.
+#   makefile_type   is the type of object being build (do NOT change)
+#   make_cfg_ver    is the version of MakeConfigs to use
+#   make_target	    is the default target to build
+#   show_commands   if this is true, the commands  will be output
+#   proto_dep	    if this is true, the proto header will be rebuild when
+#		    one of it's dependancies changes (ie a .c source)
+#   check_install   if this is true, install and install_all will NOT
+#		    overwrite an installed version.
+#
+
+makefile_type   = prog
+make_cfg_ver	= 5.05
 make_target	= default
-# Uncomment 'show_commands' to output compile command.
-show_commands = # true
+show_commands 	= # true
+proto_dep	= true
+check_install	= true
+
 
 # Include standard MakeConfig configuration for GNU make required
 include Make/make.cfg.$(make_cfg_ver)
@@ -28,23 +55,27 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Test
 
-INSTALL_BINDIR	= $(TOOL_DIR)/bin
+PRJ_TOPDIR		= ../../..
+PRJ_BINDIR		= $(PRJ_TOPDIR)/bin
 
-VER_MAJOR	= 3
-VER_MINOR	= 02
+INSTALL_BASE_DIR	= $(PRJ_TOPDIR)
+INSTALL_BIN_DIR		= $(INSTALL_BASE_DIR)/bin
+
+VER_MAJOR	= 4
+VER_MINOR	= 00
 VER_RELEASE	= 00.b.01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 PROGRAM_DEFAULT	= $(NAME)
 PROGRAM_DEBUG	= $(NAME)_g
+PROGRAM_TEST	= $(NAME)_tg
 PROGRAM_PROFILE	= $(NAME)_pg
 PROGRAM_STATIC	= $(NAME)_static
+PROGRAM_SHARED	= $(NAME)_s
 
-
-PRJ_TOPDIR	= ../../..
 
 # include any arch specific makefile component
--include $(PRJ_TOPDIR)/src/arch/$(rpm_arch)$(arch)/Makefile.$(NAME)
+include $(PRJ_TOPDIR)/src/arch/$(arch)/Makefile.$(NAME)
 
 VPATH		= $(ARCH_VPATH):.
 
@@ -53,6 +84,7 @@ VPATH		= $(ARCH_VPATH):.
 # Config defines avalable
 #
 #
+
 
 SRC_DEFINES	= -DTEST_DATA_DIR=\"$(TEST_DATA_DIR)\" 	\
 		  -DTEST_USER=\"$(TEST_USER)\"		\
@@ -66,8 +98,10 @@ PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFAULT_DEFINES = -DTEST_DEFAULT=1
 DEBUG_DEFINES	= -DTEST_DEBUG=1 -DSTLUTILS_DEBUG=1
-PROFILE_DEFINES	= -DTSTLUTILS_PROFILE=1
-STATIC_DEFINES	= -DTSTLUTILS_STATIC=1
+TEST_DEFINES	= -DTEST_TEST=1 $(DEBUG_DEFINES)
+PROFILE_DEFINES	= -DTEST_PROFILE=1
+STATIC_DEFINES	= -DTEST_STATIC=1
+SHARED_DEFINES	= -DTEST_SHARED=1
 
 ######  I N C L U D E S #####
 #
@@ -77,8 +111,8 @@ STATIC_DEFINES	= -DTSTLUTILS_STATIC=1
 #
 
 
-SRC_INC		= $(ARCH_INC) -I. 
-PRJ_INC		= $($($(make_target))_PRJ_INC) -I$(beta_incdir)
+SRC_INC		= $(ARCH_INC) -I. $($($(make_target))_PRJ_INC)
+PRJ_INC		= -I$(beta_incdir)
 
 DEFAULT_PRJ_INC	= 
 DEBUG_PRJ_INC	= $(STLUTILS_SRC_INC)
@@ -89,43 +123,51 @@ STATIC_PRJ_INC	=
 
 CPP_FLAGS		= $(ARCH_CPP_FLAGS)
 
+FLEX_FLAGS		=
+BISON_FLAGS		=
+
 ###### C O M P I L E / C P P #####
 #
 # Config flags available
 #
-# $(cc_optimize) $(cxx_optimize)
-# $(cc_debug)	 $(cxx_debug)
-# $(cc_profile)	 $(cxx_profile)
-# $(cc_warn)	 $(cxx_warn)
+# $(cc_optimize_flags) $(cxx_optimize_flags)
+# $(cc_debug_flags)    $(cxx_debug_flags)
+# $(cc_profile_flags)  $(cxx_profile_fllags)
+# $(cc_warn)           $(cxx_warn)
 #
 
 
-CC_FLAGS		= $(cc_warn_all) $(ARCH_CC_FLAGS)
+CC_FLAGS		= $(ARCH_CC_FLAGS) $(CC_OTHER)
 
-DEFAULT_CC_FLAGS	= $(cc_default) $(cc_optimize)
-DEBUG_CC_FLAGS		= $(cc_debug)
-PROFILE_CC_FLAGS	= $(cc_profile)
-STATIC_CC_FLAGS		= $(cc_optimize)
+DEFAULT_CC_FLAGS	= $(cc_optimize_flags)
+DEBUG_CC_FLAGS		= $(cc_debug_flags)
+TEST_CC_FLAGS		= $(cc_debug_flags)
+PROFILE_CC_FLAGS	= $(cc_profile_flags)
+STATIC_CC_FLAGS		= $(cc_optimize_flags)
+SHARED_CC_FLAGS		= $(cc_shared_flags) $(cc_optimize_flags)
 
-CXX_FLAGS		= $(arch_cxx_flags) $(cxx_warn_all)
+CXX_FLAGS		= $(cxx_warn) $(ARCH_CXX_FLAGS) $(CXX_OTHER)
 
-DEFAULT_CXX_FLAGS	= $(cxx_default) $(cxx_optimize)
-DEBUG_CXX_FLAGS		= $(cxx_debug)
-PROFILE_CXX_FLAGS	= $(cxx_profile)
-STATIC_CXX_FLAGS	= $(cxx_optimize)
+DEFAULT_CXX_FLAGS	= $(cxx_optimize_flags)
+DEBUG_CXX_FLAGS		= $(cxx_debug_flags)
+TEST_CXX_FLAGS		= $(cxx_debug_flags)
+PROFILE_CXX_FLAGS	= $(cxx_profile_flags)
+STATIC_CXX_FLAGS	= $(cxx_optimize_flags)
+SHARED_CXX_FLAGS	= $(cxx_shared_flags) $(cxx_optimize_flags)
 
 # ##### I N S T A L L #####
 
-INSTALL_BIN_FLAGS	= 
+INSTALL_BIN_PERM	= 555
+INSTALL_BIN_FLAGS	= -m $(INSTALL_BIN_PERM)
 
 # ##### L I N K  /  L I B R A R I E S #####
 #
 # Config flags available
 #
-# $(ld_optimize)
-# $(ld_debug)
-# $(ld_profile)
-# $(ld_static)
+# $(ld_optimize_flags)
+# $(ld_debug_flags)
+# $(ld_profile_flags)
+# $(ld_static_flags)
 #
 # Config library directories available (need to use -L)
 #
@@ -133,29 +175,37 @@ INSTALL_BIN_FLAGS	=
 #
 
 
-LD_FLAGS		= $(ARCH_LD_FLAGS)
+LD_FLAGS		= $(ARCH_LD_FLAGS) $(LD_OTHER)
 
-DEFAULT_LD_FLAGS	= $(ld_default) $(ld_optimize)
-DEBUG_LD_FLAGS		= $(ld_debug)
-PROFILE_LD_FLAGS	= $(ld_profile)
-STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
+DEFAULT_LD_FLAGS	= $(ld_optimize_flags)
+DEBUG_LD_FLAGS		= $(ld_debug_flags)
+TEST_LD_FLAGS		= $(ld_debug_flags)
+PROFILE_LD_FLAGS	= $(ld_profile_flags)
+STATIC_LD_FLAGS		= $(ld_static_flags) $(ld_optimize_flags)
+SHARED_LD_FLAGS		= $(ld_shared_flags) $(ld_optimize_flags)
 
 DEFAULT_LD_LIBDIRS	= -L$(beta_libdir)
 DEBUG_LD_LIBDIRS	= $(STLUTILS_SRC_LDIR) $(DEFAULT_LD_LIBDIRS)
+TEST_LD_LIBDIRS		= $(DEBUG_LD_LIBDIRS)
 PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
+SHARED_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lStlUtils -lCommon $(ARCH_DEFAULT_LIBS)
-DEBUG_LD_LIBS		= -lStlUtils_g -lCommon_g $(ARCH_DEBUG_LIBS)
-PROFILE_LD_LIBS		= -lStlUtils_pg -lCommon_pg $(DEFAULT_LD_LIBS)
-STATIC_LD_LIBS		= -lStlUtils -lCommon $(DEFAULT_LD_LIBS)
+DEFAULT_LD_LIBS		= -lStlUtils -lCommon -lGnuRegex $(ARCH_DEFAULT_LIBS)
+DEBUG_LD_LIBS		= -lStlUtils_g -lCommon -lGnuRegex $(ARCH_DEBUG_LIBS)
+TEST_LD_LIBS		= $(DEBUG_LD_LIBS)
+PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
+STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
+SHARED_LD_LIBS		= $(DEFAULT_LD_LIBS)
 
 # DEP_LIBS - rebuild target if DEP_LIBS newer than target
 
-DEFAULT_DEP_LIBS	=
+DEFAULT_DEP_LIBS	= 
 DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/StlUtils/libStlUtils_g.a
-PROFILE_DEP_LIBS	=
-STATIC_DEP_LIBS		=
+TEST_DEP_LIBS		= $(DEBUG_DEP_LIBS)
+PROFILE_DEP_LIBS	= 
+STATIC_DEP_LIBS		= 
+SHARED_DEP_LIBS		= 
 
 #
 # =USE_CURRENT_MAKEFILE=
@@ -163,6 +213,13 @@ STATIC_DEP_LIBS		=
 
 # **** S O U R C E   F I L E S ****
 
+GENERATED_SOURCES	=			
+
+FLEX_C_SOURCES	=			
+BISON_C_SOURCES	=			
+FLEX_CXX_C_SOURCES	=			
+BISON_CXX_C_SOURCES	=			
+C_SOURCES	=			
 CXX_C_SOURCES	=			\
 	main.C				\
 	tClassVersion.C			\
@@ -278,18 +335,29 @@ CXX_C_SOURCES	=			\
 	tFile01.C			\
 	tFile02.C			\
 	tSortOrder.C                    \
+	tDirectory.C			\
+	tDirectory01.C			\
 	tTimeIt.C			\
 	tTimeIt01.C			\
 	tVectorResync.C			\
-	$(ARCH_CXX_C_SOURCES)		\
+	$(ARCH_CXX_C_SOURCES)           \
+
+CXX_CC_SOURCES	=			
+CXX_CPP_SOURCES	=			
+
+USER_HH_INCS	=			\
+	StlUtilsTest.hh                 \
+	TestFunctProto.hh               \
+	$(ARCH_USER_HH_INCS)            \
+
+USER_INCLUDES	=		\
+	$(USER_H_INCS)		\
+	$(USER_HH_INCS)		\
+	$(USER_II_INCS)		\
 
 CXX_HEADERS	=			\
-	AppParam.hh                     \
-	AvlTestData.hh                  \
-	StlUtilsTest.hh                     \
-	DavlTestData.hh                 \
-	StaticBinStream.hh              \
-	StaticStream.hh                 \
+	StlUtilsTest.hh                 \
+	TestFunctProto.hh               \
 	$(ARCH_CXX_HEADERS)             \
 
 
@@ -310,16 +378,31 @@ CXX_HEADERS	=			\
 
 include Make/make.cfg.targets.$(makefile_type).$(make_cfg_ver)
 
-default debug profile:: $(generated_files)
+default debug test profile static shared:: $(generated_files)
 
 default:: $(PROGRAM_DEFAULT)
 
-debug profile static::
+debug test profile static shared::
 	$(hide) $(MAKE) make_target=$@ $(PROGRAM_$($@))
 
-all::	default debug profile
+all::	default debug test profile shared
 
-test: test_data default 
+install:: install_$(make_target)
+	$(hide) echo + Installation Complete!
+
+install_all:: 
+
+install_all:: install_default install_debug install_profile install_static
+	$(hide) echo + Installation Complete!
+
+install_default:: default $(INSTALL_BIN_DIR)/$(PROGRAM_DEFAULT)
+install_debug::   debug   $(INSTALL_BIN_DIR)/$(PROGRAM_DEBUG)
+install_test::    test    $(INSTALL_BIN_DIR)/$(PROGRAM_TEST)
+install_profile:: profile $(INSTALL_BIN_DIR)/$(PROGRAM_PROFILE)
+install_static::  static  $(INSTALL_BIN_DIR)/$(PROGRAM_STATIC)
+install_shared::  shared  $(INSTALL_BIN_DIR)/$(PROGRAM_SHARED)
+
+test_default: test_data default 
 	 LD_LIBRARY_PATH=$(beta_libdir) $(NAME) $(TEST)
 
 test_debug: test_data debug
@@ -378,108 +461,13 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
-# Revision 4.6  1998/03/11 16:11:20  houghton
-# Added define for host.
-#
-# Revision 4.5  1998/01/05 13:09:07  houghton
-# Added tVectorResync
-#
-# Revision 4.4  1997/12/20 16:12:11  houghton
-# Added tStripTrailing.
-#
-# Revision 4.3  1997/12/19 14:34:29  houghton
-# Added cc_default cxx_default.
-#
-# Revision 4.2  1997/12/19 12:52:44  houghton
-# Added tMfNumTo.C
-#
-# Revision 4.1  1997/09/17 15:13:59  houghton
-# Changed to Version 4
-#
-# Revision 3.11  1997/09/17 11:09:32  houghton
-# Changed: renamed library to StlUtils.
-#
-# Revision 3.10  1997/08/18 10:33:29  houghton
-# Changed to use MakeConfigs 5.02.
-#
-# Revision 3.9  1997/08/12 11:11:38  houghton
-# Added tStringFirstNotOf.C
-#
-# Revision 3.8  1997/07/11 15:56:45  houghton
-# Added tTimeIt.C & tTimeIt01.C
-#
-# Revision 3.7  1997/04/26 14:12:36  houghton
-# Added libCommon.
-#
-# Revision 3.6  1997/03/03 14:38:35  houghton
-# Removed support for RW Tools++ & rpm.
-#
-# Revision 3.5  1997/01/18 17:42:24  houghton
-# Changed installatino parameters for cshore.
-#
-# Revision 3.4  1996/11/22 12:26:03  houghton
-# Test for rpm.
-#
-# Revision 3.3  1996/11/20 12:15:06  houghton
-# Major rework to support both rpm sources (for ani server) and
-#     other source (for distributor).
-#
-# Revision 3.2  1996/11/19 12:32:58  houghton
-# Added StringFrom.
-# Cleanup
-#
-# Revision 3.1  1996/11/14 01:26:13  houghton
-# Changed to Release 3
-#
-# Revision 2.19  1996/11/13 17:18:35  houghton
-# Added Log test sources.
-# Added var so the test can be specified for the test_debug target.
-#
-# Revision 2.18  1996/11/08 11:46:49  houghton
-# *** empty log message ***
-#
-# Revision 2.17  1996/11/04 14:41:28  houghton
-# Added use of rwtool library.
-# Changed to only test the classes & functions that are ready.
-#
-# Revision 2.16  1996/08/12 17:50:11  houghton
-# Added test for FileBinStream.
-#
-# Revision 2.15  1996/07/09 11:35:16  houghton
-# Change Libs
-#
-# Revision 2.14  1996/06/20 15:26:00  houghton
-# Changed default target to use src dirs instead of installed dirs.
-#
-# Revision 2.13  1996/06/09 09:45:53  houghton
-# Added TestBinObject and tHeapNetStream.
-#
-# Revision 2.12  1996/05/25 12:37:05  houghton
-# Cleanup.
-#
-# Revision 2.11  1996/05/14 14:19:13  houghton
-# Rework libs for AIX. (this will change)
-#
-# Revision 2.10  1996/05/11 11:03:36  houghton
-# Cleanup.
-#
-# Revision 2.9  1996/05/03 16:17:19  houghton
-# Added defines to easy multi platform test.
-#
-# Revision 2.8  1996/05/02 11:06:24  houghton
-# Changed PRJ_TOPDIR for new dir structure.
-# Rework test_data targets.
-#
-# Revision 2.7  1996/05/01 11:34:33  houghton
-# Restructure directories to Test01/src and Test01/data
-# Added TEST_DATA_DIR define.
-#
-# Revision 2.6  1996/05/01 11:05:07  houghton
-# Changed to use MakeConfigs 5
+# Revision 4.7  1998/04/02 14:19:04  houghton
+# Changed to use MakeConfigs 5.05
 #
 #
 # =MAKEFILE_LOG=
 #
 
-
-
+# Local Variables:
+# mode:makefile
+# End:
