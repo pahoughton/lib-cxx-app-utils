@@ -100,7 +100,7 @@ const LogLevel::Name2Level LogLevel::Name2LevelList[] =
 };
 
 const char *
-LogLevel::getName( const Level level )
+LogLevel::getName( const Level & level )
 {
   // NONE is always first
   if( level == None )
@@ -120,7 +120,7 @@ LogLevel::getName( const Level level )
 }
 
 const char * 
-LogLevel::getLevelNames( const Level level )
+LogLevel::getLevelNames( const Level & level )
 {
   static char  names[512];
   names[0] = 0;
@@ -150,7 +150,7 @@ LogLevel::getLevelNames( const Level level )
 
 
 bool
-LogLevel::setName( const Level level, const char * name )
+LogLevel::setName( const Level & level, const char * name )
 {
   // NONE is always first
   if( level == None )
@@ -316,6 +316,9 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/05/02 12:17:06  houghton
+// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
+//
 // Revision 3.5  1997/03/21 15:38:45  houghton
 // Bug-Fix: + and - flags in logLevelfromString were not working.
 //

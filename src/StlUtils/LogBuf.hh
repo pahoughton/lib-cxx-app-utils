@@ -59,10 +59,10 @@ public:
   
   virtual ~LogBuf( void );
 
-  inline LogLevel::Level    setCurrentLevel( LogLevel::Level level );
+  inline LogLevel::Level    setCurrentLevel( const LogLevel::Level & level );
   inline LogLevel::Level    setCurrentLevel( const char * level );
 
-  inline LogLevel::Level    setOutputLevel( LogLevel::Level level );
+  inline LogLevel::Level    setOutputLevel( const LogLevel::Level & level );
   inline LogLevel::Level    setOutputLevel( const char * level );
 
   inline const LogLevel &   getLogLevel( void ) const;
@@ -92,9 +92,9 @@ public:
   bool		    filter( const char * regex );
   const char *	    getFilter( void ) const;
   
-  FilterId	    addFilter( streambuf *     destBuf,
-			       LogLevel::Level outputLevel,
-			       const char *    regex = 0 );
+  FilterId	    addFilter( streambuf *		destBuf,
+			       const LogLevel::Level &	outputLevel,
+			       const char *		regex = 0 );
 
   streambuf *	    getFilterStream( LogBuf::FilterId filter );
   LogLevel::Level   getFilterLogLevel( LogBuf::FilterId filter );
@@ -102,7 +102,7 @@ public:
   
   streambuf *	    delFilter( FilterId id );
 
-  inline bool		willOutput( LogLevel::Level lvl ) const;
+  inline bool		willOutput( const LogLevel::Level & lvl ) const;
   
   // streambuf virtuals
   virtual int	    overflow(int=EOF);
@@ -290,6 +290,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.10  1997/05/02 12:16:12  houghton
+// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
+//
 // Revision 3.9  1997/04/04 20:53:31  houghton
 // Added log file error checking.
 // Cleanup.

@@ -42,7 +42,7 @@ LogLevel::LogLevel( const LogLevel & from )
 
 inline
 LogLevel::Level
-LogLevel::setOutput( const Level out )
+LogLevel::setOutput( const Level & out )
 {
   Level	old = output;
   output = out;
@@ -58,7 +58,7 @@ LogLevel::setOutput( const char * level )
       
 inline
 LogLevel::Level
-LogLevel::setCurrent( const Level cur )
+LogLevel::setCurrent( const Level & cur )
 {
   Level	old = current;
   current = cur;
@@ -96,7 +96,7 @@ LogLevel::shouldOutput( void ) const
 
 inline
 bool
-LogLevel::willOutput( const Level level ) const
+LogLevel::willOutput( const Level & level ) const
 {
   return( level & output );
 }
@@ -150,6 +150,9 @@ operator << ( ostream & dest, const LogLevel & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/05/02 12:17:36  houghton
+// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
+//
 // Revision 3.2  1997/03/21 12:24:05  houghton
 // Changed string to log level converter to support +level and
 //     -level. These will turn the level on or off respectivly without

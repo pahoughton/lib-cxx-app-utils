@@ -68,22 +68,22 @@ public:
   inline LogLevel( const char * out );
   inline LogLevel( const LogLevel & from );
   
-  inline Level	    setOutput( const Level out );
+  inline Level	    setOutput( const Level & out );
   inline Level	    setOutput( const char * out );
   
-  inline Level	    setCurrent( const Level cur );
+  inline Level	    setCurrent( const Level & cur );
   inline Level	    setCurrent( const char * cur );
 
   inline Level	    getOutput( void ) const;
   inline Level	    getCurrent( void  ) const;
   
-  static const char *	getName( const Level level );
-  static const char *	getLevelNames( const Level level );
+  static const char *	getName( const Level & level );
+  static const char *	getLevelNames( const Level & level );
   
-  static bool		setName( const Level level, const char * name );
+  static bool		setName( const Level & level, const char * name );
 
   inline bool 	    shouldOutput( void ) const;
-  inline bool	    willOutput( const Level curLevel ) const;
+  inline bool	    willOutput( const Level & curLevel ) const;
 
   inline int	    compare( const LogLevel & two ) const;
 
@@ -375,6 +375,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/05/02 12:17:19  houghton
+// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
+//
 // Revision 3.3  1997/04/26 14:10:33  houghton
 // Cleanup.
 // Added CommonLevelMap to support Log::tieCommonLogger().

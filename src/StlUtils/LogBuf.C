@@ -206,7 +206,7 @@ LogBuf::close( void )
 LogBuf::FilterId
 LogBuf::addFilter(
   streambuf *		    destBuf,
-  LogLevel::Level	    output,
+  const LogLevel::Level &   output,
   const char *		    regexString
   )
 {
@@ -703,6 +703,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/05/02 12:15:54  houghton
+// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
+//
 // Revision 3.7  1997/04/05 11:58:00  houghton
 // Changed needed to include errno.h
 //

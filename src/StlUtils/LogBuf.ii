@@ -22,7 +22,7 @@
 #endif
 
 inline LogLevel::Level
-LogBuf::setCurrentLevel( LogLevel::Level cur )
+LogBuf::setCurrentLevel( const LogLevel::Level & cur )
 {
   newMesg = true;
   return( logLevel.setCurrent( cur ) );
@@ -36,7 +36,7 @@ LogBuf::setCurrentLevel( const char * cur )
 }
 
 inline LogLevel::Level
-LogBuf::setOutputLevel( LogLevel::Level out )
+LogBuf::setOutputLevel( const LogLevel::Level & out )
 {
   newMesg = true;
   return( logLevel.setOutput( out ) );
@@ -125,7 +125,7 @@ LogBuf::getLogFileName( void ) const
 
 inline
 bool
-LogBuf::willOutput( LogLevel::Level lvl ) const
+LogBuf::willOutput( const LogLevel::Level & lvl ) const
 {
   if( logLevel.willOutput( lvl ) )
     return( true );
@@ -184,6 +184,9 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/05/02 12:16:54  houghton
+// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
+//
 // Revision 3.6  1997/04/04 03:10:39  houghton
 // Changed constructors (and some other methods) to non-inline.
 //
