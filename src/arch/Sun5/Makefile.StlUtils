@@ -22,7 +22,9 @@ ARCHSRC_INC	= -I$(ARCH_DIR) -I$(ARCH_SRC_DIR)
 ARCH_DEFINES	= $(UNIX_DEFINES)
 
 ARCH_INC	= $(ARCHSRC_INC) $(UNIX_INC)
- 
+
+ARCH_GENERATED_SOURCES = $(UNIX_GENERATED_SOURCES)
+
 
 
 ARCH_C_SOURCES		=	\
@@ -62,6 +64,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 3.2  1997/08/18 10:30:24  houghton
+# Added generated sources.
+#
 # Revision 3.1  1997/07/25 12:26:21  houghton
 # Changed version number to 3.
 #
