@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/06/09 09:47:01  houghton
+// Added tHeapNetStream.
+// Added LibLog.
+//
 // Revision 2.4  1996/05/03 16:17:49  houghton
 // Added output for each test.
 //
@@ -31,6 +35,8 @@
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include "TestFunctProto.hh"
+#include <Log.hh>
+#include <LibLog.hh>
 #include <iostream>
 #else
 #include <TestCfg.hh>
@@ -63,6 +69,7 @@ LibTest::TestItem   TestList[] =
   { "StripWhite",   	    tStripWhite },
   { "basename",     	    tbasename },
   { "HeapBinStream",	    tHeapBinStream },
+  { "HeapNetStream",	    tHeapNetStream },
   { "Str",  	    	    tStr },
   { "SubStr",  	    	    tSubStr },
   { "RegexScan",    	    tRegexScan },  
@@ -183,6 +190,13 @@ LibTest::TestItem   TestList[] =
 int
 main( int argc, char * argv[] )
 {
+  
+  Log   log;
+
+  _LibLog = &log;
+
+  log.setOutputLevel( LogLevel::All );
+
 #if TEST_DUMPINFO_SCREEN
   ostream & dumpDest( cout );
 #else
