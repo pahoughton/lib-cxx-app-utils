@@ -34,6 +34,10 @@ const char * Param::ErrorStrings[] =
   "range",
   "conversion",
   "no value for arg",
+  "add filter",
+  "open error log",
+  "new ofstream",
+  "no error log output level",
   "UNDEFIEND",
   0
 };
@@ -59,7 +63,10 @@ Param::Param(
     logTrimSize( 0 ),
     logTimeStamp( true ),
     logLevelStamp( true ),
-    logLocStamp( true )
+    logLocStamp( true ),
+    errorLogFile( 0 ),
+    errorLogId( LogBuf::badFilterId ),
+    errorLogLevels( "ERROR | WARN" )
 {
   if( _LibLog  == 0 )
     _LibLog = &appLog;
@@ -94,6 +101,9 @@ Param::~Param( void )
 {
   if( _LibLog == &appLog )
     _LibLog = 0;
+  
+  if( errorLogFile )
+    delete errorLogFile;
 }
 
 void
@@ -191,61 +201,61 @@ Param::parseArgs( void )
   
   argStr( logFile,
 	  "log file name.",
-	  "logfile",
+	  "log-file",
 	  "LOG_FILE" );
 
   Str	  logModeStr = IosOpenModeToString( logMode );
   
   argStr( logModeStr,
 	  "log open mode.",
-	  "logmode",
+	  "log-mode",
 	  "LOG_MODE" );
 
   logMode = IosOpenModeFromString( logModeStr );
   
   argInt( logProt,
 	  "log protection flag.",
-	  "logprot",
+	  "log-prot",
 	  "LOG_PROT" );
   
   argStr( logOutputLevel,
 	  "log output level.",
-	  "loglevel",
+	  "log-level",
 	  "LOG_LEVEL" );
 
   argStr( logFilter,
 	  "regex for filtering log enties",
-	  "logfilter",
+	  "log-filter",
 	  "LOG_FILTER" );
   
   argFlag( logTee,
 	   "Tee log output to cerr.",
-	   "logtee",
+	   "log-tee",
 	   "LOG_TEE" );
 
   argBool( logTimeStamp,
 	   "output time stamp with log entry.",
-	   "logshowtime",
+	   "log-show-time",
 	   "LOG_SHOW_TIME" );
 
   argBool( logLevelStamp,
 	   "output level with log entry.",
-	   "logshowlevel",
+	   "log-show-level",
 	   "LOG_SHOW_LEVEL" );
 
   argBool( logLocStamp,
 	   "output source location with log entry",
-	   "logshowloc",
+	   "log-show-loc",
 	   "LOG_SHOWLOC" );
   
   argULong( logMaxSize,
 	  "log file max size.",
-	  "logmax",
+	  "log-max",
 	  "LOG_MAX" );
 
   argULong( logTrimSize,
 	   "log file trim size.",
-	   "logtrim",
+	   "log-trim",
 	   "LOG_TRIM" );
   
   if( logFilter.size() )
@@ -272,6 +282,75 @@ Param::parseArgs( void )
   if( logOutputLevel.size() )
     appLog.setOutputLevel( logOutputLevel.c_str() );
 
+  argStr( errorLogName,
+	  "error log file name.",
+	  "error-log",
+	  "ERROR_LOG" );
+
+  argStr( errorLogLevels,
+	  "error log output levels.",
+	  "error-log-level",
+	  "ERROR_LOG_LEVEL" );
+
+  
+  if( errorLogName.size() && errorLogLevels.size() )
+    {
+      LogLevel errLevel( errorLogLevels );
+
+      if( errLevel.getOutput() != LogLevel::None )
+	{
+	  errorLogFile = new ofstream( errorLogName,
+				       ios::out | ios::app,
+				       0664 );
+      
+	  if( errorLogFile )
+	    {
+	      if( (*errorLogFile).good() )
+		{
+		  errorLogId = appLog.addFilter( (*errorLogFile).rdbuf(),
+						 errLevel.getOutput() );
+		  if( errorLogId == LogBuf::badFilterId )
+		    {
+		      setError( E_ERRLOG_ADD,
+				"error-log",
+				"ERROR_LOG",
+				errorLogName );
+		    }
+		}
+	      else
+		{
+		  Str errDesc;
+
+		  errDesc << " '"
+			  << errorLogName
+			  << "' - "
+			  << strerror( errno );
+		  
+		  setError( E_ERRLOG_OPEN,
+			    "error-log",
+			    "ERROR_LOG",
+			    errDesc );
+		}
+	    }
+	  else
+	    {
+	      setError( E_ERRLOG_NEW,
+			"error-log",
+			"ERROR_LOG",
+			0 );
+	    }
+	}
+      else
+	{
+	  Str errDesc;
+	  errDesc << "(" << errorLogLevels << ')';
+	  
+	  setError( E_ERRLOG_LEVEL,
+		    "error-log-level",
+		    "ERROR_LOG_LEVEL",
+		    errDesc );
+	}
+    }
   return( good() );
 }  
 
@@ -857,6 +936,12 @@ Param::getArgFlag( const char * argId, const char * envVar )
   return( value );
 }
 
+bool
+Param::haveErrorLog( void ) const
+{
+  return( errorLogFile != 0 );
+}
+
 void
 Param::abort(
   int		exitStatus,
@@ -1180,6 +1265,10 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1999/10/28 14:21:07  houghton
+// Added errorlog support.
+// Changed arg names.
+//
 // Revision 4.5  1998/07/20 11:24:16  houghton
 // Port(Hpux): had to case const numbers used for array subscripts to
 //     unsigned long.

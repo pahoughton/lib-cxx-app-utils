@@ -189,6 +189,8 @@ public:
 
   inline bool	allArgs( void ) const;
 
+  bool		haveErrorLog( void ) const;
+  
   void		abort( int  	    exitStatus = 1,
 		       bool 	    showArgs = false,
 		       const char * srcFile = 0,
@@ -219,6 +221,10 @@ public:
     E_RANGE,
     E_CONVERT,
     E_NO_VALUE,
+    E_ERRLOG_ADD,
+    E_ERRLOG_OPEN,
+    E_ERRLOG_NEW,
+    E_ERRLOG_LEVEL,
     E_UNDEFINED
   };
 
@@ -263,6 +269,11 @@ private:
   
   Str    	    logOutputLevel;
   Str		    logFilter;
+
+  Str		    errorLogName;
+  ofstream *	    errorLogFile;
+  LogBuf::FilterId  errorLogId;
+  Str		    errorLogLevels;
   
   bool	    	    logTee;
   unsigned long	    logMaxSize;
@@ -907,6 +918,10 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/10/28 14:21:13  houghton
+// Added errorlog support.
+// Changed arg names.
+//
 // Revision 4.2  1998/11/02 15:26:55  houghton
 // Added AppAbort macro.
 //
