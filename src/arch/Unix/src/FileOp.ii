@@ -49,6 +49,20 @@ File::move( const char * srcFn, const char * destFn )
 }
 
 inline
+const FileStat &
+File::getSrc( void ) const
+{
+  return( src );
+}
+
+inline
+const FileStat &
+File::getDest( void ) const
+{
+  return( dest );
+}
+
+inline
 DumpInfo< File >
 File::dump( const char * prefix, bool showVer ) const
 {
@@ -63,6 +77,9 @@ File::dump( const char * prefix, bool showVer ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 1.2  1998/03/11 16:09:25  houghton
+// Added getDest and getSrc.
+//
 // Revision 1.1  1998/03/08 18:08:29  houghton
 // Initial Version.
 //
