@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/05/14 14:17:50  houghton
+// Bug-Fix: change read & write from inline to virtual.
+//
 // Revision 2.2  1995/11/10 14:08:36  houghton
 // Updated documentation comments
 //
@@ -86,8 +89,8 @@ public:
   virtual BinStream & 	write( BinStream & dest ) const;
   virtual BinStream & 	read( BinStream & src );
   
-  inline ostream &	write( ostream & dest ) const;
-  inline istream &	read( istream & src );
+  virtual ostream &	write( ostream & dest ) const;
+  virtual istream &	read( istream & src );
   
   friend inline ostream & operator << ( ostream & dest, const FilePath & obj );
 
