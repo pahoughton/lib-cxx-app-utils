@@ -253,7 +253,6 @@ USER_HH_INCS	=			\
 	Bitmask.hh                      \
 	ClassVersion.hh                 \
 	Compare.hh                      \
-	Compress.hh                     \
 	DateRange.hh                    \
 	DateRangeDaily.hh               \
 	DateRangeWeekly.hh              \
@@ -297,7 +296,6 @@ USER_II_INCS	=			\
 	Bit.ii                          \
 	Bitmask.ii                      \
 	ClassVersion.ii                 \
-	Compress.ii                     \
 	DateRange.ii                    \
 	DateRangeDaily.ii               \
 	DateRangeWeekly.ii              \
@@ -339,7 +337,6 @@ CXX_HEADERS	=			\
 	Bitmask.hh                      \
 	ClassVersion.hh                 \
 	Compare.hh                      \
-	Compress.hh                     \
 	DateRange.hh                    \
 	DateRangeDaily.hh               \
 	DateRangeWeekly.hh              \
@@ -383,7 +380,6 @@ CXX_INLINES	=			\
 	Bit.ii                          \
 	Bitmask.ii                      \
 	ClassVersion.ii                 \
-	Compress.ii                     \
 	DateRange.ii                    \
 	DateRangeDaily.ii               \
 	DateRangeWeekly.ii              \
