@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/06/09 12:00:55  houghton
+// Reworked arg processing so an error will be output if a test is not found.
+//
 // Revision 3.2  1997/01/18 17:30:13  houghton
 // Added new '-l' arg to turn one progress by line number output from
 //    command line args.
@@ -36,6 +39,7 @@
 //
 
 #include "LibTest.hh"
+#include <vector>
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
@@ -98,6 +102,8 @@ LibTest::run( int & argc, char * argv[] )
 {
   size_t times = 1;
   int     argsUsed = 1;
+
+  vector< char * >  arglist;
   
   for( int arg = 1; arg < argc; arg++ )
     {      
@@ -120,33 +126,15 @@ LibTest::run( int & argc, char * argv[] )
 		}
 	    }
 	}
+      else
+	{
+	  arglist.push_back( argv[arg] );
+	}
     }
 
   for( size_t passNum = 0; passNum < times; passNum++ )
     {
-      if( argc > argsUsed )
-	{	  
-	  for( int a = 1; a < argc; a++ )
-	    {
-	      if( argv[a][0] != '-' )
-		{
-		  for( size_t tNum = 0; testList[tNum].name; tNum++ )
-		    {
-		      if( ! strcmp( argv[a], testList[tNum].name ) )
-			{
-			  if( ! testit( tNum, passNum ) )
-			    return( tNum );
-			}
-		      else
-			{
-			  err << "WARN: Test: '" << argv[a] << "' Not found."
-			      << endl;
-			}
-		    }
-		}
-	    }
-	}
-      else
+      if( arglist.empty() )
 	{
 	  for( size_t tNum = 0; testList[tNum].name; tNum++ )
 	    {
@@ -154,8 +142,37 @@ LibTest::run( int & argc, char * argv[] )
 		return( tNum );
 	    }
 	}
-    }
+      else
+	{
+	  vector< char * >  missingList;
 
+	  bool	tested;
+	  
+	  for( vector< char * >::iterator them = arglist.begin();
+	       them != arglist.end();
+	       ++ them )
+	    {
+	      tested = false;
+	      
+	      for( size_t tNum = 0; testList[tNum].name; tNum++ )
+		{
+		  if( ! strcmp( *them, testList[tNum].name ) )
+		    {
+		      tested = true;
+		      if( ! testit( tNum, passNum ) )
+			return( tNum );
+		    }
+		}
+
+	      if( ! tested )
+		{
+		  err << "WARN: Test: '" << *them << "' Not found."
+		      << endl;
+		}
+	    }
+	}
+    }
+  
   return( 0 );
 }
 
