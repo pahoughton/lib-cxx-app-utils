@@ -2,7 +2,7 @@
 # Makefile for t
 #
 #
-# Created: 9/25/95
+# Created: 10/10/95
 #
 # $Id$
 #
@@ -14,20 +14,144 @@
 
 makefile_type = program
 
-include Make/make.cfg.3.0
+include Make/make.cfg.3.4
 
 BETA_DIR	= 
 PROD_DIR	= 
 MAN_DIR		=
 
 
+MAJOR_VER	= 2
+MINOR_VER	= 00.00.a.01
+VERSION		= $(MAJOR_VER).$(MINOR_VER)
+
 PROGRAM = t
 
 PROTO_H	= _t_Proto.h
 
-# **** S O U R C E   F I L E S ****
+# 
+# =USE_CURRENT_MAKEFILE=
+# When you re-gen a make file, every thing between 
+# these tags will be kept int the new makefile
+# if you want it re-gen'd, just delete the tags
+#
 
-C_SOURCES	=			\
+include ../src/arch/$(arch)/test/Makefile.Test
+
+# *****  D E F I N E S  *****
+#
+# Config defines avalable
+#
+# $(X11_DEF)	    defines for X11
+# $(SYB_DEF)	    defines for SYB
+# $(MMALLOC_DEF)    defines for libmmalloc
+# $(DATA_DEF)	    defines for libData (C++)
+# $(CLUE_DEF)	    defines for libClue (C++)
+# $(COMMON_DEF)	    defines for libCommon
+# $(WT_DEF)	    defines for libWt
+# $(WCF_DEF)	    defines for libWcf (CommFabric)
+#
+
+SRCDEFINES	= $(CLUE_DEF)
+PRJDEFINES	= -DVERSION=\"$(VERSION)\"
+
+DEFINES		= $(PRJDEFINES) $(SRCDEFINES) 
+
+# *****  I N C L U D E S *****
+#
+# Config includes available
+#
+# $(X11_INC)
+# $(SYB_INC)
+# $(MMALLOC_BETA_INC)
+# $(MMALLOC_INC)
+# $(DATA_ALPHA_INC)
+# $(DATA_BETA_INC)
+# $(DATA_INC)
+# $(CLUE_ALPHA_INC)
+# $(CLUE_BETA_INC)
+# $(CLUE_INC)
+# $(COMMON_ALPHA_INC)
+# $(COMMON_BETA_INC)
+# $(COMMON_INC)
+# $(WT_ALPHA_INC)
+# $(WT_BETA_INC)
+# $(WT_INC)
+# $(WCF_ALPHA_INC)
+# $(WCF_BETA_INC)
+# $(WCF_INC)
+#
+# $(LOCAL_ALPHA_INC)
+# $(LOCAL_BETA_INC)
+# $(LOCAL_INC)
+#
+
+# TOPDIR	=
+
+CLUE_SRC_DIR	= ../src/Clue 
+CLUE_INCDIR	= -I$(CLUE_SRC_DIR) # -I../src/Clue1/src
+
+
+SRCINCDIR	= -I. $(CLUE_INCDIR) $(ARCH_INCDIR) $(WCF_ALPHA_INC)
+PRJINCDIR	= 
+
+INCDIRS		= $(SRCINCDIR)	\
+		  $(PRJINCDIR)
+
+# **** C O M P I L E / C P P ****
+#
+# Config flags available
+#
+# $(CC_OPTIMIZE)
+# $(CC_DEBUG)
+# $(CC_PROFILE)
+#
+
+CPPOTHER 	= 
+CCDEBUG		= -g
+CCOTHER		=
+
+INSTALL_BIN_FLAGS   = -m 775
+
+# ***** L I B R A R I E S *****
+#
+# Config libraryies available
+#
+# $(X11_LIBS)
+# $(XAW_LIBS)
+# $(XM_LIBS)
+# $(SYB_LIBS)
+# $(MMALLOC_BETA_LIBS)
+# $(MMALLOC_LIBS)
+# $(DATA_ALPHA_LIBS)
+# $(DATA_BETA_LIBS)
+# $(DATA_LIBS)
+# $(CLUE_ALPHA_LIBS)
+# $(CLUE_BETA_LIBS)
+# $(CLUE_LIBS)
+# $(COMMON_ALPHA_LIBS)
+# $(COMMON_BETA_LIBS)
+# $(COMMON_LIBS)
+# $(WT_ALPHA_LIBS)
+# $(WT_BETA_LIBS)
+# $(WT_LIBS)
+# $(WCF_ALPHA_LIBS)
+# $(WCF_BETA_LIBS)
+# $(WCF_LIBS)
+#
+# $(LOCAL_ALPHA_LDIR)
+# $(LOCAL_BETA_LDIR)
+# $(LOCAL_LDIR)
+# $(X11_LDIR)
+#
+
+LDLIBS		= -L$(CLUE_SRC_DIR) -lClue -lm
+
+#
+# =USE_CURRENT_MAKEFILE=
+#
+
+# **** S O U R C E   F I L E S ****
 
 CXX_C_SOURCES	=			\
 	main.C                          \
@@ -137,116 +261,29 @@ CXX_C_SOURCES	=			\
 	tWithWcf02.C                    \
 	tbasename.C                     \
 
-CXX_CC_SOURCES	=			\
 
-CXX_CPP_SOURCES	=			\
+USER_HH_INCS	=			\
+
+USER_INCS	=	\
+	$(USER_H_INCS)     \
+	$(USER_HH_INCS)    \
+	$(USER_II_INCS)    \
 
 C_HEADERS	=			\
+	_t_Proto.h                      \
 
 CXX_HEADERS	=			\
+	AppParam.hh                     \
+	AvlTestData.hh                  \
+	ClueTest.hh                     \
+	DavlTestData.hh                 \
+	StaticBinStream.hh              \
+	StaticStream.hh                 \
 
-# 
-# =USE_CURRENT_MAKEFILE=
-# When you re-gen a make file, every thing between 
-# these tags will be kept int the new makefile
-# if you want it re-gen'd, just delete the tags
+
+
+# ***** T A R G E T S *****
 #
-
-# *****  D E F I N E S  *****
-#
-# Config defines avalable
-#
-# $(MMALLOC_DEF)    defines for libmmalloc
-# $(X11_DEF)	    defines for using X11
-# $(CF_DEF)	    defineds for using libWcf (CommFabric)
-#
-
-SRCDEFINES	= 
-PRJDEFINES	= -DCLUE_DEBUG=1 
-
-DEFINES		= $(PRJDEFINES) $(SRCDEFINES) 
-
-# *****  I N C L U D E S *****
-#
-# Config includes available
-#
-# $(LOCAL_BETA_INC)
-# $(LOCAL_INC)
-# $(COMMON_BETA_INC)
-# $(COMMON_INC)
-# $(CF_BETA_INC)
-# $(CF_INC)
-# $(MMALLOC_BETA_INC)
-# $(MMALLOC_INC)
-# $(SYB_INC)
-# $(X11_INC)
-
-USE_INST_INC	= -I/home/houghton/prj/CirInv/include
-
-USE_SRC_INC	= -I../src \
-		  -I../arch/$(arch)/src \
-		  -I../arch/$(arch)/stdc++ \
-		  -I../arch/Unix/src \
-		  $(USE_INST_INC)
-
-
-SRCINCDIR	= -I. -I../arch/$(arch)/test
-PRJINCDIR	= $(USE_INST_INC) \
-		  -I/home/houghton/prj/CommFabric/src
-
-INCDIRS		= $(SRCINCDIR)	\
-		  $(PRJINCDIR)
-
-# **** C O M P I L E / C P P ****
-#
-# Config flags available
-#
-# $(CC_OPTIMIZE)
-# $(CC_DEBUG)
-# $(CC_PROFILE)
-#
-
-CPPOTHER 	= 
-CCDEBUG		= $(CC_DEBUG)
-CCOTHER		=
-
-INSTALL_BIN_FLAGS   = -m 775
-
-# ***** L I B R A R I E S *****
-#
-# Config libraryies available
-#
-# $(SOCKET_LIBS)
-# $(CF_BETA_LIBS)
-# $(CF_LIBS)
-# $(COMMON_BETA_LIBS)
-# $(COMMON_LIBS)
-# $(MMALLOC_BETA_LIBS)
-# $(MMALLOC_LIBS)
-# $(SYB_LIBS)
-# $(X11_LIBS)
-# $(XAW_LIBS)
-# $(XM_LIBS)
-#
-# $(LOCAL_BETA_LDIR)
-# $(LOCAL_LDIR)
-# $(X11_LDIR)
-# $(XLIBS)
-#
-
-USE_SRC_LIBS	= -L../src
-USE_INST_LIBS	= -L/home/houghton/prj/CirInv/lib
-
-LDLIBS		= $(USE_INST_LIBS) -lClue \
-		  $(USE_INST_LIBS) -lCommon \
-		  -lm
-
-
-
-# ***** D E P E N D A N C I E S *****
-
-# =USE_CURRENT_MAKEFILE=
-
 #
 # Targets defined in make.cfg.*
 #
@@ -258,57 +295,113 @@ LDLIBS		= $(USE_INST_LIBS) -lClue \
 # tags:		create TAGS using etags
 #
 
-include Make/make.cfg.targets.3.0
+include Make/make.cfg.targets.3.4
 
 
 all: $(PROGRAM)
 
-$(PROGRAM): $(OBJECTS) ../src/libClue.a
+$(PROGRAM): $(OBJECTS)
 	$(LDXX) -o $@ $(OBJECTS) $(LDFLAGS) $(LIBXXARCH)
 
-install:
-	mkdirhier $(BETA_DIR/old)
-	-( cd $(BETA_DIR)/old; rm -f $(PROGRAM); cd ..; mv $(PROGRAM) old )
-	$(INSTALL) $(INSTALL_BIN_FLAGS) $(PROGRAM) $(BETA_DIR)
+install: default
+	$(MKDIRHIER) $(BETA_DIR)/old
+	if [ -e $(BETA_DIR)/$(PROGRAM).$(VERSION) ] ; then \
+	echo $(BETA_DIR)/$(PROGRAM).$(VERSION) already installed!; \
+	echo Change version number in makefile and try again.; \
+	exit 1; \
+	fi
+	if [ -e .installed.ver ] ; then \
+	ver=`cat .installed.ver`; \
+	for fn in `cat .installed.prog`; do \
+	mv $(BETA_DIR)/$$fn $(BETA_DIR)/old; \
+	done; \
+	echo $(VERSION) >.installed.ver
+	echo $(PROGRAM).$(VERSION) >.installed.prog
+	$(INSTALL) $(INSTALL_BIN_FLAGS) \
+		$(PROGRAM) $(BETA_DIR)/$(PROGAM).$(VERSION)
+	(cd $(BETA_DIR); rm $(PROGRAM); \
+	  ln -s $(PROGRAM).$(VERSION) $(PROGRAM) )
 	echo 'Beta Install Complete!'
 
-install_production:
-	mkdirhier $(PROD_DIR/old)
-	-( cd $(PROD_DIR)/old; rm -f $(PROGRAM); cd ..; mv $(PROGRAM) old )
-	$(INSTALL) $(INSTALL_BIN_FLAGS) $(PROGRAM) $(PROD_DIR)
+install_production: default
+	$(MKDIRHIER) $(PROD_DIR)/old
+	if [ -e $(PROD_DIR)/$(PROGRAM).$(VERSION) ] ; then \
+	echo $(PROD_DIR)/$(PROGRAM).$(VERSION) already installed!; \
+	echo Change version number in makefile and try again.; \
+	exit 1; \
+	fi
+	if [ -e .installed.ver ] ; then \
+	ver=`cat .installed.ver`; \
+	for fn in `cat .installed.prog`; do \
+	mv $(PROD_DIR)/$$fn $(PROD_DIR)/old; \
+	done; \
+	echo $(VERSION) >.installed.ver
+	echo $(PROGRAM).$(VERSION) >.installed.prog
+	$(INSTALL) $(INSTALL_BIN_FLAGS) \
+		$(PROGRAM) $(PROD_DIR)/$(PROGAM).$(VERSION)
+	(cd $(PROD_DIR); rm $(PROGRAM); \
+	  ln -s $(PROGRAM).$(VERSION) $(PROGRAM) )
 	echo 'Production Install Complete!'
 
 
-test:	all
-	-touch data/FileStat.h.t.yyy.yyy.yyy
-	-chmod 777 data/FileStat.h.t.yyy.yyy.yyy
-	-touch data/FileStat.h.t.nnn.nnn.nnn
-	-chmod 000 data/FileStat.h.t.nnn.nnn.nnn
-	-touch data/FileStat.h.t.nnn.yyy.nnn
-	-chmod 070 data/FileStat.h.t.nnn.yyy.nnn
+test:	default test_data
 	t
+
+test_data: clean_test_data
+	chgrp tools data/FileStat.01
+	(cd data; ln -s FileStat.01 FileStat.l1)
+	-touch data/FileStat.set
+	chmod 6 data/FileStat.set
+	-touch data/FileStat.h.t.yyy.yyy.yyy
+	chmod 777 data/FileStat.h.t.yyy.yyy.yyy
+	-touch data/FileStat.h.t.nnn.nnn.nnn
+	chmod 000 data/FileStat.h.t.nnn.nnn.nnn
+	-touch data/FileStat.h.t.nnn.yyy.nnn
+	chmod 070 data/FileStat.h.t.nnn.yyy.nnn
+
+clean:: clean_test_data
+
+clean_test_data: 
+	rm -f data/Str.bin.data			\
+	      data/Str.operator.output		\
+	      data/SubStr.operator.output	\
+	      data/FileStat.l1			\
+	      data/FileStat.set			\
+	      data/FileStat.h.t.yyy.yyy.yyy	\
+	      data/FileStat.h.t.nnn.nnn.nnn	\
+	      data/FileStat.h.t.nnn.yyy.nnn	\
+	      data/log.stream.test		\
+	      data/logfile.01			\
+	      data/logfile.02			\
+	      data/logfile.03			\
+	      data/logfile.04			\
+	      data/logfile.05			\
+	      data/logfile.05.tee		\
+	      data/logfile.06			\
+	      data/logfile.07			\
+	      data/logfile.08			\
+	      data/logfile.09			\
+	      data/logfile.10			\
+	      data/logfile.11			\
+	      data/logfile.12			\
+	      data/param.log.01			\
+
+
 
 #
 # include dependancies generated by 'make depend'
 #
 include .depend
 
-# 
+#
+# =MAKEFILE_LOG=
+#
 # $Log$
-# Revision 2.1  1995/11/10 12:48:37  houghton
-# Change to Version 2
+# Revision 2.2  1995/11/10 18:50:26  houghton
+# Changed to MakeConfigs 3.4
 #
-# Revision 1.8  1995/11/05  16:33:15  houghton
-# Revised
 #
-# Revision 1.3  1995/02/20  14:21:28  houghton
-# Cleanup
-#
-# Revision 1.2  1995/02/13  17:35:10  houghton
-# Major enhancements much cleaner
-#
-# Revision 1.1  1994/01/23  18:16:56  houghton
-# Production release 1.0 of MakeConfig system
+# =MAKEFILE_LOG=
 #
 
 
