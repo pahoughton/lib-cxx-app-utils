@@ -17,7 +17,9 @@
 
 #include "StlUtilsMisc.hh"
 #include <iostream>
+#include <cstdio>
 #include <fcntl.h>
+
 
 STLUTILS_FUNCT_VERSION(
   Whence,
@@ -36,6 +38,9 @@ Whence( ios::seek_dir dir )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/10/13 16:35:04  houghton
+// Added include <cstdio>.
+//
 // Revision 4.1  1997/09/17 15:13:42  houghton
 // Changed to Version 4
 //
