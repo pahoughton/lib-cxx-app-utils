@@ -1542,16 +1542,10 @@ Param::genArgFile( bool exitApp )
 
       (*out) << '\n' <<
 	"#\n" <<
-	"# $Log$
-	"# Revision 4.8  1999/11/09 11:05:34  houghton
-	"# Added generate arg file support.
-	"# Reworked logStartInfo().
-	"# Added logExitInfo()
-	"# Changed to not try and open logs if -help.
-	"# Bug-Fix: was using wrong args to call of allFileArgs.erase().
-	"# Added argChar().
-	"# Bug-Fix: signed num args -123 was not working.
-	"# Added support for -arg=value.
+	"# \$Log$
+	"# \Revision 4.9  1999/11/09 14:00:37  houghton
+	"# \The Log line for generateArgFile output got the log entry for Param.
+	"# \" <<
 	"#\n" <<
 	"#\n"
 	;
@@ -1585,6 +1579,9 @@ Param::genArgFile( bool exitApp )
 // Revision Log:
 //
 // $Log$
+// Revision 4.9  1999/11/09 14:00:37  houghton
+// The Log line for generateArgFile output got the log entry for Param.
+//
 // Revision 4.8  1999/11/09 11:05:34  houghton
 // Added generate arg file support.
 // Reworked logStartInfo().
