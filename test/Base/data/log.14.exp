@@ -1,0 +1,7 @@
+ERROR Src:1 test Error
+ERROR Src:2 test Err
+WARNING Src:3 test Warning
+WARNING Src:4 test Warn
+APP1 Src:5 test App1
+INFO Src:15 test Info
+DEBUG Src:17 test Debug

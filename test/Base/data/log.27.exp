@@ -1,0 +1,4 @@
+TEST Test.C:1 any old text before filter
+TEST Test.C:3 This line is good and should filter
+TEST Test.C:5 This line should pass through the filter
+TEST Test.C:6 any old text after filter removed

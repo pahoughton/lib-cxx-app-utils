@@ -1,0 +1,2 @@
+TEST This will be in both main and f3. all is well
+DEBUG This should be in both f2 & f3 because of this 'x' and 'all'.
