@@ -63,7 +63,7 @@ const char * Param::ErrorStrings[] =
 
 Param::Param(
   int		    mainArgc,
-  const char *	    mainArgv[],
+  char **	    mainArgv,
   const char *	    appVersion,
   bool		    useDefaultArgFn,
   const char *	    logLevel,
@@ -89,24 +89,80 @@ Param::Param(
     errorLogId( LogBuf::badFilterId ),
     errorLogLevels( "ERROR | WARN" )
 {
+  init( mainArgc, 0, mainArgv, useDefaultArgFn, useDefaultLogFn );
+}
+
+Param::Param(
+  int		    mainArgc,
+  char const **     mainArgv,
+  const char *	    appVersion,
+  bool		    useDefaultArgFn,
+  const char *	    logLevel,
+  bool		    useDefaultLogFn,
+  ios::open_mode    logOpenMode,
+  int		    logOpenProt
+  )
+  : versionText( appVersion ? appVersion : "version unknown" ),
+    appLog( cout, logLevel ),
+    helpFlag( false ),
+    haveStopFlag( false ),
+    logMode( logOpenMode ),
+    logProt( logOpenProt ),
+    logOutputLevel( logLevel ),
+    logTee( false ),
+    logMaxSize( 0 ),
+    logTrimSize( 0 ),
+    logTimeStamp( true ),
+    logLevelStamp( true ),
+    logLocStamp( true ),
+    generateArgFile( false ),
+    errorLogFile( 0 ),
+    errorLogId( LogBuf::badFilterId ),
+    errorLogLevels( "ERROR | WARN" )
+{
+  init( mainArgc, mainArgv, 0, useDefaultArgFn, useDefaultLogFn );
+}
+
+void
+Param::init(
+  int		    mainArgc,
+  char const **	    constMainArgv,
+  char **	    mainArgv,
+  bool		    useDefaultArgFn,
+  bool		    useDefaultLogFn )
+{
   if( _LibLog  == 0 )
     _LibLog = &appLog;
 
   if( logOutputLevel.size() )
     appLog.setOutputLevel( logOutputLevel.c_str() );
 
-  for( int a = 0; a < mainArgc; ++a )
-    {
-      Str tmp = mainArgv[a];
-
-      if( tmp.size() > 1
-	  && tmp[0UL] == '-'
-	  && tmp[1UL] == '-' )
-	haveStopFlag = true;
+  if( mainArgv ) {
+    for( int a = 0; a < mainArgc; ++a )
+      {
+	Str tmp = mainArgv[a];
+	
+	if( tmp.size() > 1
+	    && tmp[0UL] == '-'
+	    && tmp[1UL] == '-' )
+	  haveStopFlag = true;
       
-      allArgv.push_back( tmp );
-    }
-  
+	allArgv.push_back( tmp );
+      }
+  } else if( constMainArgv ) {
+    for( int a = 0; a < mainArgc; ++a )
+      {
+	Str tmp = constMainArgv[a];
+	
+	if( tmp.size() > 1
+	    && tmp[0UL] == '-'
+	    && tmp[1UL] == '-' )
+	  haveStopFlag = true;
+      
+	allArgv.push_back( tmp );
+      }
+  }
+    
   argv = allArgv;
 
   // remove first arg (i.e appName).
@@ -1708,6 +1764,9 @@ Param::genArgFile( bool exitApp )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/07/28 01:15:00  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

@@ -168,22 +168,22 @@ public:
   
   // insert
 
-  inline Str &	insert( size_type 	    	before,
+  inline Str &	insert( size_type 	before,
 			const Str & 	src,
-			size_type 	    	srcStart = 0,
-			size_type 	    	srcLen = npos );
+			size_type 	srcStart = 0,
+			size_type 	srcLen = npos );
 
-  inline Str &	insert( size_type 	    	before,
+  inline Str &	insert( size_type 	before,
 			const SubStr &	src,
-			size_type 	    	srcStart = 0,
-			size_type 	    	srcLen = npos );
+			size_type 	srcStart = 0,
+			size_type 	srcLen = npos );
 
-  inline Str &	insert( size_type 	    	before,
+  inline Str &	insert( size_type 	before,
 			const char * 	src,
 			size_type      	srcLen = npos );
 
-  inline Str &	insert( size_type start, size_type count, char src );
-  inline Str &	insert( size_type start, char src );
+  inline Str &	insert( size_type before, size_type count, char src );
+  inline Str &	insert( size_type before, char src );
 
   inline Str &  insert( iterator    	before,
  			InputIterator   first,
@@ -778,24 +778,31 @@ operator >> ( istream & src, Str & dest );
 //
 //  	Str( void );
 //
-//  	Str( cont Str & src, size_type srcStart = 0, size_type srcLen = NPOS )
+//	inline
+//  	Str( const Str & src, size_type srcStart = 0, size_type srcLen = npos )
 //  	    Str constructor requires at least a Str to be given, the
 //  	    srcStart if omitted will default to 0, the srcLen if not
 //  	    given will be calculated from the length of (src).
 //
-//  	Str( const SubStr & src, size_type srcStart = 0, size_type srcLen = NPOS )
+//	inline
+//  	Str( const SubStr & src,
+//	     size_type srcStart = 0,
+//	     size_type srcLen = npos )
 //  	    Str constructor requires at least a SubStr to be given, the
 //  	    srcStart if omitted will default to 0, the srcLen if not
 //  	    given will be calculated from the length of (src).
 //
-//  	Str( const char * src, size_type srcLen = NPOS )
+//	inline
+//  	Str( const char * src, size_type srcLen = npos )
 //  	    Str constructor requires at least a char *(src) to be given, the
 //  	    length (rscLen) if not given will be calculated from the
 //  	    length of (src).
 //
+//	inline
 //  	Str( size_type count, char src )
 //  	    Str constructor requires a value (count) and a char(src).
 //
+//	inline
 //  	Str( InputIterator first, InputIterator last )
 //
 //  Destructors:
@@ -831,22 +838,20 @@ operator >> ( istream & src, Str & dest );
 //  	StrStreambuf *
 //  	rdbuf( void );
 //
-//  append
-//
 //  	Str &
-//  	append( const char * src, size_type srcLen = NPOS );
+//  	append( const char * src, size_type srcLen = npos );
 //  	    append onto a Str the contents of (src) for (srcLen)
 //	    character(s) of (src).
 //
 //  	Str &
-//  	append( const Str & src, size_type srcStart = 0, size_type srcLen = NPOS );
+//  	append( const Str & src, size_type srcStart = 0, size_type srcLen = npos );
 //  	    append onto a Str the contents of (src), starting at position
 //  	    (srcStart), for (srcLen) number of characters..
 //
 //  	Str &
 //  	append( const SubStr & src,
 //  	    	size_type srcStart = 0,
-//  	    	size_type srcLen = NPOS );
+//  	    	size_type srcLen = npos );
 //  	    append onto a Str, the contents of a Substr (src), starting
 //  	    at position (srcStart) of (src), for (srcLen) number of
 //	    characters.
@@ -863,22 +868,20 @@ operator >> ( istream & src, Str & dest );
 //  	Str &
 //  	append( InputIterator first, InputIterator last );
 //
-//  assign
-//
 //  	Str &
-//  	assign( const char * src, size_type srcLen = NPOS );
+//  	assign( const char * src, size_type srcLen = npos );
 //  	    assign will overwrite the contents of a Str, with the contents
 //  	    of (src), starting at position 0, for (srcLen) characters.
 //
 //  	Str &
-//  	assign( const Str & src, size_type srcStart = 0, size_type srcLen = NPOS );
+//  	assign( const Str & src, size_type srcStart = 0, size_type srcLen = npos );
 //  	    assign will overwrite the contents of a Str, with the contents
 //  	    of (src), starting at (srcStart) for (srcLen) characters.
 //
 //  	Str &
 //  	assign( const SubStr & src,
 //  	    	size_type srcStart = 0,
-//  	    	size_type srcLen = NPOS );
+//  	    	size_type srcLen = npos );
 //  	    assign will overwrite the contents of a Str, with the contents
 //  	    of the SubStr (src) starting at position (srcStart), for
 //  	    (srcLen) characters.
@@ -896,14 +899,8 @@ operator >> ( istream & src, Str & dest );
 //  	Str &
 //  	assign( InputIterator first, InputIterator last );
 //
-//  insert
-//
-//      NOTE!!!
-//  	size_type before specifies the position at which the insert action
-//  	will occur, It should be noted that the value of zero (0) will allow
-//      insert to occur at the beginning of an Str
 //  	Str &
-//  	insert( size_type before, const char * src, size_type srcLen = NPOS );
+//  	insert( size_type before, const char * src, size_type srcLen = npos );
 //  	    insert will modify Str, by inserting (srcLen) characters from
 //  	    (src) before position (before) in Str.
 //
@@ -911,7 +908,7 @@ operator >> ( istream & src, Str & dest );
 //  	insert( size_type before,
 //              const Str & src,
 //              size_type srcStart = 0,
-//              size_type srcLen = NPOS );
+//              size_type srcLen = npos );
 //  	    insert will modify Str, by inserting (srcLen) characters,
 //  	    starting at (srcStart) from Str (src), into Str before
 //  	    (before).
@@ -920,7 +917,7 @@ operator >> ( istream & src, Str & dest );
 //  	insert( size_type before,
 //  	    	const SubStr & src,
 //  	    	size_type srcStart = 0,
-//  	    	size_type srcLen = NPOS );
+//  	    	size_type srcLen = npos );
 //  	    insert will modify Str, by inserting (srcLen) characters,
 //  	    starting at (srcStart) from SubStr (src), into Str before
 //  	    position (before)
@@ -939,10 +936,8 @@ operator >> ( istream & src, Str & dest );
 //  	Str &
 //  	insert( iterator before, InputIterator first, InputIterator last );
 //
-//  remove
-//
 //  	Str &
-//  	remove( size_type start, size_type len = NPOS );
+//  	remove( size_type start, size_type len = npos );
 //  	    remove will modify Str, by removing (len) characters,
 //  	    starting at position (start) in Str. This will reduce the
 //  	    original length of Str by (len) characters.
@@ -953,13 +948,25 @@ operator >> ( istream & src, Str & dest );
 //  	Str &
 //  	remove( iterator first, iterator last );
 //
-//  replacement
-//
 //  	Str &
 //  	replace( size_type start,
 //  	    	 size_type len,
 //  	    	 const char * src,
-//               size_type srcLen = NPOS );
+//               size_type srcLen = npos );
+//  	    replace will modify Str, by replacing (srcLen) characters from
+//  	    (src) and replace these characters in the Str starting at
+//  	    position (start) for (len) number of characters.
+//
+//  	Str &
+//  	replace( size_type start, size_type len, size_type count, char src );
+//  	    replace will modify Str, by using character( src) replicated
+//  	    (count) times, and replacing in Str starting at position (start)
+//  	    for (len) number of characters. 
+//
+//  	replace( size_type start,
+//  	    	 size_type len,
+//  	    	 const char * src,
+//               size_type srcLen = npos );
 //  	    replace will modify Str, by replacing (srcLen) characters from
 //  	    (src) and replace these characters in the Str starting at
 //  	    position (start) for (len) number of characters.
@@ -975,26 +982,7 @@ operator >> ( istream & src, Str & dest );
 //  	    	 size_type len,
 //  	    	 const Str & src,
 //  	    	 size_type srcStart = 0,
-//  	replace( size_type start,
-//  	    	 size_type len,
-//  	    	 const char * src,
-//               size_type srcLen = NPOS );
-//  	    replace will modify Str, by replacing (srcLen) characters from
-//  	    (src) and replace these characters in the Str starting at
-//  	    position (start) for (len) number of characters.
-//
-//  	Str &
-//  	replace( size_type start, size_type len, size_type count, char src );
-//  	    replace will modify Str, by using character( src) replicated
-//  	    (count) times, and replacing in Str starting at position (start)
-//  	    for (len) number of characters. 
-//
-//  	Str &
-//  	replace( size_type start,
-//  	    	 size_type len,
-//  	    	 const Str & src,
-//  	    	 size_type srcStart = 0,
-//  	    	 size_type srcLen = NPOS);
+//  	    	 size_type srcLen = npos);
 //  	    replace will modify Str, starting at position (start) in Str,
 //  	    for (len) number of positions, with the characters starting at
 //  	    position (srcStart) of Str (src) for (srcLen) number of characters
@@ -1004,7 +992,7 @@ operator >> ( istream & src, Str & dest );
 //  	    	 size_type len,
 //  	    	 const SubStr & src,
 //  	    	 size_type srcStart = 0,
-//  	    	 size_type srcLen = NPOS);
+//  	    	 size_type srcLen = npos);
 //  	    replace will modify Str, starting at position (start) for (len)
 //  	    number of positions, with the characters from SubStr (src)
 //  	    starting at position (start) for (srcLen) number of characters
@@ -1014,20 +1002,12 @@ operator >> ( istream & src, Str & dest );
 //  	    replace will modify Str, starting at position (start) for (len)
 //  	    number of positions with character (src).
 //
-//  	NOTE!! WARNING.
-//  	    When using iterators and (last) is a NULL terminator, replacement
-//  	    will stop at (last -1).
-//
 //  	Str &
 //  	replace( iterator first,
 //  	    	 iterator last, 
 //  	    	 const Str & src,
 //  	    	 size_type srcStart = 0,
-//  	    	 size_type srcLen = NPOS );
-//  	    replace will modify Str, starting at position (first) in Str,
-//  	    ending at (last -1), with the characters starting at
-
-//  	    	 size_type srcLen = NPOS);
+//  	    	 size_type srcLen = npos );
 //  	    replace will modify Str, starting at position (start) in Str,
 //  	    for (len) number of positions, with the characters starting at
 //  	    position (srcStart) of Str (src) for (srcLen) number of characters
@@ -1037,7 +1017,7 @@ operator >> ( istream & src, Str & dest );
 //  	    	 size_type len,
 //  	    	 const SubStr & src,
 //  	    	 size_type srcStart = 0,
-//  	    	 size_type srcLen = NPOS);
+//  	    	 size_type srcLen = npos);
 //  	    replace will modify Str, starting at position (start) for (len)
 //  	    number of positions, with the characters from SubStr (src)
 //  	    starting at position (start) for (srcLen) number of characters
@@ -1047,16 +1027,12 @@ operator >> ( istream & src, Str & dest );
 //  	    replace will modify Str, starting at position (start) for (len)
 //  	    number of positions with character (src).
 //
-//  	NOTE!! WARNING.
-//  	    When using iterators and (last) is a NULL terminator, replacement
-//  	    will stop at (last -1).
-//
 //  	Str &
 //  	replace( iterator first,
 //  	    	 iterator last, 
 //  	    	 const Str & src,
 //  	    	 size_type srcStart = 0,
-//  	    	 size_type srcLen = NPOS );
+//  	    	 size_type srcLen = npos );
 //  	    replace will modify Str, starting at position (first) in Str,
 //  	    ending at (last -1), with the characters starting at
 //  	    position (srcStart) of Str (src) for (srcLen) number of characters
@@ -1066,7 +1042,7 @@ operator >> ( istream & src, Str & dest );
 //  	    	 iterator last,
 //  	    	 const SubStr & src,
 //  	    	 size_type srcStart = 0,
-//  	    	 size_type srcLen = NPOS );
+//  	    	 size_type srcLen = npos );
 //  	    replace will modify Str, starting at position (first) in Str
 //  	    ending at (last -1), with the characters from SubStr (src)
 //  	    starting at position (start) for (srcLen) number of characters
@@ -1075,7 +1051,7 @@ operator >> ( istream & src, Str & dest );
 //  	replace( iterator first,
 //  	    	 iterator last,
 //  	    	 const char * src,
-//  	    	 size_type srcLen = NPOS );
+//  	    	 size_type srcLen = npos );
 //  	    replace will modify Str, starting at position (first) in Str
 //  	    ending at (last -1), with (srcLen) number of characters from (src) 
 //
@@ -1084,8 +1060,6 @@ operator >> ( istream & src, Str & dest );
 //  	    	 iterator last,
 //  	    	 InputIterator srcFirst,
 //  	    	 InputIterator srcLast );
-//
-//  iterators
 //
 //  	iterator
 //  	begin( void );
@@ -1111,31 +1085,24 @@ operator >> ( istream & src, Str & dest );
 //  	const_reverse_iterator
 //  	rend( void ) const;
 //
-//  compare
-//
-//  	compare will return values of
-//  	0 (zero) is the compare is true.
-//  	- (negative) value
-//  	+ (positive) value
-//
 //  	int
 //  	compare( const Str & two,
 //  	    	 size_type start = 0,
-//  	    	 size_type len = NPOS ) const;
+//  	    	 size_type len = npos ) const;
 //  	    compares Str (one), starting at position (start) for (len)
 //  	    number of positions of Str (two).
 //
 //  	int
 //  	compare( const SubStr & two,
 //  	    	 size_type start = 0,
-//  	    	 size_type len = NPOS ) const;
+//  	    	 size_type len = npos ) const;
 //  	    compares Str (one), starting at position (start) for (len)
 //  	    number of positions of SubStr (two).
 //
 //  	int
 //  	compare( const char * two,
 //  	    	 size_type start = 0,
-//  	    	 size_type len = NPOS ) const;
+//  	    	 size_type len = npos ) const;
 //  	    compares Str (one), starting at position (start) for (len)
 //  	    number of positions of (two).
 //
@@ -1149,27 +1116,24 @@ operator >> ( istream & src, Str & dest );
 //  	    	 const Str & two,
 //  	    	 size_type len = Str::npos );
 //
-//  	NOTE!! fcompare
-//  	    fcompare is a NON CASE sensitive compare.
-//
 //  	int
 //  	fcompare( const Str & two,
 //  	    	  size_type start = 0,
-//  	    	  size_type len = NPOS ) const; 	    
+//  	    	  size_type len = npos ) const; 	    
 //  	    compares Str (one), starting at position (start) for (len)
 //  	    number of positions of Str (two).
 //
 //  	int
 //  	fcompare( const SubStr & two,
 //  	    	  size_type start = 0,
-//  	    	  size_type len = NPOS ) const;
+//  	    	  size_type len = npos ) const;
 //  	    compares Str (one), starting at position (start) for (len)
 //  	    number of positions of SubStr (two).
 //
 //  	int
 //  	fcompare( const char * two,
 //  	    	  size_type start = 0,
-//  	    	  size_type len = NPOS ) const;
+//  	    	  size_type len = npos ) const;
 //  	    compares Str (one), starting at position (start) for (len)
 //  	    number of positions of (two).
 //
@@ -1182,8 +1146,6 @@ operator >> ( istream & src, Str & dest );
 //  	fcompare( const char * one,
 //  	    	  const Str & two,
 //  	    	  size_type len = Str::npos );
-//
-//  substring
 //
 //  	char &
 //  	at( size_type index );
@@ -1213,13 +1175,14 @@ operator >> ( istream & src, Str & dest );
 //  	    return a Substr of the contents of a Str starting at position
 //  	    (start) for (len) number of positions.
 //
+//	inline
 //  	SubStr
-//  	at( const char * pat,size_type start = 0, size_type len = npos );
+//  	at( const char * pat, size_type start = 0, size_type patLen = npos );
 //  	    return a SubStr of a Str, where a pattern (pat) occured starting
 //  	    at position (start) for (len) number of positions of the Str.
 //
 //  	const SubStr
-//  	at( const char * pat,size_type start = 0, size_type len = npos ) const;
+//  	at( const char * pat, size_type start = 0, size_type patLen = npos ) const;
 //  	    return a SubStr of a Str, where a pattern (pat) occured starting
 //  	    at position (start) for (len) number of positions of the Str.
 //
@@ -1267,8 +1230,6 @@ operator >> ( istream & src, Str & dest );
 //  	    creates a SubStr of all characters of a string from position
 //  	    (start) to the end of the string(Str),
 //
-//  searching
-//
 //  	size_type
 //  	find( const Str & pat, size_type start = 0 )const;
 //  	    return the position in an Str, where the pattern (pat)
@@ -1283,13 +1244,13 @@ operator >> ( istream & src, Str & dest );
 //  	find( const RegexScan & exp, size_type start = 0 )const;
 //
 //  	size_type
-//  	find( const char * pat, size_type start =0, size_type patLen = npos )const;
+//  	find( const char * pat, size_type start = 0, size_type patLen = npos )const;
 //  	    return the position in a Str, where the pattern (pat) of
 //  	    length (patLen)  first occured in Str, starting at position
 //  	    (start) of the Str.
 //
 //  	size_type
-//  	find( char c, size_type start =0 )const;
+//  	find( char c, size_type start = 0 )const;
 //  	    return the position in an Str, where the character (c)
 //  	    first occurs starting at position (start) of the Str.
 //
@@ -1317,10 +1278,6 @@ operator >> ( istream & src, Str & dest );
 //  	    first occurs starting at position (end) of the Str and
 //  	    ending at position (0).
 //
-//  fold
-//
-//  	NOTE!!!
-//  	    when using (fold) it is NOT case sensitive.
 //
 //  	size_type
 //  	ffind( const Str & s, size_type start = 0 ) const;
@@ -1440,8 +1397,6 @@ operator >> ( istream & src, Str & dest );
 //  	    length (slen) does not occur starting at position (end) of the Str.
 //  	    and moving towards the position (0)
 //
-//  converters
-//
 //  	Str &
 //  	from( int src, unsigned short base = 0 );
 //  	    return an Str whose characters represent the value of (src)
@@ -1459,41 +1414,55 @@ operator >> ( istream & src, Str & dest );
 //  	    return an Str whose characters represent the value of (src)
 //
 //  	Str &
-//  	from( unsigned short, unsigned short base = 0 );
+//  	from( unsigned short src, unsigned short base = 0 );
 //  	    return an Str whose characters represent the value of (src)
 //
 //  	Str &
-//  	from( unsigned long, unsigned short base = 0 );
+//  	from( unsigned long src, unsigned short base = 0 );
 //  	    return an Str whose characters represent the value of (src)
 //
 //  	bool
-//  	to( int & dest, unsigned short base = 0 ) const;
+//  	to( int & dest,
+//	    unsigned short base = 0,
+//	    bool stopAtNonDigit = false ) const;
 //  	    return a bool value(0) if a Str could convert to an int (dest)
 //
 //  	bool
-//  	to( short & dest, unsigned short base = 0 ) const;
+//  	to( short & dest,
+//	    unsigned short base = 0,
+//	    bool stopAtNonDigit = false ) const;
 //  	    return a bool value(0) if a Str could convert to a short (dest)
 //
 //  	bool
-//  	to( long & dest, unsigned short base = 0 ) const;
+//  	to( long & dest,
+//	    unsigned short base = 0,
+//	    bool stopAtNonDigit = false ) const;
 //  	    return a bool value(0) if a Str could convert to a long (dest)
 //
 //  	bool
-//  	to( double & dest, unsigned short base = 0 ) const;
+//  	to( double & dest,
+//	    unsigned short base = 0,
+//	    bool stopAtNonDigit = false ) const;
 //  	    return a bool value(0) if a Str could convert to a double (dest)
 //
 //  	bool
-//  	to( unsigned int & dest, unsigned short base = 0 ) const;
+//  	to( unsigned int & dest,
+//	    unsigned short base = 0,
+//	    bool stopAtNonDigit = false ) const;
 //  	    return a bool value(0) if a Str could convert to an unsigned
 //  	    int (dest)
 //
 //  	bool
-//  	to( unsigned short & dest, unsigned short base = 0 ) const;
+//  	to( unsigned short & dest,
+//	    unsigned short base = 0,
+//	    bool stopAtNonDigit = false ) const;
 //  	    return a bool value(0) if a Str could convert to an unsigned
 //  	    short (dest)
 //
 //  	bool
-//  	to( unsigned long & dest, unsigned short base = 0 ) const;
+//  	to( unsigned long & dest,
+//	    unsigned short base = 0,
+//	    bool stopAtNonDigit = false ) const;
 //  	    return a bool value(0) if a Str could convert to an unsigned
 //  	    long (dest)
 //
@@ -1501,23 +1470,28 @@ operator >> ( istream & src, Str & dest );
 //  	toBool( void ) const;
 //
 //  	int
-//  	toInt( unsigned short base = 0) const;
+//  	toInt( unsigned short base = 0,
+//	       bool stopAtNonDigit = false ) const;
 //  	    return an int from a Str
 //
 //  	long
-//  	toLong( unsigned short base = 0) const;
+//  	toLong( unsigned short base = 0,
+//		bool stopAtNonDigit = false ) const;
 //  	    return a long from a Str
 //
 //  	double
-//  	toDouble( unsigned short base = 0) const;
+//  	toDouble( unsigned short base = 0,
+//		  bool stopAtNonDigit = false ) const;
 //  	    return a double from a Str
 //
 //  	unsigned int
-//  	toUInt( unsigned short base = 0) const;
+//  	toUInt( unsigned short base = 0,
+//		bool stopAtNonDigit = false ) const;
 //  	    return an unsigned int from a Str
 //
 //  	unsigned long
-//  	toULong( unsigned short base = 0) const;
+//  	toULong( unsigned short base = 0,
+//		 bool stopAtNonDigit = false ) const;
 //  	    return an unsigned long from a Str
 //
 //	RangeList::size_type
@@ -1539,8 +1513,6 @@ operator >> ( istream & src, Str & dest );
 //		    range[1] = {53,0}
 //		    range[2] = {78,0}
 //		    range[3] = {-90,LLONG_MAX}
-//
-//  modifications
 //
 //  	void
 //  	upcase( void );
@@ -1611,8 +1583,6 @@ operator >> ( istream & src, Str & dest );
 //  	    they would extend beyond (width), and insert (pad) white spaces
 //  	    after each newline.
 //
-//  scan
-//
 //  	size_type
 //  	scan( const RegexScan & exp, size_type start = 0 );
 //
@@ -1640,8 +1610,6 @@ operator >> ( istream & src, Str & dest );
 //  	size_type
 //  	scanString( const char * dStr, size_type start = 0, size dLen = npos );
 //
-//  scan support
-//
 //  	size_type
 //  	scanMatchCount( void ) const;
 //
@@ -1656,8 +1624,6 @@ operator >> ( istream & src, Str & dest );
 //
 //  	size_type
 //  	scanMatchLength( size_type scanNum = 0 ) const;
-//
-//  io helpers
 //
 //  	friend ostream & operator << ( ostream & dest, const Str & str );
 //
@@ -1681,9 +1647,6 @@ operator >> ( istream & src, Str & dest );
 //  	istream &
 //  	read( istream & src );
 //
-//  operators
-//  NOTE All operators require a NULL terminated string
-//
 //  	operator const char * ( void ) const;
 //
 //  	char &
@@ -1699,100 +1662,100 @@ operator >> ( istream & src, Str & dest );
 //  	operator () ( size_type start, size_type len ) const;
 //
 //  	Str &
-//  	operator = ( const Str & src );
-//  	    operator = acts like assign. it will copy the characters in (src)
+//  	operator = ( const Str & rhs );
+//  	    operator = acts like assign. it will copy the characters in (rhs)
 //  	    into an Str.
 //
 //  	Str &
-//  	operator = ( const SubStr & src );
-//  	    operator = acts like assign. it will copy the characters in (src)
+//  	operator = ( const SubStr & rhs );
+//  	    operator = acts like assign. it will copy the characters in (rhs)
 //  	    into an Str.
 //
 //  	Str &
-//  	operator = ( const char * src );
-//  	    operator = acts like assign. it will copy the characters in (src)
+//  	operator = ( const char * rhs );
+//  	    operator = acts like assign. it will copy the characters in (rhs)
 //  	    into an Str.
 //
 //  	Str &
-//  	operator = ( char src );
-//  	    operator = acts like assign. it will copy the character in (src)
+//  	operator = ( char rhs );
+//  	    operator = acts like assign. it will copy the character in (rhs)
 //  	    into an Str.
 //
 //  	Str &
-//  	operator += ( const Str & src );
+//  	operator += ( const Str & rhs );
 //  	    operator += acts like append. It will add to the end of a Str
-//  	    the contents of (src).
+//  	    the contents of (rhs).
 //
 //  	Str &
-//  	operator += ( const SubStr & src );
+//  	operator += ( const SubStr & rhs );
 //  	    operator += acts like append. It will add to the end of a Str
-//  	    the contents of a SubStr (src) according to the arguments
+//  	    the contents of a SubStr (rhs) according to the arguments
 //  	    specified for the SubStr.
 //
 //  	Str &
-//  	operator += ( const char * src );
+//  	operator += ( const char * rhs );
 //  	    operator += acts like an append. It will add to the end of a Str
-//  	    the contents of (src).
+//  	    the contents of (rhs).
 //
 //  	Str &
-//  	operator += ( char src );
+//  	operator += ( char rhs );
 //  	    operator += acts like and append. It will add to the end of a Str
-//  	    (src).
+//  	    (rhs).
 //
 //  	bool
-//  	operator == ( const Str & two ) const;
+//  	operator == ( const Str & rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator == ( const SubStr & two ) const;
+//  	operator == ( const SubStr & rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator == ( const char * two ) const;
+//  	operator == ( const char * rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator < ( const Str & two ) const;
+//  	operator < ( const Str & rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator < ( const SubStr & two ) const;
+//  	operator < ( const SubStr & rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator < ( const char * two ) const;
+//  	operator < ( const char * rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator != ( const SubStr & two ) const;
+//  	operator != ( const SubStr & rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator != ( const char * two ) const;
+//  	operator != ( const char * rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator > ( const SubStr & two ) const;
+//  	operator > ( const SubStr & rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator > ( const char * two ) const;
+//  	operator > ( const char * rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator <= ( const SubStr & two ) const;
+//  	operator <= ( const SubStr & rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator <= ( const char * two ) const;
+//  	operator <= ( const char * rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator >= ( const SubStr & two ) const;
+//  	operator >= ( const SubStr & rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	bool
-//  	operator >= ( const char * two ) const;
+//  	operator >= ( const char * rhs ) const;
 //  	    operator == acts like a compare.
 //
 //  	virtual ostream &
@@ -1829,6 +1792,9 @@ operator >> ( istream & src, Str & dest );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2001/07/28 01:15:00  houghton
+// *** empty log message ***
+//
 // Revision 5.5  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

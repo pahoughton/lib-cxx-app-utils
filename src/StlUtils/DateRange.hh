@@ -110,7 +110,7 @@ compare( const DateRange & one, const DateRange & two );
 //
 //  	DateRange( time_t startTime, time_t durSec );
 //  	    Set the value of startTime and duration(durSec).
-//
+/
 //  	DateRange( const DateTime & startTime, time_t durSec );
 //
 //  	DateRange( const DateTime & startTime, const DateTime & stopTime );
@@ -167,7 +167,7 @@ compare( const DateRange & one, const DateRange & two );
 //  	    return the name of this class.
 //
 //  	virtual ostream &
-//  	toStream( ostream & dest ) const;
+//  	toStream( ostream & dest = cout ) const;
 //  	    send a formated string of the current date/time to 'dest'
 //  	    The format is '02/03/95 15:13:03'.
 //
@@ -185,6 +185,9 @@ compare( const DateRange & one, const DateRange & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/07/28 01:15:00  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

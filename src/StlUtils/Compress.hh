@@ -112,12 +112,6 @@ private:
 #else
 #undef inline
 
-ostream &
-operator << ( ostream & dest, const Compress & src );
-
-istream &
-operator >> ( istream & src, const Compress & dest );
-
 
 #endif
 
@@ -136,25 +130,6 @@ operator >> ( istream & src, const Compress & dest );
 //  Destructors:
 //
 //  Public Interface:
-//
-//	virtual ostream &
-//	write( ostream & dest ) const;
-//	    write the data for this class in binary form to the ostream.
-//
-//	virtual istream &
-//	read( istream & src );
-//	    read the data in binary form from the istream. It is
-//	    assumed it stream is correctly posistioned and the data
-//	    was written to the istream with 'write( ostream & )'
-//
-//	virtual ostream &
-//	toStream( ostream & dest ) const;
-//	    output class as a string to dest (used by operator <<)
-//
-//	virtual istream &
-//	fromStream( istream & src );
-//	    Set this class be reading a string representation from
-//	    src. Returns src.
 //
 //  	virtual Bool
 //  	good( void ) const;
@@ -189,12 +164,6 @@ operator >> ( istream & src, const Compress & dest );
 //
 //  Associated Functions:
 //
-//  	ostream &
-//  	operator <<( ostream & dest, const Compress & src );
-//
-//	istream &
-//	operator >> ( istream & src, Compress & dest );
-//
 // Example:
 //
 // See Also:
@@ -211,6 +180,9 @@ operator >> ( istream & src, const Compress & dest );
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2001/07/28 01:15:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //

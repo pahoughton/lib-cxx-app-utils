@@ -93,7 +93,7 @@ tFilePath02( LibTest & tester )
     TESTR( t.getFullName().c_str(),
 	   compare( t.getFullName().c_str(), expect.c_str() ) == 0 );
 
-    TEST( ! putenv( "FP_USER=" TEST_USER ) );
+    TEST( ! putenv( (char *)"FP_USER=" TEST_USER ) );
     t.set( "~$FP_USER/afile" );
 
     expect.assign( getenv( "HOME" ) );

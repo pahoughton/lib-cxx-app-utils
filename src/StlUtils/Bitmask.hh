@@ -36,8 +36,6 @@ class Bitmask
 
 public:
 
-  typedef Bitmask		self_type;
-  
   typedef STLUTILS_LONG_U32_T  value_type;
 
   class bit
@@ -119,12 +117,12 @@ public:
   inline Bitmask & 	operator |= ( const Bitmask & rhs );
   inline Bitmask & 	operator ^= ( const Bitmask & rhs );
 
-  inline bool		operator == ( const self_type & rhs ) const;
-  inline bool		operator != ( const self_type & rhs ) const;  
-  inline bool		operator <  ( const self_type & rhs ) const;
-  inline bool		operator >  ( const self_type & rhs ) const;
-  inline bool		operator <= ( const self_type & rhs ) const;
-  inline bool		operator >= ( const self_type & rhs ) const;
+  inline bool		operator == ( const Bitmask & rhs ) const;
+  inline bool		operator != ( const Bitmask & rhs ) const;  
+  inline bool		operator <  ( const Bitmask & rhs ) const;
+  inline bool		operator >  ( const Bitmask & rhs ) const;
+  inline bool		operator <= ( const Bitmask & rhs ) const;
+  inline bool		operator >= ( const Bitmask & rhs ) const;
 
   inline bool		operator == ( bool rhs ) const;
   inline bool		operator != ( bool rhs ) const;
@@ -729,6 +727,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/07/28 01:15:00  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //

@@ -46,7 +46,7 @@
 #include <iostream>
 
 
-class STLUTILS_CLASS_T ClassVersion
+class ClassVersion
 {
 
 public:
@@ -284,6 +284,9 @@ const ClassVersion className_::version( #className_,			      \
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2001/07/28 01:15:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //

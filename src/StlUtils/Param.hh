@@ -79,7 +79,16 @@ public:
   typedef deque< Str >	Args;
   
   Param( int 		    mainArgc,
-	 const char *	    mainArgv[],
+	 char const **	    mainArgv,
+	 const char *	    version = 0,
+	 bool		    useDefaultArgFn = false,
+	 const char *	    logLevel = STLUTILS_DEFAULT_LOGLEVEL,
+	 bool		    useDefaultLogFn = false,
+	 ios::open_mode	    logOpenMode = (ios::open_mode)(ios::out|ios::app),
+	 int		    logOpenProt = 0664 );
+
+  Param( int 		    mainArgc,
+	 char **	    mainArgv,
 	 const char *	    version = 0,
 	 bool		    useDefaultArgFn = false,
 	 const char *	    logLevel = STLUTILS_DEFAULT_LOGLEVEL,
@@ -320,6 +329,12 @@ protected:
 
   inline void	removeStopFlag( void );
   
+  void init( int 	    mainArgc,
+	     char const **  constMainArgv,
+	     char **	    mainArgv,
+	     bool	    useDefaultArgFn,
+	     bool	    useDefaultLogFn );
+
 private:
 
   Param( const Param & copyFrom );
@@ -1114,6 +1129,9 @@ operator << ( ostream & dest, const Param & obj );
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2001/07/28 01:15:00  houghton
+// *** empty log message ***
+//
 // Revision 5.4  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //
