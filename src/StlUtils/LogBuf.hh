@@ -68,11 +68,16 @@ public:
   inline const LogLevel &   getLogLevel( void ) const;
   
   size_t		trim( size_t maxSize = 0 );
+  
   inline size_t	        setMaxSize( size_t maxSize );
   inline size_t		setTrimSize( size_t trimSize );
+  inline size_t		getMaxSize( void ) const;
+  inline size_t		getTrimSize( void ) const;
   
   inline streambuf *	tee( streambuf * teeStreambuf );
   
+  inline const char *	getLogFileName( void ) const;
+
   filebuf *		open( const char *	name,
 			      ios::open_mode    mode,
 			      int	        prot = filebuf::openprot,
@@ -85,14 +90,13 @@ public:
   inline bool		is_open( void ) const;
   
   inline bool		filter( const char * regex );
+  inline const char *	getFilter( void ) const;
   
   FilterId		addFilter( streambuf *     destBuf,
 				   LogLevel::Level outputLevel,
 				   const char *    regex = 0 );
 
   inline streambuf *	delFilter( FilterId id );
-
-  inline const char *	getLogFileName( void ) const;
 
   inline bool		willOutput( LogLevel::Level lvl ) const;
   
@@ -279,6 +283,11 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/04/02 13:44:33  houghton
+// Added getMaxSize().
+// Added getTrimSize().
+// Added getFilter().
+//
 // Revision 3.5  1997/04/01 15:09:38  houghton
 // Added willOutput method that also check if any filters will output.
 //

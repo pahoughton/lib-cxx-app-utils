@@ -157,6 +157,20 @@ LogBuf::setTrimSize( size_t size )
 }
 
 inline
+size_t
+LogBuf::getMaxSize( void ) const
+{
+  return( maxSize );
+}
+
+inline
+size_t
+LogBuf::getTrimSize( void ) const
+{
+  return( trimSize );
+}
+
+inline
 streambuf *
 LogBuf::tee( streambuf * teeStreambuf )
 {
@@ -198,6 +212,13 @@ LogBuf::filter( const char * regexStr )
     }
   
   return( regex != 0 && regex->good() );
+}
+
+inline
+const char *
+LogBuf::getFilter( void ) const
+{
+  return( regex ? regex->getPattern() : 0 );
 }
 
 inline
@@ -288,6 +309,11 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/04/02 13:44:38  houghton
+// Added getMaxSize().
+// Added getTrimSize().
+// Added getFilter().
+//
 // Revision 3.4  1997/04/01 15:09:39  houghton
 // Added willOutput method that also check if any filters will output.
 //
