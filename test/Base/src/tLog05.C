@@ -4,6 +4,7 @@
 #include <Log.hh>
 #include <FileStat.hh>
 #include <cstdio>
+#include <strstream>
 #else
 #include <TestCfg.hh>
 #include <LibTest.hh>

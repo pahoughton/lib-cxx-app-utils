@@ -3,6 +3,7 @@
 #include <LibTest.hh>
 #include <HeapBinStream.hh>
 #include <Str.hh>
+#include <strstream>
 #include <fstream>
 #include <cstring>
 #else
