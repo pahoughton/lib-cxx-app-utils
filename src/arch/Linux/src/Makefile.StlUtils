@@ -1,7 +1,7 @@
 #
 # -*- Makefile -*-
 #
-# Makefile for libCommon src/arch/Linux
+# Makefile for libCluee src/arch/Linux/src
 #
 # Created 11/20/95
 #
@@ -115,6 +115,9 @@ objects/shared/%.o : $(ARCHSRC_DIR)/%.c
 
 #
 # $Log$
+# Revision 2.4  1995/12/31 11:23:44  houghton
+# Cleanup.
+#
 # Revision 2.3  1995/12/04 11:19:38  houghton
 # Changed to use MakeConfig 4.
 #
