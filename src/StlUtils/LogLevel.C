@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.2  1995/11/12 18:04:21  houghton
+// Revision 2.3  1995/11/12 22:08:05  houghton
+// Bug fix - setName() - junk code from copy (cut out).
+//
+// Revision 2.2  1995/11/12  18:04:21  houghton
 // Change LogLevel::XXXX to LogLevel::Xxxxx.
 // Bug fix - setOutput( const char * ) was not detecting 'ALL' correctly.
 //
@@ -200,15 +203,7 @@ LogLevel::setName( const Level level, const char * name )
       return( true );
     }
     
-
-  for( size_t l = 0; l < (ArraySize( LevelNames )  - 1); l++ )
-    {
-      if( level( l ) )
-	return( LevelNames[ l + 1 ] );
-    }
-  
-  return( "unknown" );
-  for( size_t pos = 0; pos < ArraySize( LevelNames ); pos++ )
+  for( size_t pos = 0; pos < (ArraySize( LevelNames ) - 1) ; pos++ )
     {
       if( level( pos ) )
 	{
