@@ -5,9 +5,31 @@
 // Project:	Clue
 // Desc:        
 //
+//  The InboundProcessor watches an inbound directory for file
+//  names that match a specified pattern. When a matching file
+//  name is found, it is moved to the processing directory and
+//  the pure virtual processInbound( const FilePath & fn ) method is 
+//  called for the file.
 //
+//  The application needs to call the run() method to start watching
+//  for files. It will not return unless processInbound() returns false, a
+//  signal is caught (with SigCatcher) or an error occures (See
+//  run() below).
 //
-// Quick Start: - short example of class usage
+//  Files are processed in order of oldest to newest.
+//
+//  Multiple applications can use the inbound processor to watch for the
+//  same file names. The InboundProcessor uses semaphores to to guarantee
+//  only one application will process a specific file.
+//
+//  Matching files are moved from the inbound directory to a
+//  processing direcotry. The processInbound() method is responsible
+//  for any post processing cleanup of the file. Once run() has called
+//  processInbound() for a specific file, it will ignore the file.
+//
+// Notes:
+//
+//  The SigCatcher passed will NOT be deleted.
 //
 // Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     07/20/97 06:21
@@ -45,8 +67,8 @@ public:
   
   virtual ~InboundProcessorBase( void );
 
-  bool	    run( void );
-  bool	    caughtSignal( void ) const;
+  bool		run( void );
+  inline bool	caughtSignal( void ) const;
   
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
@@ -106,30 +128,57 @@ private:
 //
 //  Constructors:
 //
-//  	InboundProcessorBase( );
-//
-//  Destructors:
+//  	InboundProcessorBase( const char *	    fileNamePattern,
+//			      const char *	    inDirName,
+//			      const char *	    procDirName,
+//			      long		    rescanWaitSecs,
+//			      const SigCatcher *    sigCatcher = 0 ); );
+//	    Construct an InboundProcessorBase instance.
+//		'fileNamePattern' is a shell style file name pattern
+//		    (i.e. shell wildcards work as expeced). It should
+//		    not include any directory components (i.e. '/' char).
+//		    The inbound direcotry (inDir) will be search for files
+//		    that match this pattern.
+//		'inDirName' is the name of the directory to search for
+//		    files that match 'fileNamePattern'.
+//		'procDirName' is the name of a directory to move files
+//		    that match 'fileNamePattern' to before the
+//		    'fileProcessor' is called.
+//		'rescanWaitSecs' is the number of seconds to wait (sleep)
+//		    between directory scans.
+//		'sigCatcher' is the applications signal catcher. It is
+//		    used by the InboundProcessorBase::run() method to
+//		    detect if any signals have be caught. It is NOT
+//		    deleted by the destructor.
 //
 //  Public Interface:
 //
-//	virtual ostream &
-//	write( ostream & dest ) const;
-//	    write the data for this class in binary form to the ostream.
+//	bool
+//	run( void )
+//	    Start processing files that match 'fileNamePattern' found
+//	    in the 'inDirName' directory. When a matching file name is
+//	    found, it is moved to the 'procDirName' directory and the
+//	    processInbound() method is called with the full name of the
+//	    file (i.e. "procDirName/matchfilename"). Once processInbound()
+//	    is called, the matching file is ignored and run() starts
+//	    looking for another matching file in the 'inDirName' direcotry.
 //
-//	virtual istream &
-//	read( istream & src );
-//	    read the data in binary form from the istream. It is
-//	    assumed it stream is correctly posistioned and the data
-//	    was written to the istream with 'write( ostream & )'
+//	    Semaphore(3)s are used to guarantee only one process will
+//	    get a specific file in the 'inDirName' directory. So,
+//	    multiple processes can use this to wait for the same
+//	    file names.
 //
-//	virtual ostream &
-//	toStream( ostream & dest ) const;
-//	    output class as a string to dest (used by operator <<)
+//	    Matching files are processed in oldest to newest order
+//	    according to there modification time.
 //
-//	virtual istream &
-//	fromStream( istream & src );
-//	    Set this class be reading a string representation from
-//	    src. Returns src.
+//	    Returns true if either processInbound() returns false, or
+//	    a signal is caught by the 'sigCatcher'. 'false' is returned
+//	    only when an error occures.
+//
+//	bool
+//	caughtSignal( void ) const
+//	    Returns true if a signal was caught by the 'sigCatcher'
+//	    otherwise false is returned.
 //
 //  	virtual Bool
 //  	good( void ) const;
@@ -153,34 +202,50 @@ private:
 //	    output detail info to dest. Includes instance variable
 //	    values, state info & version info.
 //
+//	inline
+//	DumpInfo< InboundProcessorBase >
+//	dump( const char * prefix = "    ", bool showVer = true ) const
+//	    return an object that can be passed to operator << ( ostream & )
+//	    which will generate the same output as 'dumpInfo'.
+//
 //	static const ClassVersion version
 //	    Class and project version information. (see ClassVersion.hh)
 //
 //  Protected Interface:
 //
-//  Private Methods:
+//	virtual
+//	bool
+//	processInbound( const FilePath & filePath ) = 0
+//	    This pure virtual method is called for each file that
+//	    is found in the 'inDirName' direcotry that matches
+//	    'fileNamePattern'. It should return true to continue
+//	    watching for files. If it returns false, the run() method
+//	    will return a true.
 //
-//  Associated Functions:
-//
-//  	ostream &
-//  	operator <<( ostream & dest, const InboundProcessorBase & src );
-//
-//	istream &
-//	operator >> ( istream & src, InboundProcessorBase & dest );
-//
-// Example:
+// Example: See InboundProcessor( 3 )
 //
 // See Also:
 //
+//  InboundProcessor(3), FilePath(3), SigCatcher(3)
+//
+//  libClue3/docs/design/InboundProcessorBase.txt
+//
 // Files:
 //
-// Documented Ver:
+//  InboundProcessorBase.hh, InboundProcessorBase.ii
+//
+//  libClue3.a
+//
+// Documented Ver: 3.2
 //
 // Tested Ver:
 //
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/07/25 12:55:48  houghton
+// Added documentation.
+//
 // Revision 3.1  1997/07/25 12:26:55  houghton
 // Changed version number to 3.
 //
