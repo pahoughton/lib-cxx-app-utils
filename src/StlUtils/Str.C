@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 13:08:39  houghton
+// Cleanup.
+//
 // Revision 2.2  1995/12/04 11:18:26  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -24,19 +27,17 @@
 #if !defined( CLUE_SHORT_FN )
 #include "Str.hh"
 #include "Clue.hh"
-#include "RegexScan.hh"
 #include "Compare.hh"
-#include <algorithm>
-#include <new>
-#include <cstring>
 #else
 #include "Str.hh"
 #include "Clue.hh"
-#include "RxScan.hh"
 #include "Compare.hh"
-#include <algorithm>
-#include <new>
-#include <cstring>
+#endif
+
+#if defined( CLUE_DEBUG )
+#include <Str.ii>
+#else
+
 #endif
 
 CLUE_VERSION(
@@ -60,9 +61,6 @@ Str::pos( const char * at )
 }
   
 
-#if defined( CLUE_DEBUG )
-#include <Str.ii>
-#endif
 
 
 Str::~Str( void )

@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 13:08:28  houghton
+// Cleanup.
+//
 // Revision 2.3  1995/11/12 18:33:05  houghton
 // Changed to use GnuRegex in libCommon.
 //
@@ -26,14 +29,13 @@
 //
 
 #if !defined( CLUE_SHORT_FN )
-#include "ClueConfig.hh"
+#include <ClueConfig.hh>
 #include <stddef>
-#include <iostream>
 #else
-#include "ClueCfg.hh"
+#include <ClueCfg.hh>
 #include <stddef>
-#include <iostream>
 #endif
+
 
 class CLUE_CLASS_T RegexScan 
 {
