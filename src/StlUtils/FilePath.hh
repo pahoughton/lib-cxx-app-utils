@@ -22,8 +22,10 @@
 //
 
 
-#include "StlUtilsConfig.hh"
-#include "Str.hh"
+#include <StlUtilsConfig.hh>
+
+#include <Str.hh>
+#include <DateTime.hh>
 
 #if defined( STLUTILS_DEBUG )
 #define inline
@@ -53,6 +55,12 @@ public:
 		   char    	dirDelim = STLUTILS_DIR_DELIM,
 		   char    	extDelim = '.' );
 
+  inline FilePath( const char *	    dirName,
+		   const DateTime & date,
+		   const char *	    fileName,
+		   char		    dirDelim = STLUTILS_DIR_DELIM,
+		   char		    extDelim = '.' );
+  
   inline FilePath( const FilePath & from );
   
   inline Str	    getFullName( void ) const;
@@ -289,6 +297,10 @@ compare( const FilePath & one, const FilePath & two );
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1999/06/10 11:45:11  houghton
+// Added constructor that prefixes the file name with the date time
+//   passed. (i.e. dir/19990602.040302.filename).
+//
 // Revision 4.4  1998/10/13 15:17:53  houghton
 // Added dirSep().
 //
