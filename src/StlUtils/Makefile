@@ -120,9 +120,34 @@ INSTALL_INC_FLAGS	=
 # **** S O U R C E   F I L E S ****
 
 C_SOURCES	=			\
+
+orig = \
 	$(ARCH_C_SOURCES)               \
 
 CXX_C_SOURCES	=			\
+	LibTest.C                       \
+	ClassVersion.C                  \
+	StripWhite.C                    \
+	StringSearch.C                  \
+	StringReverseSearch.C           \
+	StringCaseSearch.C              \
+	StringReverseSearch.C           \
+	StringCaseReverseSearch.C       \
+	StringCaseCompare.C             \
+	StringLower.C                   \
+	StringUpper.C                   \
+	StringCapitalize.C              \
+	StringTo.C			\
+	basename.C			\
+	OpenFlags.C			\
+	Bitmask.C			\
+	LogLevel.C			\
+	LogBuf.C			\
+	Log.C				\
+	RegexScan.C                     \
+
+
+orig = \
 	BinStream.C                     \
 	Bitmask.C                       \
 	ClassVersion.C                  \
@@ -137,7 +162,6 @@ CXX_C_SOURCES	=			\
 	HeapBinStream.C                 \
 	HeapNetStream.C                 \
 	HeapStream.C                    \
-	LibTest.C                       \
 	Log.C                           \
 	LogBuf.C                        \
 	LogLevel.C                      \
@@ -397,6 +421,10 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.23  1996/11/04 14:19:53  houghton
+# Changed to use rw inclues.
+# Changed to only compile sources that are ready for latest release.
+#
 # Revision 2.22  1996/08/14 14:39:02  houghton
 # Added FileBinStream Headers to USER_HH_INCS.
 #
