@@ -6,7 +6,12 @@
 
   <body>
     <h1>StlUtils C++ Library</h1>
-
+    <strong>
+      June 4, 2000
+      <br>
+      Paul A. Houghton (<a href="mailto:paul.houghton@wcom.com">paul.houghton@wcom.com</a>)
+    </strong>
+      
     <p>
       StlUtils is a library generic of C++ utility classes and
       functions. These classes are useful for any development project.
@@ -16,244 +21,33 @@
       Compress.hh). The primary documentation for the classes is in
       the header file after the class declaration.
     <p>
-    <h3>Classes</h3>
+      <b>Warning</b>: This documentation is still under development
+      there may be some errors and omissions. Please provide feedback
+      when you find a problem with it.
     <p>
+      
+    <h2>Contents</h2>
     <dl>
-      <dt>Bitmask
+      <dt><a href="devel/00-Index.html">
+	  <strong>Development Documentation</strong></a>
       <dd>
-	This class provides for easy to use high perfomance
-	bit manipulations. It can be used to manipulate up to
-	32 bits (i.e. a long on most architectures). To work with
-	more than 32 bits, see bit_vector in the STL.
-	<p>
-      <dt>ClassVersion
-      <dd>
-	Provides information about a class's version that is accessible
-	at run time.
-	<p>
-      <dt>Compress
-      <dd>
-	Compress and/or decompress a file using the same algorithm as the
-	Unix compress utility.
-	<p>
-      <dt>DateRange
-      <dd>
-	A DateRange has a start (date/time) plus a duration(end
-	date/time).
-	<p>
-      <dt>DateRangeDaily
-      <dd>
-	This is a range in time within a signle day that applies to any
-	number of days.
-	<p>
-      <dt>DateRangeWeekly
-      <dd>
-	This is a range in time within a signle day of the week.
-	<p>
-      <dt>DateTime
-      <dd>
-	The DateTime class provides many methods for managing and converting
-	date/time values. A time_t value is used inside the class for
-	storage.
-	<p>
-      <dt>Directory
-      <dd>
-	This is a collection of file statistics for files on the disk
-	that match a given pattern (i.e. a directory listing).
-
-	<p>
-      <dt>FileBatch
-      <dd>
-	This class gives collection type access (i.e. begin() & end() methods)
-	to a file that contains fixed size records.
-	
-	<p>
-      <dt>FilePath
-      <dd>
-	This class is a Str (See Str.hh) that also contains methods specific
-	to manipulating file names, directory names and file extentions.
-
-	<p>
-      <dt>FileStat
-      <dd>
-	FileStat is provides information about files and modification
-	of file permisions. It is basically just a wrapper around
-	the stat and chmod calls.
-
-	<p>
-      <dt>Log
-      <dd>
-	  Log is a specialized ostream. It provides control over
-	how and where the data placed in the log will be output.
-	<p>
-	  There are two types of control, Levels and Filters.
-	<p>
-	  Levels are used to indicate the type of log entry,
-	  (i.e. Debug, Error, Warning) that is placed in the log.
-	<p>
-	  Filters provide for control over the content of the entry.
-	<p>
-	  An application can specify what type of entries it
-	  wants output (i.e. Error | Warning ). It can then
-	  create any number of log entries and specify the level
-	  for each one. Only those entries specified for output
-	  will actually be written to the log.
-	<p>
-	  Filters can be used to write log entries with a specific
-	  level and content to any 'streambuf' destination.
-	<p>
-      <dt>LogBuf
-      <dd>
-	This is a specialized streambuf used by Log to
-	output log messages.
-
-	<p>
-      <dt>LogLevel
-      <dd>
-	A LogLevel should be used in conjuntion with a Log and LogBuf.
-	The LogBuf contains a LogLevel to determine which log messages
-	it should output.
-	<p>
-	  The LogLevel has two states. The first is the 'output'. It is a
-	  mask of all levels that should be output. The second is 'current',
-	  which is the level for the current log message.
-	<p>
-      <dt>LruMap
-      <dd>
-	LruMap provides a Least Recently Used algorithm to access a
-	collection of objects based on a specific key value.
-
-	<p>
-      <dt>LruSash
-      <dd>
-	LruSash provides a Least Recently Used algorithm to access a
-	collection of objects based on a specific key value. This
-	implementation uses a simple hash for indexing.
-
-	<p>
-      <dt>Param
-      <dd>
-	This is the base class for providing command line argument parsing.
-	It lets you identify arguemntes and/or environment varaibles
-	to be parsed and converted in to program variables. It
-	also create a help message that documentes the
-	arguments and environment varaibles.
-	<p>
-	  There are a number of flags and enviroment varaibles already
-	  defined for control of the log and help. They are described below.
-	<p>
-	  It also contains a Log that can be used by the application.
-	<p>  
-	  The most effective way to utilize this class is to create
-	  a subclass called 'AppParam' and customize it for your
-	  application (see Example: at end of file).
-	
-	<p>
-      <dt>RegexScan
-      <dd>
-	Regular expresion pattern matcher. This is a wrapper
-	around Gnu's regex 'c' functions. The following description
-	is specific to the default syntax of RE_SYNTAX_EGREP (see 
-	'setDefaultSyntax' below).
-	
-	<p>
-      <dt>SizeIt
-      <dd>
-	This class provides an object that can be used to manage the size of
-	something. The sizing value is maintained as a factor of 2. This
-	reduces the chance that the sizing value will be increased as the
-	object using it continues to grow.
-
-	<p>
-      <dt>Str
-      <dd>
-	A 'Str' provides many methods to manipulate sequences
-  	of characters. It is a 'iostream' so you can use the '&lt;&lt;'
-  	and '&gt;&gt;' operators.
-
-	<p>
-      <dt>SubStr
-      <dd>
-	A 'SubStr' is a section of a 'Str'. Any modifications to
-  	the 'SubStr' modify the 'Str' it is a section of.
-
-	<p>
-      <dt>Timer
-      <dd>
-	This is a simple realtime timer class.
-	<p>
-
+	<dl>
+	  <dt><a href="devel/Library.html">
+	      Types and Functions provided by StlUtils</a>
+	  <dt><a href="devel/Version.html">
+	      Version Control</a>
+	  <dt><a href="PrjInstall.html">
+	      Installing StlUtils as part of your project.</a>
+	  <dt><a href="Install.html">
+	      Installing StlUtils as a standalone library.</a>
+	</dl>
+      <dt><a href="user/00-Index.html">
+	  <strong>User Documentation</strong></a>
     </dl>
-    <h3>Unix Specific Classes</h3>
-    <dl>
-      <dt>FileLock
-      <dd>
-	This class provides access to Unix's volintary file locking
-	mechinisms.
-	
-	<p>
-      <dt>FileOp
-      <dd>
-	FileOp provides operations on entire files, such as copy and
-	move (rename).
-
-	<p>
-      <dt>HotSwap
-      <dd>
-	HotSwap is a means to change the files an application is using
-	while it continues to execute.
-
-	<p>
-      <dt>InboundProcessor
-      <dd>
-	The InboundProcessor watches an inbound directory for file
-	names that match a specified pattern. When a matching file
-	name is found, it is moved to the processing directory and
-	the Proc::operator () ( const FilePath & fn ) method is 
-	called for the file.
-	
-	<p>
-      <dt>MesgQueue
-      <dd>
-	This class provides an interface to the Unix Message Queue IPC
-	facility.
-	<p>
-      <dt>PidFile
-      <dd>
-	This class will create a file that contains the Process Id (pid)
-	of the process that instanciated it. When the PidFile object is
-	destroyied the file is removed.
-
-	<p>
-      <dt>Semaphore
-      <dd>
-	 This class provides an interface to the Unix Semaphore IPC facility.
-	<p>
-      <dt>SigCatcher
-      <dd>
-	 Catch signals so they can be iterpreted by the application.
-	<p>
-      <dt>TimeIt
-      <dd>
-	This class provides detailed resource utilization information between
-	it's start() and stop() methods. This most usefull during performance
-	tuning of an application.
-
-	<p>
-      <dt>User
-      <dd>
-	 A User provide logon information about a user on a Unix system.
-	<p>
-      <dt>UserGroup
-      <dd>
-	 A UserGroup provides information about a Unix group on the system.
-	<p>
-    </dl>
-    <hr>
     <address><a href="mailto:paul.houghton@wcom.com">Paul Houghton</a></address>
 <!-- Created: Tue Feb  1 08:11:53 CST 2000 -->
 <!-- hhmts start -->
-Last modified: Tue Feb  1 09:00:59 CST 2000
+Last modified: Sun Jun  4 05:34:27 MDT 2000
 <!-- hhmts end -->
   </body>
 </html>
