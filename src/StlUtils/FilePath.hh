@@ -63,6 +63,8 @@ public:
   inline size_t	    getDepth( void ) const;
   
   bool		    match( const char * pattern ) const;
+
+  bool		    expand( void );
   
   inline bool	    set( const char * fullPath );
   inline bool	    set( const Str & fullPath );
@@ -275,6 +277,9 @@ compare( const FilePath & one, const FilePath & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/08/08 12:37:23  houghton
+// Added expand() method.
+//
 // Revision 3.6  1997/06/09 12:01:24  houghton
 // Changed 'match' to be a const method.
 //

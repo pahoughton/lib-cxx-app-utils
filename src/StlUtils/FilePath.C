@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.7  1997/08/08 12:37:29  houghton
+// Added expand() method.
+//
 // Revision 3.6  1997/07/18 19:13:04  houghton
 // Port(Sun5): changed all locale variables named beg and end to
 //     eliminate compiler warnings.
@@ -48,6 +51,12 @@
 //
 
 #include "FilePath.hh"
+
+#if defined( UNIX )
+#include <User.hh>
+#endif
+
+#include <RegexScan.hh>
 
 #include <fnmatch.h>
 
@@ -99,6 +108,105 @@ FilePath::match( const char * pattern ) const
   return( fnmatch( pattern, c_str(), 0 ) == 0 );
 }
 
+bool
+FilePath::expand( void )
+{
+  bool changed = false;
+  
+  Str::size_type pos = find( '$' );
+
+  if( pos != npos )
+    {
+      // expand env vars
+      static const RegexScan  EnvVarChars( "[A-Za-z0-9_]+" );
+      Str   eVar;
+      
+      Str::size_type endpos;
+      for( ; pos != Str::npos ; pos = find( '$', endpos  ) )
+	{
+	  if( at( pos + 1 ) == '{' )
+	    {
+	      endpos = find( '}', pos + 2 );
+	      if( endpos == npos )
+		return( false );
+
+	      eVar.assign( *this, pos + 2, endpos - pos - 2 );
+	    }
+	  else
+	    {
+	      if( EnvVarChars.match( c_str(), pos + 1) )
+		{		  
+		  endpos = pos + EnvVarChars.matchLength();
+		}
+	      else
+		{
+		  // not a valid env var, try again staring with
+		  // the next char
+		  endpos = pos + 1;
+		  continue;
+		}
+	      eVar.assign( *this, pos + 1, endpos - pos );
+	      
+	    }
+	  
+	  const char * eValue = getenv( eVar );
+	  
+	  if( eValue && strlen( eValue ) )
+	    {
+	      long oldSize = size();
+	      replace( pos, endpos + 1 - pos, eValue );
+	      long newSize = size();
+	      endpos = pos + (endpos + 1 - pos ) + newSize - oldSize;
+	    }
+	  else
+	    {
+	      remove( pos, endpos + 1 - pos );
+	      endpos = pos;
+	    }
+	  
+	  changed = true;
+	}
+    }
+
+#if defined( UNIX )
+  if( size() && at((size_type)0) == '~' )
+    {
+      if( size() == 1 || at(1) == '/' )
+	{
+	  const char * home = getenv("HOME");
+	  if( home && strlen( home ) )
+	    {
+	      replace( 0, 1, home );
+	      changed = true;
+	    }
+	  else
+	    {
+	      User user;
+	      if( user.good() && user.getHome() && strlen( user.getHome() ) )
+		{
+		  replace( 0, 1, user.getHome() );
+		  changed = true;
+		}
+	    }
+	}
+      else
+	{
+	  Str userName( *this, 1, find( '/' ) - 1 );
+	  User user( userName.c_str() );
+	  if( user.good() && user.getHome() && strlen( user.getHome() ) )
+	    {
+	      replace( 0, userName.size() + 1, user.getHome() );
+	      changed = true;
+	    }
+	}
+    }
+#endif // def UNIX
+  
+  return( changed );
+}
+	  
+	      
+      
 bool
 FilePath::setPrefix( const char * prefix )
 {
