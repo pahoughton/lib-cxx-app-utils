@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/07/09 11:34:13  houghton
+// Bug-Fix: Change to StringToBool to StringTo.
+//
 // Revision 2.2  1996/05/25 12:36:04  houghton
 // Bug-Fix: convert '   ' to 0.
 //
@@ -352,7 +355,7 @@ STRING_TO_U_RET_TYPE( unsigned long, ULong )
 //
 
 bool
-StringToBool(
+StringTo(
   bool &    	dest,
   const char *  src,
   size_t    	len
@@ -419,7 +422,7 @@ StringToBool(
   )
 {
   bool dest = false;
-  StringToBool( dest, src, len );
+  StringTo( dest, src, len );
   return( dest );
 }
       

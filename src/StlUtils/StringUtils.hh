@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/07/09 11:34:47  houghton
+// Bug-Fix: Change to StringToBool to StringTo.
+//
 // Revision 2.2  1996/04/27 13:09:35  houghton
 // Cleanup includes.
 //
@@ -94,9 +97,9 @@ StringCapitalize( char * str, size_t len = 0 );
 
 bool
 CLUE_FUNCT_T
-StringToBool( bool & 	    	dest,
-	      const char *  	str,
-	      size_t 	    	len = 0 );
+StringTo( bool & 	    	dest,
+	  const char *  	str,
+	  size_t 	    	len = 0 );
 
 bool
 CLUE_FUNCT_T
