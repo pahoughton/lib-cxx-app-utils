@@ -2,6 +2,7 @@
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StringUtils.hh>
+#include <cstdio>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -58,6 +59,9 @@ static struct BoolTestVal BoolTestValues[] =
   { "fxxx",	TRUE,   1, TRUE,  FALSE },
   { "yxxx",  	TRUE,   1, TRUE,  TRUE },
   { "nxxx",   	TRUE,   1, TRUE,  FALSE },
+  { "     ",    FALSE,  0, TRUE,  FALSE },
+  { "     ",    TRUE,   3, TRUE,  FALSE },
+  { " xxxx",    TRUE,   1, TRUE,  FALSE },
   { 0, FALSE, 0, FALSE, FALSE }
 };
 
@@ -394,21 +398,29 @@ tStringTo( LibTest & tester )
 
     for( size_t t = 0; BoolTestValues[t].str; t++ )
       {
+	char desc[50];
+	sprintf( desc,"'%s' %s %d %s %s",
+		 BoolTestValues[t].str,
+		 (BoolTestValues[t].useLen ? "true" : "false"),
+		 BoolTestValues[t].len,
+		 (BoolTestValues[t].good ? "true" : "false"),
+		 (BoolTestValues[t].value ? "true" : "false") );
+		 
 	if( ! BoolTestValues[t].useLen )
 	  {
 	    bool result = FALSE;
-	    TEST( StringToBool( result, BoolTestValues[t].str ) ==
+	    TESTR( desc, StringToBool( result, BoolTestValues[t].str ) ==
 		  BoolTestValues[t].good );
-	    TEST( result == BoolTestValues[t].value );
+	    TESTR( desc, result == BoolTestValues[t].value );
 	  }
 	else
 	  {
 	    bool result = FALSE;
-	    TEST( StringToBool( result, BoolTestValues[t].str,
+	    TESTR( desc, StringToBool( result, BoolTestValues[t].str,
 					BoolTestValues[t].len ) ==
 		  BoolTestValues[t].good );
 	    
-	    TEST( result == BoolTestValues[t].value );
+	    TESTR( desc, result == BoolTestValues[t].value );
 	  }
       }
   }
