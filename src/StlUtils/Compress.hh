@@ -41,16 +41,20 @@ public:
   virtual ~Compress( void );
 
   bool	    compress( const char * fn );
-  bool	    compress( FilePath & fn );
+  bool	    compress( FilePath & fn, bool rmSrc = false );
   bool	    compress( const char * inFn, const char * outFn );
   
   bool	    compress( int inFd, int outFd );
   
   bool	    decompress( const char * fn );
-  bool	    decompress( FilePath & fn );
+  bool	    decompress( FilePath & fn, bool rmSrc = false );
   bool	    decompress( const char * inFn, const char * outFn );
   
   bool	    decompress( int inFd, int outFd );
+
+  static bool		isCompressed( const Str & fn );
+  static bool		isCompressed( const char * fn );
+  static const char *	compExt( void );
   
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
@@ -78,6 +82,7 @@ protected:
     E_FORMAT,
     E_BITS,
     E_CORRUPT,
+    E_REMOVE,
     E_UNDEFINED
   };
 
@@ -198,6 +203,10 @@ operator >> ( istream & src, const Compress & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1999/10/08 10:20:52  houghton
+// Added rmSrc arg to compress( FilePath & fn ).
+// Added rmSrc arg to decompress( FilePath & fn ).
+//
 // Revision 1.1  1999/10/07 13:09:51  houghton
 // Initial Version.
 //

@@ -17,9 +17,11 @@
 
 #include "Compress.hh"
 
+#include <FileOp.hh>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+
 
 #if defined( STLUTILS_DEBUG )
 #include "Compress.ii"
@@ -200,7 +202,7 @@ Compress::compress( const char * fn )
 }
 
 bool
-Compress::compress( FilePath & fn )
+Compress::compress( FilePath & fn, bool rmSrc )
 {
   inFn = fn;
   outFn = fn;
@@ -223,12 +225,15 @@ Compress::compress( FilePath & fn )
   if( status )
     {
       fn = outFn;
-      return( true );
+      if( rmSrc )
+	{
+	  FileOp	fileOp;
+	  if( ! fileOp.remove( inFn ) )
+	    return( setError( E_REMOVE, fileOp.error() ) );
+	}
     }
-  else
-    {
-      return( false );
-    }
+  
+  return( status );
 }
 
 bool
@@ -493,7 +498,7 @@ Compress::decompress( const char * fn )
 }
 
 bool
-Compress::decompress( FilePath & fn )
+Compress::decompress( FilePath & fn, bool rmSrc  )
 {
   inFn = fn;
 
@@ -518,12 +523,14 @@ Compress::decompress( FilePath & fn )
   if( status )
     {
       fn = outFn;
-      return( true );
+      if( rmSrc )
+	{
+	  FileOp	fileOp;
+	  if( ! fileOp.remove( inFn ) )
+	    return( setError( E_REMOVE, fileOp.error() ) );
+	}
     }
-  else
-    {
-      return( false );
-    }
+  return( status );
 }
 
 bool
@@ -772,6 +779,26 @@ Compress::decompress( int inFd, int outFd )
 }
 
 bool
+Compress::isCompressed( const Str & fn )
+{
+  return( fn.substr( fn.size() - 2, 2 ) == compExt() );
+}
+
+bool
+Compress::isCompressed( const char * fn )
+{
+  Str t( fn );
+  return( isCompressed( t ) );
+}
+
+const char *
+Compress::compExt( void )
+{
+  return( ".Z" );
+}
+
+    
+bool
 Compress::good( void ) const
 {
   return( errorNum == E_OK );
@@ -830,6 +857,10 @@ Compress::error( void ) const
 	  }
 	  break;
 
+
+	case E_REMOVE:
+	  errStr << ": removing input file: " << errorDesc;
+	  break;
 	  
 	default:
 	  if( errorDesc.size() )
@@ -935,6 +966,10 @@ Compress::setError( ErrorNum errNum, const char * desc )
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1999/10/08 10:20:43  houghton
+// Added rmSrc arg to compress( FilePath & fn ).
+// Added rmSrc arg to decompress( FilePath & fn ).
+//
 // Revision 1.1  1999/10/07 13:09:42  houghton
 // Initial Version.
 //
