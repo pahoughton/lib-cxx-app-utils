@@ -307,7 +307,7 @@ StringFrom( NumType num, short base, bool prefix )				\
   return( _StlUtilsStringSignedFrom( NumBuf + sizeof( NumBuf ) - 1,		\
 				     sizeof( NumBuf ),				\
 				     num,					\
-				     0,						\
+				     (char)0,					\
 				     base,					\
 				     prefix,					\
 				     true ) );					\
@@ -321,7 +321,7 @@ StringFrom( NumType num, short base, bool prefix )				\
 				       sizeof( NumBuf ),			\
 				       num,					\
 				       false,					\
-				       0,					\
+				       (char)0,					\
 				       base,					\
 				       prefix,					\
 				       true ) );				\
@@ -416,6 +416,9 @@ StringFrom( const struct tm & src, const char * fmt )
 
 //
 // $Log$
+// Revision 4.3  1998/01/05 13:07:51  houghton
+// Port(Aix): had to cast fill 0 to a char.
+//
 // Revision 4.2  1997/12/23 12:06:30  houghton
 // Added StringFrom( char * dest ).
 //
