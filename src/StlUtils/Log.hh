@@ -142,11 +142,14 @@ public:
   
   size_t	    trim( size_t maxSize = 0 );
   
-  void		    open( const char *	    fileName,
-			  ios::open_mode    mode = ios::app );
+  void	    open( const char *	    fileName,
+		  ios::open_mode    mode = (ios::open_mode)(ios::out|ios::app),
+		  int		    prot = 0664 );
   
-  void		    setFileName( const char *	    fileName,
-				 ios::open_mode	    mode = ios::app );
+  void	    setFileName( const char *	    fileName,
+			 ios::open_mode    mode =
+			   (ios::open_mode)(ios::out|ios::app),
+			 int		    prot = 0664 );
   
   void		    close( void );
 
@@ -627,6 +630,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/04/04 20:53:00  houghton
+// Added mode & prot specificers to open log file.
+// Added LogBuf error checking.
+//
 // Revision 3.5  1997/04/04 03:09:35  houghton
 // Changed constructors (and some other methods) to non-inline.
 // Added getFilterStream

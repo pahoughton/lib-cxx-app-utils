@@ -173,17 +173,25 @@ Log::trim( size_t maxSize )
 }
 
 void
-Log::setFileName( const char * outFn, ios::open_mode mode )
+Log::setFileName(
+  const char *	    outFn,
+  ios::open_mode    mode,
+  int		    prot
+  )
 {
-  open( outFn, mode );
+  open( outFn, mode, prot );
 }
 
 void
-Log::open( const char * outFn, ios::open_mode mode )
+Log::open(
+  const char *	    outFn,
+  ios::open_mode    mode,
+  int		    prot
+  )
 {
   rdbuf()->close();
   
-  if( rdbuf()->open( outFn, (ios::open_mode)mode ) != 0 )
+  if( rdbuf()->open( outFn, mode, prot ) != 0 )
     clear();
   else
     setstate( badbit );
@@ -248,7 +256,7 @@ Log::delFilter( LogBuf::FilterId id )
 bool
 Log::good( void ) const
 {
-  return( rdbuf() != 0 && ostream::good() );
+  return( rdbuf() != 0 && rdbuf()->good() && ios::good() );
 }
 
 const char *
@@ -266,9 +274,12 @@ Log::error( void ) const
     {
       size_t eSize = errStr.length();
 
-      if( rdbuf() == 0 )
+      if( ! rdbuf() )
 	errStr += ": no 'streambuf'";
 
+      if( rdbuf() && ! rdbuf()->good() )
+	errStr << ": " << rdbuf()->error() ;
+      
       if( ! ios::good() )
 	{
 	  if( ios::rdstate() & ios::eofbit )
@@ -344,6 +355,10 @@ Log::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/04/04 20:52:54  houghton
+// Added mode & prot specificers to open log file.
+// Added LogBuf error checking.
+//
 // Revision 3.5  1997/04/04 03:09:05  houghton
 // Moved constructors to here from .ii.
 // Added getFilterStream
