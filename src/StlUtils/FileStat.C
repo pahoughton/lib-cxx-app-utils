@@ -178,7 +178,7 @@ FileStat::toStream( ostream & dest ) const
       
       dest.unsetf( ios::left );
 
-#if defined( CLUE_USE_DATETIME )
+#if defined( CLUE_HAS_DATETIME )
       DateTime mdt( getModificationTime(), true );
 #else
       time_t tmpMdt = getModificationTime();
@@ -397,6 +397,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/02 13:19:10  houghton
+// Bug-Fix changed if def for DateTime.
+//
 // Revision 3.2  1996/11/19 12:30:58  houghton
 // Started work on support for Platforms that do not have users.
 //
