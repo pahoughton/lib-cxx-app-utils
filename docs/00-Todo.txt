@@ -13,6 +13,17 @@
 # See End of file for format specs
 #
 
+ENH Paul Houghton 11/11/98 08:36
+Paul,
+
+Just wanted to let you know that, some of the compare functions you coded in Rating created some record not to be found.
+
+Because ulong-ulong can be greater than 2^31, causing a overflow to a negative value resulting in misdirection of the search.
+
+No big deal, we fixed it. 
+
+-Raman 
+
 ENH Paul Houghton 04/30/98 07:42
 Add argfile create to Param.
 
@@ -191,6 +202,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 4.5  1999/03/02 12:46:09  houghton
+# *** empty log message ***
+#
 # Revision 4.4  1998/10/13 15:16:10  houghton
 # *** empty log message ***
 #
