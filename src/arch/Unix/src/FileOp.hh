@@ -58,20 +58,24 @@ public:
   
   virtual ~FileOp( void );
 
-  bool		copy( const char * dest,
+  inline bool	copy( const char * dest,
 		      bool overwrite = true );
   
   inline bool	copy( const char * src,
 		      const char * dest,
 		      bool overwrite = true );
   
-  bool		move( const char * dest,
+  inline bool	move( const char * dest,
 		      bool overwrite = true );
   inline bool	move( const char * src,
 		      const char * dest,
 		      bool overwrite = true );
 
-  bool		remove( void );
+  inline bool	cat( const char * dest );
+  inline bool	cat( const char * src,
+		     const char * dest );
+  
+  inline bool	remove( void );
   inline bool	remove( const char * src );
   
   inline const FileStat &   getSrc( void ) const;
@@ -98,6 +102,8 @@ protected:
   {
     OT_Copy,
     OT_Move,
+    OT_Cat,
+    OT_Remove,
     OT_Unknown
   };
 
@@ -107,6 +113,7 @@ protected:
   bool		copyFile( void );
   bool		moveFile( void );
   bool		removeFile( const char * fn );
+  bool		catFile( void );
   bool		setDestStat( void );
   
   size_type	readfd( int fd, void * dest, size_t destSize );
@@ -222,6 +229,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 1.4  1999/05/01 12:55:04  houghton
+// Added cat()
+//
 // Revision 1.3  1998/11/02 19:20:50  houghton
 // Added remove().
 //

@@ -70,6 +70,28 @@ FileOp::move( const char * srcFn, const char * destFn, bool overwrite )
 
 inline
 bool
+FileOp::cat( const char * destFn )
+{
+  if( ! good() )
+    return( false );
+
+  if( ! setDest( OT_Cat, destFn, true ) )
+    return( false );
+
+  return( catFile() );
+}
+
+inline
+bool
+FileOp::cat( const char * srcFn, const char * destFn )
+{
+  clear();
+  src( srcFn );
+  return( cat( destFn ) );
+};
+
+inline
+bool
 FileOp::remove( void )
 {
   return( removeFile( src.getName() ) );
@@ -113,6 +135,9 @@ FileOp::dump( const char * prefix, bool showVer ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 1.4  1999/05/01 12:55:14  houghton
+// Added cat()
+//
 // Revision 1.3  1998/11/02 19:21:03  houghton
 // Added remove().
 //
