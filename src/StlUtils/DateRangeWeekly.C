@@ -60,6 +60,13 @@ DateRangeWeekly::getFrequency( void ) const
   return( freq );
 }
 
+bool
+DateRangeWeekly::in( const DateTime & dateTwo ) const
+{
+  return( getDayOfWeek() == dateTwo.getDayOfWeek()
+	  && DateRangeDaily::in( dateTwo ) );
+}
+
 time_t
 DateRangeWeekly::secIn( const DateRange & dateTwo ) const
 {
@@ -195,6 +202,9 @@ DateRangeWeekly::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/05/12 15:51:25  houghton
+// Added in( const DateTime & dateTwo ) const.
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

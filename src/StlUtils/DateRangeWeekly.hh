@@ -37,7 +37,8 @@ public:
   
   virtual DayOfWeek getDayOfWeek( void ) const;
   virtual time_t    getFrequency( void ) const;
-  
+
+  virtual bool	    in( const DateTime & dateTwo ) const;
   virtual time_t    secIn( const DateRange & dateTwo ) const;
   virtual time_t    startsIn( const DateRange & dateTwo ) const;
   
@@ -94,7 +95,12 @@ compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
 //
 //  	virtual time_t
 //  	getFrequency( void ) const;
-//  
+//
+//	virtual bool
+//	in( const DateTime & dateTwo ) const;
+//	    returns true if dateTwo day of week is the same mine and
+//	    its time of day falls within mine.
+//
 //  	virtual time_t
 //  	secIn( const DateRange & dateTwo ) const;
 //  	    returns the number of seconds that DateRange (two) is within
@@ -138,6 +144,9 @@ compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/05/12 15:51:33  houghton
+// Added in( const DateTime & dateTwo ) const.
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

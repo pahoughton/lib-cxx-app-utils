@@ -55,6 +55,13 @@ DateRangeDaily::getFrequency( void ) const
   return( freq );
 }
 
+bool
+DateRangeDaily::in( const DateTime & dateTwo )  const
+{
+  return(   getSecOfDay() <= dateTwo.getSecOfDay()
+	 && dateTwo.getSecOfDay() <= (getSecOfDay() + dur) );
+}
+
 time_t
 DateRangeDaily::secIn( const DateRange & dateTwo ) const
 {
@@ -239,6 +246,9 @@ DateRangeDaily::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/05/12 15:51:07  houghton
+// Added in( const DateTime & dateTwo ) const.
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

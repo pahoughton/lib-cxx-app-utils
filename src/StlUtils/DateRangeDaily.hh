@@ -40,7 +40,8 @@ public:
   virtual DayOfWeek getDayOfWeek( void ) const;
   virtual time_t    getStart( void ) const;
   virtual time_t    getFrequency( void ) const;
-  
+
+  virtual bool	    in( const DateTime & dateTwo ) const ;
   virtual time_t    secIn( const DateRange & dateTwo ) const;
   virtual time_t    startsIn( const DateRange & dateTwo ) const;
 
@@ -118,6 +119,10 @@ compare( const DateTime & one, const DateTime & two );
 //  	virtual time_t
 // 	getFrequency( void ) const;
 //  
+//	virtual bool
+//	in( const DateTime & dateTwo ) const;
+//	    returns true if the time portion of dateTwo is within my
+//	    date range.
 //
 //  	virtual time_t
 //  	secIn( const DateRange & dateTwo ) const;
@@ -181,6 +186,9 @@ compare( const DateTime & one, const DateTime & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/05/12 15:51:18  houghton
+// Added in( const DateTime & dateTwo ) const.
+//
 // Revision 5.3  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //
