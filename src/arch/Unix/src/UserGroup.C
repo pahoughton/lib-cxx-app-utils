@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/05/01 11:01:41  houghton
+// Bug-Fix: static const UserGroup eff was causing segv.
+//   change so the effective() method just returns a new 'UserGroup'
+//
 // Revision 2.3  1995/12/31 11:24:28  houghton
 // Bug Fix - Removed 'inline' statement.
 //
@@ -57,14 +61,14 @@ CLUE_VERSION(
 extern "C" { void endpwent( void ); };
 #endif
 
-UserGroup   UserGroup::eff( getegid() );
+// UserGroup   UserGroup::eff( getegid() );
 
 const gid_t    UserGroup::bad = (gid_t) ULONG_MAX;
 
-const UserGroup &
+UserGroup
 UserGroup::effective( void )
 {
-  return( eff );
+  return( UserGroup( getegid() ) );
 }
 
 size_t
@@ -275,14 +279,14 @@ UserGroup::dumpInfo(
 	}
     }
 
-  if( eff.gid == gid )
+  if( effective().gid == gid )
     {
       dest << prefix << "Effective:  Same\n";
     }
   else
     {
-      dest << prefix << "effective gid:    " << eff.gid << '\n'
-	   << prefix << "effective name:   " << eff.name << '\n'
+      dest << prefix << "effective gid:    " << effective().gid << '\n'
+	   << prefix << "effective name:   " << effective().name << '\n'
 	;
     }
 

@@ -11,6 +11,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/05/01 11:01:46  houghton
+// Bug-Fix: static const UserGroup eff was causing segv.
+//   change so the effective() method just returns a new 'UserGroup'
+//
 // Revision 2.2  1995/12/04 11:20:22  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -65,7 +69,7 @@ public:
   inline gid_t	    	    getGID( void ) const;
   inline const char *	    getName( void ) const;
 
-  static const UserGroup &  effective( void );
+  static UserGroup	    effective( void );
   
   size_t		    findMembers( void );
   
@@ -128,7 +132,7 @@ private:
 
   int	    	osError;
   
-  static UserGroup  eff;
+  //  static UserGroup  eff;
   
 };
 
