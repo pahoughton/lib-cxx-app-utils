@@ -10,6 +10,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/01/18 17:30:13  houghton
+// Added new '-l' arg to turn one progress by line number output from
+//    command line args.
+// Reworked arg processing to support '-l' (and any future) flag.
+//
 // Revision 3.1  1996/11/14 01:23:44  houghton
 // Changed to Release 3
 //
@@ -30,19 +35,12 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "LibTest.hh"
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <cstdio>
-#else
-#include "LibTest.hh"
-#include <cstdlib>
-#include <cstring>
-#include <fstream>
-#include <cstdio>
-#endif
+#include <cctype>
 
 CLUE_VERSION( LibTest,
 	      "$Id$" );
@@ -99,26 +97,51 @@ int
 LibTest::run( int & argc, char * argv[] )
 {
   size_t times = 1;
-
-  // the count flag must be the first argument
-
-  if( argc > 1 && argv[1][0] == '-' )
-    {
-      times = atoi( argv[1] + 1 );
+  int     argsUsed = 1;
+  
+  for( int arg = 1; arg < argc; arg++ )
+    {      
+      if( argv[arg][0] == '-' )
+	{
+	  argsUsed++;
+	  if( isdigit( argv[arg][1]  ) )
+	    {
+	      times = atoi( argv[arg] + 1 );
+	    }
+	  else
+	    {
+	      switch( argv[arg][1] )
+		{
+		case 'l':
+		  lineProgress = true;
+		  break;
+		default:
+		  break;
+		}
+	    }
+	}
     }
 
   for( size_t passNum = 0; passNum < times; passNum++ )
     {
-      if( (argc > 1 && times == 1) || argc > 2  )
+      if( argc > argsUsed )
 	{	  
 	  for( int a = 1; a < argc; a++ )
 	    {
-	      for( size_t tNum = 0; testList[tNum].name; tNum++ )
+	      if( argv[a][0] != '-' )
 		{
-		  if( ! strcmp( argv[a], testList[tNum].name ) )
+		  for( size_t tNum = 0; testList[tNum].name; tNum++ )
 		    {
-		      if( ! testit( tNum, passNum ) )
-			return( tNum );
+		      if( ! strcmp( argv[a], testList[tNum].name ) )
+			{
+			  if( ! testit( tNum, passNum ) )
+			    return( tNum );
+			}
+		      else
+			{
+			  err << "WARN: Test: '" << argv[a] << "' Not found."
+			      << endl;
+			}
 		    }
 		}
 	    }
