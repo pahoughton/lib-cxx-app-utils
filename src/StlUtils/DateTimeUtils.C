@@ -39,8 +39,14 @@ const time_t  MaxYear	    = 1970 + (LONG_MAX / (60 * 60 * 24 * 365));
 const int DaysInMonth[] =
 { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0};
 
+const int DaysInMonthLeap[] =
+{ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0};
+
 const int MonthDayOfYear[] =
 { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365, 0};
+
+const int MonthDayOfYearLeap[] =
+{ 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366, 0};
 
 const char * Months[] =
 {
@@ -103,6 +109,10 @@ const char * AbbrWeekDays[] =
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/03/02 12:45:04  houghton
+// Added DaysInMonthLeap
+// Added MonthDayOfYearLeap
+//
 // Revision 4.1  1997/09/17 15:12:21  houghton
 // Changed to Version 4
 //

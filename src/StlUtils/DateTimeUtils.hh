@@ -41,7 +41,11 @@ extern const time_t STLUTILS_GVAR_T MinYear;
 extern const time_t STLUTILS_GVAR_T MaxYear;
 
 extern const int    STLUTILS_GVAR_T DaysInMonth[];
+extern const int    STLUTILS_GVAR_T DaysInMonthLeap[];
+
 extern const int    STLUTILS_GVAR_T MonthDayOfYear[];
+extern const int    STLUTILS_GVAR_T MonthDayOfYearLeap[];
+
 extern const char * STLUTILS_GVAR_T Months[];
 extern const char * STLUTILS_GVAR_T AbbrMonths[];
 extern const char * STLUTILS_GVAR_T WeekDays[];
@@ -187,6 +191,10 @@ strptime( char * b, const char * fmt, struct tm * t );
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1999/03/02 12:45:10  houghton
+// Added DaysInMonthLeap
+// Added MonthDayOfYearLeap
+//
 // Revision 4.4  1998/10/13 16:18:38  houghton
 // Change: strptime is now part of libCommon.
 //
