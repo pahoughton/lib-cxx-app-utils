@@ -32,9 +32,9 @@ NAME		= StlUtils
 INSTALL_LIBDIR	= $(beta_libdir)
 INSTALL_INCDIR	= $(beta_incdir)
 
-VER_MAJOR	= 3
-VER_MINOR	= 02
-VER_RELEASE	= 06.b.03
+VER_MAJOR	= 4
+VER_MINOR	= 00
+VER_RELEASE	= 00.b.01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -172,9 +172,9 @@ USER_HH_INCS	=			\
 	Bit.hh				\
 	Bitmask.hh			\
 	ClassVersion.hh                 \
-	StlUtilsConfig.hh			\
-	StlUtilsVersion.hh			\
-	StlUtilsUtils.hh			\
+	StlUtilsConfig.hh		\
+	StlUtilsVersion.hh		\
+	StlUtilsMisc.hh			\
 	Compare.hh			\
 	DateRange.hh                    \
 	DateRangeDaily.hh               \
@@ -223,7 +223,7 @@ USER_II_INCS	=			\
 	Timer.ii                        \
 	Void.ii                         \
 	ClassVersion.ii                 \
-	StlUtilsUtils.ii			\
+	StlUtilsMisc.ii			\
 	StringUtils.ii			\
 	Bitmask.ii			\
 	FilePath.ii                     \
@@ -311,6 +311,10 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.2  1997/09/17 15:45:17  houghton
+# Changed ver num.
+# Renamed StlUtilsUtils to StlUtilsMisc.
+#
 # Revision 4.1  1997/09/17 15:12:39  houghton
 # Changed to Version 4
 #
