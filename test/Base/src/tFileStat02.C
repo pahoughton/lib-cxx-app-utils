@@ -49,7 +49,7 @@ tFileStat02( LibTest & tester )
   }
 
   {
-    const FileStat t( "data" );
+    const FileStat t( TEST_DATA_DIR );
 
     TEST( ! t.isLink() );
     TEST( ! t.isReg() );
