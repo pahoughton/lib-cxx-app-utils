@@ -19,7 +19,7 @@ ARCHSTD_DIR	= ../arch/$(arch)/stdc++
 
 ARCHSRC_INCDIR	= -I$(ARCH_DIR) -I$(ARCHSRC_DIR) -I$(ARCHSTD_DIR)
 
-ARCH_DEFINES	=
+ARCH_DEFINES	= -D_MIT_POSIX_THREADS=1
 ARCH_INCDIR	= $(ARCHSRC_INCDIR) $(UNIX_INCDIR) $(CLUE1_INCDIR)
 			  
 
@@ -115,6 +115,9 @@ objects/shared/%.o : $(ARCHSRC_DIR)/%.c
 
 #
 # $Log$
+# Revision 2.5  1996/03/04 11:39:03  houghton
+# Add flag for MIT Threads.
+#
 # Revision 2.4  1995/12/31 11:23:44  houghton
 # Cleanup.
 #
