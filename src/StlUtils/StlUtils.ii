@@ -1,7 +1,7 @@
-#ifndef _Utils_ii_
-#define _Utils_ii_
+#ifndef _Clue_ii_
+#define _Clue_ii_
 //
-// File:        Utils.ii
+// File:        Clue.ii
 // Desc:        
 //
 //
@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/03/13 11:24:46  houghton
+// Bug Fix: fixed include file #ifdefs
+// Add: Net2Host & Host2Net translators
+//
 // Revision 2.2  1996/02/29 19:04:56  houghton
 // Added ifdef for abs( long )
 //
@@ -23,7 +27,12 @@
 //
 //
 
+#if defined( inline )
+#error 'inline defined'
+#endif
+
 #include <algorithm>
+
 
 // tArraySize
 #define ArraySize( _a_ ) ( sizeof( _a_ ) / sizeof( _a_[0] ) )
@@ -82,6 +91,91 @@ MemOverlap( const void * one, size_t lenOne, const void * two, size_t lenTwo )
 	      ( ((t + lenTwo)-1) >= o ) ) :
 	    0 ) );
 }
+
+inline
+short
+Net2Host( short num )
+{
+  return( Net2HostShort( num ) );
+}
+
+inline
+short
+Host2Net( short num )
+{
+  return( Host2NetShort( num ) );
+}
+
+inline
+unsigned short
+Net2Host( unsigned short num )
+{
+  return( Net2HostUShort( num ) );
+}
+
+inline
+unsigned short
+Host2Net( unsigned short num )
+{
+  return( Host2NetUShort( num ) );
+}
+
+inline
+int
+Net2Host( int num )
+{
+  return( Net2HostInt( num ) );
+}
+
+inline
+int
+Host2Net( int num )
+{
+  return( Host2NetInt( num ) );
+}
+
+inline
+unsigned int
+Net2Host( unsigned int num )
+{
+  return( Net2HostUInt( num ) );
+}
+
+inline
+unsigned int
+Host2Net( unsigned int num )
+{
+  return( Host2NetUInt( num ) );
+}
+
+inline
+long
+Net2Host( long num )
+{
+  return( Net2HostLong( num ) );
+}
+
+inline
+long
+Host2Net( long num )
+{
+  return( Host2NetLong( num ) );
+}
+
+inline
+unsigned long
+Net2Host( unsigned long num )
+{
+  return( Net2HostULong( num ) );
+}
+
+inline
+unsigned long
+Host2Net( unsigned long num )
+{
+  return( Host2NetULong( num ) );
+}
+
 
 #if !defined( CLUE_HAVE_LONG_ABS )
 inline
@@ -196,6 +290,6 @@ RoundDown( NumberType value, int factor  )
   return( value - remain );
 }
 
-#endif // ! def _Utils_ii_ 
+#endif // ! def _Clue_ii_ 
 
 
