@@ -409,14 +409,14 @@ tStringTo( LibTest & tester )
 	if( ! BoolTestValues[t].useLen )
 	  {
 	    bool result = FALSE;
-	    TESTR( desc, StringToBool( result, BoolTestValues[t].str ) ==
+	    TESTR( desc, StringTo( result, BoolTestValues[t].str ) ==
 		  BoolTestValues[t].good );
 	    TESTR( desc, result == BoolTestValues[t].value );
 	  }
 	else
 	  {
 	    bool result = FALSE;
-	    TESTR( desc, StringToBool( result, BoolTestValues[t].str,
+	    TESTR( desc, StringTo( result, BoolTestValues[t].str,
 					BoolTestValues[t].len ) ==
 		  BoolTestValues[t].good );
 	    
