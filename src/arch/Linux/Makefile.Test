@@ -1,3 +1,9 @@
+TEST_DATA_DIR	= ../data
+TEST_USER	= houghton
+TEST_GROUP	= tools
+TEST_UID	= 253
+TEST_GID	= 233
+
 
 ARCH_INC 	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/test
 CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src \
@@ -8,3 +14,5 @@ CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src \
 		  -I$(PRJ_TOPDIR)/src/Clue 
 
 CLUE_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/Clue
+
+ARCH_LIBS	= -lpthreads

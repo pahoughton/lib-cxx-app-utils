@@ -1,4 +1,10 @@
 
+TEST_DATA_DIR	= ../data
+TEST_USER	= houghton
+TEST_GROUP	= cirinv# tools
+TEST_UID	= 253
+TEST_GID	= 233
+
 CC		= xlc_r
 CXX		= xlC_r
 
@@ -15,3 +21,7 @@ CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src 		\
 		  -I$(PRJ_TOPDIR)/src/Clue 
 
 CLUE_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/Clue
+
+ARCH_LIBS	=
+
+

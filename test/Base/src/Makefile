@@ -54,12 +54,6 @@ VPATH		= $(ARCH_VPATH):.
 #
 #
 
-TEST_DATA_DIR	= ../data
-TEST_USER	= houghton
-TEST_GROUP	= cirinv# tools
-TEST_UID	= 253
-TEST_GID	= 233
-
 SRC_DEFINES	= -DTEST_DATA_DIR=\"$(TEST_DATA_DIR)\" 	\
 		  -DTEST_USER=\"$(TEST_USER)\"		\
 		  -DTEST_GROUP=\"$(TEST_GROUP)\"	\
@@ -150,8 +144,8 @@ DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
 PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue_s -lCommon_s 
-DEBUG_LD_LIBS		= -lClue_g -lCommon 
+DEFAULT_LD_LIBS		= -lClue_s -lCommon_s $(ARCH_LIBS)
+DEBUG_LD_LIBS		= -lClue_g -lCommon  $(ARCH_LIBS)
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
 
@@ -388,6 +382,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.12  1996/05/25 12:37:05  houghton
+# Cleanup.
+#
 # Revision 2.11  1996/05/14 14:19:13  houghton
 # Rework libs for AIX. (this will change)
 #
