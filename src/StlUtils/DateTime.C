@@ -228,7 +228,7 @@ DateTime::getHHMMSS( void ) const
 }
 	   
 // setValid - verify input and set 
-time_t
+bool
 DateTime::setValid( 
   int year,
   int month,
@@ -249,47 +249,30 @@ DateTime::setValid(
       && ( month > 0 && month <= 12 )
       && ( hour >= 0 && hour < 24 )
       && ( min >= 0 && min < 60 )
-      && ( sec >= 0 && sec < 60 ) )
-    {
-      if( day  > DaysInMonth[ month-1 ] )
-	{
-	  if( IsLeapYear( year ) &&
-	      month == 2 &&
-	      day == (DaysInMonth[ month-1 ]+1 ) )
-	    {
-	      //ok its feb 29 of a leap year
-	      return( set( year, month, day, hour, min, sec ) );
-	    }
-	  else
-	    {
-	      flags.valid = false;
-	      seconds = 0;
-	      return( old );
-	    }
-	}
-      else
-	{
-	  if( day > 0 )
-	    {
-	      return( set( year, month, day, hour, min, sec ) );
-	    }
-	  else
-	    {
-	      flags.valid = false;
-	      seconds = 0;
-	      return( old );
-	    }
-	}
+      && ( sec >= 0 && sec < 60 ) ) {
+    
+    if( day > 0
+	&& ( day <= DaysInMonth[ month-1 ]
+	     || ( IsLeapYear( year )
+		  && month == 2
+		  && day == (DaysInMonth[ month-1 ]+1 )) ) ) {
+      flags.valid = true;
+      set( year, month, day, hour, min, sec );
+    } else {
+      flags.valid = false;
+      seconds = 0;
     }
+  } else {
+    flags.valid = false;
+    seconds = 0;
+  }
 
-  flags.valid = false;
-  seconds = 0;
-  return( old );
+  return( flags.valid );
   
 }
 
 // setValid - verify input and set
-time_t
+bool
 DateTime::setValid( const char * dateString, const char * fmt )
 {
   struct tm tmTime;
@@ -306,7 +289,7 @@ DateTime::setValid( const char * dateString, const char * fmt )
 		    tmTime.tm_sec ) );
 }      
 
-time_t
+bool
 DateTime::setValidYYMMDD( const char * yymmdd )
 {
   int year;
@@ -321,15 +304,13 @@ DateTime::setValidYYMMDD( const char * yymmdd )
     }
   else
     {
-      time_t old = seconds;
-      
       flags.valid = false;
       seconds = 0;
-      return( old );
+      return( flags.valid );
     }  
 }
 
-time_t
+bool
 DateTime::setValidYYYYMMDD( const char * yyyymmdd )
 {
   int year;
@@ -338,31 +319,54 @@ DateTime::setValidYYYYMMDD( const char * yyyymmdd )
 
   if( StringTo( year, yyyymmdd, 10, 4 )
       && StringTo( month, yyyymmdd + 4, 10, 2 )
-      && StringTo( dom, yyyymmdd + 6, 10, 2 ) )
-    {
-      if( ( year <= MaxYear && year >= MinYear ) )
-	{
-	  return( setValid( year, month, dom, 0, 0, 0 ) );
-	}
-      else
-	{
-	  time_t old = seconds;
-	  
-	  flags.valid = false;
-	  seconds = 0;
-	  return( old );
-	}
-    }
-  else
-    {
-      time_t old = seconds;
-      
-      flags.valid = false;
-      seconds = 0;
-      return( old );
-    }  
+      && StringTo( dom, yyyymmdd + 6, 10, 2 ) 
+      && ( year <= MaxYear && year >= MinYear ) ) {
+    return( setValid( year, month, dom, 0, 0, 0 ) );
+  } else {
+    flags.valid = false;
+    seconds = 0;
+    return( flags.valid );
+  }
 }
 
+bool
+DateTime::setValidHHMM( const char * hhmm )
+{
+  int hour;
+  int minute;
+
+  if( StringTo( hour, hhmm, 10, 2 )
+      && StringTo( minute, hhmm + 2, 10, 2 )
+      && hour >= 0 && hour < 24
+      && minute >= 0 && minute < 60 ) {
+    setHour( hour );
+    setMinute( minute );
+    return( flags.valid );
+  } else {
+    flags.valid = false;
+    seconds = 0;
+    return( flags.valid );
+  }
+}
+
+bool
+DateTime::setValidHHMMSS( const char * hhmmss )
+{
+  int second;
+
+  if( setValidHHMM( hhmmss )
+      && StringTo( second, hhmmss + 4, 10, 2 )
+      && second >= 0 && second < 60 ) {
+    setSecond( second );
+    return( flags.valid );
+  } else {
+    flags.valid = false;
+    seconds = 0;
+    return( flags.valid );
+  }
+}
+
+  
 // setYear - set the year
 time_t
 DateTime::setYear( short year )
@@ -974,6 +978,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/06/07 16:47:36  houghton
+// Chaged setValid calls to return bool (was time_t)
+//
 // Revision 5.2  2001/07/26 19:29:00  houghton
 // *** empty log message ***
 //

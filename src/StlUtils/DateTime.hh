@@ -107,12 +107,15 @@ public:
 			     int hour = 0, int min = 0, int sec = 0 );
   inline time_t		set( const struct tm & tmTime );
 
-  time_t            	setValid( int year, int month, int day,
+  bool			setValid( int year, int month, int day,
 				  int hour = 0, int min = 0, int sec = 0 );
-  time_t	    	setValid( const char * dateString, const char * fmt = 0 );
+  bool			setValid( const char * dateString,
+				  const char * fmt = 0 );
 
-  time_t		setValidYYMMDD( const char * yymmdd );
-  time_t		setValidYYYYMMDD( const char * yyyymmdd );
+  bool			setValidYYMMDD( const char * yymmdd );
+  bool			setValidYYYYMMDD( const char * yyyymmdd );
+  bool			setValidHHMM( const char * hhmm );
+  bool			setValidHHMMSS( const char * hhmmss );
   
   inline time_t		setYYYYMMDD( const char * yyyymmdd);
   inline time_t		setYYMMDD( const char * yymmdd);
@@ -475,7 +478,7 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //  	    GMT.
 //  	    Returns the previous date/time value.
 //
-//  	time_t
+//  	bool
 //  	setValid( int year, int month, int day,
 //  	    	  int hour = 0, int min = 0, int sec = 0 )
 //  	    set the date/time according to year, month, day, hour, min & sec.
@@ -484,9 +487,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //  	    and a flag is set so 'good()' will return false. The year
 //  	    range has been limited to 1970 -> 2050, 0 -> 50, 70 -> 99.
 //  	    The timezone is reset to GMT.
-//  	    Returns the previous date/time value.
+//  	    Returns true if succeeded
 //
-//  	time_t
+//  	bool
 //  	setValid( const char * dateString, const char * fmt = 0 )
 //  	    set the date/time by converting the'dateString'. If 'fmt' is 0,
 //  	    the string is expected to be in '1/5/94 03:04:00' format.
@@ -497,23 +500,23 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //  	    any value is not in range, the date/time value is set to 0
 //  	    and a flag is set so 'good()' will return false. The timezone
 //  	    is reset to GMT.
-//  	    Returns the previous date/time value.
+//  	    Returns true if succeeded
 //
-//  	time_t
+//  	bool
 //  	setYYYYMMDD( const char * yyyymmdd )
 //  	    set the 'date' by translating 'yyyymmdd'.  The string does NOT
 //  	    have to be NULL terminated. The time and timezone are not modified.
 //  	    Example string (19950130)
-//  	    Returns the previous date/time value.
+//  	    Returns true if succeeded
 //
-//  	time_t
+//  	bool
 //  	setYYMMDD( const char * yymmdd )
 //  	    set the 'date' by translating 'yymmdd'.  The string does NOT
 //  	    have to be NULL terminated.  'yy' values between 00 and 50 are
 //  	    considered to be for the next century (ie 05 = 2005).
 //  	    The time and timezone are not modified.
 //          Example string (950130)
-//  	    Returns the previous date/time value.
+//  	    Returns true if succeeded
 //
 //  	time_t
 //  	setHHMMSS( const char * hhmmss )
@@ -687,6 +690,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 5.5  2003/06/07 16:47:47  houghton
+// Chaged setValid calls to return bool (was time_t)
+//
 // Revision 5.4  2001/08/02 16:34:20  houghton
 // *** empty log message ***
 //
