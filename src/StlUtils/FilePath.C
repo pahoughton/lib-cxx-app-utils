@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/03/03 18:58:47  houghton
+// Changed arg to write calls to const char * (AIX workaround)
+// Changed arg to write class to char * (AIX workaround)
+//
 // Revision 3.3  1997/03/03 14:35:53  houghton
 // Changed base class from string back to Str (Massive improvement of
 //     functionallity )
@@ -305,7 +309,7 @@ ostream &
 FilePath::write( ostream & dest ) const
 {
   CLUE_U32  len = size();
-  dest.write( &len, sizeof( len ) );
+  dest.write( (const char *)&len, sizeof( len ) );
   dest.write( c_str(), size() );
   dest.write( &dirDelim, sizeof( dirDelim ) );
   dest.write( &extDelim, sizeof( extDelim ) );
@@ -316,7 +320,7 @@ istream &
 FilePath::read( istream & src )
 {
   CLUE_U32  len = 0;
-  src.read( &len, sizeof( len ) );
+  src.read( (char *)&len, sizeof( len ) );
 
   if( ! len )
     return( src );
