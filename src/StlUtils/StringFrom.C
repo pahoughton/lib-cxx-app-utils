@@ -53,17 +53,26 @@ _ClueStringUnsignedFrom(
   //  NumBufMutex.lock();
   
   *end = 0;
-  
-  if( base == 10 )
+
+  if( num )
     {
-      for(--end; num != 0; --end, num /= 10 )
-	*end = (num % 10) + '0';
+      if( base == 10 )
+	{
+	  for(--end; num != 0; --end, num /= 10 )
+	    *end = (num % 10) + '0';
+	}
+      else
+	{
+	  static const char * digits = "0123456789abcdefghijklmnopqrstuvwxyz";
+	  for( --end; num != 0 ; --end, num /= base )
+	    *end = digits[ (num % base) ];
+	}
     }
   else
     {
-      static const char * digits = "0123456789abcdefghijklmnopqrstuvwxyz";
-      for( --end; num != 0 ; --end, num /= base )
-	*end = digits[ (num % base) ];
+      --end;
+      *end = '0';
+      --end;
     }
   
   if( prefix )
@@ -167,7 +176,6 @@ StringFrom( double num, short prec )
 const char *
 StringFrom( const struct tm & src, const char * fmt )
 {
-  
   // NumBufMutex.lock();
   NumBuf[0] = 0;
   strftime( NumBuf, sizeof( NumBuf ), fmt, &src );
@@ -177,6 +185,9 @@ StringFrom( const struct tm & src, const char * fmt )
 
 //
 // $Log$
+// Revision 3.2  1997/07/28 16:46:48  houghton
+// Bug-Fix: if num was 0, an empty string would be returned.
+//
 // Revision 3.1  1997/03/21 15:43:36  houghton
 // Changed base version to 3
 //
