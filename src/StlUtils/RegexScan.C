@@ -1,30 +1,14 @@
 //
 // File:        RegexScan.C
+// Project:	Clue
 // Desc:        
 //
-//  
+//  Compile source code for RegexScan class.
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     04/28/95 12:07 
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.3  1996/11/04 14:24:35  houghton
-// Chagned error to use strstream instead of Str.
-//     (as required by Mike Alexandar).
-// Reorder methods to match header.
-// Change dumpInfo to output syntax.
-//
-// Revision 2.2  1995/11/12 18:33:01  houghton
-// Changed to use GnuRegex in libCommon.
-//
-// Revision 2.1  1995/11/10  12:41:00  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:41  houghton
-// Ports and Version ID changes
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #if !defined( CLUE_SHORT_FN )
@@ -374,5 +358,28 @@ RegexScan::cleanup()
       free( buf );
     }
 }
-  
+
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.4  1996/11/04 14:27:05  houghton
+// Restructure header comments layout.
+//
+// Revision 2.3  1996/11/04 14:24:35  houghton
+// Chagned error to use strstream instead of Str.
+//     (as required by Mike Alexandar).
+// Reorder methods to match header.
+// Change dumpInfo to output syntax.
+//
+// Revision 2.2  1995/11/12 18:33:01  houghton
+// Changed to use GnuRegex in libCommon.
+//
+// Revision 2.1  1995/11/10  12:41:00  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:41  houghton
+// Ports and Version ID changes
+//
+//
 

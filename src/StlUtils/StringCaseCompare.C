@@ -1,24 +1,27 @@
 //
 // File:        StringCaseCompare.C
+// Project:	Clue
 // Desc:        
 //
-//  
-//  
+//  StringCaseCompare( const char * one, const char * two );
+//	Compare two strings ignoring case. return 0 if one == two,
+//	< 0 if one < two and > 0 if one > two.
+//
+//  StringCaseCompare( const char * one, const char * two, size_t len );
+//	Compare the first 'len' chars of two strings ignoring case.
+//	return 0 if one == two, < 0 if one < two and > 0 if one > two.
+//	
+//  StringCaseCompare( const char * one, size_t lenOne,
+//  		       const char * two, size_t lenTwo );
+//      Compare the two strings ignoring case. The first
+//      min( lenOne, lenTwo) char are check first if they are
+//      not the same, the difference is return. If they are the
+//      same, the differance of lenOne and lenTwo is returnd.
+//
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/01/95 07:07 
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.2  1995/12/04 11:18:29  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:09  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:47  houghton
-// Ports and Version ID changes
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #if !defined( CLUE_SHORT_FN )
@@ -92,3 +95,20 @@ StringCaseCompare(
   return( diff ? diff : compare( lenOne, lenTwo ) );
 }
 
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.3  1996/11/04 14:29:55  houghton
+// Restructure header comments layout.
+//
+// Revision 2.2  1995/12/04 11:18:29  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:09  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:47  houghton
+// Ports and Version ID changes
+//
+//
