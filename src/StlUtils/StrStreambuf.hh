@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.3  1998/10/13 16:25:10  houghton
+// Changed to use new standard includes.
+//
 // Revision 4.2  1998/07/20 11:27:16  houghton
 // Bug-Fix: no need for default constructor declaration.
 //
@@ -47,7 +50,7 @@
 //
 
 #include "StlUtilsConfig.hh"
-#include <stddef.h>
+#include <cstddef>
 #include <strstream.h>
 
 
