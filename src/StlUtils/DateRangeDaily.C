@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 12:56:43  houghton
+// Removed unneeded includes.
+//
 // Revision 2.2  1995/12/04 11:17:19  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -20,18 +23,20 @@
 //
 //
 
+
 #if !defined( CLUE_SHORT_FN )
 #include "DateRangeDaily.hh"
+#include "DateTimeUtils.hh"
 #include "Clue.hh"
 #include "Str.hh"
 #include <iomanip>
 #else
 #include "DateRgDl.hh"
+#include "DtTmUtil.hh"
 #include "Clue.hh"
 #include "Str.hh"
 #include <iomanip>
 #endif
-
 
 #if defined( CLUE_DEBUG )
 #if !defined( CLUE_SHORT_FN )
@@ -40,6 +45,7 @@
 #include "DateRgDl.ii"
 #endif
 #endif // def( CLUE_DEBUG )
+
 
 CLUE_VERSION(
   DateRangeDaily,

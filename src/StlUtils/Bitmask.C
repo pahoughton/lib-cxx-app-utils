@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 12:50:22  houghton
+// Removed unneeded includes.
+//
 // Revision 2.3  1995/12/31 11:20:59  houghton
 // Bug fix - remove 'inline' statement.
 //
@@ -32,8 +35,7 @@
 //
 
 #include "Bitmask.hh"
-#include "Compare.hh"
-#include <climits>
+
 
 #if defined( CLUE_DEBUG )
 #include <Bitmask.ii>

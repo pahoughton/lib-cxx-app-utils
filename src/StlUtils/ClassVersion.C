@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 12:52:21  houghton
+// Removed unneeded includes.
+//
 // Revision 2.2  1995/12/04 11:16:52  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -23,14 +26,13 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include "ClassVersion.hh"
-#include <stddef>
 #include <cstring>
 #else
 #include "ClassVer.hh"
-#include <stddef>
 #include <cstring>
 #endif
- 
+
+
 CLUE_VERSION( ClassVersion,
 	      "$Id$" );
 	 

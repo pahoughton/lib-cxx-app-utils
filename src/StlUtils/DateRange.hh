@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 2.3  1996/04/27 12:56:04  houghton
+// Removed unneeded includes.
+//
 // Revision 2.2  1995/11/10 14:08:34  houghton
 // Updated documentation comments
 //
@@ -26,12 +29,12 @@
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <DateTime.hh>
-#include <BinStream.hh>
 #else
 #include <ClueCfg.hh>
 #include <DateTime.hh>
-#include <BinStrm.hh>
 #endif
+
+
 
 #if defined( CLUE_DEBUG )
 #define inline

@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 12:57:24  houghton
+// Removed unneeded includes.
+//
 // Revision 2.2  1995/12/04 11:17:19  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -22,11 +25,13 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include "DateRangeWeekly.hh"
+#include "DateTimeUtils.hh"
 #include "Clue.hh"
 #include "Str.hh"
 #include <iomanip>
 #else
 #include "DateRgWk.hh"
+#include "DtTmUtil.hh"
 #include "Clue.hh"
 #include "Str.hh"
 #include <iomanip>

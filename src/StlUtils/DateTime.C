@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 12:58:26  houghton
+// Removed unneeded includes.
+//
 // Revision 2.2  1995/12/04 11:17:20  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -23,19 +26,13 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include "DateTime.hh"
+#include "RegexScan.hh"
 #include "Str.hh"
-#include "StringUtils.hh"
-#include "Clue.hh"
-#include <cstdlib>
-#include <cstring>
 #include <cstdio>
 #else
 #include "DateTime.hh"
+#include "RxScan.hh"
 #include "Str.hh"
-#include "StrUtil.hh"
-#include "Clue.hh"
-#include <cstdlib>
-#include <cstring>
 #include <cstdio>
 #endif
 
@@ -43,9 +40,11 @@
 #include <DateTime.ii>
 #endif
 
+
 CLUE_VERSION(
   DateTime,
   "$Id$" );
+
 
 RegexScan
 DateTime::strPattern(
@@ -445,7 +444,7 @@ DateTime::setTmOffset( void )
 {
   const char * oldZone = getenv( "TZ" );
 
-  if( flags.dstKnown && flags.dst )
+  if( flags.dstKnown == 1  && flags.dst == 1 )
     {
       seconds -= offset;
       offset -= SecPerHour;

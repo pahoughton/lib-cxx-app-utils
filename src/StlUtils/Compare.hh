@@ -46,6 +46,9 @@
 //
 // 
 // $Log$
+// Revision 2.2  1996/04/27 12:53:36  houghton
+// Removed unneeded includes.
+//
 // Revision 2.1  1995/11/10 12:40:23  houghton
 // Change to Version 2
 //
@@ -54,14 +57,6 @@
 //
 //
 //
-
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
-#include <cstring>
-#else
-#include <ClueCfg.hh>
-#include <cstring>
-#endif
 
 
 #if defined( _compare_h )

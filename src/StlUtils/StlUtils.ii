@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 12:53:27  houghton
+// Removed unneeded includes.
+//
 // Revision 2.3  1996/03/13 11:24:46  houghton
 // Bug Fix: fixed include file #ifdefs
 // Add: Net2Host & Host2Net translators
@@ -30,8 +33,6 @@
 #if defined( inline )
 #error 'inline defined'
 #endif
-
-#include <algorithm>
 
 
 // tArraySize
