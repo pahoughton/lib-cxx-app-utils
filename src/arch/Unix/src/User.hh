@@ -13,25 +13,33 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 13:55:43  houghton
-// Port to AIX
+// Revision 1.3  1995/11/05 15:49:17  houghton
+// Revised
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
+#include <BinStream.hh>
 #include <UserGroup.hh>
 #include <Str.hh>
-
 #include <set>
-
 #include <pwd.h>
+#else
+#include <ClueCfg.hh>
+#include <BinStrm.hh>
+#include <UserGrp.hh>
+#include <Str.hh>
+#include <set>
+#include <pwd.h>
+#endif
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
 
-class User
+class User : public BinObject
 {
 
 public:
@@ -45,7 +53,7 @@ public:
 
   inline User( istream & src, bool text = false, bool findGroups = false );
   
-  inline ~User( void );
+  virtual ~User( void );
 
   inline uid_t		getUID( void ) const;
   inline const char * 	getName( void ) const;
@@ -72,11 +80,9 @@ public:
   inline bool	set( const char * userName, bool findGroups = false );
   bool		set( const struct passwd * pwdEnt, bool findGrps = false );
   
-  inline size_t    	getStreamSize( void ) const;
-  inline ostream & 	write( ostream & dest ) const;
-  inline istream & 	read( istream & src );
-
   inline int		compare( const User & two ) const;
+
+  inline User &		operator =  ( uid_t user );
   
   inline bool		operator == ( const User & two ) const;
   inline bool		operator <  ( const User & two ) const;
@@ -84,14 +90,31 @@ public:
   inline		operator const char * () const;
   inline		operator uid_t () const;
 
-  inline bool		good( void ) const;
-  const char *		error( void ) const;
-  const char *		getClassName( void ) const;
-  inline ostream &	toStream( ostream & dest = cout ) const;
-  ostream &		dumpInfo( ostream & dest = cerr ) const;
+  // libClue Common Class Methods
+  // note: write/read only stores the UID
+  
+  virtual size_t	getBinSize( void ) const;
+  virtual BinStream &	write( BinStream & dest ) const;
+  virtual BinStream &	read( BinStream & src );
+  
+  virtual ostream & 	write( ostream & dest ) const;
+  virtual istream & 	read( istream & src );
+
+  virtual ostream &	toStream( ostream & dest = cout ) const;
+
+  friend inline ostream & operator << ( ostream & dest, const User & obj );
+    
+  virtual bool		good( void ) const;
+  virtual const char *	error( void ) const;
+  virtual const char *	getClassName( void ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
+  
+  static const ClassVersion version;
   
   static const uid_t	bad;
-  static const char	version[];
   
 protected:
 
@@ -112,16 +135,13 @@ private:
   static const User	eff;
 };
 
-#ifndef inline
+#if !defined( inline )
 #include <User.ii>
 #else
 #undef inline
 
 int
 compare( const User & one, const User & two );
-
-ostream &
-operator <<( ostream & dest, const User & user );
 
 #endif // ! def inline
 

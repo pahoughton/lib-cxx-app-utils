@@ -10,29 +10,31 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 13:55:42  houghton
-// Port to AIX
+// Revision 1.3  1995/11/05 15:49:17  houghton
+// Revised
 //
 //
 
 #include "User.hh"
-
-#include <Compare.hh>
+#include "Compare.hh"
 #include <iostream>
 
-const char User::version[] =
-LIB_CLUE_VERSION
-"$Id$";
-
-const uid_t User::bad = (uid_t) ULONG_MAX;
-
-const User	User::eff( geteuid(), false );
-
-#ifdef   CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define  inline
-#include <User.ii>
+#include "User.ii"
 #endif
 
+CLUE_VERSION(
+  User,
+  "$Id$" );
+
+
+const uid_t User::bad = (uid_t) ULONG_MAX;
+const User  User::eff( geteuid(), false );
+
+User::~User( void )
+{
+}
 
 const User &
 User::effective( void )
@@ -86,14 +88,54 @@ User::set( const struct passwd * pw, bool findGrps )
   return( true );
 }
 
-  
-// getClassName - return the name of this class
-const char *
-User::getClassName( void ) const
+size_t
+User::getBinSize( void ) const
 {
-  return( "User" );
+  return( sizeof( uid_t ) );
 }
 
+BinStream &
+User::write( BinStream & dest ) const
+{
+  dest.write( uid );
+  return( dest );
+}
+
+BinStream &
+User::read( BinStream & src )
+{
+  uid_t  user;
+  src.read( user );
+  if( src.good() )
+    set( user );
+  return( src );
+}
+
+ostream &
+User::write( ostream & dest ) const
+{
+  dest.write( (const char *)&uid, sizeof( uid ) );
+  return( dest );
+}
+
+istream &
+User::read( istream & src )
+{
+  uid_t	user;
+  src.read( (char *)&user, sizeof( user ) );
+  set( user );
+  return( src );
+}
+
+
+ostream &
+User::toStream( ostream & dest ) const
+{
+  dest << name;
+  return( dest );
+}
+
+  
 // good - return TRUE if no detected errors
 bool
 User::good( void ) const
@@ -116,63 +158,95 @@ User::error( void ) const
     }
   else
     {
-      errStr << ": unknown error";
+      errStr << ": uid not set";
     }
 
   return( errStr.cstr() );
 }
 
+// getClassName - return the name of this class
+const char *
+User::getClassName( void ) const
+{
+  return( "User" );
+}
+
+const char *
+User::getVersion( bool withPrjVer ) const
+{
+  static Str ver;
+
+  ver.reset();
+  ver << version.getVer( withPrjVer ) << '\n'
+      << "    " << name.getVersion( false ) << '\n'
+    ;
+  if( withPrjVer )
+    ver << "    " << primeGroup.getVersion( false ) << '\n';
+
+  return( ver );
+}
+
 
 ostream &
-User::dumpInfo( ostream & dest ) const
+User::dumpInfo( 
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
 {
-  dest << getClassName() << ":\n";
-
-  dest << "    " << version << '\n';
-
-  if( ! good() )
-    dest << "    Error: " << error() << '\n';
+  if( showVer )
+    dest << User::getClassName() << ":\n"
+	 << User::getVersion() << '\n';
+  
+  
+  if( ! User::good() )
+    dest << prefix << "Error: " << User::error() << '\n';
   else
-    dest << "    " << "Good!" << '\n';
+    dest << prefix << "Good!" << '\n';
 
-  dest << "    uid:	    " << uid << '\n'
-       << "    name:        " << name << '\n'
-       << "    passwd:      " << passwd << '\n'
-       << "    gecos:       " << gecos << '\n'
-       << "    home:        " << home << '\n'
-       << "    shell:       " << shell << '\n'
+  Str pre;
+  pre = prefix;
+  pre << "primeGroup:" << primeGroup.getClassName() << "::";
+
+  primeGroup.dumpInfo( dest, pre, false );
+  
+  dest << prefix << "uid:	  " << uid << '\n'
+       << prefix << "name:        " << name << '\n'
+       << prefix << "passwd:      " << passwd << '\n'
+       << prefix << "gecos:       " << gecos << '\n'
+       << prefix << "home:        " << home << '\n'
+       << prefix << "shell:       " << shell << '\n'
     ;
 
-  dest << primeGroup;
 
   if( groups.size() == 0 )
     {
-      dest << "    No groups:\n";
+      dest << prefix << "No groups:\n";
     }
   else
     {
-      dest << "    Groups:\n";
+      dest << prefix << "Groups:\n";
 	  
       for( Groups::iterator them = groups.begin();
 	   them != groups.end();
 	   them++ )
 	{
-	  dest << "      " << *them << endl;
+	  dest << prefix << *them << endl;
 	}
     }
 
   if( eff.uid == uid )
     {
-      dest << "    Effective:  Same\n";
+      dest << prefix << "Effective:  Same\n";
     }
   else
     {
-      dest << "    effective uid:    " << eff.uid << '\n'
-	   << "    effective name:   " << eff.name << '\n'
-	   << "    effective passwd: " << eff.passwd << '\n'
-	   << "    effective gecos:  " << eff.gecos << '\n'
-	   << "    effective home:   " << eff.home << '\n'
-	   << "    effective shell:  " << eff.shell << '\n'
+      dest << prefix << "effective uid:    " << eff.uid << '\n'
+	   << prefix << "effective name:   " << eff.name << '\n'
+	   << prefix << "effective passwd: " << eff.passwd << '\n'
+	   << prefix << "effective gecos:  " << eff.gecos << '\n'
+	   << prefix << "effective home:   " << eff.home << '\n'
+	   << prefix << "effective shell:  " << eff.shell << '\n'
 	;
     }
 

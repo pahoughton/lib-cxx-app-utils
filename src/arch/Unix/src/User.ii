@@ -12,14 +12,13 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 13:55:43  houghton
-// Port to AIX
+// Revision 1.3  1995/11/05 15:49:18  houghton
+// Revised
 //
 //
 
-#ifndef inline
+#if !defined( inline )
 #include <Compare.hh>
-#include <iostream>
 #endif
 
 inline
@@ -61,12 +60,6 @@ User::User( istream & src, bool text, bool findGrps )
       if( findGrps )
 	findGroups();
     }
-}
-
-inline
-User::~User( void )
-{
-  ;
 }
 
 inline
@@ -187,35 +180,18 @@ User::set( const char * name, bool findGrps )
 }
 
 inline
-size_t
-User::getStreamSize( void ) const
-{
-  return( sizeof( uid_t ) );
-}
-
-inline
-istream &
-User::read( istream & src )
-{
-  uid_t	user;
-  src.read( (char *)&user, sizeof( uid_t ) );
-  set( user );
-  return( src );
-}
-
-inline
-ostream &
-User::write( ostream & dest ) const
-{
-  dest.write( (const char *)&uid, sizeof( uid ) );
-  return( dest );
-}
-
-inline
 int
 User::compare( const User & two ) const
 {
   return( ::compare( name, two.name ) );
+}
+
+inline
+User &
+User::operator =  ( uid_t user )
+{
+  set( user );
+  return( *this );
 }
 
 inline
@@ -242,14 +218,6 @@ inline
 User::operator uid_t ( void ) const
 {
   return( uid );
-}
-
-inline
-ostream &
-User::toStream( ostream & dest ) const
-{
-  dest << name;
-  return( dest );
 }
 
 inline

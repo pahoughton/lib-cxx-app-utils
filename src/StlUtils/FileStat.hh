@@ -12,22 +12,26 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 14:01:36  houghton
-// Port to AIX
+// Revision 1.4  1995/11/05 15:49:26  houghton
+// Revised
 //
 //
 
-
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-
 #include <Str.hh>
 #include <FilePath.hh>
-
 #include <Bitmask.hh>
-
 #include <sys/stat.h>
+#else
+#include <ClueCfg.hh>
+#include <Str.hh>
+#include <FilePath.hh>
+#include <Bitmask.hh>
+#include <sys/stat.h>
+#endif
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
@@ -118,15 +122,23 @@ public:
   inline bool	    	operator == ( const FileStat & two ) const;
   inline bool	    	operator <  ( const FileStat & two ) const;
   
-  bool			good() const;
-  const char *		error() const;
-  const char *		getClassName( void ) const;
+  // libClue Common Class Methods
+  
   ostream &		toStream( ostream & dest = cout ) const;
-  ostream &		dumpInfo( ostream & dest = cerr ) const;
   
+  friend inline ostream & operator << ( ostream & dest, const FileStat & obj );
+    
+  bool		good() const;
+  const char *	error() const;
+  const char *	getClassName( void ) const;
+  const char *	getVersion( bool withPrjVer = true ) const;
+  ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
+  
+  static const ClassVersion version;
+
   static const int badFd;
-  
-  static const char version[];
   
 protected:
 
@@ -161,9 +173,6 @@ private:
 
 int
 compare( const FileStat & one, const FileStat & two );
-
-ostream &
-operator<<( ostream & dest, const FileStat & obj );
 
 #endif
 

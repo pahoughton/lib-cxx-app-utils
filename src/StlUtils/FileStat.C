@@ -10,30 +10,37 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 14:01:36  houghton
-// Port to AIX
+// Revision 1.4  1995/11/05 15:49:26  houghton
+// Revised
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "FileStat.hh"
-
 #include <User.hh>
 #include <UserGroup.hh>
 #include <DateTime.hh>
-
 #include <iomanip>
-
 #include <cstring>
 #include <cerrno>
+#else
+#include "FileStat.hh"
+#include <User.hh>
+#include <UserGrp.hh>
+#include <DateTime.hh>
+#include <iomanip>
+#include <cstring>
+#include <cerrno>
+#endif
 
-#ifdef   CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define  inline
 #include <FileStat.ii>
 #endif
 
-const char FileStat::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION(
+  FileStat,
+  "$Id$");
 
 const int FileStat::badFd = -1;
 
@@ -158,6 +165,33 @@ FileStat::setOwner( uid_t uid, gid_t gid )
   return( true );
 }
 
+ostream &
+FileStat::toStream( ostream & dest ) const
+{
+  if( ! good() )
+    dest << error();
+  else
+    {
+      dest.setf( ios::left );
+      
+      dest << getModeString() << ' '
+	   << setw( 8 ) << getUserName() << ' '
+	   << setw( 8 ) << getGroupName() << ' '
+	;
+      
+      dest.unsetf( ios::left );
+
+      DateTime mdt( getModificationTime(), true );
+      
+      dest << setw( 10 ) << getSize() << ' '
+	   << mdt << ' '
+	   << getName()
+	;
+    }
+
+  return( dest );
+}
+
   
 // good - return TRUE if no detected errors
 bool
@@ -197,67 +231,51 @@ FileStat::getClassName( void ) const
   return( "FileStat" );
 }
 
-ostream &
-FileStat::toStream( ostream & dest ) const
+const char *
+FileStat::getVersion( bool withPrjVer ) const
 {
-  if( ! good() )
-    dest << error();
-  else
-    {
-      dest.setf( ios::left );
-      
-      dest << getModeString() << ' '
-	   << setw( 8 ) << getUserName() << ' '
-	   << setw( 8 ) << getGroupName() << ' '
-	;
-      
-      dest.unsetf( ios::left );
-
-      DateTime mdt( getModificationTime(), true );
-      
-      dest << setw( 10 ) << getSize() << ' '
-	   << mdt << ' '
-	   << getName()
-	;
-    }
-
-  return( dest );
+  return( version.getVer( withPrjVer, name.getVersion( false ) ) );
 }
 
 ostream &
-FileStat::dumpInfo( ostream & dest ) const
+FileStat::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
 {
-  dest << getClassName() << ":\n";
-
-  dest << "    " << version << '\n';
-
-  if( ! good() )
-    dest << "    Error: " << error() << '\n';
+  if( showVer )
+    dest << FileStat::getClassName() << ":\n"
+	 << FileStat::getVersion() << '\n';
+  
+  
+  if( ! FileStat::good() )
+    dest << prefix << "Error: " << FileStat::error() << '\n';
   else
-    dest << "    " << "Good!" << '\n';
+    dest << prefix << "Good!" << '\n';
 
-  dest << "    ";
+  dest << prefix;
   toStream( dest );
   dest << '\n';
   
-  dest << "    Name:       '" << name << "'\n"
-       << "    Fd:         " << fd << '\n'
-       << "    User:       " << userName << '\n'
-       << "    Group:      " << groupName << '\n'
-       << "    ModeString: " << modeString << '\n'
-       << "    st_dev:     " << st.st_dev << '\n'
-       << "    st_ino:     " << st.st_ino << '\n'
-       << "    st_mode:    " << st.st_mode << '\n'
-       << "    st_nlink:   " << st.st_nlink << '\n'
-       << "    st_uid:     " << st.st_uid << '\n'
-       << "    st_gid:     " << st.st_gid << '\n'
-       << "    st_rdev:    " << st.st_rdev << '\n'
-       << "    st_size:    " << st.st_size << '\n'
-       << "    st_atime:   " << st.st_atime << '\n'
-       << "    st_mtime:   " << st.st_mtime << '\n'
-       << "    st_ctime:   " << st.st_ctime << '\n'
-       << "    st_blksize: " << st.st_blksize << '\n'
-       << "    st_blocks:  " << st.st_blocks << '\n'
+  dest << prefix << "name:       '" << name << "'\n"
+       << prefix << "fd:         " << fd << '\n'
+       << prefix << "user:       " << userName << '\n'
+       << prefix << "group:      " << groupName << '\n'
+       << prefix << "modeString: " << modeString << '\n'
+       << prefix << "st_dev:     " << st.st_dev << '\n'
+       << prefix << "st_ino:     " << st.st_ino << '\n'
+       << prefix << "st_mode:    " << st.st_mode << '\n'
+       << prefix << "st_nlink:   " << st.st_nlink << '\n'
+       << prefix << "st_uid:     " << st.st_uid << '\n'
+       << prefix << "st_gid:     " << st.st_gid << '\n'
+       << prefix << "st_rdev:    " << st.st_rdev << '\n'
+       << prefix << "st_size:    " << st.st_size << '\n'
+       << prefix << "st_atime:   " << st.st_atime << '\n'
+       << prefix << "st_mtime:   " << st.st_mtime << '\n'
+       << prefix << "st_ctime:   " << st.st_ctime << '\n'
+       << prefix << "st_blksize: " << st.st_blksize << '\n'
+       << prefix << "st_blocks:  " << st.st_blocks << '\n'
     ;
 
   dest << '\n';

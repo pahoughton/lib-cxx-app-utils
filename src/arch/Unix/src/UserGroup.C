@@ -10,20 +10,40 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 13:55:44  houghton
-// Port to AIX
+// Revision 1.3  1995/11/05 15:49:18  houghton
+// Revised
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "UserGroup.hh"
 #include "User.hh"
 #include "Compare.hh"
-
 #include <climits>
 #include <cerrno>
-
 #include <pwd.h>
+#else
+#include "UserGrp.hh"
+#include "User.hh"
+#include "Compare.hh"
+#include <climits>
+#include <cerrno>
+#include <pwd.h>
+#endif
 
+#if defined( CLUE_DEBUG )
+#define  inline
+#if !defined( CLUE_SHORT_FN )
+#include <UserGroup.ii>
+#else
+#include <UserGrp.ii>
+#endif
+#endif
+
+CLUE_VERSION(
+  UserGroup,
+  "$Id$" );
+  
 
 #if defined( AIX )
 extern "C" { void endpwent( void ); };
@@ -32,16 +52,6 @@ extern "C" { void endpwent( void ); };
 UserGroup   UserGroup::eff( getegid() );
 
 const gid_t    UserGroup::bad = (gid_t) ULONG_MAX;
-
-#ifdef   CLUE_DEBUG
-#define  inline
-#include <UserGroup.ii>
-#endif
-
-const char UserGroup::version[] =
-LIB_CLUE_VERSION
-"$Id$";
-
 
 const UserGroup &
 UserGroup::effective( void )
@@ -105,11 +115,52 @@ UserGroup::set( const struct group * gr, bool findMemb )
     }
 }
 
-// getClassName - return the name of this class
-const char *
-UserGroup::getClassName( void ) const
+size_t
+UserGroup::getBinSize( void ) const
 {
-  return( "UserGroup" );
+  return( sizeof( gid ) );
+}
+
+BinStream &
+UserGroup::write( BinStream & dest ) const
+{
+  dest.write( gid );
+  return( dest );
+}
+
+BinStream &
+UserGroup::read( BinStream & src )
+{
+  gid_t	grp;
+  src.read( grp );
+  if( src.good() )
+    set( grp );
+  return( src );
+}
+
+ostream &
+UserGroup::write( ostream & dest ) const
+{
+  dest.write( (const char *)&gid, sizeof( gid ) );
+  return( dest );
+}
+
+istream &
+UserGroup::read( istream & src )
+{
+  gid_t	grp;
+  src.read( (char *)&grp, sizeof( grp ) );
+  if( src.good() )
+    set( grp );
+  return( src );
+}
+
+inline
+ostream &
+UserGroup::toStream( ostream & dest ) const
+{
+  dest << name;
+  return( dest );
 }
 
 // good - return TRUE if no detected errors
@@ -147,48 +198,65 @@ UserGroup::error( void ) const
   return( errStr.cstr() );
 }
 
+// getClassName - return the name of this class
+const char *
+UserGroup::getClassName( void ) const
+{
+  return( "UserGroup" );
+}
 
+const char *
+UserGroup::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer, name.getVersion( false ) ) );
+}
+  
 
 ostream &
-UserGroup::dumpInfo( ostream & dest ) const
+UserGroup::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
 {
-  dest << getClassName() << ":\n";
-
-  dest << "    " << version << '\n';
-
-  if( ! good() )
-    dest << "    Error: " << error() << '\n';
+  if( showVer )
+    dest << UserGroup::getClassName() << ":\n"
+	 << UserGroup::getVersion() << '\n';
+  
+  
+  if( ! UserGroup::good() )
+    dest << prefix << "Error: " << UserGroup::error() << '\n';
   else
-    dest << "    " << "Good!" << '\n';
+    dest << prefix << "Good!" << '\n';
 
-  dest << "    gid:	    " << gid << '\n'
-       << "    name:        " << name << '\n'
+  dest << prefix << "gid:	  " << gid << '\n'
+       << prefix << "name:        " << name << '\n'
     ;
 
   if( members.size() == 0 )
     {
-      dest << "    No members:\n";
+      dest << prefix << "No members:\n";
     }
   else
     {
-      dest << "    Members:\n";
+      dest << prefix << "Members:\n";
 	  
       for( Members::iterator them = members.begin();
 	   them != members.end();
 	   them++ )
 	{
-	  dest << "      " << *them << endl;
+	  dest << prefix << *them << endl;
 	}
     }
 
   if( eff.gid == gid )
     {
-      dest << "    Effective:  Same\n";
+      dest << prefix << "Effective:  Same\n";
     }
   else
     {
-      dest << "    effective gid:    " << eff.gid << '\n'
-	   << "    effective name:   " << eff.name << '\n'
+      dest << prefix << "effective gid:    " << eff.gid << '\n'
+	   << prefix << "effective name:   " << eff.name << '\n'
 	;
     }
 

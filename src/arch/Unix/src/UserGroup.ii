@@ -12,12 +12,12 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 13:55:45  houghton
-// Port to AIX
+// Revision 1.3  1995/11/05 15:49:19  houghton
+// Revised
 //
 //
 
-#ifndef inline
+#if !defined( inline )
 #include <User.hh>
 #include <Compare.hh>
 #include <climits>
@@ -173,31 +173,6 @@ UserGroup::set( const char * groupName, bool findMemb )
 }
 
 inline
-size_t
-UserGroup::getStreamSize( void ) const
-{
-  return( sizeof( gid ) );
-}
-
-inline
-istream &
-UserGroup::read( istream & src )
-{
-  gid_t	grp;
-  src.read( (char *)&grp, sizeof( grp ) );
-  set( grp );
-  return( src );
-}
-
-inline
-ostream &
-UserGroup::write( ostream & dest ) const
-{
-  dest.write( (const char *)&gid, sizeof( gid ) );
-  return( dest );
-}
-
-inline
 int
 UserGroup::compare( const UserGroup & two ) const
 {
@@ -228,14 +203,6 @@ inline
 UserGroup::operator gid_t ( void ) const
 {
   return( gid );
-}
-
-inline
-ostream &
-UserGroup::toStream( ostream & dest ) const
-{
-  dest << name;
-  return( dest );
 }
 
 inline
