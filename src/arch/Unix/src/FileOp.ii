@@ -106,6 +106,13 @@ FileOp::remove( const char * fn )
 }
 
 inline
+bool
+FileOp::rmdir( const char * dn, bool recurse )
+{
+  return( removeDir( dn, recurse ) );
+}
+
+inline
 const FileStat &
 FileOp::getSrc( void ) const
 {
@@ -135,6 +142,9 @@ FileOp::dump( const char * prefix, bool showVer ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 5.2  2000/07/31 13:39:13  houghton
+// Added rmdir().
+//
 // Revision 5.1  2000/05/25 10:33:22  houghton
 // Changed Version Num to 5
 //

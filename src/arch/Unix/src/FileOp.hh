@@ -77,6 +77,8 @@ public:
   
   inline bool	remove( void );
   inline bool	remove( const char * src );
+
+  inline bool	rmdir( const char * dirName, bool recurs = false );
   
   inline const FileStat &   getSrc( void ) const;
   inline const FileStat &   getDest( void ) const;
@@ -113,6 +115,7 @@ protected:
   bool		copyFile( void );
   bool		moveFile( void );
   bool		removeFile( const char * fn );
+  bool		removeDir( const char * fn, bool recurs );
   bool		catFile( void );
   bool		setDestStat( void );
   
@@ -229,6 +232,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/07/31 13:39:09  houghton
+// Added rmdir().
+//
 // Revision 5.1  2000/05/25 10:33:22  houghton
 // Changed Version Num to 5
 //
