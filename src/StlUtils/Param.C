@@ -1542,10 +1542,8 @@ Param::genArgFile( bool exitApp )
 
       (*out) << '\n' <<
 	"#\n" <<
-	"# \$Log$
-	"# \Revision 4.9  1999/11/09 14:00:37  houghton
-	"# \The Log line for generateArgFile output got the log entry for Param.
-	"# \" <<
+	"# $L" "og: $" << 
+	"# " <<
 	"#\n" <<
 	"#\n"
 	;
@@ -1579,6 +1577,10 @@ Param::genArgFile( bool exitApp )
 // Revision Log:
 //
 // $Log$
+// Revision 4.10  1999/11/09 14:06:33  houghton
+// Bug-Fix: changed to prevent genArgsFile() log entry output from
+//     getting Param.C's log entries.
+//
 // Revision 4.9  1999/11/09 14:00:37  houghton
 // The Log line for generateArgFile output got the log entry for Param.
 //
