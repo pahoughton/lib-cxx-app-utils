@@ -515,6 +515,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:54  houghton
+// Changed to Release 3
+//
 // Revision 2.8  1996/11/08 11:46:10  houghton
 // Removed Support for Str and DateTime.
 //     (as required by Mike Alexander)

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:51  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/11/13 17:00:13  houghton
 // Removed support for short file names.
 // Bug-Fix: fixed some compile errors associated with the chagne to

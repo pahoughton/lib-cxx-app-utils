@@ -225,6 +225,9 @@ LogBuf::delFilter( FilterId id )
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:48  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/11/13 16:56:04  houghton
 // Bug-Fix: tee() - added a call to sync so that only entries
 //     added after the call to tee() will be written to the tee's

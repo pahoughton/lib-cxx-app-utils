@@ -108,6 +108,9 @@ tStripWhite( LibTest & tester )
   
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:27:14  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/11/04 14:53:42  houghton
 // Added header comments.
 // Added more test to verify function.

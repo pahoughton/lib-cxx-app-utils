@@ -146,6 +146,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 3.1  1996/11/14 01:23:12  houghton
+# Changed to Release 3
+#
 # Revision 2.10  1996/11/04 13:09:07  houghton
 # *** empty log message ***
 #

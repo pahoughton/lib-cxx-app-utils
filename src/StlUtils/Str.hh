@@ -16,6 +16,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:12  houghton
+// Changed to Release 3
+//
 // Revision 2.8  1996/10/11 17:43:01  houghton
 // Changed: Added new 'multiDelim' arg to scan methods. This arg
 //   specifies if multiple consecutive instances of the delimiter are

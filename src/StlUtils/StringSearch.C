@@ -91,6 +91,9 @@ StringSearch(
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:19  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/11/04 14:31:40  houghton
 // Restructure header comments layout.
 // Changed default len to be NPOS instead of 0.

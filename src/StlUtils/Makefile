@@ -425,6 +425,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.1  1996/11/14 01:23:50  houghton
+# Changed to Release 3
+#
 # Revision 2.26  1996/11/13 16:58:52  houghton
 # Renamed Clue.hh & Clue.ii to ClueUtils.hh & ClueUtils.ii.
 #

@@ -17,6 +17,9 @@
  * Modification History:
  *
  * $Log$
+ * Revision 3.1  1996/11/14 01:23:30  houghton
+ * Changed to Release 3
+ *
  * Revision 2.1  1995/11/10 12:40:22  houghton
  * Change to Version 2
  *

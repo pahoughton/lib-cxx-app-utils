@@ -151,6 +151,9 @@ bool	tFileBinStream( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:16  houghton
+// Changed to Release 3
+//
 // Revision 2.4  1996/11/04 14:42:59  houghton
 // Restructure header comments layout.
 // Added the following test function prototypes.

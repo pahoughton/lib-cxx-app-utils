@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:14  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/04/27 13:09:23  houghton
 // Bug-Fix: if inline gets defined at the top, it needs to be undef at
 //   at the bottom.

@@ -284,6 +284,9 @@ LogLevel::levelFromString( const char * level )
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:48  houghton
+// Changed to Release 3
+//
 // Revision 2.11  1996/11/13 16:58:15  houghton
 // Changed include lines from "file" to <file"
 //     to accomidate rpm.

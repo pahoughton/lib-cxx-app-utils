@@ -718,6 +718,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:26  houghton
+// Changed to Release 3
+//
 // Revision 2.8  1996/11/11 13:30:11  houghton
 // Added Bitmask::bit::operator ! ( void )
 // Added Bitmask::bit::operator == ( bool )

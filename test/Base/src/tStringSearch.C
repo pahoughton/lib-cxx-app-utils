@@ -239,6 +239,9 @@ tStringSearch( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:27:12  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/11/04 14:52:46  houghton
 // Added header comments.
 // Changed test to verify new default len of NPOS (was 0).

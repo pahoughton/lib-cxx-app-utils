@@ -153,6 +153,9 @@ tStringCaseCompare( LibTest & tester )
     
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:27:11  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/11/04 14:52:04  houghton
 // Added header comments.
 //

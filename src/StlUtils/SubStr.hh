@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:23  houghton
+// Changed to Release 3
+//
 // Revision 2.6  1996/05/25 12:36:22  houghton
 // Added of method. returns owning Str.
 //

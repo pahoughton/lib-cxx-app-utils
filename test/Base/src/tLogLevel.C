@@ -613,6 +613,9 @@ tLogLevel( LibTest & tester )
  
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:51  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/11/13 17:23:00  houghton
 // Chagned include "file" to include <file> to
 //     accomidate rpm.

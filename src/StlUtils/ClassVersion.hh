@@ -282,6 +282,9 @@ const ClassVersion className_::version( #className_,			      \
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:28  houghton
+// Changed to Release 3
+//
 // Revision 2.6  1996/11/04 13:28:37  houghton
 // Added Associated Macros to header comments
 // Cleanup header comments.

@@ -75,6 +75,9 @@ StripWhite( char * buffer, const char * white, size_t bufSize )
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:22  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/11/04 14:33:59  houghton
 // Restructure header comments layout.
 // Changed default len to be NPOS instead of 0.

@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:36  houghton
+// Changed to Release 3
+//
 // Revision 2.4  1996/05/01 10:58:59  houghton
 // Bug-Fix: gcc did not like the flags being a char changed to int.
 //

@@ -274,6 +274,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.1  1996/11/14 01:28:07  houghton
+# Changed to Release 3
+#
 # Revision 1.2  1996/07/16 13:54:07  houghton
 # *** empty log message ***
 #

@@ -65,6 +65,9 @@ const char VERID_##name_[] =						      \
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:30  houghton
+// Changed to Release 3
+//
 // Revision 2.4  1996/11/04 13:33:04  houghton
 // Cleanup header comments.
 //

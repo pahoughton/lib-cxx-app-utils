@@ -72,6 +72,9 @@ tAlign( LibTest & tester )
       
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:18  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/11/04 18:22:52  houghton
 // Chaged include because Clue.hh renamed to ClueUtils.hh.
 //

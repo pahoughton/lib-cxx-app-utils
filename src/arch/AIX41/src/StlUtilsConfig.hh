@@ -127,6 +127,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:59  houghton
+// Changed to Release 3
+//
 // Revision 1.7  1996/11/06 18:09:27  houghton
 // Rework and verified header comments.
 // Rework orginization of defines and macros.

@@ -276,6 +276,9 @@ tBitmask03( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:23  houghton
+// Changed to Release 3
+//
 // Revision 2.4  1996/11/04 14:46:07  houghton
 // Added header comments.
 // Changed so that everything in Bitmask.hh is tested.

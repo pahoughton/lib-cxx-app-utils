@@ -164,6 +164,9 @@ OpenFlags( ios::open_mode openMode );
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:29  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/11/04 18:21:16  houghton
 // Renamed Clue.hh to ClueUtils.hh.
 //

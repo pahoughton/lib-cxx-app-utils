@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 3.1  1996/11/14 01:23:33  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/04/27 12:57:00  houghton
 // Cleanup.
 //

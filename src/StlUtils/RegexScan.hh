@@ -520,6 +520,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:56  houghton
+// Changed to Release 3
+//
 // Revision 2.7  1996/11/13 17:03:31  houghton
 // Removed support for short file names.
 // Changed RegexScan() defalut arg from a 0 to false.

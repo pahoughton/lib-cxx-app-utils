@@ -46,6 +46,9 @@ tCharToInt( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:25  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/11/04 14:46:47  houghton
 // Added header comments.
 //

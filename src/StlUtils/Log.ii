@@ -347,6 +347,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:46  houghton
+// Changed to Release 3
+//
 // Revision 2.7  1996/11/13 16:34:40  houghton
 // Bug-Fix: Log( const char * ...) set badbit if the log is a file
 //     and it did not successfully open.

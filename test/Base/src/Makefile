@@ -443,6 +443,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.1  1996/11/14 01:26:13  houghton
+# Changed to Release 3
+#
 # Revision 2.19  1996/11/13 17:18:35  houghton
 # Added Log test sources.
 # Added var so the test can be specified for the test_debug target.

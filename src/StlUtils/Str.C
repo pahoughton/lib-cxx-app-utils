@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:08  houghton
+// Changed to Release 3
+//
 // Revision 2.6  1996/11/06 18:06:16  houghton
 // Clue.hh renamed to ClueUtils.hh.
 //

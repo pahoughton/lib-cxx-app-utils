@@ -305,6 +305,9 @@ tLog02( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:46  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/11/13 17:20:00  houghton
 // Complete rework of all tests.
 // Verified test against Log.hh header comments.

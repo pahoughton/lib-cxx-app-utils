@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:27  houghton
+// Changed to Release 3
+//
 // Revision 2.7  1996/11/11 13:30:24  houghton
 // Added Bitmask::bit::operator ! ( void )
 // Added Bitmask::bit::operator == ( bool )

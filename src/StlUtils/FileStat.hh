@@ -577,6 +577,9 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:25:22  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/11/06 18:14:09  houghton
 // Added copy constructor.
 // Added operator = ( const FileStat & )

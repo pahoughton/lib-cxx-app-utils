@@ -522,6 +522,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:21  houghton
+// Changed to Release 3
+//
 // Revision 2.4  1996/11/04 14:33:07  houghton
 // Restructure header comments layout.
 // Updated and verified header comment documentation.

@@ -350,6 +350,9 @@ RegexScan::cleanup()
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:55  houghton
+// Changed to Release 3
+//
 // Revision 2.6  1996/11/13 17:01:47  houghton
 // Removed support for short file names.
 //

@@ -611,6 +611,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:45  houghton
+// Changed to Release 3
+//
 // Revision 2.8  1996/11/13 16:31:25  houghton
 // Restructure header comments layout.
 // Updated and verified header comment documentation.

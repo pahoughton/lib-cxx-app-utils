@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:26  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1995/12/04 11:18:31  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //

@@ -377,6 +377,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:49  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/11/04 14:17:16  houghton
 // Restructure header comments layout.
 // Updated and verified header comment documentation.

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:44  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/10/28 12:08:14  houghton
 // Bug-Fix: if passed test should always call result.passed and pass it
 // 	 the progress flag. Also now check progress flag in

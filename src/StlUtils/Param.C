@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:53  houghton
+// Changed to Release 3
+//
 // Revision 2.7  1996/11/11 13:35:39  houghton
 // Change to call rdbuf()-freeze beause AIX strstream does NOT have
 //     a freeze method in its strstream.

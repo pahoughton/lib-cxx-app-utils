@@ -99,6 +99,9 @@ StringCaseCompare(
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:16  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/11/04 14:29:55  houghton
 // Restructure header comments layout.
 //

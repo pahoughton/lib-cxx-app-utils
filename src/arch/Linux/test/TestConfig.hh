@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:25:07  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/05/02 11:05:08  houghton
 // Changed TESTDATA_PATH to TEST_DATA_DIR.
 //

@@ -392,6 +392,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:25:22  houghton
+// Changed to Release 3
+//
 // Revision 2.7  1996/11/08 11:46:36  houghton
 // Changed to use RWTime instead of DateTime.
 //     (as required by Mike Alexander)

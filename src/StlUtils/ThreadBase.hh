@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:25  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/11/04 14:34:35  houghton
 // Changed to be compilable even if CLUE_THREADS is not defined.
 //

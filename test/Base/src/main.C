@@ -206,6 +206,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:17  houghton
+// Changed to Release 3
+//
 // Revision 2.9  1996/11/08 11:46:54  houghton
 // *** empty log message ***
 //

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:25:09  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/11/06 18:10:41  houghton
 // Changed how effective user is handled.
 // Changed use of Str to RWCString.

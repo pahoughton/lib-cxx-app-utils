@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:34  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/05/01 11:34:59  houghton
 // Use TEST_DATA_DIR define for data path.
 //

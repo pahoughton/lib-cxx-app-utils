@@ -113,6 +113,9 @@ ClassVersion::getVer(
 
 
 // $Log$
+// Revision 3.1  1996/11/14 01:23:27  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/11/11 13:32:17  houghton
 // Bug-Fix: getVer( bool, const char * ) const - was not
 //     allocating the correct size for the string.

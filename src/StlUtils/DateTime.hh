@@ -17,6 +17,9 @@
 //
 // 
 // $Log$
+// Revision 3.1  1996/11/14 01:23:36  houghton
+// Changed to Release 3
+//
 // Revision 2.6  1996/11/04 13:34:20  houghton
 // Added strptime funct proto
 //

@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:24  houghton
+// Changed to Release 3
+//
 // Revision 2.7  1996/07/09 11:34:53  houghton
 // Bug-Fix: Change to StringToBool to StringTo.
 //

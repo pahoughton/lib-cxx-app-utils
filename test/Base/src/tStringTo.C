@@ -980,6 +980,9 @@ tStringTo( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:27:13  houghton
+// Changed to Release 3
+//
 // Revision 2.4  1996/11/04 14:52:54  houghton
 // Added header comments.
 // Changed test to verify new default len of NPOS (was 0).

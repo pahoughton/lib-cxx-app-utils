@@ -51,6 +51,9 @@ tIsBaseDigit( LibTest & tester )
 	  
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:43  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/11/04 18:22:53  houghton
 // Chaged include because Clue.hh renamed to ClueUtils.hh.
 //

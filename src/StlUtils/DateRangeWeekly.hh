@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 3.1  1996/11/14 01:23:35  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1995/11/10 18:46:51  houghton
 // Fixed error in comments
 //

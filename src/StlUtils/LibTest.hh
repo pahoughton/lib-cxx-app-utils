@@ -492,6 +492,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:44  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/11/04 13:36:55  houghton
 // Cleanup header comments.
 //

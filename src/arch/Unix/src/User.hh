@@ -188,6 +188,9 @@ compare( const User & one, const User & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:25:10  houghton
+// Changed to Release 3
+//
 // Revision 2.4  1996/11/06 18:11:09  houghton
 // Changed how effective user is handled.
 // Changed use of Str to RWCString.

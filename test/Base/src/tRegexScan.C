@@ -704,6 +704,9 @@ tRegexScan( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:53  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/11/04 14:50:42  houghton
 // Added header comments.
 // Chagned to test everything in RegexScan.hh.

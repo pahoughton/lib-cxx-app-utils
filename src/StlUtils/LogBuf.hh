@@ -272,6 +272,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:47  houghton
+// Changed to Release 3
+//
 // Revision 2.6  1996/11/13 16:51:11  houghton
 // Changed include lines from "file" to <file"
 //     to accomidate rpm.

@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:29  houghton
+// Changed to Release 3
+//
 // Revision 2.7  1996/11/11 13:32:59  houghton
 // Bug-Fix: had to change Align to use a template class for SizeType
 //

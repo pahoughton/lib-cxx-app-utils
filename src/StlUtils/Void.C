@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:28  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1995/11/13 11:30:45  houghton
 // Added compare function.
 // Changed date type from void * to char *.

@@ -189,6 +189,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:25  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/11/04 13:15:33  houghton
 // Restructure header comments layout.
 // Updated and verified header comment documentation.

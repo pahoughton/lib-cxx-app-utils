@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:24:29  houghton
+// Changed to Release 3
+//
 // Revision 2.5  1996/05/14 13:53:54  houghton
 // Added ::compare( const Void & lhs, const Void & rhs )
 //

@@ -353,6 +353,9 @@ tBit( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:21  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/11/04 14:45:21  houghton
 // Added header comments.
 // Changed so that everything in Bit.hh is tested.

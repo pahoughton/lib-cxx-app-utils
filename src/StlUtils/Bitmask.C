@@ -208,6 +208,9 @@ Bitmask::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:23:26  houghton
+// Changed to Release 3
+//
 // Revision 2.7  1996/11/13 16:21:42  houghton
 // Restructure header comments layout.
 // Changed include lines to use "file" instead of <file> to accomidate

@@ -50,6 +50,9 @@ tLog( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:44  houghton
+// Changed to Release 3
+//
 // Revision 2.3  1996/11/13 17:19:19  houghton
 // Added calls to new test functions (06, 07, 08 & 09).
 //

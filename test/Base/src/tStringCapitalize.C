@@ -71,6 +71,9 @@ tStringCapitalize( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:27:10  houghton
+// Changed to Release 3
+//
 // Revision 2.2  1996/11/04 14:51:24  houghton
 // Added header comments.
 //

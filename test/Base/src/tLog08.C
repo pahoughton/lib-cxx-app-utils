@@ -133,6 +133,9 @@ tLog08( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1996/11/14 01:26:50  houghton
+// Changed to Release 3
+//
 // Revision 2.1  1996/11/13 17:21:24  houghton
 // Initial Version.
 //
