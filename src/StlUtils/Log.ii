@@ -201,7 +201,7 @@ inline
 bool
 Log::willOutput( LogLevel::Level outLevel ) const
 {
-  return( rdbuf()->getLogLevel().willOutput( outLevel ) );
+  return( rdbuf()->willOutput( outLevel ) );
 }
 
 inline
@@ -351,6 +351,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/04/01 15:09:06  houghton
+// Bug-Fix: changed to use new LogBuf::willOutput that checks filters.
+//
 // Revision 3.2  1997/03/21 12:21:38  houghton
 // Cleanup.
 // Added localTimeStamp var to determin if logtime stamp should be
