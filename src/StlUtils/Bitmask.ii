@@ -365,6 +365,21 @@ Bitmask::operator <  ( const Bitmask & rhs ) const
 
 inline
 bool
+Bitmask::operator == ( bool rhs ) const
+{
+  return( any() == rhs );
+}
+
+inline
+bool
+Bitmask::operator != ( bool rhs ) const
+{
+  return( !(*this == rhs) );
+}
+  
+
+inline
+bool
 Bitmask::operator == ( unsigned long rhs ) const
 {
   return( compare( rhs ) == 0 );
@@ -563,6 +578,9 @@ operator << ( ostream & dest, const Bitmask::bit & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/07/20 11:19:42  houghton
+// Port(Hpux): Added operatoer == (bool) && operator != (bool).
+//
 // Revision 4.1  1997/09/17 15:12:11  houghton
 // Changed to Version 4
 //

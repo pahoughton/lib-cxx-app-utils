@@ -119,6 +119,9 @@ public:
   inline bool		operator == ( const Bitmask & rhs ) const;
   inline bool		operator <  ( const Bitmask & rhs ) const;
 
+  inline bool		operator == ( bool rhs ) const;
+  inline bool		operator != ( bool rhs ) const;
+  
   inline bool		operator == ( unsigned long rhs ) const;
   inline bool		operator != ( unsigned long rhs ) const;
   inline bool		operator <  ( unsigned long rhs ) const;
@@ -714,6 +717,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/07/20 11:19:39  houghton
+// Port(Hpux): Added operatoer == (bool) && operator != (bool).
+//
 // Revision 4.2  1997/09/19 11:20:30  houghton
 // Changed to use new portable types (STLUTILS*_T).
 //
