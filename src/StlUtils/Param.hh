@@ -43,14 +43,14 @@
 #include <climits>
 #include <ctime>
 
-#define CLUE_DEFAULT_LOGLEVEL "ERROR | WARNING"
+#define CLUE_DEFAULT_LOGLEVEL "INFO | ERROR | WARNING"
 
 #define ALog( lvl )	LogIf( App->log(), lvl )
 
 #define AppWarn	    ALog( LogLevel::Warn )
 #define AppError    ALog( LogLevel::Error )
 #define AppInfo	    ALog( LogLevel::Info )
-#define AppDebug    ALog( LegLevel::Debug )
+#define AppDebug    ALog( LogLevel::Debug )
 
 
 #if defined( CLUE_DEBUG )
@@ -315,7 +315,7 @@ operator << ( ostream & dest, const Param & obj );
 //
 //	-loglevel   stirng - output log level. The type of log entries
 //		    that will be output to the log.
-//		    Env: LOG_LEVEL. Default: "ERROR | WARING";
+//		    Env: LOG_LEVEL. Default: "INFO | ERROR | WARING";
 //
 //	-logfilter  string - filter log entries through this
 //		    regex pattern. Only entries that contain
@@ -842,6 +842,10 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1996/11/22 12:24:45  houghton
+// Added AppDebug.
+// Changed default log level to include 'Info'.
+//
 // Revision 3.3  1996/11/19 22:08:22  houghton
 // Bug-Fix: remove parse flag from constructor - calling a virtual
 //     from the constructor does NOT call the sub class's method.
