@@ -1,0 +1,99 @@
+#ifndef _LruMap_ii_
+#define _LruMap_ii_
+//
+// File:        LruMap.ii
+// Project:	StlUtils
+// Desc:        
+//
+//  	Inline source for LruMap
+//
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Created:     09/08/98 09:35
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+template< class Obj, class ObjKey, class LruKey, class LruFunct, class LruMax >
+inline
+LruMap<Obj, ObjKey, LruKey, LruFunct, LruMax>::~LruMap( void )
+{
+  Rec * r;
+  Rec *	n;
+
+  for( r = qFirst;  r; r = n )
+    {
+      n = (*r).next;
+      delete r;
+    }
+};
+  
+template< class Obj, class ObjKey, class LruKey, class LruFunct, class LruMax >
+ostream &
+LruMap<Obj, ObjKey, LruKey, LruFunct, LruMax>::dumpInfo(
+  ostream &	dest,
+  const char *	prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << LruMap::getClassName() << ":\n"
+      // << LruMap::getVersion() << '\n'
+      ;
+
+#if defined( FIXME )
+  if( ! LruMap::good() )
+    dest << prefix << "Error: " << LruMap::error() << '\n';
+  else
+    dest << prefix << "Good" << '\n';
+#endif
+
+  for( Index::const_iterator	them = index.begin();
+       them != index.end();
+       ++ them )
+    {
+      dest << prefix << "k:  " << setw(6) << (*them).first
+	   << "  allocated: " 
+	   << ((*them).second ? 'Y' : 'n' )
+	   << '\n'
+	;
+    }
+
+  for( Rec * r = qFirst; r ; r = (*r).next )
+    {
+      dest << prefix << "qk: " << setw(6) << (*r).key
+	   << " me: " << (void *)r
+	   << " p: " << (void *)(*r).prev 
+	   << " n: " << (void *)(*r).next
+	   << '\n';
+    };
+
+  dest << prefix << "q size:   " << qSize << '\n';
+
+  return( dest );
+}
+
+template< class Obj, class ObjKey, class LruKey, class LruFunct, class LruMax >
+inline
+DumpInfo< LruMap<Obj, ObjKey, LruKey, LruFunct, LruMax> >
+LruMap<Obj, ObjKey, LruKey, LruFunct, LruMax>::dump(
+  const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< LruMap >( *this, prefix, showVer ) );
+}
+
+
+// Revision Log:
+// 
+// $Log$
+// Revision 4.1  1998/10/13 15:19:14  houghton
+// Initial Version.
+//
+//
+#endif // ! def _LruMap_ii_ 
