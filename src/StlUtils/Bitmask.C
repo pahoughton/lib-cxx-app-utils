@@ -10,7 +10,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 15:28:31  houghton
+// Revision 1.4  1995/11/09 18:15:18  houghton
+// Fixed bug in toStream. was outputing all 0 on AIX
+//
+// Revision 1.3  1995/11/05  15:28:31  houghton
 // Revised
 //
 //
@@ -67,7 +70,7 @@ ostream &
 Bitmask::toStream( ostream & dest ) const
 {
   for( int p = maxPos - 1; p >= 0; p-- )
-    dest << ((isSet( p ) == true ) ? '1' : '0' );
+    dest << ( isSet( p ) ) ? '1' : '0' );
   
   return( dest );
 }
