@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/11/11 13:28:16  houghton
+// Rework fromStream because of a bug with AIX iostream.
+//
 // Revision 2.5  1996/11/04 13:20:09  houghton
 // Added Bitmask::bit::toStream
 // Added Bitmask::bit::dumpInfo
@@ -160,11 +163,16 @@ Bitmask::fromStream( istream & src )
   char * in = tmp;
 
   // read input into tmp until EOF or sizeof tmp exceeded
-  
-  for( *in = src.rdbuf()->sbumpc();
-       *in != EOF && ((in - tmp) < (int)sizeof( tmp ));
-       ++in, *in = src.rdbuf()->sbumpc() )
+
+  // AIX BUG cant use char to test for EOF!
+  int c;
+
+  for( c = src.rdbuf()->sbumpc();
+       c != EOF && ((in - tmp) < (int)sizeof( tmp ));
+       ++in, c = src.rdbuf()->sbumpc() )
     {
+      *in = (char)c;
+      
       // if non-binary digit, put the char it back and break;
       if( *in != '0' && *in != '1' )
 	{
@@ -175,21 +183,21 @@ Bitmask::fromStream( istream & src )
 
   if( in == tmp )
     {
-      src.set( ios::failbit );
+      src.clear( ios::failbit );
       return ( src );
     }
 
-  bool wasEof = (*in == EOF );
+  bool wasEof = (c == EOF );
   
   // null terminate the string
   *in = 0;
 
   // convert it to an unsigned long
   if( ! StringTo( value, tmp, 2 ) )
-    src.set( ios::failbit );
+    src.clear( ios::failbit );
 
   if( wasEof )
-    src.set( ios::eofbit );
+    src.clear( ios::eofbit );
 
   return( src );
 }
