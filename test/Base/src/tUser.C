@@ -85,8 +85,10 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    // FIXME - need to define this in the TestConfig for other platforms.
+#if !defined( CLUE_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
-    
+#endif    
   }
 
   {
@@ -102,7 +104,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+#if !defined( CLUE_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
+#endif
   }
 
   {
@@ -138,7 +142,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+#if !defined( CLUE_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
+#endif
   }
 
   {
@@ -154,7 +160,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+#if !defined( CLUE_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
+#endif
   }
 
   {
@@ -170,7 +178,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+#if !defined( CLUE_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
+#endif
   }
 
   {
@@ -186,7 +196,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+#if !defined( CLUE_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
+#endif
   }
 
   {
@@ -208,7 +220,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+#if !defined( CLUE_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
+#endif
   }
 
   {
@@ -229,7 +243,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+#if !defined( CLUE_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
+#endif
   }
 
   {
@@ -251,7 +267,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+#if !defined( CLUE_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
+#endif
   }
 
   {
@@ -435,7 +453,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    TEST( t.getGroups().size() != 0 );    
+#if !defined( CLUE_TEST_MULTI_GROUPS )
+    TEST( t.getGroups().size() != 0 );
+#endif
   }
     
   {
@@ -453,7 +473,9 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    TEST( t.getGroups().size() != 0 );    
+#if !defined( CLUE_TEST_MULTI_GROUPS )
+    TEST( t.getGroups().size() != 0 );
+#endif
   }
 
   {
