@@ -69,7 +69,7 @@ Log::level( const char * lvl, const char * srcFile, long srcLine )
 
   if( timeStamp )
     {
-      DateTime now(time(0));
+      DateTime now(time(0), localTimeStamp );
 
       *this << now << ' ';
     }
@@ -186,6 +186,10 @@ Log::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/21 12:21:16  houghton
+// Added localTimeStamp var to determin if logtime stamp should be
+//     local or GMT.
+//
 // Revision 3.2  1997/03/03 14:36:23  houghton
 // Removed support for RW Tools++
 //
