@@ -1,6 +1,6 @@
 #
 # File:         Support.COMMON
-# Project:	StlUtils ()
+# Project:	StlUtils
 # Desc:
 #
 #   
@@ -22,24 +22,27 @@
 #
 
 
-
 COMMON_SUPPORT_TYPE	= LIB
 COMMON_NAME		= Common
 COMMON_VER		= 4
+COMMON_VER_MINOR	= 01
 COMMON_DOC_HTML	= $(WWW_OBJECT_REP_ROOT)/GenC/Common
 
 COMMON_DESC_CMD	= \
 	cat $(COMMON_EXTRACT_DIR)/$(COMMON_BUILD_DIR)/src/config/.prjdesc.txt
 COMMON_CLASSPATH	= \
 
-COMMON_INC_DIRS	= $$(INSTALL_INC_DIR)
-COMMON_LIB_DIRS	= $$(INSTALL_LIB_DIR)
+COMMON_INC_DIRS	= $$(INSTALL_INC_DIR) 
+COMMON_LIB_DIRS	= $$(INSTALL_LIB_DIR) 
 COMMON_LIBS		= Common
-COMMON_DEP_LIB_DIRS	=  
+COMMON_DEP_INC_DIRS	= 
+COMMON_DEP_LIB_DIRS	= 
 COMMON_DEP_LIBS	= m 
 COMMON_SUPPORT_ITMES	= GZIP MAKE_CONFIGS DOCTOOLS 
 COMMON_EXTRACT_DIR	= $(libs_build_dir)
 COMMON_BUILD_DIR	= $(COMMON_NAME)-$(COMMON_VER)
+COMMON_SHARED_LIB	= \
+	lib$(COMMON_NAME).so.$(COMMON_VER).$(COMMON_VER_MINOR)
 COMMON_tar		= $(COMMON_NAME)-$(COMMON_VER).tar.gz
 COMMON_target	= \
 	$(INSTALL_INC_DIR)/Common.h
@@ -55,7 +58,7 @@ $(COMMON_target): $(tools_archive_dir)/$(COMMON_tar)
 		TOOL_DIR=$(TOOL_DIR)				\
 		$(SUPPORT_SETUP_CONFIG_VARS)			\
 		hide=$(hide)					\
-	&& $(make_cmd) -C $(COMMON_BUILD_DIR)			\
+	&& $(make_cmd) -C $(COMMON_BUILD_DIR)		\
 		depend_all					\
 		check						\
 		install_all					\
@@ -77,11 +80,7 @@ COMMON_rebuild_libs:
 	&& echo " Done -" `date`
 
 
-#
-# Revision Log:
-#
-# %PL%
-#
+
 
 # Set XEmacs mode
 #

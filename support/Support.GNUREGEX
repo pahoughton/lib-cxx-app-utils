@@ -22,24 +22,27 @@
 #
 
 
-
 GNUREGEX_SUPPORT_TYPE	= LIB
 GNUREGEX_NAME		= GnuRegex
 GNUREGEX_VER		= 3
+GNUREGEX_VER_MINOR	= 01
 GNUREGEX_DOC_HTML	= $(WWW_OBJECT_REP_ROOT)/GenC/GnuRegex
 
 GNUREGEX_DESC_CMD	= \
 	cat $(GNUREGEX_EXTRACT_DIR)/$(GNUREGEX_BUILD_DIR)/src/config/.prjdesc.txt
 GNUREGEX_CLASSPATH	= \
 
-GNUREGEX_INC_DIRS	= $$(INSTALL_INC_DIR)
-GNUREGEX_LIB_DIRS	= $$(INSTALL_LIB_DIR)
+GNUREGEX_INC_DIRS	= $$(INSTALL_INC_DIR) 
+GNUREGEX_LIB_DIRS	= $$(INSTALL_LIB_DIR) 
 GNUREGEX_LIBS		= GnuRegex
-GNUREGEX_DEP_LIB_DIRS	=  
-GNUREGEX_DEP_LIBS	=  
+GNUREGEX_DEP_INC_DIRS	= 
+GNUREGEX_DEP_LIB_DIRS	= 
+GNUREGEX_DEP_LIBS	= 
 GNUREGEX_SUPPORT_ITMES	= GZIP MAKE_CONFIGS DOCTOOLS 
 GNUREGEX_EXTRACT_DIR	= $(libs_build_dir)
 GNUREGEX_BUILD_DIR	= $(GNUREGEX_NAME)-$(GNUREGEX_VER)
+GNUREGEX_SHARED_LIB	= \
+	lib$(GNUREGEX_NAME).so.$(GNUREGEX_VER).$(GNUREGEX_VER_MINOR)
 GNUREGEX_tar		= $(GNUREGEX_NAME)-$(GNUREGEX_VER).tar.gz
 GNUREGEX_target	= \
 	$(INSTALL_INC_DIR)/GnuRegex.h
@@ -55,7 +58,7 @@ $(GNUREGEX_target): $(tools_archive_dir)/$(GNUREGEX_tar)
 		TOOL_DIR=$(TOOL_DIR)				\
 		$(SUPPORT_SETUP_CONFIG_VARS)			\
 		hide=$(hide)					\
-	&& $(make_cmd) -C $(GNUREGEX_BUILD_DIR)			\
+	&& $(make_cmd) -C $(GNUREGEX_BUILD_DIR)		\
 		depend_all					\
 		check						\
 		install_all					\
@@ -77,13 +80,6 @@ GNUREGEX_rebuild_libs:
 	&& echo " Done -" `date`
 
 
-
-
-#
-# Revision Log:
-#
-# %PL%
-#
 
 # Set XEmacs mode
 #

@@ -50,6 +50,7 @@ DIST_BINARY_TYPE_LIST	= shared debug
 BUILD_TYPE_LIST		= all default debug profile test shared
 
 DEPEND_TARGETS		= $(patsubst %,depend_%,$(BUILD_TYPE_LIST))
+BUILD_LIB_TARGETS	= $(patsubst %,lib_%,$(BUILD_TYPE_LIST))
 BUILD_TARGETS		= $(BUILD_TYPE_LIST)
 INSTALL_LIB_TARGETS	= $(patsubst %,install_lib_%,$(BUILD_TYPE_LIST))
 INSTALL_TARGETS		= $(patsubst %,install_%,$(BUILD_TYPE_LIST))
@@ -78,25 +79,30 @@ PHONY_TARGETS	= $(HELP_TARGETS)
 include Make/make.cfg.targets.common.$(make_cfg_ver)
 
 $(DEPEND_TARGETS):
-	$(call make_subdirs,$@,src,			\
+	$(hide) $(call make_subdirs,$@,src,			\
 		$(exports)				\
 		$(depend_exports)			\
 		$($(@)_exports)				\
 		BUILD_TYPE=$(subst depend_,,$@))
 
+$(BUILD_LIB_TARGETS):
+	$(hide) $(call make_subdirs,$@,src,	\
+		$(exports)			\
+		$($(@)_exports))
+
 $(BUILD_TARGETS):
-	$(call make_subdirs,$@,src,	\
+	$(hide) $(call make_subdirs,$@,src,	\
 		$(exports)		\
 		$($(@)_exports)		\
 		BUILD_TYPE=$@)
 
 check:
-	$(call make_subdirs,$@,src,	\
+	$(hide) $(call make_subdirs,$@,src,	\
 		$(exports)		\
 		$($(@)_exports))
 
 $(INSTALL_LIB_TARGETS):
-	$(call make_subdirs,$@,src,			\
+	$(hide) $(call make_subdirs,$@,src,			\
 		$(exports)				\
 		$(install_lib_exports)			\
 		$($(@)_exports)				\
@@ -114,25 +120,31 @@ install: install_shared
 
 install_support_lib_all install_support_lib_shared:
 	$(hide) $(MAKE) -C support -f Install.Makefile $@	\
-		$(install_lib_exports)				\
+		$(install_support_lib_exports)			\
+		$(exports)					\
+		$($(@)_exports)
+
+install_support:
+	$(hide) $(MAKE) -C support -f Install.Makefile $@	\
+		$(install_support_exports)			\
 		$(exports)					\
 		$($(@)_exports)
 
 html man:
-	$(call make_subdirs,$@,doc,	\
+	$(hide) $(call make_subdirs,$@,doc,	\
 		$(exports)		\
 		$(doc_exports)		\
 		$($(@)_exports))
 
 install_html install_man:
-	$(call make_subdirs,$@,doc,	\
+	$(hide) $(call make_subdirs,$@,doc,	\
 		$(exports)		\
 		$(doc_exports)		\
 		$(install_doc_exports)	\
 		$($(@)_exports))
 
 dist:
-	$(call make_dist_from_dim,infr_objs,mcmain,$(PROJECT_DIR))
+
 
 dist_binary:
 	$(hide) $(MAKE) -C support -f Install.Makefile $@	\
@@ -141,7 +153,7 @@ dist_binary:
 		$($(@)_exports)
 
 dist_html:
-	$(call make_subdirs,$@,docs,$(exports) $($(@)_exports))
+	$(hide) $(call make_subdirs,$@,docs,$(exports) $($(@)_exports))
 
 realclean::
 	rm -rf install
