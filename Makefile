@@ -24,12 +24,6 @@ INSTALL_DOC_MAN_DIR 	= $(TOOL_DIR)/man
 INSTALL_DOC_HTML_DIR	= \
 	/usr/netscape/suitespot/docs/ObjectRepository/GenericCxx/StlUtils
 
-common_h	= $(INSTALL_INC_DIR)/Common.h
-gnuregex_h	= $(INSTALL_INC_DIR)/GnuRegex.h
-stdcxx_hh	= $(INSTALL_INC_DIR)/StdCxxConfig.hh
-
-hide = @
-
 setup_exports		=				\
 	INSTALL_INC_DIR=$(INSTALL_INC_DIR)		\
 	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)		\
@@ -146,6 +140,9 @@ help_config:
 
 #
 # $Log$
+# Revision 5.4  2000/06/11 12:23:13  houghton
+# Cleanup.
+#
 # Revision 5.3  2000/06/04 17:55:48  houghton
 # Changed doc variables.
 #
