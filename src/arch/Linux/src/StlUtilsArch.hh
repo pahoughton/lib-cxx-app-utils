@@ -23,8 +23,12 @@
 #define _BSD_SOURCE	1
 #define _SVID_SOURCE	1
 
+#define STLUTILS_HAS_BASENAME		1
 #define STLUTILS_HAVE_LONG_ABS		1
 #define STLUTILS_LOG_WHERE		1
+
+#define STLUTILS_HAS_TM_GMTOFF		1
+#define STLUTILS_HAS_RELOPS		1
 #define STLUTILS_HAS_STR		1
 #define STLUTILS_HAS_DATETIME		1
 #define STLUTILS_HAS_STRPTIME		1
@@ -82,13 +86,10 @@
 // Constants
 #define STLUTILS_DIR_DELIM	    '/'
 #define STLUTILS_BAD_FPOS_T	    LONG_MIN
+#define NPOS			    static_cast<size_t>(-1)
 
 // Macros
 #define STLUTILS_UNUSED( x )
-
-// #include <climits>
-#include <stddef>   // for NPOS
-#include <unistd.h> // for pid_t
 
 //
 // Detail Documentation
@@ -147,6 +148,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/10/13 16:32:08  houghton
+// Reworked for latest version of Compiler.
+//
 // Revision 4.2  1997/09/19 11:21:53  houghton
 // Cleanup
 // Added portable types (STLUTILS*_T).
@@ -224,6 +228,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/10/13 16:32:08  houghton
+// Reworked for latest version of Compiler.
+//
 // Revision 4.2  1997/09/19 11:21:53  houghton
 // Cleanup
 // Added portable types (STLUTILS*_T).
