@@ -21,7 +21,7 @@
 
 SHELL		= /bin/ksh
 
-PROJECT		= libStlUtils-4
+PROJECT		= libStlUtils-5
 CFG_DIR		= $(PROJECT)/src/config
 
 common_h	= $(INSTALL_INC_DIR)/Common.h
@@ -118,6 +118,9 @@ setup: check_cvs $(common_h) $(gnuregex_h) $(stdcxx_hh) gen_setup_cfg
 
 #
 # $Log$
+# Revision 5.2  2000/05/25 17:07:48  houghton
+# Changed project version.
+#
 # Revision 5.1  2000/05/25 10:33:23  houghton
 # Changed Version Num to 5
 #
