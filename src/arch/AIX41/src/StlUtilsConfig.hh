@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  1996/04/27 13:15:29  houghton
+// Changed to make sure pthreads.h is included first.
+//
 // Revision 1.1  1996/02/29 19:10:22  houghton
 // Initial Version
 //
@@ -21,6 +24,10 @@
 // Revised
 //
 //
+
+#if defined( CLUE_THREADS )
+#include <pthread.h>
+#endif
 
 #define CLUE_CLASS_T
 #define CLUE_FUNCT_T
