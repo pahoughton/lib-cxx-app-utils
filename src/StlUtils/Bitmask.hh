@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/05/11 11:01:06  houghton
+// Added operators <= and >=.
+//
 // Revision 2.5  1996/05/02 01:27:22  houghton
 // Add missing operators for <= & >= long rhs.
 //
@@ -235,7 +238,13 @@ bool
 operator <  ( unsigned long lhs, const Bitmask & rhs );
 
 bool
+operator <= ( unsigned long lhs, const Bitmask & rhs );
+
+bool
 operator >  ( unsigned long lhs, const Bitmask & rhs );
+
+bool
+operator >= ( unsigned long lhs, const Bitmask & rhs );
 
 #endif
 
