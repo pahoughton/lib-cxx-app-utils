@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.3  1997/08/24 21:56:37  houghton
+// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
+//
 // Revision 3.2  1997/07/18 19:11:07  houghton
 // Cleanup.
 // Added compare( const DateTime & two ) const to eliminate compiler warnings.
@@ -98,10 +101,10 @@ DateRangeDaily::getSecOfDay( void ) const
   return( SecOfDay( getTimeT() ) );
 }
 
-int
+DayOfWeek
 DateRangeDaily::getDayOfWeek( void ) const
 {
-  return( -1 );
+  return( (DayOfWeek)-1 );
 }
 
 time_t

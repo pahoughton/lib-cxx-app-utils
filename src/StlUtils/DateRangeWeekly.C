@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/08/24 21:55:11  houghton
+// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
+//
 // Revision 3.1  1996/11/14 01:23:34  houghton
 // Changed to Release 3
 //
@@ -58,10 +61,10 @@ CLUE_VERSION(
 
 const time_t DateRangeWeekly::freq = (24 * 60 * 60 * 7);
 
-int
+DayOfWeek
 DateRangeWeekly::getDayOfWeek( void ) const
 {
-  return( getStart() / SecPerDay );
+  return( (DayOfWeek)(getStart() / SecPerDay ) );
 }
 
 time_t

@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 3.2  1997/08/24 21:54:53  houghton
+// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
+//
 // Revision 3.1  1996/11/14 01:23:35  houghton
 // Changed to Release 3
 //
@@ -48,7 +51,7 @@ public:
 
   inline DateRangeWeekly( short dayOfWeek, time_t startTime, time_t durSec );
   
-  virtual int	    getDayOfWeek( void ) const;
+  virtual DayOfWeek getDayOfWeek( void ) const;
   virtual time_t    getFrequency( void ) const;
   
   virtual time_t    secIn( const DateRange & dateTwo ) const;
