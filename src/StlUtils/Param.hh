@@ -28,11 +28,16 @@
 #include <ClueConfig.hh>
 #include <Log.hh>
 #include <LibLog.hh>
+#if defined( CLUE_HAS_STR )
 #include <Str.hh>
+#endif
+#if defined( CLUE_HAS_DATETIME )
 #include <DateTime.hh>
+#endif
 #include <rw/cstring.h>
 #include <rw/rwdate.h>
 #include <rw/rwtime.h>
+#include <strstream>
 #include <cstdlib>
 #include <climits>
 #else
@@ -87,12 +92,12 @@ public:
 		const char *	    description,
 		const char *     argId,
 		const char *     envVar = 0 );
-
+#if defined(CLUE_HAS_STR )
   bool	argStr( Str & 	    	dest,
 		const char *	description,
 		const char *    argId,
 		const char *    envVar = 0 );
-
+#endif
   bool	argStr( RWCString &	dest,
 		const char *	description,
 		const char *    argId,
@@ -155,6 +160,7 @@ public:
 		 const char *   argId,
 		 const char *   envVar = 0 );
 
+#if defined( CLUE_HAS_DATETIME )  
   bool	argDateTime( time_t &	    dest,
 		     const char *   description,
 		     const char *   argId,
@@ -165,21 +171,23 @@ public:
 		     const char *   argId,
 		     const char *   envVar = 0 );
 
+#endif
   bool	argDateTime( RWTime &	    dest,
 		     const char *   description,
 		     const char *   argId,
 		     const char *   envVar = 0 );
-  
+#if defined( CLUE_HAS_DATETIME )  
   bool	argDate( DateTime &	    dest,
 		 const char *	    description,
 		 const char *	    argId,
 		 const char *	    envVar = 0 );
-  
+#endif
   bool	argDate( RWDate &	    dest,
 		 const char *       description,
 		 const char *       argId,
 		 const char *       envVar = 0 );
 
+#if defined( CLUE_HAS_DATETIME )  
   bool	argTime( DateTime &	    dest,
 		 const char *	    description,
 		 const char *	    argId,
@@ -190,6 +198,7 @@ public:
 		 const char *	    argId,
 		 const char *	    envVar = 0 );
   
+#endif
   inline bool	help( void ) const;
 
   inline bool	allArgs( void ) const;
@@ -228,7 +237,7 @@ private:
 		     const char * desc,
 		     const char * envVar );
   
-  Str	    	    helpString;
+  RWCString    	    helpString;
   
   int &	    	    argc;
   char **    	    argv;
@@ -238,8 +247,8 @@ private:
 
   bool    	    helpFlag;
 
-  Str     	    logFile;
-  Str    	    logOutputLevel;
+  RWCString    	    logFile;
+  RWCString    	    logOutputLevel;
   
   bool	    	    logTee;
   unsigned long	    logMaxSize;
@@ -506,6 +515,10 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 2.8  1996/11/08 11:46:10  houghton
+// Removed Support for Str and DateTime.
+//     (as required by Mike Alexander)
+//
 // Revision 2.7  1996/10/22 22:07:09  houghton
 // Change: Added locStamp to turn on/off output of src file & line.
 // Change: Added Support for Rogue Tools++ RWCString, RWDate & RWTime.

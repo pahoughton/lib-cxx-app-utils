@@ -9,6 +9,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/11/08 11:46:04  houghton
+// Removed Support for Str and DateTime.
+//     (as required by Mike Alexander)
+//
 // Revision 2.5  1996/10/22 22:07:00  houghton
 // Change: Added locStamp to turn on/off output of src file & line.
 // Change: Added Support for Rogue Tools++ RWCString, RWDate & RWTime.
@@ -74,13 +78,17 @@ Param::Param(
     _LibLog = &appLog;
   
   argv = mainArgv;
-  
-  helpString.setf( ios::left );
-  
-  helpString << '\n' << appName() << " help: " << "\n\n";
+
+  helpString += "\n";
+  helpString += appName();
+  helpString += " help: \n\n";
 
   if( ver )
-    helpString << "  Ver: " << ver << "\n\n";
+    {
+      helpString += "  Ver: ";
+      helpString += ver;
+      helpString += "\n\n";
+    }
 
   ok = true;
   
@@ -133,7 +141,7 @@ Param::Param(
 	   "LOG_LOC" );
   
 	  
-  if( ! logFile.empty() )
+  if( logFile.length() )
     {
       appLog.setFileName( logFile );
 
@@ -174,23 +182,27 @@ Param::argStr(
     {
       if( (( helpString.length() - hStart ) + strlen( dest )) < 80 )
 	{
-	  helpString << " '" << dest << "'\n";
+	  helpString += " '";
+	  helpString += dest;
+	  helpString += "'\n";
 	}
       else
 	{
-	  helpString << '\n'
-		     << "            '" << dest << "'\n";
+	  helpString += "\n            '";
+	  helpString += dest;
+	  helpString += "'\n";
 	}
     }
   else
     {
-      helpString << "''\n";
+      helpString += "''\n";
     }
 
   return( argValue != 0 );
   
 }
 
+#if defined( CLUE_HAS_STR )
 bool
 Param::argStr(
   Str &  	dest,
@@ -225,6 +237,7 @@ Param::argStr(
   return( argValue != 0 );
   
 }
+#endif
 
 bool
 Param::argStr(
@@ -242,19 +255,22 @@ Param::argStr(
 
   if( dest.length() )
     {
-      if( (( helpString.length() - hStart ) +  dest.length()) < 80 )
+      if( (( helpString.length() - hStart ) + strlen( dest )) < 80 )
 	{
-	  helpString << " '" << dest << "'\n";
+	  helpString += " '";
+	  helpString += dest;
+	  helpString += "'\n";
 	}
       else
 	{
-	  helpString << '\n'
-		     << "            '" << dest << "'\n";
+	  helpString += "\n            '";
+	  helpString += dest;
+	  helpString += "'\n";
 	}
     }
   else
     {
-      helpString << "''\n";
+      helpString += "''\n";
     }
 
   return( argValue != 0 );
@@ -277,17 +293,23 @@ Param::argInt(
 
   if( argValue ) dest = StringToInt( argValue );
 
+  strstream tmpHelp;
+  
   if( dest < minVal || dest > maxVal )
     {
-      helpString << " '" << dest << "' not "
-		 << minVal << " < n < " << maxVal << "\n";
+      tmpHelp << " '" << dest << "' not "
+	      << minVal << " < n < " << maxVal << "\n";
       ok = false;
     }
   else
     {
-      helpString << " '" << dest << "'\n";
+      tmpHelp << " '" << dest << "'\n";
     }
 
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != 0 );
   
 }
@@ -308,17 +330,23 @@ Param::argUInt(
 
   if( argValue ) dest = StringToUInt( argValue );
 
+  strstream tmpHelp;
+  
   if( dest < minVal || dest > maxVal )
     {
-      helpString << " '" << dest << "' not "
-		 << minVal << " < n < " << maxVal << "\n";
+      tmpHelp << " '" << dest << "' not "
+	      << minVal << " < n < " << maxVal << "\n";
       ok = false;
     }
   else
     {
-      helpString << " '" << dest << "'\n";
+      tmpHelp << " '" << dest << "'\n";
     }
 
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != 0 );
   
 }
@@ -339,17 +367,22 @@ Param::argShort(
 
   if( argValue ) dest = StringToInt( argValue );
 
+  strstream tmpHelp;
   if( dest < minVal || dest > maxVal )
     {
-      helpString << " '" << dest << "' not "
-		 << minVal << " < n < " << maxVal << "\n";
+      tmpHelp << " '" << dest << "' not "
+	      << minVal << " < n < " << maxVal << "\n";
       ok = false;
     }
   else
     {
-      helpString << " '" << dest << "'\n";
+      tmpHelp << " '" << dest << "'\n";
     }
 
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != 0 );
   
 }
@@ -370,17 +403,23 @@ Param::argUShort(
 
   if( argValue ) dest = StringToUInt( argValue );
 
+  strstream tmpHelp;
+  
   if( dest < minVal || dest > maxVal )
     {
-      helpString << " '" << dest << "' not "
-		 << minVal << " < n < " << maxVal << "\n";
+      tmpHelp << " '" << dest << "' not "
+	      << minVal << " < n < " << maxVal << "\n";
       ok = false;
     }
   else
     {
-      helpString << " '" << dest << "'\n";
+      tmpHelp << " '" << dest << "'\n";
     }
 
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != 0 );
   
 }
@@ -401,17 +440,22 @@ Param::argLong(
 
   if( argValue ) dest = StringToLong( argValue );
 
+  strstream tmpHelp;
   if( dest < minVal || dest > maxVal )
     {
-      helpString << " '" << dest << "' not "
+      tmpHelp << " '" << dest << "' not "
 		 << minVal << " < n < " << maxVal << "\n";
       ok = false;
     }
   else
     {      
-      helpString << " '" << dest << "'\n";
+      tmpHelp << " '" << dest << "'\n";
     }
 
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != 0 );
   
 }
@@ -432,17 +476,22 @@ Param::argULong(
 
   if( argValue ) dest = StringToULong( argValue );
 
+  strstream tmpHelp;
   if( dest < minVal || dest > maxVal )
     {
-      helpString << " '" << dest << "' not "
-		 << minVal << " < n < " << maxVal << "\n";
+      tmpHelp << " '" << dest << "' not "
+	      << minVal << " < n < " << maxVal << "\n";
       ok = false;
     }
   else
     {      
-      helpString << " '" << dest << "'\n";
+      tmpHelp << " '" << dest << "'\n";
     }
 
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != 0 );
   
 }
@@ -461,8 +510,14 @@ Param::argDouble(
 
   if( argValue ) dest = StringToDouble( argValue );
 
-  helpString << " '" << dest << "'\n";
+  strstream tmpHelp;
+  
+  tmpHelp << " '" << dest << "'\n";
 
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != 0 );
   
 }
@@ -481,8 +536,13 @@ Param::argBool(
 
   if( argValue ) dest = StringToBool( argValue );
 
-  helpString << " '" << ( (dest == true) ? "true" : "false" ) << "'\n";
-
+  strstream tmpHelp;
+  tmpHelp << " '" << ( (dest == true) ? "true" : "false" ) << "'\n";
+  
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != 0 );
 }
 
@@ -500,11 +560,18 @@ Param::argFlag(
 
   if( argValue ) dest = argValue;
 
-  helpString << " '" << ( (dest == true) ? "true" : "false" ) << "'\n";
+  strstream tmpHelp;
+  
+  tmpHelp << " '" << ( (dest == true) ? "true" : "false" ) << "'\n";
 
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != false );
 }
 
+#if defined( CLUE_HAS_DATETIME )
 bool
 Param::argDateTime(
   time_t &  	dest,
@@ -603,6 +670,7 @@ Param::argDate(
 
   return( argValue != 0 );
 }
+#endif
 
 bool
 Param::argDate(
@@ -618,16 +686,22 @@ Param::argDate(
 
   if( argValue )
     {
-      DateTime tmp;
-      tmp.set( argValue );
-      dest = RWDate( tmp.getDayOfMonth(), tmp.getMonth(), tmp.getYear() );
+      RWCString tmp( argValue );
+      dest = RWDate( tmp );
     }
-  
-  helpString << " '" << dest << "'\n";
 
+  strstream tmpHelp;
+  
+  tmpHelp << " '" << dest << "'\n";
+
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( argValue != 0 );
 }
 
+#if defined( CLUE_HAS_DATETIME )
 bool
 Param::argTime(
   DateTime &  	dest,
@@ -650,7 +724,6 @@ Param::argTime(
 
   return( argValue != 0 );
 }
-
 bool
 Param::argTime(
   RWTime &  	dest,
@@ -674,6 +747,7 @@ Param::argTime(
 
   return( argValue != 0 );
 }
+#endif
 
 char *
 Param::getArgValue( const char * argId, const char * envVar )
@@ -733,8 +807,11 @@ Param::good( void ) const
 const char *
 Param::error( void ) const
 {
-  static Str errStr;
-  errStr.reset();
+  static strstream errStr;
+  errStr.freeze(0);
+  errStr.seekp(0);
+  errStr.seekg(0);
+  
   errStr << getClassName();
   
   if( good() )
@@ -756,7 +833,8 @@ Param::error( void ) const
 	  errStr << ": unknown error";
 	}
     }
-  return( errStr.cstr() );  
+  errStr << ends;
+  return( errStr.str() );  
 }
 
 const char *
@@ -768,16 +846,7 @@ Param::getClassName( void ) const
 const char *
 Param::getVersion( bool withPrjVer ) const
 {
-  static Str ver;
-
-  if( ! ver.size() )
-    {
-      ver << version.getVer( withPrjVer ) << '\n'
-	  << "    " << appLog.getVersion( false ) << '\n'
-	  << "    " << helpString.getVersion( false ) << '\n'
-	;
-    }
-  return( ver );
+  return( version.getVer( withPrjVer, appLog.getVersion( false ) ) );
 }
 
 
@@ -804,11 +873,13 @@ Param::dumpInfo(
   else
     dest << prefix << "Good!" << '\n';
 
-  Str pre;
-  pre = prefix;
-  pre << "appLog:" << appLog.getClassName() << "::";
-
-  appLog.dumpInfo( dest, pre, false );
+  {
+    strstream pre;
+    pre << prefix << "appLog:" << appLog.getClassName() << "::";
+    pre << ends;
+    appLog.dumpInfo( dest, pre.str(), false );
+    pre.freeze(0);
+  }
   
   dest << prefix;
   toStream( dest );
@@ -847,11 +918,18 @@ Param::setHelp(
   const char * envVar
   )
 {
+  strstream tmpHelp;
+  
   size_t hStart =  helpString.length();
   
-  helpString << "  -" << setw(8) << argId << ' ' << desc ;
-  if( envVar ) helpString << " (" << envVar << ')';
+  tmpHelp << "  -" << setw(8) << argId << ' ' << desc ;
+  if( envVar )
+    tmpHelp << " (" << envVar << ')';
 
+  tmpHelp << ends;
+  helpString += tmpHelp.str();
+  tmpHelp.freeze(0);
+  
   return( hStart );
 }
 
