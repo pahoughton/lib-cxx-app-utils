@@ -347,7 +347,7 @@ LogBuf::sendToStream( streambuf * dest, char * base, int len )
   
   for( cnt = dest->sputn( base, len );
        cnt > 0 && cnt < len && len > 0;
-       len -= cnt, base += cnt );
+       len -= cnt, base += cnt )
   {
     total += cnt;
     cnt = stream->sputn( base, len );
@@ -501,6 +501,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 2.4  1996/11/06 18:05:22  houghton
+// Bug-Fix: removed ';' from for loop in sendToStream.
+//
 // Revision 2.3  1996/11/04 13:57:12  houghton
 // Restructure header comments layout.
 // Changed LOG_BUFSIZE to 2048. So there is more data in the message
