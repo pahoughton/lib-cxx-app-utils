@@ -35,16 +35,16 @@ Compress::dump( const char * prefix, bool showVer ) const
 
 inline
 bool
-Compress::compress( const FilePath & inFn, const FilePath & outFn )
+Compress::compress( const FilePath & inputFn, const FilePath & outputFn )
 {
-  return( compress( inFn.c_str(), outFn.c_str() ) );
+  return( compress( inputFn.c_str(), outputFn.c_str() ) );
 }
 
 inline
 bool
-Compress::decompress( const FilePath & inFn, const FilePath & outFn )
+Compress::decompress( const FilePath & inputFn, const FilePath & outputFn )
 {
-  return( decompress( inFn.c_str(), outFn.c_str() ) );
+  return( decompress( inputFn.c_str(), outputFn.c_str() ) );
 }
 
 #if defined( inline )
@@ -57,6 +57,9 @@ Compress::decompress( const FilePath & inFn, const FilePath & outFn )
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/10/23 21:16:08  houghton
+// Changed arg var names.
+//
 // Revision 5.3  2001/10/23 16:59:24  houghton
 // Added compress( const FilePath &, const FilePath & )
 // Added decompress( const FilePath &, const FilePath & )
