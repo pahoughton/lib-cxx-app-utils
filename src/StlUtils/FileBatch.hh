@@ -199,7 +199,7 @@ public:
 	readPos( from.readPos )
       {};
 
-    inline const_iterator( const self::iterator & from )
+    inline const_iterator( const typename self::iterator & from )
       : owner( from.owner ),
 	rec( from.rec ),
 	pos( from.pos ),
@@ -248,7 +248,9 @@ public:
       return( *this );
     };
       
-    inline const_iterator &	operator = ( const self::iterator & rhs ) {
+    inline const_iterator &	operator = (
+      const typename self::iterator & rhs
+      ) {
       owner	= rhs.owner;
       rec	= rhs.rec;
       pos	= rhs.pos;
@@ -264,11 +266,11 @@ public:
       return( ! (*this == rhs) );
     };
 
-    inline bool	    operator == ( const self::iterator & rhs ) const {
+    inline bool	    operator == ( const typename self::iterator & rhs ) const {
       return( owner == rhs.owner && pos == rhs.pos );
     };
 
-    inline bool	    operator != ( const self::iterator & rhs ) const {
+    inline bool	    operator != ( const typename self::iterator & rhs ) const {
       return( !(*this == rhs));
     };
     
@@ -403,6 +405,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2002/03/25 11:27:00  houghton
+// Added typename delcarations.
+//
 // Revision 5.5  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //
