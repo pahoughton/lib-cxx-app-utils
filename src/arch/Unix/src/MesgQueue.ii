@@ -1,0 +1,46 @@
+#ifndef _MesgQueue_ii_
+#define _MesgQueue_ii_
+//
+// File:        MesgQueue.ii
+// Project:	StlUtils
+// Desc:        
+//
+//  	Inline source for MesgQueue
+//
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Created:     11/06/98 06:52
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( STLUTILS_DEBUG )
+#define inline
+#endif
+
+inline
+DumpInfo< MesgQueue >
+MesgQueue::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< MesgQueue >( *this, prefix, showVer ) );
+}
+
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 4.1  1999/03/02 12:52:00  houghton
+// Initial Version.
+//
+//
+#endif // ! def _MesgQueue_ii_ 
