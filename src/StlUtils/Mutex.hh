@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 2.2  1996/04/27 13:05:06  houghton
+// Implemented Mutex locking. For theads.
+//
 // Revision 2.1  1996/02/29 19:06:08  houghton
 // Initial Version
 //
@@ -43,7 +46,10 @@ public:
 
   virtual ~Mutex( void );
 
-
+  bool		lock( void );
+  bool		trylock( void );
+  bool		unlock( void );
+  
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
@@ -61,6 +67,9 @@ private:
   Mutex( const Mutex & from );
   Mutex & operator =( const Mutex & from );
 
+  pthread_mutex_t   mutex;
+  int		    errorNum;
+  
 };
 
 #if !defined( inline )
@@ -69,6 +78,7 @@ private:
 #else
 #include <Mutex.ii>
 #endif
+#else
 #undef inline
 #endif
 
