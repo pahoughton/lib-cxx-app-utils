@@ -42,6 +42,7 @@ bool	tStringUpper( LibTest & tester );
 bool	tStringCapitalize( LibTest & tester );
 bool	tStringTo( LibTest & tester );
 bool	tStringFrom( LibTest & tester );
+bool	tStringFirstNotOf( LibTest & tester );
 bool	tbasename( LibTest & tester );
 // ClassVersion.hh
 bool	tClassVersion( LibTest & tester );
@@ -154,6 +155,9 @@ bool	tFileBinStream( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/08/12 11:11:44  houghton
+// Added tStringFirstNotOf
+//
 // Revision 3.3  1997/07/11 15:56:57  houghton
 // Added tTimeIt.
 //

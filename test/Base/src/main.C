@@ -44,6 +44,7 @@ LibTest::TestItem   TestList[] =
   { "StringFrom",	    tStringFrom },
   { "StringUpper",  	    tStringUpper },
   { "StripWhite",   	    tStripWhite },
+  { "StringFirstNotOf",	    tStringFirstNotOf },
   { "basename",     	    tbasename },
   { "ClassVersion",	    tClassVersion },
   { "Bitmask",		    tBitmask },
@@ -190,6 +191,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/08/12 11:11:49  houghton
+// Added tStringFirstNotOf
+//
 // Revision 3.7  1997/07/11 15:57:00  houghton
 // Added tTimeIt.
 //
