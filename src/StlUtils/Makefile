@@ -10,7 +10,7 @@
 # Do not modifiy 'makefile_type'
 makefile_type   = lib
 # This is the make.cfg version that will be used
-make_cfg_ver	= 5.01
+make_cfg_ver	= 5.02
 # Default target type
 make_target	= default
 # Uncomment 'show_compile_command' to output compile command.
@@ -34,7 +34,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
-VER_RELEASE	= 04
+VER_RELEASE	= 05.b.01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -116,6 +116,8 @@ INSTALL_INC_FLAGS	= -m 664
 
 
 # **** S O U R C E   F I L E S ****
+
+GENERATED_SOURCES = $(ARCH_GENERATED_SOURCES)
 
 C_SOURCES	=			\
 	$(ARCH_C_SOURCES)               \
@@ -269,7 +271,7 @@ CXX_INLINES	=			\
 
 include Make/make.cfg.targets.$(makefile_type).$(make_cfg_ver)
 
-default debug profile shared:: proto
+default debug profile shared:: $(generated_files)
 
 default:: $(LIBRARY_$($(make_target)))
 
@@ -307,6 +309,12 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.22  1997/08/08 13:27:58  houghton
+# Changed target dependancy to generated_files (was proto).
+# Added GENERATED_SOURCES.
+# Changed version number.
+# Changed make_cfg_ver to use 5.02
+#
 # Revision 3.21  1997/07/19 18:15:53  houghton
 # Added Directory.
 #
