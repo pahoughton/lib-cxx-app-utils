@@ -33,7 +33,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
-VER_RELEASE	= 01.b.02
+VER_RELEASE	= 01.b.03
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -301,6 +301,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.15  1997/04/02 13:45:09  houghton
+# Changed ver num.
+#
 # Revision 3.14  1997/04/01 13:40:06  houghton
 # Changed version num.
 #
