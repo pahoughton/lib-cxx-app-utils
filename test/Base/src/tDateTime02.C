@@ -155,19 +155,23 @@ tDateTime02( LibTest & tester )
     DateTime	    	dt( when.getTimeT(), true );
     const DateTime	dtConst( when.getTimeT(), true );
 
-    TEST( dt.getOffset()  ==  -21600  );
+    TEST( ! strcmp( dt.getTimeZone(), "CST6CDT" ) );
     TEST( dt.isLocal() );
     TEST( ! dt.isDST() );
     TEST( ! dtConst.isDST() );
 
-    DateTime	summerWhen( "6/1/95 08:00:00" );
-    DateTime 	summer( summerWhen.getTimeT(), true );
+    TEST( dt.getOffset()  ==  -21600  );
+    
+    DateTime		summerWhen( "6/1/95 08:00:00" );
+    DateTime		summer( summerWhen.getTimeT(), true );
     const DateTime 	summerConst( summerWhen.getTimeT(), true );
 
+    TEST( ! strcmp( summer.getTimeZone(), "CST6CDT" ) );
     TEST( summer.isDST() );
     TEST( summerConst.isDST() );
     
-    TEST( ! strcmp( dt.getTimeZone(), "CST6CDT" ) );
+    TEST( summer.getOffset()  ==  -18000  );
+    
   }
 
   {
