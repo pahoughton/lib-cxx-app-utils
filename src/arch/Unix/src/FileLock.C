@@ -20,6 +20,7 @@
 #include <StlUtilsMisc.hh>
 #include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #if defined( STLUTILS_DEBUG )
 #include "FileLock.ii"
@@ -216,6 +217,9 @@ FileLock::typeName( Type t )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/21 13:18:13  houghton
+// Port(Aix41): needed to add include errno.h
+//
 // Revision 4.1  1997/09/17 15:13:30  houghton
 // Changed to Version 4
 //
