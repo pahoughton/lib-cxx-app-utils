@@ -25,6 +25,85 @@ CLUE_VERSION(
 
 Log * _LibLog = 0;
 
+Log::Log(
+  ostream & 	    outstr,
+  LogLevel::Level   out,
+  bool		    stampLevel,
+  bool		    stampTime,
+  bool		    stampLoc
+  )
+  : ostream( new LogBuf( out, outstr.rdbuf() ) ),
+    timeStamp( stampTime ),
+    levelStamp( stampLevel ),
+    locStamp( stampLoc ),
+    localTimeStamp( true )
+{
+  tie( &outstr );
+}
+
+Log::Log(
+  ostream & 	outstr,
+  const char *	out,
+  bool		stampLevel,
+  bool		stampTime,
+  bool		stampLoc
+  )
+  : ostream( new LogBuf( out, outstr.rdbuf() ) ),
+    timeStamp( stampTime ),
+    levelStamp( stampLevel ),
+    locStamp( stampLoc ),
+    localTimeStamp( true )
+{
+  tie( &outstr );
+}
+
+Log::Log(
+  const char *	    fileName,
+  LogLevel::Level   out,
+  ios::open_mode    mode,
+  int		    prot,
+  bool		    stampLevel,
+  bool		    stampTime,
+  bool		    stampLoc,
+  size_t	    maxSize,
+  size_t	    trimSize
+  )
+  : ostream( new LogBuf(fileName, out, mode, prot, maxSize, trimSize ) ),
+    timeStamp( stampTime ),
+    levelStamp( stampLevel ),
+    locStamp( stampLoc ),
+    localTimeStamp( true )
+{
+  if( rdbuf() && ! rdbuf()->is_open() )
+    setstate( ios::badbit );
+}
+
+Log::Log(
+  const char *	    fileName,
+  const char *	    out,
+  ios::open_mode    mode,
+  int		    prot,
+  bool		    stampLevel,
+  bool		    stampTime,
+  bool		    stampLoc,
+  size_t	    maxSize,
+  size_t	    trimSize
+  )
+  : ostream( new LogBuf(fileName, out, mode, prot, maxSize, trimSize ) ),
+    timeStamp( stampTime ),
+    levelStamp( stampLevel ),
+    locStamp( stampLoc ),
+    localTimeStamp( true )
+{
+  if( rdbuf() && ! rdbuf()->is_open() )
+    setstate( ios::badbit );
+}
+
+Log::~Log( void )
+{
+  delete rdbuf();
+}
+
 Log &
 Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
 {
@@ -85,6 +164,85 @@ Log::level( const char * lvl, const char * srcFile, long srcLine )
     }
   
   return( *this );
+}
+
+size_t
+Log::trim( size_t maxSize )
+{
+  return( rdbuf()->trim( maxSize ) );
+}
+
+void
+Log::setFileName( const char * outFn, ios::open_mode mode )
+{
+  open( outFn, mode );
+}
+
+void
+Log::open( const char * outFn, ios::open_mode mode )
+{
+  rdbuf()->close();
+  
+  if( rdbuf()->open( outFn, (ios::open_mode)mode ) != 0 )
+    clear();
+  else
+    setstate( badbit );
+}
+
+void
+Log::close( void )
+{
+  if( rdbuf()->sync() == EOF )
+    {
+      setstate( eofbit | failbit );
+    }
+  
+  rdbuf()->close();
+
+  if( rdbuf() && rdbuf()->is_file() )
+    setstate( badbit );
+  
+}
+
+
+bool
+Log::filter( const char * regex )
+{
+  return( rdbuf()->filter( regex ) );
+}
+
+LogBuf::FilterId
+Log::addFilter(
+  streambuf *	    dest,
+  LogLevel::Level   outLevel,
+  const char *	    regex
+  )
+{
+  return( rdbuf()->addFilter( dest, outLevel, regex ) );
+}
+
+streambuf *
+Log::getFilterStream( LogBuf::FilterId filter )
+{
+  return( rdbuf()->getFilterStream( filter ) );
+}
+
+LogLevel::Level
+Log::getFilterLogLevel( LogBuf::FilterId filter )
+{
+  return( rdbuf()->getFilterLogLevel( filter ) );
+}
+
+const char *
+Log::getFilterRegex( LogBuf::FilterId filter )
+{
+  return( rdbuf()->getFilterRegex( filter ) );
+}
+
+streambuf *
+Log::delFilter( LogBuf::FilterId id )
+{
+  return( rdbuf()->delFilter( id ) );
 }
 
 bool
@@ -186,6 +344,12 @@ Log::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/04/04 03:09:05  houghton
+// Moved constructors to here from .ii.
+// Added getFilterStream
+// Added getFilterLogLevel
+// Added getFilterRegex
+//
 // Revision 3.4  1997/03/21 15:37:54  houghton
 // Bug-Fix: date stamp was not using localTimeStamp.
 //
