@@ -60,6 +60,7 @@ NF == 2 {
   sig_name[$1] = $2
   }
 END {
+  if( maxsig > 100 ) { maxsig = 100 }
   for( n = 0; n <= maxsig; n++ ) {
     if( sig_name[n]) {
       printf( "  \"%s\",\n", sig_name[n] )
@@ -83,6 +84,10 @@ EOS
 
 #
 # $Log$
+# Revision 3.2  1997/08/18 10:32:50  houghton
+# Changed to limit the number of signals to 100, sun has one with a
+#     value up around 8000.
+#
 # Revision 3.1  1997/08/08 13:25:30  houghton
 # Initial Version.
 #
@@ -95,6 +100,10 @@ EOS
 
 #
 # $Log$
+# Revision 3.2  1997/08/18 10:32:50  houghton
+# Changed to limit the number of signals to 100, sun has one with a
+#     value up around 8000.
+#
 # Revision 3.1  1997/08/08 13:25:30  houghton
 # Initial Version.
 #
