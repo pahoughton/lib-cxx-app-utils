@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.3  1998/07/20 11:30:20  houghton
+// Port(Hpux): had to specify default function arg.
+//
 // Revision 4.2  1997/12/19 12:51:51  houghton
 // Bug-Fix: groups is const, so i need to use a const iterator.
 //
@@ -98,7 +101,7 @@ User::findGroups( void )
     {
       for( int m = 0; gr->gr_mem[m]; m++ )
 	{
-	  if( ! ::compare( name, gr->gr_mem[m] )  )
+	  if( ! ::compare( name, gr->gr_mem[m], Str::npos )  )
 	    {
 	      UserGroup g( gr, false );
 	      _LLgLock;
