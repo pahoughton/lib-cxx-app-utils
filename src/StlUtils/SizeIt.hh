@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 4.2  1998/10/13 16:21:53  houghton
+// Changed to include cstddef
+//
 // Revision 4.1  1997/09/17 15:12:48  houghton
 // Changed to Version 4
 //
@@ -35,7 +38,7 @@
 
 #include <StlUtilsConfig.hh>
 #include <iostream>
-#include <stddef.h>
+#include <cstddef>
 
 #if defined( STLUTILS_DEBUG )
 #define inline
