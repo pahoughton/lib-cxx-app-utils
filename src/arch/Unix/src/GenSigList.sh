@@ -41,7 +41,7 @@ CC=$1
 
 echo '#include <signal.h>' > /tmp/sigs$$.c
 
-hdrs=`$CC -E /tmp/sigs$$.c | grep '[ 	]*#' | sed -n -e 's@.*"\(.*/.*\)".*@\1@' -e '/\//p' | grep -v "/tmp/sigs$$.c" | sort | uniq`
+hdrs=`$CC -E /tmp/sigs$$.c | grep '[ 	]*#' | sed -n -e '/#ident/d' -e 's@.*"\(.*/.*\)".*@\1@' -e '/\//p' | grep -v "/tmp/sigs$$.c" | sort | uniq`
 
 rm /tmp/sigs$$.c
 
@@ -84,6 +84,9 @@ EOS
 
 #
 # $Log$
+# Revision 4.2  1997/09/21 21:22:00  houghton
+# Port(Sun5): have to filter out #indent lines.
+#
 # Revision 4.1  1997/09/17 15:13:31  houghton
 # Changed to Version 4
 #
@@ -106,6 +109,9 @@ EOS
 
 #
 # $Log$
+# Revision 4.2  1997/09/21 21:22:00  houghton
+# Port(Sun5): have to filter out #indent lines.
+#
 # Revision 4.1  1997/09/17 15:13:31  houghton
 # Changed to Version 4
 #
