@@ -332,5 +332,96 @@ tStr17( LibTest & tester )
     TEST( t.toULong( 16 ) == 0x123 );
   }
 
+  {
+    // to( RangeList & range, unsigned short base )
+    Str		    r;
+    Str::RangeList  t;
+
+    r = "57";
+    TEST( r.to( t ) == 1 );
+
+    {
+      TEST( t.size() == 1 );
+      
+      Str::RangeList::iterator them = t.begin();
+
+      TEST( them != t.end() );
+      TEST( (*them).first == 57 );
+      TEST( (*them).second == 0 );
+    }
+
+    r = "4,8";
+    TEST( r.to( t ) == 2 );
+    
+    {
+      TEST( t.size() == 2 );
+      
+      Str::RangeList::iterator them = t.begin();
+
+      TEST( them != t.end() );
+      TEST( (*them).first == 4 );
+      TEST( (*them).second == 0 );
+      
+      ++ them;
+      TEST( them != t.end() );
+      TEST( (*them).first == 8);
+      TEST( (*them).second == 0 );
+    }
+
+    r = "3-200";
+    TEST( r.to( t ) == 1 );
+    
+    {
+      TEST( t.size() == 1 );
+      
+      Str::RangeList::iterator them = t.begin();
+
+      TEST( them != t.end() );
+      TEST( (*them).first == 3 );
+      TEST( (*them).second == 200 );
+      
+    }
+
+    r = "4-8,10:20.23  30..35\t50;1025-";
+    TEST( r.to( t ) == 6 );
+    
+    {
+      TEST( t.size() == 6 );
+      
+      Str::RangeList::iterator them = t.begin();
+
+      TEST( them != t.end() );
+      TEST( (*them).first == 4 );
+      TEST( (*them).second == 8 );
+      
+      ++ them;
+      TEST( them != t.end() );
+      TEST( (*them).first == 10 );
+      TEST( (*them).second == 0 );
+      
+      ++ them;
+      TEST( them != t.end() );
+      TEST( (*them).first == 20 );
+      TEST( (*them).second == 23 );
+      
+      ++ them;
+      TEST( them != t.end() );
+      TEST( (*them).first == 30 );
+      TEST( (*them).second == 35  );
+      
+      ++ them;
+      TEST( them != t.end() );
+      TEST( (*them).first == 50 );
+      TEST( (*them).second == 0 );
+      
+      ++ them;
+      TEST( them != t.end() );
+      TEST( (*them).first == 1025 );
+      TEST( (*them).second == ULONG_MAX );
+    }
+
+  }
+	
+      
   return( true );
 }
