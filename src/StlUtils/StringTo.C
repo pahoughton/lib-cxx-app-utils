@@ -529,7 +529,16 @@ StringTo(
   return( true );
 }
   
-  
+bool
+StringTo(
+  struct tm &	dest,
+  const char *	src,
+  const char *	fmt )
+{
+  strptime( (char *)src, fmt, &dest );
+  return( true );
+}
+
 #define STRING_TO_RET_TYPE( _type_, _name_ )				      \
 _type_									      \
 StringTo##_name_( const char * src, unsigned short base, size_t  len )	      \
@@ -635,11 +644,24 @@ StringToBool(
   StringTo( dest, src, len );
   return( dest );
 }
-      
+
+struct tm
+StringToTm( const char * src, const char * fmt )
+{
+  struct tm dest;
+  strptime( (char *)src, fmt, &dest );
+  return( dest );
+}
+
+
 //
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1996/11/25 10:14:01  houghton
+// Added StringTo( struct & tm dest, const char * src, const char * fmt )
+// Added StringToTm( const char * src, const char * fmt
+//
 // Revision 3.2  1996/11/19 12:26:05  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.
