@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/05/02 11:05:08  houghton
+// Changed TESTDATA_PATH to TEST_DATA_DIR.
+//
 // Revision 2.1  1995/11/10 12:46:54  houghton
 // Change to Version 2
 //
@@ -23,7 +26,7 @@
 //
 
 #if !defined( TESTDATA_PATH )
-#define TESTDATA_PATH "data/"
+#define TEST_DATA_DIR "../data"
 #endif
 
 
