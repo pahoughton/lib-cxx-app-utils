@@ -44,12 +44,14 @@ tLog( LibTest & tester )
   TESTP( tLog07( tester ) );
   TESTP( tLog08( tester ) );
   TESTP( tLog09( tester ) );
-  
   return( true );
 }
 
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:16:16  houghton
+// Cleanup.
+//
 // Revision 3.1  1996/11/14 01:26:44  houghton
 // Changed to Release 3
 //

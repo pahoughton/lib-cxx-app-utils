@@ -22,7 +22,7 @@ ARCHSRC_INC	= -I$(ARCH_DIR) -I$(ARCH_SRC_DIR)
 ARCH_DEFINES	= $(UNIX_DEFINES)
 
 ARCH_INC	= $(ARCHSRC_INC) $(UNIX_INC)
-			  
+ 
 
 
 ARCH_C_SOURCES		=	\
@@ -31,8 +31,6 @@ ARCH_C_SOURCES		=	\
 
 ARCH_CXX_C_SOURCES	=	\
 	basename.C		\
-	FileStat.C		\
-	OpenFlags.C		\
 	$(UNIX_CXX_C_SOURCES)	\
 
 ARCH_USER_H_INCS	=	\
@@ -40,12 +38,10 @@ ARCH_USER_H_INCS	=	\
 
 
 ARCH_USER_HH_INCS	=		\
-	FileStat.hh			\
 	ClueConfig.hh			\
 	$(UNIX_USER_HH_INCS)		\
 
 ARCH_USER_II_INCS	=		\
-	FileStat.ii			\
 	$(UNIX_USER_II_INCS)		\
 
 ARCH_C_HEADERS		=		\
@@ -60,6 +56,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 3.4  1996/11/20 12:14:19  houghton
+# Cleanup.
+#
 # Revision 3.3  1996/11/19 22:09:58  houghton
 # Cleanup install items.
 #

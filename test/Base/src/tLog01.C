@@ -345,6 +345,7 @@ tLog01( LibTest & tester )
     
   }
 
+
   {
     // Log( const char *, LogLevel::Level, ios::open_mode, int, bool )
 
@@ -483,7 +484,6 @@ tLog01( LibTest & tester )
     TEST( (logFileStat.getMode() & 0777) == 0664 );
     
   }
-
   {
     // Log( const char *,
     //	    LogLevel::Level,
@@ -768,15 +768,15 @@ tLog01( LibTest & tester )
     
   }
 
-
-  
-      
   return( true );
 }
 
 
 //
 // $Log$
+// Revision 3.3  1996/11/20 12:16:23  houghton
+// Cleanup.
+//
 // Revision 3.2  1996/11/19 12:35:15  houghton
 // Changed include strstream to include strstream.h because strstream
 //     is not part of the standard.
