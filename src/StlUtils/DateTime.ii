@@ -32,7 +32,7 @@
 inline
 DateTime::DateTime( void )
 {
-  timeZoneName = 0;
+  timeZone[0] = 0;
   resetFlags();
   set( time(0), true );
 }
@@ -41,7 +41,7 @@ DateTime::DateTime( void )
 inline
 DateTime::DateTime( time_t setTime, bool addLocal )
 {
-  timeZoneName = 0;
+  timeZone[0] = 0;
   resetFlags();
   set( setTime, addLocal );
 }
@@ -50,7 +50,7 @@ DateTime::DateTime( time_t setTime, bool addLocal )
 inline
 DateTime::DateTime( time_t day, time_t timeOfDay )
 {
-  timeZoneName = 0;
+  timeZone[0] = 0;
   resetFlags();
   seconds = day + timeOfDay;
 }
@@ -59,7 +59,7 @@ DateTime::DateTime( time_t day, time_t timeOfDay )
 inline
 DateTime::DateTime( const char * yymmdd, const char * hhmmss )
 {
-  timeZoneName = 0;
+  timeZone[0] = 0;
   resetFlags();
   setHHMMSS( hhmmss );
   setYYMMDD( yymmdd );
@@ -76,7 +76,7 @@ DateTime::DateTime(
     int 	sec
     )
 {  
-  timeZoneName = 0;
+  timeZone[0] = 0;
   resetFlags();
   set( year, month, day, hour, min, sec );
 }
@@ -86,7 +86,7 @@ DateTime::DateTime(
 inline
 DateTime::DateTime( const struct tm & setTime )
 {
-  timeZoneName = 0;
+  timeZone[0] = 0;
   resetFlags();
   set( setTime );
 }
@@ -95,7 +95,7 @@ DateTime::DateTime( const struct tm & setTime )
 inline
 DateTime::DateTime( const char * dateString )
 {
-  timeZoneName = 0;
+  timeZone[0] = 0;
   resetFlags();
   set( dateString, 0 );
 }
@@ -301,14 +301,7 @@ inline
 const char *
 DateTime::getTimeZone( void ) const
 {
-  if( offset )
-    {
-      return( (timeZoneName) ? timeZoneName : getenv( "TZ" ) );
-    }
-  else
-    {
-      return( "GMT" );
-    }
+  return( offset ? timeZone : "GMT" );
 }
 
 // setTimeT - set the time from timeSec return old value
@@ -560,7 +553,8 @@ DateTime::setTm( void )
     {
       if( offset )
 	{
-	  setTmOffset();
+	  seconds -= offset;
+	  setTimeZoneOffset();
 	}
       else
 	{
@@ -630,7 +624,7 @@ DateTime::resetFlags( void )
   flags.dstKnown = false;
   flags.tmValid = false;
   offset = 0;
-  timeZoneName = 0;
+  timeZone[0] = 0;
 }
 
 inline
@@ -700,6 +694,9 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.3  1998/10/13 16:17:59  houghton
+// Change: init time zone vars in the constructors.
+//
 // Revision 4.2  1998/01/22 18:43:40  houghton
 // Bug-Fix: changed all to set() to use -1 for year, month and day so
 //     they will be ignored.
