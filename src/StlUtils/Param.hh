@@ -375,45 +375,59 @@ operator << ( ostream & dest, const Param & obj );
 //		    then exit(0). If the -help flag is also set, this flag
 //		    is ignored (the version info is included in the help).
 //
-//	-logfile    string - log file name. File name that should be used
+//	-gen-argfile flag - generate an argfile into the file named by
+//		    the -argfile argument. This file can then modified
+//		    and used as the application's argfile.
+//
+//	-log-file   string - log file name. File name that should be used
 //		    for log output. Env: LOG_FILE. Default: cout
 //
-//	-logmode    string - this is the 'ios::open_mode' for the
+//	-log-mode   string - this is the 'ios::open_mode' for the
 //		    log file. It should be either 'ios::app|ios::out' or
 //		    'ios::out'. (note: the ios:: and the | are ignored,
 //		    so 'app out' will also work.
 //
-//	-logprot    int - this is the protection for a new log file.
+//	-log-prot   int - this is the protection for a new log file.
 //		    The leading 0 is significant, so you should
 //		    set it with something like 0644.
 //
-//	-loglevel   stirng - output log level. The type of log entries
+//	-log-level  stirng - output log level. The type of log entries
 //		    that will be output to the log.
 //		    Env: LOG_LEVEL. Default: "INFO | ERROR | WARING";
 //
-//	-logfilter  string - filter log entries through this
+//	-log-filter string - filter log entries through this
 //		    regex pattern. Only entries that contain
 //		    the pattern will be output.
 //		    Env: LOG_FILTER. Default: none.
 //
-//	-logtee	    flag - Tee log output to cerr.
+//	-log-tee    flag - Tee log output to cerr.
 //
-//	-logshowtime
+//	-log-show-time
 //		    bool - write a time stamp to each
 //		    log entry. Env: LOG_TIME. Default: true
 //
-//	-logshowlevel
+//	-log-show-level
 //		    bool - output the level with each log entry
 //		    Env: LOG_STAMP_LEVEL. Default: true.
 //
-//	-logshowloc bool - output source file and line with each
+//	-log-show-loc
+//		    bool - output source file and line with each
 //		    log entry. Env: LOG_LOC. Default: true
 //
-//	-logmax	    long - max size of log file.
+//	-log-max	    long - max size of log file.
 //		    Env: LOG_MAX. Default: 0 (unlimited)
 //
-//	-logtrim    long - log file trim size.
+//	-log-trim   long - log file trim size.
 //		    Env: LOG_TRIM. Default: 0 ( 25% of max ).
+//
+//	-error-log  string - an additional log file to write log entries
+//		    to. Only those entries with the log level specified
+//		    by -error-log-level will be written to this file.
+//
+//	-error-log-level
+//		    string - this is the log level
+//		    of the log entries that should be written to the
+//		    -error-log file. Default: "WARN | ERROR"
 //		    
 //
 //  There are many methods in this class that process and convert
@@ -945,6 +959,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  2000/04/18 12:53:12  houghton
+// Updated documentation.
+//
 // Revision 4.4  1999/11/09 11:08:35  houghton
 // Added logExitInfo()
 // Added argChar().
