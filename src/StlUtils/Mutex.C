@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/11/04 14:20:22  houghton
+// Changed to work even if CLUE_THREADS is not defined.
+//
 // Revision 2.1  1996/04/27 13:04:22  houghton
 // Initial version.
 //
@@ -35,6 +38,7 @@ CLUE_VERSION(
   Mutex,
   "$Id$");
 
+#if defined( CLUE_THREADS )
 
 Mutex::Mutex( void )
   : errorNum( 0 )
@@ -131,4 +135,106 @@ Mutex::dumpInfo(
 
   return( dest );
 }
+
+#else // ! defined CLUE_THREADS
+
+Mutex::Mutex( void )
+  : errorNum( 0 )
+{
+}
+
+Mutex::~Mutex( void )
+{
+}
+
+bool
+Mutex::lock( void )
+{
+  return( good() );
+}
+
+bool
+Mutex::trylock( void )
+{
+  return( good() );
+}
+
+bool
+Mutex::unlock( void )
+{
+  return( good() );
+}
+
+bool
+Mutex::good( void ) const
+{
+  return( errorNum == 0 );
+}
+
+const char *
+Mutex::error( void ) const
+{
+  static Str errStr;
+
+  errStr = Mutex::getClassName();
+
+  if( good() )
+    {
+       errStr << ": unsupported";
+    }
+  else
+    {
+      size_t eSize = errStr.size();
+
+      errStr << ": unsupported";
+      
+      if( eSize == errStr.size() )
+        errStr << ": unknown error";
+    }
+
+  return( errStr.cstr() );
+}
+
+const char *
+Mutex::getClassName( void ) const
+{
+  return( "Mutex" );
+}
+
+const char *
+Mutex::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer ) );
+}
+
+
+ostream &
+Mutex::dumpInfo(
+  ostream &	dest,
+  const char *	prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << Mutex::getClassName() << ":\n"
+	 << Mutex::getVersion() << '\n';
+
+  if( ! Mutex::good() )
+    dest << prefix << "Error: " << Mutex::error() << '\n';
+  else
+    dest << prefix << "Good" << '\n';
+
+
+  return( dest );
+}
+
+
+#endif  // defined( CLUE_THREADS )
+
+
+
+
+
+
+
 

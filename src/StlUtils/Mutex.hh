@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 2.4  1996/11/04 14:20:26  houghton
+// Changed to work even if CLUE_THREADS is not defined.
+//
 // Revision 2.3  1996/05/03 16:13:29  houghton
 // Cleanup.
 //
@@ -69,7 +72,9 @@ private:
   Mutex( const Mutex & from );
   Mutex & operator =( const Mutex & from );
 
+#if defined( CLUE_THREADS )
   pthread_mutex_t   mutex;
+#endif
   int		    errorNum;
   
 };
