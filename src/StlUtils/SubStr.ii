@@ -2,59 +2,27 @@
 #define _SubStr_ii_
 //
 // File:        SubStr.ii
+// Project:	Clue
 // Desc:        
 //
-//  	inlines for SubStr
+//  	Inline source for SubStr
 //
-//
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
 // Created:     06/06/95 05:52
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.2  1997/07/18 19:30:52  houghton
-// Port(Sun5): reworked istream operator >> SubStr to eliminate compiler error.
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.1  1996/11/14 01:24:24  houghton
-// Changed to Release 3
-//
-// Revision 2.7  1996/07/09 11:34:53  houghton
-// Bug-Fix: Change to StringToBool to StringTo.
-//
-// Revision 2.6  1996/05/25 12:36:25  houghton
-// Added of method. returns owning Str.
-//
-// Revision 2.5  1996/05/03 16:13:52  houghton
-// AIX Port cleanup.
-//
-// Revision 2.4  1996/04/27 13:09:56  houghton
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
-//
-// Revision 2.3  1996/02/29 19:07:35  houghton
-// Added some ifndefs for GNU
-//
-// Revision 2.2  1995/12/04 11:18:30  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:18  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:54  houghton
-// Ports and Version ID changes
-//
+//  $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
+
 #include <Str.hh>
 #include <StringUtils.hh>
 #include <algorithm>
-#else
-#include <Str.hh>
-#include <StrUtil.hh>
-#include <algorithm>
-#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -114,7 +82,19 @@ SubStr::of( void ) const
   return( str );
 }
 
-    
+inline
+SubStr::size_type
+SubStr::copy( char * dest, size_type destLen, size_type start ) const
+{
+  size_type len = (destLen == npos ? size() - start :
+		   min( destLen, size() - start ) );
+  
+  strncpy( dest, strbase() + start, len );
+  if( destLen == npos || len < destLen )
+    dest[ len ] = 0;
+  return( len );
+}
+  
 inline
 bool
 SubStr::to( bool & dest ) const
@@ -682,5 +662,44 @@ SubStr::operator =  ( const string & src )
 #if defined( inline )
 #undef inline
 #endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 3.3  1997/08/17 22:35:52  houghton
+// Added copy( const char * ... ).
+//
+// Revision 3.2  1997/07/18 19:30:52  houghton
+// Port(Sun5): reworked istream operator >> SubStr to eliminate compiler error.
+//
+// Revision 3.1  1996/11/14 01:24:24  houghton
+// Changed to Release 3
+//
+// Revision 2.7  1996/07/09 11:34:53  houghton
+// Bug-Fix: Change to StringToBool to StringTo.
+//
+// Revision 2.6  1996/05/25 12:36:25  houghton
+// Added of method. returns owning Str.
+//
+// Revision 2.5  1996/05/03 16:13:52  houghton
+// AIX Port cleanup.
+//
+// Revision 2.4  1996/04/27 13:09:56  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.3  1996/02/29 19:07:35  houghton
+// Added some ifndefs for GNU
+//
+// Revision 2.2  1995/12/04 11:18:30  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:18  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:54  houghton
+// Ports and Version ID changes
+//
+//
 
 #endif // ! def _SubStr_ii_ 
