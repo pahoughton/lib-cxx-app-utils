@@ -659,7 +659,7 @@ Directory::dumpInfo(
   else
     dest << prefix << "Good" << '\n';
 
-  dest << prefix << "pattern:    " << pattern << '\n';
+  dest << prefix << "pattern:    '" << pattern << "'\n";
 
   dest << prefix << "options:    ";
       
@@ -723,7 +723,7 @@ Directory::buildDirList( void )
   
   list.erase( list.begin(), list.end() );
   
-  Str::size_type wild = pattern.find_first_of( "*?" );
+  Str::size_type wild = pattern.find_first_of( "*?[" );
 
   if( wild != Str::npos )
     {
@@ -908,6 +908,10 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 4.8  2000/03/10 11:33:49  houghton
+// Change: cleanup dumpInfo output.
+// Change: added '[' to wild card characters.
+//
 // Revision 4.7  1999/10/28 14:20:09  houghton
 // Bug-Fixes
 //
