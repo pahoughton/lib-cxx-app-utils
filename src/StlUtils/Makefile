@@ -161,6 +161,7 @@ CXX_C_SOURCES =				\
 	DateTime.C                      \
 	DateTimeUtils.C                 \
 	Directory.C			\
+	FileBatch.C			\
 	FileStat.C			\
 	FilePath.C                      \
 	IosOpenModeFromString.C		\
@@ -348,6 +349,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.20  1999/05/01 12:52:55  houghton
+# Added FileBatch.C
+#
 # Revision 4.19  1999/03/02 12:48:38  houghton
 # Added FileBatch.
 #
