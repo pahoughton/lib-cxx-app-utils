@@ -287,6 +287,7 @@ Param::argStr(
 }
 
 #if defined( CLUE_HAS_STR )
+
 bool
 Param::argStr(
   Str &  	dest,
@@ -1315,6 +1316,9 @@ Param::argULong(
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/03/02 13:19:49  houghton
+// Cleanup.
+//
 // Revision 3.3  1996/11/19 22:07:08  houghton
 // Bug-Fix: remove parse flag from constructor - calling a virtual
 //     from the constructor does NOT call the sub class's method.
