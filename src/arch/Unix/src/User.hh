@@ -2,37 +2,23 @@
 #define _User_hh_
 //
 // File:        User.hh
+// Project:	Clue
 // Desc:        
 //
-//
-//  Quick Start: - short example of class usage
+//  A User provide logon information about a user on a Unix system.
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/11/95 09:43
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 2.3  1996/05/01 11:01:26  houghton
-// Bug-Fix: static const User eff was causing segv.
-//   change so the effective() method just returns a new 'User'
-//
-// Revision 2.2  1995/12/04 11:20:21  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:46:57  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:49:17  houghton
-// Revised
-//
+// $Id$ 
 //
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-#include <BinStream.hh>
 #include <UserGroup.hh>
-#include <Str.hh>
+#include <rw/cstring.h>
 #include <set>
 #include <pwd.h>
 #else
@@ -49,7 +35,7 @@
 #endif
 
 
-class User : public BinObject
+class User
 {
 
 public:
@@ -75,7 +61,7 @@ public:
 
   inline const UserGroup & 	getPrimaryGroup( void ) const;
 
-  static User			effective( void );
+  static const User &		effective( void );
 
   size_t    	findGroups( void );
   
@@ -85,6 +71,7 @@ public:
   inline bool	isMember( const char * groupName ) const;
   
   inline const Groups &	getGroups( void ) const;
+  inline const Groups &	getGroups( void );
   
   inline bool	set( uid_t user, bool findGroups = false );
   inline bool	set( const char * userName, bool findGroups = false );
@@ -104,14 +91,13 @@ public:
   // note: write/read only stores the UID
   
   virtual size_t	getBinSize( void ) const;
-  virtual BinStream &	write( BinStream & dest ) const;
-  virtual BinStream &	read( BinStream & src );
   
   virtual ostream & 	write( ostream & dest ) const;
   virtual istream & 	read( istream & src );
 
   virtual ostream &	toStream( ostream & dest = cout ) const;
-
+  virtual istream &	fromStream( istream & src );
+  
   virtual bool		good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char *	getClassName( void ) const;
@@ -132,15 +118,14 @@ private:
   
   UserGroup 	primeGroup;
 
-  Str	    	name;
-  Str	    	passwd;
-  Str	    	gecos;
-  Str	    	home;
-  Str	    	shell;
+  RWCString	    	name;
+  RWCString	    	passwd;
+  RWCString	    	gecos;
+  RWCString	    	home;
+  RWCString	    	shell;
 
   Groups    	groups;
 
-  //  static const User	eff;
 };
 
 #if !defined( inline )
@@ -157,13 +142,22 @@ compare( const User & one, const User & two );
 #endif // ! def inline
 
 
-//  Data Types: - data types defined by this header
+// Types:
 //
-//  	User	class
+//  	User
+//
+//	Groups
+//	    This is a typedef set< UserGroup, less< UserGroup > >
+//	    It provides the interface to the groups a user belongs to.
 //
 //  Constructors:
 //
-//  	User( );
+//	inline
+//  	User( bool findGroups = false );
+//	    Intialize the user using the application's uid. If find
+//	    groups is true, The groups that the user belongs to
+//	    will be initialized. If it is false a call to any method
+//	    that nees this information will initialze it at that time.
 //
 //  Destructors:
 //
@@ -190,6 +184,29 @@ compare( const User & one, const User & two );
 //
 //  	ostream &
 //  	operator <<( ostream & dest, const User & obj );
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.4  1996/11/06 18:11:09  houghton
+// Changed how effective user is handled.
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+// Added fromStream function.
+//
+// Revision 2.3  1996/05/01 11:01:26  houghton
+// Bug-Fix: static const User eff was causing segv.
+//   change so the effective() method just returns a new 'User'
+//
+// Revision 2.2  1995/12/04 11:20:21  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:46:57  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:49:17  houghton
+// Revised
+//
 //
 
 #endif // ! def _User_hh_ 
