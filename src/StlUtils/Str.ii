@@ -1634,14 +1634,6 @@ Str::operator <  ( const char * two ) const
   return( compare( two ) < 0 );
 }
 
-#if !defined( __linux__ )
-inline
-bool
-Str::operator != ( const Str & two ) const
-{
-  return( !( *this == two ) );
-}
-
 inline
 bool
 Str::operator != ( const SubStr & two ) const
@@ -1654,13 +1646,6 @@ bool
 Str::operator != ( const char * two ) const
 {
   return( !( *this == two ) );
-}
-
-inline
-bool
-Str::operator >  ( const Str & two ) const
-{
-  return( compare( two ) > 0 );
 }
 
 inline
@@ -1679,13 +1664,6 @@ Str::operator >  ( const char * two ) const
 
 inline
 bool
-Str::operator <= ( const Str & two ) const
-{
-  return( compare( two ) <= 0 );
-}
-
-inline
-bool
 Str::operator <= ( const SubStr & two ) const
 {
   return( compare( two ) <= 0 );
@@ -1696,13 +1674,6 @@ bool
 Str::operator <=  ( const char * two ) const
 {
   return( compare( two ) <= 0 );
-}
-
-inline
-bool
-Str::operator >= ( const Str & two ) const
-{
-  return( compare( two ) >= 0 );
 }
 
 inline
@@ -1718,7 +1689,6 @@ Str::operator >= ( const char * two ) const
 {
   return( compare( two ) >= 0 );
 }
-#endif
 
 inline
 ostream &
@@ -1849,7 +1819,6 @@ operator <  ( const char * lhs, const Str & rhs )
   return( compare( lhs, rhs ) < 0 );
 }
 
-#if !defined( Linux )
 inline
 bool
 operator != ( const char * lhs, const Str & rhs )
@@ -1878,7 +1847,6 @@ operator >= ( const char * lhs, const Str & rhs )
   return( compare( lhs, rhs ) >= 0 );
 }
 
-#endif
 
 #if !defined( inline )
 #define STR_LINEDELIM = '\n'
@@ -2056,6 +2024,10 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 4.6  1998/10/13 16:24:47  houghton
+// Removed #if def Linux.
+// Cleanup operator <=, >= ...
+//
 // Revision 4.5  1998/04/02 14:18:27  houghton
 // Port(Linux): functional.h implements != operator.
 //
