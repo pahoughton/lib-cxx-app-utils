@@ -1,29 +1,63 @@
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Log.hh>
-#include <FileStat.hh>
+//
+// File:        tLog01.C
+// Project:	Clue
+// Desc:        
+//
+//  Test the following Log methods:
+//	
+//	  inline Log( ostream & 	outStream = cout,
+//		      LogLevel::Level 	outLevel = LogLevel::Error,
+//		      bool		stampLevel = true,
+//		      bool		stampTime = true,
+//		      bool		stampLoc = true );
+//	
+//	  inline Log( ostream & 	outStream,
+//		      const char *      outLevel,
+//		      bool		stampLevel = true,
+//		      bool		stampTime = true,
+//		      bool		stampLoc = true ); 
+//	  
+//	  inline Log( const char * 	fileName,
+//		      LogLevel::Level 	outLevel = LogLevel::Error,
+//		      ios::open_mode	mode = ios::app,
+//		      int		prot = filebuf::openprot,
+//		      bool		stampLevel = true,
+//		      bool		stampTime = true,
+//		      bool		stampLoc = true,
+//		      size_t		maxSize = 0,
+//		      size_t		trimSize = 0 );
+//		      
+//	  inline Log( const char * 	fileName,
+//		      const char *	outLevel,
+//		      ios::open_mode	mode = ios::app,
+//		      int		prot = filebuf::openprot,
+//		      bool		stampLevel = true,
+//		      bool		stampTime = true,
+//		      bool		stampLoc = true,
+//		      size_t		maxSize = 0,
+//		      size_t		trimSize = 0 );
+//
+//
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     11/11/96 16:31
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include "Log.hh"
+#include "FileStat.hh"
+#include <strstream>
 #include <cstdlib>
 #include <cstdio>
 #include <cerrno>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <Log.hh>
-#include <FileStat.hh>
-#include <cstdlib>
-#include <cstdio>
-#include <cerrno>
-#endif
 
 
 
-
-#if !defined( CLUE_SHORT_FN )
-const char * LogStreamFn = TEST_DATA_DIR "/log.stream.test";
-#else
-const char * LogStreamFn = TEST_DATA_DIR "/logstrm.tst";
-#endif
+static const char * LogFileName = TEST_DATA_DIR "/log.file.test";
 
 bool
 tLog01( LibTest & tester )
@@ -32,442 +66,708 @@ tLog01( LibTest & tester )
   {
     // Log();
     
-    Log	    t;    
+    Log	    t;
+
+    TEST( t.getOutput() == LogLevel::Error );
+
+    // these three should return true because that is the
+    // default setting and they return the previous setting.
+    TEST( t.setLevelStamp( false ) );
+    TEST( t.setTimeStamp( false ) );
+    TEST( t.setLocStamp( false ) );
+    
   }
 
-  {    
+  {
     // Log( ostream & );
-    // operator () ( LogLevel::Level )
+    strstream logDest;
 
-    ofstream	logOutput( LogStreamFn );
-    TEST( logOutput.good() );
+    Log	t(logDest);
 
-    logOutput << "Log::Log( ostream & ) - mm/dd/yy hh:mm:ss ERROR good\n";
+    TEST( t.getOutput() == LogLevel::Error );
     
-    Log	    t( logOutput );
-
-    
-    t( LogLevel::Error ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Err ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Warning ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App1 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App2 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App3 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App4 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Info ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Test ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Debug ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Funct ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-
+    TEST( t.setLevelStamp( false ) );
+    TEST( t.setTimeStamp( false ) );
+    TEST( t.setLocStamp( false ) );
   }
 
-  {    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream & ) - mm/dd/yy hh:mm:ss ERROR good\n";
-    Log	    t( logOutput );
+  {
+    // Log( ostream &, LogLevel::Level )
 
-    t( LogLevel::Error ) << "good" << '\n';
-    t << "good" << '\n';
+    Log t( cerr, LogLevel::Error | LogLevel::Warn | LogLevel::Info );
     
-    t( LogLevel::Warning ) << "BAD" << '\n';
-    t << "BAD" << '\n';
     
+    TEST( t.getOutput() == (LogLevel::Error |
+			    LogLevel::Warn |
+			    LogLevel::Info) );
+    TEST( t.setLevelStamp( false ) );
+    TEST( t.setTimeStamp( false ) );
+    TEST( t.setLocStamp( false ) );
   }
   
   {
-    // Log( ostream &, LogLevel::Level )
-    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, LogLevel::Level ) - "
-      "mm/dd/yy hh:mm:ss WARNING good\n";
-    
-    Log	    t( logOutput, LogLevel::Warning );
-
-    t( LogLevel::Warning ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Warn ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Error ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-  }
-  
-  {    
     // Log( ostream &, LogLevel::Level, bool )
-    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, LogLevel::Level, bool ) - "
-      "mm/dd/yy hh:mm:ss TEST good\n";
-    
-    Log	    t( logOutput, LogLevel::Test, true );
 
-    t( LogLevel::Test ) << "good" << '\n';
-  }
-  
-  {    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
+    {
+      Log t( cerr, LogLevel::Info, true );
     
-    logOutput << "Log::Log( ostream &, LogLevel::Level, bool ) - "
-      "mm/dd/yy hh:mm:ss good\n";
     
-    Log	    t( logOutput, LogLevel::Test, false );
-
-    t( LogLevel::Test ) << "good" << '\n';
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+    {
+      Log t( cerr, LogLevel::Info, false );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( ! t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
   }
   
   {
     // Log( ostream &, LogLevel::Level, bool, bool )
-    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
-      "mm/dd/yy hh:mm:ss TEST good\n";
-    
-    Log	    t( logOutput, LogLevel::Test, true, true );
 
-    t( LogLevel::Test ) << "good" << '\n';
+    {
+      Log t( cerr, LogLevel::Info, true, true );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+    {
+      Log t( cerr, LogLevel::Info, true, false );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( ! t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
   }
   
-  {    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
-      "TEST good\n";
-    
-    Log	    t( logOutput, LogLevel::Test, true, false );
+  {
+    // Log( ostream &, LogLevel::Level, bool, bool, bool )
 
-    t( LogLevel::Test ) << "good" << '\n';
+    {
+      Log t( cerr, LogLevel::Info, true, true, true );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+    {
+      Log t( cerr, LogLevel::Info, true, true, false );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( ! t.setLocStamp( false ) );
+    }
+  }
+
+  {
+    // Log( ostream &, const char * )
+
+    Log t( cerr, "Error | warn | INFO" );
+    
+    
+    TEST( t.getOutput() == (LogLevel::Error |
+			    LogLevel::Warn |
+			    LogLevel::Info) );
+    TEST( t.setLevelStamp( false ) );
+    TEST( t.setTimeStamp( false ) );
+    TEST( t.setLocStamp( false ) );
   }
   
-  {    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
-      "mm/dd/yy hh:mm:ss good\n";
-    
-    Log	    t( logOutput, LogLevel::Test, false, true );
-
-    t( LogLevel::Test ) << "good" << '\n';
-  }
-  
-  {    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
-      "good\n";
-    
-    Log	    t( logOutput, LogLevel::Test, false, false );
-
-    t( LogLevel::Test ) << "good" << '\n';
-  }
-
-    
   {
     // Log( ostream &, const char *, bool )
-    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, const char *, bool ) - "
-      "mm/dd/yy hh:mm:ss TEST good\n";
-    
-    Log	    t( logOutput, "TEST", true );
 
-    t( LogLevel::Test ) << "good" << '\n';
+    {
+      Log t( cerr, "info", true );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+    {
+      Log t( cerr, "test | debug", false );
+    
+    
+      TEST( t.getOutput() == (LogLevel::Test |
+			      LogLevel::Debug) );
+      TEST( ! t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
   }
   
-  {    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, const char *, bool ) - "
-      "mm/dd/yy hh:mm:ss good\n";
-    
-    Log	    t( logOutput, "TEST", false );
-
-    t( LogLevel::Test ) << "good" << '\n';
-  }
-  
-  {    
+  {
     // Log( ostream &, const char *, bool, bool )
-    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, const char *, bool, bool ) - "
-      "mm/dd/yy hh:mm:ss TEST good\n";
-    
-    Log	    t( logOutput, "TEST", true, true );
 
-    t( LogLevel::Test ) << "good" << '\n';
+    {
+      Log t( cerr, "Info", true, true );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+    {
+      Log t( cerr, "Info", true, false );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( ! t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
   }
   
-  {    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, const char *, bool, bool ) - "
-      "TEST good\n";
-    
-    Log	    t( logOutput, "TEST", true, false );
+  {
+    // Log( ostream &, const char *, bool, bool, bool )
 
-    t( LogLevel::Test ) << "good" << '\n';
+    {
+      Log t( cerr, "Info", true, true, true );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+    {
+      Log t( cerr, "Info", true, true, false );
+    
+    
+      TEST( t.getOutput() == LogLevel::Info );
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( ! t.setLocStamp( false ) );
+    }
   }
-  
-  {    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, const char *, bool, bool ) - "
-      "mm/dd/yy hh:mm:ss good\n";
-    
-    Log	    t( logOutput, "TEST", false, true );
-
-    t( LogLevel::Test ) << "good" << '\n';
-  }
-  
-  {    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, const char *, bool, bool ) - "
-      "good\n";
-    
-    Log	    t( logOutput, "TEST", false, false );
-
-    t( LogLevel::Test ) << "good" << '\n';
-  }
-  
-  {    
-    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, LogLevel::Level ) - "
-      "mm/dd/yy hh:mm:ss TEST | ERROR good\n";
-    
-    Log	    t( logOutput, LogLevel::Error | LogLevel::Test );
-    
-    t( LogLevel::Error ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Err ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Test ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Warning ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App1 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App2 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App3 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App4 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Info ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Debug ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Funct ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-
-  }
-
-  {    
-    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, const char * ) - "
-      "mm/dd/yy hh:mm:ss ERROR | TEST good\n";
-    
-    Log	    t( logOutput, " ERROR | TEST "  );
-    
-    t( LogLevel::Error ) << "good str |" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Err ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Test ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Warning ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App1 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App2 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App3 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App4 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Info ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Debug ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Funct ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-
-  }
-
-  {    
-    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, const char * ) - "
-      "mm/dd/yy hh:mm:ss ERROR | TEST good\n";
-    
-    Log	    t( logOutput, "ERROR|TEST"  );
-    
-    t( LogLevel::Error ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Err ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Test ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Warning ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App1 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App2 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App3 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::App4 ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Info ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Debug ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-    
-    t( LogLevel::Funct ) << "BAD" << '\n';
-    t << "BAD" << '\n';
-
-  }
-
-  {    
-    
-    ofstream	logOutput( LogStreamFn, ios::app );
-    TEST( logOutput.good() );
-    
-    logOutput << "Log::Log( ostream &, LogLevel::Level ) - "
-      "mm/dd/yy hh:mm:ss ALL good\n";
-    
-    Log	    t( logOutput, LogLevel::All );
-    
-    t( LogLevel::Error ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Err ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Warning ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Warn ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::App1 ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::App2 ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::App3 ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::App4 ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Info ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Test ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Debug ) << "good" << '\n';
-    t << "good" << '\n';
-    
-    t( LogLevel::Funct ) << "good" << '\n';
-    t << "good" << '\n';
-    
-  }  
 
   {
-    // We can't check the file by looking at the data
-    // because the date strings will be different.
-    // This will Just verify the size.
-    //
-    // Look through the file to double check it.
-    //
+    // Log( const char * fileName )
 
-    const FileStat t( LogStreamFn );
+    remove( LogFileName );
 
-    TEST( t.getSize() == 2425 );
+    {
+      Log t( LogFileName );
+
+      TEST( t.getOutput() == LogLevel::Error );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( logFileStat.getSize() == 0 );
     
   }
+
+  {
+    // Log( const char *, LogLevel::Level )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, LogLevel::Info );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( logFileStat.getSize() == 0 );
+    
+  }
+
+  {
+    // Log( const char *, LogLevel::Level, ios::open_mode )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, LogLevel::Info, ios::nocreate );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( ! logFileStat.good() );
+    
+  }
+
+  {
+    // Log( const char *, LogLevel::Level, ios::open_mode, int )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, LogLevel::Info, ios::app, 0711 );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0711 );
+    
+  }
+
+  {
+    // Log( const char *, LogLevel::Level, ios::open_mode, int, bool )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    {
+      Log t( LogFileName, LogLevel::Info, ios::app, 0664, false );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( ! t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
+  {
+    // Log( const char *, LogLevel::Level, ios::open_mode, int, bool, bool )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true, true );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    {
+      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true, false );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( ! t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
+  {
+    // Log( const char *,
+    //	    LogLevel::Level,
+    //	    ios::open_mode,
+    //	    int,
+    //	    bool,
+    //	    bool,
+    //	    bool )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true, true, true );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    {
+      Log t( LogFileName, LogLevel::Info, ios::app, 0664, true, true, false );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( ! t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
+  {
+    // Log( const char *,
+    //	    LogLevel::Level,
+    //	    ios::open_mode,
+    //	    int,
+    //	    bool,
+    //	    bool,
+    //	    bool,
+    //	    size_t )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName,
+	     LogLevel::Info,
+	     ios::app,
+	     0664,
+	     true,
+	     true,
+	     true,
+	     12345 );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+      TEST( t.setMaxSize( 0 ) == 12345 );
+    }
+    
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
+  {
+    // Log( const char *,
+    //	    LogLevel::Level,
+    //	    ios::open_mode,
+    //	    int,
+    //	    bool,
+    //	    bool,
+    //	    bool,
+    //	    size_t,
+    //	    size_t )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName,
+	     LogLevel::Info,
+	     ios::app,
+	     0664,
+	     true,
+	     true,
+	     true,
+	     12345,
+	     678 );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+      TEST( t.setMaxSize( 0 ) == 12345 );
+      TEST( t.setTrimSize( 0 ) == 678 );
+    }
+    
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
+  {
+    // Log( const char *, const char * )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, "Info | Warn" );
+
+      TEST( t.getOutput() == (LogLevel::Info | LogLevel::Warn ));
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( logFileStat.getSize() == 0 );
+    
+  }
+
+  {
+    // Log( const char *, const char *, ios::open_mode )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, "info", ios::nocreate );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( ! logFileStat.good() );
+    
+  }
+
+  {
+    // Log( const char *, const char *, ios::open_mode, int )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, "info", ios::app, 0711 );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0711 );
+    
+  }
+
+  {
+    // Log( const char *, const char *, ios::open_mode, int, bool )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, "info", ios::app, 0664, true );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    {
+      Log t( LogFileName, "info", ios::app, 0664, false );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( ! t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
+  {
+    // Log( const char *, const char *, ios::open_mode, int, bool, bool )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, "info", ios::app, 0664, true, true );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    {
+      Log t( LogFileName, "info", ios::app, 0664, true, false );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( ! t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
+  {
+    // Log( const char *,
+    //	    const char *,
+    //	    ios::open_mode,
+    //	    int,
+    //	    bool,
+    //	    bool,
+    //	    bool )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName, "info", ios::app, 0664, true, true, true );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+    }
+
+    {
+      Log t( LogFileName, "info", ios::app, 0664, true, true, false );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( ! t.setLocStamp( false ) );
+    }
+
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
+  {
+    // Log( const char *,
+    //	    const char *,
+    //	    ios::open_mode,
+    //	    int,
+    //	    bool,
+    //	    bool,
+    //	    bool,
+    //	    size_t )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName,
+	     "info",
+	     ios::app,
+	     0664,
+	     true,
+	     true,
+	     true,
+	     12345 );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+      TEST( t.setMaxSize( 0 ) == 12345 );
+    }
+    
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
+  {
+    // Log( const char *,
+    //	    const char *,
+    //	    ios::open_mode,
+    //	    int,
+    //	    bool,
+    //	    bool,
+    //	    bool,
+    //	    size_t,
+    //	    size_t )
+
+    remove( LogFileName );
+
+    {
+      Log t( LogFileName,
+	     "info",
+	     ios::app,
+	     0664,
+	     true,
+	     true,
+	     true,
+	     12345,
+	     678 );
+
+      TEST( t.getOutput() == LogLevel::Info );
+    
+      TEST( t.setLevelStamp( false ) );
+      TEST( t.setTimeStamp( false ) );
+      TEST( t.setLocStamp( false ) );
+      TEST( t.setMaxSize( 0 ) == 12345 );
+      TEST( t.setTrimSize( 0 ) == 678 );
+    }
+    
+    FileStat logFileStat( LogFileName );
+
+    TEST( logFileStat.good() );
+    TEST( (logFileStat.getMode() & 0777) == 0664 );
+    
+  }
+
 
   
       
@@ -475,3 +775,10 @@ tLog01( LibTest & tester )
 }
 
 
+//
+// $Log$
+// Revision 2.4  1996/11/13 17:19:59  houghton
+// Complete rework of all tests.
+// Verified test against Log.hh header comments.
+//
+//

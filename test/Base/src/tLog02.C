@@ -1,266 +1,319 @@
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Log.hh>
-#include <FileStat.hh>
+//
+// File:        tLog02.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for the following Log methods:
+//
+//	getCurrent( void ) const;
+//	getOutput( void ) const;
+//	willOutput( void ) const;
+//	level( void );
+//	level( LogLevel::Level );
+//	level( LogLevel::Level, const char * );
+//	level( LogLevel::Level, conts char *, long );
+//	operator () ( void );
+//	operator () ( LogLevel::Level );
+//	operator () ( LogLevel::Level, const char *, long );
+//
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     11/11/96 17:36
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include "Log.hh"
+#include <strstream>
 #include <cstdio>
 #include <cerrno>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <Log.hh>
-#include <FileStat.hh>
-#include <cstdio>
-#include <cerrno>
-#endif
 
 bool
 tLog02( LibTest & tester )
 {
-  static const char *   fn = TEST_DATA_DIR "/logfile.01";
-  size_t		logSize = 0;
-  
-  remove( fn );
   {
-    // Log( const char * )
-        
-    Log	t( fn );
+    // getCurrent( void ) const;
+    // getOutput( void ) const;
 
-    t( LogLevel::Error ) << "good\n";
+    const Log t( cout, LogLevel::Test | LogLevel::Warn );
 
-    logSize += strlen( "mm/dd/yy hh:mm:ss ERROR good\n" );
+    TEST( t.getCurrent() == LogLevel::Error );
+    TEST( t.getOutput() == (LogLevel::Test | LogLevel::Warn ) );
+  }
+
+  {
+    // willOutput( LogLevel::Level ) const;
+
+    {
+      const Log t( cerr, LogLevel::All );
+
+      TEST( t.willOutput( LogLevel::Error ) );
+      TEST( t.willOutput( LogLevel::Err ) );
+      TEST( t.willOutput( LogLevel::Warning ) );
+      TEST( t.willOutput( LogLevel::Warn ) );
+      TEST( t.willOutput( LogLevel::App1 ) );
+      TEST( t.willOutput( LogLevel::App2 ) );
+      TEST( t.willOutput( LogLevel::App3 ) );
+      TEST( t.willOutput( LogLevel::App4 ) );
+      TEST( t.willOutput( LogLevel::App5 ) );
+      TEST( t.willOutput( LogLevel::App6 ) );
+      TEST( t.willOutput( LogLevel::Lib1 ) );
+      TEST( t.willOutput( LogLevel::Lib2 ) );
+      TEST( t.willOutput( LogLevel::Lib3 ) );
+      TEST( t.willOutput( LogLevel::Lib4 ) );
+      TEST( t.willOutput( LogLevel::Info ) );
+      TEST( t.willOutput( LogLevel::Test ) );
+      TEST( t.willOutput( LogLevel::Debug ) );
+      TEST( t.willOutput( LogLevel::Funct ) );
+    }
+
+    {
+      const Log t( cerr, LogLevel::Debug | LogLevel::Warn );
+
+      TEST( ! t.willOutput( LogLevel::Error ) );
+      TEST( ! t.willOutput( LogLevel::Err ) );
+      TEST( t.willOutput( LogLevel::Warning ) );
+      TEST( t.willOutput( LogLevel::Warn ) );
+      TEST( ! t.willOutput( LogLevel::App1 ) );
+      TEST( ! t.willOutput( LogLevel::App2 ) );
+      TEST( ! t.willOutput( LogLevel::App3 ) );
+      TEST( ! t.willOutput( LogLevel::App4 ) );
+      TEST( ! t.willOutput( LogLevel::App5 ) );
+      TEST( ! t.willOutput( LogLevel::App6 ) );
+      TEST( ! t.willOutput( LogLevel::Lib1 ) );
+      TEST( ! t.willOutput( LogLevel::Lib2 ) );
+      TEST( ! t.willOutput( LogLevel::Lib3 ) );
+      TEST( ! t.willOutput( LogLevel::Lib4 ) );
+      TEST( ! t.willOutput( LogLevel::Info ) );
+      TEST( ! t.willOutput( LogLevel::Test ) );
+      TEST( t.willOutput( LogLevel::Debug ) );
+      TEST( ! t.willOutput( LogLevel::Funct ) );
+    }
+  }
+
+  {
+    // level();
+
+    strstream	logDest;
+    {
+      Log t( logDest, LogLevel::Error, true, false, false );
+
+      t.level() << "test 1" << endl;
+      t.level() << "test 2" << endl;
+    }
+
+    const char * expect = "ERROR test 1\nERROR test 2\n";
+    
+    logDest << ends;
+    TESTR( logDest.str(), strcmp( expect, logDest.str() ) == 0 );
+    logDest.rdbuf()->freeze(0);
     
   }
 
   {
-    // Log( const char *, LogLevel::Level )
+    // level( LogLevel::Level )
 
-    Log	t( fn, LogLevel::Warning );
-
-    t( LogLevel::Error ) << "BAD\n";
-    t( LogLevel::Warning ) << "good\n";
+    const char * TestFn = TEST_DATA_DIR "/log.01";
+    remove( TestFn );
     
-    logSize += strlen( "mm/dd/yy hh:mm:ss WARNING good\n" );
-  }
-#if defined( FIXME )
-  {
-    // Log( const char *, LogLevel::Level, bool )
-
-    Log	t( fn, LogLevel::Test, true );
-
-    t( LogLevel::Error ) << "BAD\n";
-    t( LogLevel::Test ) << "good\n";
+    {
+      Log	t( TestFn, LogLevel::All, ios::app, 0644,
+		   true, false, false  );
+      
+      t.level( LogLevel::Error )   << "test Error" << '\n';
+      t.level( LogLevel::Err )     << "test Err" << '\n';
+      t.level( LogLevel::Warning ) << "test Warning" << '\n';
+      t.level( LogLevel::Warn )    << "test Warn" << '\n';
+      t.level( LogLevel::App1 )    << "test App1" << '\n';
+      t.level( LogLevel::App2 )    << "test App2" << '\n';
+      t.level( LogLevel::App3 )    << "test App3" << '\n';
+      t.level( LogLevel::App4 )    << "test App4" << '\n';
+      t.level( LogLevel::App5 )    << "test App5" << '\n';
+      t.level( LogLevel::App6 )    << "test App6" << '\n';
+      t.level( LogLevel::Lib1 )    << "test Lib1" << '\n';
+      t.level( LogLevel::Lib2 )    << "test Lib2" << '\n';
+      t.level( LogLevel::Lib3 )    << "test Lib3" << '\n';
+      t.level( LogLevel::Lib4 )    << "test Lib4" << '\n';
+      t.level( LogLevel::Info )    << "test Info" << '\n';
+      t.level( LogLevel::Test )    << "test Test" << '\n';
+      t.level( LogLevel::Debug )   << "test Debug" << '\n';
+      t.level( LogLevel::Funct )   << "test Funct" << '\n';
+    }
     
-    logSize += strlen( "mm/dd/yy hh:mm:ss TEST good\n" );
+    tester.file( __FILE__, __LINE__, TestFn );
   }
 
   {
+    // level( LogLevel::Level, const char * )
+    const char * TestFn = TEST_DATA_DIR "/log.02";
+    remove( TestFn );
     
-    Log	t( fn, LogLevel::Test, false );
-
-    t( LogLevel::Error ) << "BAD\n";
-    t( LogLevel::Test ) << "good\n";
+    {
+      Log	t( TestFn,
+		   LogLevel::Warn | LogLevel::Info | LogLevel::Debug,
+		   ios::app, 0644,
+		   true, false, true  );
+      
+      t.level( LogLevel::Error,   "Src" ) << "test Error (bad)" << '\n';
+      t.level( LogLevel::Err,     "Src" ) << "test Err (bad)" << '\n';
+      t.level( LogLevel::Warning, "Src" ) << "test Warning" << '\n';
+      t.level( LogLevel::Warn,    "Src" ) << "test Warn" << '\n';
+      t.level( LogLevel::App1,    "Src" ) << "test App1 (bad)" << '\n';
+      t.level( LogLevel::App2,    "Src" ) << "test App2 (bad)" << '\n';
+      t.level( LogLevel::App3,    "Src" ) << "test App3 (bad)" << '\n';
+      t.level( LogLevel::App4,    "Src" ) << "test App4 (bad)" << '\n';
+      t.level( LogLevel::App5,    "Src" ) << "test App5 (bad)" << '\n';
+      t.level( LogLevel::App6,    "Src" ) << "test App6 (bad)" << '\n';
+      t.level( LogLevel::Lib1,    "Src" ) << "test Lib1 (bad)" << '\n';
+      t.level( LogLevel::Lib2,    "Src" ) << "test Lib2 (bad)" << '\n';
+      t.level( LogLevel::Lib3,    "Src" ) << "test Lib3 (bad)" << '\n';
+      t.level( LogLevel::Lib4,    "Src" ) << "test Lib4 (bad)" << '\n';
+      t.level( LogLevel::Info,    "Src" ) << "test Info" << '\n';
+      t.level( LogLevel::Test,    "Src" ) << "test Test (bad)" << '\n';
+      t.level( LogLevel::Debug,   "Src" ) << "test Debug" << '\n';
+      t.level( LogLevel::Funct,   "Src" ) << "test Funct (bad)" << '\n';
+    }
     
-    logSize += strlen( "mm/dd/yy hh:mm:ss good\n" );
+    tester.file( __FILE__, __LINE__, TestFn );
   }
 
   {
-    // Log( const char *, LogLevel::Level, bool, bool )
+    // level( LogLevel::Level, const char *, long )
+    const char * TestFn = TEST_DATA_DIR "/log.03";
+    remove( TestFn );
     
-    Log	t( fn, LogLevel::Test, false, true );
-
-    t( LogLevel::Error ) << "BAD\n";
-    t( LogLevel::Test ) << "good\n";
+    {
+      Log	t( TestFn,
+		   "App1 | Warn | Error | Info | Debug",
+		   ios::app, 0644,
+		   true, false, true  );
+      
+      t.level( LogLevel::Error,   "Src",  1 ) << "test Error" << '\n';
+      t.level( LogLevel::Err,     "Src",  2 ) << "test Err" << '\n';
+      t.level( LogLevel::Warning, "Src",  3 ) << "test Warning" << '\n';
+      t.level( LogLevel::Warn,    "Src",  4 ) << "test Warn" << '\n';
+      t.level( LogLevel::App1,    "Src",  5 ) << "test App1" << '\n';
+      t.level( LogLevel::App2,    "Src",  6 ) << "test App2 (bad)" << '\n';
+      t.level( LogLevel::App3,    "Src",  7 ) << "test App3 (bad)" << '\n';
+      t.level( LogLevel::App4,    "Src",  8 ) << "test App4 (bad)" << '\n';
+      t.level( LogLevel::App5,    "Src",  9 ) << "test App5 (bad)" << '\n';
+      t.level( LogLevel::App6,    "Src", 10 ) << "test App6 (bad)" << '\n';
+      t.level( LogLevel::Lib1,    "Src", 11 ) << "test Lib1 (bad)" << '\n';
+      t.level( LogLevel::Lib2,    "Src", 12 ) << "test Lib2 (bad)" << '\n';
+      t.level( LogLevel::Lib3,    "Src", 13 ) << "test Lib3 (bad)" << '\n';
+      t.level( LogLevel::Lib4,    "Src", 14 ) << "test Lib4 (bad)" << '\n';
+      t.level( LogLevel::Info,    "Src", 15 ) << "test Info" << '\n';
+      t.level( LogLevel::Test,    "Src", 16 ) << "test Test (bad)" << '\n';
+      t.level( LogLevel::Debug,   "Src", 17 ) << "test Debug" << '\n';
+      t.level( LogLevel::Funct,   "Src", 18 ) << "test Funct (bad)" << '\n';
+    }
     
-    logSize += strlen( "mm/dd/yy hh:mm:ss good\n" );
+    tester.file( __FILE__, __LINE__, TestFn );
   }
 
   {
-    Log	t( fn, LogLevel::Test, false, false );
+    // operator () ( void );
 
-    t( LogLevel::Error ) << "BAD\n";
-    t( LogLevel::Test ) << "good\n";
+    strstream	logDest;
+    {
+      Log t( logDest, LogLevel::Error, true, false, false );
+
+      t() << "test 1" << endl;
+      t() << "test 2" << endl;
+    }
+
+    const char * expect = "ERROR test 1\nERROR test 2\n";
     
-    logSize += strlen( "good\n" );
-  }
-
-  {
-    FileStat t( fn );
-
-    TEST( (size_t)t.getSize() == logSize );
-  }
-
-  fn = TEST_DATA_DIR "/logfile.02";
+    logDest << ends;
+    TESTR( logDest.str(), strcmp( expect, logDest.str() ) == 0 );
+    logDest.rdbuf()->freeze(0);
     
-  {  
-    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode )
-
-    Log t( fn, LogLevel::Test, false, false, ios::out );
-
-    t( LogLevel::Test ) << "1 good\n";
-    t( LogLevel::Error ) << "BAD\n";
-    t( LogLevel::Test ) << "2 good\n";
-
   }
-  
+
   {
+    // operator () ( LogLevel::Level )
+
+    const char * TestFn = TEST_DATA_DIR "/log.04";
+    remove( TestFn );
     
-    Log t( fn, LogLevel::Test | LogLevel::Warn, false, false, ios::app );
-
-    t( LogLevel::Test ) << "3 good\n";
-    t( LogLevel::Error ) << "BAD\n";
-    t( LogLevel::Test ) << "4 good\n";
-    t( LogLevel::Warn ) << "5 good\n";
-
+    {
+      Log	t( TestFn, LogLevel::All, ios::app, 0644,
+		   true, false, false  );
+      
+      t( LogLevel::Error )   << "test Error" << '\n';
+      t( LogLevel::Err )     << "test Err" << '\n';
+      t( LogLevel::Warning ) << "test Warning" << '\n';
+      t( LogLevel::Warn )    << "test Warn" << '\n';
+      t( LogLevel::App1 )    << "test App1" << '\n';
+      t( LogLevel::App2 )    << "test App2" << '\n';
+      t( LogLevel::App3 )    << "test App3" << '\n';
+      t( LogLevel::App4 )    << "test App4" << '\n';
+      t( LogLevel::App5 )    << "test App5" << '\n';
+      t( LogLevel::App6 )    << "test App6" << '\n';
+      t( LogLevel::Lib1 )    << "test Lib1" << '\n';
+      t( LogLevel::Lib2 )    << "test Lib2" << '\n';
+      t( LogLevel::Lib3 )    << "test Lib3" << '\n';
+      t( LogLevel::Lib4 )    << "test Lib4" << '\n';
+      t( LogLevel::Info )    << "test Info" << '\n';
+      t( LogLevel::Test )    << "test Test" << '\n';
+      t( LogLevel::Debug )   << "test Debug" << '\n';
+      t( LogLevel::Funct )   << "test Funct" << '\n';
+    }
+    
+    tester.file( __FILE__, __LINE__, TestFn );
   }
 
   {
-    tester.file( __FILE__, __LINE__, fn );
+    // operator () ( LogLevel::Level, const char *, long )
+    const char * TestFn = TEST_DATA_DIR "/log.05";
+    remove( TestFn );
+    
+    {
+      Log	t( TestFn,
+		   "App1 | Warn | Error | Info | Debug",
+		   ios::app, 0644,
+		   true, false, true  );
+      
+      t( LogLevel::Error,   "Src",  1 ) << "test Error" << '\n';
+      t( LogLevel::Err,     "Src",  2 ) << "test Err" << '\n';
+      t( LogLevel::Warning, "Src",  3 ) << "test Warning" << '\n';
+      t( LogLevel::Warn,    "Src",  4 ) << "test Warn" << '\n';
+      t( LogLevel::App1,    "Src",  5 ) << "test App1" << '\n';
+      t( LogLevel::App2,    "Src",  6 ) << "test App2 (bad)" << '\n';
+      t( LogLevel::App3,    "Src",  7 ) << "test App3 (bad)" << '\n';
+      t( LogLevel::App4,    "Src",  8 ) << "test App4 (bad)" << '\n';
+      t( LogLevel::App5,    "Src",  9 ) << "test App5 (bad)" << '\n';
+      t( LogLevel::App6,    "Src", 10 ) << "test App6 (bad)" << '\n';
+      t( LogLevel::Lib1,    "Src", 11 ) << "test Lib1 (bad)" << '\n';
+      t( LogLevel::Lib2,    "Src", 12 ) << "test Lib2 (bad)" << '\n';
+      t( LogLevel::Lib3,    "Src", 13 ) << "test Lib3 (bad)" << '\n';
+      t( LogLevel::Lib4,    "Src", 14 ) << "test Lib4 (bad)" << '\n';
+      t( LogLevel::Info,    "Src", 15 ) << "test Info" << '\n';
+      t( LogLevel::Test,    "Src", 16 ) << "test Test (bad)" << '\n';
+      t( LogLevel::Debug,   "Src", 17 ) << "test Debug" << '\n';
+      t( LogLevel::Funct,   "Src", 18 ) << "test Funct (bad)" << '\n';
+    }
+    
+    tester.file( __FILE__, __LINE__, TestFn );
   }
 
-  fn = TEST_DATA_DIR "/logfile.03";
-
-  remove( fn );
-  
-  {
-    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode, int )
-
-    Log t( fn, LogLevel::Test | LogLevel::Info, true, false, ios::app, 0666 );
-
-    t( LogLevel::Debug ) << "BAD\n";
-    t( LogLevel::Test ) << "1 good\n";
-    t( LogLevel::Info ) << "2 good\n";
-    t( LogLevel::Test ) << "3 good\n";
-  }
-
-  {
-    FileStat t( fn );
-
-    TEST( (t.getMode() & 0777 ) == 0666 );
-    tester.file( __FILE__, __LINE__, fn );
-  }
-  
-  fn = TEST_DATA_DIR "/logfile.04";
-
-  remove( fn );
-  
-  {
-    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode, int, size_t )
-
-     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
-	    ios::app, 0666, 4096 );
-
-     size_t lineLen = strlen( "TEST good test with log trimming.\n" );
-
-     size_t maxLines = (4096 / lineLen) - 1;
-     
-     for( size_t line = 0; line < maxLines; line++ )
-       {
-	 t( LogLevel::Test ) << "good test with log trimming.\n";
-       }
-  }
-
-  {
-    FileStat t( fn );
-
-    size_t minSize = (4096 / 4) * 3;
-
-    TEST( (size_t)t.getSize() > minSize && (size_t)t.getSize() < 4096 );
-  }
-
-  
-  {
-
-     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
-	    ios::app, 0666, 4096 );
-
-     for( size_t l = 0; l < 50; l++ )       
-       t( LogLevel::Test ) << "good test with log trimming.\n";
-  }
-  
-  {
-    FileStat t( fn );
-
-    size_t minSize = (4096 / 4) * 3;
-
-    TEST( (size_t)t.getSize() > minSize && t.getSize() < 4096 );
-  }
-
-  {
-     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
-	    ios::app, 0666, 2048 );
-
-  }
-  
-  {
-    FileStat t( fn );
-
-    size_t minSize = ((2048 / 4) * 3) -
-      (strlen( "TEST good test with log trimming.\n" ));
- 
-    TEST( (size_t)t.getSize() > minSize && t.getSize() < 2048 );
-  }
-
-  remove( fn );
-
-  
-  {
-    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode, int, size_t, size_t )
-
-     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
-	    ios::app, 0666, 4096, 2048 );
-
-     size_t lineLen = strlen( "TEST good test with log trimming.\n" );
-
-     size_t maxLines = (4096 / lineLen) - 1;
-     
-     for( size_t line = 0; line < maxLines; line++ )
-       {
-	 t( LogLevel::Test ) << "good test with log trimming.\n";
-       }
-  }
-
-  {
-    FileStat t( fn );
-
-    size_t minSize = (4096 / 4) * 3;
-
-    TEST( (size_t)t.getSize() > minSize && t.getSize() < 4096 );
-  }
-
-  
-  {
-
-     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
-	    ios::app, 0666, 4096, 2048 );
-
-     for( size_t l = 0; l < 50; l++ )       
-       t( LogLevel::Test ) << "good test with log trimming.\n";
-  }
-  
-  {
-    FileStat t( fn );
-
-    size_t minSize = (4096 / 4) * 3;
-
-    TEST( (size_t)t.getSize() > minSize && t.getSize() < 4096 );
-  }
-
-  {
-     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
-	    ios::app, 0666, 2048, 128 );
-
-  }
-  
-  {
-    FileStat t( fn );
-
-    size_t minSize = (2048 - 128 ) -
-      (strlen( "TEST good test with log trimming.\n" ));
-
-    TEST( (size_t)t.getSize() > minSize && t.getSize() < 2048 );
-  }
-#endif
   return( true );
 }
+
+//
+// $Log$
+// Revision 2.5  1996/11/13 17:20:00  houghton
+// Complete rework of all tests.
+// Verified test against Log.hh header comments.
+//
+//
+
+
+
+
+
+
 

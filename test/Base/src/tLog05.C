@@ -1,257 +1,171 @@
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Log.hh>
-#include <FileStat.hh>
+//
+// File:        tLog05.C
+// Project:	Clue
+// Desc:        
+//
+//  Test the following Log methods
+//
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     11/12/96 09:32
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include "Log.hh"
+#include "FileStat.hh"
 #include <cstdio>
 #include <strstream>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <Log.hh>
-#include <FileStat.hh>
-#include <cstdio>
-#endif
 
 bool
 tLog05( LibTest & tester )
 {
-  const char * fn = TEST_DATA_DIR "/logfile.07";
-
-  remove( fn );
-
-#if defined( FIXME )
   {
-    // level( void )
-    // level( LogLevel::Level )
-    // operator () ( void )
-    // operator () ( LogLevel::Level )
-    // level( const char * )
-    // operator () ( const char * )
+    // tee( ostream & )
 
-    Log t( fn, LogLevel::Error | LogLevel::Info, true, false );
-
-    t.level() << "error good\n";
-
-    t.level( LogLevel::Info ) << "info good\n";
-    t.level( LogLevel::Debug ) << "debug BAD\n";
-
-    t() << "error good\n";
-
-    t( LogLevel::Info ) << "info good\n";
-    t( LogLevel::Debug ) << "debug BAD\n";
-    t( LogLevel::Error ) << "error good\n";
+    const char *    TestFn = TEST_DATA_DIR "/log.17";
+    const char *    TestTeeFn = TEST_DATA_DIR "/log.18";
     
-    t.level( "ERROR" ) << "error good\n";
-    t.level( "TEST" ) << "test BAD\n";
-    t.level( "INFO" ) << "info good\n";
+    {
+      ofstream teeDest( TestTeeFn );
+      
+      Log   t( TestFn, LogLevel::Err | LogLevel::Debug,
+	       ios::out, 0664,
+	       true, false, true );
+      
+      t( LogLevel::Error, "Test", 1 ) << "Log error output.\n";
+      t( LogLevel::Error, "Test", 2 ) << "Log error output.\n";
+      t( LogLevel::Error, "Test", 3 ) << "Log error output.\n";
 
-    t( "ERROR" ) << "error good\n";
-    t( "TEST" ) << "test BAD\n";
-    t( "INFO" ) << "info good\n";
+      t.tee( teeDest );
+      t( LogLevel::Debug, "Test", 4 ) << "Log debug output.\n";
+      t( LogLevel::Debug, "Test", 5 ) << "Log debug output.\n";
+      t( LogLevel::Debug, "Test", 6 ) << "Log debug output.\n";
+      t( LogLevel::Debug, "Test", 7 ) << "Log debug output.\n";
+      
+    }
 
+    if( ! tester.file( __FILE__, __LINE__, TestFn ) )
+      return( false );
+    
+    if( ! tester.file( __FILE__, __LINE__, TestTeeFn ) )
+      return( false );
   }
 
   {
-    tester.file( __FILE__, __LINE__, fn );
-  }
-
-  fn = TEST_DATA_DIR "/logfile.08";
-  
-  {
-    // on( LogLevel::Level )
-    // off( LogLevel::Level )
-
-    Log t( fn, LogLevel::Error | LogLevel::Info, true, false, ios::out );
-
-    t( LogLevel::Error ) << "error good\n";
-    t( LogLevel::Debug ) << "debug BAD\n";
-    t( LogLevel::Info ) << "info good\n";
-
-    t.on( LogLevel::Debug );
+    // setMaxSize( void )
+    // setTrimSize( void )
     
-    t( LogLevel::Debug ) << "debug good\n";
-    t( LogLevel::Error ) << "error good\n";
-    t( LogLevel::Info ) << "info good\n";
+    const char *    TestFn = TEST_DATA_DIR "/log.19";
 
-    t.off( LogLevel::Info );
+    const size_t    MaxSize = 40960;
+    const size_t    TrimSize = 1024;
     
-    t( LogLevel::Debug ) << "debug good\n";
-    t( LogLevel::Error ) << "error good\n";
-    t( LogLevel::Info ) << "info BAD\n";
+    const char *    EntryText =
+      "good test checking maxSize.\n";
+    const size_t    EntrySize =
+      strlen( "mm/dd/yy hh:mm:ss INFO Test.C:n") +
+      strlen( EntryText );
 
-    t.on( LogLevel::Test | LogLevel::Warning );
-    t.off( LogLevel::Debug | LogLevel::Error );
-    
-    t( LogLevel::Debug ) << "debug BAD\n";
-    t( LogLevel::Error ) << "error BAD\n";
-    t( LogLevel::Info ) << "info BAD\n";
+    size_t	    EntryNumber = 0;
+    {
+      
+      Log t( TestFn, LogLevel::Info, ios::out );
 
-    t( LogLevel::Test ) << "test good\n";
-    t( LogLevel::Error ) << "error BAD\n";
-    t( LogLevel::Warn ) << "warning good\n";
+      for( int l = EntrySize; l < (MaxSize * 2); l += EntrySize )
+	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
 
-  }
-
-  {
-    tester.file( __FILE__, __LINE__, fn );
-  }
-
-  {
-    // getCurrent( void ) const
-    // getOutput( void ) const
-    // willOutput( LogLevel::Level ) const
-
-
-    Log t( fn, LogLevel::Error | LogLevel::Info, true, false );
-
-    TEST( t.getCurrent() == LogLevel::Error );
-    TEST( t.getOutput() == LogLevel::Error | LogLevel::Info );
-
-    TEST( t.willOutput( LogLevel::Error ) );
-    TEST( t.willOutput( LogLevel::Info ) );
-    TEST( ! t.willOutput( LogLevel::Test ) );
-  }
-
-  {
-    // setFileName( const char * )
-    // open( const char * )
-    // close( void )
-
-    strstream tStream;
-    
-    Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
-
-    t() << "BAD\n";
-    
-    t.setFileName( TEST_DATA_DIR "/logfile.09", ios::out );
-
-    t() << "error good\n";
-    t( LogLevel::Info ) << "info good\n";
-
-    t.close();
+    }
 
     {
-      for( size_t l = 0; l < 500; l++ )
-	t() << "BAD " << l << "\n";
+      FileStat t( TestFn );
+
+      TEST( t.good() );
+      TEST( t.getSize() > MaxSize );
+    }
+
+    {
+      Log t( TestFn, LogLevel::Info, ios::app );
+
+      for( int l = 0; l < 50; ++l )
+	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
+
+      TEST( t.setMaxSize( MaxSize ) == 0 );
+
+    }
+
+    {
+      FileStat t( TestFn );
+
+      TEST( t.getSize() > ((MaxSize / 4 ) * 3) - EntrySize );
+      TEST( t.getSize() < MaxSize );
+    }
+
+    {
+       Log t( TestFn, LogLevel::Info, ios::app );
+
+      TEST( t.setMaxSize( MaxSize ) == 0 );
+     
+      for( int l = EntrySize; l < (MaxSize * 3); l += EntrySize )
+	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
+
+      TEST( t.setMaxSize( 0 ) == MaxSize );
+      
+      for( int e = EntrySize; e < (MaxSize * 2); e += EntrySize )
+	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
+
     }
     
-    TEST( ! t.good() );
-    
-    tester.file( __FILE__, __LINE__, TEST_DATA_DIR "/logfile.09" );
+    {
+      FileStat t( TestFn );
 
-    t.open( TEST_DATA_DIR "/logfile.10", ios::out );
-
-    TEST( t.good() );
+      TEST( t.good() );
+      TEST( t.getSize() > MaxSize );
+    }
 
     {
-      for( size_t l = 0; l < 50; l++ )
-	t( LogLevel::Info ) << "info good " << l << "\n";
+      
+      Log t( TestFn, LogLevel::Info, ios::app );
+
+      TEST( t.setMaxSize( MaxSize ) == 0 );
+      TEST( t.setTrimSize( TrimSize ) == 0 );
+
+      for( int l = EntrySize; l < (MaxSize * 3); l += EntrySize )
+	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
+    }
+
+    {
+      FileStat t( TestFn );
+
+      TEST( t.good() );
+      TEST( t.getSize() < MaxSize );
+      TEST( t.getSize() > (MaxSize - (TrimSize + EntrySize) ) );
     }
   }
 
-  {
-    tester.file( __FILE__, __LINE__, TEST_DATA_DIR "/logfile.10" );
-  }
-  
-  fn = TEST_DATA_DIR "/logfile.11";
-  
-  {
-    // setOutputLevel( LogLevel::Level )
-    // setOutputLevel( const char * )
-    // setLevelStamp( bool )
-    // setTimeStamp( bool )
-
-    Log t( fn, LogLevel::Error | LogLevel::Info, true, true, ios::out );
-
-    t.setOutputLevel( LogLevel::Debug | LogLevel::Test );
-
-    t.setTimeStamp( false );
-
-    t() << "error BAD\n";
-    t( LogLevel::Debug ) << "debug good\n";
-    t( LogLevel::Info ) << "info BAD\n";
-    t( LogLevel::Test ) << "test good\n";
-
-    t.setOutputLevel( "WARNING | FUNCT" );
-
-    t() << "error BAD\n";
-    t( LogLevel::Debug ) << "debug BAD\n";
-    t( LogLevel::Warn ) << "warning good\n";
-    t( LogLevel::Info ) << "info BAD\n";
-    t( LogLevel::Test ) << "test BAD\n";
-    t( LogLevel::Funct ) << "funct good\n";
-
-    t.setLevelStamp( false );
-    
-    t() << "error BAD\n";
-    t( LogLevel::Debug ) << "debug BAD\n";
-    t( LogLevel::Warn ) << "good\n";
-    t( LogLevel::Info ) << "info BAD\n";
-    t( LogLevel::Test ) << "test BAD\n";
-    t( LogLevel::Funct ) << "good\n";
-
-  }
-
-  {
-    tester.file( __FILE__, __LINE__, fn );
-  }
-
-  fn = TEST_DATA_DIR "/logfile.12";
-  remove( fn );
-  
-  {
-    // getClassName( void ) const
-    // getVersion( void ) const
-    // getVersion( bool ) const
-
-    Log t( fn, LogLevel::Error, true, false );
-
-    TEST( t.getClassName() != 0 );
-    TEST( t.getVersion() != 0 );
-    TEST( t.getVersion( false ) != 0 );
-    
-  }
-
-  {
-    // dumpInfo( ostream & ) const
-    // version
-
-    Log t( fn, LogLevel::Error, true, false );
-
-    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
-    t.dumpInfo( tester.getDump(), " -> ", true );
-    tester.getDump() << '\n' << t.getClassName() << " version:\n";
-    tester.getDump() << t.version;
-    
-    tester.getDump() << '\n' << tester.getCurrentTestName();
-    
-  }
-  
-  {
-    // LogIf( Log &, LogLeve::Level )
-
-    Log t( fn, LogLevel::Error | LogLevel::Info | LogLevel::Test,
-	   true, false, ios::out );
-
-    LogIf( t, LogLevel::Warn ) << "warn BAD\n";
-    LogIf( t, LogLevel::Err ) << "error good\n";
-    LogIf( t, LogLevel::Debug ) << "debug BAD\n";
-    LogIf( t, LogLevel::Test ) << "test good\n";
-    LogIf( t, LogLevel::Funct ) << "funct BAD\n";
-    LogIf( t, LogLevel::Info ) << "info good\n";
-  }
-
-  {
-    tester.file( __FILE__, __LINE__, fn );
-  }
-#endif
   return( true );
 }
+      
+//
+// $Log$
+// Revision 2.6  1996/11/13 17:20:02  houghton
+// Complete rework of all tests.
+// Verified test against Log.hh header comments.
+//
+//
 
-    
-  
-      
-      
-    
-    
+
+
+
+
+
+
+
+
+
+
+
