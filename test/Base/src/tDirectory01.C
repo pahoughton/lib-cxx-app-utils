@@ -5,12 +5,14 @@ bool
 tDirectory01( LibTest & test )
 {
   {
-    Directory  t( "/one/two/th*/four" );
+    Directory t( "*" );
 
-    t.set( "abc" );
-    t.set( "one/two" );
-    t.set( "one/two" );
-    
+    for( Directory::iterator them = t.begin();
+	 them != t.end();
+	 them++ )
+      {
+	cout << *them << endl;
+      }
   }
 
   return( true );
