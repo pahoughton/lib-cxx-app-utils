@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1995/12/31 11:21:52  houghton
+// Bug fix - Removed 'inline' statement.
+//
 // Revision 2.2  1995/12/04 11:17:04  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -133,7 +136,6 @@ DateRange::write( ostream & dest ) const
   return( dest );
 }
 
-inline
 istream &
 DateRange::read( istream & src )
 {
