@@ -36,48 +36,48 @@ tDateRangeDaily( LibTest & tester )
     
     {
       DateTime	dt( 2003, 5, 12, 6, 00, 00 );
-      TESTR( dt.getString(), ! t.in( dt ) );
+      TESTR( dt.getString(), ! t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 7, 59, 59 );
-      TESTR( dt.getString(), ! t.in( dt ) );
+      TESTR( dt.getString(), ! t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 8, 00, 00 );
-      TESTR( dt.getString(), t.in( dt ) );
+      TESTR( dt.getString(), t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 8, 00, 01 );
-      TESTR( dt.getString(), t.in( dt ) );
+      TESTR( dt.getString(), t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 12, 00, 00 );
-      TESTR( dt.getString(), t.in( dt ) );
+      TESTR( dt.getString(), t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 16, 59, 59 );
-      TESTR( dt.getString(), t.in( dt ) );
+      TESTR( dt.getString(), t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 17, 00, 00 );
-      TESTR( dt.getString(), t.in( dt ) );
+      TESTR( dt.getString(), t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 17, 00, 01 );
-      TESTR( dt.getString(), ! t.in( dt ) );
+      TESTR( dt.getString(), ! t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 20, 00, 00 );
-      TESTR( dt.getString(), ! t.in( dt ) );
+      TESTR( dt.getString(), ! t.isIn( dt ) );
     }
 
     {
       DateTime	dt( 2003, 5, 11, 17, 00, 00 );
-      TESTR( dt.getString(), t.in( dt ) );
+      TESTR( dt.getString(), t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 11, 17, 00, 01 );
-      TESTR( dt.getString(), ! t.in( dt ) );
+      TESTR( dt.getString(), ! t.isIn( dt ) );
     }
   }
     
