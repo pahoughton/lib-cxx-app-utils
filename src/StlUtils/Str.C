@@ -348,6 +348,87 @@ fcompare( const char * one, const Str & two, Str::size_type len )
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }  
 
+bool
+Str::to( Range & r, unsigned short base ) const
+{
+  size_type rangeInd = find_first_of( "-." );
+  
+  if( rangeInd != npos )
+    {
+      size_type lastPos = rangeInd + 1;
+      
+      if( at( lastPos ) == '.' )
+	++ lastPos;
+      
+      if( lastPos < size() )
+	{
+	  if( ! substr( lastPos, Str::npos).to( r.second, base ) ) 
+	    return( false );
+	}
+      else
+	{
+	  r.second = ULONG_MAX;
+	}
+		  
+      if( ! substr(0, rangeInd).to( r.first, base ) )
+	return( false );
+    }
+  else
+    {
+	      
+      if( ! to( r.first, base ) )
+	return( false );
+      
+      r.second = 0;
+    }
+  
+  return( true );
+}
+  
+Str::RangeList::size_type
+Str::to( RangeList & range, unsigned short base ) const
+{
+  if( ! size() )
+    return( 0 );
+  
+  range.erase( range.begin(), range.end() );
+  
+  // scan is non const, so we need a temp
+  Str	tmp( *this );
+
+  size_type matches = tmp.scan( " \t,;:" );
+
+  Range r;
+  
+  if( matches > 1 )
+    {
+      
+      for( size_type m = 1; m < matches; ++ m )
+	{
+	  Str   numseq =  tmp.scanMatch( m );
+	  
+	  if( numseq.to( r ) )
+	    {
+	      range.push_back( r );
+	    }
+	  else
+	    {
+	      range.erase( range.begin(), range.end() );
+	      return( 0 );
+	    }
+	}
+    }
+  else
+    {
+      if( tmp.to( r ) )
+	range.push_back( r );
+    }
+  
+  return( range.size() );
+}
+      
+        
+	
 // modifications * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
@@ -1136,6 +1217,10 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/09/02 13:07:45  houghton
+// Added to( Range )
+// Added to( RangeList )
+//
 // Revision 3.5  1997/07/18 19:15:52  houghton
 // Port(Sun5): had to define ios::operator = (). I was getting link
 //     errors on this. This is a significant bug in Sun's compiler

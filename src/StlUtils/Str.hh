@@ -25,6 +25,7 @@
 #include "ClueConfig.hh"
 #include <iostream>
 #include <vector>
+#include <pair>
 #include <stddef.h>
 
 
@@ -45,6 +46,10 @@ public:
   typedef char *    	iterator;
   typedef const char * 	const_iterator;
   typedef size_t	size_type;
+
+  typedef pair< unsigned long, unsigned long >	Range;
+  
+  typedef vector< Range >   RangeList;
   
   typedef reverse_iterator< const char *, char, const char &, ptrdiff_t >
     const_reverse_iterator;
@@ -381,6 +386,9 @@ public:
   inline unsigned int	toUInt( unsigned short base = 0 ) const;
   inline unsigned long	toULong( unsigned short base = 0 ) const;
 
+  bool			to( Range & r, unsigned short base = 0 ) const;
+  RangeList::size_type	to( RangeList & range, unsigned short base = 0 ) const;
+  
   // modifications
 
   inline void	    	upcase( void );
@@ -1389,6 +1397,26 @@ operator >> ( istream & src, Str & dest );
 //  	toULong( unsigned short base = 0) const;
 //  	    return an unsigned long from a Str
 //
+//	RangeList::size_type
+//	to( RangeList & range, unsigned short base = 0 ) const
+//	    Convert the string into a list of numeric ranges and
+//	    return the number of ranges found. A numberic range can be
+//	    a single number (1962), or a number range (5-10, 35..47,
+//	    13-). Either the '-' or '..' can be used to indicate a
+//	    range of numbers. Numbers and ranges can be seperated by
+//	    comma (,), space ( ), tab (\t), semicolon (;) or colon
+//	    (:). The 'range' is a list of pairs of unsigned long
+//	    values. Where the first value is first (or only) number of
+//	    a range and the second value is either 0 for a single
+//	    number, the second number, or ULONG_MAX if a range is
+//	    specificed without a second number.
+//		Eample: "4-8,53,78,90.."
+//		Converts to:
+//		    range[0] = {4,8}
+//		    range[1] = {53,0}
+//		    range[2] = {78,0}
+//		    range[3] = {90,ULONG_MAX}
+//
 //  modifications
 //
 //  	void
@@ -1675,6 +1703,10 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 3.9  1997/09/02 13:08:28  houghton
+// Added to( Range )
+// Added to( RangeList )
+//
 // Revision 3.8  1997/08/08 13:24:25  houghton
 // Changed copy() to const.
 //
