@@ -24,7 +24,7 @@
 #include <signal.h>
 #include <errno.h>
 
-#include "SignalStrings.h"
+#include "StrSignal.h"
 
 #if defined( STLUTILS_DEBUG )
 #include "SigCatcher.ii"
@@ -34,15 +34,21 @@ STLUTILS_VERSION(
   SigCatcher,
   "$Id$");
 
+const SigCatcher::Flag	    SigCatcher::None;
+const SigCatcher::Flag	    SigCatcher::OnStack( SA_ONSTACK );
+const SigCatcher::Flag	    SigCatcher::NoDefer( SA_NODEFER );
+const SigCatcher::Flag	    SigCatcher::Restart( SA_RESTART );
+const SigCatcher::Flag	    SigCatcher::Siginfo( SA_SIGINFO );
+const SigCatcher::Flag	    SigCatcher::NoChildWait( SA_NOCLDWAIT );
+const SigCatcher::Flag	    SigCatcher::NoChildStop( SA_NOCLDSTOP );
+const SigCatcher::Flag	    SigCatcher::WaitSig( SA_WAITSIG );
+
 SigCatcher *	SigCatcher::self = 0;
 
 const char *
 SigCatcher::Caught::name( void ) const
 {
-  if( signal >= 0 && signal < (SigCatcher::Signal)ArraySize( SignalStrings ) )
-    return( SignalStrings[ signal ] );
-  else
-    return( "SIG_outofrangge" );
+  return( StrSignal( signal ) );
 }
 
 SigCatcher::SigCatcher( void )
@@ -120,12 +126,37 @@ SigCatcher::SigCatcher(
   }
 }
   
+SigCatcher::SigCatcher(
+  const Signal *    catchSigList,
+  size_t	    catchCount,
+  const Signal *    ignoreSigList,
+  size_t	    ignoreCount,
+  const Flag	    flags
+  )
+  : errorNum( E_OK ),
+    osErrno( 0 )
+{
+  {
+    for( size_t s = 0; s < catchCount; ++ s )
+      {
+	catchSig( catchSigList[ s ], flags );
+      }
+  }
+  
+  {
+    for( size_t s = 0; s < ignoreCount; ++ s )
+      {
+	ignoreSig( ignoreSigList[ s ] );
+      }
+  }
+}
+  
 SigCatcher::~SigCatcher( void )
 {
 }
 
 bool
-SigCatcher::catchSig( Signal sig )
+SigCatcher::catchSig( Signal sig, const Flag & flags )
 {
   if( ! self )
    self = this;
@@ -145,7 +176,7 @@ SigCatcher::catchSig( Signal sig )
   struct sigaction oldAction;
   
   catchSigAction.sa_handler = (void (*)(int))catchAction;
-  catchSigAction.sa_flags = SA_RESTART;
+  catchSigAction.sa_flags = flags.to_ulong();
 #if defined( AIX41 )
   catchSigAction.sa_mask.losigs = 0;
   catchSigAction.sa_mask.hisigs = 0;
@@ -319,6 +350,10 @@ SigCatcher::catchAction(
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/02/02 15:28:14  houghton
+// Changed to use StrSignal() (vs SignalStrings).
+// Added support for specifying singal flags.
+//
 // Revision 4.1  1997/09/17 15:13:36  houghton
 // Changed to Version 4
 //
