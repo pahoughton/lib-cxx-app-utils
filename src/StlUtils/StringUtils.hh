@@ -271,6 +271,60 @@ StringFrom( double num, short precision = 2 );
 const char *
 StringFrom( const struct tm & src, const char * fmt = "%m/%d/%y %H:%M:%S" );
 
+char *
+STLUTILS_FUNCT_T
+StringFrom( char *	dest,
+	    size_t	destSize,
+	    short	num,
+	    char	fill = '0',
+	    short	base = 10,
+	    bool	prefix = false );
+
+char *
+STLUTILS_FUNCT_T
+StringFrom( char *	dest,
+	    size_t	destSize,
+	    int		num,
+	    char	fill = '0',
+	    short	base = 10,
+	    bool	prefix = false );
+
+char *
+STLUTILS_FUNCT_T
+StringFrom( char *	dest,
+	    size_t	destSize,
+	    long	num,
+	    char	fill = '0',
+	    short	base = 10,
+	    bool	prefix = false );
+
+char *
+STLUTILS_FUNCT_T
+StringFrom( char *	    dest,
+	    size_t	    destSize,
+	    unsigned short  num,
+	    char	    fill = '0',
+	    short	    base = 10,
+	    bool	    prefix = false );
+
+char *
+STLUTILS_FUNCT_T
+StringFrom( char *	    dest,
+	    size_t	    destSize,
+	    unsigned int    num,
+	    char	    fill = '0',
+	    short	    base = 10,
+	    bool	    prefix = false );
+
+char *
+STLUTILS_FUNCT_T
+StringFrom( char *	    dest,
+	    size_t	    destSize,
+	    unsigned long   num,
+	    char	    fill = '0',
+	    short	    base = 10,
+	    bool	    prefix = false );
+
 const char *
 STLUTILS_FUNCT_T
 basename( const char * fn );
@@ -688,6 +742,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1997/12/23 12:06:44  houghton
+// Added StringFrom( char * dest ).
+//
 // Revision 4.4  1997/12/20 16:09:45  houghton
 // Added StripTrailing.
 //
