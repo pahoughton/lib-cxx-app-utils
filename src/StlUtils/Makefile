@@ -107,7 +107,7 @@ SHARED_CXX_FLAGS	= $(cxx_shared) $(cxx_optimize)
 
 # **** S H A R E D   D E P   L I B S *****
 
-SHDEP_LIBS		= -L$(beta_libdir) -lGnuRegex_s
+SHDEP_LIBS		= -L$(beta_libdir) -lGnuRegex_s -lCommon_s
 
 # **** I N S T A L L ****
 
@@ -304,6 +304,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.20  1997/05/02 12:18:08  houghton
+# Added libCommon_s to shdep libs.
+#
 # Revision 3.19  1997/04/26 14:41:31  houghton
 # Changed version number.
 #
