@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.6  1996/10/22 22:07:46  houghton
+// Change: Defined CLUE_LOG_WHERE to log source file location.
+//
 // Revision 1.5  1996/05/21 10:32:21  houghton
 // Added CLUE_FLOAT.
 //
@@ -73,6 +76,8 @@
 #define CLUE_FLOAT  float
 #define CLUE_DOUBLE double
 #define CLUE_BOOL   bool
+
+#define CLUE_LOG_WHERE 1
 
 #if !defined( CLUE_DIR_DELIM )
 #define CLUE_DIR_DELIM '/'
