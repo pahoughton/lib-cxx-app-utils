@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1995/12/31 11:24:28  houghton
+// Bug Fix - Removed 'inline' statement.
+//
 // Revision 2.2  1995/12/04 11:20:22  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -179,7 +182,6 @@ UserGroup::read( istream & src )
   return( src );
 }
 
-inline
 ostream &
 UserGroup::toStream( ostream & dest ) const
 {
