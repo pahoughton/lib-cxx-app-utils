@@ -194,10 +194,8 @@ C_SOURCES	=			\
 	$(ARCH_C_SOURCES)               \
 
 CXX_C_SOURCES	=			\
-	ArchiveFile.C                   \
 	Bitmask.C                       \
 	ClassVersion.C                  \
-	Compress.C                      \
 	DateRange.C                     \
 	DateRangeDaily.C                \
 	DateRangeWeekly.C               \
