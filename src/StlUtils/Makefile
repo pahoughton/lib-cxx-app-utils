@@ -204,7 +204,7 @@ USER_HH_INCS	=			\
 	Bit.hh                          \
 	Bitmask.hh                      \
 	ClassVersion.hh                 \
-	Clue.hh                         \
+	ClueUtils.hh                    \
 	ClueVersion.hh                  \
 	Compare.hh                      \
 	DateRange.hh                    \
@@ -248,7 +248,7 @@ USER_II_INCS	=			\
 	Bit.ii                          \
 	Bitmask.ii                      \
 	ClassVersion.ii                 \
-	Clue.ii                         \
+	ClueUtils.ii                    \
 	DateRange.ii                    \
 	DateRangeDaily.ii               \
 	DateRangeWeekly.ii              \
@@ -425,6 +425,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.26  1996/11/13 16:58:52  houghton
+# Renamed Clue.hh & Clue.ii to ClueUtils.hh & ClueUtils.ii.
+#
 # Revision 2.25  1996/11/08 11:45:08  houghton
 # *** empty log message ***
 #
