@@ -28,7 +28,15 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Test
 
-INSTALL_BINDIR	= $(LOCAL_BIN_DIR)
+for_rpm		= false
+
+TYPE_SUBDIR	= /pers
+ifeq ($(for_rpm), true )
+TYPE_SUBDIR	= /beta
+rpm_arch	= rpm/
+endif
+
+INSTALL_BINDIR	= .
 
 VER_MAJOR	= 1
 VER_MINOR	= 00
@@ -44,7 +52,7 @@ PROGRAM_STATIC	= $(NAME)_static
 PRJ_TOPDIR	= ../../..
 
 # include any arch specific makefile component
--include $(PRJ_TOPDIR)/src/arch/$(arch)/Makefile.$(NAME)
+-include $(PRJ_TOPDIR)/src/arch/$(rpm_arch)$(arch)/Makefile.$(NAME)
 
 VPATH		= $(ARCH_VPATH):.
 
@@ -77,12 +85,12 @@ STATIC_DEFINES	= -DTCLUE_STATIC=1
 
 
 SRC_INC		= $(ARCH_INC) -I. 
-PRJ_INC		= $($($(make_target))_PRJ_INC) -I$(beta_incdir)
+PRJ_INC		= $($($(make_target))_PRJ_INC) -I$(local_incdir)$(TYPE_SUBDIR)
 
-DEFAULT_PRJ_INC	= -I$(alpha_incdir)
-DEBUG_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
-PROFILE_PRJ_INC = $(CLUE_SRC_INC) -I$(alpha_incdir)
-STATIC_PRJ_INC	= -I$(alpha_incdir)
+DEFAULT_PRJ_INC	= 
+DEBUG_PRJ_INC	= $(CLUE_SRC_INC)
+PROFILE_PRJ_INC = $(CLUE_SRC_INC)
+STATIC_PRJ_INC	= 
 
 # Any other cpp flags to use on for all targets
 
@@ -139,15 +147,15 @@ DEBUG_LD_FLAGS		= $(ld_debug)
 PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
-DEFAULT_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(local_libdir) -L$(beta_libdir)
-DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(local_libdir) -L$(beta_libdir)
-PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
+DEFAULT_LD_LIBDIRS	= -L$(local_libdir)$(TYPE_SUBDIR) -L$(local_libdir)
+DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) $(DEFAULT_LD_LIBDIRS)
+PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue -lrwtool $(ARCH_LIBS)
-DEBUG_LD_LIBS		= -lClue_g -lGnuRegex -lrwtool  $(ARCH_LIBS)
-PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
-STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
+DEFAULT_LD_LIBS		= -lClue $(ARCH_LIBS)
+DEBUG_LD_LIBS		= -lClue_g $(ARCH_LIBS)
+PROFILE_LD_LIBS		= -lClue_pg $(DEFAULT_LD_LIBS)
+STATIC_LD_LIBS		= -lClue $(DEFAULT_LD_LIBS)
 
 # DEP_LIBS - rebuild target if DEP_LIBS newer than target
 
@@ -162,7 +170,7 @@ STATIC_DEP_LIBS		=
 
 # **** S O U R C E   F I L E S ****
 
-CXX_C_SOURCES	=			\
+PRIME_CXX_C_SOURCES	=		\
 	main.C				\
 	tClassVersion.C			\
 	tArraySize.C                    \
@@ -218,34 +226,8 @@ CXX_C_SOURCES	=			\
 	tParam.C                        \
 	tParam01.C                      \
 
-
-orig = \
-	TestBinObject.C			\
-	main.C                          \
-	tArraySize.C                    \
-	tDwordAlign.C                   \
-	tMemOverlap.C                   \
-	tAbsLong.C                      \
-	tIsBaseDigit.C                  \
-	tUnionOf.C                      \
-	tRound.C                        \
-	tBit.C                          \
-	tCompare.C                      \
-	tCompare01.C                    \
-	tCompare02.C                    \
-	tCharToInt.C                    \
-	tSafeStrcpy.C                   \
-	tStringCapitalize.C             \
-	tStringCaseCompare.C            \
-	tStringLower.C                  \
-	tStringSearch.C                 \
-	tStringTo.C                     \
-	tStringUpper.C                  \
-	tStripWhite.C                   \
-	tbasename.C                     \
-	tClassVersion.C			\
-	tHeapBinStream.C		\
-	tHeapNetStream.C		\
+ifneq ($(for_rpm), true )
+OTHER_CXX_C_SOURCES	=		\
 	tStr.C                          \
 	tStr01.C                        \
 	tStr02.C                        \
@@ -281,7 +263,6 @@ orig = \
 	tSubStr05.C                     \
 	tSubStr06.C                     \
 	tSubStr07.C                     \
-	tRegexScan.C                    \
 	tDateTimeUtils.C                \
 	tDateTime.C                     \
 	tDateTime01.C                   \
@@ -295,60 +276,19 @@ orig = \
 	tDateRange.C                    \
 	tDateRangeDaily.C               \
 	tDateRangeWeekly.C              \
-	tBitmask.C                      \
-	tBitmask01.C                    \
-	tBitmask02.C                    \
-	tBitmask03.C                    \
 	tFilePath.C                     \
 	tFilePath01.C                   \
 	tFilePath02.C                   \
 	tFilePath03.C                   \
 	tFilePath04.C                   \
-	tUser.C                         \
-	tUserGroup.C                    \
-	tFileStat.C                     \
-	tFileStat01.C                   \
-	tFileStat02.C                   \
-	tFileStat03.C                   \
-	tFileStat04.C                   \
-	tFileStat05.C                   \
-	tFileStat06.C                   \
-	tLogLevel.C                     \
-	tLog.C                          \
-	tLog01.C                        \
-	tLog02.C                        \
-	tLog03.C                        \
-	tLog04.C                        \
-	tLog05.C                        \
-	tParam.C                        \
-	tParam01.C                      \
 	tSortOrder.C                    \
-	tFileBinStream.C		\
 
-hold = \
-	tStrSet.C                       \
-	tWithCommon.C                   \
-	tWithCommon01.C                 \
-	tWithCommon02.C                 \
-	tWithWcf.C                      \
-	tWithWcf01.C                    \
-	tWithWcf02.C                    \
-	$(ARCH_CXX_C_SOURCES)           \
+endif
 
-
-USER_HH_INCS	=			\
-	AppParam.hh                     \
-	AvlTestData.hh                  \
-	ClueTest.hh                     \
-	DavlTestData.hh                 \
-	StaticBinStream.hh              \
-	StaticStream.hh                 \
-	$(ARCH_USER_HH_INCS)            \
-
-USER_INCLUDES	=		\
-	$(USER_H_INCS)		\
-	$(USER_HH_INCS)		\
-	$(USER_II_INCS)		\
+CXX_C_SOURCES	=			\
+	$(PRIME_CXX_C_SOURCES)		\
+	$(OTHER_CXX_C_SOURCES)		\
+	$(ARCH_CXX_C_SOURCES)		\
 
 CXX_HEADERS	=			\
 	AppParam.hh                     \
@@ -445,6 +385,10 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.3  1996/11/20 12:15:06  houghton
+# Major rework to support both rpm sources (for ani server) and
+#     other source (for distributor).
+#
 # Revision 3.2  1996/11/19 12:32:58  houghton
 # Added StringFrom.
 # Cleanup
