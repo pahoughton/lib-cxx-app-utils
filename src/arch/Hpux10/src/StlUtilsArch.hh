@@ -36,6 +36,7 @@
 /* #define STLUTILS_THREADS	1 */
 
 #define STLUTILS_STRBUF_CONST_RDBUF
+#define STLUTILS_STRBUF_PBASE
 
 #define STLUTILS_HAS_USER	1
 
@@ -160,6 +161,9 @@ const size_t NPOS = (size_t)(-1);
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1998/08/13 10:54:02  houghton
+// Added STLUTILS_STRBUF_PBASE define.
+//
 // Revision 1.1  1998/07/20 11:28:20  houghton
 // Initial Version.
 //
