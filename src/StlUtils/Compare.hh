@@ -17,7 +17,7 @@
 //    if a1 >  a2 then compare( a1, a2 ) >  0;
 //  .fn
 //
-//  All 'char *' fucntions (i.e. * **) check the actual
+//  All 'char *' functions (i.e. * **) check the actual
 //  characters and not the pointers.
 // 
 // Author:      Paul Houghton (paul_houghton@wcom.com)
@@ -224,6 +224,9 @@ Compare_NCMP( unsigned long );
 // Revision Log:
 //
 // $Log$
+// Revision 2.4  1996/11/04 13:33:22  houghton
+// Cleanup header comments.
+//
 // Revision 2.3  1996/10/27 11:12:32  houghton
 // Cleanup documentation.
 //

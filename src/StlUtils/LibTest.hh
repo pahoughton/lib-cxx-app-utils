@@ -10,13 +10,13 @@
 //  takes a 'LibTest &' as it's argument and returns a bool value.
 //  A return value of false indicates a specific test failed.
 //
-//  Once you have created you 'test function' you need to instaciate
+//  Once you have created you 'test function' you need to instantiate
 //  a Global 'TestItem[]'. A 'TestItem' is a test name and the
 //  'test function' to execute for that name. The last element
 //  of the 'TestItem[]' must be a '{ 0, 0 }'.
 //
 //  The 'TEST macros' use a 'false' value to indicate a specific
-//  test failed. The can be used in your test function to verify
+//  test failed. This can be used in your test function to verify
 //  specific operations.
 //
 //  If a test fails, output is generated and the
@@ -217,17 +217,19 @@ private:
   
 };
 
-//  Data Types: - data types defined by this header
 //
-//  	LibTest		    class
+//  Types:
 //
-//	LibTest::TestItem   struct
+//  	class	LibTest
+//	    See description above.
+//
+//	struct	LibTest::TestItem
 //	    This defines the structure of specific items
 //	    to be tested.
 //	    
-//	LibTest::Results    class
-//	    The Results clas gives you a way to specific what
-//	    actions are taken for each major event in the test.
+//	class	LibTest::Results
+//	    The Results class gives you a way to specify what
+//	    actions are to be taken for each major event in the test.
 //
 //  Constructors:
 //
@@ -237,10 +239,10 @@ private:
 //		 ostream &	    output,
 //		 ostream &	    error );
 //	    Construct a LibTest object where the testItem is an
-//	    array of specific test to run that is terminated by
+//	    array of specific tests to be run that is terminated by
 //	    a '{ 0, 0 }' entry. When outputLineProgress is true,
 //	    every call to test will send a '.' to 'output'. The
-//	    dumpDest can be accessed by your test funcionts to output
+//	    dumpDest can be accessed by your test funcions to output
 //	    debuging info. 'output' is where successful progress information
 //	    is sent. 'error' is where failed test information is sent.
 //	    The 'DefaultResults' is used for result processing.
@@ -252,7 +254,7 @@ private:
 //		 ostream &	    output,
 //		 ostream &	    error );
 //	    Construct a LibTest object where the testItem is an
-//	    array of specific test to run that is terminated by
+//	    array of specific tests to be run that is terminated by
 //	    a '{ 0, 0 }' entry. When outputLineProgress is true,
 //	    every call to test will send a '.' to 'output'.
 //	    The 'resultsProcessor' is used to process the results of
@@ -413,7 +415,7 @@ private:
 //			 const char *	reason,
 //			 const char *	srcFile,
 //			 long		srcLine ) = 0;
-//	    This is called whenever a single operation failes.
+//	    This is called whenever a single operation fails.
 //	    If it returns true, testing continues. If false is
 //	    returned, the run method will return with the number
 //	    of the testItem in testList that failed.
@@ -435,21 +437,21 @@ private:
 //
 //  Associated Macros:
 //
-//  TEST( passed )
-//	Call 'test' for a single operation, passing it all the appropriate
-//	arguments. If the test failes, the macro does a return( false ).
-//	This macro assumes the LibTest object is named 'tester'
+//	TEST( passed )
+//	    Call 'test' for a single operation, passing it all the appropriate
+//	    arguments. If the test fails, the macro does a return false.
+//	    This macro assumes the LibTest object is named 'tester'.
 //
-//  TESTR( reason, passed )
-//	Call 'test' for a single operation, passing it all the appropriate
-//	arguments. If the test failes, the macro does a return( false ).
-//	This macro assumes the LibTest object is named 'tester'
+//	TESTR( reason, passed )
+//	    Call 'test' for a single operation, passing it all the appropriate
+//	    arguments. If the test fails, the macro does a return false.
+//	    This macro assumes the LibTest object is named 'tester'.
 //
-//  TESTP( passed )
-//	Call 'test' for a single operation, passing it all the appropriate
-//	arguments along with setting the progress arg to 'true'.
-//	If the test failes, the macro does a return( false ). This macro
-//	assumes the LibTest object is named 'tester'
+//	TESTP( passed )
+//	    Call 'test' for a single operation, passing it all the appropriate
+//	    arguments along with setting the progress arg to 'true'.
+//	    If the test fails, the macro does a return false. This macro
+//	    assumes the LibTest object is named 'tester'.
 //
 //  Example:
 //
@@ -490,6 +492,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 2.5  1996/11/04 13:36:55  houghton
+// Cleanup header comments.
+//
 // Revision 2.4  1996/10/28 12:09:39  houghton
 // Cleanup: removed unused 'failed' function.
 //

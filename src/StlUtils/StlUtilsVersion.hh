@@ -49,7 +49,7 @@ const char VERID_##name_[] =						      \
 // Macros:
 //
 //	CLUE_VERSION( name, verid )
-//	    Uses CLASS_VERSION macro to instanciate the class's static
+//	    Uses CLASS_VERSION macro to instantiate the class's static
 //	    version.
 //
 //	CLUE_FUNCT_VERSION( name, verid )
@@ -65,6 +65,9 @@ const char VERID_##name_[] =						      \
 // Revision Log:
 //
 // $Log$
+// Revision 2.4  1996/11/04 13:33:04  houghton
+// Cleanup header comments.
+//
 // Revision 2.3  1996/10/28 12:01:17  houghton
 // Cleanup.
 //
