@@ -32,21 +32,18 @@ StringCaseSearch(
   size_t    	needleLen
   )
 {
-#ifdef CLUE_SAFETY_ON
+
   // check for valid input params
   if( ! haystack ||
       ! hayLen	 ||
       ! needle   ||
       ! needleLen )
     return( 0 );
-#endif
   
   size_t    nLen = (needleLen != NPOS) ? needleLen : strlen( needle );
   size_t    hLen = (hayLen != NPOS ) ? hayLen : strlen( haystack );
 
-#ifdef CLUE_SAFETY_ON
   if( ! hLen || ! nLen || nLen > hLen ) return( 0 );
-#endif
   
   const char * hEnd = &(haystack[ hLen - nLen ]);
   const char * nEnd = &(needle[ nLen ]);
@@ -84,6 +81,9 @@ StringCaseSearch(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/01/18 17:35:40  houghton
+// Changed: removed ifdef CLUE_SAFETY_ON. Now always checks args.
+//
 // Revision 3.2  1996/11/24 19:06:07  houghton
 // Removed support for short filenames.
 //
