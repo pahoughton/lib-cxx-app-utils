@@ -65,8 +65,22 @@ Str::append( const char * src, size_type srcLen )
   if( ! src )
     return( *this );
       
-  size_type  appLen = ( srcLen == npos ) ? strlen( src ) : srcLen;
+  size_type  appLen;
 
+  if( srcLen != npos )
+    {
+      const char * nullpos = (const char *)memchr( src, 0, srcLen );
+
+      if( nullpos )
+	appLen = nullpos - src;
+      else
+	appLen = srcLen;
+    }
+  else
+    {
+      appLen = strlen( src );
+    }
+  
   if( ! appLen )
     return( *this );
       
@@ -1086,6 +1100,10 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/03/15 18:05:04  houghton
+// Changed append - to prevent inserting nulls (0 char) into the Str even
+//     if the src len is specified.
+//
 // Revision 3.3  1997/03/02 13:20:17  houghton
 // Changed to use 'size_type'
 //
