@@ -34,13 +34,13 @@ ARCH_CXX_C_SOURCES	=	\
 	$(UNIX_CXX_C_SOURCES)	\
 
 ARCH_USER_H_INCS	=	\
-	ClueExceptions.hh	\
 	$(UNIX_USER_H_INCS)	\
 
 
 ARCH_USER_HH_INCS	=		\
 	ClueArch.hh			\
 	ClueSysStat.hh			\
+	ClueExceptions.hh	\
 	$(UNIX_USER_HH_INCS)		\
 
 ARCH_USER_II_INCS	=		\
@@ -58,6 +58,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 3.6  1997/03/03 19:07:31  houghton
+# Cleanup.
+#
 # Revision 3.5  1997/01/18 17:38:02  houghton
 # Added ClueExceptions.hh, ClueArch.hh & ClueSysStat.hh to installed headers.
 #
