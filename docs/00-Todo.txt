@@ -13,6 +13,12 @@
 # See End of file for format specs
 #
 
+ENH Paul Houghton 719-527-7834 03/08/98 10:24
+add getDirDelim() and getExtDelim to FilePath
+
+ENH Paul Houghton 719-527-7834 03/08/98 10:23
+add front() and back() to Str
+
 ENH Paul Houghton 09/20/97 06:02
 Add logdir to Param
 
@@ -182,6 +188,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 4.3  1998/03/08 18:04:59  houghton
+# *** empty log message ***
+#
 # Revision 4.2  1997/09/21 13:16:33  houghton
 # *** empty log message ***
 #
