@@ -1,0 +1,46 @@
+#ifndef _ThreadBase_ii_
+#define _ThreadBase_ii_
+//
+// File:        ThreadBase.ii
+// Desc:        
+//
+//  	inlines for ThreadBase
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     04/25/96 06:20
+//
+// Revision History:
+//
+// $Id$
+//
+// $Log$
+// Revision 2.1  1996/04/27 13:11:52  houghton
+// Initial version.
+//
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+
+inline
+void
+ThreadBase::attach( void )
+{
+  cleanup = false;
+}
+
+inline
+void
+ThreadBase::detach( void )
+{
+  cleanup = true;
+}
+
+#if defined( inline )
+#undef inline
+#endif
+
+#endif // ! def _ThreadBase_ii_ 
