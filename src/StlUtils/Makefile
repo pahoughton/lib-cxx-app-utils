@@ -70,16 +70,16 @@ include Make/make.cfg.$(make_cfg_ver)
 # if you want it re-gen'd, just delete the tags
 #
 
-VER_MAJOR	= 5
+VER_MAJOR	= 6
 VER_MINOR	= 01
 VER_RELEASE	= 01
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
-LIBRARY_DEFAULT	= lib$(NAME).a
+LIBRARY_DEFAULT	= lib$(NAME)_s.a
 LIBRARY_DEBUG	= lib$(NAME)_g.a
 LIBRARY_TEST	= lib$(NAME)_tg.a
 LIBRARY_PROFILE	= lib$(NAME)_pg.a
-LIBRARY_SHARED	= lib$(NAME)_s.$(shlib_ext)
+LIBRARY_SHARED	= lib$(NAME).$(shlib_ext)
 
 PROTO_H		= _$(NAME)_Proto.h
 
