@@ -25,6 +25,7 @@
 #include <vector>
 #include <deque>
 #include <iostream>
+#include <ctime>
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -214,6 +215,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/07/18 21:31:13  houghton
+// Port(Sun5): added include <ctime>
+//
 // Revision 3.2  1997/04/21 09:58:14  houghton
 // Port: include destructor.
 //
