@@ -3,6 +3,7 @@
 #include <DateTime.hh>
 #include <DateTimeUtils.hh>
 #include <cstring>
+#include <cstdlib>
 
 bool
 tDateTime02( LibTest & tester )
@@ -150,7 +151,7 @@ tDateTime02( LibTest & tester )
     DateTime	    	dt( when.getTimeT(), true );
     const DateTime	dtConst( when.getTimeT(), true );
 
-    TEST( ! strcmp( dt.getTimeZone(), "CST6CDT" ) );
+    TESTR( dt.getTimeZone(), ! strcmp( dt.getTimeZone(), "CST6CDT" ) );
     TEST( dt.isLocal() );
     TEST( ! dt.isDST() );
     TEST( ! dtConst.isDST() );
