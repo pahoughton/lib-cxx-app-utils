@@ -1,3 +1,20 @@
+//
+// File:        tUnionOf.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for UnionOf & UnionOfDur functions.
+//
+// Source Header Version: 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/31/96 07:19
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -89,6 +106,7 @@ tUnionOf( LibTest & tester )
     end1 = 70;
     TEST( UnionOf( start1, end1, start2, end2 ) == 15 );
 
+    TEST( UnionOf( 25, 50, 40, 60 ) == 10 ); // doc example
   }
 
   {
@@ -170,11 +188,41 @@ tUnionOf( LibTest & tester )
     dur1 = 15;
     TEST( UnionOfDur( start1, dur1, start2, dur2 ) == 15 );
 
+    TEST( UnionOfDur( 15, 20, 10, 10 ) == 5 ); // doc example
+    
   }
 
+  {
+    // UnionOfDur( unsigned long, unsigned long,
+    //		   unsigned long, unsigned long,
+    //		   unsigned long )
+
+    unsigned long   sOne;
+    unsigned long   dOne;
+    unsigned long   sTwo;
+    unsigned long   dTwo;
+    unsigned long   freq;
+
+    sOne = 5;
+    dOne = 10;
+    sTwo = 10;
+    dTwo = 200;
+    freq = 20;
+
+    TEST( UnionOfDur( sOne, dOne, sTwo, dTwo, freq ) == 100 );
+    TEST( UnionOfDur( 10, 5, 5, 100, 10 ) == 50 );
+  }
+    
   return( true );
 }
 
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:53:50  houghton
+// Added header comments.
+// Added more test to verify function.
+//
+//
     
     
     

@@ -1,3 +1,19 @@
+//
+// File:        tStripWhite.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for StripWhite function
+//
+// Source Header Version: StringUtils.hh 2.4
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     10/29/96 05:04
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -29,12 +45,10 @@ static TestVals TestValues[] =
   { {0},{0},0 }
 };
 
-static char SizeTest[50] = "   cleanup this mess  ";
-
 bool
 tStripWhite( LibTest & tester )
 {
-  // StripWhite( char *, const char *, size_t )
+  // StripWhite( char *, const char * )
   
   char * result;
   char reason[1024];
@@ -62,17 +76,40 @@ tStripWhite( LibTest & tester )
 	}
     }
 
-  // special test for bufsize
+  {
+    // StripWhite( char *, const char *, size_t )
+    
+    static char SizeTest[50] = "   cleanup   this mess  ";
 
-  result = StripWhite( SizeTest, " ", 11 );
-  
-  if( result != SizeTest || strcmp( SizeTest, "cleanup" ) )
-    {
-      sprintf( reason, "'%s' should be 'cleanup'", SizeTest );
-      TESTR( reason, false );
-      return( false );
-    }
+    result = StripWhite( SizeTest, " ", 11 );
+    
+    if( result != SizeTest || strcmp( SizeTest, "cleanup" ) )
+      {
+	sprintf( reason, "'%s' should be 'cleanup'", SizeTest );
+	TESTR( reason, false );
+	return( false );
+      }
+  }
+
+  {
+    // StripWhite( char *, const char *, size_t )
+
+    // special test for bufSize of 0
+
+#define TEST_STRING	"  abc  "
+    static char src[32] = TEST_STRING;
+
+    TEST( strcmp( StripWhite( src, " ", 0 ), TEST_STRING ) == 0 );
+  }
+    
 
   return( true );
 }
   
+//
+// $Log$
+// Revision 2.2  1996/11/04 14:53:42  houghton
+// Added header comments.
+// Added more test to verify function.
+//
+//
