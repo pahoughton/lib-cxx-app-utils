@@ -163,6 +163,7 @@ STATIC_DEP_LIBS		=
 # **** S O U R C E   F I L E S ****
 
 CXX_C_SOURCES	=			\
+	TestBinObject.C			\
 	main.C                          \
 	tArraySize.C                    \
 	tDwordAlign.C                   \
@@ -186,6 +187,7 @@ CXX_C_SOURCES	=			\
 	tStripWhite.C                   \
 	tbasename.C                     \
 	tHeapBinStream.C		\
+	tHeapNetStream.C		\
 	tStr.C                          \
 	tStr01.C                        \
 	tStr02.C                        \
@@ -382,6 +384,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.13  1996/06/09 09:45:53  houghton
+# Added TestBinObject and tHeapNetStream.
+#
 # Revision 2.12  1996/05/25 12:37:05  houghton
 # Cleanup.
 #
