@@ -755,7 +755,7 @@ DateTime::toTimeT(
       
     }
 
-  if( month )
+  if( month > 0 )
     {
       secs += SecPerDay * MonthDayOfYear[ month - 1 ];
       
@@ -765,7 +765,7 @@ DateTime::toTimeT(
 	}
     }
 
-  if( day )
+  if( day > 0 )
     {
       day--;
   
@@ -837,6 +837,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.5  1998/01/22 18:42:56  houghton
+// Bug-Fix: changed set() to verify month and day are > 0.
+//
 // Revision 4.4  1998/01/22 18:29:58  houghton
 // Added setValidYYYYMMDD().
 //
