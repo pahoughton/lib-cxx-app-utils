@@ -44,6 +44,7 @@ Param::Param(
   const char *	    appVersion,
   bool		    useDefaultArgFn,
   const char *	    logLevel,
+  bool		    useDefaultLogFn,
   ios::open_mode    logOpenMode,
   int		    logOpenProt
   )
@@ -78,10 +79,11 @@ Param::Param(
   argv = allArgv;
 
   if( useDefaultArgFn )
-    {
-      argFile << appName() << ".args" ;
-    }
-  
+    argFile << appName() << ".args" ;
+    
+  if( useDefaultLogFn )
+    logFile << appName() << ".log" ;
+      
   helpString += "\n";
   helpString += mainArgv[0];
   helpString += " help: \n\n";
@@ -1113,6 +1115,9 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.15  1997/07/28 16:46:07  houghton
+// Added default log file support.
+//
 // Revision 3.14  1997/07/25 12:17:09  houghton
 // Changed help for flag type args to output 'flag' instead of false
 //     when the flag is not set.

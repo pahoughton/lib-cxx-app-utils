@@ -74,6 +74,7 @@ public:
 	 const char *	    version = 0,
 	 bool		    useDefaultArgFn = false,
 	 const char *	    logLevel = CLUE_DEFAULT_LOGLEVEL,
+	 bool		    useDefaultLogFn = false,
 	 ios::open_mode	    logOpenMode = (ios::open_mode)(ios::out|ios::app),
 	 int		    logOpenProt = 0664 );
 
@@ -837,6 +838,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.13  1997/07/28 16:46:21  houghton
+// Added default log file support.
+//
 // Revision 3.12  1997/04/04 20:54:35  houghton
 // Changed constructor.
 // Added logmode & logprot args.
