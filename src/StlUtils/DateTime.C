@@ -299,6 +299,40 @@ DateTime::setValidYYMMDD( const char * yymmdd )
     }  
 }
 
+time_t
+DateTime::setValidYYYYMMDD( const char * yyyymmdd )
+{
+  int year;
+  int month;
+  int dom;
+
+  if( StringTo( year, yyyymmdd, 10, 4 )
+      && StringTo( month, yyyymmdd + 4, 10, 2 )
+      && StringTo( dom, yyyymmdd + 6, 10, 2 ) )
+    {
+      if( ( year <= MaxYear && year >= MinYear ) )
+	{
+	  return( setValid( year, month, dom, 0, 0, 0 ) );
+	}
+      else
+	{
+	  time_t old = seconds;
+	  
+	  flags.valid = false;
+	  seconds = 0;
+	  return( old );
+	}
+    }
+  else
+    {
+      time_t old = seconds;
+      
+      flags.valid = false;
+      seconds = 0;
+      return( old );
+    }  
+}
+
 // setYear - set the year
 time_t
 DateTime::setYear( short year )
@@ -803,6 +837,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/01/22 18:29:58  houghton
+// Added setValidYYYYMMDD().
+//
 // Revision 4.3  1998/01/09 10:36:34  houghton
 // Bug-Fix: setValid() year <= 99 is ok (was < 99)
 // Bug-Fix: set() if year >= 0 is ok (was !- 0).

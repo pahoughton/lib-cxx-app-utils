@@ -115,6 +115,7 @@ public:
   time_t	    	setValid( const char * dateString, const char * fmt = 0 );
 
   time_t		setValidYYMMDD( const char * yymmdd );
+  time_t		setValidYYYYMMDD( const char * yyyymmdd );
   
   inline time_t		setYYYYMMDD( const char * yyyymmdd);
   inline time_t		setYYMMDD( const char * yymmdd);
@@ -675,6 +676,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/01/22 18:30:17  houghton
+// Added setValidYYYYMMDD().
+//
 // Revision 4.2  1998/01/05 13:19:24  houghton
 // Added getYYYYMMDD()
 // Added setValidYYMMDD()
