@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/03/13 11:23:57  houghton
+// Bug Fix: reorder includes
+//
 // Revision 2.1  1995/11/10 12:40:20  houghton
 // Change to Version 2
 //
@@ -20,11 +23,13 @@
 //
 
 #if !defined( CLUE_SHORT_FN )
+#include <Common.h>
 #include <ClueConfig.hh>
 #include <Clue.ii>
 #include <StringUtils.hh>
 #include <iostream>
 #else
+#include <Common.h>
 #include <ClueCfg.hh>
 #include <Clue.ii>
 #include <StrUtil.hh>
