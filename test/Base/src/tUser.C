@@ -311,7 +311,7 @@ tUser( LibTest & tester )
 
     TEST( t.getGroups().size() == gCount );
 
-    for( User::Groups::iterator them = t.getGroups().begin();
+    for( User::Groups::const_iterator them = t.getGroups().begin();
 	 them != t.getGroups().end();
 	 them++ )
       {

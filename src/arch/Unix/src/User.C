@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1997/12/19 12:51:51  houghton
+// Bug-Fix: groups is const, so i need to use a const iterator.
+//
 // Revision 4.1  1997/09/17 15:13:39  houghton
 // Changed to Version 4
 //
@@ -268,7 +271,7 @@ User::dumpInfo(
     {
       dest << prefix << "Groups:\n";
 	  
-      for( Groups::iterator them = groups.begin();
+      for( Groups::const_iterator them = groups.begin();
 	   them != groups.end();
 	   them++ )
 	{
