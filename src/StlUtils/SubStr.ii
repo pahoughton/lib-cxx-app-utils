@@ -538,7 +538,6 @@ operator <  ( const char * lhs, const SubStr & rhs )
   return( compare( lhs, rhs ) < 0 );
 }
 
-#if !defined( Linux )
 inline
 bool
 operator != ( const char * lhs, const SubStr & rhs )
@@ -567,7 +566,6 @@ operator >= ( const char * lhs, const SubStr & rhs )
 {
   return( compare( lhs, rhs ) >= 0 );
 }
-#endif
 
 
 inline
@@ -666,6 +664,9 @@ SubStr::operator =  ( const string & src )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.5  1998/10/13 16:26:33  houghton
+// Cleanup #if def Linux.
+//
 // Revision 4.4  1998/04/02 14:18:43  houghton
 // Port(Linux): functional.h implements != operator.
 //
