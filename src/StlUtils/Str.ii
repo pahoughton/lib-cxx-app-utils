@@ -908,32 +908,17 @@ Str::find_first_not_of( const SubStr & str, size_type start ) const
 
 inline
 Str::size_type
-Str::find_first_not_of( const char * str, size_type start, size_type strLen ) const
+Str::find_first_not_of(
+  const char *	str,
+  size_type	start,
+  size_type	strLen
+  ) const
 {
-  const char * hBeg = strbase() + start;
-  const char * hEnd = strbase() + size();
-
-  const char * nBeg = str;
-  const char * nEnd = nBeg + ((strLen == npos) ? strlen( str ) : strLen);
-  
-  for( const char * h = hBeg; h < hEnd; h++ )
-    {
-      const char * n = nBeg;
-      for( ; n < nEnd ; n++ )
-	{
-	  if( *h == *n )
-	    {
-	      break;
-	    }
-	}
-      if( n == nEnd )
-	{
-	  return( h - strbase() );
-	}
-    }
-
-  return( npos );
-
+  size_type pos = StringFirstNotOf( strbase() + start,
+				    size() - start,
+				    str,
+				    strLen );
+  return( pos == npos ? npos : pos + start );
 }
 
 inline
@@ -2017,6 +2002,9 @@ Str::replace(
 // Revision Log:
 // 
 // $Log$
+// Revision 3.8  1997/08/12 11:10:54  houghton
+// Changed find_first_not_of to use new StringFirstNotOf function.
+//
 // Revision 3.7  1997/08/08 13:24:52  houghton
 // Changed copy() to const.
 //
