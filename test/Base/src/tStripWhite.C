@@ -26,6 +26,8 @@
 #include <cstdio>
 #endif
 
+#if defined( Hpux10 )
+
 struct TestVals
 {
   const char *  from;
@@ -33,6 +35,16 @@ struct TestVals
   const char *  stripChars;
 };
 
+#else
+
+struct TestVals
+{
+  const char	from[ 100 ];
+  const char	to[ 100 ];
+  const char *  stripChars;
+};
+
+#endif
 static TestVals TestValues[] =
 {
   { { "no white in me" 	            }, { "no white in me"         }, 0 },
@@ -111,6 +123,9 @@ tStripWhite( LibTest & tester )
   
 //
 // $Log$
+// Revision 4.3  1998/10/13 15:21:28  houghton
+// Workaround for Hpux compiler.
+//
 // Revision 4.2  1998/07/20 11:33:40  houghton
 // Port(Hpux): had to change test struct vars from char [] to char *.
 //
