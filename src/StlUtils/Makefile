@@ -59,7 +59,7 @@ INSTALL_INC_DIR	= $(local_incdir)
 
 VER_MAJOR	= 4
 VER_MINOR	= 00
-VER_RELEASE	= 00.b.04
+VER_RELEASE	= 00.b.05
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -346,6 +346,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.18  1998/11/02 19:19:41  houghton
+# Changed version number.
+#
 # Revision 4.17  1998/11/02 15:26:36  houghton
 # Added LruSash.
 #
