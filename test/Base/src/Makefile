@@ -41,7 +41,7 @@ PROGRAM_PROFILE	= $(NAME)_pg
 PROGRAM_STATIC	= $(NAME)_static
 
 
-PRJ_TOPDIR	= ../..
+PRJ_TOPDIR	= ../../..
 
 # include any arch specific makefile component
 -include $(PRJ_TOPDIR)/src/arch/$(arch)/Makefile.$(NAME)
@@ -321,52 +321,52 @@ debug prifle static::
 
 all::	default debug profile
 
-install:: default $(INSTALL_DIR)/$(PROGRAM_DEFAULT)
-
 test: test_data default 
 	 LD_LIBRARY_PATH=/usr/local/lib/alpha $(NAME)
 
 test_debug: test_data debug
 	 LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/Clue:/usr/local/lib/alpha $(NAME)_g
 
-test_data: data/FileStat.h.t.nnn.yyy.nnn
-	chgrp tools data/FileStat.01
-	(cd data; ln -s FileStat.01 FileStat.l1)
-	-touch data/FileStat.set
-	chmod 6 data/FileStat.set
-	-touch data/FileStat.h.t.yyy.yyy.yyy
-	chmod 777 data/FileStat.h.t.yyy.yyy.yyy
-	-touch data/FileStat.h.t.nnn.nnn.nnn
-	chmod 000 data/FileStat.h.t.nnn.nnn.nnn
-	-touch data/FileStat.h.t.nnn.yyy.nnn
-	chmod 070 data/FileStat.h.t.nnn.yyy.nnn
+test_data: 
+	chgrp tools $(TEST_DATA_DIR)/FileStat.01
+	(cd $(TEST_DATA_DIR); ln -s FileStat.01 FileStat.l1)
+	-touch $(TEST_DATA_DIR)/FileStat.set
+	chmod 6 $(TEST_DATA_DIR)/FileStat.set
+	-touch $(TEST_DATA_DIR)/FileStat.h.t.yyy.yyy.yyy
+	chmod 777 $(TEST_DATA_DIR)/FileStat.h.t.yyy.yyy.yyy
+	-touch $(TEST_DATA_DIR)/FileStat.h.t.nnn.nnn.nnn
+	chmod 000 $(TEST_DATA_DIR)/FileStat.h.t.nnn.nnn.nnn
+	-touch $(TEST_DATA_DIR)/FileStat.h.t.nnn.yyy.nnn
+	chmod 070 $(TEST_DATA_DIR)/FileStat.h.t.nnn.yyy.nnn
+	touch test_data
 
 clean:: clean_test_data
 
 clean_test_data: 
-	rm -f data/Str.bin.data			\
-		data/Str.operator.output	\
-		data/SubStr.operator.output	\
-		data/FileStat.l1		\
-		data/FileStat.set		\
-		data/FileStat.h.t.yyy.yyy.yyy	\
-		data/FileStat.h.t.nnn.nnn.nnn	\
-		data/FileStat.h.t.nnn.yyy.nnn	\
-		data/log.stream.test		\
-		data/logfile.01			\
-		data/logfile.02			\
-		data/logfile.03			\
-		data/logfile.04			\
-		data/logfile.05			\
-		data/logfile.05.tee		\
-		data/logfile.06			\
-		data/logfile.07			\
-		data/logfile.08			\
-		data/logfile.09			\
-		data/logfile.10			\
-		data/logfile.11			\
-		data/logfile.12			\
-		data/param.log.01		\
+	rm -f $(TEST_DATA_DIR)/Str.bin.data			\
+		$(TEST_DATA_DIR)/Str.operator.output		\
+		$(TEST_DATA_DIR)/SubStr.operator.output		\
+		$(TEST_DATA_DIR)/FileStat.l1			\
+		$(TEST_DATA_DIR)/FileStat.set			\
+		$(TEST_DATA_DIR)/FileStat.h.t.yyy.yyy.yyy	\
+		$(TEST_DATA_DIR)/FileStat.h.t.nnn.nnn.nnn	\
+		$(TEST_DATA_DIR)/FileStat.h.t.nnn.yyy.nnn	\
+		$(TEST_DATA_DIR)/log.stream.test		\
+		$(TEST_DATA_DIR)/logfile.01			\
+		$(TEST_DATA_DIR)/logfile.02			\
+		$(TEST_DATA_DIR)/logfile.03			\
+		$(TEST_DATA_DIR)/logfile.04			\
+		$(TEST_DATA_DIR)/logfile.05			\
+		$(TEST_DATA_DIR)/logfile.05.tee			\
+		$(TEST_DATA_DIR)/logfile.06			\
+		$(TEST_DATA_DIR)/logfile.07			\
+		$(TEST_DATA_DIR)/logfile.08			\
+		$(TEST_DATA_DIR)/logfile.09			\
+		$(TEST_DATA_DIR)/logfile.10			\
+		$(TEST_DATA_DIR)/logfile.11			\
+		$(TEST_DATA_DIR)/logfile.12			\
+		$(TEST_DATA_DIR)/param.log.01			\
+		test_data					\
 
 
 #
@@ -378,6 +378,10 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.8  1996/05/02 11:06:24  houghton
+# Changed PRJ_TOPDIR for new dir structure.
+# Rework test_data targets.
+#
 # Revision 2.7  1996/05/01 11:34:33  houghton
 # Restructure directories to Test01/src and Test01/data
 # Added TEST_DATA_DIR define.
