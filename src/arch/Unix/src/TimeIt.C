@@ -19,6 +19,7 @@
 #include <ClueUtils.hh>
 #include <Str.hh>
 #include <iomanip>
+#include <cstring>
 
 #if defined( CLUE_DEBUG )
 #include "TimeIt.ii"
@@ -41,6 +42,17 @@ TimeIt::TimeIt( bool startTimer )
     start();
 }
 
+TimeIt::TimeIt( const timeval & stopReal, const rusage & stopUsage )
+  : osErrnum(0)
+{
+  memset( &realStart,  0, sizeof( realStart ) );
+  memset( &usageStart, 0, sizeof( usageStart ) );
+	  
+  memcpy( &realStop,   &stopReal, sizeof( realStop ) );
+  memcpy( &usageStop,  &stopUsage, sizeof( usageStop ) );  
+}
+
+  
 TimeIt::~TimeIt( void )
 {
 }
@@ -227,6 +239,9 @@ TimeIt::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/19 16:25:43  houghton
+// Added constructor.
+//
 // Revision 3.2  1997/03/03 19:05:20  houghton
 // Changed from using 'string' to 'Str'
 //
