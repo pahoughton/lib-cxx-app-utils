@@ -1,187 +1,145 @@
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Param.hh>
-#include <Compare.hh>
-#include <ClueUtils.hh>
-#include <cstdio>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <Param.hh>
-#include <Compare.hh>
-#include <Clue.hh>
-#include <cstdio>
-#endif
+//
+// File:        tParam01.C
+// Project:	Clue
+// Desc:        
+//
+//  Test for the follwing Param methods.
+//
+//  
+// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Created:     11/17/96 06:52
+//
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
 
 
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include "Param.hh"
+#include "Compare.hh"
+#include "ClueUtils.hh"
 
-char * argv01[] =
+#define APP_VER		"Test Param Ver: 01.01.01"
+
+#define APP_NAME_01	"TestParam_01"
+#define APP_FULLNAME_01	"test/src/Base/" APP_NAME_01
+
+static char * argv_01[] =
 {
-  "test/test",
-  0
+  APP_FULLNAME_01,
 };
 
-char * argv02[] =
+#define APP_NAME_02	"TestParam_01"
+#define APP_FULLNAME_02	"test/src/Base/" APP_NAME_01
+
+static char * argv_02[] =
 {
-  "test/test",
-  "-log",	TEST_DATA_DIR "/param.log.01",
+  APP_FULLNAME_02,
+  "arg  1",
+  "arg  2",
+  "arg  3",
+  "1234",
+  "10.10"
+};
+
+static char * argv_03[] =
+{
+  "test/src/Base/TestParam_03",
   "-help",
-  "-loglevel",	"TEST | INFO",
-  "-logmax",	"10240",
-  "-logtrim",	"1024",
-  "-string",	"test string",
-#if defined( CLUE_USE_STR )
-  "-str",	"test str",
-#endif
-  "-int",	"-123",
-  "-uint",	"123",
-  "-short",	"-456",
-  "-ushort",	"456",
-  "-long",	"-789",
-  "-ulong",	"789",
-  "-double",	"10.10",
-  "-bool",	"yes",
-  "-flag",
-#if defined( CLUE_USE_DATETIME )
-  "-timet",	"7/15/95 08:15:15",
-  "-datetime",	"8/1/95 06:00:10",
-#endif
-  0
+  "-log",   TEST_DATA_DIR "/param_03.log",
+  "-loglevel",	    "test | INFO | Warn",
+  "-logfilter",	    "param",
+  "-logtee",
+  "-logtime",	    "false",
+  "-logstamplevel", "false",
+  "-logloc",	    "false",
+  "-logmax",	    "4096",
+  "-logtrim",	    "2048",
+  "arg  1",
+  "arg  2",
+  "arg  3",
+  "1234",
+  "10.10"
 };
 
 bool
 tParam01( LibTest & tester )
 {
-  remove( TEST_DATA_DIR "/param.log.01" );
-  
   {
-    // Param( int &, char * [], const char * )
-    // appName( void ) const
-    // appFullName( void ) const
-    // arg( size_t )
-    // count( void ) const
-    // env( const char * ) const
-    // log( void )
-    // log( LogLevel::Level )
+    // Param( int, char * [] )
+    // appName( void ) const;
+    // appFullName( void ) const;
     
-    int argc = ArraySize( argv01 ) - 1;
-    
-    Param   t( argc, argv01, "ParamTest 01" );
+    const Param t( ArraySize( argv_01 ), argv_01 );
 
-    TEST( compare( t.appName(), "test" ) == 0 );
-    TEST( compare( t.appFullName(), "test/test" ) == 0 );
-    TEST( compare( t.arg(0), "test/test" ) == 0 );
-    TEST( t.arg(1) == 0 );
-    TEST( t.count() == 1 );
-    TEST( compare( t.env( "USER" ), "houghton" ) == 0 );
-    
-    t.log().setTimeStamp( false );
-    t.log().setLevelStamp( false );
-    
-    TEST( t.log().getCurrent() == LogLevel::Error );
-    TEST( t.log( LogLevel::Test ).getCurrent() == LogLevel::Test );
+    TEST( compare( t.appName(), APP_NAME_01 ) == 0 );
+    TEST( compare( t.appFullName(), APP_FULLNAME_01 ) == 0 );
   }
 
   {
-    // help( void ) const
-    // ALog( LogLevel::Level )
-    // argString( char * &, const char *, const char * )
-    // argStr( Str &, const char *, const char * )
-    // argInt( int &, const char *, const char * )
-    // argInt( unsigned int &, const char *, const char * )
-    // argShort( short &, const char *, const char * )
-    // argShort( unsigned short &, const char *, const char * )
-    // argLong( long &, const char *, const char * )
-    // argLong( unsigned long &, const char *, const char * )
-    // argDouble( double &, const char *, const char * )
-    // argBool( bool &, const char *, const char * )
-    // argFlag( flag &, const char *, const char * )
-    // argDateTime( time_t &, const char *, const char * )
-    // argDateTime( DateTime &, const char *, const char * )
+    // Param( int, char * [], const char * )
+    // appVersion( void ) const;
+    // count( void ) const;
+    // begin( void ) const;
+    // end( void ) const;
+    // beginAll( void ) const
+    // endAll( void ) const;
     
-    int argc = ArraySize( argv02 ) - 1;
+    const Param t( ArraySize( argv_02 ), argv_02, APP_VER );
+
+    TEST( compare( t.appVersion(), APP_VER ) == 0 );
+    TEST( t.count() == ArraySize( argv_02 ) );
     
-    Param   t( argc, argv02, "ParamTest 02" );
-    Param * App = &t;
+    size_t  count = 0;
     
-    t.log().setTimeStamp( false );
-    t.log().setLevelStamp( false );
+    for( Param::Args::const_iterator them = t.begin();
+	 them != t.end();
+	 ++them, ++count )
+      {
+	TEST( (*them) == argv_02[count] );
+      }
+    
+    TEST( count == ArraySize( argv_02 ) );
 
-    TEST( t.help() );
-    TEST( t.log().getOutput() == ( LogLevel::Test | LogLevel::Info ) );
+    count = 0;
+    
+    for( Param::Args::const_iterator them = t.beginAll();
+	 them != t.endAll();
+	 ++them, ++count )
+      {
+	TEST( (*them) == argv_02[count] );
+      }
+    
+    TEST( count == ArraySize( argv_02 ) );
 
-    ALog( LogLevel::Test ) << t;
-
-    {
-      for( int l = 0; l < 500; l++ )
-	ALog( LogLevel::Info ) << "info message: " << l
-			       << " to test log trimming\n";
-    }
-
-    char * string = "init";
-    TEST( t.argStr( string, "argString test args", "string" ) );
-    TEST( compare( string, "test string" ) == 0 );
-
-#if defined( CLUE_STR )
-    Str str( "init" );
-    TEST( t.argStr( str, "argStr test args", "str" ) );
-    TEST( compare( str, "test str" ) == 0 );
-#endif
-    int i = 0;
-    TEST( t.argInt( i, "argInt test args", "int" ) );
-    TEST( i == -123 );
-
-    unsigned int ui = 0;
-    TEST( t.argUInt( ui, "argInt unsigned test args", "uint" ) );
-    TEST( ui == 123 );
-
-    short s = 0;
-    TEST( t.argShort( s, "argShort test args", "short" ) );
-    TEST( s == -456 );
-
-    unsigned short us = 0;
-    TEST( t.argUShort( us, "argShort unsigned test args", "ushort" ) );
-    TEST( us == 456 );
-
-    long l = 0;
-    TEST( t.argLong( l, "argLong test args", "long" ) );
-    TEST( l == -789 );
-
-    unsigned long ul = 0;
-    TEST( t.argULong( ul, "argLong unsigned test args", "ulong" ) );
-    TEST( ul == 789 );
-
-    double d = 0;
-    TEST( t.argDouble( d, "argDouble test args", "double" ) );
-    TEST( d == 10.10 );
-
-    bool b = false;
-    TEST( t.argBool( b, "argBool test args", "bool" ) );
-    TEST( b == true );
-
-    bool f = false;
-    TEST( t.argFlag( f, "argFlag test args", "flag" ) );
-    TEST( f == true );
-
-#if defined( CLUE_DATETIME )
-    time_t tt = 0;
-    DateTime tval( "7/15/95 08:15:15" );
-    TEST( t.argDateTime( tt, "argDateTime time_t test args", "timet" ) );
-    TEST( tt == tval.getTimeT() );
-
-    DateTime dt( "9/1/95 06:00:10" );
-    DateTime dtval( "8/1/95 06:00:10" );
-    TEST( t.argDateTime( dt, "argDateTime DateTime test args", "datetime" ) );
-    TEST( dt == dtval );
-#endif
-    ALog( LogLevel::Test ) << t;
-
-    TEST( t.count() == 1 );
   }
-  
-      
+
+  {
+    // Param( int, char * [], const char * )
+    // arg( void )
+    // arg( size_t );
+    // argLong( size_t );
+    // argDouble( size_t );
+    
+    Param t( ArraySize( argv_02 ), argv_02, APP_VER );
+
+    TEST( compare( t.arg(), argv_02[1] ) == 0 );
+    TEST( compare( t.arg(2), argv_02[2] ) == 0 );
+
+    TEST( t.argLong( 4 )   == 1234 );
+    TEST( t.argDouble( 5 ) == 10.10 );
+  }
+
   return( true );
 }
+	 
 
     
+    
+//
+// $Log$
+// Revision 3.2  1996/11/19 12:36:10  houghton
+// Major-rework.
+//
+//
