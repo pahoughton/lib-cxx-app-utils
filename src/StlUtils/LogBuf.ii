@@ -2,30 +2,20 @@
 #define _LogBuf_ii_
 //
 // File:        LogBuf.ii
+// Project:	Clue
 // Desc:        
 //
-//  	inlines for Bitmask
+//  	Definitions for LogBuf inline functions.
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     07/21/95 12:26
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 2.3  1996/04/27 13:03:35  houghton
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
+// $Id$
 //
-// Revision 2.2  1995/12/04 11:17:24  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:46  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:38  houghton
-// Ports and Version ID changes
-//
-//
+
+#include <RegexScan.hh>
 
 #if defined( CLUE_DEBUG )
 #define inline
@@ -36,7 +26,15 @@ LogBuf::LogBuf(
   LogLevel::Level   outLevel,
   streambuf *	    outStream
   )
-  : logLevel( outLevel )
+  : maxSize( 0 ),
+    trimSize( 0 ),
+    streamIsFile( false ),
+    buffer( 0 ),
+    stream( 0 ),
+    teeStream( 0 ),
+    logLevel( outLevel ),
+    regex( 0 ),
+    newMesg( true )
 {
   initbuf( outStream );
 }
@@ -46,7 +44,15 @@ LogBuf::LogBuf(
   const char * 	outLevel,
   streambuf *	outStream
   )
-  : logLevel( outLevel )
+  : maxSize( 0 ),
+    trimSize( 0 ),
+    streamIsFile( false ),
+    buffer( 0 ),
+    stream( 0 ),
+    teeStream( 0 ),
+    logLevel( outLevel ),
+    regex( 0 ),
+    newMesg( true )
 {
   initbuf( outStream );
 }
@@ -61,7 +67,15 @@ LogBuf::LogBuf(
   size_t	    logMaxSize,
   size_t	    logTrimSize
   )
-  : logLevel( outLevel )
+  : maxSize( 0 ),
+    trimSize( 0 ),
+    streamIsFile( false ),
+    buffer( 0 ),
+    stream( 0 ),
+    teeStream( 0 ),
+    logLevel( outLevel ),
+    regex( 0 ),
+    newMesg( true )
 {
   initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
 }
@@ -75,26 +89,52 @@ LogBuf::LogBuf(
   size_t	    logMaxSize,
   size_t	    logTrimSize
   )
-  : logLevel( outLevel )
+  : maxSize( 0 ),
+    trimSize( 0 ),
+    streamIsFile( false ),
+    buffer( 0 ),
+    stream( 0 ),
+    teeStream( 0 ),
+    logLevel( outLevel ),
+    regex( 0 ),
+    newMesg( true )
 {
   initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
 }
-  
-  
-inline
-bool
-LogBuf::willOutput( LogLevel::Level outLevel ) const
+
+inline LogLevel::Level
+LogBuf::setCurrentLevel( LogLevel::Level cur )
 {
-  return( logLevel.willOutput( outLevel ) );
+  newMesg = true;
+  return( logLevel.setCurrent( cur ) );
+}
+
+inline LogLevel::Level
+LogBuf::setCurrentLevel( const char * cur )
+{
+  newMesg = true;
+  return( logLevel.setCurrent( cur ) );
+}
+
+inline LogLevel::Level
+LogBuf::setOutputLevel( LogLevel::Level out )
+{
+  newMesg = true;
+  return( logLevel.setOutput( out ) );
+}
+
+inline LogLevel::Level
+LogBuf::setOutputLevel( const char * out )
+{
+  newMesg = true;
+  return( logLevel.setOutput( out ) );
 }
 
 inline
-streambuf *
-LogBuf::tee( streambuf * teeStreambuf )
+const LogLevel &
+LogBuf::getLogLevel( void ) const
 {
-  streambuf * old = teeStream;
-  teeStream = teeStreambuf;
-  return( old );
+  return( logLevel );
 }
 
 inline
@@ -117,6 +157,15 @@ LogBuf::setTrimSize( size_t size )
 }
 
 inline
+streambuf *
+LogBuf::tee( streambuf * teeStreambuf )
+{
+  streambuf * old = teeStream;
+  teeStream = teeStreambuf;
+  return( old );
+}
+
+inline
 bool
 LogBuf::isFile( void ) const
 {
@@ -124,21 +173,60 @@ LogBuf::isFile( void ) const
 }
 
 inline
-LogLevel &
-LogBuf::level( void )
+bool
+LogBuf::filter( const char * regexStr )
 {
-  return( logLevel );
+  regex = new RegexScan( regexStr );
+  newMesg = false;
+  return( regex != 0 && regex->good() );
 }
 
 inline
-const LogLevel &
-LogBuf::level( void ) const
+bool
+LogBuf::delFilter( FilterId id )
 {
-  return( logLevel );
+  if( id < (long)filters.size() && filters[id].dest != 0 )
+    {
+      filters[id].dest = 0;
+      if( filters[id].regex )
+	delete filters[id].regex;
+      filters[id].regex = 0;
+    }
+  return( true );
 }
 
 #if defined( inline )
 #undef inline
 #endif
 
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.4  1996/11/04 14:07:07  houghton
+// Restructure header comments layout.
+// Reorder Constructor args and initalize varabiles.
+// Removed willOutput method (can use getLogLevel().willOutput()).
+// Added setCurrentLevel method to change the current level.
+// Added setOutputLevel method to change the output level.
+// Added getLogLevel method to provide const access to the LogLevel.
+// Added filter method to support outputing only messages that
+//     contain a regex.
+// Added delFilter method to remove a destination filter that is no
+//     longer needed.
+//
+// Revision 2.3  1996/04/27 13:03:35  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.2  1995/12/04 11:17:24  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:46  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:38  houghton
+// Ports and Version ID changes
+//
+//
 #endif // ! def _LogBuf_ii_ 
