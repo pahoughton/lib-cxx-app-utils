@@ -3,12 +3,15 @@
 #include <LibTest.hh>
 #include <HeapBinStream.hh>
 #include <DateRangeDaily.hh>
+#include <DateTimeUtils.hh>
+#include <functional>
 #include <strstream>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <HBinStrm.hh>
 #include <DateRgDl.hh>
+#include <functional>
 #include <strstream>
 #endif
 
