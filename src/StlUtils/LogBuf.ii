@@ -154,8 +154,7 @@ inline
 LogBuf::Filter::Filter( const Filter & from )
   : dest( from.dest ), outputLevel( from.outputLevel )
 {
-  if( from.regex )
-    regex = new RegexScan( *from.regex );
+  regex = (from.regex ? new RegexScan( *from.regex ) : 0 );
 }
       
 inline
@@ -184,6 +183,10 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/10/13 16:20:36  houghton
+// Bug-Fix: the Filter constructor was not initializing regex to 0 if
+//     there was no pattern.
+//
 // Revision 4.1  1997/09/17 15:12:36  houghton
 // Changed to Version 4
 //
