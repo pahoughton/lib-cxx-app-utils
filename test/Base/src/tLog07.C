@@ -18,7 +18,7 @@
 #include "Log.hh"
 #include "FileStat.hh"
 #include <cstdio>
-#include <strstream>
+#include <strstream.h>
 
 bool
 tLog07( LibTest & tester )
@@ -334,6 +334,10 @@ tLog07( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:35:50  houghton
+// Changed include strstream to include strstream.h because strstream
+//     is not part of the standard.
+//
 // Revision 3.1  1996/11/14 01:26:48  houghton
 // Changed to Release 3
 //

@@ -27,7 +27,7 @@
 #include "TestConfig.hh"
 #include "LibTest.hh"
 #include "Log.hh"
-#include <strstream>
+#include <strstream.h>
 #include <cstdio>
 #include <cerrno>
 
@@ -305,6 +305,10 @@ tLog02( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:35:23  houghton
+// Changed include strstream to include strstream.h because strstream
+//     is not part of the standard.
+//
 // Revision 3.1  1996/11/14 01:26:46  houghton
 // Changed to Release 3
 //
