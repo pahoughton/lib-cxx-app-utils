@@ -141,9 +141,14 @@ public:
   inline    	operator time_t () const;
   inline    	operator const char * () const;
   
-  inline int 	operator == ( const DateTime & two ) const;
-  inline int 	operator <  ( const DateTime & two ) const;
+  inline bool 	operator == ( const DateTime & rhs ) const;
+  inline bool 	operator <  ( const DateTime & rhs ) const;
 
+  // note: time_t IS a signed value.
+  
+  inline time_t	operator -  ( const DateTime & rhs ) const;
+  inline time_t operator -  ( const time_t rhs ) const;
+  
   // libClue Common Class Methods
   
   virtual size_t    	getBinSize( void ) const;
@@ -221,6 +226,9 @@ private:
 
 int
 compare( const DateTime & one, const DateTime & two );
+
+time_t
+operator - ( const time_t lhs, const DateTime & rhs );
 
 #endif
 //
@@ -664,6 +672,10 @@ compare( const DateTime & one, const DateTime & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/08/28 21:20:23  houghton
+// Changed operator == and operator < to return 'bool'.
+// Added operator - .
+//
 // Revision 3.3  1997/08/24 21:57:33  houghton
 // Cleanup comments.
 // Changed getDayOfWeek to return a 'DayOfWeek' (was int).
