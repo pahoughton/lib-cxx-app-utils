@@ -1,0 +1,436 @@
+#ifndef _FileStat_ii_
+#define _FileStat_ii_
+//
+// File:        FileStat.ii
+// Desc:        
+//
+//  	inlines for FileStat
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/22/95 07:18
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 12:55:21  houghton
+// Put inlines in their own source file
+// Change to be more consistant with the C++ Standard
+//
+//
+
+inline
+FileStat::FileStat()
+{
+  fd = badFd;
+  memset( &st, 0, sizeof( st ) );
+  sysError = ENOENT;
+}
+
+
+inline
+FileStat::FileStat( const char * fileName, bool linkStat )
+{
+  fd = badFd;
+  sysError = 0;
+  if( linkStat )
+    lstat( fileName );
+  else
+    stat( fileName );
+}
+      
+inline
+FileStat::FileStat( int fileDescriptor )
+{
+  fd = fileDescriptor;
+  sysError = 0;
+  stat( fd );
+}
+
+inline
+uid_t
+FileStat::getUID( void ) const
+{
+  return( st.st_uid );
+}
+
+
+inline
+gid_t
+FileStat::getGID( void ) const
+{
+  return( st.st_gid );
+}
+
+
+inline
+mode_t
+FileStat::getMode( void ) const
+{
+  return( st.st_mode );
+}
+
+
+inline
+off_t
+FileStat::getSize( void ) const
+{
+  return( st.st_size );
+}
+
+  
+inline
+dev_t
+FileStat::getDevice( void ) const
+{
+  return( st.st_dev );
+}
+
+inline
+dev_t
+FileStat::getDeviceType( void ) const
+{
+  return( st.st_rdev );
+}
+
+inline
+ino_t
+FileStat::getInode( void ) const
+{
+  return( st.st_ino );
+}
+
+inline
+nlink_t
+FileStat::getHardLinks( void ) const
+{
+  return( st.st_nlink );
+}
+
+inline
+unsigned long
+FileStat::getBlockSize( void ) const
+{
+  return( st.st_blksize );
+}
+
+inline
+unsigned long
+FileStat::getBlocks( void ) const
+{
+  return( st.st_blocks );
+}
+
+
+inline
+time_t
+FileStat::getAccessTime( void ) const
+{
+  return( st.st_atime );
+}
+
+inline
+time_t
+FileStat::getModificationTime( void ) const
+{
+  return( st.st_mtime );
+}
+
+inline
+time_t
+FileStat::getStatusChangeTime( void ) const
+{
+  return( st.st_ctime );
+}
+
+
+inline
+bool
+FileStat::isLink( void ) const
+{
+  return( S_ISLNK( getMode() ) );
+}
+  
+inline
+bool
+FileStat::isReg( void ) const
+{
+  return( S_ISREG( getMode() ) );
+}
+  
+inline
+bool
+FileStat::isDir( void ) const
+{
+  return( S_ISDIR( getMode() ) );
+}
+
+
+inline
+bool
+FileStat::isBlock( void ) const
+{
+  return( S_ISBLK( getMode() ) );
+}
+
+
+inline
+bool
+FileStat::isChar( void ) const
+{
+  return( S_ISCHR( getMode() ) );
+}
+
+
+inline
+bool
+FileStat::isFifo( void ) const
+{
+  return( S_ISFIFO( getMode() ) );
+}
+
+inline
+bool
+FileStat::isSocket( void ) const
+{
+  return( S_ISSOCK( getMode() ) );
+}
+
+
+inline
+bool
+FileStat::isSetUID( void ) const
+{
+  return( getMode() & S_ISUID );
+}
+  
+inline
+bool
+FileStat::isSetGID( void ) const
+{
+  return( getMode() & S_ISGID );
+}
+
+
+  
+inline
+bool
+FileStat::canRead( void ) const
+{
+  return( canDo( S_IRUSR, S_IRGRP, S_IROTH ) );
+}
+ 
+  
+inline
+bool
+FileStat::canWrite( void ) const
+{
+  return( canDo( S_IWUSR, S_IWGRP, S_IWOTH ) );
+}
+ 
+
+inline
+bool
+FileStat::canExec( void ) const
+{
+  return( canDo( S_IXUSR, S_IXGRP, S_IXOTH ) );
+}
+ 
+  
+inline
+bool
+FileStat::canRead( Who who ) const
+{
+  if( (who & USER) && (getMode() & S_IRUSR ) )
+    return( true );
+    
+  if( (who & GROUP) && (getMode() & S_IRGRP ) )
+    return( true );
+    
+  if( (who & OTHER) && (getMode() & S_IROTH ) )
+    return( true );
+
+  return( false );
+}
+      
+ 
+inline
+bool
+FileStat::canWrite( Who who ) const
+{
+  if( who & USER && (getMode() & S_IWUSR ) )
+    return( true );
+    
+  if( who & GROUP && (getMode() & S_IWGRP ) )
+    return( true );
+    
+  if( who & OTHER && (getMode() & S_IWOTH ) )
+    return( true );    
+
+  return( false );
+}
+      
+
+inline
+bool
+FileStat::canExec( Who who ) const
+{
+  if( who & USER && (getMode() & S_IXUSR ) )
+    return( true );
+    
+  if( who & GROUP && (getMode() & S_IXGRP ) )
+    return( true );
+    
+  if( who & OTHER && (getMode() & S_IXOTH ) )
+    return( true );    
+
+  return( false );
+}
+
+inline
+const char *
+FileStat::getName( void ) const
+{
+  return( name );
+}
+
+inline
+const char *
+FileStat::getModeString( void ) const
+{
+  return( modeString );
+}
+
+inline
+const char *
+FileStat::getUserName( void ) const
+{
+  return( userName );
+}
+
+inline
+const char *
+FileStat::getGroupName( void ) const
+{
+  return( groupName );
+}
+
+  
+inline
+FileStat &
+FileStat::stat( const char * fileName )
+{
+  fd = badFd;
+  
+  if( ::stat( fileName, &st ) )
+    sysError = errno;
+  else
+    sysError = 0;
+  
+  setStrings( fileName );
+
+  return( *this );
+}
+
+inline
+FileStat &
+FileStat::stat( int fileDesc, bool keepName )
+{
+  fd = fileDesc;
+
+  if( ::fstat( fd, &st ) )
+    sysError = errno;
+  else
+    sysError = 0;
+
+  setStrings( keepName );
+  
+  return( *this );
+}
+
+inline
+FileStat &
+FileStat::lstat( const char * fileName )
+{
+  fd = badFd;
+  
+  if( ::lstat( fileName, &st ) )
+    sysError = errno;
+  else
+    sysError = 0;
+
+  setStrings( fileName );
+
+  return( *this );
+}
+
+inline
+bool
+FileStat::setRead( Who who, bool on )
+{
+  return( setMode( who, READ, on ) );
+}
+
+inline
+bool
+FileStat::setWrite( Who who, bool onOff )
+{
+  return( setMode( who, WRITE, onOff ) );
+}
+
+inline
+bool
+FileStat::setExec( Who who, bool onOff )
+{
+  return( setMode( who, EXEC, onOff ) );
+}
+
+inline
+FileStat &
+FileStat::operator () ( const char * fileName )
+{
+  return( stat( fileName ) );
+}
+
+inline
+FileStat &
+FileStat::operator () ( int fd, bool keepName )
+{
+  return( stat( fd, keepName ) );
+}
+
+inline
+int
+FileStat::compare( const FileStat & two ) const
+{
+  return( name.compare( two.name ) );
+}
+
+inline
+bool
+FileStat::operator == ( const FileStat & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+FileStat::operator <  ( const FileStat & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+int
+compare( const FileStat & one, const FileStat & two )
+{
+  return( one.compare( two ) );
+}
+
+inline
+ostream &
+operator << ( ostream & dest, const FileStat & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+#endif // ! def _FileStat_ii_ 

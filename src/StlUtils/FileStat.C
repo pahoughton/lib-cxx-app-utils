@@ -1,227 +1,347 @@
 //
 // File:        FileStat.C
 // Desc:        
-//              
 //
+//  
+//  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
-// Created:     12/22/94 17:18 
+// Created:     05/17/95 08:38 
 //
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/02/13 16:08:41  houghton
-// New Style Avl an memory management. Many New Classes
+// Revision 1.2  1995/11/05 12:55:20  houghton
+// Put inlines in their own source file
+// Change to be more consistant with the C++ Standard
 //
 //
-static const char * RcsId =
-"$Id$";
 
 #include "FileStat.hh"
-#include <Common.h>
-#include <iomanip.h>
 
-
-#include <Password.hh>
-#include <Group.hh>
+#include <User.hh>
+#include <UserGroup.hh>
 #include <DateTime.hh>
 
-void
-FileStat::setStrings( void )
-{
-  Password  pwd( getUID() );
-  Group	    grp( getGID() );
-  
-  strcpy( user, pwd.getName() );
-  strcpy( group, grp.getName() );
+#include <iomanip>
 
-  FileModeString( getMode(), mode );  
+#include <cstring>
+
+#ifdef   CLUE_DEBUG
+#define  inline
+#include <FileStat.ii>
+#endif
+
+const char FileStat::version[] =
+LIB_CLUE_VERSION
+"$Id$";
+
+const int FileStat::badFd = -1;
+
+const FileStat::Who 	FileStat::OTHER( 0 );
+const FileStat::Who 	FileStat::GROUP( 1 );
+const FileStat::Who 	FileStat::USER( 2 );
+const FileStat::Who 	FileStat::ALL( 0x07, false );
+
+const FileStat::What	FileStat::EXEC( 0 );
+const FileStat::What	FileStat::WRITE( 1 );
+const FileStat::What	FileStat::READ( 2 );
+
+
+bool
+FileStat::setMode( mode_t mode )
+{
+  if( ! good() || name.size() == 0 )    
+    return( false );
+
+  if( chmod( name, mode ) )
+    {
+      sysError = errno;
+      return( false );
+    }
+
+  st.st_mode = mode;
+  setModeString();
+
+  return( true );
 }
 
-
-Bool
-FileStat::canRead( void ) const
+      
+bool
+FileStat::setMode( Who who, What what, bool on )
 {
-  Password  pwd;
+  mode_t mode = getMode();
+  mode_t change = 0;
+
+  if( who & OTHER )
+    {
+      if( what & READ )	    change |= S_IROTH;
+      if( what & WRITE )    change |= S_IWOTH;
+      if( what & EXEC )	    change |= S_IXOTH;
+    }
   
-  if( getUID() == pwd.getUID() || getUID() == pwd.getEUID() )
+  if( who & GROUP )
     {
-      if( getMode() & S_IRUSR ) 
-	{
-	  return( TRUE );
-	}
-      else
-	{
-	  return( FALSE );
-	}
+      if( what & READ )	    change |= S_IRGRP;
+      if( what & WRITE )    change |= S_IWGRP;
+      if( what & EXEC )	    change |= S_IXGRP;
+    }
+  
+  if( who & USER )
+    {
+      if( what & READ )	    change |= S_IRUSR;
+      if( what & WRITE )    change |= S_IWUSR;
+      if( what & EXEC )	    change |= S_IXUSR;
     }
 
-  Group	    grp;
-
-  if( grp.isIn( getGID() ) )
-    {
-      if( ( getMode() & S_IRGRP ) )
-	{
-	  return( TRUE );
-	}
-      else
-	{
-	  return( FALSE );
-	}
-    }
-
-  if( getMode() & S_IROTH )
-    {
-      return( TRUE );
-    }
+  if( on )
+    mode |= change;
   else
-    {
-      return( FALSE );
-    }
+    mode &= ~change;
+
+  return( setMode( mode ) );
 }
-  
-Bool
-FileStat::canWrite( void ) const
+
+bool
+FileStat::setUser( uid_t uid )
 {
-  Password  pwd;
-  
-  if( getUID() == pwd.getUID() || getUID() == pwd.getEUID() )
+  if( ! good() || name.size() == 0 )
+    return( false );
+
+  if( chown( name, uid, getGID() ) )
     {
-      if( getMode() & S_IWUSR ) 
-	{
-	  return( TRUE );
-	}
-      else
-	{
-	  return( FALSE );
-	}
+      sysError = errno;
+      return( false );
     }
 
-  Group	    grp;
+  st.st_uid = uid;
+  setUserString();
 
-  if( grp.isIn( getGID() ) )
-    {
-      if( ( getMode() & S_IWGRP ) )
-	{
-	  return( TRUE );
-	}
-      else
-	{
-	  return( FALSE );
-	}
-    }
-
-  if( getMode() & S_IWOTH )
-    {
-      return( TRUE );
-    }
-  else
-    {
-      return( FALSE );
-    }
+  return( true );
 }
-  
-  
-Bool
-FileStat::canExec( void ) const
+
+bool
+FileStat::setGroup( gid_t gid )
 {
-  Password  pwd;
-  
-  if( getUID() == pwd.getUID() || getUID() == pwd.getEUID() )
+  if( ! good() || name.size() == 0 )
+    return( false );
+
+  if( chown( name, getUID(), gid ) )
     {
-      if( getMode() & S_IXUSR ) 
-	{
-	  return( TRUE );
-	}
-      else
-	{
-	  return( FALSE );
-	}
+      sysError = errno;
+      return( false );
     }
 
-  Group	    grp;
+  st.st_gid = gid;
+  setGroupString();
 
-  if( grp.isIn( getGID() ) )
-    {
-      if( ( getMode() & S_IXGRP ) )
-	{
-	  return( TRUE );
-	}
-      else
-	{
-	  return( FALSE );
-	}
-    }
-
-  if( getMode() & S_IXOTH )
-    {
-      return( TRUE );
-    }
-  else
-    {
-      return( FALSE );
-    }
+  return( true );
 }
 
+bool
+FileStat::setOwner( uid_t uid, gid_t gid )
+{
+  if( ! good() || name.size() == 0 )
+    return( false );
 
+  if( chown( name, uid, gid ) )
+    {
+      sysError = errno;
+      return( false );
+    }
+
+  st.st_uid = uid;
+  st.st_gid = gid;
+
+  setUserString();
+  setGroupString();
+
+  return( true );
+}
+
+  
+// good - return TRUE if no detected errors
+bool
+FileStat::good( void ) const
+{
+  return( sysError == 0 && (fd >= 0 || name.size() > 0 ));
+}
+
+// error - return a string describing the current state
 const char *
 FileStat::error( void ) const
 {
+  static Str errStr;
+  errStr.reset();
+
+  errStr << getClassName() << ": ";
+
   if( good() )
     {
-      static char errStr[512];
-
-      strcpy( errStr, "FileStat: " );
-      strcat( errStr, strerror( osErrno ) );
-      
-      return( errStr );
+       errStr << "ok";
     }
   else
     {
-      return( "FileStat: Ok" );
+      if( sysError )
+	errStr << strerror( sysError );
+      else
+	errStr << "unknown error";
     }
+
+  return( errStr );
 }
 
+// getClassName - return the name of this class
+const char *
+FileStat::getClassName( void ) const
+{
+  return( "FileStat" );
+}
 
 ostream &
-operator<<( ostream & dest, const FileStat & fs )
+FileStat::toStream( ostream & dest ) const
 {
-
-  if( fs.good() )
-    {
-      DateTime mdt( fs.getMtime(), TRUE );
-
-      dest.setf( ios::left );       
-      dest << fs.getModeString() << ' '
-	   << setw(8) << fs.getUserName() << ' '
-	   << setw(8) << fs.getGroupName() << ' '
-	;
-      
-      dest.setf( ios::right );
-      dest << setw(10) << fs.getSize() << ' '
-	   << mdt
-	;
-    }
+  if( ! good() )
+    dest << error();
   else
     {
-      dest << fs.error() ;
+      dest.setf( ios::left );
+      
+      dest << getModeString() << ' '
+	   << setw( 8 ) << getUserName() << ' '
+	   << setw( 8 ) << getGroupName() << ' '
+	;
+      
+      dest.unsetf( ios::left );
+
+      DateTime mdt( getModificationTime(), true );
+      
+      dest << setw( 10 ) << getSize() << ' '
+	   << mdt << ' '
+	   << getName()
+	;
     }
 
   return( dest );
 }
 
-      
+ostream &
+FileStat::dumpInfo( ostream & dest ) const
+{
+  dest << getClassName() << ":\n";
 
+  dest << "    " << version << '\n';
+
+  if( ! good() )
+    dest << "    Error: " << error() << '\n';
+  else
+    dest << "    " << "Good!" << '\n';
+
+  dest << "    ";
+  toStream( dest );
+  dest << '\n';
   
+  dest << "    Name:       '" << name << "'\n"
+       << "    Fd:         " << fd << '\n'
+       << "    User:       " << userName << '\n'
+       << "    Group:      " << groupName << '\n'
+       << "    ModeString: " << modeString << '\n'
+       << "    st_dev:     " << st.st_dev << '\n'
+       << "    st_ino:     " << st.st_ino << '\n'
+       << "    st_mode:    " << st.st_mode << '\n'
+       << "    st_nlink:   " << st.st_nlink << '\n'
+       << "    st_uid:     " << st.st_uid << '\n'
+       << "    st_gid:     " << st.st_gid << '\n'
+       << "    st_rdev:    " << st.st_rdev << '\n'
+       << "    st_size:    " << st.st_size << '\n'
+       << "    st_atime:   " << st.st_atime << '\n'
+       << "    st_mtime:   " << st.st_mtime << '\n'
+       << "    st_ctime:   " << st.st_ctime << '\n'
+       << "    st_blksize: " << st.st_blksize << '\n'
+       << "    st_blocks:  " << st.st_blocks << '\n'
+    ;
+
+  dest << '\n';
+
+  return( dest );
+}
   
 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
+bool
+FileStat::canDo( mode_t uMode, mode_t gMode, mode_t oMode ) const
+{
+  User	me;
+
+  if( me.getUID() == getUID() || me.effective().getUID() == getUID() )
+    return( ( getMode() & uMode ) ? true : false );
+
+  UserGroup grp( getGID(), true );
+
+  if( grp.isMember( me ) )
+    return( ( getMode() & gMode ) ? true : false );
+
+  return( ( getMode() & oMode ) ? true : false );
+}
+
+void
+FileStat::setStrings( bool keepName )
+{
+  if( ! keepName )
+    name.reset();
+
+  setUserString();
+  setGroupString();
+  setModeString();
+}
+
+void
+FileStat::setStrings( const char * fileName )
+{
+  name = fileName;
+  
+  setUserString();
+  setGroupString();
+  setModeString();
+}
+
+void
+FileStat::setUserString( void )
+{
+  User	u( getUID() );
+
+  userName = u.getName();
+}
+
+void
+FileStat::setGroupString( void )
+{
+  UserGroup g( getGID() );
+
+  groupName = g.getName();
+}
+
+void
+FileStat::setModeString( void )
+{
+  modeString.reset();
+  
+  modeString
+    << ( isReg()   ? '-' :
+	 isDir()   ? 'd' :
+	 isBlock() ? 'b' :
+	 isChar()  ? 'c' :
+	 isFifo()  ? 'p' : '?' )
+    << ( canRead( USER )   ? 'r' : '-' )
+    << ( canWrite( USER )  ? 'w' : '-' )
+    << ( canExec( USER )   ? isSetUID() ? 's' : 'x' : isSetUID() ? 'S' : '-' )
+    << ( canRead( GROUP )  ? 'r' : '-' )
+    << ( canWrite( GROUP ) ? 'w' : '-' )
+    << ( canExec( GROUP )  ? isSetGID() ? 's' : 'x' : isSetGID() ? 'S' : '-' )
+    << ( canRead( OTHER )  ? 'r' : '-' )
+    << ( canWrite( OTHER ) ? 'w' : '-' )
+    << ( canExec( OTHER )  ? 'x' : '-' )
+    ;
+}
+
+    
+
+
