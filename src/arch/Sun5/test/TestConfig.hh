@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.3  1998/02/14 13:54:45  houghton
+// Changed block device.
+//
 // Revision 4.2  1997/12/20 16:11:51  houghton
 // Added define MULTI_GROUP (commented out).
 //
@@ -61,7 +64,7 @@
 #endif
 
 #if !defined( TEST_BLOCK_DEVICE )
-#define TEST_BLOCK_DEVICE "/dev/vx/dsk/rootdg/vol01"
+#define TEST_BLOCK_DEVICE "/dev/vx/dsk/rootdg/rootvol"
 #endif
 
 #if !defined( TEST_CHAR_DEVICE )
