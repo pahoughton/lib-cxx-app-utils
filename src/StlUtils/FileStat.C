@@ -18,6 +18,7 @@
 #include <DateTime.hh>
 #include <Bit.hh>
 #include <iomanip>
+#include <strstream>
 #include <cstring>
 #include <cerrno>
 #else
@@ -54,7 +55,7 @@ const FileStat::What	FileStat::READ( Bit( 2 ) );
 bool
 FileStat::setMode( mode_t mode )
 {
-  if( ! good() || name.size() == 0 )    
+  if( ! good() || name.length() == 0 )    
     return( false );
 
   if( chmod( name, mode ) )
@@ -108,7 +109,7 @@ FileStat::setMode( Who who, What what, bool on )
 bool
 FileStat::setUser( uid_t uid )
 {
-  if( ! good() || name.size() == 0 )
+  if( ! good() || name.length() == 0 )
     return( false );
 
   if( chown( name, uid, getGID() ) )
@@ -126,7 +127,7 @@ FileStat::setUser( uid_t uid )
 bool
 FileStat::setGroup( gid_t gid )
 {
-  if( ! good() || name.size() == 0 )
+  if( ! good() || name.length() == 0 )
     return( false );
 
   if( chown( name, getUID(), gid ) )
@@ -144,7 +145,7 @@ FileStat::setGroup( gid_t gid )
 bool
 FileStat::setOwner( uid_t uid, gid_t gid )
 {
-  if( ! good() || name.size() == 0 )
+  if( ! good() || name.length() == 0 )
     return( false );
 
   if( chown( name, uid, gid ) )
@@ -194,15 +195,17 @@ FileStat::toStream( ostream & dest ) const
 bool
 FileStat::good( void ) const
 {
-  return( sysError == 0 && (fd >= 0 || name.size() > 0 ));
+  return( sysError == 0 && (fd >= 0 || name.length() > 0 ));
 }
 
 // error - return a string describing the current state
 const char *
 FileStat::error( void ) const
 {
-  static Str errStr;
-  errStr.reset();
+  static strstream errStr;
+  errStr.freeze(0);
+  errStr.seekp(0);
+  errStr.seekg(0);
 
   errStr << getClassName() << ": ";
 
@@ -218,7 +221,8 @@ FileStat::error( void ) const
 	errStr << "unknown error";
     }
 
-  return( errStr );
+  errStr << ends;
+  return( errStr.str() );
 }
 
 // getClassName - return the name of this class
@@ -231,7 +235,7 @@ FileStat::getClassName( void ) const
 const char *
 FileStat::getVersion( bool withPrjVer ) const
 {
-  return( version.getVer( withPrjVer, name.getVersion( false ) ) );
+  return( version.getVer( withPrjVer ) );
 }
 
 ostream &
@@ -301,7 +305,7 @@ void
 FileStat::setStrings( bool keepName )
 {
   if( ! keepName )
-    name.reset();
+    name = "";
 
   setUserString();
   setGroupString();
@@ -337,9 +341,10 @@ FileStat::setGroupString( void )
 void
 FileStat::setModeString( void )
 {
-  modeString.reset();
+  modeString = "";
   
-  modeString
+#if defined( STRINGS_ARE_STREAMS )
+  modeString 
     << ( isReg()   ? '-' :
 	 isDir()   ? 'd' :
 	 isBlock() ? 'b' :
@@ -355,11 +360,34 @@ FileStat::setModeString( void )
     << ( canWrite( OTHER ) ? 'w' : '-' )
     << ( canExec( OTHER )  ? 'x' : '-' )
     ;
+#else
+  modeString += ( isReg()   ? '-' :
+		  isDir()   ? 'd' :
+		  isBlock() ? 'b' :
+		  isChar()  ? 'c' :
+		  isFifo()  ? 'p' : '?' );
+  modeString += ( canRead( USER )   ? 'r' : '-' );
+  modeString += ( canWrite( USER )  ? 'w' : '-' );
+  modeString += ( canExec( USER )   ?
+		  isSetUID() ? 's' : 'x' : isSetUID() ? 'S' : '-' );
+  modeString += ( canRead( GROUP )  ? 'r' : '-' );
+  modeString += ( canWrite( GROUP ) ? 'w' : '-' );
+  modeString += ( canExec( GROUP )  ?
+		  isSetGID() ? 's' : 'x' : isSetGID() ? 'S' : '-' );
+  modeString += ( canRead( OTHER )  ? 'r' : '-' );
+  modeString += ( canWrite( OTHER ) ? 'w' : '-' );
+  modeString += ( canExec( OTHER )  ? 'x' : '-' );
+    
+#endif
 }
 
 // Revision Log:
 //
 // $Log$
+// Revision 2.6  1996/11/06 18:13:34  houghton
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
 // Revision 2.5  1996/11/04 14:37:09  houghton
 // Restructure header comments layout.
 //

@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/11/06 18:13:09  houghton
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
 // Revision 2.3  1995/12/31 11:24:53  houghton
 // Bug Fix - header defines were wrong.
 //
@@ -95,7 +99,7 @@ inline
 const char *
 UserGroup::getName( void ) const
 {
-  return( name.cstr() );
+  return( name );
 }
 
 inline
@@ -167,7 +171,7 @@ inline
 int
 UserGroup::compare( const UserGroup & two ) const
 {
-  return( name.compare( two.name ) );
+  return( ::compare( name, two.name ) );
 }
 
 inline
