@@ -29,11 +29,6 @@ include $(config_dir)/00-Makefile.cfg
 include Make/make.cfg.$(make_cfg_ver)
 
 
-INSTALL_BIN_DIR	= $(local_bindir)
-INSTALL_INC_DIR = $(local_incdir)
-INSTALL_LIB_DIR = $(local_libdir)
-INSTALL_MAN_DIR = $(local_mandir)
-
 exports	    = 					\
 	INSTALL_BIN_DIR=$(INSTALL_BIN_DIR)	\
 	INSTALL_INC_DIR=$(INSTALL_INC_DIR)	\
@@ -62,6 +57,9 @@ check:
 
 #
 # $Log$
+# Revision 5.3  2001/07/30 12:28:09  houghton
+# *** empty log message ***
+#
 # Revision 5.2  2001/07/26 19:28:57  houghton
 # *** empty log message ***
 #
