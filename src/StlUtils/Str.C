@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/11/06 18:06:16  houghton
+// Clue.hh renamed to ClueUtils.hh.
+//
 // Revision 2.5  1996/10/11 17:42:59  houghton
 // Changed: Added new 'multiDelim' arg to scan methods. This arg
 //   specifies if multiple consecutive instances of the delimiter are
@@ -38,7 +41,7 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include "Str.hh"
-#include "Clue.hh"
+#include "ClueUtils.hh"
 #include "Compare.hh"
 #else
 #include "Str.hh"
