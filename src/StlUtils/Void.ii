@@ -1,0 +1,126 @@
+#ifndef _Void_ii_
+#define _Void_ii_
+//
+// File:        Void.ii
+// Desc:        
+//
+//  	inlines for Void
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     11/11/95 06:24
+//
+// Revision History:
+//
+// $Log$
+// Revision 2.1  1995/11/12 18:33:34  houghton
+// Initial Version.
+//
+//
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+inline
+size_t
+Void::size( void ) const
+{
+  return( dataSize );
+}
+
+inline
+const void *
+Void::vptr( void ) const
+{
+  return( data );
+}
+
+inline
+bool
+Void::get( void * dest, size_t destSize, size_t start ) const
+{
+  if( ! data )
+    return( false );
+  
+  memcpy( dest, data + start, min( destSize, size() - start ) );
+
+  return( true );
+}
+
+inline
+Void &
+Void::append( const Void & src )
+{
+  return( append( src.data, src.size() ) );
+}
+
+inline
+Void &
+Void::assign( const void * src, size_t size )
+{
+  reset();
+  return( append( src, size ) );
+}
+
+inline
+Void &
+Void::assign( const Void & src )
+{
+  reset();
+  return( append( src ) );
+}
+
+inline
+Void &
+Void::insert( size_t before, const void * src, size_t srcSize )
+{
+  return( replace( before, 0, src, srcSize ) );
+}
+
+inline
+Void &
+Void::insert( size_t before, const Void & src )
+{
+  return( replace( before, 0, src ) );
+}
+
+inline
+Void &
+Void::replace( size_t start, size_t len, const Void & src )
+{
+  return( replace( start, len, src.data, src.size() ) );
+}
+
+inline
+Void &
+Void::remove( size_t start, size_t len )
+{
+  return( replace( start, len, 0, 0 ) );
+}
+
+inline
+void
+Void::reset( void )
+{
+  dataSize = 0;
+}
+
+inline
+Void &
+Void::setError( ErrorNum err )
+{
+  errorNum = err;
+  return( *this );
+}
+
+
+
+inline
+ostream &
+operator << ( ostream & dest, const Void & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+
+#endif // ! def _Void_ii_ 
