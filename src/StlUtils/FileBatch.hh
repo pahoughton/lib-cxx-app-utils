@@ -31,6 +31,11 @@
 
 class FileBatchBase
 {
+public:
+  inline const char *	getFileName( void ) const {
+    return( name );
+  };
+  
 protected:
   
   typedef STLUTILS_U32_SIZE_T	size_type;
@@ -425,6 +430,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1999/06/24 10:25:55  houghton
+// Added getFileName().
+//
 // Revision 4.2  1999/05/01 12:52:10  houghton
 // Rework to get around compile problems.
 // Added front()
