@@ -1,12 +1,12 @@
-#ifndef _Clue_ii_
-#define _Clue_ii_
+#ifndef _ClueUtils_ii_
+#define _ClueUtils_ii_
 //
-// File:        Clue.ii
+// File:        ClueUtils.ii
 // Proejct:	Clue
 // Desc:        
 //
 //  This file contains the source for the inline
-//  functions documented in Clue.hh
+//  functions documented in ClueUtils.hh
 //  
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.6  1996/11/04 18:21:19  houghton
+// Renamed Clue.hh to ClueUtils.hh.
+//
 // Revision 2.5  1996/11/04 13:31:53  houghton
 // Restructure header comments layout.
 // Moved ArraySize to .hh
@@ -209,6 +212,6 @@ RoundDown( NumberType value, int factor  )
   return( value - remain );
 }
 
-#endif // ! def _Clue_ii_ 
+#endif // ! def _ClueUtils_ii_ 
 
 

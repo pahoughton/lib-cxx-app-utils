@@ -1,7 +1,7 @@
-#ifndef _Clue_hh_
-#define _Clue_hh_
+#ifndef _ClueUtils_hh_
+#define _ClueUtils_hh_
 //
-// File:        Clue.hh
+// File:        ClueUtils.hh
 // Project:	Clue
 // Desc:        
 //
@@ -34,8 +34,8 @@ int
 CLUE_FUNCT_T
 OpenFlags( ios::open_mode openMode );
 
-// See Clue.ii for inline Functions
-#include <Clue.ii>
+// See ClueUtils.ii for inline Functions
+#include <ClueUtils.ii>
 
 
 //
@@ -156,7 +156,7 @@ OpenFlags( ios::open_mode openMode );
 //
 // Files:
 //
-//	Clue.hh, Clue.ii
+//	ClueUtils.hh, ClueUtils.ii
 //
 // Documented Ver: 2.4
 // Tested Ver: 2.4
@@ -164,6 +164,9 @@ OpenFlags( ios::open_mode openMode );
 // Revision Log:
 //
 // $Log$
+// Revision 2.5  1996/11/04 18:21:16  houghton
+// Renamed Clue.hh to ClueUtils.hh.
+//
 // Revision 2.4  1996/11/04 13:29:32  houghton
 // Restructure header comments layout.
 // Updated and verified header comment documentation.
@@ -181,4 +184,4 @@ OpenFlags( ios::open_mode openMode );
 // Ports and Version ID changes
 //
 //
-#endif // ! def _Clue_hh_ 
+#endif // ! def _ClueUtils_hh_ 
