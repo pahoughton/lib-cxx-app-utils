@@ -29,12 +29,20 @@ tBitmask02( LibTest & tester )
     unsigned long lm = 0x20;
 
     TEST( t.compare( te ) == 0 );
-    TEST( t.compare( tl ) > 0 );
-    TEST( t.compare( tm ) < 0 );
+    TEST( t.compare( tl ) >  0 );
+    TEST( t.compare( tl ) >= 0 );
+    TEST( t.compare( te ) >= 0 );
+    TEST( t.compare( tm ) <  0 );
+    TEST( t.compare( tm ) <= 0 );
+    TEST( t.compare( te ) <= 0 );
 
     TEST( t.compare( le ) == 0 );
-    TEST( t.compare( ll ) > 0 );
-    TEST( t.compare( lm ) < 0 );
+    TEST( t.compare( ll ) >  0 );
+    TEST( t.compare( ll ) >= 0 );
+    TEST( t.compare( le ) <= 0 );
+    TEST( t.compare( lm ) <  0 );
+    TEST( t.compare( lm ) <= 0 );
+    TEST( t.compare( le ) <= 0 );
 
   }
 
@@ -71,11 +79,15 @@ tBitmask02( LibTest & tester )
     // operator ( size_t ) const
     // operator == ( const Bitmask & ) const
     // operator <  ( const Bitmask & ) const
+    // operator <= ( const Bitmask & ) const
     // operator >  ( const Bitmask & ) const
+    // operator >= ( const Bitmask & ) const
     // operator == ( unsigned long ) const
     // operator != ( unsigned long ) const
     // operator <  ( unsigned long ) const
+    // operator <= ( unsigned long ) const
     // operator >  ( unsigned long ) const
+    // operator >= ( unsigned long ) const
 
     const Bitmask t( Bitmask::b04 );
     const Bitmask te( Bitmask::b04 );
@@ -92,13 +104,21 @@ tBitmask02( LibTest & tester )
 
     TEST( t == te );
     TEST( t != tl );
-    TEST( t < tm );
-    TEST( t > tl );
+    TEST( t <  tm );
+    TEST( t <= tm );
+    TEST( t <= te );
+    TEST( t >  tl );
+    TEST( t >= tl );
+    TEST( t >= te );
 
     TEST( t == le );
     TEST( t != lm );
     TEST( t <  lm );
+    TEST( t <= lm );
+    TEST( t <= le );
     TEST( t >  ll );
+    TEST( t >= ll );
+    TEST( t >= le );
   }
 
   {

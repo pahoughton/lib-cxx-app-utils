@@ -38,7 +38,9 @@ tBitmask03( LibTest & tester )
     // ::operator == ( unsigned long, const Bitmask & )
     // ::operator != ( unsigned long, const Bitmask & )
     // ::operator <  ( unsigned long, const Bitmask & )
+    // ::operator <= ( unsigned long, const Bitmask & )
     // ::operator >  ( unsigned long, const Bitmask & )
+    // ::operator >= ( unsigned long, const Bitmask & )
 
     const Bitmask t( Bitmask::b04 );
     const Bitmask te( Bitmask::b04 );
@@ -50,21 +52,37 @@ tBitmask03( LibTest & tester )
     unsigned long lm = 0x20;
 
     TEST( compare( t, te ) == 0 );
-    TEST( compare( t, tl ) > 0 );
-    TEST( compare( t, tm ) < 0 );
+    TEST( compare( t, tl ) >  0 );
+    TEST( compare( t, tl ) >= 0 );
+    TEST( compare( t, te ) >= 0 );
+    TEST( compare( t, tm ) <  0 );
+    TEST( compare( t, tm ) <= 0 );
+    TEST( compare( t, te ) <= 0 );
 
     TEST( compare( t, le ) == 0 );
-    TEST( compare( t, ll ) > 0 );
-    TEST( compare( t, lm ) < 0 );
+    TEST( compare( t, ll ) >  0 );
+    TEST( compare( t, ll ) >= 0 );
+    TEST( compare( t, le ) >= 0 );
+    TEST( compare( t, lm ) <  0 );
+    TEST( compare( t, lm ) <= 0 );
+    TEST( compare( t, le ) <= 0 );
     
     TEST( compare( le, t ) == 0 );
-    TEST( compare( ll, t ) < 0 );
-    TEST( compare( lm, t ) > 0 );
+    TEST( compare( ll, t ) <  0 );
+    TEST( compare( ll, t ) <= 0 );
+    TEST( compare( le, t ) <= 0 );
+    TEST( compare( lm, t ) >  0 );
+    TEST( compare( lm, t ) >= 0 );
+    TEST( compare( le, t ) >= 0 );
 
     TEST( le == t );
     TEST( le != tl );
     TEST( le < tm );
+    TEST( le <= tm );
+    TEST( le <= te );
     TEST( le > tl );
+    TEST( le >= tl );
+    TEST( le >= te );
   }
 
   return( true );
