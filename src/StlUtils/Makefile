@@ -225,6 +225,7 @@ USER_HH_INCS	=			\
 	SubStr.hh                       \
 	ThreadBase.hh                   \
 	Timer.hh                        \
+	VectorResync.hh			\
 	Void.hh                         \
 	$(ARCH_USER_HH_INCS)		\
 
@@ -334,6 +335,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.7  1998/01/05 13:08:17  houghton
+# Added VectorResync.hh
+#
 # Revision 4.6  1997/12/20 16:09:28  houghton
 # Added StripTrailing.
 #
