@@ -29,9 +29,7 @@
 #include <errno.h>
 #include <cstring>
 #include <algorithm>
-#if defined( Hpux10 )
 #include <numeric>
-#endif
 
 #if defined( STLUTILS_DEBUG )
 #define inline
@@ -369,6 +367,9 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/10/13 16:33:28  houghton
+// Changed to always include <numeric>.
+//
 // Revision 4.2  1998/07/20 11:29:39  houghton
 // Port(Hpux): had to include 'numeric'.
 //
