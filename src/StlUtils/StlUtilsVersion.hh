@@ -30,19 +30,19 @@
 #define STLUTILS_PRJ_VER_TAG    "BETA_4_01"
 
 // Macros
-#define STLUTILS_VERSION( name_, verId_ )					\
-CLASS_VERSION( name_,								\
-	       verId_,								\
-	       STLUTILS_PRJ_NAME,						\
-	       STLUTILS_PRJ_VER,						\
-	       STLUTILS_PRJ_VER_NUM,						\
+#define STLUTILS_VERSION( name_, verId_ )				      \
+CLASS_VERSION( name_,							      \
+	       verId_,							      \
+	       STLUTILS_PRJ_NAME,					      \
+	       STLUTILS_PRJ_VER,					      \
+	       STLUTILS_PRJ_VER_NUM,					      \
 	       STLUTILS_PRJ_VER_TAG )
 				   
-#define STLUTILS_FUNCT_VERSION( name_, verId_ )					\
-const char VERID_##name_[] =							\
-"@(#) " STLUTILS_PRJ_NAME " - " STLUTILS_PRJ_VER "\n"				\
-"    " #name_ " - " __FILE__ " - Compiled: " __DATE__ " "__TIME__ "\n"		\
-"    CVS Tag: " STLUTILS_PRJ_VER_TAG "\n"					\
+#define STLUTILS_FUNCT_VERSION( name_, verId_ )				      \
+const char VERID_##name_[] =						      \
+"@(#) " STLUTILS_PRJ_NAME " - " STLUTILS_PRJ_VER "\n"			      \
+"    " #name_ " - " __FILE__ " - Compiled: " __DATE__ " "__TIME__ "\n"	      \
+"    CVS Tag: " STLUTILS_PRJ_VER_TAG "\n"				      \
 "    " verId_
 
 // Detail Documentation
@@ -72,6 +72,9 @@ const char VERID_##name_[] =							\
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/03/23 10:45:14  houghton
+// Changed to eliminate Sun5 compiler warnings.
+//
 // Revision 4.3  1997/12/19 14:01:20  houghton
 // Cleanup
 // Changed VER_TAG to BETA_4_01.

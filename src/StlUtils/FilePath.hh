@@ -100,8 +100,19 @@ public:
   virtual size_type    	getBinSize( void ) const;
   
   virtual ostream &	write( ostream & dest ) const;
+
+  // from ostream
+  virtual ostream &	write( const char * src, int size );
+  virtual ostream &	write( const unsigned char * src, int size );
+  virtual ostream &	write( const wchar_t * src, int size );
+  virtual ostream &	write( const void * src, size_type size );
+  
   virtual istream &	read( istream & src );
 
+  // from istream
+  virtual istream &	read( char * dest, int size );
+  virtual istream &	read( unsigned char * dest, int size );
+  
   inline bool	    operator == ( const FilePath & rhs ) const;
   inline bool	    operator <  ( const FilePath & rhs ) const;
   
@@ -277,6 +288,9 @@ compare( const FilePath & one, const FilePath & two );
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/03/23 10:45:04  houghton
+// Changed to eliminate Sun5 compiler warnings.
+//
 // Revision 4.2  1997/09/19 11:20:55  houghton
 // Changed to use size_type (vs size_t).
 //

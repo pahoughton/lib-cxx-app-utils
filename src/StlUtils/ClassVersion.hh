@@ -101,7 +101,7 @@ const ClassVersion className_::version( #className_,			      \
 									      \
 "@(#) " prjName_ " - " prjVer_ "\n"					      \
 "    " #className_ " - " __FILE__ " - Compiled: " __DATE__ " " __TIME__ "\n"  \
-"    CVS Tag: " prjVerTag_ "\n"					      \
+"    CVS Tag: " prjVerTag_ "\n"						      \
 "    " verId_,								      \
                                         __FILE__,			      \
 					__DATE__,			      \
@@ -110,7 +110,7 @@ const ClassVersion className_::version( #className_,			      \
 					prjName_,			      \
 					prjVer_,			      \
 					prjVerNum_,			      \
-                                        prjVerTag_ );
+                                        prjVerTag_ )
 
 #if !defined( STLUTILS_SHORT_FN )
 #include <ClassVersion.ii>
@@ -280,6 +280,9 @@ const ClassVersion className_::version( #className_,			      \
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/03/23 10:44:33  houghton
+// Changed to eliminate Sun5 compiler warnings.
+//
 // Revision 4.1  1997/09/17 15:12:12  houghton
 // Changed to Version 4
 //

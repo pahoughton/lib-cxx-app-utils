@@ -32,7 +32,7 @@ STLUTILS_VERSION(
 
 const Str::size_type Str::npos = NPOS;
 
-#if defined( Sun5 )
+#if defined( Sun5 ) 
 // This is UNBELIEVABLE but ...
 void
 unsafe_ios::operator = ( unsafe_ios & )
@@ -44,6 +44,13 @@ ios::operator = ( ios & )
 {
 }
 #endif
+
+
+Str::Str( void )
+  : iostream( new StrStreambuf )
+{
+}
+
 
 inline
 Str::size_type
@@ -973,7 +980,20 @@ Str::read( istream & src )
 
   return( get( src, len ) );
 }
-  
+
+istream &
+Str::read( char * dest, int size )
+{
+  return( istream::read( dest, size ) );
+}
+
+istream &
+Str::read( unsigned char * dest, int size )
+{
+  return( istream::read( dest, size ) );
+}
+
+
 ostream &
 Str::write( ostream & dest ) const
 {
@@ -982,7 +1002,33 @@ Str::write( ostream & dest ) const
   dest.write( strbase(), length() );
   return( dest );
 }
+
+ostream &
+Str::write( const char * src, int size )
+{
+  return( ostream::write( src, size ) );
+}
+
+ostream &
+Str::write( const unsigned char * src, int size )
+{
+  return( ostream::write( src, size ) );
+}
+
+ostream &
+Str::write( const wchar_t * src, int size )
+{
+  return( ostream::write( src, size ) );
+}
+
+ostream &
+Str::write( const void * src, size_type size )
+{
+  return( ostream::write( (const char *)src, size ) );
+}
+
   
+
 ostream &
 Str::toStream( ostream & dest ) const
 {
@@ -1242,6 +1288,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1998/03/23 10:45:23  houghton
+// Changed to eliminate Sun5 compiler warnings.
+//
 // Revision 4.5  1998/01/22 18:32:18  houghton
 // Bug-Fix: substitute() was using wrong value to starts looking for next
 //     'from' string.

@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 4.2  1998/03/23 10:44:40  houghton
+// Changed to eliminate Sun5 compiler warnings.
+//
 // Revision 4.1  1997/09/17 15:12:14  houghton
 // Changed to Version 4
 //
@@ -69,7 +72,9 @@ public:
   virtual int	    compare( const DateRange & two ) const;
   
   bool		    operator == ( const DateRange & two ) const;
+  bool		    operator == ( const DateTime & two ) const;
   bool		    operator <  ( const DateRange & two ) const;
+  bool		    operator <  ( const DateTime & two ) const;
   
   // libStlUtils Common Class Methods
   

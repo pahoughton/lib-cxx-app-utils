@@ -403,6 +403,32 @@ FilePath::write( ostream & dest ) const
   return( dest );
 }
 
+ostream &
+FilePath::write( const char * src, int size )
+{
+  return( Str::write( src, size ) );
+}
+
+ostream &
+FilePath::write( const unsigned char * src, int size )
+{
+  return( Str::write( src, size ) );
+}
+
+ostream &
+FilePath::write( const wchar_t * src, int size )
+{
+  return( Str::write( src, size ) );
+}
+
+ostream &
+FilePath::write( const void * src, size_type size )
+{
+  return( Str::write( src, size ) );
+}
+
+  
+
 istream &
 FilePath::read( istream & src )
 {
@@ -422,12 +448,25 @@ FilePath::read( istream & src )
   src.read( &extDelim, sizeof( extDelim ) );
   return( src );
 }
-	    
-// good - return TRUE if no detected errors
+
+istream &
+FilePath::read( char * dest, int size )
+{
+  return( Str::read( dest, size ) );
+}
+
+istream &
+FilePath::read( unsigned char * dest, int size )
+{
+  return( Str::read( dest, size ) );
+}
+
+  
+
 bool
 FilePath::good( void ) const
 {
-  return( true );
+  return( Str::good() );
 }
 
 // error - return a Str describing the current state
@@ -446,6 +485,9 @@ FilePath::error( void ) const
     {
       size_type eSize = errStr.size();
 
+      if( ! Str::good() )
+	errStr << Str::error();
+      
       if( eSize == errStr.size() )
 	errStr += ": unknown error.";
     }
@@ -495,6 +537,9 @@ FilePath::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/03/23 10:44:57  houghton
+// Changed to eliminate Sun5 compiler warnings.
+//
 // Revision 4.3  1997/09/20 14:27:59  houghton
 // Bug-Fix: setTempName had a memory leak. tempnam returns a malloc'ed
 //     string and it was not being free'ed.
