@@ -27,6 +27,7 @@
 #define CLUE_LOG_WHERE		    1
 #define CLUE_HAS_STR		    1
 #define CLUE_HAS_DATETIME	    1
+#define CLUE_HAS_STRPTIME	    1
 #define CLUE_HAS_USER		    1
 #define CLUE_HAS_USERGROUP	    1
 #define CLUE_HAS_SEMUN		    1 
@@ -136,6 +137,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/08/08 13:25:11  houghton
+// Adde CLUE_HAS_STRPTIME.
+//
 // Revision 3.5  1997/07/18 19:38:40  houghton
 // Cleanup
 // Added CLUE_HAS_SEMUN (defined)
@@ -200,6 +204,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/08/08 13:25:11  houghton
+// Adde CLUE_HAS_STRPTIME.
+//
 // Revision 3.5  1997/07/18 19:38:40  houghton
 // Cleanup
 // Added CLUE_HAS_SEMUN (defined)
