@@ -1,0 +1,269 @@
+#ifndef _User_ii_
+#define _User_ii_
+//
+// File:        User.ii
+// Desc:        
+//
+//  	inlines for User
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     07/17/95 18:55
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 12:41:10  houghton
+// Initial User Class Implementation
+//
+//
+
+#ifndef inline
+#include <Compare.hh>
+#include <iostream>
+#endif
+
+inline
+User::User( bool findGroups )
+{
+  set( getuid(), findGroups );
+}
+
+inline
+User::User( uid_t user, bool findGroups )
+{
+  set( user, findGroups );
+}
+
+inline
+User::User( const char * user, bool findGrps )
+{
+  set( user, findGrps );
+}
+
+inline
+User::User( const struct passwd * passwdEntry, bool findGrps )
+{
+  set( passwdEntry, findGrps );
+}
+
+inline
+User::User( istream & src, bool text, bool findGrps )
+{
+  if( text )
+    {
+      char gname[ 50 ];
+      src >> gname;
+      set( gname, findGrps );
+    }
+  else
+    {
+      read( src );
+      if( findGrps )
+	findGroups();
+    }
+}
+
+inline
+User::~User( void )
+{
+  ;
+}
+
+inline
+uid_t
+User::getUID( void ) const
+{
+  return( uid );
+}
+
+inline
+const char *
+User::getName( void ) const
+{
+  return( name );
+}
+
+inline
+const char *
+User::getPassword( void ) const
+{
+  return( passwd );
+}
+
+inline
+const char *
+User::getRealName( void ) const
+{
+  return( gecos );
+}
+
+inline
+const char *
+User::getGecos( void ) const
+{
+  return( gecos );
+}
+
+inline
+const char *
+User::getHome( void ) const
+{
+  return( home );
+}
+
+inline
+const char *
+User::getShell( void ) const
+{
+  return( shell );
+}
+
+inline
+const UserGroup &
+User::getPrimaryGroup( void ) const
+{
+  return( primeGroup );
+}
+
+inline
+bool
+User::isMember( gid_t group )
+{
+  UserGroup g( group, false );
+
+  if( groups.size() == 0 )
+    findGroups();
+  
+  return( groups.find( g ) != groups.end() );
+}
+
+inline
+bool
+User::isMember( gid_t group ) const
+{
+  UserGroup g( group, false );
+  return( groups.find( g ) != groups.end() );
+}
+
+inline
+bool
+User::isMember( const char * group )
+{
+  UserGroup g( group, false );
+
+  if( groups.size() == 0 )
+    findGroups();
+  
+  return( groups.find( g ) != groups.end() );
+}
+
+inline
+bool
+User::isMember( const char * group ) const
+{
+  UserGroup g( group, false );
+  return( groups.find( g ) != groups.end() );
+}
+
+inline
+const User::Groups &
+User::getGroups( void ) const
+{
+  return( groups );
+}
+
+inline
+bool
+User::set( uid_t user, bool findGrps )
+{
+  return( set( getpwuid( user ), findGrps ) );
+}
+
+inline
+bool
+User::set( const char * name, bool findGrps )
+{
+  return( set( getpwnam( name ), findGrps ));
+}
+
+inline
+size_t
+User::getStreamSize( void ) const
+{
+  return( sizeof( uid_t ) );
+}
+
+inline
+istream &
+User::read( istream & src )
+{
+  uid_t	user;
+  src.read( &user, sizeof( uid_t ) );
+  set( user );
+  return( src );
+}
+
+inline
+ostream &
+User::write( ostream & dest ) const
+{
+  dest.write( &uid, sizeof( uid ) );
+  return( dest );
+}
+
+inline
+int
+User::compare( const User & two ) const
+{
+  return( ::compare( name, two.name ) );
+}
+
+inline
+bool
+User::operator == ( const User & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+User::operator < ( const User & two ) const 
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+User::operator const char * ( void ) const
+{
+  return( name );
+}
+
+inline
+User::operator uid_t ( void ) const
+{
+  return( uid );
+}
+
+inline
+ostream &
+User::toStream( ostream & dest ) const
+{
+  dest << name;
+  return( dest );
+}
+
+inline
+int
+compare( const User & one, const User & two )
+{
+  return( one.compare( two ) );
+}
+
+inline
+ostream &
+operator << ( ostream & dest, const User & obj )
+{
+  return( obj.toStream( dest ) );
+}
+
+#endif // ! def _User_ii_ 
