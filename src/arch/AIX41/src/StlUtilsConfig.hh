@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  1996/05/21 10:32:21  houghton
+// Added CLUE_FLOAT.
+//
 // Revision 1.4  1996/05/18 12:57:01  houghton
 // Added include climits
 // Added CLUE_BAD_FPOS_T
@@ -67,6 +70,7 @@
 #define CLUE_UINT   unsigned int
 #define CLUE_32	    long
 #define CLUE_U32    unsigned long
+#define CLUE_FLOAT  float
 #define CLUE_DOUBLE double
 #define CLUE_BOOL   bool
 
