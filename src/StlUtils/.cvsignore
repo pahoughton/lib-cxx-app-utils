@@ -3,5 +3,6 @@
 .depend_default
 .depend_profile
 .depend_shared
+OOBR-FTR
 _Clue_Proto.h
 objects
