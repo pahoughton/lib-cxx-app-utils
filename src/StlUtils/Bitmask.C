@@ -1,56 +1,21 @@
 //
 // File:        Bitmask.C
+// Project:	Clue
 // Desc:        
 //
-//  
-//  
+//  Compiled source code for Bitmask.
+//
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     07/21/95 06:41
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.6  1996/11/11 13:28:16  houghton
-// Rework fromStream because of a bug with AIX iostream.
-//
-// Revision 2.5  1996/11/04 13:20:09  houghton
-// Added Bitmask::bit::toStream
-// Added Bitmask::bit::dumpInfo
-// Removed BinObject/BinStream support.
-// Changed BinObject/BinString 'Sizeof' calls to 'sizeof'
-// Changed Bitmask::toStream to use to_string().
-// Added Bitmask::fromStream().
-// Changed Bitmask::dumpInfo to make output more readable.
-//
-// Revision 2.4  1996/04/27 12:50:22  houghton
-// Removed unneeded includes.
-//
-// Revision 2.3  1995/12/31 11:20:59  houghton
-// Bug fix - remove 'inline' statement.
-//
-// Revision 2.2  1995/12/04 11:16:21  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-// Bug Fix - Now there is a special type for all single 'bit' values.
-//
-// Revision 2.1  1995/11/10  12:40:16  houghton
-// Change to Version 2
-//
-// Revision 1.5  1995/11/10  00:30:24  houghton
-// Fixec Compile error
-//
-// Revision 1.4  1995/11/09  18:15:18  houghton
-// Fixed bug in toStream. was outputing all 0 on AIX
-//
-// Revision 1.3  1995/11/05  15:28:31  houghton
-// Revised
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #include "Bitmask.hh"
-#include <StringUtils.hh>
+#include "StringUtils.hh"
 
 #if defined( CLUE_DEBUG )
-#include <Bitmask.ii>
+#include "Bitmask.ii"
 #endif // def( CLUE_DEBUG )
 
 CLUE_VERSION(
@@ -183,7 +148,7 @@ Bitmask::fromStream( istream & src )
 
   if( in == tmp )
     {
-      src.clear( ios::failbit );
+      src.setstate( ios::failbit );
       return ( src );
     }
 
@@ -194,10 +159,10 @@ Bitmask::fromStream( istream & src )
 
   // convert it to an unsigned long
   if( ! StringTo( value, tmp, 2 ) )
-    src.clear( ios::failbit );
+    src.setstate( ios::failbit );
 
   if( wasEof )
-    src.clear( ios::eofbit );
+    src.setstate( ios::eofbit );
 
   return( src );
 }
@@ -239,7 +204,49 @@ Bitmask::dumpInfo(
   return( dest  );
 }
 
-
-
-
-
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.7  1996/11/13 16:21:42  houghton
+// Restructure header comments layout.
+// Changed include lines to use "file" instead of <file> to accomidate
+//     rpm.
+// Changed to use ios::setstate (instead of clear) to be compilant
+//     with the ios class beheavior defined by the standard.
+//
+// Revision 2.6  1996/11/11 13:28:16  houghton
+// Rework fromStream because of a bug with AIX iostream.
+//
+// Revision 2.5  1996/11/04 13:20:09  houghton
+// Added Bitmask::bit::toStream
+// Added Bitmask::bit::dumpInfo
+// Removed BinObject/BinStream support.
+// Changed BinObject/BinString 'Sizeof' calls to 'sizeof'
+// Changed Bitmask::toStream to use to_string().
+// Added Bitmask::fromStream().
+// Changed Bitmask::dumpInfo to make output more readable.
+//
+// Revision 2.4  1996/04/27 12:50:22  houghton
+// Removed unneeded includes.
+//
+// Revision 2.3  1995/12/31 11:20:59  houghton
+// Bug fix - remove 'inline' statement.
+//
+// Revision 2.2  1995/12/04 11:16:21  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+// Bug Fix - Now there is a special type for all single 'bit' values.
+//
+// Revision 2.1  1995/11/10  12:40:16  houghton
+// Change to Version 2
+//
+// Revision 1.5  1995/11/10  00:30:24  houghton
+// Fixec Compile error
+//
+// Revision 1.4  1995/11/09  18:15:18  houghton
+// Fixed bug in toStream. was outputing all 0 on AIX
+//
+// Revision 1.3  1995/11/05  15:28:31  houghton
+// Revised
+//
+//
