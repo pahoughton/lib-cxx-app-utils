@@ -58,6 +58,13 @@ StringCaseReverseSearch( const char *  haystack,
 			 const char *  needle,
 			 size_t        needleLen );
 
+size_t
+CLUE_FUNCT_T
+StringFirstNotOf( const char *	haystack,
+		  size_t	hayLen,
+		  const char *	needles,
+		  size_t	needleLen );
+
 int
 CLUE_FUNCT_T
 StringCaseCompare( const char * one, const char * two );
@@ -297,6 +304,18 @@ basename( char * fn );
 //	    returned. Use NPOS for the len parameters if the corresponding
 //	    string is null (0) terminated.
 //	
+//	size_t
+//	StringFirstNotOf( const char *	haystack,
+//			  size_t	hayLen,
+//			  const char *	needles,
+//			  size_t	needleLen );
+//	    Search the string 'haystack' for an character not in the string
+//	    needle. Return the position of the first character in
+//	    'haystack' that is not in needle or NPOS if all the characters
+//	    in 'haystack' consist of characters in 'needle. Use NPOS for
+//	    the len parameters if the corresponding string is null (0)
+//	    terminated.
+//
 //	int
 //	StringCaseCompare( const char * one, const char * two );
 //	    Compare two strings ignoring case. return 0 if one == two,
@@ -630,6 +649,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/08/12 11:10:15  houghton
+// Added StringFirstNotOf.
+//
 // Revision 3.4  1996/11/25 10:14:34  houghton
 // Added StringTo( struct & tm dest, const char * src, const char * fmt )
 // Added StringToTm( const char * src, const char * fmt

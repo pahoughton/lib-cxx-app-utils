@@ -34,7 +34,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
-VER_RELEASE	= 05.b.01
+VER_RELEASE	= 05.b.02
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -149,6 +149,7 @@ CXX_C_SOURCES =				\
 	StringCaseCompare.C             \
 	StringCaseReverseSearch.C       \
 	StringCaseSearch.C              \
+	StringFirstNotOf.C		\
 	StringFrom.C			\
 	StringLower.C                   \
 	StringReverseSearch.C           \
@@ -309,6 +310,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.23  1997/08/12 11:10:08  houghton
+# Added StringFirstNotOf.
+#
 # Revision 3.22  1997/08/08 13:27:58  houghton
 # Changed target dependancy to generated_files (was proto).
 # Added GENERATED_SOURCES.
