@@ -35,7 +35,7 @@ DateTime::strPattern(
   "[^0-9]*" "([0-9]+)/([0-9]+)/([0-9]+)"
   "[^0-9]*" "([0-9]*):*([0-9]*):*([0-9]*)" );
 
-long	DateTime::localSysOffset = 0;
+// long	DateTime::localSysOffset = 0;
 
 
 DateTime::~DateTime( void )
@@ -61,6 +61,7 @@ DateTime::isDST( void ) const
     }
   else
     {
+#if defined( FIXME )
       if( offset )
 	{
 	  // we have an offset so assume 'seconds' is
@@ -99,6 +100,7 @@ DateTime::isDST( void ) const
 	    }	  
 	  return( isDst );
 	}
+#endif
     }
 
   return( false );
@@ -123,6 +125,7 @@ DateTime::isDST( void )
   return( false );
 }
 
+#if defined( FIXME )
 // getGmtOffset - return the gmt offset for 'timeZone'
 //  NOTE: the 'timezone' value is converted to a
 //  	  negative value. It seems more natural to me to add
@@ -173,6 +176,8 @@ DateTime::getGmtOffset( const char * timeZone )
 
   return( localSysOffset );
 }
+
+#endif
 
 // getSysTimeZone - get the name of the current system time zone
 const char *
@@ -227,7 +232,7 @@ DateTime::setValid(
   flags.valid = true;
 
   offset = 0;
-  timeZoneName = 0;
+  timeZone[0] = 0;
 
   if( ( ( year >= 0 && year <= 99 )
 	|| ( year <= MaxYear && year >= MinYear ) )
@@ -448,10 +453,51 @@ DateTime::setTimeZone( const char * zone )
   seconds -= offset;  
   flags.dstKnown = false;
   flags.tmValid = false;
-  offset = getGmtOffset( zone );
-  timeZoneName = zone;
+
+  if( zone )
+    strcpy( timeZone, zone );
+  else
+    {
+      const char *	envTz = getenv("TZ" );
+      if( envTz )
+	strcpy( timeZone, envTz );
+      else
+	timeZone[0] = 0;
+    }
+
+  return( setTimeZoneOffset() );
+}
+
+long
+DateTime::setTimeZoneOffset( void )
+{
+  const char *	envTz = getenv("TZ" );
+  Str		curTz;
+
+  if( envTz )
+    curTz = envTz;
+
+  setEnvTimeZone( timeZone );
+
+  memcpy( &tm, localtime( &seconds ), sizeof( tm ) );
+
+  flags.tmValid = true;
+  flags.dst = tm.tm_isdst;
+  flags.dstKnown = true;
+  
+#if defined( STLUTILS_HAS_TM_GMTOFF )
+  offset = tm.tm_gmtoff;
+#else
+  tzset();
+  offset = - timezone;
+  if( flags.dst )
+    offset -= SecPerHour;
+#endif
+
   seconds += offset;
-  setTm();
+
+  setEnvTimeZone( curTz.c_str() );
+
   return( offset );
 }
 
@@ -506,6 +552,7 @@ DateTime::getClassName( void ) const
   return( "DateTime" );
 }
 
+#if defined( FIXME )
 // setTmOffset - set the tm struct using a local time offset
 void
 DateTime::setTmOffset( void )
@@ -550,6 +597,7 @@ DateTime::setTmOffset( void )
   
   flags.dstKnown = true;
   flags.dst = tm.tm_isdst;
+  
   if( flags.dst )
     {
       seconds -= offset;
@@ -557,6 +605,49 @@ DateTime::setTmOffset( void )
       seconds += offset;
     }     
 }
+#endif
+
+void
+DateTime::setEnvTimeZone( const char * tz )
+{
+
+  static char *		initialTzName = 0;
+
+  if( ! initialTzName )
+    {
+      initialTzName = new char[30];
+      
+      const char * envTz = getenv("TZ");
+
+      if( envTz )
+	strcpy( initialTzName, envTz );
+      else
+	initialTzName[0] = 0;
+    }
+
+  
+  Str	putTz( "TZ=" );
+
+  if( tz && tz[0] )
+    {
+      putTz << tz;
+    }
+  else
+    {
+      if( initialTzName )
+	{
+	  putTz << initialTzName;
+	}
+      else
+	{
+	  putTz = "TZ";
+	}
+    }
+  
+  putenv( putTz.c_str() );
+  tzset();
+}
+
 
 size_t
 DateTime::getBinSize( void ) const
@@ -813,12 +904,16 @@ DateTime::dumpInfo(
   DateTime::toStream( dest );
   dest << '\n';
 
-  dest << prefix << "localSysOffset: " << localSysOffset << '\n'
-    ;
-  if( timeZoneName )
-    dest << prefix << "timeZoneName:   " << timeZoneName << '\n'
-      ;
+  //  dest << prefix << "localSysOffset: " << localSysOffset << '\n'
+    
+    
+  dest << prefix << "timeZone:       " ;
 
+  if( timeZone[0] )
+    dest << timeZone << '\n';
+  else
+    dest << "(none)" << '\n';
+  
   dest << prefix << "flags.valid:    " << flags.valid << '\n'
        << prefix << "flags.dstKnown: " << flags.dstKnown << '\n'
        << prefix << "flags.dst:      " << flags.dst << '\n'
@@ -838,6 +933,7 @@ DateTime::dumpInfo(
       ;
 
   dest << prefix << "seconds:        " << seconds << '\n'
+       << prefix << "offset (hrs):   " << offset / (60*60) << '\n'
     ;
   
   return( dest  );
@@ -852,6 +948,10 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.7  1998/10/13 16:16:21  houghton
+// Changed: Reworked time zone processing for the time represented by
+//     'seconds' instead of the current 'system' time.
+//
 // Revision 4.6  1998/10/13 15:16:55  houghton
 // Added getHHMMSS( void ).
 //
