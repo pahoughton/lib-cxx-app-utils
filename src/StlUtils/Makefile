@@ -92,7 +92,7 @@ DEFINES		=
 
 
 SRCINCDIR	= -I.
-PRJINCDIR	= -I../../libCommon/src -I../../libmmalloc
+PRJINCDIR	= -I /rating/dev/include -I../../libCommon/src -I../../libmmalloc
 
 INCDIRS		= $(SRCINCDIR)	\
 		  $(PRJINCDIR)
@@ -185,7 +185,10 @@ include .depend
 
 # 
 # $Log$
-# Revision 1.4  1994/09/27 16:58:40  houghton
+# Revision 1.5  1995/01/13 19:34:38  ichudov
+# Corrected a bug in TeleNumCompare.
+#
+# Revision 1.4  1994/09/27  16:58:40  houghton
 # Added RoundUp and some DateTime cleanup
 #
 # Revision 1.3  1994/08/16  20:50:17  houghton
