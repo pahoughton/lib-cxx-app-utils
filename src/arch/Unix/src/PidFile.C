@@ -19,7 +19,8 @@
 #include <Str.hh>
 #include <fstream>
 #include <cstdio>
-
+#include <cstring>
+#include <unistd.h>
 #include <errno.h>
 
 #if defined( CLUE_DEBUG )
@@ -160,6 +161,9 @@ PidFile::removePidFile( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/07/18 20:05:33  houghton
+// Cleanup.
+//
 // Revision 3.2  1997/04/21 09:57:33  houghton
 // Port: include errno.h.
 //
