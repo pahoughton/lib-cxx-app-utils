@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/03/21 15:37:08  houghton
+// Bug-Fix: setTimeZone was not resetting the localOffset.
+//
 // Revision 3.3  1997/01/18 17:28:12  houghton
 // Minor cleanup. changed a local var name from offset to tzOffset. There
 //   is a class var with the name 'offset'.
@@ -197,11 +200,8 @@ DateTime::getGmtOffset( const char * timeZone )
 	}
     }
 
-  if( ! localSysOffset )
-    {
-      tzset();
-      localSysOffset = - timezone;
-    }
+  tzset();
+  localSysOffset = - timezone;
 
   return( localSysOffset );
 }
