@@ -20,16 +20,19 @@ UNIX_C_SOURCES		=	\
 
 UNIX_CXX_C_SOURCES	=	\
 	OpenFlags.C		\
+	TimeIt.C		\
 	User.C			\
 	UserGroup.C		\
 
 UNIX_USER_H_INCS	=	\
 
 UNIX_USER_HH_INCS	=	\
+	TimeIt.hh		\
 	User.hh			\
 	UserGroup.hh		\
 
 UNIX_USER_II_INCS	=	\
+	TimeIt.ii		\
 	User.ii			\
 	UserGroup.ii		\
 
@@ -40,6 +43,9 @@ UNIX_CXX_INLINES	=
 
 #
 # $Log$
+# Revision 3.3  1997/01/18 17:41:50  houghton
+# Added TimeIt sources.
+#
 # Revision 3.2  1996/11/22 12:25:38  houghton
 # Moved OpenFlags to Unix from arch/src.
 #
