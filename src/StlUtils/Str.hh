@@ -25,8 +25,8 @@
 #include "StlUtilsConfig.hh"
 #include <iostream>
 #include <vector>
-#include <pair>
-#include <stddef.h>
+#include <utility>
+#include <cstddef>
 
 
 
@@ -43,20 +43,21 @@ class STLUTILS_CLASS_T Str : public iostream
 
 public:
 
-  typedef char *		iterator;
-  typedef const char *		const_iterator;
-  typedef STLUTILS_U32_SIZE_T	size_type;
-
+  typedef STLUTILS_U32_SIZE_T			size_type;
+  typedef ptrdiff_t				difference_type;
+  typedef char &				reference;
+  typedef const char &				const_reference;
+  typedef char *				pointer;
+  typedef const char *				const_pointer;
+  typedef pointer				iterator;
+  typedef const_pointer				const_iterator;
+  typedef ::reverse_iterator< iterator >	reverse_iterator;
+  typedef ::reverse_iterator< const_iterator >	const_reverse_iterator;
+  
   typedef pair< unsigned long, unsigned long >	Range;
   
   typedef vector< Range >   RangeList;
   
-  typedef reverse_iterator< const char *, char, const char &, ptrdiff_t >
-    const_reverse_iterator;
-  
-  typedef reverse_iterator< char *, char, char &, ptrdiff_t >
-    reverse_iterator;
-
   typedef const_iterator    InputIterator; // work around no compiler support
   
   static const size_type npos;
@@ -306,15 +307,15 @@ public:
   inline size_type	find( const SubStr & pat, size_type start = 0) const;
   inline size_type	find( const RegexScan & exp, size_type start = 0) const;
   inline size_type	find( const char *  pat,
-		      size_type 	    start = 0,
-		      size_type 	    patLen = npos) const;
+			      size_type     start = 0,
+			      size_type     patLen = npos) const;
   inline size_type	find( char c, size_type start = 0 ) const;
   
   inline size_type	rfind( const Str & s, size_type end = npos) const;
   inline size_type	rfind( const SubStr & s, size_type end = npos) const;
   inline size_type	rfind( const char * s,
-		       size_type	    end = npos,
-		       size_type	    sLen = npos) const;
+			       size_type    end = npos,
+			       size_type    sLen = npos) const;
   inline size_type	rfind( char c, size_type end = npos ) const;
 
   // fold (ignore case)
@@ -322,35 +323,35 @@ public:
   inline size_type	ffind( const Str & s, size_type start = 0) const;
   inline size_type	ffind( const SubStr & s, size_type start = 0) const;
   inline size_type	ffind( const char * s,
-		       size_type start = 0,
-		       size_type sLen = npos) const;
+			       size_type    start = 0,
+			       size_type    sLen = npos) const;
   inline size_type	ffind( char c, size_type start = 0 ) const;
   
   inline size_type	rffind( const Str & s, size_type end = npos) const;
   inline size_type	rffind( const SubStr & s, size_type end = npos) const;
   inline size_type	rffind( const char * s,
-			size_type	     end = npos,
-			size_type	     sLen = npos) const;
+				size_type     end = npos,
+				size_type     sLen = npos) const;
   inline size_type	rffind( char c, size_type end = npos ) const;
 
   
   inline size_type find_first_of( const Str & s, size_type start = 0 ) const;
   inline size_type find_first_of( const SubStr & s, size_type start = 0 ) const;
-  inline size_type find_first_of( const char * s,
-			       size_type start = 0,
-			       size_type sLen = npos ) const;
+  inline size_type find_first_of( const char *	s,
+				  size_type	start = 0,
+				  size_type	sLen = npos ) const;
 
   inline size_type find_last_of( const Str & s, size_type end = npos ) const;
   inline size_type find_last_of( const SubStr & s, size_type end = npos ) const;
-  inline size_type find_last_of( const char * s,
-			      size_type end = npos,
-			      size_type sLen = npos ) const;
+  inline size_type find_last_of( const char *	s,
+				 size_type	end = npos,
+				 size_type	sLen = npos ) const;
   
   inline size_type find_first_not_of( const Str & s, size_type start = 0 ) const;
   inline size_type find_first_not_of( const SubStr & s, size_type start = 0 ) const;
-  inline size_type find_first_not_of( const char * s,
-				   size_type start = 0,
-				   size_type sLen = npos ) const;
+  inline size_type find_first_not_of( const char *  s,
+				      size_type	    start = 0,
+				      size_type	    sLen = npos ) const;
 
   inline size_type find_last_not_of( const Str & s, size_type end = npos ) const;
   inline size_type find_last_not_of( const SubStr & s, size_type end = npos ) const;
@@ -529,24 +530,18 @@ public:
   inline bool	    operator <  ( const Str & rhs ) const;
   inline bool	    operator <  ( const SubStr & rhs ) const;
   inline bool	    operator <  ( const char * rhs ) const;
-
-#if !defined( Linux )
-  inline bool       operator !=  ( const Str & rhs ) const;
+  
   inline bool	    operator !=  ( const SubStr & rhs ) const;
   inline bool	    operator !=  ( const char * rhs ) const;
   
-  inline bool       operator >  ( const Str & rhs ) const;
   inline bool	    operator >  ( const SubStr & rhs ) const;
   inline bool	    operator >  ( const char * rhs ) const;
   
-  inline bool       operator <= ( const Str & rhs ) const;
   inline bool	    operator <= ( const SubStr & rhs ) const;
   inline bool	    operator <= ( const char * rhs ) const;
   
-  inline bool       operator >= ( const Str & rhs ) const;
   inline bool	    operator >= ( const SubStr & rhs ) const;
   inline bool	    operator >= ( const char * rhs ) const;
-#endif
   // libStlUtils Common Class Methods
   
   virtual size_type	getBinSize( void ) const;
@@ -663,7 +658,6 @@ operator == ( const char * lhs, const Str & rhs );
 bool
 operator <  ( const char * lhs, const Str & rhs );
 
-#if !defined( Linux )
 bool
 operator != ( const char * lhs, const Str & rhs );
 
@@ -675,7 +669,6 @@ operator <= ( const char * lhs, const Str & rhs );
 
 bool
 operator >= ( const char * lhs, const Str & rhs );
-#endif
 
 istream &
 getline( istream & src, Str & dest, char delim = '\n' );
@@ -1756,6 +1749,10 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.9  1998/10/13 16:23:48  houghton
+// Changed to use new standard include files.
+// Cleanup.
+//
 // Revision 4.8  1998/10/13 15:24:47  houghton
 // Port(AIX41): write( wchar_t *) not available.
 //
