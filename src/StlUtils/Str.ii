@@ -13,6 +13,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.8  1996/07/09 11:33:52  houghton
+// Bug-Fix: Change call to StringToBool to StringTo.
+//
 // Revision 2.7  1996/07/04 10:29:01  houghton
 // Added to( bool ).
 //
@@ -1176,7 +1179,7 @@ bool
 Str::toBool( void ) const
 {
   bool dest = false;
-  StringToBool( dest, strbase(), length());
+  StringTo( dest, strbase(), length());
   return( dest );
 }
 
