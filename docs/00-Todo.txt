@@ -1,4 +1,73 @@
-BinStream
-NetBinStream
-LibTest( FailObject );
-test( __FILE__, __LINE__, bool );
+#
+# TODO
+#
+# $Id$
+#
+# This is the libClue TODO file it is used to track all
+# bug reports and enhancement request. It is formated so
+# a perl script can be used to generate reports.
+#
+# The order of entries implies priority
+#
+# See End of file for format specs
+#
+
+ADM Paul Houghton 11/09/95 10:00
+Regen Makefile using lastest MakeConfigs
+
+ADM Paul Houghton 11/09/95 10:00
+Build and run test
+
+BUG Chris Boys 11/08/95 12:00
+Bitmask::toStream on AIX does not detect bits that are set
+
+ENH Paul Houghton 11/09/95 10:00
+class Void
+
+ENH Paul Houghton 11/09/95 10:00
+class BFN Number
+
+BUG Paul Houghton 11/09/95 10:00
+FilePath - temp file name - tempnam does not work as expected
+Grab TempFileName from lib Common and use it.
+
+=== COMPLETED ===
+
+# Format spec:
+#
+# Any line begining with a '#' is ignored by the parser
+#
+# Each entry starts with the line:
+# bug | enh[hancement] | adm who mm/dd/yy hh:mm[:ss] who mm/dd/yy hh:mm[:ss]
+#    bug - means this is a bug report
+#    enh - means this is an enhancment request
+#    adm - means this is a general admin/cleanup requirement
+#    who - is the requestor 
+#    mm/dd/yy - month, day and year of the initial request
+#    hh:mm[:ss] - hour ( 24 hr format), min and optional seconds of 
+#                 of the inital request
+#    who - received the request.
+#    mm/dd/yy - month, day and year of the initial estimate given
+#    hh:mm[:ss] - hour ( 24 hr format), min and optional seconds of 
+#                 of the inital request
+# The next line is a short description of the request (80 char or less)
+#
+# The rest of the lines should be indented and contain revent text 
+# describing the request and actions taken.
+#
+# The entry is terminated with the line:
+# comp[lete] | canc[elled] who mm/dd/yy hh:mm[:ss]
+#    comp[lete] - specifies the request was completed
+#    test[ed] - specifies the mods have been regression tested
+#    canc[elled] = specifies the request was cancled
+#    who - completed / cancelled the request 
+#    mm/dd/yy - month, day and year of the completion
+#    hh:mm[:ss] - hour ( 24 hr format), min and optional seconds of 
+#                 of completion
+
+#
+# $Log$
+# Revision 1.2  1995/11/09 18:14:35  houghton
+# Updated
+#
+#
