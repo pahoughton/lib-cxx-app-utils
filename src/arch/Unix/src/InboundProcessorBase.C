@@ -161,8 +161,12 @@ InboundProcessorBase::run( void )
   return( false );
 }
 
-  
-  
+bool
+InboundProcessorBase::caughtSignal( void ) const
+{
+  return( sigCatcher && sigCatcher->caught().size() != 0 );
+}
+
 bool
 InboundProcessorBase::good( void ) const
 {
@@ -267,6 +271,9 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/07/25 13:54:13  houghton
+// Added caughtSignal.
+//
 // Revision 3.1  1997/07/25 12:26:55  houghton
 // Changed version number to 3.
 //
