@@ -12,7 +12,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 2.1  1995/11/12 18:33:34  houghton
+// Revision 2.2  1995/11/13 11:31:18  houghton
+// Cleanup.
+//
+// Revision 2.1  1995/11/12  18:33:34  houghton
 // Initial Version.
 //
 //
@@ -98,6 +101,7 @@ Void::remove( size_t start, size_t len )
   return( replace( start, len, 0, 0 ) );
 }
 
+    
 inline
 void
 Void::reset( void )
