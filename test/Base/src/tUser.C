@@ -98,7 +98,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    TEST( t.getGroups().size() == 0 );
+    TEST( t.getGroups().size() != 0 );
     
   }
 
@@ -125,7 +125,7 @@ tUser( LibTest & tester )
 
     TEST( t.getUID() == 0 );
     TEST( compare( t.getName(), "root" ) == 0 );
-    TEST( t.getGroups().size() == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -151,7 +151,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    TEST( t.getGroups().size() == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -183,7 +183,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    TEST( t.getGroups().size() == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -221,7 +221,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    TEST( t.getGroups().size() == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -242,7 +242,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    TEST( t.getGroups().size() == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -301,8 +301,6 @@ tUser( LibTest & tester )
     // getGroups( void ) const
     
     User t( uid );
-
-    TEST( t.getGroups().size() == 0 );
 
     t.findGroups();
 
@@ -398,7 +396,7 @@ tUser( LibTest & tester )
 
     TEST( t.getUID() == 0 );
     TEST( compare( t.getName(), "root" ) == 0 );
-    TEST( t.getGroups().size() == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -421,7 +419,7 @@ tUser( LibTest & tester )
 
     TEST( t.getUID() == 0 );
     TEST( compare( t.getName(), "root" ) == 0 );
-    TEST( t.getGroups().size() == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
   
   {
@@ -450,7 +448,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
     TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
     TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    TEST( t.getGroups().size() == 0 );    
+    TEST( t.getGroups().size() != 0 );    
   }
     
   {
@@ -505,6 +503,7 @@ tUser( LibTest & tester )
     TEST( getpwuid( t )->pw_uid == t.getUID() );
   }
 
+#if defined( CLUE_BINSTREAM )
   {
     // getBinSize( void ) const
     // write( BinStream & dest ) const
@@ -536,7 +535,8 @@ tUser( LibTest & tester )
 
     TEST( tr == tw );
   }
-
+#endif
+  
   {
     // write( ostream & ) const
     // read( istream & )
