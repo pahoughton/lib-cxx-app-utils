@@ -39,7 +39,8 @@ Param::Param(
   int 		mainArgc,
   char *	mainArgv[],
   const char *	version,
-  const char *	logLevel
+  const char *	logLevel,
+  bool		useDefaultArgFn
   )
   : appLog( cout, logLevel ),
     helpFlag( false ),
@@ -68,6 +69,11 @@ Param::Param(
     }
   
   argv = allArgv;
+
+  if( useDefaultArgFn )
+    {
+      argFile << appName() << ".args" ;
+    }
   
   helpString += "\n";
   helpString += mainArgv[0];
@@ -584,7 +590,7 @@ Param::getArgValue( const char * argId, const char * envVar )
   if( envValue )
     value = envValue;
 
-  if( count() <= 1 || ! argId || ! argId[0] )
+  if( ! argId || ! argId[0] )
     return( value );
   
   // first look in fileArgs
@@ -704,8 +710,8 @@ Param::getArgFlag( const char * argId, const char * envVar )
       Str envStr( env( envVar ) );
       value = envStr.toBool();
     }
-
-  if( count() <= 1 || !argId || ! argId[0] )
+  
+  if( !argId || ! argId[0] )
     return( value );
   
   {
@@ -725,6 +731,8 @@ Param::getArgFlag( const char * argId, const char * envVar )
       }
   }
 
+  if( count() <= 1 )
+    return( value );
   
   {
     Args::iterator	them = argv.begin();
@@ -1020,6 +1028,9 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.10  1997/03/26 12:30:23  houghton
+// Added constructor.
+//
 // Revision 3.9  1997/03/21 15:39:41  houghton
 // Added argfile arg.
 // Bug-Fix: readargs was not working correctly.
