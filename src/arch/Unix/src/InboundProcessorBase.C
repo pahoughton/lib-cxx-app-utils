@@ -70,7 +70,11 @@ InboundProcessorBase::run( void )
       
       if( sigCatcher && sigCatcher->caught().size() )
 	return( true );
-	  
+
+      // run prescanProc before we scan the dir
+      if( ! prescanProc() )
+	return( true );	    // prescan wants to skip the scan
+      
       didit = false;
 
       dirList.set( inPath, Directory::SortTime );
@@ -94,12 +98,20 @@ InboundProcessorBase::run( void )
 	  
 	  if( ! sem.create( (*them).getName() ) )
 	    {
+	      // maybe someone move the file
 	      FileStat semStat( (*them).getName() );
 
 	      if( semStat.good() )
-		return( setError( sem.error(), (*them).getName() ) );
+		{
+		  return( setError( sem.error(), (*them).getName() ) );
+		}
 	      else
-		break;
+		{
+		  // best rescan the dir, something has changed.
+		  // lie about didit so we don't go to sleep yet.
+		  didit = true;
+		  break;
+		}
 	    }
 
 	  if( sem.lock( false ) )
@@ -144,7 +156,11 @@ InboundProcessorBase::run( void )
 
 		  if( sigCatcher && sigCatcher->caught().size() )
 		    return( true );
-	  
+
+		  // we just processed something, so run prescan again.
+		  if( ! prescanProc() )
+		    return( true );
+		  
 		  didit = true;
 		}
 	    }
@@ -250,6 +266,12 @@ InboundProcessorBase::dumpInfo(
 }
 
 bool
+InboundProcessorBase::prescanProc( void )
+{
+  return( true );
+}
+
+bool
 InboundProcessorBase::setError(
   const char *	desc,
   const char *  name
@@ -271,6 +293,11 @@ InboundProcessorBase::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/16 11:27:04  houghton
+// Added prescan support (ie do 'prescan' before scanning dir and after
+//     processing each file.
+// Bug-Fix: changed so it does not go to sleep when the sem. was bad.
+//
 // Revision 3.2  1997/07/25 13:54:13  houghton
 // Added caughtSignal.
 //
