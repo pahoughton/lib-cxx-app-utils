@@ -87,9 +87,9 @@ tSubStr05( LibTest & tester )
     // toStream( ostream & ) const
 
 #if !defined( CLUE_SHORT_FN )
-    const char * fn = TESTDATA_PATH "SubStr.operator.output";
+    const char * fn = TEST_DATA_DIR "/SubStr.operator.output";
 #else
-    const char * fn = TESTDATA_PATH "ssopout.txt";
+    const char * fn = TEST_DATA_DIR "/ssopout.txt";
 #endif
     ofstream out( fn );
     
@@ -105,9 +105,9 @@ tSubStr05( LibTest & tester )
     // operator << ( ostream &, const Str & )
 
 #if !defined( CLUE_SHORT_FN )
-    const char * fn = TESTDATA_PATH "SubStr.operator.output";
+    const char * fn = TEST_DATA_DIR "/SubStr.operator.output";
 #else
-    const char * fn = TESTDATA_PATH "ssopout.txt";
+    const char * fn = TEST_DATA_DIR "/ssopout.txt";
 #endif
     ofstream out( fn );
     

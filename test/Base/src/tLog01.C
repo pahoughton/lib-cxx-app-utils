@@ -20,9 +20,9 @@
 
 
 #if !defined( CLUE_SHORT_FN )
-const char * LogStreamFn = TESTDATA_PATH "log.stream.test";
+const char * LogStreamFn = TEST_DATA_DIR "/log.stream.test";
 #else
-const char * LogStreamFn = TESTDATA_PATH "logstrm.tst";
+const char * LogStreamFn = TEST_DATA_DIR "/logstrm.tst";
 #endif
 
 bool

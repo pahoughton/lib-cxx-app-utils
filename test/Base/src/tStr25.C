@@ -149,9 +149,9 @@ tStr25( LibTest & tester )
     
     Str t( T1 T2 );
 #if !defined( CLUE_SHORT_FN )
-    const char * fn = TESTDATA_PATH "getline.Str.input";
+    const char * fn = TEST_DATA_DIR "/getline.Str.input";
 #else
-    const char * fn = TESTDATA_PATH "glstr.in";
+    const char * fn = TEST_DATA_DIR "/glstr.in";
 #endif
 
     ifstream in( fn );
