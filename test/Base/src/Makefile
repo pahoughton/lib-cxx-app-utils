@@ -28,10 +28,11 @@ include Make/make.cfg.$(make_cfg_ver)
 
 NAME		= Test
 
-for_rpm		= false
+for_rpm		= true
 
 TYPE_SUBDIR	= /pers
-ifeq ($(for_rpm), true )
+
+ifeq ($(for_rpm),true)
 TYPE_SUBDIR	= /beta
 rpm_arch	= rpm/
 endif
@@ -225,8 +226,13 @@ PRIME_CXX_C_SOURCES	=		\
 	tLog09.C			\
 	tParam.C                        \
 	tParam01.C                      \
+	tFilePath.C                     \
+	tFilePath01.C                   \
+	tFilePath02.C                   \
+	tFilePath03.C                   \
+	tFilePath04.C                   \
 
-ifneq ($(for_rpm), true )
+ifneq ($(for_rpm),true)
 OTHER_CXX_C_SOURCES	=		\
 	tStr.C                          \
 	tStr01.C                        \
@@ -276,11 +282,6 @@ OTHER_CXX_C_SOURCES	=		\
 	tDateRange.C                    \
 	tDateRangeDaily.C               \
 	tDateRangeWeekly.C              \
-	tFilePath.C                     \
-	tFilePath01.C                   \
-	tFilePath02.C                   \
-	tFilePath03.C                   \
-	tFilePath04.C                   \
 	tSortOrder.C                    \
 
 endif
@@ -385,6 +386,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.4  1996/11/22 12:26:03  houghton
+# Test for rpm.
+#
 # Revision 3.3  1996/11/20 12:15:06  houghton
 # Major rework to support both rpm sources (for ani server) and
 #     other source (for distributor).
