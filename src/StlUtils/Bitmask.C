@@ -22,7 +22,9 @@ STLUTILS_VERSION(
   Bitmask,
   "$Id$" );
 
-Bitmask	allBits( 0, true );
+const size_t Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::value_type );
+
+static Bitmask	allBits( 0, true );
 
 const Bitmask	    Bitmask::all( allBits );
 
@@ -59,8 +61,9 @@ const Bitmask::bit  Bitmask::b29( allBits, 29 );
 const Bitmask::bit  Bitmask::b30( allBits, 30 );
 const Bitmask::bit  Bitmask::b31( allBits, 31 );
 
-  
-const size_t Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::ValueType );
+#if defined( Linux )
+static const Bitmask	    junk( allBits );
+#endif
 
 ostream &
 Bitmask::bit::toStream( ostream & dest ) const
@@ -208,6 +211,9 @@ Bitmask::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/10/13 16:13:28  houghton
+// Port(Linux): added 'junk' to work around a compiler bug.
+//
 // Revision 4.1  1997/09/17 15:12:09  houghton
 // Changed to Version 4
 //
