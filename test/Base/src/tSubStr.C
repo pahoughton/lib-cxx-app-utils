@@ -17,13 +17,13 @@ bool tSubStr07( LibTest & tester );
 bool
 tSubStr( LibTest & tester )
 {
-  TESTP( tSubStr01( tester ), true );
-  TESTP( tSubStr02( tester ), true );
-  TESTP( tSubStr03( tester ), true );
-  TESTP( tSubStr04( tester ), true );
-  TESTP( tSubStr05( tester ), true );
-  TESTP( tSubStr06( tester ), true );
-  TESTP( tSubStr07( tester ), true );
+  TESTP( tSubStr01( tester ) );
+  TESTP( tSubStr02( tester ) );
+  TESTP( tSubStr03( tester ) );
+  TESTP( tSubStr04( tester ) );
+  TESTP( tSubStr05( tester ) );
+  TESTP( tSubStr06( tester ) );
+  TESTP( tSubStr07( tester ) );
 
   return( true );
 }

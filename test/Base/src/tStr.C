@@ -36,32 +36,32 @@ bool tStr26( LibTest & test );
 bool
 tStr( LibTest & tester )
 {
-  TESTP( tStr01( tester ), true );
-  TESTP( tStr02( tester ), true );
-  TESTP( tStr03( tester ), true );
-  TESTP( tStr04( tester ), true );
-  TESTP( tStr05( tester ), true );
-  TESTP( tStr06( tester ), true );
-  TESTP( tStr07( tester ), true );
-  TESTP( tStr08( tester ), true );
-  TESTP( tStr09( tester ), true );
-  TESTP( tStr10( tester ), true );
-  TESTP( tStr11( tester ), true );
-  TESTP( tStr12( tester ), true );
-  TESTP( tStr13( tester ), true );
-  TESTP( tStr14( tester ), true );
-  TESTP( tStr15( tester ), true );
-  TESTP( tStr16( tester ), true );
-  TESTP( tStr17( tester ), true );
-  TESTP( tStr18( tester ), true );
-  TESTP( tStr19( tester ), true );
-  TESTP( tStr20( tester ), true );
-  TESTP( tStr21( tester ), true );
-  TESTP( tStr22( tester ), true );
-  TESTP( tStr23( tester ), true );
-  TESTP( tStr24( tester ), true );
-  TESTP( tStr25( tester ), true );
-  TESTP( tStr26( tester ), true );
+  TESTP( tStr01( tester ) );
+  TESTP( tStr02( tester ) );
+  TESTP( tStr03( tester ) );
+  TESTP( tStr04( tester ) );
+  TESTP( tStr05( tester ) );
+  TESTP( tStr06( tester ) );
+  TESTP( tStr07( tester ) );
+  TESTP( tStr08( tester ) );
+  TESTP( tStr09( tester ) );
+  TESTP( tStr10( tester ) );
+  TESTP( tStr11( tester ) );
+  TESTP( tStr12( tester ) );
+  TESTP( tStr13( tester ) );
+  TESTP( tStr14( tester ) );
+  TESTP( tStr15( tester ) );
+  TESTP( tStr16( tester ) );
+  TESTP( tStr17( tester ) );
+  TESTP( tStr18( tester ) );
+  TESTP( tStr19( tester ) );
+  TESTP( tStr20( tester ) );
+  TESTP( tStr21( tester ) );
+  TESTP( tStr22( tester ) );
+  TESTP( tStr23( tester ) );
+  TESTP( tStr24( tester ) );
+  TESTP( tStr25( tester ) );
+  TESTP( tStr26( tester ) );
   
   return( true );
 }
