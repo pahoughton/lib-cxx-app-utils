@@ -2,6 +2,7 @@
 #define _SubStr_hh_
 //
 // File:        SubStr.hh
+// Project:	Clue
 // Desc:        
 //
 //  	A 'SubStr' is a section of a 'Str'. Any modifications to
@@ -9,42 +10,16 @@
 //
 //  	Detail documentation is at the end of this header file.
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
 // Created:     05/30/95 14:59
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 3.3  1997/04/03 23:23:22  houghton
-// Changed include stddef to stddef.h
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 3.2  1996/11/20 12:13:10  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:24:23  houghton
-// Changed to Release 3
-//
-// Revision 2.6  1996/05/25 12:36:22  houghton
-// Added of method. returns owning Str.
-//
-// Revision 2.5  1996/05/03 16:13:49  houghton
-// AIX Port cleanup.
-//
-// Revision 2.4  1996/02/29 19:07:29  houghton
-// Added some ifndefs for GNU
-//
-// Revision 2.3  1995/11/10 18:47:27  houghton
-// Fixed error in comments
-//
-// Revision 2.2  1995/11/10  14:08:41  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:41:17  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:54  houghton
-// Ports and Version ID changes
-//
+//  $Id$
 //
 
 #include "ClueConfig.hh"
@@ -63,18 +38,24 @@ class SubStr
 
 public:
 
-  static const size_t npos;
+  typedef size_t	size_type;
   
-  inline SubStr( Str & src, size_t pos = 0, size_t len = NPOS);
-  inline SubStr( const Str & src, size_t pos = 0, size_t len = NPOS);
+  static const size_type npos;
+  
+  inline SubStr( Str & src, size_type pos = 0, size_type len = NPOS);
+  inline SubStr( const Str & src, size_type pos = 0, size_type len = NPOS);
 
-  inline size_t    	size( void ) const; 
-  inline size_t    	length( void ) const; 
+  inline size_type    	size( void ) const; 
+  inline size_type    	length( void ) const; 
   inline bool	    	empty( void ) const; 
 
   inline Str &		of( void );
   inline const Str &	of( void ) const;
-  
+
+  inline size_type    	    copy( char * dest,
+				  size_type destLen,
+				  size_type start = 0 ) const;
+
   inline bool	to( bool &   	     dest ) const;
   inline bool	to( int &   	     dest, unsigned short base = 0 ) const; 
   inline bool	to( short & 	     dest, unsigned short base = 0 ) const; 
@@ -189,8 +170,8 @@ private:
   
   Str &	    	str;
   const Str &   constStr;
-  size_t    	pos;
-  size_t    	len;
+  size_type    	pos;
+  size_type    	len;
 
 };
 
@@ -443,6 +424,53 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 //
 //  	ostream &
 //  	operator <<( ostream & dest, const SubStr & obj );
+//
+// Example:
+//
+// See Also:
+//
+// Files:
+//
+// Documented Ver:
+//
+// Tested Ver:
+//
+// Revision Log:
+//
+// $Log$
+// Revision 3.4  1997/08/17 22:35:46  houghton
+// Added size_type.
+// Added copy( const char * ... ).
+//
+// Revision 3.3  1997/04/03 23:23:22  houghton
+// Changed include stddef to stddef.h
+//
+// Revision 3.2  1996/11/20 12:13:10  houghton
+// Removed support for BinStream.
+//
+// Revision 3.1  1996/11/14 01:24:23  houghton
+// Changed to Release 3
+//
+// Revision 2.6  1996/05/25 12:36:22  houghton
+// Added of method. returns owning Str.
+//
+// Revision 2.5  1996/05/03 16:13:49  houghton
+// AIX Port cleanup.
+//
+// Revision 2.4  1996/02/29 19:07:29  houghton
+// Added some ifndefs for GNU
+//
+// Revision 2.3  1995/11/10 18:47:27  houghton
+// Fixed error in comments
+//
+// Revision 2.2  1995/11/10  14:08:41  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:41:17  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:54  houghton
+// Ports and Version ID changes
 //
 
 #endif // ! def _SubStr_hh_ 
