@@ -112,7 +112,7 @@ public:
 
 protected:
   
-  Level	    levelFromString( const char * level );
+  Level	    levelFromString( const char * level, Level curLevel );
   
 private:
 
@@ -377,6 +377,11 @@ operator << ( ostream & dest, const LogLevel & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/21 12:24:05  houghton
+// Changed string to log level converter to support +level and
+//     -level. These will turn the level on or off respectivly without
+//     changeing the state of other levels.
+//
 // Revision 3.1  1996/11/14 01:23:49  houghton
 // Changed to Release 3
 //

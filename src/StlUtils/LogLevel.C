@@ -260,22 +260,45 @@ LogLevel::dumpInfo(
 }
 
 LogLevel::Level
-LogLevel::levelFromString( const char * level )
+LogLevel::levelFromString( const char * level, Level curLevel )
 {
   // check for ALL
   if( StringCaseSearch( level, NPOS, "All", NPOS ) )
     {
       return( All );
     }
-  
-  Level tmp = None;
 
+  Level	    tmp = None;
+  
   for( size_t l = 0; l < (ArraySize( Name2LevelList ) - 2 ); l++ )
     {
-      if( StringCaseSearch( level, NPOS,
-			    *(Name2LevelList[l].name), NPOS ) )
+      const char * pos;
+
+      pos = StringCaseSearch( level, NPOS,
+			      *(Name2LevelList[l].name), NPOS );
+
+      if( pos )
 	{
-	  tmp |= *(Name2LevelList[l].level);
+	  if( pos > level )
+	    {
+	      switch( *( pos - 1) )
+		{
+		case '+':
+		  tmp |= curLevel | *(Name2LevelList[ l ].level);
+		  break;
+
+		case '-':
+		  tmp = (tmp | curLevel) & ~(*(Name2LevelList[l].level));
+		  break;
+
+		default:
+		  tmp |= *(Name2LevelList[l].level);
+		}
+	    }
+	  else
+	    {
+	      tmp |= *(Name2LevelList[l].level);
+	    }
 	}
     }
   return( tmp );
@@ -284,6 +307,11 @@ LogLevel::levelFromString( const char * level )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/03/21 12:24:04  houghton
+// Changed string to log level converter to support +level and
+//     -level. These will turn the level on or off respectivly without
+//     changeing the state of other levels.
+//
 // Revision 3.3  1997/03/19 16:25:23  houghton
 // Bug-Fix: getName* would return all even if not all bits were set.
 // Changed getName now returns 0 if name not found.

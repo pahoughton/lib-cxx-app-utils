@@ -53,7 +53,7 @@ inline
 LogLevel::Level
 LogLevel::setOutput( const char * level )
 {
-  return( setOutput( levelFromString( level ) ) );
+  return( setOutput( levelFromString( level, output ) ) );
 }
       
 inline
@@ -69,7 +69,7 @@ inline
 LogLevel::Level
 LogLevel::setCurrent( const char * lvl )
 {
-  return( setCurrent( levelFromString( lvl ) ) );
+  return( setCurrent( levelFromString( lvl, current ) ) );
 }
 
 inline
@@ -150,6 +150,11 @@ operator << ( ostream & dest, const LogLevel & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/21 12:24:05  houghton
+// Changed string to log level converter to support +level and
+//     -level. These will turn the level on or off respectivly without
+//     changeing the state of other levels.
+//
 // Revision 3.1  1996/11/14 01:23:49  houghton
 // Changed to Release 3
 //
