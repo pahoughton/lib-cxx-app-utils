@@ -34,7 +34,8 @@ ClassVersion::ClassVersion(
   const char * versionString,		    // Id:
   const char * prjName,
   const char * prjVer,
-  unsigned long prjVerNumber
+  unsigned long prjVerNumber,
+  const char * prjVerTag
   )
 {
   verString = fullVersionString;
@@ -62,7 +63,7 @@ ClassVersion::ClassVersion(
   strcat( classVerString, "\n    " );
   strcat( classVerString, versionString );
 
-  bufSize = strlen( prjName ) + strlen( prjVer ) + 10;
+  bufSize = strlen( prjName ) + strlen( prjVer ) + 10 + strlen( prjVerTag );
   
   prjVerString = new char[ bufSize ];
 
@@ -72,6 +73,8 @@ ClassVersion::ClassVersion(
   strcpy( prjVerString, prjName );
   strcat( prjVerString, " - " );
   strcat( prjVerString, prjVer );
+  strcat( prjVerString, " - " );
+  strcat( prjVerString, prjVerTag );
   
 };
 
@@ -108,6 +111,9 @@ ClassVersion::getVer(
 
 
 // $Log$
+// Revision 3.3  1997/04/26 14:40:47  houghton
+// Added project tag support.
+//
 // Revision 3.2  1996/11/19 12:20:18  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.

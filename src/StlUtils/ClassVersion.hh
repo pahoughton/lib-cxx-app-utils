@@ -58,7 +58,8 @@ public:
 		const char * verIdString,	    // Id:
 		const char * prjName = "",
 		const char * prjVerNum = "",
-		unsigned long prjVer = 0 );
+		unsigned long prjVer = 0,
+		const char * prjVerTag = "" );
 
   ~ClassVersion( void );
 
@@ -94,12 +95,13 @@ private:
 };
 
 
-#define CLASS_VERSION( className_, verId_, prjName_, prjVer_, prjVerNum_ )    \
+#define CLASS_VERSION( className_, verId_, prjName_, prjVer_, prjVerNum_, prjVerTag_ )  \
 									      \
 const ClassVersion className_::version( #className_,			      \
 									      \
 "@(#) " prjName_ " - " prjVer_ "\n"					      \
 "    " #className_ " - " __FILE__ " - Compiled: " __DATE__ " " __TIME__ "\n"  \
+"    CVS Tag: " prjVerTag_ "\n"					      \
 "    " verId_,								      \
                                         __FILE__,			      \
 					__DATE__,			      \
@@ -107,7 +109,8 @@ const ClassVersion className_::version( #className_,			      \
 					verId_,				      \
 					prjName_,			      \
 					prjVer_,			      \
-					prjVerNum_ );
+					prjVerNum_,			      \
+                                        prjVerTag_ );
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClassVersion.ii>
@@ -277,6 +280,9 @@ const ClassVersion className_::version( #className_,			      \
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/04/26 14:41:01  houghton
+// Added project tag support.
+//
 // Revision 3.2  1996/11/19 12:20:26  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.

@@ -24,18 +24,25 @@
 //
 
 // Constants
-#define CLUE_PRJ_NAME	"libClue"
-#define CLUE_PRJ_VER	"3.00.00.b.01"
-#define CLUE_PRJ_VER_NUM    3000003L
+#define CLUE_PRJ_NAME	    "libClue"
+#define CLUE_PRJ_VER	    "3.02.04"
+#define CLUE_PRJ_VER_NUM    0x03020400L
+#define CLUE_PRJ_VER_TAG    "PROD_3_02"
 
 // Macros
-#define CLUE_VERSION( name_, verId_ ) \
-CLASS_VERSION( name_, verId_, CLUE_PRJ_NAME, CLUE_PRJ_VER, CLUE_PRJ_VER_NUM )
+#define CLUE_VERSION( name_, verId_ )					      \
+CLASS_VERSION( name_,							      \
+	       verId_,							      \
+	       CLUE_PRJ_NAME,						      \
+	       CLUE_PRJ_VER,						      \
+	       CLUE_PRJ_VER_NUM,					      \
+	       CLUE_PRJ_VER_TAG )
 				   
 #define CLUE_FUNCT_VERSION( name_, verId_ )				      \
 const char VERID_##name_[] =						      \
 "@(#) " CLUE_PRJ_NAME " - " CLUE_PRJ_VER "\n"				      \
 "    " #name_ " - " __FILE__ " - Compiled: " __DATE__ " "__TIME__ "\n"	      \
+"    CVS Tag: " CLUE_PRJ_VER_TAG "\n"					      \
 "    " verId_
 
 // Detail Documentation
@@ -65,6 +72,9 @@ const char VERID_##name_[] =						      \
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/04/26 14:41:11  houghton
+// Added project tag support.
+//
 // Revision 3.2  1996/11/19 12:21:15  houghton
 // Changed to Version 3
 //
