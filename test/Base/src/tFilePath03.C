@@ -2,6 +2,7 @@
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FilePath.hh>
+#include <functional>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -31,34 +32,34 @@ tFilePath03( LibTest & tester )
     FilePath t('/','-');
 
     t.setFileName( F "-" E );
-    TEST( compare( t.getFullName(), F "-" E ) == 0 );
+    TEST( compare( t.getFullName().c_str(), F "-" E ) == 0 );
 
     t.setName( "fn" );
-    TEST( compare( t.getFullName(), "fn" "-" E ) == 0 );
+    TEST( compare( t.getFullName().c_str(), "fn" "-" E ) == 0 );
 
     t.setPath( "dir" );
-    TEST( compare( t.getFullName(), "dir" "/" "fn" "-" E ) == 0 );
+    TEST( compare( t.getFullName().c_str(), "dir" "/" "fn" "-" E ) == 0 );
 
     t.setFileName( F "." "a" "-" "b" );
-    TEST( compare( t.getFullName(), "dir" "/" F "." "a" "-" "b" ) == 0 );
+    TEST( compare( t.getFullName().c_str(), "dir" "/" F "." "a" "-" "b" ) == 0 );
 
     t.setName( "FN", '.' );
-    TEST( compare( t.getFullName(), "dir" "/" "FN" "." "a" "-" "b" ) == 0 );
+    TEST( compare( t.getFullName().c_str(), "dir" "/" "FN" "." "a" "-" "b" ) == 0 );
 	  
     t.setName( "file", ".a-b" );
-    TEST( compare( t.getFullName(), "dir" "/" "file" "." "a" "-" "b" ) == 0 );
+    TEST( compare( t.getFullName().c_str(), "dir" "/" "file" "." "a" "-" "b" ) == 0 );
 
     t.setExt( "bak" );
-    TEST( compare( t.getFullName(), "dir" "/" "file" "." "a" "-" "bak" ) == 0 );
+    TEST( compare( t.getFullName().c_str(), "dir" "/" "file" "." "a" "-" "bak" ) == 0 );
 
     t.setFileName( "file" "-" "bak" "." "exe" );
-    TEST( compare( t.getFullName(), "dir" "/" "file" "-" "bak" "." "exe" ) == 0 );
+    TEST( compare( t.getFullName().c_str(), "dir" "/" "file" "-" "bak" "." "exe" ) == 0 );
 
     t.setExt( "o", '.' );
-    TEST( compare( t.getFullName(), "dir" "/" "file" "-" "bak" "." "o" ) == 0 );
+    TEST( compare( t.getFullName().c_str(), "dir" "/" "file" "-" "bak" "." "o" ) == 0 );
 
     t.setExt( "ak.o", "rown" );
-    TEST( compare( t.getFullName(), "dir" "/" "file" "-" "brown" ) == 0 );
+    TEST( compare( t.getFullName().c_str(), "dir" "/" "file" "-" "brown" ) == 0 );
   }
   
   {
@@ -87,11 +88,11 @@ tFilePath03( LibTest & tester )
   }
 
   {
-    // operator const char * ( void ) const
+    // const char * c_str( void ) const
 
     FilePath	t( ":usr:src", "test.c", ':' );
 
-    TEST( strcmp( ":usr:src:test.c", t ) == 0 );
+    TEST( strcmp( ":usr:src:test.c", t.c_str() ) == 0 );
   }
 
     

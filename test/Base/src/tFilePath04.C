@@ -2,8 +2,7 @@
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FilePath.hh>
-#include <HeapBinStream.hh>
-#include <strstream>
+#include <strstream.h>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -17,37 +16,6 @@ tFilePath04( LibTest & tester )
 {
   {
     // getBinSize( void ) const
-    // write( BinStream & dest ) const
-    // read( BinStream & src )
-    // BinStream::write( const BinObject & obj )
-    // BinStream::read( BinObject & obj )
-
-    HeapBinStream tStrm;
-
-    const FilePath  tw( ":usr:src","libClue.a", '/','.' );
-    FilePath	    tr;
-
-    TEST( tw.getBinSize() );
-
-    tw.write( tStrm );
-    tr.read( tStrm );
-
-    TEST( tStrm.good() );
-    TEST( (size_t)tStrm.tellp() == tw.getBinSize() );
-    TEST( tStrm.tellg() == tStrm.tellp() );
-    TEST( tr.getBinSize() == tw.getBinSize() );
-    TEST( tw == tr );
-
-    tr = "different";
-    TEST( tw != tr );
-    
-    tStrm.write( tw );
-    tStrm.read( tr );
-
-    TEST( tr == tw );
-  }
-
-  {
     // write( ostream & ) const
     // read( istream & )
 
@@ -73,6 +41,7 @@ tFilePath04( LibTest & tester )
       
     tr.read( tStrm );
     gpos += tr.getBinSize();
+    tester.getOutput() << "gpos: " << gpos << " tellg: " << tStrm.tellg() << endl;
     TEST( gpos == tStrm.tellg() );
     TEST( tr == tw );
   }

@@ -44,7 +44,7 @@ tFilePath01( LibTest & tester )
 
     FilePath	t( D DD F DE E );
 
-    TEST( compare( t.getFullName(), D DD F DE E ) == 0 );
+    TEST( compare( t.getFullName().c_str(), D DD F DE E ) == 0 );
   }
 
   {
@@ -52,14 +52,14 @@ tFilePath01( LibTest & tester )
 
     FilePath	t( D ":" F DE E,':' );
 
-    TEST( compare( t.getFullName(), D ":" F DE E ) == 0 );
+    TEST( compare( t.getFullName().c_str(), D ":" F DE E ) == 0 );
   }
   
   {  
     // FilePath( const char *, char, char )
     FilePath	t( D ":" F "-" E,':','-' );
 
-    TEST( compare( t.getFullName(), D ":" F "-" E ) == 0 );
+    TEST( compare( t.getFullName().c_str(), D ":" F "-" E ) == 0 );
   }
 
   {
@@ -67,7 +67,7 @@ tFilePath01( LibTest & tester )
 
     FilePath	t( D, F );
 
-    TEST( compare( t.getFullName(), D DD F ) == 0 );
+    TEST( compare( t.getFullName().c_str(), D DD F ) == 0 );
   }
 
   {
@@ -75,7 +75,7 @@ tFilePath01( LibTest & tester )
 
     FilePath	t( D, F, ':' );
 
-    TEST( compare( t.getFullName(), D ":" F ) == 0 );
+    TEST( compare( t.getFullName().c_str(), D ":" F ) == 0 );
   }
 
   {
@@ -83,7 +83,7 @@ tFilePath01( LibTest & tester )
 
     FilePath	t( D, F "-" E, ':', '-' );
 
-    TEST( compare( t.getFullName(), D ":" F "-" E ) == 0 );
+    TEST( compare( t.getFullName().c_str(), D ":" F "-" E ) == 0 );
   }
 
   return( true );
