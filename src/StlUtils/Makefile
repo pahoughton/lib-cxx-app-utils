@@ -32,7 +32,7 @@
 #
 
 makefile_type   = lib
-make_cfg_ver	= 5.02
+make_cfg_ver	= 5.03
 make_target	= default
 show_commands 	= # true
 proto_dep	= true
@@ -55,7 +55,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 4
 VER_MINOR	= 00
-VER_RELEASE	= 00.b.02
+VER_RELEASE	= 00.b.03
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -335,6 +335,10 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.9  1998/01/22 18:30:47  houghton
+# Changed version number.
+# Changed to use MakeConfigs 5.03
+#
 # Revision 4.8  1998/01/09 10:41:06  houghton
 # Changed versin number.
 #
