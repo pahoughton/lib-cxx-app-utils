@@ -1,32 +1,44 @@
-
 #ifndef _ClassVersion_hh_
 #define _ClassVersion_hh_
 //
 // File:        ClassVersion.hh
+// Project:	Clue
 // Desc:        
 //
+//  Provide information about a class's version that is accessible
+//  at run time.
 //
+// Quick Start: - short example of class usage
 //
-//  Quick Start: - short example of class usage
+//  class MyClass
+//  {
+//  public:
+//     static const ClassVersion version;
+//  };
+//
+//  in .C (.cpp or whatever)
+//
+//     const ClassVersion MyClass::version( "MyClass",
+//                                          "Version info string",
+//					    __FILE__,
+//					    __DATE__,
+//					    __TIME__,
+//					    "RCS_ID_TAG",
+//					    "ProjectName",
+//					    "2.01.05",
+//					    20105L);
+//       OR
+//
+//    CLASS_VERSION( MyClass, "RCS_ID_TAG", "ProjectName", "2.01.05", 20105L );
+//
+//    See ClueVersion.hh for another example of a helper macro.
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     10/04/95 07:04
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 2.3  1996/04/27 12:52:40  houghton
-// Cleanup.
-//
-// Revision 2.2  1995/12/04 11:16:59  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:19  houghton
-// Change to Version 2
-//
-// Revision 1.1  1995/11/05  14:48:48  houghton
-// New Class Version id method
-//
+// $Id$
 //
 
 #if !defined( CLUE_SHORT_FN )
@@ -64,6 +76,7 @@ public:
   
   inline unsigned long	getPrjVerNum( void ) const;
 
+  inline const char *	getClassName( void ) const;
   inline const char *	getVersion( bool withPrjVer = true ) const;
 
   static const ClassVersion version;
@@ -94,7 +107,7 @@ const ClassVersion className_::version( #className_,			      \
 					verId_,				      \
 					prjName_,			      \
 					prjVer_,			      \
-					prjVerNum_ )
+					prjVerNum_ );
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClassVersion.ii>
@@ -111,24 +124,82 @@ const ClassVersion className_::version( #className_,			      \
 //
 //  Constructors:
 //
-//  	ClassVersion( );
+//  	ClassVersion( const char * className,
+//		      const char * fullVerString,
+//		      const char * fileName,
+//		      const char * compileDateString,
+//		      const char * compileTimeString,
+//		      const char * verIdString,
+//		      const char * prjName = "",
+//		      const char * prjVerNum = "",
+//		      unsigned long prjVer = 0 );
+//	    Construct an instance.
+//	    Args:
+//		'className'	the name of the class this instance is for.
+//		'fullVerString'	the string returned by getVer when
+//				withPrjVer == true.
+//		'fileName'	source file name (i.e. __FILE__ ).
+//		'compileDateString'
+//				date compiled (i.e. __DATE__ ).
+//		'compileTimeString'
+//				time compiled (i.e. __DATE__ ).
+//		'verIdString'	version identifier tag that is expanded
+//				by source code control software (for
+//				rcs, cvs, rpm this is Id:).
+//		'prjName'	the name of the project, library or
+//				application your class is associated with.
+//		'prjVerNum'	the version number for the project
+//				something like '2.00.04'.
+//		'prjVer'	a long representation of your projects
+//				version identifier.
 //
 //  Destructors:
 //
+//	~ClassVersion( void );
+//
 //  Public Interface:
 //
-//  	virtual const char *
+//	inline const char *
+//	getVer( bool withPrjVer ) const;
+//	    Return a string description of the class's version. If
+//	    withPrjVer == true, the entire description will be returned.
+//	    if withPrjVer == false, just the class's version will be returned.
+//
+//	const char *
+//	getVer( bool withPrjVer, const char * baseVerString ) const;
+//	    Same as getVer( bool ) but baseVerString is appended to
+//	    the output string. This alows you to provide full version
+//	    info for all base classes and contained classes. So, if you
+//	    had 'class Sub : public Base { Type var1 }' you could call
+//	    'Sub::version.getVer( true, Base::version.getVer( false,
+//	    Type::version.getVer( false )))'. See Exmple below for more
+//	    info.
+//
+//	inline const char *
+//	getClassVer( void ) const
+//	    Return the string description of the class's version string
+//	    only. Same as getVer( false ).
+//
+//	inline const char *
+//	getPrjVer( void ) const;
+//	    Return the project version string only.
+//
+//	inline unsigned long
+//	getPrjVerNum( void ) const;
+//	    Return the project's version number. This is the same value
+//	    passed to the constructor as 'prjVer';
+//
+//	inline const char *
+//	getVersion( bool withPrjVer = true ) const;
+//	    Return the version information for ClassVersion. Calls
+//	    ClassVersion::version.getVer( withPrjVer );
+//
+//  	inline const char *
 //  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. ClassVersion )
+//  	    Return the name of this class (i.e. ClassVersion)
 //
-//  	virtual Bool
-//  	good( void ) const;
-//  	    Returns true if there are no detected errors associated
-//  	    with this class, otherwise FALSE.
-//
-//  	virtual const char *
-//  	error( void ) const
-//  	    Returns as string description of the state of the class.
+//	static const ClassVersion version;
+//	    This is the version info for ClassVersion.
 //
 //  Protected Interface:
 //
@@ -136,8 +207,57 @@ const ClassVersion className_::version( #className_,			      \
 //
 //  Other Associated Functions:
 //
-//  	ostream &
-//  	operator <<( ostream & dest, const ClassVersion & obj );
+//  Example:
+//
+//	This is how I use ClassVersion in all my classes.
+//
+//	class Thing : public Base
+//	{
+//	public:
+//	  ...
+//	  virtual const char * getVersion( bool withPrjVer = true ) const;
+//
+//	  static const ClassVersion version;
+//	private:
+//	  Stuff   stuffVar;
+//	};
+//
+//	This goes in the .C file.
+//
+//	CLASS_VERSION( Thing, "Id:", "Project", "1.00.01", 10001L );
+//
+//	const char *
+//	Thing::getVersion( bool withPrjVer ) const
+//	{
+//	  return( version.getVer( true,
+//		    Base::version.getVer( false,
+//		      stuffVar.getVersion( false ) ) ) );
+//	}
+//
+// See Also:
+//
+//  ClueConfig(3)
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.4  1996/10/25 12:47:10  houghton
+// Added: getClassName.
+// Updated documentation.
+//
+// Revision 2.3  1996/04/27 12:52:40  houghton
+// Cleanup.
+//
+// Revision 2.2  1995/12/04 11:16:59  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:19  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  14:48:48  houghton
+// New Class Version id method
+//
+//
 
 #endif // ! def _ClassVersion_hh_ 
 
