@@ -67,6 +67,8 @@ LibTest::TestItem   TestList[] =
   { "Param",		    tParam },
   { "SortOrder",	    tSortOrder },
   { "TimeIt",		    tTimeIt },
+  { "VectorResync",	    tVectorResync },
+  
 #if defined( ALL )
   { "WithCommon",	    tWithCommon },
   { "WithWcf",		    tWithWcf },
@@ -193,6 +195,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/01/05 13:09:29  houghton
+// Added tVectorResync
+//
 // Revision 4.3  1997/12/20 16:12:36  houghton
 // Added tStripTrailing.
 //

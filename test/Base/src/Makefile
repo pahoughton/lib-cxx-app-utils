@@ -276,6 +276,7 @@ CXX_C_SOURCES	=			\
 	tSortOrder.C                    \
 	tTimeIt.C			\
 	tTimeIt01.C			\
+	tVectorResync.C			\
 	$(ARCH_CXX_C_SOURCES)		\
 
 CXX_HEADERS	=			\
@@ -373,6 +374,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.5  1998/01/05 13:09:07  houghton
+# Added tVectorResync
+#
 # Revision 4.4  1997/12/20 16:12:11  houghton
 # Added tStripTrailing.
 #

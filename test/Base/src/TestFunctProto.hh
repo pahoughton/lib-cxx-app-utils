@@ -155,9 +155,16 @@ bool tLog05( LibTest & tester );
 // FileBinStream.hh
 bool	tFileBinStream( LibTest & tester );
 
+// VectorResync.hh
+bool tVectorResync( LibTest & tester );
+
+
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/01/05 13:09:20  houghton
+// Added tVectorResync
+//
 // Revision 4.3  1997/12/20 16:12:26  houghton
 // Added tStripTrailing.
 //
