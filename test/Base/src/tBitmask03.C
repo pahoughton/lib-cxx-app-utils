@@ -46,6 +46,7 @@
 #include "TestConfig.hh"
 #include "LibTest.hh"
 #include "Bitmask.hh"
+#include <Str.hh>
 #include <strstream.h>
 
 bool
@@ -104,7 +105,8 @@ tBitmask03( LibTest & tester )
 
     Bitmask t( 0x1248 );
 
-    TEST( t( 3 ) && ! t(2) );
+    TEST( t( 3 ) );
+    TEST(! t(2) );
     TEST( ! ~t(3) );
     TEST( ~t(2) );
     TEST( t.to_ulong() == 0x1248 );
@@ -124,16 +126,15 @@ tBitmask03( LibTest & tester )
 
     Bitmask t(0x8421);
     
-    strstream tStrm;
+    Str tStrm;
 
     Bitmask::b00.toStream( tStrm ) << " ";
     t(1).toStream( tStrm ) << " ";
     t(0).toStream( tStrm ) << ends;
 
-    TESTR( tStrm.str(),
-	   ! strcmp( tStrm.str(),
+    TESTR( tStrm.cstr(),
+	   ! strcmp( tStrm.cstr(),
 		     "true false true" ) );
-    tStrm.freeze(0);
   }
     
   {
@@ -169,7 +170,7 @@ tBitmask03( LibTest & tester )
       TESTR( tStrm.str(),
 	     ! strcmp( tw.to_string(), tStrm.str() ) );
       
-      tStrm.freeze(0);
+      tStrm.rdbuf()->freeze(0);
     }
   }
 
@@ -187,7 +188,7 @@ tBitmask03( LibTest & tester )
     TESTR( tStrm.str(),
 	   ! strcmp( tStrm.str(),
 		     "true false true" ) );
-    tStrm.freeze(0);
+    tStrm.rdbuf()->freeze(0);
   }
   
   {
@@ -270,6 +271,10 @@ tBitmask03( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/03/03 19:09:24  houghton
+// Changed to use Str (vs strstream).
+// Changed for port to AIX.
+//
 // Revision 3.2  1996/11/19 12:34:04  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.

@@ -99,7 +99,7 @@
 #include "TestConfig.hh"
 #include "LibTest.hh"
 #include "Bitmask.hh"
-#include <strstream.h>
+#include <Str.hh>
 #include <cstring>
 
 #define T_CLASS_NAME	"Bitmask"
@@ -323,7 +323,7 @@ tBitmask02( LibTest & tester )
 
     TEST( tw.getBinSize() );
 
-    strstream tStrm;
+    Str tStrm;
 
     streampos gpos = tStrm.tellg();
     streampos ppos = tStrm.tellp();
@@ -353,7 +353,7 @@ tBitmask02( LibTest & tester )
     Bitmask	    tr(0xffffffff);
 
     {
-      strstream tStrm;
+      Str tStrm;
 
       TEST( tw != tr );
       TEST( tw.toStream( tStrm ).good() );
@@ -363,18 +363,17 @@ tBitmask02( LibTest & tester )
     }
 
     {
-      strstream tStrm;
+      Str tStrm;
 
       TEST( tw.toStream( tStrm ).good() );
 
-      TESTR( tStrm.str(),
-	     ! strncmp( tw.to_string(), tStrm.str(), 32 ) );
+      TESTR( tStrm.cstr(),
+	     ! strncmp( tw.to_string(), tStrm.cstr(), 32 ) );
 
-      tStrm.freeze(0);
     }
 
     {
-      strstream tStrm;
+      Str tStrm;
 
       tStrm << "0101    1111";
 
@@ -388,7 +387,7 @@ tBitmask02( LibTest & tester )
     }
 
     {
-      strstream tStrm;
+      Str tStrm;
 
       tStrm << "2222";
       TEST( ! tr.fromStream( tStrm ).good() );
@@ -408,17 +407,17 @@ tBitmask02( LibTest & tester )
 
     TEST( ! strcmp( t.getClassName(), T_CLASS_NAME ) );
 
-    TEST( strstr( t.getVersion(), "@(#) libClue - " ));
-    TEST( strstr( t.getVersion(), T_CLASS_NAME ) );
-    TEST( strstr( t.getVersion(), "Compiled: " ) );
+    TEST( strstr( t.getVersion(), "@(#) libClue - " ) != 0 );
+    TEST( strstr( t.getVersion(), T_CLASS_NAME ) != 0 );
+    TEST( strstr( t.getVersion(), "Compiled: " ) != 0 );
     
-    TEST( strstr( t.getVersion(true), "@(#) libClue - " ));
-    TEST( strstr( t.getVersion(true), T_CLASS_NAME ) );
-    TEST( strstr( t.getVersion(true), "Compiled: " ) );
+    TEST( strstr( t.getVersion(true), "@(#) libClue - " )!= 0 );
+    TEST( strstr( t.getVersion(true), T_CLASS_NAME ) != 0 );
+    TEST( strstr( t.getVersion(true), "Compiled: " ) != 0 );
     
-    TEST( ! strstr( t.getVersion(false), "@(#) libClue - " ) );
-    TEST( strstr( t.getVersion(false), T_CLASS_NAME ) );
-    TEST( strstr( t.getVersion(false), "Compiled: " ) );
+    TEST( strstr( t.getVersion(false), "@(#) libClue - " ) == 0 );
+    TEST( strstr( t.getVersion(false), T_CLASS_NAME ) != 0 );
+    TEST( strstr( t.getVersion(false), "Compiled: " ) != 0 );
 
   }
 
@@ -591,17 +590,17 @@ tBitmask02( LibTest & tester )
   {
     // static const ClassVersion version
 
-    TEST( strstr( Bitmask::version.getVer(true), "@(#) libClue - " ));
-    TEST( strstr( Bitmask::version.getVer(true), T_CLASS_NAME ) );
-    TEST( strstr( Bitmask::version.getVer(true), "Compiled: " ) );
+    TEST( strstr( Bitmask::version.getVer(true), "@(#) libClue - " ) != 0 );
+    TEST( strstr( Bitmask::version.getVer(true), T_CLASS_NAME ) != 0 );
+    TEST( strstr( Bitmask::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( strstr( Bitmask::version.getVer(true), "@(#) libClue - " ));
-    TEST( strstr( Bitmask::version.getVer(true), T_CLASS_NAME ) );
-    TEST( strstr( Bitmask::version.getVer(true), "Compiled: " ) );
+    TEST( strstr( Bitmask::version.getVer(true), "@(#) libClue - " )!= 0 );
+    TEST( strstr( Bitmask::version.getVer(true), T_CLASS_NAME ) != 0 );
+    TEST( strstr( Bitmask::version.getVer(true), "Compiled: " ) != 0 );
     
-    TEST( ! strstr( Bitmask::version.getVer(false), "@(#) libClue - " ) );
-    TEST( strstr( Bitmask::version.getVer(false), T_CLASS_NAME ) );
-    TEST( strstr( Bitmask::version.getVer(false), "Compiled: " ) );
+    TEST( strstr( Bitmask::version.getVer(false), "@(#) libClue - " ) == 0);
+    TEST( strstr( Bitmask::version.getVer(false), T_CLASS_NAME ) != 0 );
+    TEST( strstr( Bitmask::version.getVer(false), "Compiled: " ) != 0 );
     
   }
   return( true );
@@ -609,6 +608,10 @@ tBitmask02( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.3  1997/03/03 19:09:05  houghton
+// Changed to use Str (vs strstream).
+// Changed for port to AIX.
+//
 // Revision 3.2  1996/11/19 12:33:58  houghton
 // Changed include lines to use " " instead of < > to accomidate rpm.
 // Removed support for short file names to accomidate rpm.
