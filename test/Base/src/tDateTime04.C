@@ -112,6 +112,21 @@ tDateTime04( LibTest & tester )
   }
 
   {
+    // setHHMMSS( const char * )
+    DateTime dt((time_t)0);
+
+    dt.setYYYYMMDD( "19971003" );
+    dt.setHHMMSS( "175817" );
+
+    TEST( dt.getYear() == 1997 );
+    TEST( dt.getMonth() == 10 );
+    TEST( dt.getDayOfMonth() == 3 );
+    TEST( dt.getHour() == 17 );
+    TEST( dt.getMinute() == 58 );
+    TEST( dt.getSecond() == 17 );
+  }
+  
+  {
     // setYear( short )
 
     DateTime	dt( "2/29/92 06:30:30" );
