@@ -15,4 +15,4 @@ CLUE_SRC_INC	= -I$(PRJ_TOPDIR)/src/arch/$(arch)/src \
 
 CLUE_SRC_LDIR	= -L$(PRJ_TOPDIR)/src/Clue
 
-ARCH_LIBS	= -lpthreads
+# ARCH_LIBS	= -lpthreads
