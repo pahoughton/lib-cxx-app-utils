@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1997/12/20 16:11:51  houghton
+// Added define MULTI_GROUP (commented out).
+//
 // Revision 4.1  1997/09/17 15:13:29  houghton
 // Changed to Version 4
 //
@@ -72,6 +75,8 @@
 #if !defined( TEST_SETGID_FILE )
 #define TEST_SETGID_FILE    "/usr/bin/write"
 #endif
+
+// #define STLUTILS_TEST_MULTI_GROUPS 1
 
 //
 // Detail Documentation
