@@ -271,6 +271,8 @@ CXX_C_SOURCES	=			\
 	tDateRangeDaily.C               \
 	tDateRangeWeekly.C              \
 	tSortOrder.C                    \
+	tTimeIt.C			\
+	tTimeIt01.C			\
 	$(ARCH_CXX_C_SOURCES)		\
 
 CXX_HEADERS	=			\
@@ -368,6 +370,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.8  1997/07/11 15:56:45  houghton
+# Added tTimeIt.C & tTimeIt01.C
+#
 # Revision 3.7  1997/04/26 14:12:36  houghton
 # Added libCommon.
 #
