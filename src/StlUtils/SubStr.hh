@@ -146,7 +146,7 @@ public:
   ostream &	    write( ostream & dest ) const;
   istream &	    read( istream & src );
   
-  inline ostream &  toStream( ostream & dest = cout ) const;
+  virtual ostream & toStream( ostream & dest = cout ) const;
 
   friend inline ostream &  operator << ( ostream & dest, const SubStr & src ); 
   friend inline istream &  operator >> ( istream & src, SubStr & dest ); 
@@ -438,6 +438,10 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/08/28 16:33:07  houghton
+// Bug-Fix: changed toStream to virtual (was inline) and added support
+//     for setw(n) (the width was being ignored).
+//
 // Revision 3.4  1997/08/17 22:35:46  houghton
 // Added size_type.
 // Added copy( const char * ... ).
