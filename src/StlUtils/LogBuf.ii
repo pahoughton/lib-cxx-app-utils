@@ -160,6 +160,7 @@ inline
 streambuf *
 LogBuf::tee( streambuf * teeStreambuf )
 {
+  sync();
   streambuf * old = teeStream;
   teeStream = teeStreambuf;
   return( old );
@@ -167,32 +168,53 @@ LogBuf::tee( streambuf * teeStreambuf )
 
 inline
 bool
-LogBuf::isFile( void ) const
+LogBuf::is_file( void ) const
 {
   return( streamIsFile );
 }
 
 inline
 bool
-LogBuf::filter( const char * regexStr )
+LogBuf::is_open( void ) const
 {
-  regex = new RegexScan( regexStr );
-  newMesg = false;
-  return( regex != 0 && regex->good() );
+  return( stream != 0 );
 }
 
 inline
 bool
+LogBuf::filter( const char * regexStr )
+{
+  sync();
+  if( regex )
+    {     
+      delete regex;
+      regex = 0;
+    }
+
+  if( regexStr )
+    {
+      regex = new RegexScan( regexStr, true );
+      newMesg = false;
+    }
+  
+  return( regex != 0 && regex->good() );
+}
+
+inline
+streambuf *
 LogBuf::delFilter( FilterId id )
 {
+  sync();
+  streambuf * dest = 0;
   if( id < (long)filters.size() && filters[id].dest != 0 )
     {
+      dest = filters[id].dest;
       filters[id].dest = 0;
       if( filters[id].regex )
 	delete filters[id].regex;
       filters[id].regex = 0;
     }
-  return( true );
+  return( dest );
 }
 
 #if defined( inline )
@@ -203,6 +225,23 @@ LogBuf::delFilter( FilterId id )
 // Revision Log:
 //
 // $Log$
+// Revision 2.5  1996/11/13 16:56:04  houghton
+// Bug-Fix: tee() - added a call to sync so that only entries
+//     added after the call to tee() will be written to the tee's
+//     stream.
+// Changed isFile() to is_file() to be more consistant with the
+//     standard filebuf::is_open().
+// Added is_open() to detect if there is a valid primary stream open.
+// Changed filter() to accept a '0' which causes any existing
+//     filter to be removed.
+// Changed filter() - added a call to sync() so that
+//     only entries put in the log after the call to fitler() will be
+//     fitlered.
+// Changed delFitler() - to return the streambuf that was given as
+//     the filter's destination.
+// Changed delFitler() - added a call to sync to flush any entries
+//     in the buffer to the dest before it is removed.
+//
 // Revision 2.4  1996/11/04 14:07:07  houghton
 // Restructure header comments layout.
 // Reorder Constructor args and initalize varabiles.
