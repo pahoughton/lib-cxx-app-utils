@@ -98,7 +98,7 @@ PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
 DEFAULT_DEFINES = -DTEST_DEFAULT=1
 DEBUG_DEFINES	= -DTEST_DEBUG=1 -DSTLUTILS_DEBUG=1
-TEST_DEFINES	= -DTEST_TEST=1 $(DEBUG_DEFINES)
+TEST_DEFINES	= -DSTLUTILS_TEST=1 $(DEBUG_DEFINES)
 PROFILE_DEFINES	= -DTEST_PROFILE=1
 STATIC_DEFINES	= -DTEST_STATIC=1
 SHARED_DEFINES	= -DTEST_SHARED=1
@@ -281,6 +281,7 @@ CXX_C_SOURCES	=			\
 	tLog09.C			\
 	tParam.C                        \
 	tParam01.C                      \
+	tParam03.C			\
 	tFilePath.C                     \
 	tFilePath01.C                   \
 	tFilePath02.C                   \
@@ -473,6 +474,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.16  1999/11/09 11:11:00  houghton
+# Added tParam03.C.
+#
 # Revision 4.15  1999/05/01 12:56:16  houghton
 # Added tStr27.C
 #
