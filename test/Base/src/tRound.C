@@ -50,7 +50,23 @@ tRound( LibTest & tester )
     TEST( Round( t, 5 ) == 15 );
     t = 14;
     TEST( Round( t, 5 ) == 15 );
-
+    
+    t = -32;
+    TEST( Round( t, 5 ) == -30 );
+    t = -33;
+    TEST( Round( t, 5 ) == -35 );
+    t = -34;
+    TEST( Round( t, 5 ) == -35 );
+    
+    t = -33;
+    TEST( Round( t, 10 ) == -30 );
+    t = -34;
+    TEST( Round( t, 10 ) == -30 );
+    t = -35;
+    TEST( Round( t, 10 ) == -40 );
+    t = -36;
+    TEST( Round( t, 10 ) == -40 );
+    
     TEST( Round( 23, 5 ) == 25 ); // doc example
   }
 
@@ -101,6 +117,15 @@ tRound( LibTest & tester )
     t = 14;
     TEST( RoundUp( t, 5 ) == 15 );
 
+    t = -30;
+    TEST( RoundUp( t, 10 ) == -30 );
+    t = -32;
+    TEST( RoundUp( t, 10 ) == -30 );
+    t = -34;
+    TEST( RoundUp( t, 10 ) == -30 );
+    t = -39;
+    TEST( RoundUp( t, 10 ) == -30 );
+    
     TEST( RoundUp( 22, 5 ) == 25 ); // doc example
   }
   
@@ -128,6 +153,15 @@ tRound( LibTest & tester )
     t = 14;
     TEST( RoundDown( t, 5 ) == 10 );
 
+    t = -32;
+    TEST( RoundDown( t, 10 ) == -40 );
+    t = -34;
+    TEST( RoundDown( t, 10 ) == -40 );
+    t = -39;
+    TEST( RoundDown( t, 10 ) == -40 );
+    t = -40;
+    TEST( RoundDown( t, 10 ) == -40 );
+    
     TEST( RoundDown( 23, 5 ) == 20 ); // doc example
   }
 
@@ -136,6 +170,9 @@ tRound( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.2  1998/10/23 13:09:13  houghton
+// Added tests for negative values.
+//
 // Revision 4.1  1997/09/17 15:14:30  houghton
 // Changed to Version 4
 //
