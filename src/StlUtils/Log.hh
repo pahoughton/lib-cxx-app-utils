@@ -60,7 +60,9 @@ class Log : public ostream
 public:
 
   inline Log( ostream & 	outStream = cout,
-	      LogLevel::Level 	outLevel = LogLevel::Error,
+	      LogLevel::Level 	outLevel = ( LogLevel::Error |
+					     LogLevel::Warn |
+					     LogLevel::Info ),
 	      bool		stampLevel = true,
 	      bool		stampTime = true,
 	      bool		stampLoc = true );
@@ -72,7 +74,9 @@ public:
 	      bool		stampLoc = true ); 
   
   inline Log( const char * 	fileName,
-	      LogLevel::Level 	outLevel = LogLevel::Error,
+	      LogLevel::Level 	outLevel = ( LogLevel::Error |
+					     LogLevel::Warn |
+					     LogLevel::Info ),
 	      ios::open_mode	mode = ios::app,
 	      int		prot = filebuf::openprot,
 	      bool		stampLevel = true,
@@ -148,7 +152,7 @@ public:
 				       LogLevel::Level outputLevel,
 				       const char *    regex = 0 );
 
-  inline streambuf *		    delFilter( LogBuf::FilterId id );
+  inline streambuf *	    delFilter( LogBuf::FilterId id );
 
   
   inline LogBuf *	    rdbuf( void );
@@ -179,6 +183,7 @@ private:
   bool		timeStamp;
   bool		levelStamp;
   bool		locStamp;
+  bool		localTimeStamp;
   
   Mutex		mutex;
   
@@ -614,6 +619,12 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/21 12:22:07  houghton
+// Cleanup.
+// Changed default output level to be Error|Warn|Info.
+// Added localTimeStamp var to determin if logtime stamp should be
+//     local or GMT.
+//
 // Revision 3.2  1996/11/15 15:50:39  houghton
 // Fixed header comments (Thank you Chris!).
 //
