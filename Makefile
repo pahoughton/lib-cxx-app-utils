@@ -8,8 +8,9 @@
 # $Id$
 #
 
-show_commands	= # true
+show_commands	= false
 check_install	= true
+hide		= @
 
 PROJECT		= libStlUtils-4
 
@@ -18,26 +19,35 @@ CFG_DIR		= $(PRJ_TOPDIR)/src/config
 
 INSTALL_INC_DIR = $(TOOL_DIR)/include/prod
 INSTALL_LIB_DIR = $(TOOL_DIR)/lib/prod
-INSTALL_BIN_DIR	= $(TOOL_DIR)/bin
 INSTALL_MAN_DIR = $(TOOL_DIR)/man
 
 common_h	= $(INSTALL_INC_DIR)/Common.h
 gnuregex_h	= $(INSTALL_INC_DIR)/GnuRegex.h
 stdcxx_hh	= $(INSTALL_INC_DIR)/StdCxxConfig.hh
 
+hide = @
 
-exports	    = 					\
-	INSTALL_BIN_DIR=$(INSTALL_BIN_DIR)	\
+setup_exports		=			\
 	INSTALL_INC_DIR=$(INSTALL_INC_DIR)	\
 	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)	\
-	INSTALL_MAN_DIR=$(INSTALL_MAN_DIR)	\
+	INSTALL_DOC_DIR=$(INSTALL_DOC_DIR)	\
+	show_commands=$(show_commands)		\
+	check_install=$(check_install)
+
+exports			=			\
 	show_commands=$(show_commands)		\
 	check_install=$(check_install)
 
 no_target: help
 
 setup:
-	$(MAKE) -f $(PROJECT)/support/Setup.Makefile $(exports) setup
+	$(MAKE) -f $(PROJECT)/support/Setup.Makefile $(setup_exports) setup
+	$(TOOL_DIR)/bin/make -C $(PROJECT) realclean depend_all
+	$(hide) echo 
+	$(hide) echo "+ $(PROJECT) setup complete."
+	$(hide) echo 
+
+
 
 verify_setup:
 	@ if [ -z "$$TOOL_DIR" ] ; then					      \
@@ -113,7 +123,8 @@ install_all: verify_setup
 	@ echo + $(PROJECT) $@ complete
 
 help targets:
-	@ echo " + The following targets are available:"
+	@ echo 
+	@ echo "+ The following targets are available:"
 	@ echo 
 	@ echo "    setup"
 	@ echo 
@@ -134,23 +145,34 @@ help targets:
 	@ echo "    install"
 	@ echo "    install_all"
 	@ echo
-	@ echo " + Use the help_config target to see the available"
-	@ echo "   configuration overides."
+	@ echo "+ Use the help_config target to see the available"
+	@ echo "  configuration overides."
 	@ echo
 
 help_config:
-	@ echo " + The following configuration variables are available:"
-	@ echo
-	@ echo "    INSTALL_BIN_DIR=$(INSTALL_BIN_DIR)"
-	@ echo "    INSTALL_INC_DIR=$(INSTALL_INC_DIR)"
-	@ echo "    INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)"
-	@ echo "    INSTALL_MAN_DIR=$(INSTALL_MAN_DIR)"
-	@ echo "    show_commands=$(show_commands)"
-	@ echo "    check_install=$(check_install)"
-	@ echo
+	@ if [ -f $(CFG_DIR)/Setup.cfg ] ; then				      \
+	  $(MAKE) -f $(CFG_DIR)/Setup.cfg help_config ;			      \
+	else								      \
+	  if [ -f $(PROJECT)/$(CFG_DIR) ] ; then			      \
+	    $(MAKE) -f $(PROJECT)/$(CFG_DIR)/Setup.cfg help_config ;	      \
+	  else								      \
+	    echo ;							      \
+	    echo "+ The following configuration variables are available:" ;   \
+	    echo ;							      \
+	    echo "    INSTALL_INC_DIR=$(INSTALL_INC_DIR)" ;		      \
+	    echo "    INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)" ;		      \
+	    echo "    INSTALL_DOC_DIR=$(INSTALL_DOC_DIR)" ;		      \
+	    echo "    show_commands=$(show_commands)" ;			      \
+	    echo "    check_install=$(check_install)" ;			      \
+	    echo ;							      \
+	  fi ;								      \
+	fi 
 
 #
 # $Log$
+# Revision 4.7  1999/11/09 10:59:52  houghton
+# Changed setup to generate Setup.cfg.
+#
 # Revision 4.6  1999/10/30 12:26:41  houghton
 # Bug-Fix: typo.
 # Cleanup verify_setup error message.
