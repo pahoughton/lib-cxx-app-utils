@@ -15,19 +15,11 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <LogLevel.hh>
-#include <Compare.hh>
-#include <strstream>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <LogLvl.hh>
-#include <Compare.hh>
-#include <strstream>
-#endif
+#include "TestConfig.hh"
+#include "LibTest.hh"
+#include "LogLevel.hh"
+#include "Compare.hh"
+#include <strstream.h>
 
 #define T_CLASS_NAME	"LogLevel"
 
@@ -294,6 +286,14 @@ tLogLevel( LibTest & tester )
       TEST( compare( LogLevel::getLevelNames( LogLevel::App2 |
 					      LogLevel::Debug ),
 		     "U2 Name | DEBUG" ) == 0 );
+    }
+
+    {
+      // ok now change it back
+      LogLevel t;
+
+      t.setName( LogLevel::App2, "APP2" );
+      TEST( compare( t.getName( LogLevel::App2 ), "APP2" ) == 0 );
     }
   }
   
@@ -613,6 +613,12 @@ tLogLevel( LibTest & tester )
  
 //
 // $Log$
+// Revision 2.5  1996/11/13 17:23:00  houghton
+// Chagned include "file" to include <file> to
+//     accomidate rpm.
+// Removed support for short file names.
+// Change the name for App2 back so it does not effect other test.
+//
 // Revision 2.4  1996/11/04 14:49:59  houghton
 // Added header comments.
 // Chagned to test everything in LogLevel.hh
