@@ -1,9 +1,9 @@
 //
-// File:        File.C
+// File:        FileOp.C
 // Project:	StlUtils
 // Desc:        
 //
-//  Compiled sources for File
+//  Compiled sources for FileOp
 //  
 // Author:      Paul Houghton 719-527-7834 - (paul.houghton@wcom.com)
 // Created:     03/08/98 07:33
@@ -15,7 +15,7 @@
 //  Version:	    $Revision$
 //
 
-#include "File.hh"
+#include "FileOp.hh"
 #include <Str.hh>
 #include <cstdio>
 #include <cstring>
@@ -24,204 +24,37 @@
 #include <fcntl.h>
 
 #if defined( STLUTILS_DEBUG )
-#include "File.ii"
+#include "FileOp.ii"
 #endif
 
 STLUTILS_VERSION(
-  File,
+  FileOp,
   "$Id$");
 
+const char *	FileOp::OpTypeName[] =
+{
+  "copy",
+  "move",
+  0
+};
 
-File::File( void )
+FileOp::FileOp( void )
   : osError( 0 )
 {
 }
 
-File::File( const char * srcFn )
+FileOp::FileOp( const char * srcFn )
   : src( srcFn ),
     osError( 0 )
 {
 }
 
-File::~File( void )
+FileOp::~FileOp( void )
 {
 }
 
 bool
-File::copy( const char * destFn )
-{
-  if( ! good() )
-    return( false );
-
-  dest( destFn );
-
-  if( dest.good() )
-    {
-      if( dest.isReg() )
-	{
-	  if( remove( dest.getName().c_str() ) )
-	    return( setError( errno, "removing dest", dest.getName() ) );
-	}
-      else
-	{
-	  if(  dest.isDir() )
-	    {
-	      FilePath destFullName( dest.getName() );
-      
-	      if( destFullName.size()
-		  && destFullName.at( destFullName.size() - 1 ) == '/' )
-		destFullName << src.getName().getFileName();
-	      else
-		destFullName << '/' << src.getName().getFileName();
-
-	      dest( destFullName );
-
-	      if( dest.good() && dest.isReg() )
-		{
-		  if( remove( dest.getName().c_str() ) )
-		    return( setError( errno, "removing dest", dest.getName() ) );
-		}
-	    }
-	}
-    }
-
-  int destFd;
-  int srcFd;
-
-  if( (srcFd = open( src.getName().c_str(), O_RDONLY, 0 ) ) < 0 )
-    return( setError( errno, "opening src", src.getName() ) );
-    
-  
-  if( (destFd = open( dest.getName().c_str(),
-		      O_WRONLY | O_CREAT | O_TRUNC,
-		      0600 ) ) < 0 )
-    {
-      close( srcFd );
-      return( setError( errno, "opening dest", dest.getName() ) );
-    }
-
-  
-  size_type	readLen;
-  char		buffer[ 1024 * 8 ];
-  
-  while( (readLen = readfd( srcFd, buffer, sizeof( buffer ) ) ) > 0 )
-    {
-      if( writefd( destFd, buffer, readLen ) < 0 )
-	{
-	  close( srcFd );
-	  close( destFd );
-	  remove( dest.getName() );
-	  return( setError( errno, "writing to dest", dest.getName() ) );
-	}
-    }
-
-  if( readLen < 0 )
-    {
-      close( srcFd );
-      close( destFd );
-      remove( dest.getName() );
-      return( setError( errno, "reading src", src.getName() ) );
-    }
-
-  if( close( srcFd ) < 0 )
-    {
-      close( destFd );
-      remove( dest.getName() );
-      return( setError( errno, "closing src", src.getName() ) );
-    }
-
-  if( close( destFd ) < 0 )
-    {
-      return( setError( errno, "closing dest", dest.getName() ) );
-    }
-
-  return( setDestStat() );
-  
-  return( true );
-}
-
-bool
-File::move( const char * destFn )
-{
-
-  if( ! good() )
-    return( false );
-
-  dest( destFn );
-
-  if( dest.good() )
-    {
-      if( dest.isReg() )
-	{
-	  if( dest.canWrite() )
-	    {
-	      return( moveFile() );
-	    }
-	  else
-	    {
-	      // can not write.
-	      return( setError( EPERM, "cant write to dest.", dest.getName() ) );
-	    }
-	}
-      else
-	{
-	  if( dest.isDir() )
-	    {
-	      
-	      FilePath destFullName( dest.getName() );
-      
-	      if( destFullName.size()
-		  && destFullName.at( destFullName.size() - 1 ) == '/' )
-		destFullName << src.getName().getFileName();
-	      else
-		destFullName << '/' << src.getName().getFileName();
-	      
-	      dest( destFullName );
-
-	      return( moveFile() );
-	    }
-	  else
-	    {
-	     return( setError( 0, "dest not a file or dir", dest.getName() ) );
-	    }
-	}
-    }
-  else
-    {
-      FileStat destDir( dest.getName().getPath() );
-
-      if( destDir.good() && destDir.isDir() )
-	{
-	  if( destDir.getDevice() == src.getDevice() )
-	    {
-	      if( rename( src.getName(), dest.getName() ) )
-		return( setError( errno,
-				  "renaming to dest",
-				  dest.getName() ) );
-	      return( setDestStat() );
-	    }
-	  else
-	    {
-	      if( copy( dest.getName() ) )
-		{
-		  if( remove( src.getName() ) )
-		    return( setError( errno, "removing src", src.getName() ) );
-		}
-	    }
-	}
-    }
-
-  return( true );
-}
-      
-
-		  
-				
-				
-		      
-
-bool
-File::clear( void )
+FileOp::clear( void )
 {
   osError = 0;
   errorDesc.reset();
@@ -229,7 +62,7 @@ File::clear( void )
 }
 
 bool
-File::good( void ) const
+FileOp::good( void ) const
 {
   return( osError == 0
 	  && errorDesc.size() == 0
@@ -237,11 +70,11 @@ File::good( void ) const
 }
 
 const char *
-File::error( void ) const
+FileOp::error( void ) const
 {
   static Str errStr;
 
-  errStr = File::getClassName();
+  errStr = FileOp::getClassName();
 
   if( good() )
     {
@@ -281,31 +114,31 @@ File::error( void ) const
 }
 
 const char *
-File::getClassName( void ) const
+FileOp::getClassName( void ) const
 {
-  return( "File" );
+  return( "FileOp" );
 }
 
 const char *
-File::getVersion( bool withPrjVer ) const
+FileOp::getVersion( bool withPrjVer ) const
 {
   return( version.getVer( withPrjVer ) );
 }
 
 
 ostream &
-File::dumpInfo(
+FileOp::dumpInfo(
   ostream &	destStream,
   const char *	prefix,
   bool		showVer
   ) const
 {
   if( showVer )
-    destStream << File::getClassName() << ":\n"
-	       << File::getVersion() << '\n';
+    destStream << FileOp::getClassName() << ":\n"
+	       << FileOp::getVersion() << '\n';
 
-  if( ! File::good() )
-    destStream << prefix << "Error: " << File::error() << '\n';
+  if( ! FileOp::good() )
+    destStream << prefix << "Error: " << FileOp::error() << '\n';
   else
     destStream << prefix << "Good" << '\n';
 
@@ -323,39 +156,170 @@ File::dumpInfo(
 }
 
 bool
-File::moveFile( void )
+FileOp::setDest( OpType opType, const char * fn, bool overwrite )
 {
-  if( dest.getDevice() == src.getDevice() )
-    {
-      // same device
-      if( dest.getInode() == src.getInode() )
-	return( setError( 0, "dest and src are the same file.", dest.getName() ) );
+  dest( fn );
 
-      if( dest.good() )
-	{
-	  // there is an existing file in the way.
-	  if( remove( dest.getName() ) )
-	    return( setError( errno, "removing dest", dest.getName() ) );
-	}
-      
-      if( rename( src.getName(), dest.getName() ) )
-	return( setError( errno, "renaming to dest", dest.getName() ) );
-    }
-  else
+  if( dest.good() )
     {
-      // different device have to copy 
-      if( copy( dest.getName() ) )
+      if( dest.isDir() )
 	{
-	  if( remove( src.getName() ) )
-	    return( setError( errno, "removing src", src.getName() ) );
+	  FilePath destFullName( dest.getName() );
+	  
+	  if( destFullName.size()
+	      && ( destFullName.at( destFullName.size() - 1 )
+		   == destFullName.dirSep() ) )
+	    destFullName << src.getName().getFileName();
+	  else
+	    destFullName << destFullName.dirSep()
+			 << src.getName().getFileName();
+	  
+	  dest( destFullName );
+
+	  if( ! dest.good() )
+	    return( true );
+	}
+
+      // this is now either the orig file or the orig dir
+      // with the file name appended.
+      if( dest.isReg() )
+	{
+	  if( overwrite )
+	    {
+	      if( opType == OT_Move )
+		{
+		  if( ! dest.canWrite() )
+		    {
+		      return( setError( EPERM,
+					opType, 
+					"can't write to dest",
+					dest.getName() ) );
+		    }
+		}
+	      if( ! removeFile( dest.getName() ) )
+		return( false );
+	    }
+	  else
+	    {
+	      return( setError( 0,
+				opType,
+				"(no overwite) dest exists",
+				dest.getName() ) );
+	    }
+	}
+      else
+	{
+	  // not a reg && not a dir
+	  return( setError( 0,
+			    opType,
+			    "can't overwrite NON regulare file",
+			    dest.getName() ) );
 	}
     }
+  return( true );
+}
+  
+bool
+FileOp::copyFile( void )
+{
+  int destFd;
+  int srcFd;
+
+  if( (srcFd = open( src.getName().c_str(), O_RDONLY, 0 ) ) < 0 )
+    return( setError( errno, "opening src", src.getName() ) );
+    
+  
+  if( (destFd = open( dest.getName().c_str(),
+		      O_WRONLY | O_CREAT | O_TRUNC,
+		      0600 ) ) < 0 )
+    {
+      close( srcFd );
+      return( setError( errno, "opening dest", dest.getName() ) );
+    }
+  
+  size_type	readLen;
+  char		buffer[ 1024 * 8 ];
+  
+  while( (readLen = readfd( srcFd, buffer, sizeof( buffer ) ) ) > 0 )
+    {
+      if( writefd( destFd, buffer, readLen ) < 0 )
+	{
+	  close( srcFd );
+	  close( destFd );
+	  removeFile( dest.getName() );
+	  return( setError( errno, "writing to dest", dest.getName() ) );
+	}
+    }
+
+  if( readLen < 0 )
+    {
+      close( srcFd );
+      close( destFd );
+      removeFile( dest.getName() );
+      return( setError( errno, "reading src", src.getName() ) );
+    }
+
+  if( close( srcFd ) < 0 )
+    {
+      close( destFd );
+      removeFile( dest.getName() );
+      return( setError( errno, "closing src", src.getName() ) );
+    }
+
+  if( close( destFd ) < 0 )
+    {
+      return( setError( errno, "closing dest", dest.getName() ) );
+    }
+
+  return( setDestStat() );
   
   return( true );
 }
 
 bool
-File::setDestStat( void )
+FileOp::moveFile( void )
+{
+
+  FileStat destDir( dest.getName().getPath() );
+
+  if( destDir.good() && destDir.isDir() )
+    {
+      if( destDir.getDevice() == src.getDevice() )
+	{
+	  if( ::rename( src.getName(), dest.getName() ) )
+	    return( setError( errno,
+			      "renaming to dest",
+			      dest.getName() ) );
+	  return( setDestStat() );
+	}
+      else
+	{
+	  if( ! copyFile() )
+	    return( false );
+	    
+	  if( ! removeFile( src.getName() ) )
+	    return( false );
+	}
+    }
+  else
+    {
+      return( setError( 0,
+			"dest directory device unknown",
+			destDir.getName() ) );
+    }  
+}
+
+bool
+FileOp::removeFile( const char * fn )
+{
+  if( ::remove( fn ) )
+    return( setError( errno, "removing", fn ) );
+  else
+    return( true );
+}
+
+bool
+FileOp::setDestStat( void )
 {
   dest( dest.getName() );
   
@@ -376,8 +340,8 @@ File::setDestStat( void )
   return( true );
 }
 
-File::size_type
-File::readfd( int fd, void * destBuf, size_t destSize )
+FileOp::size_type
+FileOp::readfd( int fd, void * destBuf, size_t destSize )
 {
   int bytes;
 
@@ -396,8 +360,8 @@ File::readfd( int fd, void * destBuf, size_t destSize )
 }
 
       
-File::size_type
-File::writefd( int fd, const void * srcBuf, size_t srcLen )
+FileOp::size_type
+FileOp::writefd( int fd, const void * srcBuf, size_t srcLen )
 {
   int bytes(0);
   int written;
@@ -421,17 +385,43 @@ File::writefd( int fd, const void * srcBuf, size_t srcLen )
   return( bytes );
 }
       
-      
-  
-  
 
 bool
-File::setError( int osErr, const char * desc, const char * fileName )
+FileOp::setError( int osErr, const char * desc, const char * fileName )
 {
+  clear();
+  
   osError = osErr;
 
-  errorDesc << desc << " '" << fileName << "' - "
-	    << strerror( osError ) << '.';
+  errorDesc << desc << " '" << fileName << '\'';
+
+  if( osErr )
+    errorDesc << "' - " << strerror( osError ) << '.';
+  else
+    errorDesc << '.';
+  
+  return( osError == 0 );
+}
+
+bool
+FileOp::setError(
+  int osErr,
+  OpType op,
+  const char * desc,
+  const char * fileName
+  )
+{
+  clear();
+  
+  osError = osErr;
+
+  errorDesc << OpTypeName[ op ] << ' ' << desc << " '" << fileName << '\'';
+
+  if( osErr )
+    errorDesc << "' - " << strerror( osError ) << '.';
+  else
+    errorDesc << '.';
+  
   return( osError == 0 );
 }
 
@@ -439,6 +429,11 @@ File::setError( int osErr, const char * desc, const char * fileName )
 // Revision Log:
 //
 // $Log$
+// Revision 1.4  1998/11/02 19:20:33  houghton
+// Major rework.
+// Added protected:setDest();
+// Added protected:removeFile();
+//
 // Revision 1.3  1998/03/13 12:33:52  houghton
 // Bug-Fix: if just doing a rename, don't no reason to set times or mode.
 //
