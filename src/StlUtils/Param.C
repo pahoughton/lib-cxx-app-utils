@@ -1183,8 +1183,10 @@ Param::appendHelp(
 
   argHelp.setf( ios::left, ios::adjustfield );
 
-  size_t    contLinePadSize = max( (size_t)10, strlen( argId ))  + 3 + 1;
+  size_t    contLinePadSize(16); // = max( (size_t)10, strlen( argId ))  + 3 + 1;
+  size_t    argIdLen( strlen( argId ) );
 
+    
   argHelp << desc ;
 
   if( envVar )
@@ -1195,10 +1197,16 @@ Param::appendHelp(
 
   argHelp.wrap( 79, contLinePadSize );
 
-  argHelp[2UL] = '-';
-  
-  argHelp.replace( 3, strlen( argId ), argId );
-  
+  if( argIdLen >= 13 )
+    {
+      helpString << "  -" << argId << '\n';
+    }
+  else
+    {
+      argHelp[2UL] = '-';
+      argHelp.replace( 3, argIdLen, argId );
+    }
+      
   helpString += argHelp;
   
 #if defined( OLD_WAY )
@@ -1265,6 +1273,9 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 4.7  1999/11/04 17:33:06  houghton
+// Changed help output format (much cleaner now i think:).
+//
 // Revision 4.6  1999/10/28 14:21:07  houghton
 // Added errorlog support.
 // Changed arg names.
