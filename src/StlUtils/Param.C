@@ -588,7 +588,7 @@ Param::getArgValue( const char * argId, const char * envVar )
 	      // and erase it from the vector.
 	      for( them++; them != argv.end(); ++ them )
 		{
-		  if( (*them).size() > 1 &&
+		  if( (*them).size() &&
 		      (*them)[0] != '-' )
 		    {
 		      value = *them;
@@ -1043,6 +1043,9 @@ Param::argULong(
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/03/15 17:59:01  houghton
+// Bug-Fix: would not find arg value 1 char wide.
+//
 // Revision 3.6  1997/03/03 19:02:57  houghton
 // Bug-Fix: was returning 'good' changed to 'good()'.
 //
