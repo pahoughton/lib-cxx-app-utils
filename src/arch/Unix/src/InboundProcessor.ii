@@ -36,11 +36,32 @@ InboundProcessor<Proc>::InboundProcessor(
 {
 }
 
+template< class Proc >
+InboundProcessor<Proc>::InboundProcessor(
+  const char *		fileNamePattern,
+  const char *		inDirName,
+  const char *		procDirName,
+  long			rescanWaitSecs,
+  const SigCatcher *	sigCatcher,
+  Proc &		processor
+  )
+  : InboundProcessorBase( fileNamePattern,
+			  inDirName,
+			  procDirName,
+			  rescanWaitSecs,
+			  sigCatcher ),
+    proc( processor )
+{
+}
+
 // Revision Log:
 // 
 // $Log$
+// Revision 3.2  1997/07/25 12:17:37  houghton
+// Added constructor that takes a SigCatcher arg.
+//
 // Revision 3.1  1997/07/25 12:07:19  houghton
-// Added constructor that takes a SigCatcher.
+// Changed version number to 3.
 //
 // Revision 1.1  1997/07/20 18:52:01  houghton
 // Initial Version.
