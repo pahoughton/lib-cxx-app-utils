@@ -11,26 +11,15 @@
 // Revision History: (See end of file for Revision Log)
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "LogLevel.hh"
 #include "ClueUtils.hh"
 #include "Bit.hh"
 #include "StringUtils.hh"
-#include <strstream>
+#include <rw/cstring.h>
 #include <cstring>
-#else
-#include "LogLvl.hh"
-#include "Clue.hh"
-#include "Bit.hh"
-#include <cstring>
-#endif
 
 #if defined( CLUE_DEBUG )
-#if !defined( CLUE_SHORT_FN )
 #include "LogLevel.ii"
-#else
-#include "LogLvl.ii"
-#endif
 #endif
 
 CLUE_VERSION(
@@ -249,7 +238,7 @@ LogLevel::dumpInfo(
     pre += output.getClassName() ;
     pre += "::";
     
-    output.dumpInfo( dest, pre.str(), false ) << '\n';
+    output.dumpInfo( dest, pre, false ) << '\n';
   }
 
   {
@@ -258,7 +247,7 @@ LogLevel::dumpInfo(
     pre += "current: ";
     pre += current.getClassName();
     pre += "::" ;
-    current.dumpInfo( dest, pre.str(), false ) << '\n';
+    current.dumpInfo( dest, pre, false ) << '\n';
   }
   
   dest << prefix << "output:    " << getLevelNames( output ) << '\n';
@@ -295,6 +284,13 @@ LogLevel::levelFromString( const char * level )
 // Revision Log:
 //
 // $Log$
+// Revision 2.11  1996/11/13 16:58:15  houghton
+// Changed include lines from "file" to <file"
+//     to accomidate rpm.
+// Removed support for short file names.
+// Bug-Fix: fixed some compile error associated with the change to
+//     RWCString.
+//
 // Revision 2.10  1996/11/11 13:34:53  houghton
 // Changed to use RWCString instead of strstream where possible because
 //     of an inconsitancy in the public member of strstream.
