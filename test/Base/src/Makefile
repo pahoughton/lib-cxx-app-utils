@@ -59,7 +59,8 @@ SRC_DEFINES	= -DTEST_DATA_DIR=\"$(TEST_DATA_DIR)\" 	\
 		  -DTEST_GROUP=\"$(TEST_GROUP)\"	\
 		  -DTEST_UID=$(TEST_UID)		\
 		  -DTEST_GID=$(TEST_GID)		\
-		  -DTEST_LINE_PROGRESS=false
+		  -DTEST_LINE_PROGRESS=false		\
+		  -DHOST_BLURR				\
 
 PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
@@ -273,6 +274,9 @@ CXX_C_SOURCES	=			\
 	tDateRange.C                    \
 	tDateRangeDaily.C               \
 	tDateRangeWeekly.C              \
+	tFile.C				\
+	tFile01.C			\
+	tFile02.C			\
 	tSortOrder.C                    \
 	tTimeIt.C			\
 	tTimeIt01.C			\
@@ -374,6 +378,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.6  1998/03/11 16:11:20  houghton
+# Added define for host.
+#
 # Revision 4.5  1998/01/05 13:09:07  houghton
 # Added tVectorResync
 #
