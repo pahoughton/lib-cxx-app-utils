@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:30:04  houghton
+// Changed include from strstream to strstream.h because strstream
+//     is not part of the standard.
+//
 // Revision 3.1  1996/11/14 01:25:11  houghton
 // Changed to Release 3
 //
@@ -40,7 +44,7 @@
 #include "UserGroup.hh"
 #include "User.hh"
 #include "Compare.hh"
-#include <strstream>
+#include <strstream.h>
 #include <climits>
 #include <cerrno>
 #include <pwd.h>

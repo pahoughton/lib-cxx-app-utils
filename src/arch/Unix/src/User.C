@@ -10,6 +10,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:29:58  houghton
+// Changed include from strstream to strstream.h because strstream
+//     is not part of the standard.
+//
 // Revision 3.1  1996/11/14 01:25:09  houghton
 // Changed to Release 3
 //
@@ -39,7 +43,7 @@
 #include "User.hh"
 #include "Compare.hh"
 #include "LibLog.hh"
-#include <strstream>
+#include <strstream.h>
 
 #if defined( CLUE_DEBUG )
 #include "User.ii"
