@@ -22,6 +22,7 @@
 
 #include "ClueConfig.hh"
 #include <cstring>
+#include <ctime>
 
 char *
 CLUE_FUNCT_T
@@ -148,6 +149,12 @@ StringTo( unsigned long &   dest,
 
 bool
 CLUE_FUNCT_T
+StringTo( struct tm &	    dest,
+	  const char *	    src,
+	  const char *	    fmt = "%m/%d/%y %H:%M:%S" );
+
+bool
+CLUE_FUNCT_T
 StringToBool( const char * str, size_t len = NPOS );
 
 int
@@ -182,6 +189,11 @@ unsigned long
 CLUE_FUNCT_T
 StringToULong( const char * str, unsigned short base = 0, size_t len = NPOS );
 
+struct tm
+CLUE_FUNCT_T
+StringToTm( const char * src, const char * fmt = "%m/%d/%y %H:%M:%S" );
+
+
 const char *
 CLUE_FUNCT_T
 StringFrom( int num, short base = 10, bool prefix = false );
@@ -209,6 +221,9 @@ StringFrom( unsigned long num, short base = 10, bool prefix = false );
 const char *
 CLUE_FUNCT_T
 StringFrom( double num, short precision = 2 );
+
+const char *
+StringFrom( const struct tm & src, const char * fmt = "%m/%d/%y %H:%M:%S" );
 
 const char *
 CLUE_FUNCT_T
@@ -615,6 +630,11 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1996/11/25 10:14:34  houghton
+// Added StringTo( struct & tm dest, const char * src, const char * fmt )
+// Added StringToTm( const char * src, const char * fmt
+// Added StringFrom( const struct tm &, const char * fmt )
+//
 // Revision 3.3  1996/11/24 19:09:14  houghton
 // Removed support for short filenames.
 //
