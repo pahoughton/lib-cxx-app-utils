@@ -1,0 +1,67 @@
+#ifndef _ClassVersion_ii_
+#define _ClassVersion_ii_
+//
+// File:        ClassVersion.ii
+// Desc:        
+//
+//  	inlines for ClassVersion
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     10/04/95 07:15
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 14:48:49  houghton
+// New Class Version id method
+//
+//
+
+
+inline
+const char *
+ClassVersion::getVer( bool withPrjVer ) const
+{
+  if( withPrjVer )
+    return( verString );
+  else
+    return( classVerString );
+}
+
+inline
+unsigned long
+ClassVersion::getPrjVerNum( void ) const
+{
+  return( prjVerNum );
+}
+
+inline
+const char *
+ClassVersion::getClassVer( void ) const
+{
+  return( classVerString );
+}
+
+inline
+const char *
+ClassVersion::getPrjVer( void ) const
+{
+  return( prjVerString );
+}
+
+inline
+const char *
+ClassVersion::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer ) );
+}
+
+inline
+ostream &
+operator << ( ostream & dest, const ClassVersion & obj )
+{
+  dest << obj.getVer( true );
+  return( dest );
+}
+
+#endif // ! def _ClassVersion_ii_ 
