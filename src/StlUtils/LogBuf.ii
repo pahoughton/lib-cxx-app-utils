@@ -21,87 +21,6 @@
 #define inline
 #endif
 
-inline
-LogBuf::LogBuf(
-  LogLevel::Level   outLevel,
-  streambuf *	    outStream
-  )
-  : maxSize( 0 ),
-    trimSize( 0 ),
-    streamIsFile( false ),
-    buffer( 0 ),
-    stream( 0 ),
-    teeStream( 0 ),
-    logLevel( outLevel ),
-    regex( 0 ),
-    newMesg( true )
-{
-  initbuf( outStream );
-}
-
-inline
-LogBuf::LogBuf(
-  const char * 	outLevel,
-  streambuf *	outStream
-  )
-  : maxSize( 0 ),
-    trimSize( 0 ),
-    streamIsFile( false ),
-    buffer( 0 ),
-    stream( 0 ),
-    teeStream( 0 ),
-    logLevel( outLevel ),
-    regex( 0 ),
-    newMesg( true )
-{
-  initbuf( outStream );
-}
-
-
-inline
-LogBuf::LogBuf(
-  const char *	    fileName,
-  LogLevel::Level   outLevel,
-  ios::open_mode    mode,
-  int		    prot,
-  size_t	    logMaxSize,
-  size_t	    logTrimSize
-  )
-  : maxSize( 0 ),
-    trimSize( 0 ),
-    streamIsFile( false ),
-    buffer( 0 ),
-    stream( 0 ),
-    teeStream( 0 ),
-    logLevel( outLevel ),
-    regex( 0 ),
-    newMesg( true )
-{
-  initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
-}
-  
-inline
-LogBuf::LogBuf(
-  const char *	    fileName,
-  const char *      outLevel,
-  ios::open_mode    mode,
-  int		    prot,
-  size_t	    logMaxSize,
-  size_t	    logTrimSize
-  )
-  : maxSize( 0 ),
-    trimSize( 0 ),
-    streamIsFile( false ),
-    buffer( 0 ),
-    stream( 0 ),
-    teeStream( 0 ),
-    logLevel( outLevel ),
-    regex( 0 ),
-    newMesg( true )
-{
-  initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
-}
-
 inline LogLevel::Level
 LogBuf::setCurrentLevel( LogLevel::Level cur )
 {
@@ -195,50 +114,6 @@ LogBuf::is_open( void ) const
 }
 
 inline
-bool
-LogBuf::filter( const char * regexStr )
-{
-  sync();
-  if( regex )
-    {     
-      delete regex;
-      regex = 0;
-    }
-
-  if( regexStr )
-    {
-      regex = new RegexScan( regexStr, true );
-      newMesg = false;
-    }
-  
-  return( regex != 0 && regex->good() );
-}
-
-inline
-const char *
-LogBuf::getFilter( void ) const
-{
-  return( regex ? regex->getPattern() : 0 );
-}
-
-inline
-streambuf *
-LogBuf::delFilter( FilterId id )
-{
-  sync();
-  streambuf * dest = 0;
-  if( id < (long)filters.size() && filters[id].dest != 0 )
-    {
-      dest = filters[id].dest;
-      filters[id].dest = 0;
-      if( filters[id].regex )
-	delete filters[id].regex;
-      filters[id].regex = 0;
-    }
-  return( dest );
-}
-
-inline
 const char *
 LogBuf::getLogFileName( void ) const
 {
@@ -309,6 +184,9 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/04/04 03:10:39  houghton
+// Changed constructors (and some other methods) to non-inline.
+//
 // Revision 3.5  1997/04/02 13:44:38  houghton
 // Added getMaxSize().
 // Added getTrimSize().
