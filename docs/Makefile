@@ -35,7 +35,7 @@ exports	    = 					\
 	check_install=$(check_install)		\
 
 
-install install_doc:
+install install_docs:
 
 clean:
 
@@ -46,6 +46,9 @@ realclean:
 
 #
 # $Log$
+# Revision 1.3  1999/10/30 10:40:26  houghton
+# Changed install_doc to install_docs.
+#
 # Revision 1.2  1998/10/23 13:03:34  houghton
 # Changed to use MakeConfigs 5.06.
 #
