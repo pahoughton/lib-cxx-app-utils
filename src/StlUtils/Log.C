@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/04/27 13:02:32  houghton
+// Added global _LibLog variable.
+//
 // Revision 2.4  1995/12/04 11:17:23  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -36,6 +39,8 @@
 CLUE_VERSION(
   Log,
   "$Id$" );
+
+Log * _LibLog = 0;
 
 Log &
 Log::level( LogLevel::Level current, const char * srcFile, long srcLine )
