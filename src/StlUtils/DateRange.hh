@@ -38,6 +38,8 @@ public:
   virtual time_t    getDur( void ) const;
   virtual time_t    setDur( time_t newDur );
   virtual time_t    getSecOfDay( void ) const;
+
+  virtual bool	    isIn( const DateTime & dateTwo ) const;
   
   virtual time_t    secIn( const DateRange & dateTwo ) const;
   virtual time_t    startsIn( const DateRange & dateTwo ) const;
@@ -185,6 +187,9 @@ compare( const DateRange & one, const DateRange & two );
 // %PL%
 // 
 // $Log$
+// Revision 5.6  2003/06/25 08:48:33  houghton
+// Added isIn method.
+//
 // Revision 5.5  2001/07/29 19:56:38  houghton
 // *** empty log message ***
 //

@@ -70,6 +70,13 @@ DateRange::setDur( time_t newDur )
   return( oldDur );
 }
 
+bool
+DateRange::isIn( const DateTime & dateTwo ) const
+{
+  return( getTimeT() <= dateTwo.getTimeT()
+	  && dateTwo.getTimeT() <= (getTimeT() + getDur() ) );
+}
+
 time_t
 DateRange::secIn( const DateRange & dateTwo ) const
 {
@@ -243,6 +250,9 @@ DateRange::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/06/25 08:48:25  houghton
+// Added isIn method.
+//
 // Revision 5.2  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //
