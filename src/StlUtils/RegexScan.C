@@ -27,8 +27,18 @@ STLUTILS_VERSION(
   RegexScan,
   "$Id$" );
 
-unsigned int	RegexScan::defaultSyntax = RE_SYNTAX_POSIX_EGREP;
+unsigned int	RegexScan::defaultSyntax =
+#if !defined( Hpux10 )
+RE_SYNTAX_POSIX_EGREP
+#else
+(RE_CHAR_CLASSES        | RE_CONTEXT_INDEP_ANCHORS
+   | RE_CONTEXT_INDEP_OPS | RE_HAT_LISTS_NOT_NEWLINE
+   | RE_NEWLINE_ALT       | RE_NO_BK_PARENS
+   | RE_NO_BK_VBAR | RE_INTERVALS | RE_NO_BK_BRACES)
+#endif
+  ;
 
+  
 RegexScan::RegexScan(
   const char *	pattern,
   bool	    	fast,
@@ -357,6 +367,9 @@ RegexScan::cleanup()
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/07/20 11:25:29  houghton
+// Port(Hpux): RE_SYNTAX_POSIX_EGREP was causing an error.
+//
 // Revision 4.1  1997/09/17 15:12:46  houghton
 // Changed to Version 4
 //
