@@ -1,5 +1,4 @@
-#
-# -*- Makefile -*-
+# -*- makefile -*-
 #
 # Makefile for libCluee src/arch/Linux/src
 #
@@ -80,6 +79,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 1.2  1996/05/03 16:15:25  houghton
+# Cleanup.
+#
 # Revision 1.1  1996/04/27 13:16:01  houghton
 # New location for sub makefiles in MakeConfigs 5
 #
@@ -93,3 +95,4 @@ ARCH_CXX_INLINES	=		\
 # Changed to use MakeConfig 4.
 #
 #
+

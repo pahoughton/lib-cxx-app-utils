@@ -133,7 +133,7 @@ tLog03( LibTest & tester )
   fn = TEST_DATA_DIR "/logfile.04";
 
   remove( fn );
-  
+
   {
     // Log( const char *, const char *, bool, bool, ios::open_mode, int, size_t )
 
@@ -149,7 +149,7 @@ tLog03( LibTest & tester )
 	 t( LogLevel::Test ) << "good test with log trimming.\n";
        }
   }
-
+  
   {
     FileStat t( fn );
 

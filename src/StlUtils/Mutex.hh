@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 2.3  1996/05/03 16:13:29  houghton
+// Cleanup.
+//
 // Revision 2.2  1996/04/27 13:05:06  houghton
 // Implemented Mutex locking. For theads.
 //
@@ -35,7 +38,6 @@
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
-
 
 class Mutex
 {
