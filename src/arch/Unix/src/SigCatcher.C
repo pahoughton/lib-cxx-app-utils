@@ -20,8 +20,8 @@
 #include <DateTime.hh>
 #include <StlUtilsMisc.hh>
 #include <LibLog.hh>
+#include <_StlUtilsSignal.h>
 #include <algorithm>
-#include <signal.h>
 #include <errno.h>
 
 #include "StrSignal.h"
@@ -350,6 +350,9 @@ SigCatcher::catchAction(
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/02/13 01:24:57  houghton
+// Changed include _StlUtilsSignal.h (vs signal.h).
+//
 // Revision 4.2  1998/02/02 15:28:14  houghton
 // Changed to use StrSignal() (vs SignalStrings).
 // Added support for specifying singal flags.
