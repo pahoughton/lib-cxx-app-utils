@@ -222,6 +222,73 @@ tStr01( LibTest & tester )
 
     TEST( t == Tstr );
   }
+
+  {
+    // verify working vector support
+
+    typedef vector< Str > StrVect;
+
+    StrVect tvect;
+
+    const char * data[] =
+    {
+      "S 1",
+      "S 2",
+      "S 3",
+      "S 4",
+      "S 5",
+      0
+    };
+
+    for( int i = 0; data[i]; i++ )
+      tvect.push_back( Str( data[i] ) );
+
+    {
+      StrVect & t( tvect );
+
+      int count = 0;
+
+      for( StrVect::iterator them = t.begin();
+	   them != t.end();
+	   ++ them, ++ count )
+	{
+	  TEST( (*them) == data[count] );
+	}
+    }
+
+#if !defined( Linux )
+    {
+      const StrVect & t( tvect );
+
+      int count = 0;
+
+      Str *       tp = tvect.begin();
+      const Str * tcp  = tvect.begin();
+
+      // FIXME !! Warning Linux/gcc 2.7.2 has a bug dealing with
+      // const pointer incrementing
+      
+      cerr << endl;
+
+      cerr << "tp: " << tp << endl;
+      cerr << "++tp: " << ++tp << endl;
+
+      cerr << "tcp: " << tcp << endl;
+      cerr << "++tcp: " << ++tcp << endl;
+
+      cerr << "size: " << sizeof( Str ) << endl;
+      cerr << "const size: " << sizeof( const Str ) << endl;
+      
+      for( StrVect::const_iterator them = t.begin();
+	   them != t.end();
+	   ++ them, ++ count )
+	{
+	  TEST( (*them) == data[count] );
+	}
+    }
+#endif
+    
+  }
   
   {
     // verify support for stl vector<> & set<>
