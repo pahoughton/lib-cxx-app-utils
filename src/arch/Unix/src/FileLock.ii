@@ -1,0 +1,78 @@
+#ifndef _FileLock_ii_
+#define _FileLock_ii_
+//
+// File:        FileLock.ii
+// Project:	Clue
+// Desc:        
+//
+//  	Inline source for FileLock
+//
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Created:     09/12/97 11:44
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+//  $Id$
+//
+
+
+#if defined( CLUE_DEBUG )
+#define inline
+#endif
+
+bool
+FileLock::lockread(
+  streamoff	offset,
+  ios::seek_dir	dir,
+  size_t	amount,
+  bool		block
+  )
+{
+  return( lock( Read, offset, dir, amount, block ) );
+}
+
+bool
+FileLock::lockwrite(
+  streamoff	offset,
+  ios::seek_dir	dir,
+  size_t	amount,
+  bool		block
+  )
+{
+  return( lock( Write, offset, dir, amount, block ) );
+}
+
+bool
+FileLock::unlock(
+  streamoff	offset,
+  ios::seek_dir	dir,
+  size_t	amount
+  )
+{
+  return( lock( Unlock, offset, dir, amount, false ) );
+}
+
+
+inline
+DumpInfo< FileLock >
+FileLock::dump( const char * prefix, bool showVer ) const
+{
+  return( DumpInfo< FileLock >( *this, prefix, showVer ) );
+}
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+// 
+// $Log$
+// Revision 3.1  1997/09/16 11:21:22  houghton
+// Initial Version.
+//
+//
+#endif // ! def _FileLock_ii_ 

@@ -1,0 +1,222 @@
+//
+// File:        FileLock.C
+// Project:	Clue
+// Desc:        
+//
+//  Compiled sources for FileLock
+//  
+// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Created:     09/12/97 11:35
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
+//
+
+#include "FileLock.hh"
+#include <Str.hh>
+#include <ClueUtils.hh>
+#include <unistd.h>
+#include <fcntl.h>
+
+#if defined( CLUE_DEBUG )
+#include "FileLock.ii"
+#endif
+
+CLUE_VERSION(
+  FileLock,
+  "$Id$");
+
+// NOTE these expects the 'Type' enum values to be correct
+//   if you change one, you need to change the other
+static int  FileLock_FcntlLockTypes[] =
+{
+  F_RDLCK, F_WRLCK, F_UNLCK, -1
+};
+
+static const char * FileLock_TypeName[] =
+{
+  "read", "write", "unlock", "UNDEFINED", 0
+};
+
+FileLock::FileLock( const char * fileName, ios::open_mode mode )
+  : fd( -1 ),
+    oserrno( ENOENT ),
+    closefd( false )
+{
+  // do not allow create 
+  fd = ::open( fileName,
+	       OpenFlags( mode ) & ~O_CREAT );
+  
+  if( fd < 0 )
+    oserrno = errno;
+  else
+    oserrno = 0;
+
+  closefd = true;
+}
+
+FileLock::FileLock( int fileDescriptor )
+  : fd( fileDescriptor ),
+    oserrno( fd < 0 ? ENOENT : 0 ),
+    closefd( false )
+{
+}
+
+FileLock::~FileLock( void )
+{
+  // remove any existing locks
+  for( LockList::iterator them = locks.begin();
+       them != locks.end();
+       ++ them )
+    {
+      if( (*them).type != T_Undefined )
+	unlock( (*them).offset, (*them).dir, (*them).amount);
+    }
+  if( closefd )
+    ::close( fd );
+}
+
+bool
+FileLock::lock(
+  Type		type,
+  streamoff	offset,
+  ios::seek_dir	dir,
+  size_t	amount,
+  bool		block )
+{
+  struct flock lock;
+
+  lock.l_type	= FileLock_FcntlLockTypes[ type ];
+  lock.l_whence	= Whence( dir );
+  lock.l_start	= offset;
+  lock.l_len	= amount;
+
+  if( fcntl( fd, (block ? F_SETLKW : F_SETLK), &lock ) == -1 )
+    {
+      oserrno = errno;
+      return( false );
+    }
+  else
+    {
+      return( true );
+    }
+}
+
+  
+bool
+FileLock::good( void ) const
+{
+  return( oserrno == 0 );
+}
+
+const char *
+FileLock::error( void ) const
+{
+  static Str errStr;
+
+  errStr = FileLock::getClassName();
+
+  if( good() )
+    {
+      errStr << ": ok";
+    }
+  else
+    {
+      size_t eSize = errStr.size();
+
+      if( oserrno != 0 )
+	errStr << ": os error(" << oserrno << ") - " << strerror( oserrno );
+      
+      if( eSize == errStr.size() )
+        errStr << ": unknown error";
+    }
+
+  return( errStr.c_str() );
+}
+
+bool
+FileLock::blocked( void ) const
+{
+  return( oserrno == EAGAIN );
+}
+
+int
+FileLock::oserror( void ) const
+{
+  return(  oserrno );
+}
+
+bool
+FileLock::clear( void )
+{
+  oserrno = 0;
+  return( good() );
+}
+
+const char *
+FileLock::getClassName( void ) const
+{
+  return( "FileLock" );
+}
+
+const char *
+FileLock::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer ) );
+}
+
+
+ostream &
+FileLock::dumpInfo(
+  ostream &	dest,
+  const char *	prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << FileLock::getClassName() << ":\n"
+	 << FileLock::getVersion() << '\n';
+
+  if( ! FileLock::good() )
+    dest << prefix << "Error: " << FileLock::error() << '\n';
+  else
+    dest << prefix << "Good" << '\n';
+
+  dest << prefix << "fd:        " << fd << '\n'
+       << prefix << "locks:     " << locks.size() << '\n'
+    ;
+  
+  if( locks.size() )
+    {
+      for( LockList::const_iterator them = locks.begin();
+	   them != locks.end();
+	   ++ them )
+	{
+	  dest << prefix << "  lock:    "
+	       << typeName( (*them).type )
+	       << ' ' << (*them).offset
+	       << ' ' << IosSeekDirToString( (*them).dir )
+	       << ' ' << (*them).amount << '\n'
+	    ;
+	}
+    }
+  
+  return( dest );
+}
+
+const char *
+FileLock::typeName( Type t )
+{
+  return( t >= Read && t <= T_Undefined ? FileLock_TypeName[ t ] : "BAD TYPE" );
+}
+
+// Revision Log:
+//
+// $Log$
+// Revision 3.1  1997/09/16 11:21:12  houghton
+// Initial Version.
+//
+//
