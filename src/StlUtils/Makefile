@@ -30,7 +30,7 @@ INSTALL_INCDIR	= $(LOCAL_ALPHA_INCDIR)
 
 VER_MAJOR	= 2
 VER_MINOR	= 00
-VER_RELEASE	= 00.a.11
+VER_RELEASE	= 00.a.12
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -149,6 +149,7 @@ CXX_C_SOURCES	=			\
 	RandomBinStream.C               \
 	RandomStream.C                  \
 	RegexScan.C                     \
+	SizeIt.C			\
 	Str.C                           \
 	StrStreambuf.C                  \
 	StringCapitalize.C              \
@@ -199,6 +200,7 @@ USER_HH_INCS	=			\
 	RandomBinStream.hh              \
 	RandomStream.hh                 \
 	RegexScan.hh                    \
+	SizeIt.hh			\
 	SortOrder.hh                    \
 	Str.hh                          \
 	StrStreambuf.hh                 \
@@ -228,6 +230,7 @@ USER_II_INCS	=			\
 	Param.ii                        \
 	RandomBinStream.ii              \
 	RandomStream.ii                 \
+	SizeIt.ii			\
 	SortOrder.ii                    \
 	Str.ii                          \
 	StrStreambuf.ii                 \
@@ -275,6 +278,7 @@ CXX_HEADERS	=			\
 	RandomBinStream.hh              \
 	RandomStream.hh                 \
 	RegexScan.hh                    \
+	SizeIt.hh			\
 	Sort.hh                         \
 	SortOrder.hh                    \
 	Str.hh                          \
@@ -306,6 +310,7 @@ CXX_INLINES	=			\
 	Param.ii                        \
 	RandomBinStream.ii              \
 	RandomStream.ii                 \
+	SizeIt.ii			\
 	SortOrder.ii                    \
 	Str.ii                          \
 	StrStreambuf.ii                 \
@@ -386,6 +391,10 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.7  1996/03/13 11:26:55  houghton
+# Change Version Number
+# Add Sizeit
+#
 # Revision 2.6  1996/03/04 11:37:53  houghton
 # Change version number
 #
