@@ -12,7 +12,7 @@ show_commands	= false
 check_install	= true
 hide		= @
 
-PROJECT		= libStlUtils-4
+PROJECT		= libStlUtils-5
 
 PRJ_TOPDIR	= .
 CFG_DIR		= $(PRJ_TOPDIR)/src/config
@@ -145,6 +145,9 @@ help_config:
 
 #
 # $Log$
+# Revision 5.2  2000/05/25 16:51:50  houghton
+# Changed project version.
+#
 # Revision 5.1  2000/05/25 10:33:01  houghton
 # Changed Version Num to 5
 #
