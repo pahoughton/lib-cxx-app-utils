@@ -13,14 +13,11 @@
 
 #include "LogBuf.hh"
 #include "FileStat.hh"
-#include <RegexScan.hh>
-#include <strstream>
+#include "RegexScan.hh"
+#include <strstream.h>
 #include <iostream>
 #include <cstdio>
 #include <cstring>
-
-//#include <unistd.h>
-//#include <sys/stat.h>
 
 #if defined( CLUE_DEBUG )
 #include <LogBuf.ii>
@@ -61,7 +58,7 @@ LogBuf::~LogBuf( void )
 size_t
 LogBuf::trim( size_t maxLog )
 {
-  if( ! isFile() )
+  if( ! is_file() )
     return( 0 );
   
   size_t maxLogSize = ( maxLog ? maxLog : maxSize );
@@ -78,7 +75,7 @@ LogBuf::trim( size_t maxLog )
   if( ! stat.good() ||
       ( (size_t)stat.getSize() < (maxLogSize - trimLogSize) ) )
     {
-      openLog();
+      openLog(ios::app);
       return( 0 );
     }
 
@@ -94,7 +91,7 @@ LogBuf::open(
     size_t	    logTrimSize
     )
 {
-  if( stream != 0 && isFile() )
+  if( stream != 0 && is_file() )
     {
       close();
     }
@@ -110,7 +107,7 @@ LogBuf::open(
  if( logMaxSize && stat.good() && ( (size_t)stat.getSize() > logMaxSize ) )
    trimLog( stat.getSize(), logMaxSize );
  else
-   openLog();
+   openLog( mode );
  
  return( (filebuf *)(stream) );
 }
@@ -130,6 +127,7 @@ LogBuf::addFilter(
   const char *		    regexString
   )
 {
+  sync();
   {
     // look for an empty slot
     for( FilterId f = 0; f < (long)filters.size(); ++f )
@@ -140,8 +138,12 @@ LogBuf::addFilter(
 	      delete filters[f].regex;
 	    
 	    filters[f].dest	    = destBuf;
-	    filters[f].outputLevel    = output;
-	    filters[f].regex	    = new RegexScan( regexString );
+	    filters[f].outputLevel  = output;
+	    
+	    if( regexString )
+	      filters[f].regex	    = new RegexScan( regexString, true );
+	    else
+	      filters[f].regex	    = 0;
 	    
 	    return( f );
 	}
@@ -154,7 +156,12 @@ LogBuf::addFilter(
 
   filters[f].dest	    = destBuf;
   filters[f].outputLevel    = output;
-  filters[f].regex	    = new RegexScan( regexString );
+
+  if( regexString )
+    filters[f].regex	    = new RegexScan( regexString );
+  else
+    filters[f].regex	    = 0;
+  
 
   return( f );
 }
@@ -199,7 +206,7 @@ LogBuf::sync( void )
 
       bool outputMesg = logLevel.shouldOutput();
       
-      if( newMesg && regex )
+      if( outputMesg && newMesg && regex )
 	{
 	  // if it's a new mesg and I'm filtering
 	  outputMesg = regex->search( base, 0, len );
@@ -227,7 +234,7 @@ LogBuf::sync( void )
 	  
 	  outputMesg = (bool)(((*them).outputLevel & logLevel.getCurrent()));
 
-	  if( newMesg && (*them).regex )
+	  if( outputMesg && newMesg && (*them).regex )
 	    {
 	      outputMesg = (*them).regex->search( base, 0, len );
 	    }
@@ -240,19 +247,21 @@ LogBuf::sync( void )
 	}
     }
 
+  newMesg = false;
+  
   int  syncResult = stream->sync();
 
   setp( pbase(), epptr() );
 
   size_t curSize = (size_t)stream->seekoff( 0, ios::cur, ios::out );
 		    
-  if( isFile() && maxSize && curSize > maxSize )
+  if( is_file() && maxSize && curSize > maxSize )
     {
       closeLog();
       trimLog( curSize, maxSize );
     }
     
-  return( syncResult );
+  return( stream ? syncResult : EOF );
 }
 
 const char *
@@ -278,8 +287,10 @@ LogBuf::dumpInfo(
     dest << LogBuf::getClassName() << ":\n"
 	 << LogBuf::getVersion() << '\n';
 
-  dest << prefix << "is file:      " << (isFile() == true ? "yes" : "no" ) << '\n';
-  if( isFile() )
+  dest << prefix << "is file:      "
+       << (is_file() == true ? "yes" : "no" ) << '\n';
+  
+  if( is_file() )
     dest << prefix << "logFileName:  " << logFileName << '\n';
   
   dest << prefix << "maxSize:      " << maxSize << '\n'
@@ -294,7 +305,7 @@ LogBuf::dumpInfo(
     pre += "logLevel:" ;
     pre += logLevel.getClassName() ;
     pre += "::";
-    logLevel.dumpInfo( dest, pre.str(), false );
+    logLevel.dumpInfo( dest, pre, false );
   }
 
   dest << '\n';
@@ -360,8 +371,12 @@ LogBuf::sendToStream( streambuf * dest, char * base, int len )
   return( total );
 }
 
+//
+// the openMask lets me reopen in ios::app when I have to
+// reopen the file.
+//
 filebuf *
-LogBuf::openLog( void )
+LogBuf::openLog( ios::open_mode openMask )
 {
   filebuf * file = new filebuf();
 
@@ -370,14 +385,38 @@ LogBuf::openLog( void )
 
   int prevMask = umask( 0 );
 
-  filebuf * ret = file->open( logFileName, openMode, openProt );
+  stream = file->open( logFileName,
+		       (ios::open_mode)(openMode | openMask),
+		       openProt );
   
   umask( prevMask );
 
-  return( ret );
+  if( ! file )
+    {
+      delete file;
+      file = 0;
+    }
+  return( file );
 }
 
 
+//
+// trimLog
+//
+//  curSize     the current size of the log
+//  maxLogSize	the log should be no larger than this
+//
+//  this->trimSize  the amout to trim off the begining of the file.
+//		    if it is 0, maxLogSize / 4 is used.
+//
+//  This method keeps the reduces the size of the log file
+//  by removeing the first 'trimSize' bytes from the file.
+//
+//  It does this by seeking into the file by 'trimSize' bytes.
+//  Then it looks for the first '\n' (new line) character. Once
+//  the '\n' is found, the rest of the data (after the '\n') is
+//  written to the new log file.
+//
 size_t
 LogBuf::trimLog( size_t curSize, size_t maxLogSize )
 {
@@ -402,7 +441,7 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
 #endif
   if( rename( logFileName, tmpFn ) )
     {
-      openLog();
+      openLog( ios::app );
       return( 0 );
     }
   
@@ -412,7 +451,7 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
   if( ! in.good() || ! out.good() )
     {
       rename( tmpFn, logFileName );
-      openLog();
+      openLog( ios::app );
       return( 0 );
     }
 
@@ -425,7 +464,7 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
       in.close();
       out.close();
       rename( tmpFn, logFileName );
-      open( logFileName, openMode, openProt );
+      openLog( ios::app );
       return( 0 );
     }
 
@@ -479,7 +518,7 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
   in.close();
 
   remove( tmpFn );
-  openLog();
+  openLog( ios::app );
   
   return( curSize - newSize );
 }
@@ -487,22 +526,42 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
 void
 LogBuf::closeLog( void )
 {
-  if( isFile() && stream != 0 )
+  if( is_file() && stream != 0 )
     {
       filebuf * file = (filebuf *)stream;
       
       file->close();
       delete file;
-      file = 0;
+      stream = 0;
     }
-    
-  streamIsFile = false;
-  stream = 0;
 }
 
 // Revision Log:
 //
 // $Log$
+// Revision 2.6  1996/11/13 16:46:00  houghton
+// Changed include lines from "file" to <file"
+//     to accomidate rpm.
+// Changed isFile() to is_file() to be more consistant with the
+//     standard filebuf::is_open().
+// Changed openLog to take an ios::open_mode arg that will be
+//     or'ed (|) with the original open mode. This allows the
+//     log to be appended if it was not opened with 'ios::app', but
+//     it was reopened from within LogBuf.
+// Bug-Fix: addFilter() - added a call to sync to make sure we
+//     only send entries to dest that were put in the log after the call
+//     to addFilter().
+// Bug-Fix: addFilter() - allow for regexString to be empty.
+// Bug-Fix: sync() - only check for regex match if the entry
+//     passed the level test.
+// Bug-Fix: sync() - newMest must be set to false once an entry
+//     has been searched.
+// Bug-Fix: sync() - return EOF if there is no primary destination.
+// Bug-Fix: dumpInfo() - fixed compile problems that came from
+//     the change to using RWCString.
+// Bug-Fix: openLog() - fixed so that if the open fails, the streambuf
+//     is unuseable and the filebuf is deleted.
+//
 // Revision 2.5  1996/11/11 13:34:45  houghton
 // Changed to specificly cast to a bool to get around a problem with AIX.
 // Changed to use RWCString instead of strstream where possible because
