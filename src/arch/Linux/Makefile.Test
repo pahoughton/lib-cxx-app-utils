@@ -1,5 +1,5 @@
 TEST_DATA_DIR	= ../data
-TEST_USER	= houghton
+TEST_USER	= $(USER)
 TEST_GROUP	= tools
 TEST_UID	= 253
 TEST_GID	= 233
