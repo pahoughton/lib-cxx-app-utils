@@ -93,13 +93,13 @@ ClassVersion::getVer(
   ) const
 {
   static char * ver = 0;
-  char * tmpVer = new char[ strlen( verString ) +
+
+  const char * verToUse = ( withPrjVer ? verString : classVerString );
+  
+  char * tmpVer = new char[ strlen( verToUse ) + 
 			    strlen( baseVerString ) + 20 ];
 
-  if( withPrjVer )
-    strcpy( tmpVer, verString );
-  else
-    strcpy( tmpVer, classVerString );
+  strcpy( tmpVer, verToUse );
   
   strcat( tmpVer, "\n    " );
   strcat( tmpVer, baseVerString );
@@ -113,6 +113,10 @@ ClassVersion::getVer(
 
 
 // $Log$
+// Revision 2.5  1996/11/11 13:32:17  houghton
+// Bug-Fix: getVer( bool, const char * ) const - was not
+//     allocating the correct size for the string.
+//
 // Revision 2.4  1996/10/28 11:56:50  houghton
 // Cleanup.
 //
