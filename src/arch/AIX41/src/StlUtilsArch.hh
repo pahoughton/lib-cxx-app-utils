@@ -24,6 +24,10 @@
 #define CLUE_LOG_WHERE 1
 #define CLUE_HAS_STR 1
 #define CLUE_HAS_DATETIME 1
+/* #define CLUE_HAS_SEMUN		1 */
+/* #define CLUE_HAS_CONST_IOSRDSTATE	    1 */
+/* #define CLUE_HAS_CONST_IOSGOOD	    1 */
+
 /* #define CLUE_THREADS	1 */
 
 #define CLUE_STRBUF_CONST_RDBUF
@@ -72,6 +76,11 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/07/18 19:37:52  houghton
+// Added CLUE_HAS_SEMUN (not defined)
+// Added CLUE_HAS_CONST_IOSRDSTATE (not defined)
+// Added CLUE_HAS_CONST_IOSGOOD (not defined)
+//
 // Revision 3.2  1997/04/04 20:55:33  houghton
 // Added include unistd.h (for pid_t).
 //
