@@ -10,6 +10,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/11/06 18:10:41  houghton
+// Changed how effective user is handled.
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
 // Revision 2.4  1996/06/20 15:25:25  houghton
 // Added Debugging loging
 //
@@ -31,7 +36,7 @@
 #include "User.hh"
 #include "Compare.hh"
 #include "LibLog.hh"
-#include <iostream>
+#include <strstream>
 
 #if defined( CLUE_DEBUG )
 #include "User.ii"
@@ -49,10 +54,14 @@ User::~User( void )
 {
 }
 
-User 
+const User &
 User::effective( void )
 {
-  return( User( geteuid(), false ) );
+  static User * effUser = 0;
+
+  if( ! effUser )
+    effUser = new User( geteuid(), false );
+  return( *effUser );
 }
 
 
@@ -115,23 +124,6 @@ User::getBinSize( void ) const
   return( sizeof( uid_t ) );
 }
 
-BinStream &
-User::write( BinStream & dest ) const
-{
-  dest.write( uid );
-  return( dest );
-}
-
-BinStream &
-User::read( BinStream & src )
-{
-  uid_t  user;
-  src.read( user );
-  if( src.good() )
-    set( user );
-  return( src );
-}
-
 ostream &
 User::write( ostream & dest ) const
 {
@@ -156,7 +148,15 @@ User::toStream( ostream & dest ) const
   return( dest );
 }
 
-  
+istream &
+User::fromStream( istream & src )
+{
+  RWCString inName;
+  src >> inName;
+  set( inName );
+  return( src );
+}
+
 // good - return TRUE if no detected errors
 bool
 User::good( void ) const
@@ -168,9 +168,11 @@ User::good( void ) const
 const char *
 User::error( void ) const
 {
-  static Str errStr;
-  errStr.reset();
-
+  static strstream errStr;
+  errStr.freeze(0);
+  errStr.seekp(0);
+  errStr.seekg(0);
+  
   errStr << getClassName();
 
   if( good() )
@@ -182,7 +184,8 @@ User::error( void ) const
       errStr << ": uid not set";
     }
 
-  return( errStr.cstr() );
+  errStr << ends;
+  return( errStr.str() );
 }
 
 // getClassName - return the name of this class
@@ -195,16 +198,19 @@ User::getClassName( void ) const
 const char *
 User::getVersion( bool withPrjVer ) const
 {
-  static Str ver;
+  static strstream ver;
+  ver.freeze(0);
+  ver.seekp(0);
+  ver.seekg(0);
 
-  ver.reset();
   ver << version.getVer( withPrjVer ) << '\n'
-      << "    " << name.getVersion( false ) << '\n'
     ;
+  
   if( withPrjVer )
     ver << "    " << primeGroup.getVersion( false ) << '\n';
 
-  return( ver );
+  ver << ends;
+  return( ver.str() );
 }
 
 
@@ -225,20 +231,22 @@ User::dumpInfo(
   else
     dest << prefix << "Good!" << '\n';
 
-  Str pre;
-  pre = prefix;
-  pre << "primeGroup:" << primeGroup.getClassName() << "::";
-
-  primeGroup.dumpInfo( dest, pre, false );
-  
-  dest << prefix << "uid:	  " << uid << '\n'
-       << prefix << "name:        " << name << '\n'
-       << prefix << "passwd:      " << passwd << '\n'
-       << prefix << "gecos:       " << gecos << '\n'
-       << prefix << "home:        " << home << '\n'
-       << prefix << "shell:       " << shell << '\n'
-    ;
-
+  {
+    strstream pre;
+    pre << prefix << "primeGroup:"
+	<< primeGroup.getClassName() << "::" << ends;
+    
+    primeGroup.dumpInfo( dest, pre.str(), false );
+    
+    dest << prefix << "uid:	  " << uid << '\n'
+	 << prefix << "name:        " << name << '\n'
+	 << prefix << "passwd:      " << passwd << '\n'
+	 << prefix << "gecos:       " << gecos << '\n'
+	 << prefix << "home:        " << home << '\n'
+	 << prefix << "shell:       " << shell << '\n'
+      ;
+    
+  }
 
   if( groups.size() == 0 )
     {
