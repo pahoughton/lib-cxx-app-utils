@@ -46,6 +46,9 @@ LogBuf::~LogBuf( void )
       buffer = 0;
     }
 
+  if( regex )
+    delete regex;
+  
   for( FilterList::iterator them = filters.begin();
        them != filters.end();
        ++them )
@@ -380,7 +383,6 @@ LogBuf::openLog( ios::open_mode openMask )
 {
   filebuf * file = new filebuf();
 
-  stream = file;
   streamIsFile = true;
 
   int prevMask = umask( 0 );
@@ -391,7 +393,7 @@ LogBuf::openLog( ios::open_mode openMask )
   
   umask( prevMask );
 
-  if( ! file )
+  if( ! stream )
     {
       delete file;
       file = 0;
@@ -539,6 +541,9 @@ LogBuf::closeLog( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:04:24  houghton
+// Bug-Fix: Fixed memory leaks.
+//
 // Revision 3.1  1996/11/14 01:23:46  houghton
 // Changed to Release 3
 //
