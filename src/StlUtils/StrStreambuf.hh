@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 13:09:15  houghton
+// Cleanup includes.
+//
 // Revision 2.2  1995/11/10 14:08:41  houghton
 // Updated documentation comments
 //
@@ -25,12 +28,11 @@
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
 #include <strstream>
-#include <cstddef>
 #else
 #include <ClueCfg.hh>
 #include <strstream>
-#include <cstddef>
 #endif
+
 
 #if defined( CLUE_DEBUG )
 #define inline

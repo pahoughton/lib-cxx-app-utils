@@ -16,6 +16,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/04/27 13:08:50  houghton
+// Cleanup includes.
+//
 // Revision 2.4  1996/02/29 19:07:08  houghton
 // Added some ifndefs for GNU
 //
@@ -35,23 +38,18 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-#include <StrStreambuf.hh>
 #include <BinStream.hh>
 #include <iostream>
-#include <algorithm>
 #include <vector>
-#include <iterator>
-#include <climits>
+#include <stddef>
 #else
 #include <ClueCfg.hh>
-#include <StrSbuf.hh>
-#include <BinStream.hh>
+#include <BinStrm.hh>
 #include <iostream>
-#include <algorithm>
 #include <vector>
-#include <iterator>
-#include <climits>
+#include <stddef>
 #endif
+
 
 // I'll support string when I can find an implmentation that
 // follows the standard
@@ -62,6 +60,7 @@
 #define inline
 #endif
 
+class CLUE_CLASS_T StrStreambuf;
 class CLUE_CLASS_T SubStr;
 class CLUE_CLASS_T RegexScan;
 
@@ -90,13 +89,13 @@ public:
 
   inline Str( const Str &    src,
 	      size_t 	     srcStart = 0,
-	      size_t 	     srcLen = NPOS );
+	      size_t 	     srcLen = npos );
 
   inline Str( const SubStr & src,
 	      size_t 	     srcStart = 0,
-	      size_t 	     srcLen = NPOS );
+	      size_t 	     srcLen = npos );
 
-  inline Str( const char * src, size_t srcLen = NPOS );
+  inline Str( const char * src, size_t srcLen = npos );
   inline Str( size_t count, char src );
 
   inline Str( InputIterator first, InputIterator last ); 
@@ -127,15 +126,15 @@ public:
 
   // append
 
-  Str &	        append( const char * src, size_t srcLen = NPOS );
+  Str &	        append( const char * src, size_t srcLen = npos );
   
   inline Str &	append( const Str & 	src,
 			size_t 	    	srcStart = 0,
-			size_t 	    	srcLen = NPOS );
+			size_t 	    	srcLen = npos );
 
   inline Str &	append( const SubStr & 	src,
 			size_t 	    	srcStart = 0,
-			size_t 	    	srcLen = NPOS );
+			size_t 	    	srcLen = npos );
 
   inline Str &  append( size_t count, char src );
   inline Str &  append( char src );
@@ -146,13 +145,13 @@ public:
   
   inline Str &	assign( const Str & 	src,
 		    	size_t 	    	srcStart = 0,
-			size_t 	    	srcLen = NPOS );
+			size_t 	    	srcLen = npos );
 
   inline Str &	assign( const SubStr & 	src,
 		        size_t 	    	srcStart = 0,
-			size_t srcLen = NPOS );
+			size_t srcLen = npos );
 
-  inline Str &	assign( const char * src, size_t srcLen = NPOS );
+  inline Str &	assign( const char * src, size_t srcLen = npos );
   inline Str &  assign( size_t count, char src );
   inline Str &  assign( char src );
   inline Str &  assign( InputIterator first, InputIterator last );
@@ -163,16 +162,16 @@ public:
   inline Str &	insert( size_t 	    	before,
 			const Str & 	src,
 			size_t 	    	srcStart = 0,
-			size_t 	    	srcLen = NPOS );
+			size_t 	    	srcLen = npos );
 
   inline Str &	insert( size_t 	    	before,
 			const SubStr &	src,
 			size_t 	    	srcStart = 0,
-			size_t 	    	srcLen = NPOS );
+			size_t 	    	srcLen = npos );
 
   inline Str &	insert( size_t 	    	before,
 			const char * 	src,
-			size_t      	srcLen = NPOS );
+			size_t      	srcLen = npos );
 
   inline Str &	insert( size_t start, size_t count, char src );
   inline Str &	insert( size_t start, char src );
@@ -184,7 +183,7 @@ public:
   
   // remove
 
-  inline Str &	remove( size_t start, size_t len = NPOS );
+  inline Str &	remove( size_t start, size_t len = npos );
   inline Str &	remove( iterator which );
   inline Str &	remove( iterator first, iterator last );
   
@@ -194,7 +193,7 @@ public:
   Str &	    	replace( size_t     	start,
 			 size_t     	len,
 			 const char * 	src,
-			 size_t     	srcLen = NPOS );
+			 size_t     	srcLen = npos );
   
   Str &	    	replace( size_t start, size_t len, size_t count, char src );
   
@@ -202,13 +201,13 @@ public:
 			 size_t     	len,
 			 const Str & 	src,
 			 size_t     	srcStart = 0,
-			 size_t     	srcLen = NPOS );
+			 size_t     	srcLen = npos );
   
   inline Str &	replace( size_t     	start,
 			 size_t     	len,
 			 const SubStr & src,
 			 size_t     	srcStart = 0,
-			 size_t     	srcLen = NPOS );
+			 size_t     	srcLen = npos );
   
   inline Str &	replace( size_t start, size_t len, char src );
 
@@ -216,18 +215,18 @@ public:
 			 iterator   	last, 
 			 const Str & 	src,
 			 size_t     	srcStart = 0,
-			 size_t     	srcLen = NPOS );
+			 size_t     	srcLen = npos );
   
   inline Str &	replace( iterator   	first,
 			 iterator   	last, 
 			 const SubStr & src,
 			 size_t		srcStart = 0,
-			 size_t		srcLen = NPOS );
+			 size_t		srcLen = npos );
   
   inline Str &	replace( iterator   	first,
 			 iterator	last, 
 			 const char *	src,
-			 size_t		srcLen = NPOS );
+			 size_t		srcLen = npos );
   
   Str &	    	replace( iterator   	first,
 			 iterator	last,
@@ -254,15 +253,15 @@ public:
 
   int 	    compare( const Str &    two,
 		     size_t	    start = 0,
-		     size_t	    len = NPOS ) const;
+		     size_t	    len = npos ) const;
   
   int 	    compare( const SubStr & two,
 		     size_t	    start = 0,
-		     size_t	    len = NPOS ) const;
+		     size_t	    len = npos ) const;
   
   int 	    compare( const char *   two,
 		     size_t	    start = 0,
-		     size_t	    len = NPOS ) const;
+		     size_t	    len = npos ) const;
   
   friend int	compare( const SubStr & one,
 			 const Str &    two,

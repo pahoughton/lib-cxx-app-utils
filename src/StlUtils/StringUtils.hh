@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/04/27 13:09:35  houghton
+// Cleanup includes.
+//
 // Revision 2.1  1995/11/10 12:41:15  houghton
 // Change to Version 2
 //
@@ -22,12 +25,11 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-#include <cstddef>
+#include <cstring>
 #else
 #include <ClueCfg.hh>
-#include <cstddef>
+#include <cstring>
 #endif
-
 
 char *
 CLUE_FUNCT_T
