@@ -21,6 +21,7 @@
 #include <LibLog.hh>
 #include <algorithm>
 #include <signal.h>
+#include <errno.h>
 
 #if defined( CLUE_DEBUG )
 #include "SigCatcher.ii"
@@ -296,6 +297,9 @@ SigCatcher::catchAction(
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/04/21 09:57:51  houghton
+// Port: include errno.h.
+//
 // Revision 3.1  1997/04/19 09:53:04  houghton
 // Initial Version.
 //

@@ -20,6 +20,8 @@
 #include <fstream>
 #include <cstdio>
 
+#include <errno.h>
+
 #if defined( CLUE_DEBUG )
 #include "PidFile.ii"
 #endif
@@ -158,6 +160,9 @@ PidFile::removePidFile( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/04/21 09:57:33  houghton
+// Port: include errno.h.
+//
 // Revision 3.1  1997/04/19 09:53:03  houghton
 // Initial Version.
 //
