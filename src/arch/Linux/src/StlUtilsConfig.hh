@@ -2,15 +2,133 @@
 #define _ClueConfig_hh_
 //
 // File:        UtilsConfig.hh
+// Project:	Clue
 // Desc:        
 //
+//  Architecture dependant configuration values.
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     06/16/95 08:01
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
+//
+// $Id$
+//
+
+
+#define _BSD_SOURCE	1
+#define _SVID_SOURCE	1
+
+/* #define CLUE_THREADS	1 */
+
+#if defined( CLUE_THREADS )
+#define _MIT_POSIX_THREADS  1
+#include <pthread.h>
+#endif
+
+#if defined( CLUE_DEBUG )
+#define CLUE_SAFETY_ON 1
+#endif
+
+// Configuration Flags
+#define CLUE_HAVE_LONG_ABS 1
+#define CLUE_LOG_WHERE 1
+
+#define CLUE_STRBUF_CONST_RDBUF const
+
+// Types
+#define CLUE_CLASS_T
+#define CLUE_FUNCT_T
+#define CLUE_GVAR_T
+
+#define CLUE_CHAR   char
+#define CLUE_SCHAR  signed char
+#define CLUE_UCHAR  unsigned char
+#define CLUE_16	    short
+#define CLUE_U16    unsigned short
+#define CLUE_INT    int
+#define CLUE_UINT   unsigned int
+#define CLUE_32	    long
+#define CLUE_U32    unsigned long
+#define CLUE_FLOAT  float
+#define CLUE_DOUBLE double
+#define CLUE_BOOL   bool
+
+// Constants
+#define CLUE_DIR_DELIM	    '/'
+#define CLUE_BAD_FPOS_T	    LONG_MIN
+
+// Macros
+#define CLUE_UNUSED( x )
+
+// #include <climits>
+
+#if !defined( CLUE_SHORT_FN )
+#include <ClueVersion.hh>
+#include <ClassVersion.hh>
+#else
+#include <ClueVer.hh>
+#include <ClassVer.hh>
+#endif
+
+//
+// Detail Documentation
+//
+// Configuration Flags:
+//
+//  CLUE_HAVE_LONG_ABS	This platform has a long abs function
+//			already defined.
+//
+//  CLUE_LOG_WHERE	Log macros inclue __FILE__ and __LINE__ so that
+//			so that the source locations can be written to the
+//			log.
+//
+// Types:
+//
+//  The following are need by PC Compilers to identify exports. They
+//  are defined as 'nothing' for this platform.
+//
+//	CLUE_CLASS_T	Class Type:
+//	CLUE_FUNCT_T	Function Type:
+//	CLUE_GVAR_T	Global Variable Type:
+//
+//  The following are defined types to insure binary bit size compatiblity
+//  across platforms.
+//
+//	CLUE_CHAR   char
+//	CLUE_SCHAR  signed char
+//	CLUE_UCHAR  unsigned char
+//	CLUE_16	    short
+//	CLUE_U16    unsigned short
+//	CLUE_INT    int
+//	CLUE_UINT   unsigned int
+//	CLUE_32	    long
+//	CLUE_U32    unsigned long
+//	CLUE_FLOAT  float
+//	CLUE_DOUBLE double
+//	CLUE_BOOL   bool
+//
+// Constants:
+//
+//  CLUE_DIR_DELIM  the default directory delimiter.
+//  CLUE_BAD_FPOS_T an invalid fpos_t value
+//
+// Macros:
+//
+//  CLUE_UNUSED( arg )	Some compilers output warnings for unused function
+//			variables, while other compilers will output
+//			an error if the variable is not declared. This
+//			macro accomidates both. Just put your unused
+//			args inside it.
+//
+//			Example: void doit( int need, char CLUE_UNSED( c ) )
+//	    
 //
 // $Log$
+// Revision 2.6  1996/10/28 12:10:50  houghton
+// Cleanup: reorder defines and macros.
+// Added Documentation.
+//
 // Revision 2.5  1996/10/22 22:08:00  houghton
 // Change: Defined CLUE_LOG_WHERE to log source file location.
 //
@@ -34,64 +152,5 @@
 // Revised
 //
 //
-
-#define _BSD_SOURCE	1
-#define _SVID_SOURCE	1
-
-#define CLUE_THREADS	1
-
-#if defined( CLUE_THREADS )
-#define _MIT_POSIX_THREADS  1
-#include <pthread.h>
-#endif
-
-#define CLUE_CLASS_T
-#define CLUE_FUNCT_T
-#define CLUE_GVAR_T
-
-#if defined( CLUE_DEBUG )
-#define CLUE_SAFETY_ON 1
-#endif
-
-#define CLUE_HAVE_LONG_ABS 1
-
-#define CLUE_STRBUF_CONST_RDBUF const
-
-#define CLUE_CHAR   char
-#define CLUE_SCHAR  signed char
-#define CLUE_UCHAR  unsigned char
-#define CLUE_16	    short
-#define CLUE_U16    unsigned short
-#define CLUE_INT    int
-#define CLUE_UINT   unsigned int
-#define CLUE_32	    long
-#define CLUE_U32    unsigned long
-#define CLUE_FLOAT  float
-#define CLUE_DOUBLE double
-#define CLUE_BOOL   bool
-
-#define CLUE_LOG_WHERE 1
-
-#if !defined( CLUE_DIR_DELIM )
-#define CLUE_DIR_DELIM '/'
-#endif
-
-#define CLUE_UNUSED( x )
-
-#include <climits>
-
-#define CLUE_BAD_FPOS_T	    LONG_MIN
-
-
-#if !defined( CLUE_SHORT_FN )
-#include <ClueVersion.hh>
-#include <ClueExceptions.hh>
-#include <ClassVersion.hh>
-#else
-#include <ClueVer.hh>
-#include <ClueExcp.hh>
-#include <ClassVer.hh>
-#endif
-
 #endif // ! def _UtilsConfig_hh_ 
 
