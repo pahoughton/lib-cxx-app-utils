@@ -103,65 +103,73 @@ StringCapitalize( char * str, size_t len = NPOS );
 
 bool
 STLUTILS_FUNCT_T
-StringTo( bool & 	    	dest,
-	  const char *  	str,
-	  size_t 	    	len = NPOS );
+StringTo( bool & 	    dest,
+	  const char *      str,
+	  size_t 	    len = NPOS );
 
 bool
 STLUTILS_FUNCT_T
 StringTo( int &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
-	  size_t    	    len = NPOS );
+	  size_t    	    len = NPOS,
+	  bool		    stopAtNonDigit = false  );
 
 bool
 STLUTILS_FUNCT_T
 StringTo( short &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
-	  size_t    	    len = NPOS );
+	  size_t    	    len = NPOS,
+	  bool		    stopAtNonDigit = false  );
 
 bool
 STLUTILS_FUNCT_T
 StringTo( long &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
-	  size_t    	    len = NPOS );
+	  size_t    	    len = NPOS,
+	  bool		    stopAtNonDigit = false );
 
 bool
 STLUTILS_FUNCT_T
 StringTo( float &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
-	  size_t    	    len = NPOS );
+	  size_t    	    len = NPOS,
+	  bool		    stopAtNonDigit = false );
 
 bool
 STLUTILS_FUNCT_T
 StringTo( double &     	    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
-	  size_t    	    len = NPOS );
+	  size_t    	    len = NPOS,
+	  bool		    stopAtNonDigit = false );
 
 bool
 STLUTILS_FUNCT_T
 StringTo( unsigned int &    dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
-	  size_t    	    len = NPOS );
+	  size_t    	    len = NPOS,
+	  bool		    stopAtNonDigit = false );
 
 bool
 STLUTILS_FUNCT_T
 StringTo( unsigned short &  dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
-	  size_t    	    len = NPOS );
+	  size_t    	    len = NPOS,
+	  bool		    stopAtNonDigit = false );
 
 bool
 STLUTILS_FUNCT_T
 StringTo( unsigned long &   dest,
 	  const char * 	    str,
 	  unsigned short    base = 0,
-	  size_t    	    len = NPOS );
+	  size_t    	    len = NPOS,
+	  bool		    stopAtNonDigit = false );
 
 bool
 STLUTILS_FUNCT_T
@@ -175,35 +183,59 @@ StringToBool( const char * str, size_t len = NPOS );
 
 int
 STLUTILS_FUNCT_T
-StringToInt( const char * str, unsigned short base = 0, size_t len = NPOS );
+StringToInt( const char *	str,
+	     unsigned short	base = 0,
+	     size_t		len = NPOS,
+	     bool		stopAtNonDigit = false );
 
 short
 STLUTILS_FUNCT_T
-StringToShort( const char * str, unsigned short base = 0, size_t len = NPOS );
+StringToShort( const char *	str,
+	       unsigned short	base = 0,
+	       size_t		len = NPOS,
+	       bool		stopAtNonDigit = false );
 
 long
 STLUTILS_FUNCT_T
-StringToLong( const char * str, unsigned short base = 0, size_t len = NPOS );
+StringToLong( const char *	str,
+	      unsigned short	base = 0,
+	      size_t		len = NPOS,
+	      bool		stopAtNonDigit = false );
 
 float
 STLUTILS_FUNCT_T
-StringToFloat( const char * str, unsigned short base = 0, size_t len = NPOS );
+StringToFloat( const char *	str,
+	       unsigned short	base = 0,
+	       size_t		len = NPOS,
+	       bool		stopAtNonDigit = false );
 
 double
 STLUTILS_FUNCT_T
-StringToDouble( const char * str, unsigned short base = 0, size_t len = NPOS );
+StringToDouble( const char *	str,
+		unsigned short	base = 0,
+		size_t		len = NPOS,
+		bool		stopAtNonDigit = false );
 
 unsigned int
 STLUTILS_FUNCT_T
-StringToUInt( const char * str, unsigned short base = 0, size_t len = NPOS );
+StringToUInt( const char *	str,
+	      unsigned short	base = 0,
+	      size_t		len = NPOS,
+	      bool		stopAtNonDigit = false );
 
 unsigned short
 STLUTILS_FUNCT_T
-StringToUShort( const char * str, unsigned short base = 0, size_t len = NPOS );
+StringToUShort( const char *	str,
+		unsigned short	base = 0,
+		size_t		len = NPOS,
+		bool		stopAtNonDigit = false );
 
 unsigned long
 STLUTILS_FUNCT_T
-StringToULong( const char * str, unsigned short base = 0, size_t len = NPOS );
+StringToULong( const char *	str,
+	       unsigned short	base = 0,
+	       size_t		len = NPOS,
+	       bool		stopAtNonDigit = false);
 
 struct tm
 STLUTILS_FUNCT_T
@@ -744,6 +776,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 4.7  1998/01/22 18:34:05  houghton
+// Changed - added stopAtNonDigit arg to all StringTo functions.
+//
 // Revision 4.6  1998/01/05 13:21:44  houghton
 // Added STLUTILS_DIGITS_SPACE define.
 //
