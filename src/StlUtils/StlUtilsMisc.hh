@@ -64,7 +64,7 @@ CommaNum( ostream &	dest,
 	  long		num,
 	  size_t	width,
 	  char		fill,
-	  size_t	decimalPlaces );
+	  size_t	decimalPlaces = 0 );
 
 // See StlUtilsUtils.ii for inline Functions
 #include <StlUtilsMisc.ii>
@@ -216,6 +216,9 @@ CommaNum( ostream &	dest,
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2004/07/17 11:25:00  houghton
+// Changed CommaNum() decimalPlaces arg to default to 0.
+//
 // Revision 6.2  2004/04/19 18:16:30  houghton
 // Added CommaNum prototype
 //
