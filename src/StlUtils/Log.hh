@@ -2,43 +2,21 @@
 #define _Log_hh_
 //
 // File:        Log.hh
+// Project:	Clue
 // Desc:        
 //              
 //
 // Author:      Paul Houghton x2309 - (houghton@shoe)
 // Created:     03/14/94 10:49
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 2.6  1996/10/22 22:05:45  houghton
-// Change: Added locStamp to turn on/off output of src file & line.
-//
-// Revision 2.5  1996/04/27 13:02:48  houghton
-// Added thread locking support.
-//
-// Revision 2.4  1995/11/12 18:01:16  houghton
-// Added srcFile, srcLine args to level().
-// Change LogIf macro to use __FILE__ and __LINE__.
-// Change LogLevel::XXXX to LogLevel::Xxxxx.
-//
-// Revision 2.3  1995/11/10  14:11:42  houghton
-// Cleanup (move final endif)
-//
-// Revision 2.2  1995/11/10  14:08:37  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:40:43  houghton
-// Change to Version 2
-//
-// Revision 1.7  1995/11/05  15:28:37  houghton
-// Revised
-//
+// $Id$
 //
 
 #if !defined( CLUE_SHORT_FN )
-#include <Mutex.hh>
 #include <ClueConfig.hh>
+#include <Mutex.hh>
 #include <LogBuf.hh>
 #include <iostream>
 #include <iomanip>
@@ -56,10 +34,10 @@
 
 #if defined( CLUE_LOG_WHERE )
 #define LogIf( lg, lvl ) \
-  if( (lg).willOutput( lvl ) ) ( (lg)( lvl, __FILE__, __LINE__ ) )
+  if( (lg)(lvl, __FILE__, __LINE__ ).willOutput( lvl ) ) (lg)
 #else
 #define LogIf( lg, lvl ) \
-  if( (lg).willOutput( lvl ) ) ( (lg)( lvl, 0, 0 ) )
+  if( (lg)(lvl, 0, 0 ).willOutput( lvl ) ) (lg)
 #endif
 
 #if defined( CLUE_DEBUG )
@@ -85,30 +63,30 @@ public:
   
   inline Log( const char * 	fileName,
 	      LogLevel::Level 	outLevel = LogLevel::Error,
+	      ios::open_mode	mode = ios::app,
+	      int		prot = filebuf::openprot,
 	      bool		stampLevel = true,
 	      bool		stampTime = true,
 	      bool		stampLoc = true,
-	      ios::open_mode	mode = ios::app,
-	      int		prot = filebuf::openprot,
 	      size_t		maxSize = 0,
 	      size_t		trimSize = 0 );
 	      
   inline Log( const char * 	fileName,
 	      const char *	outLevel,
+	      ios::open_mode	mode = ios::app,
+	      int		prot = filebuf::openprot,
 	      bool		stampLevel = true,
 	      bool		stampTime = true,
 	      bool		stampLoc = true,
-	      ios::open_mode	mode = ios::app,
-	      int		prot = filebuf::openprot,
 	      size_t		maxSize = 0,
 	      size_t		trimSize = 0 );
 
   inline ~Log( void );
-  
-  inline void 	    	    tee( ostream & teeStream = cerr );
-  inline size_t		    trim( size_t maxSize = 0 );
-  inline size_t		    setMaxSize( size_t maxSize );
-  inline size_t		    setTrimSize( size_t trimSize );
+
+  inline LogLevel::Level    getCurrent( void  ) const;
+  inline LogLevel::Level    getOutput( void ) const;
+
+  inline bool	    	    willOutput( LogLevel::Level outLevel ) const;
   
   Log &		    level( LogLevel::Level  current = LogLevel::Error,
 			   const char *	    srcFile = 0,
@@ -129,26 +107,40 @@ public:
 				  const char *	    srcFile,
 				  long		    srcLine );
   
-  inline void		    on( LogLevel::Level output );
-  inline void		    off( LogLevel::Level output );
-  
-  inline LogLevel::Level    getCurrent( void  ) const;
-  inline LogLevel::Level    getOutput( void ) const;
-
-  inline bool	    	    willOutput( LogLevel::Level outLevel ) const;
-  
-
-  inline void		    setFileName( const char * f, int mode = ios::app );
-  inline void		    open( const char * f, int mode = ios::app );
-  inline void		    close( void );
-  
-  inline LogLevel::Level    setOutputLevel( const char * output );
-  inline LogLevel::Level    setOutputLevel( LogLevel::Level output );
-
   inline bool		    setLevelStamp( bool stamp );
   inline bool		    setTimeStamp( bool stamp );
   inline bool		    setLocStamp( bool stamp );
 
+  inline LogLevel::Level    setOutputLevel( const char * output );
+  inline LogLevel::Level    setOutputLevel( LogLevel::Level output );
+
+  inline void		    on( LogLevel::Level output );
+  inline void		    off( LogLevel::Level output );
+  
+  inline void 	    	    tee( ostream & teeStream = cerr );
+
+  inline bool		    addTee( streambuf *	    destBuf );
+  
+  inline size_t		    trim( size_t maxSize = 0 );
+  inline size_t		    setMaxSize( size_t maxSize );
+  inline size_t		    setTrimSize( size_t trimSize );
+  
+  inline void		    open( const char *	    fileName,
+				  ios::open_mode    mode = ios::app );
+  
+  inline void		    setFileName( const char *	    fileName,
+					 ios::open_mode	    mode = ios::app );
+  
+  inline void		    close( void );
+
+  bool			filter( const char * regex );
+  LogBuf::FilterId	addFilter( streambuf *     destBuf,
+				   LogLevel::Level outputLevel,
+				   const char *    regex = 0 );
+
+  bool			delFilter( LogBuf::FilterId id );
+
+  
   inline LogBuf *	    rdbuf( void );
   inline const LogBuf *	    rdbuf( void ) const;
 
@@ -303,6 +295,40 @@ private:
 //  Private Methods:
 //
 //  Other Associated Functions:
+//
+// Revision Log:
+//
+// $Log$
+// Revision 2.7  1996/11/04 13:43:35  houghton
+// Restructure header comments layout.
+// Changed order of constructor args.
+// Reorder method declarations.
+// Added filter support. Only output log messages that contain a regex.
+// Added multiple log message destination. (addFilter & delFilter).
+//
+// Revision 2.6  1996/10/22 22:05:45  houghton
+// Change: Added locStamp to turn on/off output of src file & line.
+//
+// Revision 2.5  1996/04/27 13:02:48  houghton
+// Added thread locking support.
+//
+// Revision 2.4  1995/11/12 18:01:16  houghton
+// Added srcFile, srcLine args to level().
+// Change LogIf macro to use __FILE__ and __LINE__.
+// Change LogLevel::XXXX to LogLevel::Xxxxx.
+//
+// Revision 2.3  1995/11/10  14:11:42  houghton
+// Cleanup (move final endif)
+//
+// Revision 2.2  1995/11/10  14:08:37  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:40:43  houghton
+// Change to Version 2
+//
+// Revision 1.7  1995/11/05  15:28:37  houghton
+// Revised
+//
 //
 
 #endif // ! def _Log_hh_ 
