@@ -192,7 +192,7 @@ STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 SHARED_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
 DEFAULT_LD_LIBS		= -lStlUtils -lCommon -lGnuRegex $(ARCH_DEFAULT_LIBS)
-DEBUG_LD_LIBS		= -lStlUtils_g -lCommon -lGnuRegex $(ARCH_DEBUG_LIBS)
+DEBUG_LD_LIBS		= -lStlUtils_g -lCommon_g -lGnuRegex $(ARCH_DEBUG_LIBS)
 TEST_LD_LIBS		= $(DEBUG_LD_LIBS)
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
@@ -461,6 +461,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.8  1998/08/13 10:56:10  houghton
+# Changed to use -lCommon_g.
+#
 # Revision 4.7  1998/04/02 14:19:04  houghton
 # Changed to use MakeConfigs 5.05
 #
