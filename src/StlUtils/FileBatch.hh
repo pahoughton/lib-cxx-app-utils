@@ -29,8 +29,41 @@
 #include <fstream>
 #include <cerrno>
 
+class FileBatchBase
+{
+protected:
+  
+  typedef STLUTILS_U32_SIZE_T	size_type;
+  
+  FileBatchBase( const char * fileName, size_type recordSize );
+  
+  virtual bool		    good( void ) const;
+  virtual const char *	    error( void ) const;
+  virtual const char *	    getClassName( void ) const = 0;
+
+  enum ErrorNum
+  {
+    E_OK,
+    E_OPEN,
+    E_SIZE,
+    E_READ,
+    E_WRITE,
+    E_UNDEFINED
+  };
+  
+  bool		setError( ErrorNum errNum, streampos pos, int osErr );
+  
+  FilePath	name;
+  fstream *	batch;
+  size_type	recSize;
+  
+  ErrorNum	errorNum;
+  streampos	errorPos;
+  int		osErrno;
+};
+
 template< class Rec >
-class FileBatch
+class FileBatch : public FileBatchBase
 {
 
 public:
@@ -178,7 +211,7 @@ public:
       return( it );
     };
     
-    inline reference	operator *  ( void ) {
+    inline const reference	operator *  ( void ) {
       if( readPos != pos )
 	{
 	  streampos cur( (*owner).file().tellg() );
@@ -245,6 +278,11 @@ public:
 	     ios::open_mode mode = ios::in,
 	     unsigned short permMask = 02 );
 
+  FileBatch( const char *   fileName,
+	     ios::open_mode mode,
+	     bool	    create,
+	     unsigned short permMask );
+
   virtual ~FileBatch( void ) {
     if( batch )	    delete batch;
   };
@@ -255,6 +293,9 @@ public:
   iterator		    begin( void );
   iterator		    end( void );
 
+  Rec			    front( void ) const;
+  Rec			    back( void ) const;
+  
   iterator		    append( void );
   bool			    append( const Rec & src );
   
@@ -268,6 +309,8 @@ public:
   FileBatch< Rec > &	    write( iterator & it );
 
   size_type		    size( void ) const;
+
+  Rec			    operator [] ( size_type rec ) const;
   
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
@@ -284,27 +327,10 @@ protected:
   friend class const_iterator;
   friend class iterator;
   
-  enum ErrorNum
-  {
-    E_OK,
-    E_OPEN,
-    E_SIZE,
-    E_READ,
-    E_WRITE,
-    E_UNDEFINED
-  };
-  
-  bool		setError( ErrorNum errNum, streampos pos, int osErr );
-  
   fstream &	file( void ) const;
   
   size_type	fileSize;
-  FilePath	name;
-  fstream *	batch;
 
-  ErrorNum	errorNum;
-  streampos	errorPos;
-  int		osErrno;
 private:
 
   FileBatch( const FileBatch & from );
@@ -399,6 +425,13 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/05/01 12:52:10  houghton
+// Rework to get around compile problems.
+// Added front()
+// Added back()
+// Added operator []
+// Improved error output.
+//
 // Revision 4.1  1999/03/02 12:46:26  houghton
 // Initial Version.
 //
