@@ -72,8 +72,9 @@ public:
 
   virtual ~SigCatcher( void );
   
-  inline CaughtQueue &	    caught( void );
-
+  inline CaughtQueue &		caught( void );
+  inline const CaughtQueue &	caught( void ) const;
+  
   inline bool	    caught( Signal sig ) const;
   
   bool		    catchSig( Signal sig );
@@ -215,6 +216,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/07/25 12:18:42  houghton
+// Added caught() const method.
+//
 // Revision 3.3  1997/07/18 21:31:13  houghton
 // Port(Sun5): added include <ctime>
 //
