@@ -89,12 +89,12 @@ DEFINES		= $(PRJDEFINES) $(SRCDEFINES)
 # TOPDIR	=
 
 CLUE_SRC_DIR	= ../src/Clue 
-CLUE_INCDIR	= -I$(CLUE_SRC_DIR) # -I../src/Clue1/src
+CLUE_INCDIR	= -I$(CLUE_SRC_DIR) \
+		  -I../src/Clue1/src \
+		  -I../src/arch/$(arch)/test
 
 
-#SRCINCDIR	= -I. $(CLUE_INCDIR) $(ARCH_INCDIR) $(WCF_ALPHA_INC)
-SRCINCDIR	= -I. -I../src/arch/$(arch)/test \
-		   $(CLUE_ALPHA_INC) $(WCF_ALPHA_INC) $(COMMON_ALPHA_INC)
+SRCINCDIR	= -I. $(CLUE_INCDIR) $(WCF_ALPHA_INC)
 
 PRJINCDIR	= 
 
@@ -148,7 +148,7 @@ INSTALL_BIN_FLAGS   = -m 775
 # $(X11_LDIR)
 #
 
-LDLIBS		= $(CLUE_ALPHA_LIBS)
+LDLIBS		= -L$(CLUE_SRC_DIR) -lClue $(COMMON_ALPHA_LIBS) -lm
 
 #
 # =USE_CURRENT_MAKEFILE=
@@ -303,7 +303,7 @@ include Make/make.cfg.targets.3.5
 
 all: $(PROGRAM)
 
-$(PROGRAM): $(OBJECTS)
+$(PROGRAM): $(OBJECTS) ../src/Clue/libClue.a
 	$(LDXX) -o $@ $(OBJECTS) $(LDFLAGS) $(LIBXXARCH)
 
 install: default
@@ -402,7 +402,10 @@ endif
 # =MAKEFILE_LOG=
 #
 # $Log$
-# Revision 2.3  1995/11/12 18:34:36  houghton
+# Revision 2.4  1995/11/12 22:08:30  houghton
+# Use source directories
+#
+# Revision 2.3  1995/11/12  18:34:36  houghton
 # Changed to use MakeConfigs 3.5.
 #
 # Revision 2.2  1995/11/10  18:50:26  houghton
