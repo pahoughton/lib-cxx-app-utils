@@ -2,9 +2,12 @@
 #define _Clue_ii_
 //
 // File:        Clue.ii
+// Proejct:	Clue
 // Desc:        
 //
-//
+//  This file contains the source for the inline
+//  functions documented in Clue.hh
+//  
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/02/95 06:32
@@ -12,6 +15,13 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/11/04 13:31:53  houghton
+// Restructure header comments layout.
+// Moved ArraySize to .hh
+// Bug fix: Align - change to if value == 0 return alignsize.
+// Removed Net2Host functions (now in separate Net2Host.hh
+// Changed UnionOfDur to call UnionOf
+//
 // Revision 2.4  1996/04/27 12:53:27  houghton
 // Removed unneeded includes.
 //
@@ -35,9 +45,6 @@
 #endif
 
 
-// tArraySize
-#define ArraySize( _a_ ) ( sizeof( _a_ ) / sizeof( _a_[0] ) )
-
 
 template< class NumberType >
 inline
@@ -45,7 +52,7 @@ NumberType
 Align( NumberType value, size_t alignSize )
 {
   return( ((value % alignSize) == 0) ?
-	  value :
+	  value ? value : alignSize:
 	  ( value + ( alignSize - ( value % alignSize ) ) ) );
 }
 
@@ -93,90 +100,6 @@ MemOverlap( const void * one, size_t lenOne, const void * two, size_t lenTwo )
 	    0 ) );
 }
 
-inline
-short
-Net2Host( short num )
-{
-  return( Net2HostShort( num ) );
-}
-
-inline
-short
-Host2Net( short num )
-{
-  return( Host2NetShort( num ) );
-}
-
-inline
-unsigned short
-Net2Host( unsigned short num )
-{
-  return( Net2HostUShort( num ) );
-}
-
-inline
-unsigned short
-Host2Net( unsigned short num )
-{
-  return( Host2NetUShort( num ) );
-}
-
-inline
-int
-Net2Host( int num )
-{
-  return( Net2HostInt( num ) );
-}
-
-inline
-int
-Host2Net( int num )
-{
-  return( Host2NetInt( num ) );
-}
-
-inline
-unsigned int
-Net2Host( unsigned int num )
-{
-  return( Net2HostUInt( num ) );
-}
-
-inline
-unsigned int
-Host2Net( unsigned int num )
-{
-  return( Host2NetUInt( num ) );
-}
-
-inline
-long
-Net2Host( long num )
-{
-  return( Net2HostLong( num ) );
-}
-
-inline
-long
-Host2Net( long num )
-{
-  return( Host2NetLong( num ) );
-}
-
-inline
-unsigned long
-Net2Host( unsigned long num )
-{
-  return( Net2HostULong( num ) );
-}
-
-inline
-unsigned long
-Host2Net( unsigned long num )
-{
-  return( Host2NetULong( num ) );
-}
-
 
 #if !defined( CLUE_HAVE_LONG_ABS )
 inline
@@ -215,15 +138,10 @@ inline
 unsigned long
 UnionOfDur( long startOne, long durOne, long startTwo, long durTwo )
 {
-  if( startTwo <= startOne + durOne &&
-      startTwo + durTwo >= startOne )
-    {
-      return( ( (durTwo + durOne) -
-		( abs( startOne - startTwo ) +
-		  abs( (startTwo + durTwo ) - (startOne + durOne) ) ) ) / 2 );
-    }
-
-  return( 0 );
+  return( UnionOf( startOne,
+		   startOne + durOne,
+		   startTwo,
+		   startTwo + durTwo ) );
 }
 
 inline
