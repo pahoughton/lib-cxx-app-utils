@@ -230,6 +230,7 @@ CXX_C_SOURCES	=			\
 	tAlign.C			\
 	tDwordAlign.C                   \
 	tMemOverlap.C                   \
+	tBetween.C			\
 	tAbsLong.C                      \
 	tIsBaseDigit.C                  \
 	tUnionOf.C                      \
@@ -312,6 +313,7 @@ CXX_C_SOURCES	=			\
 	tStr24.C                        \
 	tStr25.C                        \
 	tStr26.C                        \
+	tStr27.C			\
 	tSubStr.C                       \
 	tSubStr01.C                     \
 	tSubStr02.C                     \
@@ -409,10 +411,10 @@ install_static::  static  $(INSTALL_BIN_DIR)/$(PROGRAM_STATIC)
 install_shared::  shared  $(INSTALL_BIN_DIR)/$(PROGRAM_SHARED)
 
 check_default: test_data default 
-	LD_LIBRARY_PATH=$(beta_libdir) $(PROGRAM_DEFAULT) $(TEST)
+	LD_LIBRARY_PATH=$(local_libdir) $(PROGRAM_DEFAULT) $(TEST)
 
 check: test_data test
-	LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/StlUtils:$(beta_libdir) \
+	LD_LIBRARY_PATH=$(PRJ_TOPDIR)/src/StlUtils:$(local_libdir) \
 	  $(PROGRAM_TEST) $(TEST)
 
 check_debug: test_debug
@@ -470,6 +472,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 4.14  1999/03/02 12:53:50  houghton
+# Added tBetween.
+#
 # Revision 4.13  1998/11/02 19:36:03  houghton
 # Changed: the File class was renamed to FileOp.
 #

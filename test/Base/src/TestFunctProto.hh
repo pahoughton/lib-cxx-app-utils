@@ -22,6 +22,7 @@ bool	tOpenFlags( LibTest & tester );
 bool	tAlign( LibTest & tester );
 bool	tDwordAlign( LibTest & tester );
 bool	tMemOverlap( LibTest & tester );
+bool	tBetween( LibTest & tester );
 bool	tAbsLong( LibTest & tester );
 bool	tIsBaseDigit( LibTest & tester );
 bool	tUnionOf( LibTest & tester );
@@ -169,6 +170,9 @@ bool tVectorResync( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 4.10  1999/03/02 12:54:07  houghton
+// Added tBetween.
+//
 // Revision 4.9  1998/11/02 19:36:18  houghton
 // Changed: the File class was renamed to FileOp.
 //

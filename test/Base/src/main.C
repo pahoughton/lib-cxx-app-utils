@@ -27,6 +27,7 @@ LibTest::TestItem   TestList[] =
   { "Align",		    tAlign },
   { "DwordAlign",   	    tDwordAlign },
   { "MemOverlap",   	    tMemOverlap },
+  { "Between",		    tBetween },
   { "AbsLong",	    	    tAbsLong },
   { "IsBaseDigit",  	    tIsBaseDigit },
   { "UnionOf",	    	    tUnionOf },
@@ -201,6 +202,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.11  1999/03/02 12:54:12  houghton
+// Added tBetween.
+//
 // Revision 4.10  1998/11/02 19:36:25  houghton
 // Changed: the File class was renamed to FileOp.
 //
