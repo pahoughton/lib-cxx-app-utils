@@ -20,13 +20,8 @@
 // $Id$ 
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+#include "ClueConfig.hh"
 #include <cstring>
-#else
-#include <ClueCfg.hh>
-#include <cstring>
-#endif
 
 char *
 CLUE_FUNCT_T
@@ -224,11 +219,7 @@ CLUE_FUNCT_T
 basename( char * fn );
 
 
-#if !defined( CLUE_SHORT_FN )
 #include <StringUtils.ii>
-#else
-#include <StrUtil.ii>
-#endif
 
 //
 // Detail Documentation:
@@ -624,6 +615,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1996/11/24 19:09:14  houghton
+// Removed support for short filenames.
+//
 // Revision 3.2  1996/11/19 12:26:34  houghton
 // Added StringFrom to convert number types into strings.
 //

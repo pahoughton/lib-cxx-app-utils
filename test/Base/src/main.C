@@ -13,19 +13,10 @@
 // $Id$
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
+#include "TestConfig.hh"
+#include "LibTest.hh"
 #include "TestFunctProto.hh"
-#include <Log.hh>
-#include <LibLog.hh>
 #include <iostream>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <iostream>
-#endif
-
 
 
 
@@ -40,7 +31,9 @@ LibTest::TestItem   TestList[] =
   { "IsBaseDigit",  	    tIsBaseDigit },
   { "UnionOf",	    	    tUnionOf },
   { "Round",	    	    tRound },
+#if !defined( FOR_RPM )
   { "Bit",    	    	    tBit },
+#endif 
   { "Compare", 	    	    tCompare },
   { "CharToInt",    	    tCharToInt },
   { "SafeStrcpy",   	    tSafeStrcpy },
@@ -55,19 +48,16 @@ LibTest::TestItem   TestList[] =
   { "StripWhite",   	    tStripWhite },
   { "basename",     	    tbasename },
   { "ClassVersion",	    tClassVersion },
-  { "Bitmask",		    tBitmask },
 #if !defined( FOR_RPM )
+  { "Bitmask",		    tBitmask },
   { "Str",  	    	    tStr },
   { "SubStr",  	    	    tSubStr },
-#endif
   { "RegexScan",    	    tRegexScan },  
-#if !defined( FOR_RPM )
   { "DateTimeUtils",        tDateTimeUtils },  
   { "DateTime",		    tDateTime },
   { "DateRange",	    tDateRange },
   { "DateRangeDaily",	    tDateRangeDaily },
   { "DateRangeWeekly",	    tDateRangeWeekly },
-#endif
   { "FilePath",		    tFilePath },
   { "User",		    tUser },
   { "UserGroup",	    tUserGroup },
@@ -75,7 +65,6 @@ LibTest::TestItem   TestList[] =
   { "LogLevel",		    tLogLevel },
   { "Log",		    tLog },
   { "Param",		    tParam },
-#if !defined( FOR_RPM )
   { "SortOrder",	    tSortOrder },
 #endif
 #if defined( ALL )
@@ -204,6 +193,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1996/11/24 19:13:12  houghton
+// Removed support for short filenames.
+//
 // Revision 3.4  1996/11/22 12:26:18  houghton
 // Added FilePath test.
 //

@@ -16,17 +16,10 @@
 // Revision History: (See end of file for Revision Log)
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "StringUtils.hh"
 #include <cstddef>
 #include <cstring>
 #include <cctype>
-#else
-#include "StrUtil.hh"
-#include <cstddef>
-#include <cstring>
-#include <cctype>
-#endif
 
 CLUE_FUNCT_VERSION(
   StringCaseReverseSearch,
@@ -93,6 +86,9 @@ StringCaseReverseSearch(
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/24 19:05:41  houghton
+// Removed support for short filenames.
+//
 // Revision 3.1  1996/11/14 01:24:16  houghton
 // Changed to Release 3
 //

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/24 19:10:12  houghton
+// Removed support for short filenames.
+//
 // Revision 3.1  1996/11/14 01:25:27  houghton
 // Changed to Release 3
 //
@@ -21,15 +24,10 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
+
+#include "ClueConfig.hh"
 #include <iostream>
 #include <fcntl.h>
-#else
-#include <ClueCfg.hh>
-#include <iostream>
-#include <fcntl.h>
-#endif
 
 CLUE_FUNCT_VERSION(
   OpenFlags,

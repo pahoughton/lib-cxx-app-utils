@@ -16,11 +16,7 @@
 //  specifiy white spaces that are to be striped
 //
 
-#if !defined( CLUE_SHORT_FN )
 #include "StringUtils.hh"
-#else
-#include "StrUtil.hh"
-#endif
 
 CLUE_FUNCT_VERSION(
   StripWhite,
@@ -75,6 +71,9 @@ StripWhite( char * buffer, const char * white, size_t bufSize )
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/24 19:09:42  houghton
+// Removed support for short filenames.
+//
 // Revision 3.1  1996/11/14 01:24:22  houghton
 // Changed to Release 3
 //
