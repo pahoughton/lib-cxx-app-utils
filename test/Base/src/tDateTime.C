@@ -1,14 +1,8 @@
-#if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
 #include <cstdlib>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
-#include <cstdlib>
-#endif
+#include <cstdio>
 
 
 bool tDateTime01( LibTest & tester );
@@ -23,6 +17,7 @@ bool tDateTime08( LibTest & tester );
 bool
 tDateTime( LibTest & tester )
 {
+  const char * oldTZ = getenv( "TZ" );
   
   putenv( "TZ=CST6CDT" );
 
@@ -34,7 +29,19 @@ tDateTime( LibTest & tester )
   TESTP( tDateTime06( tester ) ); 
   TESTP( tDateTime07( tester ) ); 
   TESTP( tDateTime08( tester ) ); 
- 
+
+  if( oldTZ )
+    {
+      char tzBuf[128];
+      
+      sprintf( tzBuf, "TZ=%s", oldTZ );
+      
+      putenv( tzBuf );
+      
+      DateTime t;
+      t.setTimeZone( oldTZ );
+    }
+  
   return( true );
   
 }
