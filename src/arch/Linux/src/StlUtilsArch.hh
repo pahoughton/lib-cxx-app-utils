@@ -5,9 +5,7 @@
 // Project:	Clue
 // Desc:        
 //
-//
-//
-// Quick Start: - short example of class usage
+//  Architecture specific header for Linux
 //
 // Author:      Paul A. Houghton - (paul.houghton@wcom.com)
 // Created:     01/17/97 11:06
@@ -25,12 +23,16 @@
 #define _BSD_SOURCE	1
 #define _SVID_SOURCE	1
 
-#define CLUE_HAVE_LONG_ABS 1
-#define CLUE_LOG_WHERE 1
-#define CLUE_HAS_STR 1
-#define CLUE_HAS_DATETIME 1
-#define CLUE_HAS_USER 1
-#define CLUE_HAS_USERGROUP 1
+#define CLUE_HAVE_LONG_ABS	    1
+#define CLUE_LOG_WHERE		    1
+#define CLUE_HAS_STR		    1
+#define CLUE_HAS_DATETIME	    1
+#define CLUE_HAS_USER		    1
+#define CLUE_HAS_USERGROUP	    1
+#define CLUE_HAS_SEMUN		    1 
+#define CLUE_HAS_CONST_IOSRDBUF	    1 
+#define CLUE_HAS_CONST_IOSRDSTATE   1
+#define CLUE_HAS_CONST_IOSGOOD	    1
 
 /* #define CLUE_THREADS	1 */
 
@@ -134,6 +136,12 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/07/18 19:38:40  houghton
+// Cleanup
+// Added CLUE_HAS_SEMUN (defined)
+// Added CLUE_HAS_CONST_IOSRDSTATE (defined)
+// Added CLUE_HAS_CONST_IOSGOOD (defined)
+//
 // Revision 3.4  1997/04/04 20:55:37  houghton
 // Added include unistd.h (for pid_t).
 //
@@ -192,6 +200,12 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/07/18 19:38:40  houghton
+// Cleanup
+// Added CLUE_HAS_SEMUN (defined)
+// Added CLUE_HAS_CONST_IOSRDSTATE (defined)
+// Added CLUE_HAS_CONST_IOSGOOD (defined)
+//
 // Revision 3.4  1997/04/04 20:55:37  houghton
 // Added include unistd.h (for pid_t).
 //
