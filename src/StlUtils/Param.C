@@ -9,6 +9,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.7  1996/11/11 13:35:39  houghton
+// Change to call rdbuf()-freeze beause AIX strstream does NOT have
+//     a freeze method in its strstream.
+//
 // Revision 2.6  1996/11/08 11:46:04  houghton
 // Removed Support for Str and DateTime.
 //     (as required by Mike Alexander)
@@ -308,7 +312,7 @@ Param::argInt(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != 0 );
   
@@ -345,7 +349,7 @@ Param::argUInt(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != 0 );
   
@@ -381,7 +385,7 @@ Param::argShort(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != 0 );
   
@@ -418,7 +422,7 @@ Param::argUShort(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != 0 );
   
@@ -454,7 +458,7 @@ Param::argLong(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != 0 );
   
@@ -490,7 +494,7 @@ Param::argULong(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != 0 );
   
@@ -516,7 +520,7 @@ Param::argDouble(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != 0 );
   
@@ -541,7 +545,7 @@ Param::argBool(
   
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != 0 );
 }
@@ -566,7 +570,7 @@ Param::argFlag(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != false );
 }
@@ -696,7 +700,7 @@ Param::argDate(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( argValue != 0 );
 }
@@ -808,7 +812,7 @@ const char *
 Param::error( void ) const
 {
   static strstream errStr;
-  errStr.freeze(0);
+  errStr.rdbuf()->freeze(0);
   errStr.seekp(0);
   errStr.seekg(0);
   
@@ -878,7 +882,7 @@ Param::dumpInfo(
     pre << prefix << "appLog:" << appLog.getClassName() << "::";
     pre << ends;
     appLog.dumpInfo( dest, pre.str(), false );
-    pre.freeze(0);
+    pre.rdbuf()->freeze(0);
   }
   
   dest << prefix;
@@ -928,7 +932,7 @@ Param::setHelp(
 
   tmpHelp << ends;
   helpString += tmpHelp.str();
-  tmpHelp.freeze(0);
+  tmpHelp.rdbuf()->freeze(0);
   
   return( hStart );
 }
