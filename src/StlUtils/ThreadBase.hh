@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 2.2  1996/11/04 14:34:35  houghton
+// Changed to be compilable even if CLUE_THREADS is not defined.
+//
 // Revision 2.1  1996/04/27 13:11:52  houghton
 // Initial version.
 //
@@ -61,8 +64,10 @@ public:
 protected:
 
   virtual bool	main( void ) = 0;
-  
+
+#if defined( CLUE_THREADS )
   pthread_t	threadId;
+#endif
   bool		cleanup;
   int		errorNum;
   

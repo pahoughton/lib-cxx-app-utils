@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/11/04 14:34:32  houghton
+// Changed to be compilable even if CLUE_THREADS is not defined.
+//
 // Revision 2.3  1996/07/15 12:15:48  houghton
 // Bug-Fix: if detach, call pthread_detach so the threads resources
 //   will be cleaned up.
@@ -43,6 +46,8 @@
 CLUE_VERSION(
   ThreadBase,
   "$Id$");
+
+#if defined( CLUE_THREADS )
 
 ThreadBase::ThreadBase( bool detach )
   : threadId( 0 ),
@@ -190,3 +195,100 @@ ThreadBase::dumpInfo(
   return( dest );
 }
 
+#else // ! defined( CLUE_THREADS )
+
+ThreadBase::ThreadBase( bool detach )
+  : cleanup( detach ),
+    errorNum( 0 )
+{
+}
+
+ThreadBase::~ThreadBase( void )
+{
+}
+
+
+bool
+ThreadBase::start( void )
+{
+  return( good() );
+}
+
+bool
+ThreadBase::join( void )
+{
+  return( good() );
+}
+
+void *
+ThreadBase::threadEntry( void * CLUE_UNUSED( obj ) )
+{
+  return( 0 );
+}
+
+bool
+ThreadBase::good( void ) const
+{
+  return( errorNum == 0 );
+}
+
+const char *
+ThreadBase::error( void ) const
+{
+  static Str errStr;
+
+  errStr = ThreadBase::getClassName();
+
+  if( good() )
+    {
+       errStr << ": unsupported";
+    }
+  else
+    {
+      size_t eSize = errStr.size();
+
+       errStr << ": unsupported";
+       
+      if( eSize == errStr.size() )
+        errStr << ": unknown error";
+    }
+
+  return( errStr.cstr() );
+}
+
+const char *
+ThreadBase::getClassName( void ) const
+{
+  return( "ThreadBase" );
+}
+
+const char *
+ThreadBase::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer ) );
+}
+
+
+ostream &
+ThreadBase::dumpInfo(
+  ostream &	dest,
+  const char *	prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << ThreadBase::getClassName() << ":\n"
+	 << ThreadBase::getVersion() << '\n';
+
+  if( ! ThreadBase::good() )
+    dest << prefix << "Error: " << ThreadBase::error() << '\n';
+  else
+    dest << prefix << "Good" << '\n';
+
+  dest << prefix << "cleanup:   " << (cleanup ? "true" : "false" ) << '\n'
+    ;
+  
+  return( dest );
+}
+
+#endif // defined( CLUE_THREADS )
