@@ -77,13 +77,17 @@ main( int argc, char * argv[] )
   if( ! App->good() || App->help() || ! App->allArgs() )
     App->abort( 1, true, __FILE__, __LINE__ );
 
+  IbpDefaultPreScan preScan;
   FileProc  fileProc;
   
-  InboundProcessor< FileProc >	inProc( App->fnPattern(),
-					App->inDir(),
-					App->procDir(),
-					App->waitSecs(),
-					fileProc );
+  
+  InboundProcessor< FileProc, IbpDefaultPreScan >
+    inProc( App->fnPattern(),
+	    App->inDir(),
+	    App->procDir(),
+	    App->waitSecs(),
+	    fileProc,
+	    preScan );
 
   inProc.run();
   
@@ -97,6 +101,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/09/29 13:46:29  houghton
+// Change to work with latest version of inbound processoer.
+//
 // Revision 4.1  1997/09/17 15:15:01  houghton
 // Changed to Version 4
 //
