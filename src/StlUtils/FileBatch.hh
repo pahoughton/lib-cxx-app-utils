@@ -258,6 +258,10 @@ public:
       return( owner == rhs.owner && pos == rhs.pos );
     };
 
+    inline bool	    operator != ( const const_iterator & rhs ) const {
+      return( ! (*this == rhs) );
+    };
+
     inline bool	    operator == ( const self::iterator & rhs ) const {
       return( owner == rhs.owner && pos == rhs.pos );
     };
@@ -444,6 +448,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2001/01/11 13:47:44  houghton
+// Port to Sun CC 5.0.
+//
 // Revision 5.2  2000/06/27 10:46:05  houghton
 // Port(Sun C++ 5.0): change to use 'std' iterator classes.
 //
