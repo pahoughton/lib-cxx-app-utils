@@ -16,10 +16,10 @@
 
 include Make/make.cfg.2.1
 
-BETA_LIB_DEST	= /rating/dev/lib
-BETA_INC_DEST	= /rating/dev/include
+BETA_LIB_DIR	= 
+BETA_INC_DIR	= 
 
-PROD_INC_DEST	= /rating/dev/include
+PROD_INC_DIR	= 
 
 LIBRARY		= libClue.a
 
@@ -71,11 +71,13 @@ USER_INCS	=			\
 	State.hh                        \
 	Str.hh                          \
 	StringList.hh                   \
+	SybaseParam.hh			\
 	TeleNum.h                       \
 	TeleNum.hh                      \
 	Timer.hh                        \
-	gnustd.h                        \
-	std.h                           \
+
+#	gnustd.h                        \
+#	std.h                           \
 
 PROTO_H		= _Clue_Proto.h
 
@@ -223,7 +225,10 @@ include .depend.lib
 
 # 
 # $Log$
-# Revision 1.7  1995/02/13 16:08:47  houghton
+# Revision 1.8  1995/02/13 17:37:07  houghton
+# Add SybaseParam
+#
+# Revision 1.7  1995/02/13  16:08:47  houghton
 # New Style Avl an memory management. Many New Classes
 #
 # Revision 1.6  1995/01/13  20:27:48  ichudov
