@@ -29,6 +29,9 @@
 #define CLUE_LOG_WHERE 1
 #define CLUE_HAS_STR 1
 #define CLUE_HAS_DATETIME 1
+#define CLUE_HAS_USER 1
+#define CLUE_HAS_USERGROUP 1
+
 /* #define CLUE_THREADS	1 */
 
 #define CLUE_STRBUF_CONST_RDBUF const
@@ -130,6 +133,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/03 19:08:17  houghton
+// Added defines for HAS_USER and HAS_USERGROUP.
+//
 // Revision 3.2  1997/03/02 13:20:51  houghton
 // Added defineds for Str and DateTime.
 //
@@ -182,6 +188,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/03/03 19:08:17  houghton
+// Added defines for HAS_USER and HAS_USERGROUP.
+//
 // Revision 3.2  1997/03/02 13:20:51  houghton
 // Added defineds for Str and DateTime.
 //
