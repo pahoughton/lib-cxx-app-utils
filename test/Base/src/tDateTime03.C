@@ -294,10 +294,6 @@ tDateTime03( LibTest & tester )
     TEST( dt.getMinute() == min );
     TEST( dt.getSecond() == sec );
 
-    dt.setValid( 65, month, day );
-
-    TEST( ! dt.good() );
-
     dt.setValid( year, month, day );
     TEST( dt.good() );
 
@@ -308,7 +304,7 @@ tDateTime03( LibTest & tester )
     TEST( ! dt.good() );
 
     dt.setValid( 1969, month, day );
-    TEST( ! dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( year, 0, day );
     TEST( ! dt.good() );
@@ -501,7 +497,7 @@ tDateTime03( LibTest & tester )
     TEST( ! dt.good() );
 
     dt.setValid( "1/1/65" );
-    TEST( ! dt.good() );
+    TEST( dt.good() );
 
     dt.setValid( "1/1/95 24:0:0" );
     TEST( ! dt.good() );
@@ -523,5 +519,22 @@ tDateTime03( LibTest & tester )
     
   }
 
+  {
+    // setVaidYYMMDD( const char * yymmdd );
+
+    DateTime dt;
+
+    dt.setValidYYMMDD( "970204" );
+
+    TEST( dt.good() );
+
+    // FIXME - need more extensive testing.
+    
+    // cout << "\n" <<  dt << " - 970204 '" << dt.getYYYYMMDD() << "'." <<  endl;
+  }
+  
+    
+
+    
   return( true );
 }
