@@ -165,7 +165,10 @@ tParam03( LibTest & tester )
 
   {
 #if defined( STLUTILS_TEST )
-    tester.file( __FILE__, __LINE__, TEST_ARGFILE );
+    // This test doesn't work because when the exp file
+    // is check in the Keywords get expanded.
+    //
+    // tester.file( __FILE__, __LINE__, TEST_ARGFILE );
 #endif
     tester.file( __FILE__, __LINE__, TEST_LOGFILE );
   }
@@ -176,6 +179,9 @@ tParam03( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1999/11/09 22:10:40  houghton
+// Bug-Fix: can't test gen args file.
+//
 // Revision 4.1  1999/11/09 11:11:33  houghton
 // Initial Version.
 //
