@@ -79,6 +79,8 @@ public:
 	 int		    logOpenProt = 0664 );
 
   virtual ~Param( void );
+
+  void		    appendHelp( const char * helpText );
   
   inline Log &	    log( void );
   inline Log &	    log( LogLevel::Level lvl );
@@ -89,7 +91,7 @@ public:
 
   pid_t		    getpid( void ) const;
   
-  inline size_t    count( void ) const;
+  inline size_t	    count( void ) const;
 
   inline Args::const_iterator	begin( void ) const;
   inline Args::const_iterator	end( void ) const;
@@ -236,14 +238,15 @@ private:
 			const char *	envVar,
 			const char *	value );
 
+  Str		    versionText;
+  Str		    helpText;
   Str    	    helpString;
+  
 
   Args		    allArgv;
   Args		    argv;
   Args		    allFileArgs;
   Args		    fileArgs;
-  
-  Str		    ver;
   
   Log	    	    appLog;
 
@@ -301,13 +304,46 @@ operator << ( ostream & dest, const Param & obj );
 //
 //  These are the default args defined by the Param class.
 //
+//	-argfile    string - the name of the argument file to read
+//		    for all other arguments. This file is read before
+//		    any other arguments are processed, so any values
+//		    set in it will be overriden by both environment
+//		    variables and command line arguments. The format
+//		    of the file is:
+//
+//			# this is a comment
+//			  -arg    opt value string      # comment
+//
+//		    Where arg is a whole word arguement and
+//		    'opt value string' will be the next argument.
+//		    Usually this would be the value for -arg, but
+//		    There is no restrictions placed on this.
+//		    The only syntactical restrictions is that the
+//		    first sequence of non whitespace characters
+//		    on a line are treated as a single argument. All
+//		    other non white space characts are treated as
+//		    another signle argument.
+//
 //	-help	    flag - show usage help. The application must
 //		    check the help() method and put the
 //		    Param object on an ostream ( cout << param; )
 //		    to actually output the help text.
 //
-//	-log	    String - log file name. File name that should be used
+//	-version    flag - output the version info to stdout (cout)
+//		    then exit(0). If the -help flag is also set, this flag
+//		    is ignored (the version info is included in the help).
+//
+//	-logfile    string - log file name. File name that should be used
 //		    for log output. Env: LOG_FILE. Default: cout
+//
+//	-logmode    string - this is the 'ios::open_mode' for the
+//		    log file. It should be either 'ios::app|ios::out' or
+//		    'ios::out'. (note: the ios:: and the | are ignored,
+//		    so 'app out' will also work.
+//
+//	-logprot    int - this is the protection for a new log file.
+//		    The leading 0 is significant, so you should
+//		    set it with something like 0644.
 //
 //	-loglevel   stirng - output log level. The type of log entries
 //		    that will be output to the log.
@@ -320,14 +356,15 @@ operator << ( ostream & dest, const Param & obj );
 //
 //	-logtee	    flag - Tee log output to cerr.
 //
-//	-logtime    bool - write a time stamp to each
+//	-logshowtime
+//		    bool - write a time stamp to each
 //		    log entry. Env: LOG_TIME. Default: true
 //
-//	-logstamplevel
+//	-logshowlevel
 //		    bool - output the level with each log entry
 //		    Env: LOG_STAMP_LEVEL. Default: true.
 //
-//	-logloc	    bool - output source file and line with each
+//	-logshowloc bool - output source file and line with each
 //		    log entry. Env: LOG_LOC. Default: true
 //
 //	-logmax	    long - max size of log file.
@@ -393,17 +430,30 @@ operator << ( ostream & dest, const Param & obj );
 //
 //  Constructors:
 //
-//  	Param( int	    mainArgc,
-//	       char *	    mainArgv[],
-//	       const char * version = 0,
-//	       const char * logLevel = CLUE_DEFAULT_LOGLEVEL );
+//  	Param( int		mainArgc,
+//	       char *		mainArgv[],
+//	       const char *	version = 0,
+//	       bool		useDefaultArgFn = false,
+//	       const char *	logLevel = CLUE_DEFAULT_LOGLEVEL,
+//	       bool		useDefaultLogfn = false,
+//	       ios::open_mode	logOpenMode = (ios::out|ios::app)
+//	       int		logOpenProt = 0664 );
 //	    Construct an instance of the Param class. 'mainArgc' and
 //	    mainArgv should be the original argv and argc from main
 //	    (i.e. main( int argc, char * argv[] ). 'version' is the
-//	    version identification for the application. 'logLevel'
-//	    sets the output level for the log. 
+//	    version identification for the application.
+//	    If 'useDefaultArgFn' is true, then the argfile will
+//	    be 'mainArgv[0].args'. 'logLevel' sets the output level for
+//	    the log.  If 'useDefaultLogFn' is true, the logfile will
+//	    be 'mainArgv[0].log'. 'logOpenMode' sets the default open
+//	    mode for the log file. 'logOpenProg' sets the default
+//	    protection for the log file.
 //
 //  Public Interface:
+//
+//	void
+//	appendHelp( const char * helpText )
+//	    This text will be added to the help message.
 //
 //	inline
 //  	Log &
@@ -431,6 +481,10 @@ operator << ( ostream & dest, const Param & obj );
 //	const char *
 //	appVersion( void ) const
 //	    Return the version infomation passed to the constructor.
+//
+//	pid_t
+//	getpid( void )
+//	    Return the process id for the application.
 //
 //	inline
 //  	size_t
@@ -482,6 +536,9 @@ operator << ( ostream & dest, const Param & obj );
 //  	env( const char * envVar ) const;
 //	    Return the value for the envrionment variable 'envVar'.
 //
+//	bool
+//	setArgFileName( const char * name )
+//	    Set the name of the argument file to use (i.e. -argfile).
 //
 //	virtual
 //	bool
@@ -835,9 +892,22 @@ operator << ( ostream & dest, const Param & obj );
 //	
 //	* main.C * END *
 //
+// See Also:
+//
+// Files:
+//
+// Documented Ver: 3.14
+//
+// Tested Ver:
+//
 // Revision Log:
 //
 // $Log$
+// Revision 3.14  1997/08/08 13:20:24  houghton
+// Added appendHelp().
+// Added -version support.
+// Updated documentation.
+//
 // Revision 3.13  1997/07/28 16:46:21  houghton
 // Added default log file support.
 //
