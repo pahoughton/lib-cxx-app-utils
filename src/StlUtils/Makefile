@@ -111,7 +111,7 @@ SHDEP_LIBS		= -L$(TOOL_DIR)/lib/alpha -lCommon_s
 # **** I N S T A L L ****
 
 INSTALL_LIB_FLAGS	= 
-INSTALL_INC_FLAGS	= 
+INSTALL_INC_FLAGS	= -m 664
 
 #
 # =USE_CURRENT_MAKEFILE=
@@ -138,6 +138,7 @@ CXX_C_SOURCES	=			\
 	StringUpper.C                   \
 	StringCapitalize.C              \
 	StringTo.C			\
+	StringFrom.C			\
 	basename.C			\
 	OpenFlags.C			\
 	Bitmask.C			\
@@ -381,6 +382,7 @@ include Make/make.cfg.targets.$(makefile_type).$(make_cfg_ver)
 
 vpt:
 	echo $(VPATH)
+
 time_all: time all time
 
 time:
@@ -425,6 +427,11 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.2  1996/11/19 12:22:22  houghton
+# Added -m flag to install includes.
+# Added StringFrom
+# Minor Cleanup.
+#
 # Revision 3.1  1996/11/14 01:23:50  houghton
 # Changed to Release 3
 #
