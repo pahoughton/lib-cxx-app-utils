@@ -12,7 +12,7 @@
 # Include standard MakeConfig configuration for GNU make required
 #
 
-include Make/make.cfg.2.1
+include Make/make.cfg.2.2
 
 BETA_DIR	= 
 PROD_DIR	= 
@@ -30,6 +30,12 @@ C_SOURCES	=			\
 CXX_SOURCES	=			\
 	main.C                          \
 	tDateTime.C			\
+	tDateTime1.C			\
+	tDateTime2.C			\
+	tDateTime3.C			\
+	tDateTime4.C			\
+	tDateTime5.C			\
+	tDateTime6.C			\
 
 #	tArray.C			\
 #	AvlTestData.C			\
@@ -75,7 +81,7 @@ CCOTHER		=
 # see MakeConfig(1) for portable libraries
 #
 
-LDLIBS		= -bloadmap:map -L../src -lClue -L../../libCommon/src -lCommon -lm 
+LDLIBS		= -L../src -lClue -L../../libCommon/src -lCommon 
 
 		  
 
@@ -87,7 +93,7 @@ LDLIBS		= -bloadmap:map -L../src -lClue -L../../libCommon/src -lCommon -lm
 all: $(PROGRAM)
 
 $(PROGRAM): $(OBJECTS) ../src/libClue.a
-	$(LDXX) -o $@ $(OBJECTS) $(LDFLAGS) 
+	$(LDXX) -o $@ $(OBJECTS) $(LDFLAGS) $(LIBXXARCH)
 
 install:
 	mkdirhier $(BETA_DIR/old)
@@ -126,7 +132,10 @@ include .depend.prog
 
 # 
 # $Log$
-# Revision 1.1  1995/02/13 16:12:03  houghton
+# Revision 1.2  1995/02/20 14:24:44  houghton
+# Complete DateTime class test
+#
+# Revision 1.1  1995/02/13  16:12:03  houghton
 # Initial libClue test - This has a long way to go.
 #
 # Revision 1.1  1994/01/23  18:16:56  houghton
