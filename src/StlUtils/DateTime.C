@@ -214,7 +214,7 @@ DateTime::setValid(
   offset = 0;
   timeZoneName = 0;
 
-  if( ( ( year >= 0 && year < 99 )
+  if( ( ( year >= 0 && year <= 99 )
 	|| ( year <= MaxYear && year >= MinYear ) )
       && ( month > 0 && month <= 12 )
       && ( hour >= 0 && hour < 24 )
@@ -681,7 +681,7 @@ DateTime::toTimeT(
   long  secs = 0;
   long	leapCount = 0;
 
-  if( year )
+  if( year >= 0 )
     {
       // this is a best guess for 2 digit years
       if( year > 100 )
@@ -803,6 +803,10 @@ DateTime::getVersion( bool withPrjVer ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/01/09 10:36:34  houghton
+// Bug-Fix: setValid() year <= 99 is ok (was < 99)
+// Bug-Fix: set() if year >= 0 is ok (was !- 0).
+//
 // Revision 4.2  1998/01/05 13:20:02  houghton
 // Added getYYYYMMDD()
 // Added setValidYYMMDD()
