@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/11/04 14:28:24  houghton
+// Added include stddef.
+//
 // Revision 2.3  1996/04/27 13:09:15  houghton
 // Cleanup includes.
 //
@@ -27,6 +30,7 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
+#include <stddef>
 #include <strstream>
 #else
 #include <ClueCfg.hh>
