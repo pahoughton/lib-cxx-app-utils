@@ -2,6 +2,7 @@
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
+#include <DateTimeUtils.hh>
 #include <vector>
 #include <set>
 #include <functional>
