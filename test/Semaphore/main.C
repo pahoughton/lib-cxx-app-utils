@@ -19,8 +19,8 @@
 
 #include "ClueConfig.hh"
 #include <Semaphore.hh>
-
 #include <iostream>
+#include <cstdlib>
 
 
 int
@@ -86,6 +86,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1997/07/20 18:53:01  houghton
+// Added include cstdlib.
+//
 // Revision 1.1  1997/07/11 15:57:25  houghton
 // Initial Version.
 //
