@@ -29,6 +29,7 @@ UNIX_CXX_C_SOURCES	=	\
 	Semaphore.C		\
 
 UNIX_USER_H_INCS	=	\
+	SignalStrings.h		\
 
 UNIX_USER_HH_INCS	=	\
 	InboundProcessorBase.hh	\
@@ -55,9 +56,17 @@ UNIX_C_HEADERS		=
 UNIX_CXX_HEADERS	=
 UNIX_CXX_INLINES	=
 
+UNIX_GENERATED_SOURCES = $(UNIX_DIR)/SignalStrings.h
+
+$(UNIX_DIR)/SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
+	$(hide) $(UNIX_DIR)/GenSigList.sh $(CC) $@
 
 #
 # $Log$
+# Revision 3.7  1997/08/08 13:29:01  houghton
+# Added support to generate SignalStrings.h.
+# Added UNIX_GENERATED_SOURCES.
+#
 # Revision 3.6  1997/07/20 18:51:37  houghton
 # Added InboundProcessor.
 #
