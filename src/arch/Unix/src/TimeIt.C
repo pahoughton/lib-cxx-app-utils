@@ -17,7 +17,7 @@
 
 #include "TimeIt.hh"
 #include <ClueUtils.hh>
-#include <string>
+#include <Str.hh>
 #include <iomanip>
 
 #if defined( CLUE_DEBUG )
@@ -108,23 +108,20 @@ TimeIt::good( void ) const
 const char *
 TimeIt::error( void ) const
 {
-  static string errStr;
+  static Str errStr;
 
   errStr = TimeIt::getClassName();
 
   if( good() )
     {
-       errStr += ": ok";
+      errStr << ": ok";
     }
   else
     {
       size_t eSize = errStr.size();
 
       if( osErrnum )
-	{
-	  errStr += ": " ;
-	  errStr += strerror( osErrnum );
-	}
+	errStr << ": " << strerror( osErrnum );
       
       if( eSize == errStr.size() )
         errStr += ": unknown error";
@@ -230,6 +227,9 @@ TimeIt::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/03/03 19:05:20  houghton
+// Changed from using 'string' to 'Str'
+//
 // Revision 3.1  1997/03/03 14:37:41  houghton
 // Initial Version.
 //
