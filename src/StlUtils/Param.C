@@ -76,6 +76,9 @@ Param::Param(
   
   argv = allArgv;
 
+  // remove first arg (i.e appName).
+  argv.erase( argv.begin() );
+  
   if( useDefaultArgFn )
     argFile << appName() << ".args" ;
     
@@ -100,13 +103,13 @@ Param::appendHelp( const char * text )
 const char *
 Param::appName( void ) const
 {
-  return( basename( argv[0].c_str() ) );
+  return( basename( allArgv[0].c_str() ) );
 }
 
 const char *
 Param::appFullName( void ) const
 {
-  return( argv[0].c_str() );
+  return( allArgv[0].c_str() );
 }
 
 const char *
@@ -124,8 +127,11 @@ Param::getpid( void ) const
 bool
 Param::parseArgs( void )
 {
-  argv	    = allArgv;
+  argv = allArgv;
 
+  // remove first arg (i.e. appName )
+  argv.erase( argv.begin() );
+  
   Str argFileEnvVar;
 
   argFileEnvVar = appName();
@@ -805,24 +811,23 @@ Param::getArgFlag( const char * argId, const char * envVar )
       }
   }
 
-  if( count() <= 1 )
-    return( value );
+  if( count() > 0 )
+    {
+      Args::iterator	them = argv.begin();
+      for( ; them != argv.end(); ++ them )
+	{
+	  if( (*them).size() > 1 &&
+	      (*them)[0] == '-' && 
+	      (*them).substr( 1 ).compare( argId ) == 0 )
+	    {
+	      // found it now get the value
+	      value = true;
+	      argv.erase( them );
+	      break;
+	    }
+	}
+    }
   
-  {
-    Args::iterator	them = argv.begin();
-    for( ; them != argv.end(); ++ them )
-      {
-	if( (*them).size() > 1 &&
-	    (*them)[0] == '-' && 
-	    (*them).substr( 1 ).compare( argId ) == 0 )
-	  {
-	    // found it now get the value
-	    value = true;
-	    argv.erase( them );
-	    break;
-	  }
-      }
-  }
   return( value );
 }
 
@@ -935,7 +940,7 @@ Param::getVersion( bool withPrjVer ) const
 ostream &
 Param::toStream( ostream & dest ) const
 {
-  dest << "\n" << appFullName() << " usage help: \n\n";
+  dest << "\n" << appName() << " usage help: \n\n";
 
   if( versionText.size() )
     {
@@ -963,12 +968,12 @@ Param::toStream( ostream & dest ) const
 	dest << "  " << (*them) << endl;
     }
 	  
-  if( count() > 1 )
+  if( count() )
     {
       dest << "\nUnprocessed command line args:\n";
       
       Args::const_iterator them = argv.begin();
-      for( ++ them ; them != argv.end(); ++ them )
+      for( ; them != argv.end(); ++ them )
 	dest << "  " << (*them) << endl;
     }
 
@@ -1046,7 +1051,7 @@ Param::dumpInfo(
       dest << "\nUnprocessed command line args:\n";
       
       Args::const_iterator them = argv.begin();
-      for( ++ them ; them != argv.end(); ++ them )
+      for( ; them != argv.end(); ++ them )
 	dest << "  " << (*them) << endl;
     }
 
@@ -1149,6 +1154,9 @@ Param::setError(
 // Revision Log:
 //
 // $Log$
+// Revision 3.17  1997/09/02 13:06:44  houghton
+// Reworked so begin() does not include argv[0] (i.e. appName ).
+//
 // Revision 3.16  1997/08/08 13:23:58  houghton
 // Added appendHelp().
 // Added -version support.

@@ -150,7 +150,7 @@ inline
 bool
 Param::allArgs( void ) const
 {
-  return( count() == 1 );
+  return( count() == 0 );
 }
 
 inline
@@ -176,6 +176,9 @@ operator<<( ostream & dest, const Param & obj )
 // 
 //
 // $Log$
+// Revision 3.8  1997/09/02 13:07:08  houghton
+// Reworked so begin() does not include argv[0] (i.e. appName ).
+//
 // Revision 3.7  1997/07/18 19:25:48  houghton
 // Port(Sun5): changed local variable names to eliminate compiler warnings.
 //
