@@ -79,7 +79,7 @@ STATIC_DEFINES	= -DTCLUE_STATIC=1
 SRC_INC		= $(ARCH_INC) -I. 
 PRJ_INC		= $($($(make_target))_PRJ_INC)
 
-DEFAULT_PRJ_INC	= -I$(alpha_incdir)
+DEFAULT_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
 DEBUG_PRJ_INC	= $(CLUE_SRC_INC) -I$(alpha_incdir)
 PROFILE_PRJ_INC = $(CLUE_SRC_INC) -I$(alpha_incdir)
 STATIC_PRJ_INC	= -I$(alpha_incdir)
@@ -139,7 +139,7 @@ DEBUG_LD_FLAGS		= $(ld_debug)
 PROFILE_LD_FLAGS	= $(ld_profile)
 STATIC_LD_FLAGS		= $(ld_static) $(ld_optimize)
 
-DEFAULT_LD_LIBDIRS	= -L$(alpha_libdir)
+DEFAULT_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
 DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) -L$(alpha_libdir)
 PRIFLE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
@@ -384,6 +384,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.14  1996/06/20 15:26:00  houghton
+# Changed default target to use src dirs instead of installed dirs.
+#
 # Revision 2.13  1996/06/09 09:45:53  houghton
 # Added TestBinObject and tHeapNetStream.
 #
