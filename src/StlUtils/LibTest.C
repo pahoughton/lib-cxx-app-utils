@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.4  1997/08/18 10:21:12  houghton
+// Port(Sun5): Renamed 'times' in run to numTimes to prevent a compiler warning.
+//
 // Revision 3.3  1997/06/09 12:00:55  houghton
 // Reworked arg processing so an error will be output if a test is not found.
 //
@@ -100,7 +103,7 @@ LibTest::~LibTest( void )
 int
 LibTest::run( int & argc, char * argv[] )
 {
-  size_t times = 1;
+  size_t numTimes = 1;
   int     argsUsed = 1;
 
   vector< char * >  arglist;
@@ -112,7 +115,7 @@ LibTest::run( int & argc, char * argv[] )
 	  argsUsed++;
 	  if( isdigit( argv[arg][1]  ) )
 	    {
-	      times = atoi( argv[arg] + 1 );
+	      numTimes = atoi( argv[arg] + 1 );
 	    }
 	  else
 	    {
@@ -132,7 +135,7 @@ LibTest::run( int & argc, char * argv[] )
 	}
     }
 
-  for( size_t passNum = 0; passNum < times; passNum++ )
+  for( size_t passNum = 0; passNum < numTimes; passNum++ )
     {
       if( arglist.empty() )
 	{
