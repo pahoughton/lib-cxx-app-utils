@@ -34,13 +34,17 @@
 #include <iostream>
 #include <cstddef>
 
+extern bool	_LibTest_tf;
+
 #define TESTIT( tester_, tf_ ) tester_( __FILE__, __LINE__, tf_ )
 #define TESTITR( tester_, r_, tf_ ) tester_( __FILE__, __LINE__, r_, tf_ )
 #define TESTITP( tester_, tf_, p_ ) tester_( __FILE__, __LINE__, tf_, p_ )
 
 #define TEST( tf_ ) if( ! TESTIT( tester, (tf_) ) ) return( false )
 #define TESTP( tf_ ) if( ! TESTITP( tester, (tf_), (true) ) ) return( false )
-#define TESTR( r_, tf_ ) if( ! TESTITR( tester, (r_), (tf_) ) ) return( false )
+
+#define TESTR( r_, tf_ )						    \
+_LibTest_tf = (tf_); if( ! TESTITR( tester, (r_), (_LibTest_tf) ) ) return( false )
 
 // Macro Argument descriptions for: TESTIT, TESTITR, TESTITR,
 //				    TEST, TESTR & TESTP
@@ -487,6 +491,11 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/03/08 18:07:04  houghton
+// Changed so TESTR call does not access the error until after the test
+//     value. This way, if the error is a method, the method being tested
+//     will have executed.
+//
 // Revision 4.1  1997/09/17 15:12:30  houghton
 // Changed to Version 4
 //

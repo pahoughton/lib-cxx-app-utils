@@ -10,6 +10,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1998/03/08 18:07:18  houghton
+// Changed so TESTR call does not access the error until after the test
+//     value. This way, if the error is a method, the method being tested
+//     will have executed.
+//
 // Revision 4.1  1997/09/17 15:12:30  houghton
 // Changed to Version 4
 //
@@ -65,6 +70,9 @@ LibTest::DefaultResults LibTest::defaultResultsObj;
 
 #define cerr
 #define cout
+
+bool _LibTest_tf( 0 );
+
 
 LibTest::LibTest(
   const TestItem *  t,
