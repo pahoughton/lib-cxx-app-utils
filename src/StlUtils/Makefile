@@ -72,7 +72,7 @@ SHARED_DEFINES	= -DCLUE_SHARED=1
 
 
 SRC_INC		= $(ARCH_INC) -I. 
-PRJ_INC		= -I$(alpha_incdir)
+PRJ_INC		= -I$(beta_incdir)
 
 
 # Any other cpp flags to use on for all targets
@@ -141,9 +141,15 @@ CXX_C_SOURCES	=			\
 	basename.C			\
 	OpenFlags.C			\
 	Bitmask.C			\
-	LogLevel.C			\
+	Mutex.C                         \
 	RegexScan.C                     \
-
+	FileStat.C			\
+	User.C				\
+	UserGroup.C			\
+	LogLevel.C			\
+	LogBuf.C			\
+	Log.C				\
+	Param.C                         \
 
 orig = \
 	BinStream.C                     \
@@ -419,6 +425,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.25  1996/11/08 11:45:08  houghton
+# *** empty log message ***
+#
 # Revision 2.24  1996/11/04 18:21:56  houghton
 # Changed version and install directory to beta.
 #

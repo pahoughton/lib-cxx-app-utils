@@ -55,25 +55,31 @@ LibTest::TestItem   TestList[] =
   { "basename",     	    tbasename },
   { "ClassVersion",	    tClassVersion },
   { "Bitmask",		    tBitmask },
+#if defined( READY )
   { "HeapBinStream",	    tHeapBinStream },
   { "HeapNetStream",	    tHeapNetStream },
   { "Str",  	    	    tStr },
   { "SubStr",  	    	    tSubStr },
+#endif
   { "RegexScan",    	    tRegexScan },  
+#if defined( READY )
   { "DateTimeUtils",        tDateTimeUtils },  
   { "DateTime",		    tDateTime },
   { "DateRange",	    tDateRange },
   { "DateRangeDaily",	    tDateRangeDaily },
   { "DateRangeWeekly",	    tDateRangeWeekly },
   { "FilePath",		    tFilePath },
+#endif
   { "User",		    tUser },
   { "UserGroup",	    tUserGroup },
   { "FileStat",		    tFileStat },
   { "LogLevel",		    tLogLevel },
   { "Log",		    tLog },
   { "Param",		    tParam },
+#if defined( READY )
   { "SortOrder",	    tSortOrder },
   { "FileBinStream",	    tFileBinStream },
+#endif
 #if defined( ALL )
   { "WithCommon",	    tWithCommon },
   { "WithWcf",		    tWithWcf },
@@ -200,6 +206,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 2.9  1996/11/08 11:46:54  houghton
+// *** empty log message ***
+//
 // Revision 2.8  1996/11/06 18:14:47  houghton
 // Changed to run all test.
 //

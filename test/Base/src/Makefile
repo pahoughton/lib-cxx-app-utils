@@ -194,7 +194,24 @@ CXX_C_SOURCES	=			\
 	tBitmask02.C                    \
 	tBitmask03.C                    \
 	tRegexScan.C                    \
+	tUser.C                         \
+	tUserGroup.C                    \
+	tFileStat.C                     \
+	tFileStat01.C                   \
+	tFileStat02.C                   \
+	tFileStat03.C                   \
+	tFileStat04.C                   \
+	tFileStat05.C                   \
+	tFileStat06.C                   \
 	tLogLevel.C                     \
+	tLog.C                          \
+	tLog01.C                        \
+	tLog02.C                        \
+	tLog03.C                        \
+	tLog04.C                        \
+	tLog05.C                        \
+	tParam.C                        \
+	tParam01.C                      \
 
 
 orig = \
@@ -421,6 +438,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.18  1996/11/08 11:46:49  houghton
+# *** empty log message ***
+#
 # Revision 2.17  1996/11/04 14:41:28  houghton
 # Added use of rwtool library.
 # Changed to only test the classes & functions that are ready.
