@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/08/24 23:07:04  houghton
+// Changed type of global const values to time_t.
+//
 // Revision 3.1  1996/11/14 01:23:39  houghton
 // Changed to Release 3
 //
@@ -34,13 +37,19 @@
 #include <ctime>
 #endif
 
-extern const long   CLUE_GVAR_T SecPerMin;
-extern const long   CLUE_GVAR_T SecPerHour;
-extern const long   CLUE_GVAR_T SecPerDay;
-extern const long   CLUE_GVAR_T SecPerYear;
+extern const time_t CLUE_GVAR_T SecPerMin;
+extern const time_t CLUE_GVAR_T SecPerHour;
+extern const time_t CLUE_GVAR_T SecPerDay;
+extern const time_t CLUE_GVAR_T SecPerYear;
 
-extern const long   CLUE_GVAR_T MinPerHour;
-extern const long   CLUE_GVAR_T MinPerDay;
+extern const time_t CLUE_GVAR_T MinPerHour;
+extern const time_t CLUE_GVAR_T MinPerDay;
+
+extern const time_t CLUE_GVAR_T MinTimeT;
+extern const time_t CLUE_GVAR_T MaxTimeT;
+
+extern const time_t CLUE_GVAR_T MinYear;
+extern const time_t CLUE_GVAR_T MaxYear;
 
 extern const int    CLUE_GVAR_T DaysInMonth[];
 extern const int    CLUE_GVAR_T MonthDayOfYear[];
