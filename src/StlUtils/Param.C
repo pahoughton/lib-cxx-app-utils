@@ -57,12 +57,14 @@ Param::Param(
   if( _LibLog  == 0 )
     _LibLog = &appLog;
 
+  if( logOutputLevel.size() )
+    appLog.setOutputLevel( logOutputLevel.c_str() );
+
   for( int a = 0; a < mainArgc; ++a )
     {
       Str tmp = mainArgv[a];
 
       allArgv.push_back( tmp );
-      argv.push_back( tmp );
     }
   
   helpString += "\n";
@@ -86,13 +88,16 @@ Param::~Param( void )
 bool
 Param::parseArgs( void )
 {
+  argv	    = allArgv;
+  fileArgs  = allFileArgs;
+  
   argFlag( helpFlag,
 	   "show usage help.",
 	   "help" );
 
   argStr( logFile,
 	  "log file name.",
-	  "log",
+	  "logfile",
 	  "LOG_FILE" );
 
   argStr( logOutputLevel,
@@ -112,18 +117,18 @@ Param::parseArgs( void )
 
   argBool( logTimeStamp,
 	   "output time stamp with log entry.",
-	   "logtime",
-	   "LOG_TIME" );
+	   "logshowtime",
+	   "LOG_SHOW_TIME" );
 
   argBool( logLevelStamp,
 	   "output level with log entry.",
-	   "logstamplevel",
-	   "LOG_STAMP_LEVEL" );
+	   "logshowlevel",
+	   "LOG_SHOW_LEVEL" );
 
   argBool( logLocStamp,
 	   "output source location with log entry",
-	   "logloc",
-	   "LOG_LOC" );
+	   "logshowloc",
+	   "LOG_SHOWLOC" );
   
   argULong( logMaxSize,
 	  "log file max size.",
@@ -153,8 +158,9 @@ Param::parseArgs( void )
   appLog.setTimeStamp( logTimeStamp );
   appLog.setLevelStamp( logLevelStamp );
   appLog.setLocStamp( logLocStamp );
-    
-  appLog.setOutputLevel( logOutputLevel.c_str() );
+
+  if( logOutputLevel.size() )
+    appLog.setOutputLevel( logOutputLevel.c_str() );
 
   return( good() );
 }  
@@ -163,14 +169,12 @@ bool
 Param::parseArgs( int argCount, char * argValue[] )
 {
   allArgv.erase( allArgv.begin(), allArgv.end() );
-  argv.erase( argv.begin(), argv.end() );
   
   for( int a = 0; a < argCount; ++a )
     {
       Str	tmp = argValue[a];
       
       allArgv.push_back( tmp );
-      argv.push_back( tmp );
     }
 
   return( parseArgs() );
@@ -181,12 +185,10 @@ Param::parseArgs( int argCount, char * argValue[] )
 bool
 Param::readArgs( istream & src )
 {
-  argv.erase( argv.begin(), argv.end() );
-  
-  allArgv.erase( allArgv.begin(), allArgv.end() );
-
   Str    line;
 
+  fileArgs.erase( fileArgs.begin(), fileArgs.end() );
+  
   while( getline( src, line ).good() )
     {
       // look for the first non white space char 
@@ -200,20 +202,19 @@ Param::readArgs( istream & src )
 
       if( delimPos != Str::npos )
 	{
-	  allArgv.push_back( line.substr( pos, delimPos - 1 ) );
+	  fileArgs.push_back( line.substr( pos, delimPos - 1 ) );
 	  
 	  Str::size_type valuePos = line.find_first_not_of( " \t",
 							    delimPos );
 	  if( valuePos != Str::npos )
-	    allArgv.push_back( line.substr( valuePos ) );
+	    fileArgs.push_back( line.substr( valuePos ) );
 	}
       else
 	{
-	  allArgv.push_back( line.substr( pos ) );
+	  fileArgs.push_back( line.substr( pos ) );
 	}
     }
 
-  argv = allArgv;
   parseArgs();
   
   return( good() );
@@ -323,7 +324,7 @@ Param::Name(								      \
 	    }								      \
 	  else								      \
 	    {								      \
-	      Str tmpErrDesc;					      \
+	      Str tmpErrDesc;						      \
 									      \
 	      tmpErrDesc = ": '";					      \
 	      tmpErrDesc += StringFrom( tmp );				      \
@@ -574,61 +575,110 @@ Param::getArgValue( const char * argId, const char * envVar )
   if( envValue )
     value = envValue;
 
-  if( count() > 1 && argId && argId[0] )
-    {
-      Args::iterator	them = argv.begin();
-      for( ; them != argv.end(); ++ them )
-	{
-	  if( (*them).size() > 1 &&
-	      (*them)[0] == '-' && 
-	      strcmp( (*them).c_str() + 1, argId ) == 0 )
-	    {
+  if( count() <= 1 || ! argId || ! argId[0] )
+    return( value );
+  
+  // first look in fileArgs
+  {
+    bool foundArg = false;
+    
+    for( Args::iterator them = fileArgs.begin();
+	 them != fileArgs.end();
+	 ++ them )
+      {
+	if( (*them).size() > 1 &&
+	    (*them)[0] == '-' &&
+	    (*them).substr( 1 ).compare( argId ) == 0 )
+	  {
+	    foundArg = true;
+	    // found it
+	    for( ++ them; them != fileArgs.end(); ++ them )
+	      {
+		if( (*them).size() && (*them)[0] != '-' )
+		  {
+		    value = *them;
+		    fileArgs.erase( them );
+		    break;
+		  }
+	      }
+	    if( ! value.size() )
+	      setError( E_NO_VALUE, argId, envVar, 0 );
+	    break;
+	  }
+      }
+    
+    if( foundArg )
+      {
+	for( Args::iterator them = fileArgs.begin();
+	     them != fileArgs.end();
+	     ++ them )
+	  {
+	    if( (*them).size() > 1 &&
+		(*them)[0] == '-' &&
+		(*them).substr( 1 ).compare( argId ) == 0 )
+	      {
+		fileArgs.erase( them );
+		break;
+	      }
+	  }
+      }
+  }
 
-	      // found it now get the value.
-	      // and erase it from the vector.
-	      for( them++; them != argv.end(); ++ them )
-		{
-		  if( (*them).size() &&
-		      (*them)[0] != '-' )
-		    {
-		      value = *them;
-		      argv.erase( them );
-		      break;
-		    }
-		}
-
-	      if( ! value.size() )
-		{
-		  // no value for argId
-		  setError( E_NO_VALUE, argId, envVar, 0 );
-		}
-	      
-	      break;
-	      
-	    }
-	}
-      // if I found it and got it's value,
-      // then re-find and erase the id.
-      //
-      // I have to do this becuase once I call argv.erase
-      // aboue, the iterator is no longer valid and I must
-      // get a new iterator from the vector to erase 
-      // the id.
-      //
-      if( value.size() )
-	{
-	  for( them = argv.begin(); them != argv.end(); ++ them )
-	    {
-	      if( (*them).size() > 1 &&
-		  (*them)[0] == '-' && 
-		  strcmp( (*them).c_str() + 1, argId ) == 0 )
-		{
-		  argv.erase( them );
-		  break;
-		}
-	    }
-	}
-    }
+  // now look for it in command line args
+  {
+    bool foundArg = false ;
+	   
+    Args::iterator	them = argv.begin();
+    for( ; them != argv.end(); ++ them )
+      {
+	if( (*them).size() > 1 &&
+	    (*them)[0] == '-' &&
+	    (*them).substr( 1 ).compare( argId ) == 0 )
+	  {
+	    
+	    // found it now get the value.
+	    // and erase it from the vector.
+	    for( them++; them != argv.end(); ++ them )
+	      {
+		if( (*them).size() &&
+		    (*them)[0] != '-' )
+		  {
+		    value = *them;
+		    argv.erase( them );
+		    break;
+		  }
+	      }
+	    
+	    // no value for argId
+	    if( ! value.size() )
+	      setError( E_NO_VALUE, argId, envVar, 0 );
+	    
+	    break;
+	    
+	  }
+      }
+    // if I found it and got it's value,
+    // then re-find and erase the id.
+    //
+    // I have to do this becuase once I call argv.erase
+    // above, the iterator is no longer valid and I must
+    // get a new iterator from the vector to erase 
+    // the id.
+    //
+    if( foundArg )
+      {
+	for( them = argv.begin(); them != argv.end(); ++ them )
+	  {
+	    if( (*them).size() > 1 &&
+		(*them)[0] == '-' && 
+		(*them).substr( 1 ).compare( argId ) == 0 )
+	      {
+		argv.erase( them );
+		break;
+	      }
+	  }
+      }
+  }
 
   return( value );
 }
@@ -636,24 +686,50 @@ Param::getArgValue( const char * argId, const char * envVar )
 bool
 Param::getArgFlag( const char * argId, const char * envVar )
 {
-  bool value = ( env( envVar ) == 0 ) ? false : true;
-  
-  if( count() > 1 && argId && argId[0] )
+  bool value = false;
+
+  if( env( envVar ) )
     {
-      Args::iterator	them = argv.begin();
-      for( ; them != argv.end(); ++ them )
-	{
-	  if( (*them).size() > 1 &&
-	      (*them)[0] == '-' && 
-	      strcmp( (*them).c_str() + 1, argId ) == 0 )
-	    {
-	      // found it now get the value
-	      value = true;
-	      argv.erase( them );
-	      break;
-	    }
-	}
+      Str envStr( env( envVar ) );
+      value = envStr.toBool();
     }
+
+  if( count() <= 1 || !argId || ! argId[0] )
+    return( value );
+  
+  {
+    for( Args::iterator them = fileArgs.begin();
+	 them != fileArgs.end();
+	 ++ them )
+      {
+	if( (*them).size() > 1 &&
+	    (*them)[0] == '-' &&
+	    (*them).substr( 1 ).compare( argId ) == 0 )
+	  {
+	    // found it
+	    value = true;
+	    fileArgs.erase( them );
+	    break;
+	  }
+      }
+  }
+
+  
+  {
+    Args::iterator	them = argv.begin();
+    for( ; them != argv.end(); ++ them )
+      {
+	if( (*them).size() > 1 &&
+	    (*them)[0] == '-' && 
+	    (*them).substr( 1 ).compare( argId ) == 0 )
+	  {
+	    // found it now get the value
+	    value = true;
+	    argv.erase( them );
+	    break;
+	  }
+      }
+  }
   return( value );
 }
 
@@ -735,6 +811,27 @@ Param::toStream( ostream & dest ) const
 {
   dest << helpString;
 
+  if( fileArgs.size() )
+    {
+      dest << "Unprocessed file args:\n" ;
+
+      for( Args::const_iterator them = fileArgs.begin();
+	   them != fileArgs.end();
+	   ++ them )
+	dest << "  " << (*them) << endl;
+    }
+	  
+  if( count() > 1 )
+    {
+      dest << "Unprocessed command line args:\n";
+      
+      Args::const_iterator them = argv.begin();
+      for( ++ them ; them != argv.end(); ++ them )
+	dest << "  " << (*them) << endl;
+    }
+
+    
+      
   if( ! good() )
     dest << '\n' << error() << '\n';
   
@@ -797,6 +894,27 @@ Param::appendHelp(
   const char * value
   )
 {
+  Str argHelp;
+
+  argHelp.setf( ios::left, ios::adjustfield );
+
+  argHelp << "-" << setw(8) << argId << " " ;
+
+  size_t    contLinePadSize = 8 + 3 + 3;
+
+  argHelp << desc ;
+
+  if( envVar )
+    argHelp << " (" << envVar << ')' ;
+
+  if( value && strlen( value ) )
+    argHelp << " '" << value << "'\n" ;
+
+  argHelp.wrap( 79, contLinePadSize, 2 );
+
+  helpString += argHelp;
+  
+#if defined( OLD_WAY )
   Str::size_type len = helpString.size();
   
   size_t    argIdSize = strlen( argId );
@@ -830,7 +948,7 @@ Param::appendHelp(
     {
       helpString += " ''\n";
     }
-  
+#endif
   return( helpString.size() );
 }
 
@@ -855,194 +973,16 @@ Param::setError(
   return( good() );
 }
 
-#if defined( OLD_WAY )
-bool
-Param::argUInt(
-  unsigned int & dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar,
-  unsigned int 	minVal,
-  unsigned int 	maxVal
-  )
-{
-  setHelp( argId, desc, envVar );
-  
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue ) dest = StringToUInt( argValue );
-
-  strstream tmpHelp;
-  
-  if( dest < minVal || dest > maxVal )
-    {
-      tmpHelp << " '" << dest << "' not "
-	      << minVal << " < n < " << maxVal << "\n";
-      ok = false;
-    }
-  else
-    {
-      tmpHelp << " '" << dest << "'\n";
-    }
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != 0 );
-  
-}
-
-bool
-Param::argShort(
-  short &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar,
-  short	    	minVal,
-  short	    	maxVal
-  )
-{
-  setHelp( argId, desc, envVar );
-  
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue ) dest = StringToInt( argValue );
-
-  strstream tmpHelp;
-  if( dest < minVal || dest > maxVal )
-    {
-      tmpHelp << " '" << dest << "' not "
-	      << minVal << " < n < " << maxVal << "\n";
-      ok = false;
-    }
-  else
-    {
-      tmpHelp << " '" << dest << "'\n";
-    }
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != 0 );
-  
-}
-
-bool
-Param::argUShort(
-  unsigned short & dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar,
-  unsigned short minVal,
-  unsigned short maxVal
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue ) dest = StringToUInt( argValue );
-
-  strstream tmpHelp;
-  
-  if( dest < minVal || dest > maxVal )
-    {
-      tmpHelp << " '" << dest << "' not "
-	      << minVal << " < n < " << maxVal << "\n";
-      ok = false;
-    }
-  else
-    {
-      tmpHelp << " '" << dest << "'\n";
-    }
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != 0 );
-  
-}
-
-bool
-Param::argLong(
-  long &  	dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar,
-  long	    	minVal,
-  long	    	maxVal
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue ) dest = StringToLong( argValue );
-
-  strstream tmpHelp;
-  if( dest < minVal || dest > maxVal )
-    {
-      tmpHelp << " '" << dest << "' not "
-		 << minVal << " < n < " << maxVal << "\n";
-      ok = false;
-    }
-  else
-    {      
-      tmpHelp << " '" << dest << "'\n";
-    }
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != 0 );
-  
-}
-
-bool
-Param::argULong(
-  unsigned long & dest,
-  const char * 	desc,
-  const char *  argId,
-  const char * 	envVar,
-  unsigned long	minVal,
-  unsigned long maxVal
-  )
-{
-  setHelp( argId, desc, envVar );
-
-  char * argValue = getArgValue( argId, envVar );
-
-  if( argValue ) dest = StringToULong( argValue );
-
-  strstream tmpHelp;
-  if( dest < minVal || dest > maxVal )
-    {
-      tmpHelp << " '" << dest << "' not "
-	      << minVal << " < n < " << maxVal << "\n";
-      ok = false;
-    }
-  else
-    {      
-      tmpHelp << " '" << dest << "'\n";
-    }
-
-  tmpHelp << ends;
-  helpString += tmpHelp.str();
-  tmpHelp.rdbuf()->freeze(0);
-  
-  return( argValue != 0 );
-  
-}
-#endif // def OLD_WAY
 
 //
 // Revision Log:
 //
 // $Log$
+// Revision 3.8  1997/03/21 12:26:01  houghton
+// Changed file arg processing. Now file args will be overridden by
+//     command line values
+// Changed log level processing.
+//
 // Revision 3.7  1997/03/15 17:59:01  houghton
 // Bug-Fix: would not find arg value 1 char wide.
 //
