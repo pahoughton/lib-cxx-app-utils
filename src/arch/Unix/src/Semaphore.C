@@ -173,6 +173,28 @@ Semaphore::unlock( void )
 }
 
 bool
+Semaphore::islocked( void ) const
+{
+  if( semId != badSem )
+    {
+#if defined( CLUE_HAS_SEMUN )
+      static union semun  OpGetVal = { 0 };
+#else
+      long OpGetVal = 0;
+#endif
+      
+      int semVal = semctl( semId, 0, GETVAL, OpGetVal );
+
+      if( semVal != -1 )
+	return( semVal != 0 );
+      else
+	return( false );
+      
+    }
+  return( false );
+}
+
+bool
 Semaphore::waitfor( void )
 {
   if( semId != badSem )
@@ -185,7 +207,6 @@ Semaphore::waitfor( void )
   return( false );
 }
 
-	  
 		    
       
 bool
@@ -288,6 +309,9 @@ Semaphore::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/16 11:28:22  houghton
+// Added islocked method().
+//
 // Revision 3.4  1997/07/18 21:30:44  houghton
 // Cleanup
 // Port(Sun5): reworked to use CLUE_HAS_SEMUN define.

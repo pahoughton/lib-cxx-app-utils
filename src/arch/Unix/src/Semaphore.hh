@@ -61,6 +61,7 @@ public:
   
   bool	    lock( bool wait = true );
   bool	    unlock( void );
+  bool	    islocked( void ) const;
   
   bool	    waitfor( void );
 
@@ -187,6 +188,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/09/16 11:28:12  houghton
+// Added islocked method().
+//
 // Revision 3.2  1997/07/20 18:51:23  houghton
 // Bug-Fix: forgot to set default file mode in create( const char *).
 //
