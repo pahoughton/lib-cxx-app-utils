@@ -62,8 +62,9 @@ tFileStat02( LibTest & tester )
   }
 
   {
-    const FileStat t( "/dev/fd0" );
+    const FileStat t( TEST_BLOCK_DEVICE );
 
+    TESTR( t.error(), t.good() );
     TEST( ! t.isLink() );
     TEST( ! t.isReg() );
     TEST( ! t.isDir() );
@@ -75,7 +76,7 @@ tFileStat02( LibTest & tester )
   }
 
   {
-    const FileStat t( "/dev/tty" );
+    const FileStat t( TEST_CHAR_DEVICE );
 
     TEST( ! t.isLink() );
     TEST( ! t.isReg() );
@@ -87,6 +88,7 @@ tFileStat02( LibTest & tester )
     TEST( ! t.isSetGID() );
   }
 
+#if defined( TEST_SOCKETT_DEVICE )
   {
     const FileStat t("/dev/log" );
 
@@ -99,13 +101,10 @@ tFileStat02( LibTest & tester )
     TEST( ! t.isSetUID() );
     TEST( ! t.isSetGID() );
   }
-
-  {
-#if defined( Linux )
-    const FileStat t( "/usr/bin/passwd" );
-#else
-    const FileStat t( "/bin/passwd" );
 #endif
+  
+  {
+    const FileStat t( TEST_SETUID_FILE );
     
     TEST( ! t.isLink() );
     TEST(   t.isReg() );
@@ -118,11 +117,8 @@ tFileStat02( LibTest & tester )
   }
 
   {
-#ifdef AIX
-    const FileStat t( "/bin/chfn" );
-#else    
-    const FileStat t( "/usr/bin/write" );
-#endif
+    const FileStat t( TEST_SETGID_FILE );
+    
     TEST( ! t.isLink() );
     TEST(   t.isReg() );
     TEST( ! t.isDir() );
