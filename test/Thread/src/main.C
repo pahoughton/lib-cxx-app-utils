@@ -1,30 +1,44 @@
 #include <ThreadTest.hh>
 #include <LibLog.hh>
+#include <AppParam.hh>
 
+AppParam * App = 0;
 
 int
 main( int argc, char * argv[] )
 {
 
-  Log	alog;
-  alog.setOutputLevel( LogLevel::All );
+  App = new AppParam( argc, argv );
 
-  _LibLog = &alog;
+  if( App->help() || ! App->good() )
+    {
+      cerr << *App << endl;
+      exit(1);
+    }
+
+  {
+    for( long l = 0; l < App->threads(); ++ l )
+      {
+
+	ThreadTest * t = new ThreadTest( App->detach() );
+	
+	//_LLgLock;
+	//_LLg( LogLevel::Debug ) << "ThreadTest initialized." << endl;
+	//_LLgUnLock;
+	
+	t->start();
+	if( App->sleep() ) sleep( App->sleep() );
+      }
+
+  }
   
-
-  ThreadTest * t = new ThreadTest;
-
   _LLgLock;
-  _LLg( LogLevel::Debug ) << "ThreadTest initialized." << endl;
+  _LLg( LogLevel::Debug ) << "ThreadTest started: " << App->threads() << " threads." << endl;
   _LLgUnLock;
-  
-  t->start();
 
-  _LLgLock;
-  _LLg( LogLevel::Debug ) << "ThreadTest started." << endl;
-  _LLgUnLock;
+  for( ;; ) sleep( 120 );
   
-  t->join();
+  //  t->join();
 
   _LLgLock;
   _LLg( LogLevel::Debug ) << "ThreadTest finished." << endl;

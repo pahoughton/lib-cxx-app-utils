@@ -1,0 +1,14 @@
+Test_g -ss 0 -sd -sl 0
+
+I have discovered another problem with threads on 'skyler'. I get an
+Illegal instruction (core dump) when I create threads from a thread.
+
+The pthread_create call will return with no error, but the pthread_t
+(used by the thread API) will have an invalid address ( 0x0 | 0x20 | 0x200 )
+and the application gets an Illegal Instruction.
+
+This only seems to happen if I create a number of new threads from an
+existing thread ( other than the main thread ). I also appears to be
+timing sensitive. If I call sleep() in the new thread or between
+creation of the new threads, The application runs ok.
+

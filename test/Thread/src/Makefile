@@ -164,6 +164,7 @@ STATIC_DEP_LIBS		=
 
 CXX_C_SOURCES	=			\
 	ThreadTest.C			\
+	SubThread.C			\
 	main.C                          \
 
 USER_HH_INCS	=			\
@@ -273,6 +274,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 1.2  1996/07/16 13:54:07  houghton
+# *** empty log message ***
+#
 # Revision 1.1  1996/06/20 15:26:21  houghton
 # Initial Version.
 #

@@ -16,6 +16,9 @@
 // $Id$
 //
 // $Log$
+// Revision 1.2  1996/07/16 13:54:09  houghton
+// *** empty log message ***
+//
 // Revision 1.1  1996/06/20 15:26:22  houghton
 // Initial Version.
 //
@@ -40,7 +43,7 @@ class ThreadTest : public ThreadBase
 
 public:
 
-  ThreadTest( void ) : ThreadBase( false ) {};
+  ThreadTest( bool detach = false ) : ThreadBase( detach ) {};
 
   virtual ~ThreadTest( void );
 

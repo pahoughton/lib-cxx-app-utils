@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  1996/07/16 13:54:08  houghton
+// *** empty log message ***
+//
 // Revision 1.1  1996/06/20 15:26:22  houghton
 // Initial Version.
 //
@@ -17,6 +20,8 @@
 
 #if !defined( CLUE_SHORT_FN )
 #include "ThreadTest.hh"
+#include "SubThread.hh"
+#include "AppParam.hh"
 #include <LibLog.hh>
 #include <Str.hh>
 #else
@@ -32,6 +37,8 @@
 #endif
 #endif
 
+extern AppParam * App;
+
 ThreadTest::~ThreadTest( void )
 {
 }
@@ -40,19 +47,18 @@ bool
 ThreadTest::main( void )
 {
   _LLgLock;
-  _LLg( LogLevel::Debug ) << "Start" << endl;
+  _LLg( LogLevel::Debug ) << "Start: " << threadId << endl;
   _LLgUnLock;
-  
-  for( int i = 0; i < 10; i++ )
+
+  for( long s = 0; s < App->subThreads(); ++ s )
     {
-      _LLgLock;
-      _LLg( LogLevel::Debug ) << "Loop: " << i << endl;
-      _LLgUnLock;
-      sleep( 10 );
+      SubThread * s = new SubThread( App->subDetach() );
+      s->start();
+      if( App->subSleep() ) sleep( App->subSleep() );
     }
   
   _LLgLock;
-  _LLg( LogLevel::Debug ) << "Done" << endl;
+  _LLg( LogLevel::Debug ) << "Done: " << threadId << endl;
   _LLgUnLock;
 
   return( true );
