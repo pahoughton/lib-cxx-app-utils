@@ -262,7 +262,7 @@ inline
 Directory::Where::Where( void )
   : fld( 0 ),
     left( 0 ),
-    and( false ),
+    andLR( false ),
     right( 0 ),
     refCount( 1 ),
     leftDepth( 0 ),
@@ -274,7 +274,7 @@ inline
 Directory::Where::Where( const DirField & dirFld )
   : fld( dirFld.dup() ),
     left( 0 ),
-    and( false ),
+    andLR( false ),
     right( 0 ),
     refCount( 1 ),
     leftDepth( 0 ),
@@ -286,7 +286,7 @@ inline
 Directory::Where::Where( const Where & from )
   : fld( from.fld ),
     left( from.left ),
-    and( from.and ),
+    andLR( from.andLR ),
     right( from.right ),
     refCount( 1 ),
     leftDepth( from.leftDepth ),
@@ -305,12 +305,12 @@ Directory::Where::Where( const Where & from )
 inline
 Directory::Where::Where(
   const Where & leftWhere,
-  bool		andLR,
+  bool		lrAnd,
   const Where & rightWhere
   )
   : fld( 0 ),
     left( new Where( leftWhere ) ),
-    and( andLR ),
+    andLR( lrAnd ),
     right( new Where( rightWhere ) ),
     refCount( 1 ),
     leftDepth( leftWhere.leftDepth + 1 ),
@@ -379,7 +379,7 @@ inline
 bool
 Directory::Where::isAnd( void ) const
 {
-  return( and );
+  return( andLR );
 }
 
 inline
@@ -393,7 +393,7 @@ inline
 const Directory::Where &
 Directory::Where::getFirst( void ) const
 {
-  if( and )
+  if( andLR )
     {
       if( rightDepth > leftDepth )
 	return( *right );
@@ -413,7 +413,7 @@ inline
 const Directory::Where &
 Directory::Where::getSecond( void ) const
 {
-  if( and )
+  if( andLR )
     {
       if( rightDepth > leftDepth )
 	return( *left );
@@ -481,6 +481,9 @@ Directory::empty( void ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 4.2  1998/07/20 11:20:25  houghton
+// Port(Hpux10): Changed 'and' to 'andLR'. 'and' is now a keyword.
+//
 // Revision 4.1  1997/09/17 15:12:24  houghton
 // Changed to Version 4
 //

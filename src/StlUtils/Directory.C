@@ -436,7 +436,7 @@ Directory::Where::dumpInfo(
       pre = prefix;
       pre << "l:";
       left->dumpInfo( dest, pre, false );
-      dest << prefix << (and ? "and" : "or" ) << '\n';
+      dest << prefix << (andLR ? "and" : "or" ) << '\n';
     }
   
 
@@ -862,6 +862,9 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 4.3  1998/07/20 11:20:18  houghton
+// Port(Hpux10): Changed 'and' to 'andLR'. 'and' is now a keyword.
+//
 // Revision 4.2  1998/04/02 14:16:01  houghton
 // Bug-Fix: was calling globfree multiple multiple times.
 //

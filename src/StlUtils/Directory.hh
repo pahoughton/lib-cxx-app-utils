@@ -225,7 +225,7 @@ public:
     DirField *	fld;
 
     Where *	left;
-    bool	and;
+    bool	andLR;
     Where *	right;
 
     size_t    refCount;
@@ -456,6 +456,9 @@ operator >> ( istream & src, const Directory & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/07/20 11:20:22  houghton
+// Port(Hpux10): Changed 'and' to 'andLR'. 'and' is now a keyword.
+//
 // Revision 4.1  1997/09/17 15:12:23  houghton
 // Changed to Version 4
 //
