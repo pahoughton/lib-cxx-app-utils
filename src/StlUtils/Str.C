@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:12:05  houghton
+// Removed support for BinStream.
+//
 // Revision 3.1  1996/11/14 01:24:08  houghton
 // Changed to Release 3
 //
@@ -856,73 +859,13 @@ Str::get( istream & src, size_t size )
 size_t
 Str::getBinSize( void ) const
 {
-  return( sizeof( ULong ) + size() );
-}
-
-
-
-BinStream &
-Str::read( BinStream & src )
-{
-  ULong len = 0;
-
-  if( ! src.read( len ).good() )
-    return( src );
-
-  reset();
-  
-  if( len < 1 )
-    return( src );
-  
-  // if the put buffer is not big enough read
-  // the string the hard way
-
-  if( rdbuf()->psize() < len )
-    {
-      char buf[1024];
-      while( len )
-	{
-	  src.read( buf, min( (size_t)len, sizeof(buf) ) );
-	  if( ! src.gcount() )
-	    break;
-	  rdbuf()->sputn( buf, src.gcount() );
-	  len -= src.gcount();
-	}
-    }
-  else
-    {
-      while( len )
-	{
-	  src.read( rdbuf()->pptr(), len );
-	  if( ! src.gcount() )
-	    break;
-#ifdef __linux__
-	  // This is a major hack to get around a problem with
-	  // GNU's libg++ strstream implementation.
-
-	  rdbuf()->_IO_write_ptr += src.gcount();
-#else
-	  rdbuf()->seekoff( src.gcount(), ios::cur, ios::out );
-#endif
-	  len -= src.gcount();
-	}
-    }
-  return( src );
-}
-
-BinStream &
-Str::write( BinStream & dest ) const
-{
-  ULong len = length();
-  dest.write( len );
-  dest.write( strbase(), length() );
-  return( dest );
+  return( sizeof( CLUE_U32 ) + size() );
 }
 
 istream &
 Str::read( istream & src )
 {
-  ULong len;
+  CLUE_U32 len;
 
   src.read( (char *)&len, sizeof( len ) );
 
@@ -932,7 +875,7 @@ Str::read( istream & src )
 ostream &
 Str::write( ostream & dest ) const
 {
-  ULong len = length();
+  CLUE_U32 len = length();
   dest.write( (const char *)&len, sizeof( len ) );
   dest.write( strbase(), length() );
   return( dest );

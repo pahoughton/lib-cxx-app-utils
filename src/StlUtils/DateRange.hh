@@ -12,6 +12,9 @@
 //
 // 
 // $Log$
+// Revision 3.2  1996/11/20 12:11:40  houghton
+// Removed support for BinStream.
+//
 // Revision 3.1  1996/11/14 01:23:32  houghton
 // Changed to Release 3
 //
@@ -66,8 +69,6 @@ public:
   // libClue Common Class Methods
   
   virtual size_t    	getBinSize( void ) const;
-  virtual BinStream & 	write( BinStream & dest ) const;
-  virtual BinStream & 	read( BinStream & src );
   
   virtual ostream & 	write( ostream & dest ) const;
   virtual istream & 	read( istream & src );

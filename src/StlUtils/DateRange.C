@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:11:31  houghton
+// Removed support for BinStream.
+//
 // Revision 3.1  1996/11/14 01:23:31  houghton
 // Changed to Release 3
 //
@@ -123,20 +126,6 @@ size_t
 DateRange::getBinSize( void ) const
 {
   return( DateTime::getBinSize() + sizeof( dur ) );
-}
-
-BinStream &
-DateRange::write( BinStream & dest ) const
-{
-  DateTime::write( dest );
-  return( dest.write( dur ) );
-}
-
-BinStream &
-DateRange::read( BinStream & src )
-{
-  DateTime::read( src );
-  return( src.read( dur ) );
 }
 
 

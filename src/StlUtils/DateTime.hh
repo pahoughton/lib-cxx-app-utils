@@ -17,6 +17,9 @@
 //
 // 
 // $Log$
+// Revision 3.2  1996/11/20 12:11:57  houghton
+// Removed support for BinStream.
+//
 // Revision 3.1  1996/11/14 01:23:36  houghton
 // Changed to Release 3
 //
@@ -47,17 +50,10 @@
 //
 
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
-#include <BinStream.hh>
+#include "ClueConfig.hh"
 #include <ctime>
-#else
-#include <ClueCfg.hh>
-#include <BinStrm.hh>
-#include <ctime>
-#endif
 
-#if defined( CLUE_STRPTIME )
+#if !defined( CLUE_HAS_STRPTIME )
 extern "C"
 char *
 CLUE_FUNCT_T
@@ -71,7 +67,7 @@ strptime( char * b, const char * fmt, struct tm * t );
 
 class RegexScan;
 
-class CLUE_CLASS_T DateTime : public BinObject
+class CLUE_CLASS_T DateTime
 {
 public:
 
@@ -170,8 +166,6 @@ public:
   // libClue Common Class Methods
   
   virtual size_t    	getBinSize( void ) const;
-  virtual BinStream & 	write( BinStream & dest ) const;
-  virtual BinStream & 	read( BinStream & src );
   
   virtual ostream & 	write( ostream & dest ) const;
   virtual istream & 	read( istream & src );
@@ -237,7 +231,7 @@ private:
 
 
 #if !defined( inline )
-#include <DateTime.ii>
+#include "DateTime.ii"
 #else
 #undef inline
 

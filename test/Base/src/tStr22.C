@@ -1,6 +1,5 @@
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
-#include <HeapBinStream.hh>
 #include <LibTest.hh>
 #include <Str.hh>
 #include <fstream>
@@ -172,35 +171,7 @@ tStr22( LibTest & tester )
     t = T;
     TEST( t.getBinSize() == strlen( T ) + sizeof( unsigned long ) );
   }
-
-  {
-    // write( BinStream & dest ) const
-    // read( BinStream & src )
-    // BinStream::write( const BinObject & );
-    // BinStream::read( BinObject );
-    
-    HeapBinStream tStrm;
-    
-    Str tw;
-    Str tr;
-    
-    tw = "This is a test string";
-
-    tw.write( tStrm );
-    tr.read( tStrm );
-
-    TEST( tStrm.good() );
-    TEST( tr == tw );
-
-    tr.reset();
-    TEST( tr.size() == 0 );
-
-    tStrm.write( tw );
-    tStrm.read( tr );
-    TEST( tStrm.good() );
-    TEST( tr == tw );
-  } 
-    
+  
   {
     // write( ostream & )
 

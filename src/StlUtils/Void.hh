@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:13:11  houghton
+// Removed support for BinStream.
+//
 // Revision 3.1  1996/11/14 01:24:29  houghton
 // Changed to Release 3
 //
@@ -35,22 +38,15 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
-#include <BinStream.hh>
+#include "ClueConfig.hh"
 #include <iostream>
-#else
-#include <ClueCfg.hh>
-#include <BinStrm.hh>
-#include <iostream>
-#endif
 
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
 
 
-class Void : public BinObject
+class Void
 {
 
 public:
@@ -110,9 +106,6 @@ public:
   
   virtual size_t    	getBinSize( void ) const;
   
-  virtual BinStream & 	write( BinStream & dest ) const;
-  virtual BinStream & 	read( BinStream & src );
-  
   virtual ostream & 	write( ostream & dest ) const;
   virtual istream & 	read( istream & src );
 
@@ -158,11 +151,7 @@ private:
 };
 
 #if !defined( inline )
-#if !defined( PRJ_SHORT_FN )
 #include <Void.ii>
-#else
-#include <Void.ii>
-#endif
 #else
 #undef inline
 

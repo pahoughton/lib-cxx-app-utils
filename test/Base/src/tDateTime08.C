@@ -2,7 +2,7 @@
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <DateTime.hh>
-#include <strstream>
+#include <strstream.h>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>

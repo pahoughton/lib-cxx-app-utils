@@ -15,6 +15,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:13:10  houghton
+// Removed support for BinStream.
+//
 // Revision 3.1  1996/11/14 01:24:23  houghton
 // Changed to Release 3
 //
@@ -41,21 +44,9 @@
 //
 //
 
-#if !defined( CLUE_SHORT_FN )
-#include <ClueConfig.hh>
-#include <BinStream.hh>
+#include "ClueConfig.hh"
 #include <stddef>
 #include <iostream>
-#else
-#include <ClueCfg.hh>
-#include <BinStrm.hh>
-#include <stddef>
-#include <iostream>
-#endif
-
-// I'll support string when I can find an implmentation that
-// is portable and follows the standard
-// #include <string>
 
 
 #if defined( CLUE_DEBUG )
@@ -64,7 +55,7 @@
 
 class Str;
 
-class SubStr : public BinObject
+class SubStr
 {
 
 public:
@@ -167,8 +158,6 @@ public:
   // libClue Common Class Methods
 
   size_t	    getBinSize( void ) const;
-  BinStream &	    write( BinStream & dest ) const;
-  BinStream &	    read( BinStream & src );
 
   ostream &	    write( ostream & dest ) const;
   istream &	    read( istream & src );

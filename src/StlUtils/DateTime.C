@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:11:46  houghton
+// Removed support for BinStream.
+//
 // Revision 3.1  1996/11/14 01:23:36  houghton
 // Changed to Release 3
 //
@@ -501,27 +504,6 @@ DateTime::getBinSize( void ) const
 {
   return( sizeof( seconds ) );
 }
-
-BinStream &
-DateTime::write( BinStream & dest ) const
-{
-  time_t  value = seconds - offset;
-  
-  dest.write( value );
-  return( dest );
-}
-
-
-BinStream &
-DateTime::read( BinStream & src )
-{
-  resetFlags();
-  if( ! src.read( seconds ).good() )
-    {
-      flags.valid = false;
-    }
-  return( src );
-}  
 
 ostream &
 DateTime::write( ostream & dest ) const

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:13:02  houghton
+// Removed support for BinStream.
+//
 // Revision 3.1  1996/11/14 01:24:23  houghton
 // Changed to Release 3
 //
@@ -162,37 +165,13 @@ fcompare( const char * one, const SubStr & two, size_t len )
 size_t
 SubStr::getBinSize( void ) const
 {
-  return( sizeof( ULong ) + len );
-}
-
-BinStream &
-SubStr::write( BinStream & dest ) const
-{
-  ULong sLen = len;
-  dest.write( sLen );
-  dest.write( strbase(), len );
-  return( dest );
-}
-
-BinStream &
-SubStr::read( BinStream & src )
-{
-  Str tmp;
-  tmp.read( src );
-
-  if( ! tmp.good() || ! src.good() )
-    return( src );
-
-  str.replace( pos, len, tmp );
-  len = tmp.size();
-    
-  return( src );
+  return( sizeof( CLUE_U32 ) + len );
 }
 
 ostream &
 SubStr::write( ostream & dest ) const
 {
-  ULong sLen = len;
+  CLUE_U32 sLen = len;
   dest.write( (const char *)&sLen, sizeof( sLen ) );
   dest.write( strbase(), len );
   return( dest );

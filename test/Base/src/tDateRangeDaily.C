@@ -1,11 +1,10 @@
 #if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
-#include <HeapBinStream.hh>
 #include <DateRangeDaily.hh>
 #include <DateTimeUtils.hh>
 #include <functional>
-#include <strstream>
+#include <strstream.h>
 #else
 #include <TestConfig.hh>
 #include <LibTest.hh>
@@ -139,43 +138,10 @@ tDateRangeDaily( LibTest & tester )
   
   {
     // getBinSize( void ) const
-    // write( BinStream & ) const
-    // read( BinStream & )
-    
-    HeapBinStream tStrm;
     
     const DateRangeDaily tw( 6 * SecPerHour, 30 );
-    DateRangeDaily	 tr( 0, 0 );
 
     TEST( tw.getBinSize() == (sizeof( time_t ) * 2 ) );
-    
-    tw.write( tStrm );
-
-    tr.read( tStrm );
-
-    TEST( tr == tw );
-    TEST( tr.getTimeT() == tw.getTimeT() );
-    TEST( tr.getStart() == tw.getStart() );
-    TEST( tr.getDur() == tw.getDur() );
-  }
-
-  {
-    // BinStream::write( const BinObject & );
-    // BinStream::read( BinObject );
-    
-    HeapBinStream tStrm;
-    
-    const DateRangeDaily tw( 6 * SecPerHour, 30 );
-    DateRangeDaily	 tr( 0, 0 );
-
-    tStrm.write( tw );
-
-    tStrm.read( tr );
-
-    TEST( tr == tw );
-    TEST( tr.getTimeT() == tw.getTimeT() );
-    TEST( tr.getStart() == tw.getStart() );
-    TEST( tr.getDur() == tw.getDur() );
   }
   
   {

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1996/11/20 12:13:10  houghton
+// Removed support for BinStream.
+//
 // Revision 3.1  1996/11/14 01:24:28  houghton
 // Changed to Release 3
 //
@@ -167,33 +170,13 @@ Void::compare( const Void & rhs ) const
 size_t
 Void::getBinSize( void ) const
 {
-  return( sizeof( ULong ) + size() );
+  return( sizeof( CLUE_U32 ) + size() );
 }
 
-BinStream &
-Void::write( BinStream & dest ) const
-{
-  ULong len = size();
-  dest.write( len );
-  dest.write( data, size() );
-  return( dest );
-}
-
-BinStream &
-Void::read( BinStream & src )
-{
-  ULong len;
-  src.read( len );
-  if( len && resize( len ) )
-    src.read( data, len );
-  dataSize = len;
-  return( src  );
-}
-      
 ostream &
 Void::write( ostream & dest ) const
 {
-  ULong len = size();
+  CLUE_U32 len = size();
   dest.write( (const char *)&len, sizeof( len ) );
   dest.write( data, size() );
   return( dest );
@@ -202,7 +185,7 @@ Void::write( ostream & dest ) const
 istream &
 Void::read( istream & src )
 {
-  ULong len;
+  CLUE_U32 len;
   src.read( (char *) &len, sizeof( len ) );
   if( len && resize( len ) )
     src.read( data, len );
