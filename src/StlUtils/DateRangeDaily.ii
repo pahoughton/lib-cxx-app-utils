@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 12:57:10  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
 // Revision 2.2  1995/12/04 11:17:19  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -62,6 +66,10 @@ operator << ( ostream & dest, const DateRangeDaily & obj )
   return( obj.toStream( dest ) );
 }
 
+
+#if defined( inline )
+#undef inline
+#endif
 
 
 #endif // ! def _DateRangeDaily_h_ 

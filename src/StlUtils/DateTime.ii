@@ -13,6 +13,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 12:59:13  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
 // Revision 2.3  1995/12/04 11:17:21  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -27,17 +31,20 @@
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
+#include <DateTimeUtils.hh>
+#include <StringUtils.hh>
+#include <cstdlib>
+#else
+#include <DtTmUtil.hh>
+#include <StrUtil.hh>
+#include <cstdlib>
+#endif
+
 #if defined( CLUE_DEBUG )
 #define inline
 #endif
 
-#if !defined( CLUE_SHORT_FN )
-#include <StringUtils.hh>
-#include <cstdlib>
-#else
-#include <StrUtil.hh>
-#include <cstdlib>
-#endif
 
 // Constructor - set to current local time
 inline
@@ -675,5 +682,9 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 {
   return( obj.toStream( dest ) );
 }
+
+#if defined( inline )
+#undef inline
+#endif
 
 #endif // ! def _DateTime_ii_ 

@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/04/27 13:03:41  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
 // Revision 2.3  1995/12/04 11:17:25  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -125,5 +129,9 @@ operator << ( ostream & dest, const LogLevel & obj )
 {
   return( obj.toStream( dest ) );
 }
+
+#if defined( inline )
+#undef inline
+#endif
 
 #endif // ! def _LogLevel_ii_ 

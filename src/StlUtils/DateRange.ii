@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.3  1996/04/27 12:56:21  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
 // Revision 2.2  1995/12/04 11:17:18  houghton
 // Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
 //
@@ -77,5 +81,8 @@ compare( const DateRange & one, const DateRange & two )
   return( one.compare( two ) );
 }
 
+#if defined( inline )
+#undef inline
+#endif
 
 #endif // ! def _DateRange_ii_ 

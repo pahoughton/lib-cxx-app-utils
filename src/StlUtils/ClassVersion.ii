@@ -12,6 +12,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/04/27 12:52:54  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
 // Revision 2.1  1995/11/10 12:40:20  houghton
 // Change to Version 2
 //
@@ -66,5 +70,9 @@ operator << ( ostream & dest, const ClassVersion & obj )
   dest << obj.getVer( true );
   return( dest );
 }
+
+#if defined( inline )
+#undef inline
+#endif
 
 #endif // ! def _ClassVersion_ii_ 
