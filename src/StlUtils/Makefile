@@ -30,7 +30,7 @@ INSTALL_INCDIR	= $(LOCAL_ALPHA_INCDIR)
 
 VER_MAJOR	= 2
 VER_MINOR	= 00
-VER_RELEASE	= 00.a.10
+VER_RELEASE	= 00.a.11
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -386,6 +386,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.6  1996/03/04 11:37:53  houghton
+# Change version number
+#
 # Revision 2.5  1996/02/29 19:05:52  houghton
 # Changed to use MakeConfigs 4.01
 #
