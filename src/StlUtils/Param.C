@@ -156,7 +156,7 @@ Param::parseArgs( void )
     
   appLog.setOutputLevel( logOutputLevel.c_str() );
 
-  return( good );
+  return( good() );
 }  
 
 bool
@@ -1043,6 +1043,9 @@ Param::argULong(
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/03/03 19:02:57  houghton
+// Bug-Fix: was returning 'good' changed to 'good()'.
+//
 // Revision 3.5  1997/03/03 14:37:17  houghton
 // Removed support for RW Tools++.
 //
