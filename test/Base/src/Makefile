@@ -144,10 +144,10 @@ DEBUG_LD_LIBDIRS	= $(CLUE_SRC_LDIR) $(DEFAULT_LD_LIBDIRS)
 PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 STATIC_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
-DEFAULT_LD_LIBS		= -lClue $(ARCH_DEFAULT_LIBS)
-DEBUG_LD_LIBS		= -lClue_g $(ARCH_DEBUG_LIBS)
-PROFILE_LD_LIBS		= -lClue_pg $(DEFAULT_LD_LIBS)
-STATIC_LD_LIBS		= -lClue $(DEFAULT_LD_LIBS)
+DEFAULT_LD_LIBS		= -lClue -lCommon $(ARCH_DEFAULT_LIBS)
+DEBUG_LD_LIBS		= -lClue_g -lCommon_g $(ARCH_DEBUG_LIBS)
+PROFILE_LD_LIBS		= -lClue_pg -lCommon_pg $(DEFAULT_LD_LIBS)
+STATIC_LD_LIBS		= -lClue -lCommon $(DEFAULT_LD_LIBS)
 
 # DEP_LIBS - rebuild target if DEP_LIBS newer than target
 
@@ -368,6 +368,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.7  1997/04/26 14:12:36  houghton
+# Added libCommon.
+#
 # Revision 3.6  1997/03/03 14:38:35  houghton
 # Removed support for RW Tools++ & rpm.
 #
