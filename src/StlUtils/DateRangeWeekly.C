@@ -9,6 +9,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/11/06 18:04:09  houghton
+// Clue.hh renamed to ClueUtils.hh
+//
 // Revision 2.3  1996/04/27 12:57:24  houghton
 // Removed unneeded includes.
 //
@@ -26,7 +29,7 @@
 #if !defined( CLUE_SHORT_FN )
 #include "DateRangeWeekly.hh"
 #include "DateTimeUtils.hh"
-#include "Clue.hh"
+#include "ClueUtils.hh"
 #include "Str.hh"
 #include <iomanip>
 #else
