@@ -13,6 +13,10 @@
 # See End of file for format specs
 #
 
+ENH Paul Houghton 08/28/97 15:45
+add test for new DateTime operator - ()
+add doc for new DateTime oprator - ()
+
 ENH Paul Houghton 08/24/97 16:52
 Add test to tDateTimeUtils that verifies a time_t is a long.
 
@@ -104,6 +108,10 @@ Grab TempFileName from lib Common and use it.
 
 === COMPLETED ===
 
+ENH Paul Houghton 08/28/97 11:32
+setw(n) was being ignored for SubStr.
+COMP Paul Houghton 08/28/97 11:32
+
 ENH Paul A. Houghton 08/11/97 09:02
 test StringFirstNotOf.
 document StringFirstNotOf.
@@ -171,6 +179,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 3.7  1997/08/28 21:19:21  houghton
+# *** empty log message ***
+#
 # Revision 3.6  1997/08/24 23:08:05  houghton
 # *** empty log message ***
 #

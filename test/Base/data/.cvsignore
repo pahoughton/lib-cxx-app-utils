@@ -6,6 +6,8 @@ FileStat.set
 Str.bin.data
 Str.operator.output
 SubStr.operator.output
+SubStr.operator.output.01
+SubStr.operator.output.02
 log.01
 log.02
 log.03
