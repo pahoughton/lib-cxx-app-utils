@@ -19,7 +19,7 @@ ARCH_VPATH	= $(ARCH_SRC_VPATH):$(UNIX_VPATH)
 
 ARCHSRC_INC	= -I$(ARCH_DIR) -I$(ARCH_SRC_DIR) 
 
-ARCH_DEFINES	= $(UNIX_DEFINES)
+ARCH_DEFINES	= $(UNIX_DEFINES) -D_XOPEN_SOURCE=1
 
 ARCH_INC	= $(ARCHSRC_INC) $(UNIX_INC)
 
@@ -27,12 +27,10 @@ ARCH_GENERATED_SOURCES = $(UNIX_GENERATED_SOURCES)
 
 
 ARCH_C_SOURCES		=	\
-	strptime.c		\
 	$(UNIX_C_SOURCES)	\
 
 
 ARCH_CXX_C_SOURCES	=	\
-	basename.C		\
 	$(UNIX_CXX_C_SOURCES)	\
 
 ARCH_USER_H_INCS	=	\
@@ -61,6 +59,10 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 4.2  1998/10/13 16:31:14  houghton
+# Added ARCH_DEFINE _XOPEN_SOURCE=1
+# Removed basename.C & strptime.c.
+#
 # Revision 4.1  1997/09/17 15:13:17  houghton
 # Changed to Version 4
 #
