@@ -56,7 +56,7 @@ VPATH		= $(ARCH_VPATH):.
 
 TEST_DATA_DIR	= ../data
 TEST_USER	= houghton
-TEST_GROUP	= cirinv
+TEST_GROUP	= tools
 TEST_UID	= 253
 TEST_GID	= 233
 
@@ -158,7 +158,7 @@ STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
 # DEP_LIBS - rebuild target if DEP_LIBS newer than target
 
 DEFAULT_DEP_LIBS	=
-DEBUG_DEP_LIBS		=
+DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/Clue/libClue_g.a
 PROFILE_DEP_LIBS	=
 STATIC_DEP_LIBS		=
 
@@ -388,6 +388,9 @@ clean_test_data:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.10  1996/05/11 11:03:36  houghton
+# Cleanup.
+#
 # Revision 2.9  1996/05/03 16:17:19  houghton
 # Added defines to easy multi platform test.
 #
