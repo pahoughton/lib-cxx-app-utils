@@ -439,14 +439,6 @@ SubStr::good( void ) const
 
 inline
 ostream &
-SubStr::toStream( ostream & dest ) const
-{
-  dest.write( strbase(), size() );
-  return( dest );
-}
-    
-inline
-ostream &
 operator << ( ostream & dest, const SubStr & src )
 {
   return( src.toStream( dest ) );
@@ -666,6 +658,10 @@ SubStr::operator =  ( const string & src )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.4  1997/08/28 16:34:11  houghton
+// Bug-Fix: moved toStream to .C (was inline) and added support
+//     for setw(n) (the width was being ignored).
+//
 // Revision 3.3  1997/08/17 22:35:52  houghton
 // Added copy( const char * ... ).
 //
