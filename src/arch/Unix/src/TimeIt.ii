@@ -26,10 +26,13 @@
 
 inline
 void
-TimeIt::start( void )
+TimeIt::start( bool realOnly )
 {
-  if( getrusage( RUSAGE_SELF, &usageStart ) )
-    osErrnum = (osErrnum ? osErrnum : errno );
+  if( ! realOnly )
+    {
+      if( getrusage( RUSAGE_SELF, &usageStart ) )
+	osErrnum = (osErrnum ? osErrnum : errno );
+    }
   
   if( gettimeofday( &realStart, 0 ) )
     osErrnum = (osErrnum ? osErrnum : errno );
@@ -49,12 +52,43 @@ TimeIt::stop( void )
 }
 
 inline
+timeval
+TimeIt::getRealDiff( void ) const
+{
+  return( diffTimeVal( realStop, realStart ) );
+}
+
+inline
+rusage
+TimeIt::getUsageDiff( void ) const
+{
+  rusage    diffUsage;
+  
+  diffUsage.ru_maxrss	    = usageStop.ru_maxrss - usageStart.ru_maxrss;
+  diffUsage.ru_ixrss	    = usageStop.ru_ixrss - usageStart.ru_ixrss;
+  diffUsage.ru_idrss	    = usageStop.ru_idrss - usageStart.ru_idrss;
+  diffUsage.ru_isrss	    = usageStop.ru_isrss - usageStart.ru_isrss;
+  diffUsage.ru_minflt	    = usageStop.ru_minflt - usageStart.ru_minflt;
+  diffUsage.ru_majflt	    = usageStop.ru_majflt - usageStart.ru_majflt;
+  diffUsage.ru_nswap	    = usageStop.ru_nswap - usageStart.ru_nswap;
+  diffUsage.ru_inblock	    = usageStop.ru_inblock - usageStart.ru_inblock;
+  diffUsage.ru_oublock	    = usageStop.ru_oublock - usageStart.ru_oublock;
+  diffUsage.ru_msgsnd	    = usageStop.ru_msgsnd - usageStart.ru_msgsnd;
+  diffUsage.ru_msgrcv	    = usageStop.ru_msgrcv - usageStart.ru_msgrcv;
+  diffUsage.ru_nsignals     = usageStop.ru_nsignals - usageStart.ru_nsignals;
+  diffUsage.ru_nvcsw	    = usageStop.ru_nvcsw - usageStart.ru_nvcsw;
+  diffUsage.ru_nivcsw	    = usageStop.ru_nivcsw - usageStart.ru_nivcsw;
+
+  return( diffUsage );
+}  
+  
+inline
 DumpInfo<TimeIt>
 TimeIt::dump( const char * prefix, bool showVer ) const
 {
   return( DumpInfo<TimeIt>( *this, prefix, showVer ) );
 }
-	
+
 
 inline
 ostream &
@@ -79,6 +113,9 @@ operator >> ( istream & dest, const TimeIt & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.2  1997/03/19 16:27:20  houghton
+// Changed start to specify get real time only.
+//
 // Revision 3.1  1997/03/03 14:37:42  houghton
 // Initial Version.
 //
