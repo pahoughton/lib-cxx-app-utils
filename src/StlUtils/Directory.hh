@@ -3,220 +3,125 @@
 //
 // File:        Directory.hh
 // Desc:        
-//              
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
-// Created:     12/22/94 16:43
+//
+//
+//  Quick Start: - short example of class usage
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     09/19/95 07:31
 //
 // Revision History:
 //
-// 
 // $Log$
-// Revision 1.1  1995/02/13 16:08:39  houghton
-// New Style Avl an memory management. Many New Classes
+// Revision 1.2  1995/11/05 13:22:39  houghton
+// New Implementation
 //
 //
 
-#include <Common.h>
+#include <ClueConfig.hh>
 
-#include <unistd.h>
-#include <dirent.h>
-
-#include <StringList.hh>
 #include <FileStat.hh>
-#include <Stack.hh>
-#include <Array.hh>
+#include <SortOrder.hh>
+
+#include <vector>
+#include <set>
+
+#include <climits>
+
+#ifdef  CLUE_DEBUG
+#define inline
+#endif
 
 class Directory
 {
 
 public:
 
-  enum SortOrder
-  {
-    SORT_NONE 	= 0,
-    SORT_TYPE	= 0x01,
-    SORT_NAME	= 0x02,
-    SORT_MTIME	= 0x04,
-    SORT_SIZE	= 0x08,
-    SORT_OWNER	= 0x10,
-    SORT_GROUP	= 0x20
-  };
-    
-  Directory( const char * path, Bool recursive = NO );
-  Directory( const char * path, SortOrder order = SORT_NONE, Bool recursive = NO );
-  ~Directory();
-
+  typedef vector< FileStat >	List;
+  typedef List::iterator	iterator;
+  typedef SortOrder< FileStat >	DirOrder;
   
-  void 	    	    addExclude( const char * name );
-  void	    	    addExcludeDir( const char * name );
-  void	    	    resetExclude( void );
-  void	    	    resetExcludeDir( void );
-  SortOrder 	    setSortOrder( SortOrder s1,
-				  SortOrder s2 = SORT_NONE,
-				  SortOrder s3 = SORT_NONE,
-				  SortOrder s4 = SORT_NONE,
-				  SortOrder s5 = SORT_NONE,
-				  SortOrder s6 = SORT_NONE,
-				  SortOrder s7 = SORT_NONE,
-				  SortOrder s8 = SORT_NONE,
-				  SortOrder s9 = SORT_NONE,
-				  SortOrder s10 = SORT_NONE );
-    
-  const char * 	    next( char * buf = 0 );
-
-  const char * 	    getPath( char * buf = 0 );
-  const char * 	    getFileName( char * buf = 0 ) const;  
-  const char * 	    getFullName( char * buf = 0 ) const;
-  const FileStat &  getStats( void ) const;
-
-  unsigned long	    getDepth( void ) const;
+  static const DirOrder   SortName;
+  static const DirOrder   SortExt;
+  static const DirOrder   SortSize;
+  static const DirOrder   SortTime;
   
+  inline Directory( const char * path, bool recurs = false );
+  inline Directory( const char * path,
+		    const DirOrder & order,
+		    bool recurs = false );
+
+  inline Directory( const Directory & from );
   
-  struct DirInfo
-  {
-    char *     	    	    	path;
-    size_t  	    	    	pathLen;
-    DIR *      	    	    	dir;
-    long   	    	    	file;
-    Array<FileStat> 	    	stats;
-  };
+  virtual ~Directory( void );
+
+  inline iterator	begin( void );
+  inline iterator	end( void );
+
+  bool		set( const char * path, bool recurs = false );
+  bool		set( const char *	path,
+  		     const DirOrder &   order,
+  		     bool recurs =	false );
+  
+  bool		sort( const DirOrder & order );
+  
+  virtual bool	    	good( void ) const;
+  virtual const char * 	error( void ) const;
+  virtual const char *	getClassName( void ) const;
+
+  static const char version[];
   
 protected:
 
 private:
 
-  static int compareDir( const FileStat ** one,
-			 const FileStat ** two );
-  
-  void 	initialize( const char * path );
-
-  void	readDirectory( void );
-  
-  Bool 	isExcludeDir();
-  Bool	isExclude();
-  Bool	match();
-
-  Directory( const Directory & copyFrom );
-  Directory & operator=( const Directory & assignFrom );
-
-  SortOrder 	    sortBy[32];
-  Stack<DirInfo>    dirs;
-
-  Bool	    	    recurs;
-  
-  char *    	    basePath;
-  char *    	    matchPattern;
-  StringList   	    excludeList;
-  StringList	    excludeDirList;
+  List	list;
   
 };
 
+#ifndef inline
+#include <Directory.ii>
+#else
+#undef inline
+#endif
 
 //
-// Inline methods
+// Detail Documentation
 //
-
-inline
-const char *
-Directory::getPath( char * buf ) 
-{
-  if( buf != 0 )
-    {
-      strcpy( buf, dirs().path );
-      return( buf );
-    }
-  else
-    {
-      return( dirs().path );
-    }
-}
-
-inline
-const char *
-Directory::getFileName( char * buf ) const
-{
-  if( buf != 0 )
-    {
-      strcpy( buf, dirs().stats[ dirs().file ].getName() + dirs().pathLen + 1 );
-      return( buf );
-    }
-  else
-    {
-      return( dirs().stats[ dirs().file ].getName() + dirs().pathLen + 1  );
-    }
-}
-
-inline
-const char *
-Directory::getFullName( char * buf ) const
-{
-  if( buf != 0 )
-    {
-      strcpy( buf, dirs().stats[ dirs().file ].getName() );
-      return( buf );
-    }
-  else
-    {
-      return( dirs().stats[ dirs().file ].getName() );
-    }
-}
-
-inline
-const FileStat &
-Directory::getStats( void ) const
-{
-  return( dirs().stats[ dirs().file ] );
-}
-
-  
-inline
-void
-Directory::addExclude( const char * name )
-{
-  excludeList.add( name );
-}
-
-inline
-void
-Directory::addExcludeDir( const char * name )
-{
-  excludeDirList.add( name );
-}
-
-inline
-void
-Directory::resetExclude( void )
-{
-  excludeList.clear();
-}
-
-inline
-void
-Directory::resetExcludeDir( void )
-{
-  excludeDirList.clear();
-}
-
-inline
-unsigned long
-Directory::getDepth( void ) const
-{
-  return( dirs.getSize() );
-}
-
-
-
+//  Data Types: - data types defined by this header
+//
+//  	Directory	class
+//
+//  Constructors:
+//
+//  	Directory( );
+//
+//  Destructors:
+//
+//  Public Interface:
+//
+//  	virtual const char *
+//  	getClassName( void ) const;
+//  	    Return the name of this class (i.e. Directory )
+//
+//  	virtual Bool
+//  	good( void ) const;
+//  	    Returns true if there are no detected errors associated
+//  	    with this class, otherwise FALSE.
+//
+//  	virtual const char *
+//  	error( void ) const
+//  	    Returns as string description of the state of the class.
+//
+//  Protected Interface:
+//
+//  Private Methods:
+//
+//  Other Associated Functions:
+//
+//  	ostream &
+//  	operator <<( ostream & dest, const Directory & obj );
 
 #endif // ! def _Directory_hh_ 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
+

@@ -1,0 +1,61 @@
+#ifndef _Directory_ii_
+#define _Directory_ii_
+//
+// File:        Directory.ii
+// Desc:        
+//
+//  	inlines for Directory
+//
+// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Created:     09/19/95 07:59
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.1  1995/11/05 13:22:39  houghton
+// New Implementation
+//
+//
+
+inline
+Directory::Directory( const char * path, bool recurs )
+{
+  set( path, recurs );
+}
+
+inline
+Directory::Directory(
+  const char *			path,
+  const SortOrder< FileStat > & order,
+  bool				recurs
+  )
+{
+  set( path, order, recurs );
+}
+
+inline
+Directory::Directory( const Directory & from )
+{
+  list = from.list;
+}
+
+inline
+Directory::iterator
+Directory::begin( void )
+{
+  return( list.begin() );
+}
+
+inline
+Directory::iterator
+Directory::end( void )
+{
+  return( list.end() );
+}
+
+
+
+
+  
+
+#endif // ! def _Directory_ii_ 
