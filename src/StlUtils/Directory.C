@@ -748,6 +748,7 @@ Directory::set(
 	}
       else
 	{
+	  globfree( &files );
 	  if( ret == GLOB_NOMATCH )
 	    {
 	      if( pattern.getPath().size() )
@@ -862,6 +863,9 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/10/13 15:17:33  houghton
+// Bug-Fix: was missing a call to globfree().
+//
 // Revision 4.3  1998/07/20 11:20:18  houghton
 // Port(Hpux10): Changed 'and' to 'andLR'. 'and' is now a keyword.
 //
