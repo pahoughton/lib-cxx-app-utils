@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.3  1998/10/13 16:34:43  houghton
+// Added destructor '~UserGroup()'.
+//
 // Revision 4.2  1997/12/19 12:52:08  houghton
 // Bug-Fix: members is const, so i need to use a const iterator.
 //
@@ -92,6 +95,10 @@ extern "C" { void endpwent( void ); };
 // UserGroup   UserGroup::eff( getegid() );
 
 const gid_t    UserGroup::bad = (gid_t) ULONG_MAX;
+
+UserGroup::~UserGroup( void )
+{
+}
 
 const UserGroup &
 UserGroup::effective( void )

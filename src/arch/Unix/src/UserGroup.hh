@@ -11,6 +11,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1998/10/13 16:34:48  houghton
+// Added destructor '~UserGroup()'.
+//
 // Revision 4.1  1997/09/17 15:13:41  houghton
 // Changed to Version 4
 //
@@ -72,6 +75,8 @@ public:
 
   inline UserGroup( istream & src, bool text = false, bool findMemb = false );
 
+  virtual ~UserGroup( void );
+  
   inline gid_t	    	    getGID( void ) const;
   inline const char *	    getName( void ) const;
 
