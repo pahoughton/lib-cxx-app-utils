@@ -93,6 +93,8 @@ public:
   inline streambuf *	delFilter( FilterId id );
 
   inline const char *	getLogFileName( void ) const;
+
+  inline bool		willOutput( LogLevel::Level lvl ) const;
   
   // streambuf virtuals
   virtual int	    overflow(int=EOF);
@@ -277,6 +279,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/04/01 15:09:38  houghton
+// Added willOutput method that also check if any filters will output.
+//
 // Revision 3.4  1997/03/03 19:01:22  houghton
 // Moved code for Filter class to LogBuf.ii.
 // Added Filter copy constructor.

@@ -228,6 +228,27 @@ LogBuf::getLogFileName( void ) const
 }
 
 inline
+bool
+LogBuf::willOutput( LogLevel::Level lvl ) const
+{
+  if( logLevel.willOutput( lvl ) )
+    return( true );
+
+  for( FilterList::const_iterator them = filters.begin();
+       them != filters.end();
+       ++them )
+    {
+      if( ! (*them).dest )
+	continue;
+
+      if( (*them).outputLevel & lvl )
+	return( true );
+    }
+
+  return( false );
+}
+
+inline
 LogBuf::Filter::Filter( void )
   : dest(0), outputLevel( LogLevel::None ), regex( 0 )
 {
@@ -267,6 +288,9 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/04/01 15:09:39  houghton
+// Added willOutput method that also check if any filters will output.
+//
 // Revision 3.3  1997/03/03 19:02:05  houghton
 // Added code for Filter default constructor.
 // Added code for Filter copy constructor.
