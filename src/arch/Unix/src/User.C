@@ -1,68 +1,22 @@
 //
 // File:        User.C
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//  
+//  Compiled source for User.
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/18/95 06:37 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:23  houghton
-// Changed Version Num to 5
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 4.4  1998/10/13 16:34:09  houghton
-// Change to ensure 'primary' group is included in the user's groups.
-//
-// Revision 4.3  1998/07/20 11:30:20  houghton
-// Port(Hpux): had to specify default function arg.
-//
-// Revision 4.2  1997/12/19 12:51:51  houghton
-// Bug-Fix: groups is const, so i need to use a const iterator.
-//
-// Revision 4.1  1997/09/17 15:13:39  houghton
-// Changed to Version 4
-//
-// Revision 3.5  1997/09/17 11:09:27  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.4  1997/03/03 19:12:14  houghton
-// Changed from useing strstream to Str.
-//
-// Revision 3.3  1997/03/03 14:38:21  houghton
-// Removed support for RW Tools++.
-//
-// Revision 3.2  1996/11/19 12:29:58  houghton
-// Changed include from strstream to strstream.h because strstream
-//     is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:25:09  houghton
-// Changed to Release 3
-//
-// Revision 2.5  1996/11/06 18:10:41  houghton
-// Changed how effective user is handled.
-// Changed use of Str to RWCString.
-//     (as required per Mike Alexander)
-//
-// Revision 2.4  1996/06/20 15:25:25  houghton
-// Added Debugging loging
-//
-// Revision 2.3  1996/05/01 11:01:21  houghton
-// Bug-Fix: static const User eff was causing segv.
-//   change so the effective() method just returns a new 'User'
-//
-// Revision 2.2  1995/12/04 11:20:20  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:46:56  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:49:17  houghton
-// Revised
-//
-//
+// %PID%
 
 #include "User.hh"
 #include "Compare.hh"
@@ -75,7 +29,7 @@
 
 STLUTILS_VERSION(
   User,
-  "$Id$" );
+  "%PID%" );
 
 
 const uid_t User::bad = (uid_t) ULONG_MAX;
@@ -318,3 +272,65 @@ User::dumpInfo(
   
 }
   
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:23  houghton
+// Changed Version Num to 5
+//
+// Revision 4.4  1998/10/13 16:34:09  houghton
+// Change to ensure 'primary' group is included in the user's groups.
+//
+// Revision 4.3  1998/07/20 11:30:20  houghton
+// Port(Hpux): had to specify default function arg.
+//
+// Revision 4.2  1997/12/19 12:51:51  houghton
+// Bug-Fix: groups is const, so i need to use a const iterator.
+//
+// Revision 4.1  1997/09/17 15:13:39  houghton
+// Changed to Version 4
+//
+// Revision 3.5  1997/09/17 11:09:27  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.4  1997/03/03 19:12:14  houghton
+// Changed from useing strstream to Str.
+//
+// Revision 3.3  1997/03/03 14:38:21  houghton
+// Removed support for RW Tools++.
+//
+// Revision 3.2  1996/11/19 12:29:58  houghton
+// Changed include from strstream to strstream.h because strstream
+//     is not part of the standard.
+//
+// Revision 3.1  1996/11/14 01:25:09  houghton
+// Changed to Release 3
+//
+// Revision 2.5  1996/11/06 18:10:41  houghton
+// Changed how effective user is handled.
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
+// Revision 2.4  1996/06/20 15:25:25  houghton
+// Added Debugging loging
+//
+// Revision 2.3  1996/05/01 11:01:21  houghton
+// Bug-Fix: static const User eff was causing segv.
+//   change so the effective() method just returns a new 'User'
+//
+// Revision 2.2  1995/12/04 11:20:20  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:46:56  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:49:17  houghton
+// Revised
+//
+//

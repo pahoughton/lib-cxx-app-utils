@@ -1,6 +1,7 @@
 //
 // File:        StringLower.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //    Convert all uppercase characters (A-Z) to lowercase (a-z).
@@ -12,6 +13,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
 
 #include "StringUtils.hh"
 #include <cctype>
@@ -19,7 +25,7 @@
 
 STLUTILS_FUNCT_VERSION(
   StringLower,
-  "$Id$" );
+  "%PID%" );
 
 char *
 StringLower( char * str, size_t len )
@@ -41,7 +47,13 @@ StringLower( char * str, size_t len )
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:18  houghton
 // Changed Version Num to 5
 //

@@ -1,55 +1,24 @@
 //
 // File:        DateRange.cc
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //              
+//  Compiled sources for DateRange class.
 //
 // Author:      Paul Houghton - (houghton@cworld)
 // Created:     02/20/94 08:57 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:14  houghton
-// Changed Version Num to 5
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 4.1  1997/09/17 15:12:14  houghton
-// Changed to Version 4
+//  %PID%
 //
-// Revision 3.5  1997/09/17 14:10:14  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.4  1997/09/17 11:08:12  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/07/18 19:10:23  houghton
-// Added compare( const DateTime & two ) const to eliminate compiler warnings.
-//
-// Revision 3.2  1996/11/20 12:11:31  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:23:31  houghton
-// Changed to Release 3
-//
-// Revision 2.5  1996/11/06 18:03:45  houghton
-// StlUtils.hh renamed to StlUtilsUtils.hh
-//
-// Revision 2.4  1996/04/27 12:54:34  houghton
-// Cleanup.
-//
-// Revision 2.3  1995/12/31 11:21:52  houghton
-// Bug fix - Removed 'inline' statement.
-//
-// Revision 2.2  1995/12/04 11:17:04  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:23  houghton
-// Change to Version 2
-//
-// Revision 1.6  1995/11/05  14:44:25  houghton
-// Ports and Version ID changes
-//
-//
-//
+
 
 #if !defined( STLUTILS_SHORT_FN )
 #include "DateRange.hh"
@@ -77,7 +46,7 @@
 
 STLUTILS_VERSION(
   DateRange,
-  "$Id$");
+  "%PID%");
 
 
 time_t
@@ -267,3 +236,54 @@ DateRange::getVersion( bool withPrjVer ) const
 {
   return( version.getVer( withPrjVer, DateTime::getVersion( false ) ) );
 }
+
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:29:01  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:14  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:12:14  houghton
+// Changed to Version 4
+//
+// Revision 3.5  1997/09/17 14:10:14  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
+// Revision 3.4  1997/09/17 11:08:12  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.3  1997/07/18 19:10:23  houghton
+// Added compare( const DateTime & two ) const to eliminate compiler warnings.
+//
+// Revision 3.2  1996/11/20 12:11:31  houghton
+// Removed support for BinStream.
+//
+// Revision 3.1  1996/11/14 01:23:31  houghton
+// Changed to Release 3
+//
+// Revision 2.5  1996/11/06 18:03:45  houghton
+// StlUtils.hh renamed to StlUtilsUtils.hh
+//
+// Revision 2.4  1996/04/27 12:54:34  houghton
+// Cleanup.
+//
+// Revision 2.3  1995/12/31 11:21:52  houghton
+// Bug fix - Removed 'inline' statement.
+//
+// Revision 2.2  1995/12/04 11:17:04  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:23  houghton
+// Change to Version 2
+//
+// Revision 1.6  1995/11/05  14:44:25  houghton
+// Ports and Version ID changes
+//
+//
+//

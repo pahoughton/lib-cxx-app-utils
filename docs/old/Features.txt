@@ -1,0 +1,96 @@
+Emacs Mode: -*- indented-text -*-
+
+Title:		LibStlUtils Features 
+Author:		Paul Houghton
+Date:		7/18/95
+Last Updated:	7/18/95
+
+
+General Description:
+
+    LibStlUtils is a collection of generic C++ classes, functions, and
+    defines that can be used by any application. 
+
+
+Common Interface Methods:
+
+    The following methods are available for most classes
+
+    class AClass
+    {
+    public:
+
+      size_t	getStreamSize( void ) const;
+      ostream & write( ostream & dest ) const;
+      istream &	read( istream & src );
+      
+      int	    compare( const AClass & two ) const;
+      
+      bool	    operator == ( const AClass & two ) const;
+      bool	    operator <  ( const AClass & two ) const;
+
+      bool	    good( void ) const;
+      const char *  error( void ) const;
+      const char *  getClassName( void ) const;
+      ostream &	    toStream( ostream & dest = cout ) const;
+      ostream &	    dumpInfo( ostream & dest = cerr ) const;
+
+      static const char *   version[];
+    };
+
+    int
+    compare( const AClass & one, const AClass & two );
+
+    ostream &
+    operator << ( ostream & dest, const AClass & obj );
+
+
+    Descriptions:
+    
+    getStreamSize
+	return the size (in bytes) required to store this object in
+	binary form in a stream.
+
+    write
+	write this object to the stream in binary form
+
+    read
+	read a stream that contains the binary representation of an
+	object of this type.
+
+    compare
+	return the difference between this object and another of the same
+	type.
+
+    toStream
+	A method implementation of operator << functionallity.
+
+    dumpInfo
+	Dump detailed info about the instance to the stream.    
+
+
+Classes Provided:
+
+    All Platforms:
+    
+	DateRange : public DateTime
+	DateRangeDaily :
+	DateRangeWeekly
+	DateTime
+	FilePath
+	Log
+	Param
+	RegexScan
+	Str
+	
+    Unix:
+
+	User
+	UserGroup
+	FileStat
+	Directory
+	BinaryFile
+	MapFile
+	LockBinaryFile
+	LockMapFile
+	

@@ -2,7 +2,8 @@
 #define _StlUtilsUtils_hh_
 //
 // File:        StlUtilsMisc.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  This is a collection of general purpose functions and
@@ -13,7 +14,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 //
 
 #include "StlUtilsConfig.hh"
@@ -24,6 +30,17 @@ class FilePath;
 // Macros
 
 #define ArraySize( _a_ ) ( sizeof( _a_ ) / sizeof( _a_[0] ) )
+
+#if !defined( STLUTILS_SELF_COMPARE_IMPL )
+#define STLUTILS_SELF_COMPARE_IMPL( SC_TYPE, SC_OPERATOR )		      \
+inline									      \
+bool									      \
+SC_TYPE::operator SC_OPERATOR ( const SC_TYPE & rhs ) const		      \
+{									      \
+  return( compare( rhs ) SC_OPERATOR 0 );				      \
+}
+#endif
+
 
 // Functions
 int
@@ -194,7 +211,13 @@ ArchiveFile( const FilePath &	srcFn,
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.4  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2000/06/04 17:58:05  houghton
 // Updated documentation.
 //

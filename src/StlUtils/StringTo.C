@@ -1,6 +1,7 @@
 //
 // File:        StringTo.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Convert string to a number (See Description at end of file).
@@ -10,9 +11,10 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 
@@ -22,7 +24,7 @@
 
 STLUTILS_FUNCT_VERSION(
   StringTo,
-  "$Id$" );
+  "%PID%" );
 
 
 const int _CharToNumber[] =
@@ -705,7 +707,13 @@ StringToTm( const char * src, const char * fmt )
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:18  houghton
 // Changed Version Num to 5
 //

@@ -2,56 +2,23 @@
 #define _UserGroup_hh_
 //
 // File:        UserGroup.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
+//  Provide a Unix user's Group information.
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/09/95 06:06
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.2  2000/05/25 17:07:31  houghton
-// Port: Sun CC 5.0.
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 5.1  2000/05/25 10:33:23  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/10/13 16:34:48  houghton
-// Added destructor '~UserGroup()'.
-//
-// Revision 4.1  1997/09/17 15:13:41  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:09:29  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/03/03 14:38:22  houghton
-// Removed support for RW Tools++.
-//
-// Revision 3.1  1996/11/14 01:25:12  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/06 18:13:00  houghton
-// Removed BinStream support.
-// Changed how effective is handled.
-// Changed use of Str to RWCString.
-//     (as required per Mike Alexander)
-//
-// Revision 2.3  1996/05/01 11:01:46  houghton
-// Bug-Fix: static const UserGroup eff was causing segv.
-//   change so the effective() method just returns a new 'UserGroup'
-//
-// Revision 2.2  1995/12/04 11:20:22  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:46:58  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:49:19  houghton
-// Revised
-//
-//
+// %PID%
 
 #include <StlUtilsConfig.hh>
 #include <Str.hh>
@@ -209,5 +176,55 @@ compare( const UserGroup & one, const UserGroup & two );
 //
 //  	ostream &
 //  	operator <<( ostream & dest, const UserGroup & obj );
+//
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.3  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
+// Revision 5.2  2000/05/25 17:07:31  houghton
+// Port: Sun CC 5.0.
+//
+// Revision 5.1  2000/05/25 10:33:23  houghton
+// Changed Version Num to 5
+//
+// Revision 4.2  1998/10/13 16:34:48  houghton
+// Added destructor '~UserGroup()'.
+//
+// Revision 4.1  1997/09/17 15:13:41  houghton
+// Changed to Version 4
+//
+// Revision 3.3  1997/09/17 11:09:29  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.2  1997/03/03 14:38:22  houghton
+// Removed support for RW Tools++.
+//
+// Revision 3.1  1996/11/14 01:25:12  houghton
+// Changed to Release 3
+//
+// Revision 2.4  1996/11/06 18:13:00  houghton
+// Removed BinStream support.
+// Changed how effective is handled.
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
+// Revision 2.3  1996/05/01 11:01:46  houghton
+// Bug-Fix: static const UserGroup eff was causing segv.
+//   change so the effective() method just returns a new 'UserGroup'
+//
+// Revision 2.2  1995/12/04 11:20:22  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:46:58  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:49:19  houghton
+// Revised
+//
 //
 #endif // ! def _UserGroup_hh_ 

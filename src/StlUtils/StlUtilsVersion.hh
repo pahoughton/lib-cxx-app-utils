@@ -2,7 +2,8 @@
 #define _StlUtilsVersion_hh_
 //
 // File:        StlUtilsVersion.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Version macros for libStlUtils. 
@@ -20,7 +21,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 //
 
 // Constants
@@ -30,19 +36,19 @@
 #define STLUTILS_PRJ_VER_TAG    "BETA_5_01"
 
 // Macros
-#define STLUTILS_VERSION( name_, verId_ )				      \
-CLASS_VERSION( name_,							      \
-	       verId_,							      \
-	       STLUTILS_PRJ_NAME,					      \
-	       STLUTILS_PRJ_VER,					      \
-	       STLUTILS_PRJ_VER_NUM,					      \
+#define STLUTILS_VERSION( name_, verId_ )	\
+CLASS_VERSION( name_,				\
+	       verId_,				\
+	       STLUTILS_PRJ_NAME,		\
+	       STLUTILS_PRJ_VER,		\
+	       STLUTILS_PRJ_VER_NUM,		\
 	       STLUTILS_PRJ_VER_TAG )
 				   
-#define STLUTILS_FUNCT_VERSION( name_, verId_ )				      \
-const char VERID_##name_[] =						      \
-"@(#) " STLUTILS_PRJ_NAME " - " STLUTILS_PRJ_VER "\n"			      \
-"    " #name_ " - " __FILE__ " - Compiled: " __DATE__ " "__TIME__ "\n"	      \
-"    CVS Tag: " STLUTILS_PRJ_VER_TAG "\n"				      \
+#define STLUTILS_FUNCT_VERSION( name_, verId_ )				\
+const char VERID_##name_[] =						\
+"@(#) " STLUTILS_PRJ_NAME " - " STLUTILS_PRJ_VER "\n"			\
+"    " #name_ " - " __FILE__ " - Compiled: " __DATE__ " "__TIME__ "\n"	\
+"    CVS Tag: " STLUTILS_PRJ_VER_TAG "\n"				\
 "    " verId_
 
 // Detail Documentation
@@ -71,7 +77,13 @@ const char VERID_##name_[] =						      \
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

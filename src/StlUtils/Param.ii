@@ -2,7 +2,8 @@
 #define _Param_ii_
 //
 // File:        Param.ii
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  	Inline source for Param
@@ -12,11 +13,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 
@@ -166,6 +168,24 @@ Param::allArgs( void ) const
 }
 
 inline
+bool
+Param::extraFlags( void ) const
+{
+  if( fileArgs.size() )
+    return( true );
+  
+  for( Args::const_iterator them = argv.begin();
+       them != argv.end();
+       ++ them )
+    {
+      if( (*them).size() && (*them)[0UL] == '-' )
+	return( true );
+    }
+  return( false );
+}
+
+
+inline
 DumpInfo< Param >
 Param::dump( const char * prefix, bool showVer ) const
 {
@@ -179,6 +199,39 @@ operator<<( ostream & dest, const Param & obj )
   return( obj.toStream( dest ) );
 }
 
+void
+Param::removeStopFlag( void )
+{
+  if( haveStopFlag )
+    {
+      Args::iterator	them = argv.begin();
+      for( ; them != argv.end(); ++ them )
+	{
+	  if( (*them).size() > 1
+	      && (*them)[0UL] == '-'
+	      && (*them)[1UL] == '-' )
+	    {
+	      argv.erase( them );
+	      haveStopFlag = false;
+	      break;
+	    }
+	}
+    }
+}
+	
+
+inline
+bool
+Param::matchArg( const Str & arg, const char * id, Str::size_type endPos )
+{
+  return( arg.size() > 1
+	  && arg[0UL] == '-'
+	  && ( ( ( arg[1UL] != '-'
+		   && arg.substr( 1, endPos ).compare( id ) == 0 ) )
+	       || ( arg.size() > 2
+		    && arg.substr( 2, endPos ).compare( id ) == 0 ) ) );
+}
+    
 
 #if defined( inline )
 #undef inline
@@ -187,7 +240,13 @@ operator<<( ostream & dest, const Param & obj )
 // Revision Log:
 // 
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:17  houghton
 // Changed Version Num to 5
 //

@@ -15,15 +15,9 @@
 // $Id$
 //
 
-#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <StlUtilsMisc.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StlUtils.hh>
-#endif
 
 bool
 tAbsLong( LibTest & tester )
@@ -43,6 +37,9 @@ tAbsLong( LibTest & tester )
 
 //
 // $Log$
+// Revision 5.2  2001/07/26 19:28:56  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:26  houghton
 // Changed Version Num to 5
 //

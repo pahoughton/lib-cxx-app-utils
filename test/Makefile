@@ -19,11 +19,15 @@
 #   $Id$
 # 
 
-make_cfg_ver	= 5.06
 show_commands 	= # true
+force	 	= # true
 
-# Include standard MakeConfig configuration for GNU make required
+PRJ_TOPDIR	= ..
+config_dir	= $(PRJ_TOPDIR)/src/config
+
+include $(config_dir)/00-Makefile.cfg
 include Make/make.cfg.$(make_cfg_ver)
+
 
 INSTALL_BIN_DIR	= $(local_bindir)
 INSTALL_INC_DIR = $(local_incdir)
@@ -58,6 +62,9 @@ check:
 
 #
 # $Log$
+# Revision 5.2  2001/07/26 19:28:57  houghton
+# *** empty log message ***
+#
 # Revision 5.1  2000/05/25 10:33:24  houghton
 # Changed Version Num to 5
 #

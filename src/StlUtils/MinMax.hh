@@ -2,32 +2,23 @@
 #define _MinMax_hh_
 //
 // File:        MinMax.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//  	
+//  Provides min and max functions for variouse types.	
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/01/95 07:30
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:16  houghton
-// Changed Version Num to 5
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 4.1  1997/09/17 15:12:40  houghton
-// Changed to Version 4
-//
-// Revision 3.1  1996/11/14 01:23:51  houghton
-// Changed to Release 3
-//
-// Revision 2.1  1995/11/10 12:40:49  houghton
-// Change to Version 2
-//
-// Revision 1.1  1995/11/05  13:23:27  houghton
-// Initaial implementation
-//
-//
+// %PID%
 
 /*
 Copyright (C) 1992 Free Software Foundation
@@ -205,4 +196,29 @@ inline short max( char a, short b ) { _retmax_( a, b ); }
 
 #undef _retmax_
 
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:12:40  houghton
+// Changed to Version 4
+//
+// Revision 3.1  1996/11/14 01:23:51  houghton
+// Changed to Release 3
+//
+// Revision 2.1  1995/11/10 12:40:49  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  13:23:27  houghton
+// Initaial implementation
+//
+//
 #endif // ! def _MinMax_hh_ 

@@ -24,7 +24,7 @@
 
 // Configuration Flags
 
-#define STLUTILS_HAVE_LONG_ABS 1
+// #define STLUTILS_HAVE_LONG_ABS 1
 #define STLUTILS_LOG_WHERE 1
 #define STLUTILS_HAS_STR 1
 #define STLUTILS_HAS_DATETIME 1
@@ -32,7 +32,6 @@
 #define STLUTILS_HAS_USERGROUP 1
 #define STLUTILS_HAS_STRPTIME 1
 #define STLUTILS_HAS_IOSTREAM_SENTRY 1
-#define STLUTILS_HAVE_LONG_LONG	1
 
 // #define STLUTILS_HAS_SEMUN		1 
 // #define STLUTILS_THREADS	1 
@@ -168,6 +167,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 5.3  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:07:25  houghton
 // Port: Sun CC 5.0.
 //

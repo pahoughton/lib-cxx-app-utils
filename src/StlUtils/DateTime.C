@@ -1,6 +1,7 @@
 //
 // File:        DateTime.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compiled sources for DateTime
@@ -10,9 +11,10 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "DateTime.hh"
@@ -27,7 +29,7 @@
 
 STLUTILS_VERSION(
   DateTime,
-  "$Id$" );
+  "%PID%" );
 
 
 RegexScan
@@ -126,6 +128,14 @@ DateTime::isDST( void )
 }
 
 #if defined( FIXME )
+//  	static
+//	long
+//  	getGmtOffset( const char * timeZone = 0 )
+//  	    return the value of the offset from Greenwich Mean Time
+//  	    in seconds.(i.e. -21600 for CST6CDT ). The value is negative
+//  	    when used in the USA. (west of GMT), Uses the TZ environment
+//  	    variable.
+//
 // getGmtOffset - return the gmt offset for 'timeZone'
 //  NOTE: the 'timezone' value is converted to a
 //  	  negative value. It seems more natural to me to add
@@ -960,7 +970,13 @@ DateTime::getVersion( bool withPrjVer ) const
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

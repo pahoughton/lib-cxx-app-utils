@@ -2,39 +2,25 @@
 #define _ThreadBase_hh_
 //
 // File:        ThreadBase.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//
+//  Base class for creating threads.
 //
 //  Quick Start: - short example of class usage
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     04/25/96 06:16
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:18  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:13:07  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:57  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:24:25  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1996/11/04 14:34:35  houghton
-// Changed to be compilable even if STLUTILS_THREADS is not defined.
-//
-// Revision 2.1  1996/04/27 13:11:52  houghton
-// Initial version.
-//
-//
+// %PID%
 
 #if !defined( STLUTILS_SHORT_FN )
 #include <StlUtilsConfig.hh>
@@ -156,6 +142,35 @@ private:
 //
 //  	ostream &
 //  	operator <<( ostream & dest, const ThreadBase & obj );
+//
+
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:13:07  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:57  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:24:25  houghton
+// Changed to Release 3
+//
+// Revision 2.2  1996/11/04 14:34:35  houghton
+// Changed to be compilable even if STLUTILS_THREADS is not defined.
+//
+// Revision 2.1  1996/04/27 13:11:52  houghton
+// Initial version.
+//
 //
 #endif // ! def _ThreadBase_hh_ 
 

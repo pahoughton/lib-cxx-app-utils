@@ -1,6 +1,7 @@
 //
 // File:        StringCaseReverseSearch.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //    Search the string 'haystack' for the string 'needle' starting
@@ -15,6 +16,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 
 #include "StringUtils.hh"
 #include <cstddef>
@@ -23,7 +30,7 @@
 
 STLUTILS_FUNCT_VERSION(
   StringCaseReverseSearch,
-  "$Id$" );
+  "%PID%" );
 
 const char *
 StringCaseReverseSearch(
@@ -82,7 +89,13 @@ StringCaseReverseSearch(
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:17  houghton
 // Changed Version Num to 5
 //

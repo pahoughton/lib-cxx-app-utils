@@ -1,6 +1,7 @@
 //
 // File:        FileStat.C
-// Project	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compiled source for the FileStat class
@@ -9,6 +10,13 @@
 // Created:     05/17/95 08:38 
 //
 // Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 //
 
 #include "FileStat.hh"
@@ -33,7 +41,7 @@
 
 STLUTILS_VERSION(
   FileStat,
-  "$Id$");
+  "%PID%");
 
 const int FileStat::badFd = -1;
 
@@ -414,7 +422,13 @@ FileStat::setModeString( void )
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

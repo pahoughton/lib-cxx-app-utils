@@ -1,0 +1,61 @@
+=head1 StlUtils Developer Documentation
+
+The following information is available to help developers utilize the
+StlUtils library in their projects.
+
+=head3 Contents
+
+=over
+
+=item L<Library|Library> Documentation
+
+Types and functions provided by libStlUtils
+
+=item L<Version Control|Version>
+
+How to check in/out the sources from the version control repository
+
+=item L<Prerequisites|Prerequisites>
+
+What you need to use =PROJECT= (note: includes info about supported
+platforms)
+
+=item L<Project Install|PrjInstall>
+
+How to use a specific version of StlUtils with your project. This is
+the recommended method of installing StlUtils.
+
+=item L<Standalone Install|Install>
+
+How to install StlUtils independantly of a project.
+
+=back
+
+=for html
+<hr>
+
+Paul A. Houghton <paul.houghton@wcom.com>
+
+$Id$
+
+Last Modified: =LAST_MOD=
+
+=cut
+
+$Log$
+Revision 1.1  2001/07/26 19:29:01  houghton
+*** empty log message ***
+
+Revision 1.4  2000/06/11 13:20:27  houghton
+Added Prerequisites.
+
+Revision 1.3  2000/06/11 12:23:23  houghton
+Cleanup.
+
+Revision 1.2  2000/06/05 13:12:46  houghton
+Cleanup.
+
+Revision 1.1  2000/06/04 18:01:13  houghton
+Initial Version.
+
+

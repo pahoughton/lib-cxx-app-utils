@@ -1,6 +1,7 @@
 //
 // File:        StripWhite.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  	Remove leading and trailing white space from a string.
@@ -10,7 +11,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 //
 //  grabed old 'StripSpaces.c' function and added the ability to
 //  specifiy white spaces that are to be striped
@@ -20,7 +26,7 @@
 
 STLUTILS_FUNCT_VERSION(
   StripWhite,
-  "$Id$" );
+  "%PID%" );
 
 char *
 StripWhite( char * buffer, const char * white, size_t bufSize )
@@ -70,7 +76,13 @@ StripWhite( char * buffer, const char * white, size_t bufSize )
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:18  houghton
 // Changed Version Num to 5
 //

@@ -1,199 +1,118 @@
 #
-# -*- Makefile -*- for StlUtils root dir
+# Title:        Makefile
+# Project:	StlUtils %PP%
+# Item:   	%PI% (%PF%)
+# Desc:
+# 
+#   This is the Top Level Makefile for StlUtils. Before you build
+#   any of the targets in this makefile, you must setup the project
+#   using the Setup.Makefile in this directory. Please refer to it for
+#   more details.
+# 
+# Notes:
+# 
+# Author:	Paul Houghton <Paul.Houghton@wcom.com>
+# Created:	07/07/01 using GenProject 6.01.01
 #
-# Author: Paul Houghton
+# Revision History: (See end of file for Revision Log)
 #
-# Created: 11/12/95
+#   Last Mod By:    %PO%
+#   Last Mod:	    %PRT%
+#   Version:	    %PIV%
+#   Status:	    %PS%
 #
-# $Id$
-#
+#   %PID%
+# 
 
-show_commands	= false
+show_commands 	= # true
 check_install	= true
-hide		= @
-
-PROJECT		= libStlUtils-5
+force		= # true
 
 PRJ_TOPDIR	= .
-CFG_DIR		= $(PRJ_TOPDIR)/src/config
+config_dir  	= $(PRJ_TOPDIR)/src/config
 
-INSTALL_INC_DIR 	= $(TOOL_DIR)/include/prod
-INSTALL_LIB_DIR 	= $(TOOL_DIR)/lib/prod
-INSTALL_DOC_MAN_DIR 	= $(TOOL_DIR)/man
+# #### If you got an error here, see Setup.Makefile ####
+include $(config_dir)/00-Makefile.cfg
+-include Make/make.cfg.$(make_cfg_ver)
 
-INSTALL_DOC_HTML_DIR	= \
-	/usr/netscape/suitespot/docs/ObjectRepository/GenericCxx/StlUtils
+INSTALL_RUN_BASE_DIR	= $(shell cd $(PRJ_TOPDIR) && pwd)/../install
 
-setup_exports		=				\
-	INSTALL_INC_DIR=$(INSTALL_INC_DIR)		\
-	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)		\
-	INSTALL_DOC_HTML_DIR=$(INSTALL_DOC_HTML_DIR)	\
-	INSTALL_DOC_MAN_DIR=$(INSTALL_DOC_MAN_DIR)	\
-	show_commands=$(show_commands)			\
-	check_install=$(check_install)
+SUBDIRS		= docs src test
 
-exports			=			\
-	show_commands=$(show_commands)		\
-	check_install=$(check_install)
+TARGETS		= $(standard_targets) dist dist_html
 
-no_target: help
+HELP_TARGETS	= $(TARGETS)
 
-setup:
-	$(MAKE) -f $(PROJECT)/support/Setup.Makefile $(setup_exports) setup
-	$(TOOL_DIR)/bin/make -C $(PROJECT) realclean depend_all
-	$(hide) echo 
-	$(hide) echo "+ $(PROJECT) setup complete."
-	$(hide) echo 
+PHONY_TARGETS	= $(HELP_TARGETS)
 
+include Make/make.cfg.targets.common.$(make_cfg_ver)
 
-verify_setup:
-	$(hide)								      \
-	if [ ! -f $(CFG_DIR)/Setup.cfg ]				      \
-	    && [ ! -f $(PROJECT)/$(CFG_DIR)/Setup.cfg ] ; then		      \
-	  echo "+ Setup.cfg NOT FOUND!";				      \
-	  echo " ";							      \
-	  echo "    To install all the dependencies, please perform";	      \
-	  echo "    the following:";					      \
-	  echo " ";							      \
-	  echo "      cd \$$TOOL_DIR/src/Build/Libs";			      \
-	  echo "      make -f $(PROJECT)/Makefile setup";		      \
-	  echo " ";							      \
-	  echo "    Please see $(PROJECT)/docs/devel/Dependencies.txt";	      \
-	  echo "    for details.";					      \
-	  echo " ";							      \
-	  exit 1;							      \
-	fi
+all default debug test						\
+depend depend_all depend_default depend_debug depend_test	\
+check								\
+install install_debug install_default install_lib_all:
+	$(call make_subdirs,$@,src,$($(@)_exports))
 
+install_all_src:
+	$(call make_subdirs,install_all,src,$($(@)_exports))
 
-depend_all								      \
-depend_debug								      \
-depend_default								      \
-debug									      \
-default									      \
-test									      \
-shared									      \
-all									      \
-check									      \
-clean									      \
-realclean								      \
-install_man								      \
-install_html								      \
-install_default								      \
-install_debug								      \
-install									      \
-install_all: verify_setup
-	@ $(TOOL_DIR)/bin/make -C $(PRJ_TOPDIR)/src $@ $(exports)
-	@ echo + $(PROJECT) $@ complete
+install_all_docs:
+	$(call make_subdirs,install_all,docs,$($(@)_exports))
 
-install_lib_all: verify_setup
-	@ $(TOOL_DIR)/bin/make -C $(PRJ_TOPDIR)/src install_all $(exports)
-	@ echo + $(PROJECT) $@ complete
+install_all: install_all_src install_all_docs
 
-help targets:
-	@ echo 
-	@ echo "+ The following targets are available:"
-	@ echo 
-	@ echo "    setup"
-	@ echo 
-	@ echo "    depend_all"
-	@ echo "    depend_debug"
-	@ echo "    depend_default"
-	@ echo "    debug"
-	@ echo "    default"
-	@ echo "    test (testing version)"
-	@ echo "    shared"
-	@ echo "    all"
-	@ echo "    check (run tests)"
-	@ echo "    clean"
-	@ echo "    realclean"
-	@ echo "    install_docs"
-	@ echo "    install_default"
-	@ echo "    install_debug"
-	@ echo "    install"
-	@ echo "    install_all"
-	@ echo
-	@ echo "+ Use the help_config target to see the available"
-	@ echo "  configuration overides."
-	@ echo
+install_project:
+	$(hide) $(MAKE) -C support -f Install.Makefile $@		\
+		$($(@)_exports)						\
+		INSTALL_TYPE=$(INSTALL_TYPE)				\
+		INSTALL_VERSION=$(PROJECT_VER_$(INSTALL_VERSION))	\
+		INSTALL_JPROG_TYPE=project
 
-help_config:
-	@ if [ -f $(CFG_DIR)/Setup.cfg ] ; then				      \
-	  $(MAKE) -f $(CFG_DIR)/Setup.cfg help_setup_config ;		      \
-	else								      \
-	  if [ -f $(PROJECT)/$(CFG_DIR) ] ; then			      \
-	    $(MAKE) -f $(PROJECT)/$(CFG_DIR)/Setup.cfg help_setup_config ;    \
-	  else								      \
-	    echo ;							      \
-	    echo "+ The following configuration variables are available:" ;   \
-	    echo ;							      \
-	    echo "    INSTALL_INC_DIR=$(INSTALL_INC_DIR)" ;		      \
-	    echo "    INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)" ;		      \
-	    echo "    INSTALL_DOC_DIR=$(INSTALL_DOC_DIR)" ;		      \
-	    echo "    INSTALL_HTML_BASE_DIR=";				      \
-	    echo "      $(INSTALL_HTML_BASE_DIR)";			      \
-	    echo ;							      \
-	    echo "    show_commands=$(show_commands)" ;			      \
-	    echo "    check_install=$(check_install)" ;			      \
-	    echo ;							      \
-	  fi ;								      \
-	fi 
+dist:
+	$(call make_dist_from_dim,infr_objs,mcmain,$(PROJECT_DIR))
+
+dist_html:
+	$(call make_subdirs,$@,docs,$($(@)_exports) $(exports))
+
+# Detail Documentation
+#
+# Control Variables
+#
+#   show_commands   if this is true, the commands executed during the
+#		    build will be output. Normally these commands are
+#		    hidden and the only thing output is short messages
+#		    indicating the items being built
+#
+#   check_install   if this is true, install and install_all will NOT
+#		    overwrite an installed version.
+#
+#   force	    If this is not empty, force the rebuild of all
+#		    targets even if none of the dependencies are out
+#		    of date.
+#
+# Help variables
+#
+#   HELP_TARGETS	Add any targets you create that should be
+#			listed when a user performs a `make help'.
+#
+# Target Variables
+#
+#   TARGETS		All the top level targets for this Makefile.
+#
+#   PHONY_TARGETS	All list of the phony targets (i.e. not real
+#			files) that you have added to this makefile
+#			which should be appended to the .PHONY:
+#			target. For more information, see make(info).
+#
 
 #
-# $Log$
-# Revision 5.4  2000/06/11 12:23:13  houghton
-# Cleanup.
-#
-# Revision 5.3  2000/06/04 17:55:48  houghton
-# Changed doc variables.
-#
-# Revision 5.2  2000/05/25 16:51:50  houghton
-# Changed project version.
-#
-# Revision 5.1  2000/05/25 10:33:01  houghton
-# Changed Version Num to 5
-#
-# Revision 4.11  2000/04/19 11:03:48  houghton
-# Changed install_docs to install_man
-# Added install_html.
-#
-# Revision 4.10  2000/04/18 13:08:22  houghton
-# Added INSTALL_HTML_BASE_DIR.
-#
-# Revision 4.9  2000/02/29 14:36:27  houghton
-# Added install_lib_all target.
-#
-# Revision 4.8  1999/11/10 10:07:12  houghton
-# Changed verify_setup to check Setup.cfg.
-#
-# Revision 4.7  1999/11/09 10:59:52  houghton
-# Changed setup to generate Setup.cfg.
-#
-# Revision 4.6  1999/10/30 12:26:41  houghton
-# Bug-Fix: typo.
-# Cleanup verify_setup error message.
-#
-# Revision 4.5  1999/10/30 10:39:57  houghton
-# Changed (complete rework) to support setup and other new targets.
-#
-# Revision 4.4  1999/05/09 11:32:13  houghton
-# Cleanup.
-#
-# Revision 4.3  1998/10/23 13:03:26  houghton
-# Changed to use MakeConfigs 5.06.
-#
-# Revision 4.2  1998/10/13 16:11:59  houghton
-# Complete rework.
-#
-# Revision 4.1  1997/09/17 15:11:57  houghton
-# Changed to Version 4
-#
-# Revision 3.2  1997/09/17 11:07:50  houghton
-# Changed: renamed library to StlUtils.
-#
-# Revision 3.1  1996/11/14 01:23:03  houghton
-# Changed to Release 3
-#
-# Revision 1.1  1995/11/12 17:50:21  houghton
-# Initial Version.
+# Revision Log:
 #
 #
+# %PL%
+#
+#
+
+# Local Variables:
+# mode:makefile
+# End:

@@ -2,6 +2,8 @@
 #define _Timer_ii_
 //
 // File:        Timer.ii
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  	inlines for Timer
@@ -9,35 +11,14 @@
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     07/28/95 06:56
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:18  houghton
-// Changed Version Num to 5
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 4.1  1997/09/17 15:13:09  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:58  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:24:27  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/04/27 13:12:56  houghton
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
-//
-// Revision 2.2  1995/12/04 11:18:31  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:20  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  15:28:51  houghton
-// Revised
-//
-//
+// %PID%
 
 #if !defined( STLUTILS_SHORT_FN )
 #include "DateTimeUtils.hh"
@@ -130,4 +111,39 @@ operator<<( ostream & dest, const Timer & timer )
 #undef inline
 #endif
 
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:13:09  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:58  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:24:27  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1996/04/27 13:12:56  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.2  1995/12/04 11:18:31  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:20  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  15:28:51  houghton
+// Revised
+//
+//
 #endif // ! def _Timer_ii_ 

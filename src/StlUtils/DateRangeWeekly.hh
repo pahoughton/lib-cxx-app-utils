@@ -2,11 +2,23 @@
 #define _DateRangeWeekly_hh_
 //
 // File:        DateRangeWeekly.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //              
+//  A DateRange who's operations only apply to a specific day of the week.
 //
 // Author:      Paul Houghton - (houghton@cworld)
 // Created:     02/20/94 09:25
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -122,7 +134,13 @@ compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
 // Revision History:
 //
 // 
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:05:45  houghton
 // Port: Sun CC 5.0.
 //

@@ -1,6 +1,7 @@
 //
 // File:        PidFile.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compiled sources for PidFile
@@ -10,9 +11,10 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "PidFile.hh"
@@ -29,7 +31,7 @@
 
 STLUTILS_VERSION(
   PidFile,
-  "$Id$");
+  "%PID%");
 
 
 PidFile::PidFile( const char * fullName )
@@ -160,7 +162,13 @@ PidFile::removePidFile( void )
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:22  houghton
 // Changed Version Num to 5
 //

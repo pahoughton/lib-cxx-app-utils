@@ -70,9 +70,9 @@ tParam01( LibTest & tester )
   int	argc_02( ArraySize( Argv_02 ) );
   int	argc_03( ArraySize( Argv_03 ) );
   
-  char ** argv_01( new char * [ argc_01 ] );
-  char ** argv_02( new char * [ argc_02 ] );
-  char ** argv_03( new char * [ argc_03 ] );
+  const char ** argv_01( new const char * [ argc_01 ] );
+  const char ** argv_02( new const char * [ argc_02 ] );
+  const char ** argv_03( new const char * [ argc_03 ] );
   
   
   {
@@ -178,6 +178,9 @@ tParam01( LibTest & tester )
     
 //
 // $Log$
+// Revision 5.2  2001/07/26 19:28:56  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:29  houghton
 // Changed Version Num to 5
 //

@@ -1,41 +1,22 @@
 //
 // File:        ThreadBase.C
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//  
+//  Compiled source for ThreadBase
 //  
 // Author:      Paul Houghton - (houghton@cmore.wiltel.com)
 // Created:     04/25/96 06:17
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:18  houghton
-// Changed Version Num to 5
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 4.1  1997/09/17 15:13:07  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:57  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:24:25  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/04 14:34:32  houghton
-// Changed to be compilable even if STLUTILS_THREADS is not defined.
-//
-// Revision 2.3  1996/07/15 12:15:48  houghton
-// Bug-Fix: if detach, call pthread_detach so the threads resources
-//   will be cleaned up.
-//
-// Revision 2.2  1996/06/20 15:23:22  houghton
-// Added Debugging loging
-//
-// Revision 2.1  1996/04/27 13:11:51  houghton
-// Initial version.
-//
-//
+// %PID%
 
 #if !defined( STLUTILS_SHORT_FN )
 #include "ThreadBase.hh"
@@ -57,7 +38,7 @@
 
 STLUTILS_VERSION(
   ThreadBase,
-  "$Id$");
+  "%PID%");
 
 #if defined( STLUTILS_THREADS )
 
@@ -304,3 +285,38 @@ ThreadBase::dumpInfo(
 }
 
 #endif // defined( STLUTILS_THREADS )
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:13:07  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:57  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:24:25  houghton
+// Changed to Release 3
+//
+// Revision 2.4  1996/11/04 14:34:32  houghton
+// Changed to be compilable even if STLUTILS_THREADS is not defined.
+//
+// Revision 2.3  1996/07/15 12:15:48  houghton
+// Bug-Fix: if detach, call pthread_detach so the threads resources
+//   will be cleaned up.
+//
+// Revision 2.2  1996/06/20 15:23:22  houghton
+// Added Debugging loging
+//
+// Revision 2.1  1996/04/27 13:11:51  houghton
+// Initial version.
+//
+//

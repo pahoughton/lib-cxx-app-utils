@@ -1,67 +1,19 @@
 //
 // File:        UserGroup.C
+// Project:	StlUtils (%PP%)
 // Desc:        
 //
-//  
+//  Compiled source for UserGroup
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/09/95 06:30 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.2  2000/05/25 17:07:31  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:23  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  1998/10/13 16:34:43  houghton
-// Added destructor '~UserGroup()'.
-//
-// Revision 4.2  1997/12/19 12:52:08  houghton
-// Bug-Fix: members is const, so i need to use a const iterator.
-//
-// Revision 4.1  1997/09/17 15:13:41  houghton
-// Changed to Version 4
-//
-// Revision 3.5  1997/09/17 11:09:28  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.4  1997/03/03 19:12:26  houghton
-// Changed from useing strstream to Str.
-//
-// Revision 3.3  1997/03/03 14:38:22  houghton
-// Removed support for RW Tools++.
-//
-// Revision 3.2  1996/11/19 12:30:04  houghton
-// Changed include from strstream to strstream.h because strstream
-//     is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:25:11  houghton
-// Changed to Release 3
-//
-// Revision 2.5  1996/11/06 18:12:27  houghton
-// Removed BinStream support.
-// Changed use of Str to RWCString.
-//     (as required per Mike Alexander)
-//
-// Revision 2.4  1996/05/01 11:01:41  houghton
-// Bug-Fix: static const UserGroup eff was causing segv.
-//   change so the effective() method just returns a new 'UserGroup'
-//
-// Revision 2.3  1995/12/31 11:24:28  houghton
-// Bug Fix - Removed 'inline' statement.
-//
-// Revision 2.2  1995/12/04 11:20:22  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:46:58  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:49:18  houghton
-// Revised
-//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #if !defined( STLUTILS_SHORT_FN )
@@ -91,7 +43,7 @@
 
 STLUTILS_VERSION(
   UserGroup,
-  "$Id$" );
+  "%PID%" );
   
 
 #if defined( AIX )
@@ -333,3 +285,65 @@ UserGroup::dumpInfo(
   
 }
   
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.3  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
+// Revision 5.2  2000/05/25 17:07:31  houghton
+// Port: Sun CC 5.0.
+//
+// Revision 5.1  2000/05/25 10:33:23  houghton
+// Changed Version Num to 5
+//
+// Revision 4.3  1998/10/13 16:34:43  houghton
+// Added destructor '~UserGroup()'.
+//
+// Revision 4.2  1997/12/19 12:52:08  houghton
+// Bug-Fix: members is const, so i need to use a const iterator.
+//
+// Revision 4.1  1997/09/17 15:13:41  houghton
+// Changed to Version 4
+//
+// Revision 3.5  1997/09/17 11:09:28  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.4  1997/03/03 19:12:26  houghton
+// Changed from useing strstream to Str.
+//
+// Revision 3.3  1997/03/03 14:38:22  houghton
+// Removed support for RW Tools++.
+//
+// Revision 3.2  1996/11/19 12:30:04  houghton
+// Changed include from strstream to strstream.h because strstream
+//     is not part of the standard.
+//
+// Revision 3.1  1996/11/14 01:25:11  houghton
+// Changed to Release 3
+//
+// Revision 2.5  1996/11/06 18:12:27  houghton
+// Removed BinStream support.
+// Changed use of Str to RWCString.
+//     (as required per Mike Alexander)
+//
+// Revision 2.4  1996/05/01 11:01:41  houghton
+// Bug-Fix: static const UserGroup eff was causing segv.
+//   change so the effective() method just returns a new 'UserGroup'
+//
+// Revision 2.3  1995/12/31 11:24:28  houghton
+// Bug Fix - Removed 'inline' statement.
+//
+// Revision 2.2  1995/12/04 11:20:22  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:46:58  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:49:18  houghton
+// Revised
+//
+//

@@ -1,6 +1,7 @@
 //
 // File:        FileLock.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compiled sources for FileLock
@@ -10,9 +11,10 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "FileLock.hh"
@@ -29,7 +31,7 @@
 
 STLUTILS_VERSION(
   FileLock,
-  "$Id$");
+  "%PID%");
 
 // NOTE these expects the 'Type' enum values to be correct
 //   if you change one, you need to change the other
@@ -258,7 +260,13 @@ FileLock::typeName( Type t )
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/07/31 13:38:37  houghton
 // Bug-Fix: was not removing locks correctly.
 //

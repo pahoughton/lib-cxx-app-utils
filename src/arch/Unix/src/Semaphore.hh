@@ -2,10 +2,11 @@
 #define _Semaphore_hh_
 //
 // File:        Semaphore.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//
+//  Provides an interface to Unix semaphores
 //
 // Quick Start: - short example of class usage
 //
@@ -14,11 +15,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -192,7 +194,13 @@ private:
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:23  houghton
 // Changed Version Num to 5
 //

@@ -1,6 +1,7 @@
 //
 // File:        DateTimeUtils.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compiled sources for DateTimeUtils
@@ -10,9 +11,10 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "DateTimeUtils.hh"
@@ -20,7 +22,7 @@
 
 STLUTILS_FUNCT_VERSION(
   DateTimeUtils,
-  "$Id$" );
+  "%PID%" );
 
 const time_t  SecPerMin	    = 60;
 const time_t  SecPerHour    = 60 * 60;
@@ -108,7 +110,13 @@ const char * AbbrWeekDays[] =
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

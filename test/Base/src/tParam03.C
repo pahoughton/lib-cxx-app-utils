@@ -25,7 +25,8 @@
 
 #define TEST_ARGFILE TEST_DATA_DIR "/param-03.args"
 #define TEST_LOGFILE TEST_DATA_DIR "/param-03.log"
-char * argv01[] =
+
+const char * argv01[] =
 {
   "test/test",
   "-argfile="	TEST_ARGFILE,	
@@ -76,6 +77,8 @@ tParam03( LibTest & tester )
 	tester.getError() << '\n' << t << endl;
 	TESTR( "parseArgs", false );
       }
+
+    // tester.getDump() << t;
     
     if( ! t.good() )
       {
@@ -100,60 +103,123 @@ tParam03( LibTest & tester )
 			       << " to test log trimming\n";
     }
 
-    char * string = "init";
-    TEST( t.argStr( string, "argString test args", "string" ) );
+    char * string = (char *)"init";
+    TEST( t.argStr( string,
+		    "STRING",
+		    "argString test args",
+		    "long desc",
+		    true,
+		    "string" ) );
     TEST( compare( string, "test string" ) == 0 );
 
     Str str( "init" );
-    TEST( t.argStr( str, "argStr test args", "str" ) );
+    TEST( t.argStr( str,
+		    "STRING",
+		    "argStr test args",
+		    "long desc",
+		    true,
+		    "str" ) );
     TEST( compare( str.c_str(), "test str" ) == 0 );
 
     int i = 0;
-    TEST( t.argInt( i, "argInt test args", "int" ) );
+    TEST( t.argInt( i,
+		    "num",
+		    "argInt test args",
+		    "long desc",
+		    true,
+		    "int" ) );
     TEST( i == -123 );
 
     unsigned int ui = 0;
-    TEST( t.argUInt( ui, "argInt unsigned test args", "uint" ) );
+    TEST( t.argUInt( ui,
+		     "UNSIGNED",
+		     "argInt unsigned test args",
+		     "long desc",
+		     true,
+		     "uint" ) );
     TEST( ui == 123 );
 
     short s = 0;
-    TEST( t.argShort( s, "argShort test args", "short" ) );
+    TEST( t.argShort( s,
+		      "SHORT",
+		      "argShort test args",
+		      "long desc",
+		      true,
+		      "short" ) );
     TEST( s == -456 );
 
     unsigned short us = 0;
-    TEST( t.argUShort( us, "argShort unsigned test args", "ushort" ) );
+    TEST( t.argUShort( us,
+		       "UNSIGNED SHORT",
+		       "argShort unsigned test args",
+		       "long desc",
+		       true,
+		       "ushort" ) );
     TEST( us == 456 );
 
     long l = 0;
-    TEST( t.argLong( l, "argLong test args", "long" ) );
+    TEST( t.argLong( l,
+		     "LONG",
+		     "argLong test args",
+		     "long desc",
+		     true,
+		     "long" ) );
     TEST( l == -789 );
 
     unsigned long ul = 0;
-    TEST( t.argULong( ul, "argLong unsigned test args", "ulong" ) );
+    TEST( t.argULong( ul,
+		      "UNSIGNED LONG",
+		      "argLong unsigned test args",
+		      "long desc",
+		      true,
+		      "ulong" ) );
     TEST( ul == 789 );
 
     double d = 0;
-    TEST( t.argDouble( d, "argDouble test args", "double" ) );
+    TEST( t.argDouble( d,
+		       "DOUBLE",
+		       "argDouble test args",
+		       "long desc",
+		       false,
+		       "double" ) );
     TEST( d == 10.10 );
 
     bool b = false;
-    TEST( t.argBool( b, "argBool test args", "bool" ) );
+    TEST( t.argBool( b,
+		     "BOOL",
+		     "argBool test args",
+		     "long desc",
+		     true,
+		     "bool" ) );
     TEST( b == true );
 
     bool f = false;
-    TEST( t.argFlag( f, "argFlag test args", "flag" ) );
+    TEST( t.argFlag( f,
+		     "argFlag test args",
+		     "long desc",
+		     "flag" ) );
     TEST( f == true );
 
     time_t tt = 0;
     DateTime tval( "7/15/95 08:15:15" );
     TESTR( t.error(),
-	   t.argDateTime( tt, "argDateTime time_t test args", "timet" ) );
+	   t.argDateTime( tt,
+			  "DATETIME",
+			  "argDateTime time_t test args",
+			  "long desc",
+			  true,
+			  "timet" ) );
     TESTR( ctime(&tt),
 	   tt == tval.getTimeT() );
 
     DateTime dt( "9/1/95 06:00:10" );
     DateTime dtval( "8/1/95 06:00:10" );
-    TEST( t.argDateTime( dt, "argDateTime DateTime test args", "datetime" ) );
+    TEST( t.argDateTime( dt,
+			 "DATETEIME",
+			 "argDateTime DateTime test args",
+			 "long desc",
+			 true,
+			 "datetime" ) );
     TEST( dt == dtval );
 
     ALog( LogLevel::Test ) << t;
@@ -186,6 +252,9 @@ tParam03( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 5.4  2001/07/26 19:28:56  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2000/05/30 15:12:49  houghton
 // Changed: remove TEST_LOGFILE before running test.
 //

@@ -1,0 +1,121 @@
+=head1 Installing =PROJECT= as part of your Project
+
+Version: =VERSION=
+
+Paul A. Houghton <paul.houghton@wcom.com>
+
+=LAST_MOD=
+
+=head3 Overview
+
+This document describes how to install a specific version of =PROJECT=
+as part of your project.
+
+=head3 Prerequisites
+
+Befor you use =PROJECT= you wil have to have the correct compiler
+installed for your host. See
+B<MakeConfigs Platforms>
+(L<|http://sideswipe.wcom.com/Tools/MakeConfigs/user/Platforms.html>)
+for details.
+
+You will also have to have cvs installed and login to the cvs
+server. See L<Version Control|Version> for more info.
+
+=head3 Environment
+
+Ther are a few of environment variables used by the build scripts and
+make files that need to be set for everthing to run properly these
+are:
+
+=over
+
+=item TOOL_DIR
+
+This needs to be set to the base directory of all the external tools
+and libraries used by MakeConfigs. Its value is based on where you
+decide to install these components. If you follow the examples
+throughout this document, it would be set to:
+
+    export TOOL_DIR=/Tools
+
+=item PATH
+
+This needs to have $TOOL_DIR/bin before any other system directories
+and should also contain '.' for convience.
+
+For example:
+
+    export PATH=.:$TOOL_DIR/bin:$PATH
+
+=back
+
+=head3 Makefile Variables and Targets
+
+Add the following Makefile variables and targets to your setup
+Makefile. I recommend you creating a support/Setup.Makefile for these
+targets and variables.
+
+    PROJECT	    = ChangeMeToYourProjectName
+
+    #
+    # Note: the install dirs are only examples
+    # just set them to the directories you want
+    # the various components installed in
+    #
+    INSTALL_BIN_DIR	    = $(PROJECT)/bin
+    INSTALL_INC_DIR	    = $(PROJECT)/include
+    INSTALL_LIB_DIR	    = $(PROJECT)/lib
+    INSTALL_DOC_MAN_DIR	    = $(PROJECT)/docs/man/StlUtils
+    INSTALL_DOC_HTML_DIR    = $(PROJECT)/docs/html/StlUtils
+
+    cvsroot   = :pserver:cvsguest@sideswipe.wcom.com:/Tools/src/CvsRepository
+
+    libs_build_dir  = $(TOOL_DIR)/src/Build/Libs
+
+    STLUTILS	    = libStlUtils-=VER_MAJOR=
+    stlutils_hh	    = $(INSTALL_INC_DIR)/StlUtilsConfig.hh
+
+    exports	    =
+	    INSTALL_BIN_DIR=$(INSTALL_BIN_DIR)			\
+	    INSTALL_INC_DIR=$(INSTALL_INC_DIR)			\
+	    INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)			\
+	    INSTALL_DOC_MAN_DIR=$(INSTALL_DOC_MAN_DIR)		\
+	    INSTALL_DOC_HTML_DIR=$(INSTALL_DOC_HTML_DIR)	\
+	    show_commands=$(show_commands)			\
+	    check_install=$(check_install)
+
+    $(libs_build_dir)/$(STLUTILS):
+	    cd $(libs_build_dir) && cvs $(cvsroot) co $(STLUTILS)
+
+    $(stlutils_hh): $(libs_build_dir)/$(STLUTILS)
+	    cd $(libs_build_dir) 
+	    && $(MAKE) -f $(STLUTILS)/Makefile setup $(exports)
+	    $(TOOL_DIR)/bin/make -C $(libs_build_dir)/$(STLUTILS) check
+	    $(TOOL_DIR)/bin/make -C $(libs_build_dir)/$(STLUTILS) install_all
+	    $(TOOL_DIR)/bin/make -C $(libs_build_dir)/$(STLUTILS) install_man
+	    $(TOOL_DIR)/bin/make -C $(libs_build_dir)/$(STLUTILS) install_html
+
+
+=for html
+<hr>
+
+Paul A. Houghton <paul.houghton@wcom.com>
+
+$Id$
+
+Last Modified: =LAST_MOD=
+
+=cut
+
+$Log$
+Revision 1.1  2001/07/26 19:29:01  houghton
+*** empty log message ***
+
+Revision 1.2  2000/06/05 13:13:14  houghton
+Cleanup.
+
+Revision 1.1  2000/06/04 18:01:13  houghton
+Initial Version.
+
+

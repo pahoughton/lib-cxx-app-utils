@@ -2,40 +2,25 @@
 #define _Sort_hh_
 //
 // File:        Sort.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//
+//  Provides templates for sorting collections of objects.
 //
 //  Quick Start: - short example of class usage
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     09/19/95 08:53
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:17  houghton
-// Changed Version Num to 5
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 4.1  1997/09/17 15:12:48  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:41  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:24:02  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1995/12/04 11:18:26  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:01  houghton
-// Change to Version 2
-//
-// Revision 1.1  1995/11/05  13:23:30  houghton
-// Initaial implementation
-//
-//
+// %PID%
 
 #include <StlUtilsConfig.hh>
 
@@ -116,5 +101,36 @@ private:
 //  	ostream &
 //  	operator <<( ostream & dest, const Sort & obj );
 
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:12:48  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:41  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:24:02  houghton
+// Changed to Release 3
+//
+// Revision 2.2  1995/12/04 11:18:26  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:01  houghton
+// Change to Version 2
+//
+// Revision 1.1  1995/11/05  13:23:30  houghton
+// Initaial implementation
+//
+//
 #endif // ! def _Sort_hh_ 
 

@@ -2,7 +2,8 @@
 #define _Log_hh_
 //
 // File:        Log.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Log is a specialized ostream. It provides control over
@@ -29,7 +30,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 //
 
 #include "StlUtilsConfig.hh"
@@ -104,31 +110,50 @@ public:
 
   inline bool	    willOutput( const LogLevel::Level & outLevel ) const;
   inline bool	    changeCheckOutput( const LogLevel::Level & outLevel );
-  
-  Log &		    level( const LogLevel::Level &  current = LogLevel::Error,
-			   const char *		    srcFile = 0,
-			   long			    srcLine = 0 );
 
-  Log &	    appendFile( const LogLevel::Level &	current,
-			const char *		srcFile,
-			long			srcLine,
-			const char *		fileName );
+  
+  Log &		level( const LogLevel::Level &  current = LogLevel::Error,
+		       const char *		srcFile = 0,
+		       long			srcLine = 0 );
+
+  virtual Log &	level( const LogLevel::Level &  current,
+		       const char *		srcFile,
+		       long			srcLine,
+		       time_t			when );
 
   inline Log &	    operator () ( void );
   inline Log &	    operator () ( const LogLevel::Level &   current );
   inline Log &	    operator () ( const LogLevel::Level &   current,
 				  const char *		    srcFile,
 				  long			    srcLine );
+  inline Log &	    operator () ( const LogLevel::Level &   current,
+				  const char *		    srcFile,
+				  long			    srcLine,
+				  time_t		    when );
 
   Log &		    level( const char *	    current,
 			   const char *	    srcFile = 0,
 			   long		    srcLine = 0 );
   
+  virtual Log &	    level( const char *	    current,
+			   const char *	    srcFile,
+			   long		    srcLine,
+			   time_t	    when );
+  
   inline Log &      operator () ( const char *	    current );
   inline Log &      operator () ( const char *	    current,
 				  const char *	    srcFile,
 				  long		    srcLine );
-  
+  inline Log &      operator () ( const char *	    current,
+				  const char *	    srcFile,
+				  long		    srcLine,
+				  time_t	    when );
+    
+  Log &	    appendFile( const LogLevel::Level &	current,
+			const char *		srcFile,
+			long			srcLine,
+			const char *		fileName );
+
   inline bool		    setLevelStamp( bool stamp );
   inline bool		    setTimeStamp( bool stamp );
   inline bool		    setLocStamp( bool stamp );
@@ -649,7 +674,13 @@ private:
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.4  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2000/06/04 17:58:04  houghton
 // Updated documentation.
 //

@@ -2,7 +2,8 @@
 #define _RegexScan_hh_
 //
 // File:        RegexScan.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Regular expresion pattern matcher. This is a wrapper
@@ -14,12 +15,18 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 //
 
 #include "StlUtilsConfig.hh"
 #include <cstddef>
 
+class Str;
 
 class STLUTILS_CLASS_T RegexScan 
 {
@@ -64,6 +71,8 @@ public:
 		    size_t   	    strStart = 0,
 		    size_t   	    strLen = NPOS ) const;
 
+  static void	EscapeSpecialChars( Str & str );
+  
   // these are for \(...\) registers (1 to 9)
   // regNum 0 == the entire pattern, the first \(.\) is regNum 1
   
@@ -560,7 +569,13 @@ private:
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/06/04 17:58:05  houghton
 // Updated documentation.
 //

@@ -1,6 +1,7 @@
 //
 // File:        LogBuf.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //	Compiled source for for the LogBuf class.
@@ -9,6 +10,11 @@
 // Created:     01/29/95 13:06 
 //
 // Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "LogBuf.hh"
@@ -29,7 +35,7 @@
 
 STLUTILS_VERSION(
   LogBuf,
-  "$Id$" );
+  "%PID%" );
 
 
 #define LOGBUF_SIZE 2048
@@ -791,7 +797,13 @@ LogBuf::closeLog( void )
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.4  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2000/05/30 15:08:52  houghton
 // Changed mode to use what was given (don't strip ios::in).
 //

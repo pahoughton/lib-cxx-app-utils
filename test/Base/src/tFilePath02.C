@@ -74,10 +74,10 @@ tFilePath02( LibTest & tester )
     TESTR( t.getFullName().c_str(),
 	   compare( t.getFullName().c_str(), expect.c_str() ) == 0 );
 
-    TEST( ! putenv( "FP_EMTPY=" ) );
-    TEST( ! putenv( "FP_1=fp_one" ) );
-    TEST( ! putenv( "FP_2=fp_two" ) );
-    TEST( ! putenv( "FP_3=fp_three" ) );
+    TEST( ! putenv( (char *)"FP_EMTPY=" ) );
+    TEST( ! putenv( (char *)"FP_1=fp_one" ) );
+    TEST( ! putenv( (char *)"FP_2=fp_two" ) );
+    TEST( ! putenv( (char *)"FP_3=fp_three" ) );
 
     t.set( "~" TEST_USER "/afile" );
     TESTR( t.c_str(), t.expand() );

@@ -1,47 +1,22 @@
 //
 // File:        DateRangeWeekly.cc
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //              
+//	Compiled source for DateRangeWeekly.
 //
 // Author:      Paul Houghton - (houghton@cworld)
 // Created:     02/20/94 09:30 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:14  houghton
-// Changed Version Num to 5
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 4.1  1997/09/17 15:12:16  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 14:10:15  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.3  1997/09/17 11:08:14  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/08/24 21:55:11  houghton
-// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
-//
-// Revision 3.1  1996/11/14 01:23:34  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/06 18:04:09  houghton
-// StlUtils.hh renamed to StlUtilsUtils.hh
-//
-// Revision 2.3  1996/04/27 12:57:24  houghton
-// Removed unneeded includes.
-//
-// Revision 2.2  1995/12/04 11:17:19  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:28  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  14:44:28  houghton
-// Ports and Version ID changes
-//
+// %PID%
 //
 
 #if !defined( STLUTILS_SHORT_FN )
@@ -68,7 +43,7 @@
 
 STLUTILS_VERSION(
   DateRangeWeekly,
-  "$Id$" );
+  "%PID%" );
 
 
 const time_t DateRangeWeekly::freq = (24 * 60 * 60 * 7);
@@ -213,3 +188,47 @@ DateRangeWeekly::dumpInfo(
 
   return( dest  );
 }
+
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:14  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:12:16  houghton
+// Changed to Version 4
+//
+// Revision 3.4  1997/09/17 14:10:15  houghton
+// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
+//
+// Revision 3.3  1997/09/17 11:08:14  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.2  1997/08/24 21:55:11  houghton
+// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
+//
+// Revision 3.1  1996/11/14 01:23:34  houghton
+// Changed to Release 3
+//
+// Revision 2.4  1996/11/06 18:04:09  houghton
+// StlUtils.hh renamed to StlUtilsUtils.hh
+//
+// Revision 2.3  1996/04/27 12:57:24  houghton
+// Removed unneeded includes.
+//
+// Revision 2.2  1995/12/04 11:17:19  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:28  houghton
+// Change to Version 2
+//
+// Revision 1.4  1995/11/05  14:44:28  houghton
+// Ports and Version ID changes
+//
+//

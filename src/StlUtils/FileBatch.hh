@@ -2,10 +2,11 @@
 #define _FileBatch_hh_
 //
 // File:        FileBatch.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//
+//  Provides an iterator interface to a file containing fixed length records.
 //
 // Quick Start: - short example of class usage
 //
@@ -14,11 +15,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -447,7 +449,13 @@ private:
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.4  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2001/01/11 13:47:44  houghton
 // Port to Sun CC 5.0.
 //

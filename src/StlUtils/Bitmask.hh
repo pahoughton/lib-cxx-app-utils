@@ -2,7 +2,8 @@
 #define _Bitmask_hh_
 //
 // File:        Bitmask.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  This class provides for easy to use high perfomance
@@ -18,7 +19,7 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+// %PID%
 //
 
 
@@ -35,6 +36,8 @@ class Bitmask
 
 public:
 
+  typedef Bitmask		self_type;
+  
   typedef STLUTILS_LONG_U32_T  value_type;
 
   class bit
@@ -116,8 +119,12 @@ public:
   inline Bitmask & 	operator |= ( const Bitmask & rhs );
   inline Bitmask & 	operator ^= ( const Bitmask & rhs );
 
-  inline bool		operator == ( const Bitmask & rhs ) const;
-  inline bool		operator <  ( const Bitmask & rhs ) const;
+  inline bool		operator == ( const self_type & rhs ) const;
+  inline bool		operator != ( const self_type & rhs ) const;  
+  inline bool		operator <  ( const self_type & rhs ) const;
+  inline bool		operator >  ( const self_type & rhs ) const;
+  inline bool		operator <= ( const self_type & rhs ) const;
+  inline bool		operator >= ( const self_type & rhs ) const;
 
   inline bool		operator == ( bool rhs ) const;
   inline bool		operator != ( bool rhs ) const;
@@ -273,6 +280,22 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //	    the value of that bit changes in the original bitmask,
 //	    the bit's value will also change.
 //
+//  Public Fields:
+//
+//	static const bit b00;
+//	    This is a static variable that represents bit 0 set to true.
+//	    b01 through b31 are also available for the rest of the bits.
+//
+//	static const Bitmask all
+//	    This is a static Bitmask with all bits set to 1;
+//
+//	static const size_t maxPos;
+//	    This static variable contains the maximum number of positions
+//	    available in the bit mask (i.e. 32).
+//
+//	static const ClassVersion version;
+//	    This contains the version information for the Bitmask class.
+//
 //  Constructors:
 //
 //	inline
@@ -424,7 +447,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //
 //	inline
 //	Bitmask &
-//	operator != ( const bit & rhs );
+//	operator |= ( const bit & rhs );
 //	    Assign the bit at 'rhs.pos' to 1, if it is already 1
 //	    or rhs's value is 1.
 //
@@ -470,37 +493,37 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //
 //	inline
 //	bool
-//	operator == ( unsigned long rhs ) cosnt
+//	operator == ( unsigned long rhs ) const
 //	    Return true if the value of the Bitmask is == rhs. Else return
 //          false.
 //
 //	inline
 //	bool
-//	operator != ( unsigned long rhs ) cosnt
+//	operator != ( unsigned long rhs ) const
 //	    Return true if the value of the Bitmask is != rhs. Else return
 //          false.
 //
 //	inline
 //	bool
-//	operator <  ( unsigned long rhs ) cosnt
+//	operator <  ( unsigned long rhs ) const
 //	    Return true if the value of the Bitmask is < rhs. Else return
 //          false.
 //
 //	inline
 //	bool
-//	operator <= ( unsigned long rhs ) cosnt
+//	operator <= ( unsigned long rhs ) const
 //	    Return true if the value of the Bitmask is <= rhs. Else return
 //          false.
 //
 //	inline
 //	bool
-//	operator <  ( unsigned long rhs ) cosnt
+//	operator <  ( unsigned long rhs ) const
 //	    Return true if the value of the Bitmask is < rhs. Else return
 //          false.
 //
 //	inline
 //	bool
-//	operator >= ( unsigned long rhs ) cosnt
+//	operator >= ( unsigned long rhs ) const
 //	    Return true if the value of the Bitmask is >= rhs. Else return
 //          false.
 //
@@ -528,7 +551,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //
 //	virtual
 //	istream &
-//	read( istream & src ) const
+//	read( istream & src )
 //	    Set the Bitmask by reading the binary form from an istream.
 //
 //	virtual
@@ -557,23 +580,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //	ostream &
 //	dumpInfo( ostream &	dest = cerr,
 //		  const char *	prefix = "    ",
-//		  bool		showVer = true );
+//		  bool		showVer = true ) const;
 //	    Output detailed information about the current
 //	    state of the Bitmask. 
-//
-//	static const bit b00;
-//	    This is a static variable that represents bit 0 set to true.
-//	    b01 through b31 are also available for the rest of the bits.
-//
-//	static const Bitmask all
-//	    This is a static Bitmask with all bits set to 1;
-//
-//	static const size_t maxPos;
-//	    This static variable contains the maximum number of positions
-//	    available in the bit mask (i.e. 32).
-//
-//	static const ClassVersion version;
-//	    This contains the version information for the Bitmask class.
 //
 //	inline
 //	bit &
@@ -608,7 +617,7 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //	ostream &
 //	bit::dumpInfo( ostream &	dest = cerr,
 //		       const char *	prefix = "    ",
-//		       bool		showVer = true );
+//		       bool		showVer = true ) const;
 //	    Output detailed information about the current
 //	    state of the bit. 
 //	
@@ -716,7 +725,13 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 //	
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:01  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/06/04 17:58:04  houghton
 // Updated documentation.
 //

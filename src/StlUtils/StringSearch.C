@@ -1,6 +1,7 @@
 //
 // File:        StringSearch.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //    Search a string 'haystack' for the string 'needle'. If
@@ -14,6 +15,11 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
 
 #include "StringUtils.hh"
 #include <cstddef>
@@ -22,7 +28,7 @@
 
 STLUTILS_FUNCT_VERSION(
   StringSearch,
-  "$Id$" );
+  "%PID%" );
 
 
 const char *
@@ -80,7 +86,13 @@ StringSearch(
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:18  houghton
 // Changed Version Num to 5
 //

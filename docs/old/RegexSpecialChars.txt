@@ -1,0 +1,12 @@
+
+^   	anchor start
+$   	anchor end
++	one or more
+?   	zero or one
+*   	zero or more
+.   	any one char
+[]  	one of
+[^] 	not one of
+()  	group
+|   	or
+{}  	intervals

@@ -1,6 +1,7 @@
 //
 // File:        FileOp.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compiled sources for FileOp
@@ -10,9 +11,10 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "FileOp.hh"
@@ -31,7 +33,7 @@
 
 STLUTILS_VERSION(
   FileOp,
-  "$Id$");
+  "%PID%");
 
 const char *	FileOp::OpTypeName[] =
 {
@@ -439,7 +441,7 @@ FileOp::removeDir( const char * dn, bool recurse )
 	{
 	  if( (*them).getName().getFileName() != "."
 	      && (*them).getName().getFileName() != ".."
-	      && (*them).getName() != dn )
+	      && ((Str)(*them).getName()) != dn )
 	    {
 	      if( (*them).isDir() )
 		{
@@ -584,7 +586,13 @@ FileOp::setError(
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/07/31 13:38:54  houghton
 // Added removeDir().
 //

@@ -1,6 +1,7 @@
 //
 // File:        StringCapitalize.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //    Convert the first lower case alpha (a-z) char of
@@ -12,6 +13,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 
 #include "StringUtils.hh"
 #include <cctype>
@@ -19,7 +26,7 @@
 
 STLUTILS_FUNCT_VERSION(
   StringCapitalize,
-  "$Id$" );
+  "%PID%" );
 
 char *
 StringCapitalize( char * str, size_t len )
@@ -79,7 +86,13 @@ StringCapitalize( char * str, size_t len )
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:17  houghton
 // Changed Version Num to 5
 //

@@ -2,55 +2,23 @@
 #define _StrStreambuf_hh_
 //
 // File:        StrStreambuf.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
+//  Defines the streambuf used by Str.
 //
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/30/95 11:09
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:17  houghton
-// Changed Version Num to 5
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 4.3  1998/10/13 16:25:10  houghton
-// Changed to use new standard includes.
-//
-// Revision 4.2  1998/07/20 11:27:16  houghton
-// Bug-Fix: no need for default constructor declaration.
-//
-// Revision 4.1  1997/09/17 15:12:59  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:08:50  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/04/03 23:23:22  houghton
-// Changed include stddef to stddef.h
-//
-// Revision 3.2  1996/11/20 12:12:50  houghton
-// Changed strstream to strstream.h because it is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:24:14  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/04 14:28:24  houghton
-// Added include stddef.
-//
-// Revision 2.3  1996/04/27 13:09:15  houghton
-// Cleanup includes.
-//
-// Revision 2.2  1995/11/10 14:08:41  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:41:07  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:46  houghton
-// Ports and Version ID changes
-//
-//
+// %PID%
 
 #include "StlUtilsConfig.hh"
 #include <cstddef>
@@ -146,5 +114,54 @@ private:
 //
 //  	ostream &
 //  	operator <<( ostream & dest, const StrStreambuf & obj );
+//
+// Revision History:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
+// Revision 4.3  1998/10/13 16:25:10  houghton
+// Changed to use new standard includes.
+//
+// Revision 4.2  1998/07/20 11:27:16  houghton
+// Bug-Fix: no need for default constructor declaration.
+//
+// Revision 4.1  1997/09/17 15:12:59  houghton
+// Changed to Version 4
+//
+// Revision 3.4  1997/09/17 11:08:50  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.3  1997/04/03 23:23:22  houghton
+// Changed include stddef to stddef.h
+//
+// Revision 3.2  1996/11/20 12:12:50  houghton
+// Changed strstream to strstream.h because it is not part of the standard.
+//
+// Revision 3.1  1996/11/14 01:24:14  houghton
+// Changed to Release 3
+//
+// Revision 2.4  1996/11/04 14:28:24  houghton
+// Added include stddef.
+//
+// Revision 2.3  1996/04/27 13:09:15  houghton
+// Cleanup includes.
+//
+// Revision 2.2  1995/11/10 14:08:41  houghton
+// Updated documentation comments
+//
+// Revision 2.1  1995/11/10  12:41:07  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:46  houghton
+// Ports and Version ID changes
+//
 //
 #endif // ! def _StrStreambuf_hh_ 

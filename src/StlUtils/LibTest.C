@@ -1,11 +1,20 @@
 //
 // File:        LibTest.C
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//  
+//  Compiled sources for LibTest.
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/09/95 09:54 
+//
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "LibTest.hh"
@@ -19,7 +28,7 @@
 #include <cctype>
 
 STLUTILS_VERSION( LibTest,
-	      "$Id$" );
+	      "%PID%" );
 
 LibTest::DefaultResults LibTest::defaultResultsObj;
 
@@ -528,7 +537,13 @@ LibTest::DefaultResults::passed(
 
 // Revision History:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/29 10:18:46  houghton
 // Added run( size_type passes, const Str & testlist).
 // Cleanup.

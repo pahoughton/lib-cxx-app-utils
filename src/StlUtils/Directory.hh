@@ -2,10 +2,11 @@
 #define _Directory_hh_
 //
 // File:        Directory.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//
+//  Provides a list of files in a directory.
 //
 // Quick Start: - short example of class usage
 //
@@ -14,11 +15,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -428,7 +430,9 @@ operator >> ( istream & src, const Directory & dest );
 //  	    Return the version string of this class.
 //
 //	virtual ostream &
-//	dumpInfo( ostream & dest, const char * prefix, bool showVer );
+//	dumpInfo( ostream &	dest = cerr,
+//	          const char *  prefix = "    ",
+//		  bool          showVer = true ) const
 //	    output detail info to dest. Includes instance variable
 //	    values, state info & version info.
 //
@@ -459,7 +463,13 @@ operator >> ( istream & src, const Directory & dest );
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

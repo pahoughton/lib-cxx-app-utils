@@ -1,110 +1,76 @@
 #
-# Title:        Makefile
-# Project:	StlUtils
+# File:         Makefile
+# Project:	StlUtils %PP%
+# Item:   	%PI% (%PF%)
 # Desc:
-# 
-#   
-# 
+#
+#   This Makefile builds the targets in all the source subdirectories.
+#
 # Notes:
-# 
-# Author:	Paul Houghton - (paul.houghton@wcom.com)
-# Created:	11/12/95
+#
+# Author:	Paul Houghton <Paul.Houghton@wcom.com>
+# Created:	5/31/101 using GenProject 6.01.01
 #
 # Revision History: (See end of file for Revision Log)
 #
-#   Last Mod By:    $Author$
-#   Last Mod:	    $Date$
-#   Version:	    $Revision$
+#   Last Mod By:    %PO%
+#   Last Mod:	    %PRT%
+#   Version:	    %PIV%
+#   Status:	    %PS%
 #
-#   $Id$
-# 
+#   %PID%
+#
 
-make_cfg_ver	= 5.06
 show_commands 	= # true
 check_install	= true
 
-# Include standard MakeConfig configuration for GNU make required
+PRJ_TOPDIR	= ..
+config_dir	= $(PRJ_TOPDIR)/src/config
+
+include $(config_dir)/00-Makefile.cfg
 include Make/make.cfg.$(make_cfg_ver)
 
-PRJ_TOPDIR	= ..
-CFG_DIR		= $(PRJ_TOPDIR)/src/config
+LIB_SUBDIRS	=	\
+	StlUtils
 
-include $(CFG_DIR)/00-Makefile.cfg
+SUBDIRS		=	\
+	$(LIB_SUBDIRS)
 
-depend depend_all depend_test depend_default depend_debug:
-	$(hide) $(MAKE) -C StlUtils $@ $(exports)
+TARGETS		= $(standard_targets)	\
+	debug				\
+	test				\
+	depend				\
+	depend_all			\
+	depend_default			\
+	depend_debug depend_test
 
-all default debug:
-	$(hide) $(MAKE) -C StlUtils $@ $(exports)
+HELP_TARGETS	= $(TARGETS)
+PHONY_TARGETS	= $(TARGETS)
 
-clean realclean:
-	$(hide) $(MAKE) -C StlUtils $@ $(exports)
-	$(hide) $(MAKE) -C $(DOC_DIR) $@ $(exports)
-	$(hide) $(MAKE) -C $(TEST_DIR) $@ $(exports)
+include Make/make.cfg.targets.common.$(make_cfg_ver)
 
-test:
-	$(hide) $(MAKE) -C StlUtils $@ $(exports)
-
-check: test
-	$(hide) $(MAKE) -C $(TEST_DIR) $@ $(exports)
-
-install_man install_html:
-	$(hide) $(MAKE) -C $(DOC_DIR) $@ $(exports)
-
-install_all install install_default install_debug: install_man
-	$(hide) $(MAKE) -C StlUtils $@ $(exports)
+$(TARGETS)::
+	$(call make_subdirs,$@,$(SUBDIRS),$($(@)_exports) $(exports))
 
 install_lib_all:
-	$(hide) $(MAKE) -C StlUtils install_all $(exports)
+	$(call make_subdirs,install_all,$(LIB_SUBDIRS),$($(@)_exports) $(exports))
+
+install install_all::
+
+check::
+	$(call make_subdirs,$@,$(PRJ_TOPDIR)/test,$($(@)_exports) $(exports))
 
 
-
 #
-# $Log$
-# Revision 5.1  2000/05/25 10:33:13  houghton
-# Changed Version Num to 5
+# Revision Log:
 #
-# Revision 4.9  2000/04/19 11:04:25  houghton
-# Changed install_docs to install_man
-# Added install_html.
 #
-# Revision 4.8  2000/02/29 14:37:06  houghton
-# Bug-Fix: install_lib_all target should build install_all.
-#
-# Revision 4.7  1999/11/09 11:00:04  houghton
-# Changed to use Setup.cfg.
-#
-# Revision 4.6  1999/10/30 11:20:39  houghton
-# Bug-Fix: src dir is StlUtils
-#
-# Revision 4.5  1999/10/30 10:40:03  houghton
-# Changed (complete rework) to support setup and other new targets.
-#
-# Revision 4.4  1999/05/04 11:57:21  houghton
-# Cleanup only.
-#
-# Revision 4.3  1998/10/23 13:03:43  houghton
-# Changed to use MakeConfigs 5.06.
-#
-# Revision 4.2  1998/10/13 16:12:28  houghton
-# Complete rework.
-#
-# Revision 4.1  1997/09/17 15:12:05  houghton
-# Changed to Version 4
-#
-# Revision 3.2  1997/09/17 11:08:02  houghton
-# Changed: renamed library to StlUtils.
-#
-# Revision 3.1  1996/11/14 01:23:21  houghton
-# Changed to Release 3
-#
-# Revision 1.1  1995/11/12 17:50:43  houghton
-# Initial Version.
+# %PL%
 #
 #
 
+# Set XEmacs mode
+#
 # Local Variables:
 # mode:makefile
 # End:
-#
-

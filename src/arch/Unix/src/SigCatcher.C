@@ -1,6 +1,7 @@
 //
 // File:        SigCatcher.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compiled sources for SigCatcher
@@ -10,9 +11,10 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "SigCatcher.hh"
@@ -32,7 +34,7 @@
 
 STLUTILS_VERSION(
   SigCatcher,
-  "$Id$");
+  "%PID%");
 
 static SigCatcher *	self(0);
   
@@ -355,7 +357,13 @@ c_catchAction( int sig )
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.4  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2000/05/31 10:51:57  houghton
 // Bug-Fix: caughtSigList was not defined.
 //

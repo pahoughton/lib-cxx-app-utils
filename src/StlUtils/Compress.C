@@ -1,6 +1,7 @@
 //
 // File:        Compress.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compiled sources for Compress
@@ -10,9 +11,10 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "Compress.hh"
@@ -29,7 +31,7 @@
 
 STLUTILS_VERSION(
   Compress,
-  "$Id$");
+  "%PID%");
 
 #define	MAGIC_1	    (unsigned char)'\037'/* First byte of compressed file */
 #define	MAGIC_2	    (unsigned char)'\235'/* Second byte of compressed file */
@@ -967,7 +969,13 @@ Compress::setError( ErrorNum errNum, const char * desc )
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:01  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2001/01/30 11:55:37  houghton
 // Bug-Fix: return statment was missing from end of decompress method().
 //

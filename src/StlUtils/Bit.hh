@@ -2,7 +2,8 @@
 #define _Bit_hh_
 //
 // File:        Bit.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  This is a collection of defines and macros and inline functions
@@ -21,7 +22,7 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+// %PID%
 //
 
 
@@ -182,7 +183,13 @@
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:29:01  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:14  houghton
 // Changed Version Num to 5
 //

@@ -2,6 +2,8 @@
 #define _Str_hh_
 //
 // File:        Str.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  A 'Str' provides many methods to manipulate sequences
@@ -13,11 +15,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -1822,7 +1825,13 @@ operator >> ( istream & src, Str & dest );
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.5  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.4  2000/06/27 11:58:11  houghton
 // Added dump().
 //

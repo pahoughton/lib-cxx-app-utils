@@ -2,6 +2,8 @@
 #define _StrStreambuf_ii_
 //
 // File:        StrStreambuf.ii
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  	inlines for StrStreambuf
@@ -10,35 +12,14 @@
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     06/06/95 05:38
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:17  houghton
-// Changed Version Num to 5
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// Revision 4.1  1997/09/17 15:12:59  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:50  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:24:14  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/04/27 13:09:23  houghton
-// Bug-Fix: if inline gets defined at the top, it needs to be undef at
-//   at the bottom.
-//
-// Revision 2.2  1995/12/04 11:18:28  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:08  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:46  houghton
-// Ports and Version ID changes
-//
-//
+// %PID%
 
 #if defined( STLUTILS_DEBUG )
 #define inline
@@ -79,4 +60,39 @@ StrStreambuf::strbase( void ) STLUTILS_STRBUF_CONST_RDBUF
 #undef inline
 #endif
 
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:12:59  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:50  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:24:14  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1996/04/27 13:09:23  houghton
+// Bug-Fix: if inline gets defined at the top, it needs to be undef at
+//   at the bottom.
+//
+// Revision 2.2  1995/12/04 11:18:28  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:08  houghton
+// Change to Version 2
+//
+// Revision 1.2  1995/11/05  14:44:46  houghton
+// Ports and Version ID changes
+//
+//
 #endif // ! def _StrStreambuf_ii_ 

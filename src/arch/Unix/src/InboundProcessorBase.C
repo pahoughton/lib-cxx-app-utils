@@ -1,6 +1,7 @@
 //
 // File:        InboundProcessorBase.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compiled sources for InboundProcessorBase
@@ -10,9 +11,10 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "InboundProcessorBase.hh"
@@ -34,7 +36,7 @@
 
 STLUTILS_VERSION(
   InboundProcessorBase,
-  "$Id$");
+  "%PID%");
 
 
 InboundProcessorBase::InboundProcessorBase(
@@ -322,7 +324,13 @@ InboundProcessorBase::setError(
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/12/28 01:47:40  houghton
 // Added some debug output.
 //

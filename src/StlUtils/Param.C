@@ -1,6 +1,7 @@
 //
 // File:        Param.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //              
 //  Compiled sources for the Param class
@@ -10,6 +11,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 
 
 #include "Param.hh"
@@ -29,7 +36,7 @@
 
 STLUTILS_VERSION(
   Param,
-  "$Id$" );
+  "%PID%" );
 
 #if defined( STLUTILS_DEBUG )
 #include <Param.ii>
@@ -56,7 +63,7 @@ const char * Param::ErrorStrings[] =
 
 Param::Param(
   int		    mainArgc,
-  char *	    mainArgv[],
+  const char *	    mainArgv[],
   const char *	    appVersion,
   bool		    useDefaultArgFn,
   const char *	    logLevel,
@@ -67,6 +74,7 @@ Param::Param(
   : versionText( appVersion ? appVersion : "version unknown" ),
     appLog( cout, logLevel ),
     helpFlag( false ),
+    haveStopFlag( false ),
     logMode( logOpenMode ),
     logProt( logOpenProt ),
     logOutputLevel( logLevel ),
@@ -91,6 +99,11 @@ Param::Param(
     {
       Str tmp = mainArgv[a];
 
+      if( tmp.size() > 1
+	  && tmp[0UL] == '-'
+	  && tmp[1UL] == '-' )
+	haveStopFlag = true;
+      
       allArgv.push_back( tmp );
     }
   
@@ -201,7 +214,10 @@ Param::parseArgs( void )
   argFileEnvVar << "_ARGFILE";
   
   argStr( argFile,
+	  "FILENAME",
 	  "Name of file to read args from.",
+	  0,
+	  false,
 	  ARG_ID_ARGFILE,
 	  argFileEnvVar );
 
@@ -213,11 +229,13 @@ Param::parseArgs( void )
   
   argFlag( helpFlag,
 	   "show usage help.",
+	   0,
 	   ARG_ID_HELP );
 
   bool	verFlag = false;
   argFlag( verFlag,
 	   "show version and exit",
+	   0,
 	   ARG_ID_VERSION );
 
   if( verFlag && ! helpFlag )
@@ -236,74 +254,112 @@ Param::parseArgs( void )
 
   argFlag( generateArgFile,
 	   "generate an args file.",
+	   0,
 	   ARG_ID_GEN_ARGFILE );
   
   argStr( logFile,
+	  "FILENAME",
 	  "log file name.",
+	  0,
+	  false,
 	  "log-file",
 	  "LOG_FILE" );
 
   Str	  logModeStr = IosOpenModeToString( logMode );
   
   argStr( logModeStr,
+	  "MODE STRING",
 	  "log open mode.",
+	  0,
+	  false,
 	  "log-mode",
 	  "LOG_MODE" );
 
   logMode = IosOpenModeFromString( logModeStr );
   
   argInt( logProt,
+	  "MODE",
 	  "log protection flag.",
+	  0,
+	  false,
 	  "log-prot",
 	  "LOG_PROT" );
   
   argStr( logOutputLevel,
+	  "LOG LEVEL",
 	  "log output level.",
+	  0,
+	  false,
 	  "log-level",
 	  "LOG_LEVEL" );
 
   argStr( logFilter,
+	  "REGEX",
 	  "regex for filtering log enties",
+	  0,
+	  false,
 	  "log-filter",
 	  "LOG_FILTER" );
   
   argFlag( logTee,
 	   "Tee log output to cerr.",
+	   0,
 	   "log-tee",
 	   "LOG_TEE" );
 
   argBool( logTimeStamp,
+	   "BOOL",
 	   "output time stamp with log entry.",
+	   0,
+	   false,
 	   "log-show-time",
 	   "LOG_SHOW_TIME" );
 
   argBool( logLevelStamp,
+	   "BOOL",
 	   "output level with log entry.",
+	   0,
+	   false,
 	   "log-show-level",
 	   "LOG_SHOW_LEVEL" );
 
   argBool( logLocStamp,
+	   "BOOL",
 	   "output source location with log entry",
+	   0,
+	   false,
 	   "log-show-loc",
 	   "LOG_SHOWLOC" );
   
   argULong( logMaxSize,
-	  "log file max size.",
-	  "log-max",
-	  "LOG_MAX" );
+	    "SIZE",
+	    "log file max size.",
+	    0,
+	    false,
+	    "log-max",
+	    "LOG_MAX" );
 
   argULong( logTrimSize,
+	    "SIZE",
 	   "log file trim size.",
+	    0,
+	    false,
 	   "log-trim",
 	   "LOG_TRIM" );
   
   argStr( errorLogName,
+	  "FILENAME",
 	  "error log file name.",
+	  0,
+	  false,
 	  "error-log",
 	  "ERROR_LOG" );
 
   argStr( errorLogLevels,
+	  "LOG LEVEL",
 	  "error log output levels.",
+	  0,
+	  false,
 	  "error-log-level",
 	  "ERROR_LOG_LEVEL" );
 
@@ -456,7 +512,10 @@ Param::readArgs( istream & src )
 bool
 Param::argStr(
   char * &  	dest,
-  const char * 	desc,
+  const char *	valueName,
+  const char *	shortDesc,
+  const char *	longDesc,
+  bool		required,
   const char *  argId,
   const char * 	envVar
   )
@@ -470,7 +529,7 @@ Param::argStr(
       dest[ arg.size() ] = 0;
     }
 
-  appendArgInfo( argId, desc, envVar, dest );
+  appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar, dest );
 
   return( arg.size() != 0 );
 }
@@ -478,7 +537,10 @@ Param::argStr(
 bool
 Param::argStr(
   Str &  	dest,
-  const char * 	desc,
+  const char *	valueName,
+  const char *	shortDesc,
+  const char *	longDesc,
+  bool		required,
   const char *  argId,
   const char * 	envVar
   )
@@ -488,7 +550,7 @@ Param::argStr(
   if( arg.size() )
     dest = arg;
 
-  appendArgInfo( argId, desc, envVar, dest );
+  appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar, dest );
 
   return( arg.size() != 0 );
 }
@@ -496,7 +558,10 @@ Param::argStr(
 bool
 Param::argChar(
   char &	dest,
-  const char *	desc,
+  const char *	valueName,
+  const char *	shortDesc,
+  const char *	longDesc,
+  bool		required,
   const char *	argId,
   const char *	envVar
   )
@@ -514,7 +579,7 @@ Param::argChar(
       setError( E_RANGE, argId, envVar, tmpErrDesc.c_str() );
     }
 
-  appendArgInfo( argId, desc, envVar, arg.c_str() );
+  appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar, arg.c_str() );
   return( arg.size() != 0 );
 }
 
@@ -522,11 +587,11 @@ template< class NumT >
 inline
 bool
 _StlUtilsParamArgNum(
-  Str &	arg,
+  Str &		arg,
   NumT &  	dest,
   NumT	    	minVal,
   NumT	    	maxVal,
-  Str &	errDesc
+  Str &		errDesc
   )
 {
   NumT	    tmp  = 0;
@@ -554,63 +619,72 @@ _StlUtilsParamArgNum(
   return( conv );
 }
 
-#define PARAM_ARG_NUM( Name, NumType, Snum )				      \
-bool									      \
-Param::Name(								      \
-  NumType &  	dest,							      \
-  const char * 	desc,							      \
-  const char *  argId,							      \
-  const char * 	envVar,							      \
-  NumType    	minVal,							      \
-  NumType    	maxVal							      \
-  )									      \
-{									      \
-  Str    arg	 = getArgValue( argId, envVar, Snum );			      \
-  bool	    conv = false;						      \
-  									      \
-  if( arg.size() )							      \
-    {									      \
-      NumType	tmp = 0;						      \
-									      \
-      conv = StringTo( tmp, arg.c_str() );				      \
-									      \
-      if( conv )							      \
-	{								      \
-	  if( tmp >= minVal && tmp <= maxVal )				      \
-	    {								      \
-	      dest = tmp;						      \
-	    }								      \
-	  else								      \
-	    {								      \
-	      Str tmpErrDesc;						      \
-									      \
-	      tmpErrDesc = ": '";					      \
-	      tmpErrDesc += StringFrom( tmp );				      \
-	      tmpErrDesc += "' not between '";				      \
-	      tmpErrDesc += StringFrom( minVal );			      \
-	      tmpErrDesc += "' and '";					      \
-	      tmpErrDesc += StringFrom( maxVal );			      \
-	      tmpErrDesc += "'.";					      \
-									      \
-	      setError( E_RANGE, argId, envVar, tmpErrDesc.c_str() );	      \
-	      conv = false;						      \
-	    }								      \
-	}								      \
-      else								      \
-	{								      \
-	  Str tmpErrDesc;						      \
-									      \
-	  tmpErrDesc = "'";						      \
-	  tmpErrDesc += arg;						      \
-	  tmpErrDesc += "'";						      \
-									      \
-	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );	      \
-	}								      \
-    }									      \
-									      \
-  appendArgInfo( argId, desc, envVar, StringFrom( dest ) );		      \
-									      \
-  return( conv );							      \
+#define PARAM_ARG_NUM( Name, NumType, Snum )				\
+bool									\
+Param::Name(								\
+  NumType &  	dest,							\
+  const char *	valueName,						\
+  const char *	shortDesc,						\
+  const char *	longDesc,						\
+  bool		required,						\
+  const char *  argId,							\
+  const char * 	envVar,							\
+  NumType    	minVal,							\
+  NumType    	maxVal							\
+  )									\
+{									\
+  Str    arg	 = getArgValue( argId, envVar, Snum );			\
+  bool	    conv = false;						\
+									\
+  if( arg.size() )							\
+    {									\
+      NumType	tmp = 0;						\
+									\
+      conv = StringTo( tmp, arg.c_str() );				\
+									\
+      if( conv )							\
+	{								\
+	  if( tmp >= minVal && tmp <= maxVal )				\
+	    {								\
+	      dest = tmp;						\
+	    }								\
+	  else								\
+	    {								\
+	      Str tmpErrDesc;						\
+									\
+	      tmpErrDesc = ": '";					\
+	      tmpErrDesc += StringFrom( tmp );				\
+	      tmpErrDesc += "' not between '";				\
+	      tmpErrDesc += StringFrom( minVal );			\
+	      tmpErrDesc += "' and '";					\
+	      tmpErrDesc += StringFrom( maxVal );			\
+	      tmpErrDesc += "'.";					\
+									\
+	      setError( E_RANGE, argId, envVar, tmpErrDesc.c_str() );	\
+	      conv = false;						\
+	    }								\
+	}								\
+      else								\
+	{								\
+	  Str tmpErrDesc;						\
+									\
+	  tmpErrDesc = "'";						\
+	  tmpErrDesc += arg;						\
+	  tmpErrDesc += "'";						\
+									\
+	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );	\
+	}								\
+    }									\
+									\
+  appendArgInfo( argId,							\
+		 valueName,						\
+		 shortDesc,						\
+		 longDesc,						\
+		 required,						\
+		 envVar,						\
+		 StringFrom( dest ) );					\
+									\
+  return( conv );							\
 }
 
 PARAM_ARG_NUM( argInt, int, true )
@@ -629,7 +703,10 @@ PARAM_ARG_NUM( argULongLong, unsigned long long, false )
 bool
 Param::argDouble(
   double &  	dest,
-  const char * 	desc,
+  const char *	valueName,
+  const char *	shortDesc,
+  const char *	longDesc,
+  bool		required,
   const char *  argId,
   const char * 	envVar
   )
@@ -660,7 +737,7 @@ Param::argDouble(
       
     }
 
-  appendArgInfo( argId, desc, envVar, StringFrom( dest ) );
+  appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar, StringFrom( dest ) );
 
   return( conv );
 }
@@ -668,7 +745,10 @@ Param::argDouble(
 bool
 Param::argBool(
   bool &  	dest,
-  const char * 	desc,
+  const char *	valueName,
+  const char *	shortDesc,
+  const char *	longDesc,
+  bool		required,
   const char *  argId,
   const char * 	envVar
   )
@@ -698,7 +778,7 @@ Param::argBool(
 	}
     }
 
-  appendArgInfo( argId, desc, envVar,
+  appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar,
 	      (dest ? "true" : "false" ) );
 
   return( conv );
@@ -707,7 +787,8 @@ Param::argBool(
 bool
 Param::argFlag(
   bool &  	dest,
-  const char * 	desc,
+  const char *	shortDesc,
+  const char *	longDesc,
   const char *  argId,
   const char * 	envVar
   )
@@ -716,7 +797,7 @@ Param::argFlag(
 
   // note: appendArgFile() depends on the 't'
   //    to determin if the flag is set.
-  appendArgInfo( argId, desc, envVar,
+  appendArgInfo( argId, 0, shortDesc, longDesc, false, envVar,
 	      (dest ? "true" : "flag"), true );
 
   return( dest );
@@ -725,13 +806,22 @@ Param::argFlag(
 bool
 Param::argDateTime(
   time_t &  	dest,
-  const char * 	desc,
+  const char *	valueName,
+  const char *	shortDesc,
+  const char *	longDesc,
+  bool		required,
   const char *  argId,
   const char * 	envVar
   )
 {
   DateTime  tmp;
-  bool	    conv = argDateTime( tmp, desc, argId, envVar );
+  bool	    conv = argDateTime( tmp,
+				valueName,
+				shortDesc,
+				longDesc,
+				required,
+				argId,
+				envVar );
 
   if( conv )
     {
@@ -744,7 +834,10 @@ Param::argDateTime(
 bool
 Param::argDateTime(
   DateTime &  	dest,
-  const char * 	desc,
+  const char *	valueName,
+  const char *	shortDesc,
+  const char *	longDesc,
+  bool		required,
   const char *  argId,
   const char * 	envVar
   )
@@ -775,7 +868,7 @@ Param::argDateTime(
 	}
     }
 
-  appendArgInfo( argId, desc, envVar, dest );
+  appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar, dest );
 
   return( conv );
 }
@@ -784,7 +877,10 @@ Param::argDateTime(
 bool
 Param::argDate(
   DateTime &  	dest,
-  const char * 	desc,
+  const char *	valueName,
+  const char *	shortDesc,
+  const char *	longDesc,
+  bool		required,
   const char *  argId,
   const char * 	envVar
   )
@@ -814,7 +910,7 @@ Param::argDate(
 	}
     }
 
-  appendArgInfo( argId, desc, envVar, dest );
+  appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar, dest );
 
   return( conv );
 }
@@ -822,12 +918,15 @@ Param::argDate(
 bool
 Param::argTime(
   DateTime &  	dest,
-  const char * 	desc,
+  const char *	valueName,
+  const char *	shortDesc,
+  const char *	longDesc,
+  bool		required,
   const char *  argId,
   const char * 	envVar
   )
 {
-  return( argDate( dest, desc, argId, envVar ) );
+  return( argDate( dest, valueName, shortDesc, longDesc, required, argId, envVar ) );
 }
 
 
@@ -848,9 +947,7 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
 	 them != fileArgs.end();
 	 ++ them )
       {
-	if( (*them).size() > 1 &&
-	    (*them)[0UL] == '-' &&
-	    (*them).substr( 1 ).compare( argId ) == 0 )
+	if( matchArg( *them, argId ) )
 	  {
 	    foundArg = true;
 	    // found it
@@ -905,10 +1002,14 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
     Args::iterator	them = argv.begin();
     for( ; them != argv.end(); ++ them )
       {
-	// look for -arg value
-	if( (*them).size() > 1
+	// dont process any args after --
+	if( (*them).size() == 2
 	    && (*them)[0UL] == '-'
-	    && (*them).substr( 1 ).compare( argId ) == 0 )
+	    && (*them)[1UL] == '-' )
+	  break;
+	
+	// look for -arg value
+	if( matchArg( *them, argId ) )
 	  {
 	    
 	    // found it now get the value.
@@ -936,12 +1037,10 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
 	    
 	  }
 	// look for -arg=value
-	Str::size_type eqpos( Str::npos );
+	Str::size_type eqpos( (*them).find( '=' ) );
 	
-	if( (*them).size() > 1
-	    && (*them)[0UL] == '-'
-	    && (eqpos = (*them).find( '=' )) != Str::npos
-	    && (*them).substr( 1, eqpos - 1 ).compare( argId ) == 0 )
+	if( eqpos != Str::npos
+	    && matchArg( *them, argId, eqpos - 1 ) )
 	  {
 	    value = (*them).substr( eqpos + 1 );
 	    // lie about foundArg because I can erase it myself
@@ -960,9 +1059,7 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
       {
 	for( them = argv.begin(); them != argv.end(); ++ them )
 	  {
-	    if( (*them).size() > 1 &&
-		(*them)[0UL] == '-' && 
-		(*them).substr( 1 ).compare( argId ) == 0 )
+	    if( matchArg( *them, argId ) )
 	      {
 		argv.erase( them );
 		break;
@@ -990,9 +1087,7 @@ Param::getArgFlag( const char * argId, const char * envVar )
 	 them != fileArgs.end();
 	 ++ them )
       {
-	if( (*them).size() > 1 &&
-	    (*them)[0UL] == '-' &&
-	    (*them).substr( 1 ).compare( argId ) == 0 )
+	if( matchArg( *them, argId ) )
 	  {
 	    // found it
 	    value = true;
@@ -1015,9 +1110,13 @@ Param::getArgFlag( const char * argId, const char * envVar )
       Args::iterator	them = argv.begin();
       for( ; them != argv.end(); ++ them )
 	{
-	  if( (*them).size() > 1 &&
-	      (*them)[0UL] == '-' && 
-	      (*them).substr( 1 ).compare( argId ) == 0 )
+	// dont process any args after --
+	  if( (*them).size() == 2
+	      && (*them)[0UL] == '-'
+	      && (*them)[1UL] == '-' )
+	    break;
+
+	  if( matchArg( *them, argId ) )
 	    {
 	      // found it now get the value
 	      value = true;
@@ -1268,7 +1367,10 @@ Param::dumpInfo(
 size_t
 Param::appendArgInfo(
   const char * argId,
-  const char * desc,
+  const char * valueName,
+  const char * shortDesc,
+  const char * longDesc,
+  bool	       required,
   const char * envVar,
   const char * value,
   bool	       isflag 
@@ -1276,15 +1378,33 @@ Param::appendArgInfo(
 {
   size_t    argIdLen( strlen( argId ) );
   
-  appendArgFile( argId, argIdLen, desc, envVar, value, isflag );
-  return( appendHelp( argId, argIdLen, desc, envVar, value ) );
+  appendArgFile( argId,
+		 argIdLen,
+		 valueName,
+		 shortDesc,
+		 longDesc,
+		 required,
+		 envVar,
+		 value,
+		 isflag );
+  return( appendHelp( argId,
+		      argIdLen,
+		      valueName,
+		      shortDesc,
+		      longDesc,
+		      required,
+		      envVar,
+		      value ) );
 }
 
 size_t
 Param::appendArgFile(
   const char *	argId,
   size_t	argIdLen,
-  const char *	desc,
+  const char *  valueName,
+  const char *  shortDesc,
+  const char *  longDesc,
+  bool	        required,
   const char *	envVar,
   const char *	value,
   bool		isflag
@@ -1345,7 +1465,10 @@ size_t
 Param::appendHelp( 
   const char *	argId,
   size_t	argIdLen,
-  const char *	desc,
+  const char *  valueName,
+  const char *  shortDesc,
+  const char *  longDesc,
+  bool	        required,
   const char *	envVar,
   const char *	value
   )
@@ -1356,7 +1479,7 @@ Param::appendHelp(
 
   size_t    contLinePadSize(16); 
     
-  argHelp << desc ;
+  argHelp << shortDesc ;
 
   if( envVar )
     argHelp << " (" << envVar << ')' ;
@@ -1519,16 +1642,16 @@ Param::genArgFile( bool exitApp )
 	(*out) << DateTime(time(0),true);
       
       (*out) << '\n' <<
-	"#\n" << 
-	"# Revision History: (See end of file for Revision Log)\n" << 
-	"#\n" <<
-	"#   Last Mod By:    $Author$\n" <<
-	"#   Last Mod:       $Date$\n" <<
-	"#   Version:        $Revision$\n" <<
-	"#\n" <<
-	"#   $Id$\n" <<
-	"#\n" <<
-	'\n'
+	"#\n" 
+	"# Revision History: (See end of file for Revision Log)\n" 
+	"#\n"
+	"#   Last Mod By:    %PO%\n" 
+	"#   Last Mod:       %PRT%\n"
+	"#   Version:        %PIV%\n"
+	"#   Status:         %PS%\n" 
+	"#\n" 
+	"#   %PID%\n" 
+	"#\n\n" 
 	;
 
       (*out) << argFileString << "\n\n" <<
@@ -1545,9 +1668,10 @@ Param::genArgFile( bool exitApp )
       }
 
       (*out) << '\n' <<
-	"#\n" <<
-	"# $L" "og: $" << 
-	"# " <<
+	"\n#\n" <<
+	"# Revision Log\n"
+	"#\n"
+	"#  %P"  "L%" <<
 	"#\n" <<
 	"#\n"
 	;
@@ -1580,7 +1704,13 @@ Param::genArgFile( bool exitApp )
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/07/31 13:38:09  houghton
 // Added long long arg support.
 //

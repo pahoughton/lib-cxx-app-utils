@@ -1,0 +1,27 @@
+
+sizeof( variable ) not sizeof( type )
+
+int		compare( const T & two ) const;
+
+bool		operator == ( const T & two ) const;
+bool		operator <  ( const T & two ) const;
+
+size_t		getStreamSize( void ) const;
+istream &	read( istream & src );
+ostream &	write( ostream & dest ) const;
+
+
+bool		good( void ) const
+const char *	error( void ) const;
+const char *	getClassName( void ) const;
+ostream &	toStream( ostream & dest = cout ) const;
+ostream &	dumpInfo( ostream & dest = cerr ) const;
+
+static const char * version[]
+
+
+int
+compare( const T  & one, const T & two );
+
+ostream &
+operator << ( ostream & dest, const T & obj );

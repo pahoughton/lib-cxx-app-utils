@@ -1,10 +1,23 @@
+# Title:        Makefile
+# Project:	StlUtils (%PP%)
+# Item:   	%PI% (%PF%)
+# Desc:
+# 
+#   Build rules and targets for Unix sources.
+# 
+# Notes:
+# 
+# Author:	Paul Houghton - (paul.houghton@wcom.com)
+# Created:	11/20/96
 #
-# -*- Makefile -*- for libStlUtils src/arc/Unix
+# Revision History: (See end of file for Revision Log)
 #
-# Created 11/20/95
-#
-# $Id$
-#
+#   Last Mod By:    %PO%
+#   Last Mod:	    %PRT%
+#   Version:	    %PIV%
+#   Status: 	    %PS%
+# 
+#  %PID%
 #
 
 
@@ -79,6 +92,9 @@ $(UNIX_DIR)/_SignalStrings.h: $(UNIX_DIR)/GenSigList.sh
 
 #
 # $Log$
+# Revision 5.2  2001/07/26 19:28:57  houghton
+# *** empty log message ***
+#
 # Revision 5.1  2000/05/25 10:33:22  houghton
 # Changed Version Num to 5
 #

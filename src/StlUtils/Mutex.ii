@@ -2,6 +2,8 @@
 #define _Mutex_ii_
 //
 // File:        Mutex.ii
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  	inlines for Mutex
@@ -9,11 +11,33 @@
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     02/06/96 07:16
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
+// %PID%
+
+
+#if defined( STLUTILS_DEBUG )
+#define inline
+#endif
+
+#if defined( inline )
+#undef inline
+#endif
+
+// Revision Log:
+//
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:16  houghton
 // Changed Version Num to 5
 //
@@ -30,14 +54,4 @@
 // Initial version.
 //
 //
-
-
-#if defined( STLUTILS_DEBUG )
-#define inline
-#endif
-
-#if defined( inline )
-#undef inline
-#endif
-
 #endif // ! def _Mutex_ii_ 

@@ -1,6 +1,7 @@
 //
 // File:        LogLevel.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //              
 //  Source code for LogLevel methods.
@@ -9,6 +10,11 @@
 // Created:     01/29/95 12:45 
 //
 // Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "LogLevel.hh"
@@ -24,7 +30,7 @@
 
 STLUTILS_VERSION(
   LogLevel,
-  "$Id$" );
+  "%PID%" );
 
 const LogLevel::Level	LogLevel::None;
 const LogLevel::Level	LogLevel::Error( Bit(0) );
@@ -315,7 +321,13 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

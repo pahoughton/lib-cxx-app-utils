@@ -2,6 +2,8 @@
 #define _Param_hh_
 //
 // File:        Param.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:
 //
 //  This is the base class for providing command line argument parsing.
@@ -32,7 +34,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$ 
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID% 
 // 
 
 #include <StlUtilsConfig.hh>
@@ -72,7 +79,7 @@ public:
   typedef deque< Str >	Args;
   
   Param( int 		    mainArgc,
-	 char *		    mainArgv[],
+	 const char *	    mainArgv[],
 	 const char *	    version = 0,
 	 bool		    useDefaultArgFn = false,
 	 const char *	    logLevel = STLUTILS_DEFAULT_LOGLEVEL,
@@ -116,100 +123,153 @@ public:
   virtual bool	parseArgs( int argc, char * argv[] );
 
   bool	argChar( char &  	 dest,
-		 const char *	 description,
+		 const char *	 valueName,
+		 const char *	 shortDesc,
+		 const char *	 longDesc,
+		 bool		 required,
 		 const char *    argId,
 		 const char *    envVar = 0 );
   bool	argStr( char * &  	 dest,
-		const char *	 description,
+		const char *	 valueName,
+		const char *	 shortDesc,
+		const char *	 longDesc,
+		bool		 required,
 		const char *     argId,
 		const char *     envVar = 0 );
   bool	argStr( Str & 	    	dest,
-		const char *	description,
+		const char *	valueName,
+		const char *	shortDesc,
+		const char *	longDesc,
+		bool		required,
 		const char *    argId,
 		const char *    envVar = 0 );  
   bool	argInt( int &	    	dest,
-		const char *	description,
+		const char *	valueName,
+		const char *	shortDesc,
+		const char *	longDesc,
+		bool		required,
 		const char *    argId,
 		const char *    envVar = 0,
 		int	    	minVal = INT_MIN,
 		int	    	maxVal = INT_MAX );
   bool	argUInt( unsigned int &	dest,
-		const char *	description,
-		const char *    argId,
-		const char *    envVar = 0,
-		unsigned int	minVal = 0,
-		unsigned int   	maxVal = UINT_MAX );
+		 const char *	valueName,
+		 const char *	shortDesc,
+		 const char *	longDesc,
+		 bool		required,
+		 const char *   argId,
+		 const char *   envVar = 0,
+		 unsigned int	minVal = 0,
+		 unsigned int   	maxVal = UINT_MAX );
   bool	argShort( short &    	dest,
-		  const char *	description,
+		  const char *	valueName,
+		  const char *	shortDesc,
+		  const char *	longDesc,
+		  bool		required,
 		  const char *  argId,
 		  const char *  envVar = 0,
 		  short	    	minVal = SHRT_MIN,
 		  short	    	maxVal = SHRT_MAX );
   bool	argUShort( unsigned short & dest,
-		  const char *	description,
-		  const char *  argId,
-		  const char *  envVar = 0,
-		  unsigned short minVal = 0,
-		  unsigned short maxVal = USHRT_MAX );
+		   const char *	    valueName,
+		   const char *	    shortDesc,
+		   const char *	    longDesc,
+		   bool		    required,
+		   const char *	    argId,
+		   const char *	    envVar = 0,
+		   unsigned short   minVal = 0,
+		   unsigned short   maxVal = USHRT_MAX );
   bool	argLong( long &	    	dest,
-		 const char *	description,
+		 const char *	valueName,
+		 const char *	shortDesc,
+		 const char *	longDesc,
+		 bool		required,
 		 const char *   argId,
 		 const char *   envVar = 0,
 		 long	    	minVal = LONG_MIN,
 		 long	    	maxVal = LONG_MAX );
-  bool	argULong( unsigned long & dest,
-		  const char *	  description,
-		  const char *    argId,
-		  const char *    envVar = 0,
-		  unsigned long   minVal = 0,
-		  unsigned long   maxVal = ULONG_MAX );
+  bool	argULong( unsigned long &   dest,
+		  const char *	    valueName,
+		  const char *	    shortDesc,
+		  const char *	    longDesc,
+		  bool		    required,
+		  const char *	    argId,
+		  const char *	    envVar = 0,
+		  unsigned long	    minVal = 0,
+		  unsigned long	    maxVal = ULONG_MAX );
 #if defined( STLUTILS_HAVE_LONG_LONG )
   bool	argLongLong( long long &    dest,
-		     const char *   description,
+		     const char *   valueName,
+		     const char *   shortDesc,
+		     const char *   longDesc,
+		     bool	    required,
 		     const char *   argId,
 		     const char *   envVar = 0,
 		     long long	    minVal = LLONG_MIN,
 		     long long	    maxVal = LLONG_MAX );
   bool	argULongLong( unsigned long long &  dest,
-		      const char *	    description,
+		      const char *	    valueName,
+		      const char *	    shortDesc,
+		      const char *	    longDesc,
+		      bool		    required,
 		      const char *	    argId,
 		      const char *	    envVar = 0,
 		      unsigned long long    minVal = 0,
 		      unsigned long long    maxVal = ULLONG_MAX );
 #endif
   bool	argDouble( double & 	dest,
-		   const char *	description,
+		   const char *	valueName,
+		   const char *	shortDesc,
+		   const char *	longDesc,
+		   bool		required,
 		   const char * argId,
 		   const char * envVar = 0 );
   bool	argBool( bool &	    	dest,
-		 const char *   description,
+		 const char *	valueName,
+		 const char *	shortDesc,
+		 const char *	longDesc,
+		 bool		required,
 		 const char *   argId,
 		 const char *   envVar = 0 );
   bool	argFlag( bool &	    	dest,
-		 const char *   description,
+		 const char *	shortDesc,
+		 const char *	longDesc,
 		 const char *   argId,
 		 const char *   envVar = 0 );
   bool	argDateTime( time_t &	    dest,
-		     const char *   description,
+		     const char *   valueName,
+		     const char *   shortDesc,
+		     const char *   longDesc,
+		     bool	    required,
 		     const char *   argId,
 		     const char *   envVar = 0 );
   bool	argDateTime( DateTime &	    dest,
-		     const char *   description,
+		     const char *   valueName,
+		     const char *   shortDesc,
+		     const char *   longDesc,
+		     bool	    required,
 		     const char *   argId,
 		     const char *   envVar = 0 );
-  bool	argDate( DateTime &	    dest,
-		 const char *	    description,
-		 const char *	    argId,
-		 const char *	    envVar = 0 );
-  bool	argTime( DateTime &	    dest,
-		 const char *	    description,
-		 const char *	    argId,
-		 const char *	    envVar = 0 );
+  bool	argDate( DateTime &	 dest,
+		 const char *	 valueName,
+		 const char *	 shortDesc,
+		 const char *	 longDesc,
+		 bool		 required,
+		 const char *	 argId,
+		 const char *	 envVar = 0 );
+  bool	argTime( DateTime &	 dest,
+		 const char *	 valueName,
+		 const char *	 shortDesc,
+		 const char *	 longDesc,
+		 bool		 required,
+		 const char *	 argId,
+		 const char *	 envVar = 0 );
   
   inline bool	help( bool exitApp = true );
 
   inline bool	allArgs( void ) const;
-
+  inline bool	extraFlags( void ) const;
+  
   bool		haveErrorLog( void ) const;
   
   void		abort( int  	    exitStatus = 1,
@@ -249,11 +309,17 @@ public:
     E_UNDEFINED
   };
 
+  // not real ment for the public, but no harm in giving access
+  inline bool	matchArg( const Str &	    arg,
+			  const char *	    id,
+			  Str::size_type    endPos = Str::npos );
 protected:
 
   inline bool	readArgs( const char * fileName );
   bool		readArgs( istream & src );
 
+  inline void	removeStopFlag( void );
+  
 private:
 
   Param( const Param & copyFrom );
@@ -266,21 +332,30 @@ private:
   bool		    getArgFlag( const char * argId, const char * envVar );
 
   size_t    appendArgInfo( const char *	argId,
-			   const char *	desc,
+			   const char *	valueName,
+			   const char * shortDesc,
+			   const char * longDesc,
+			   bool		required,
 			   const char *	envVar,
 			   const char *	value,
 			   bool		isflag = false );
   
   size_t    appendArgFile( const char *	argId,
 			   size_t	argIdLen,
-			   const char *	desc,
+			   const char *	valueName,
+			   const char * shortDesc,
+			   const char * longDesc,
+			   bool		required,
 			   const char *	envVar,
 			   const char *	value,
 			   bool		isflag );
   
   size_t    appendHelp( const char *	argId,
 			size_t		argIdLen,
-			const char *	desc,
+			const char *	valueName,
+			const char * shortDesc,
+			const char * longDesc,
+			bool		required,
 			const char *	envVar,
 			const char *	value );
 
@@ -302,7 +377,8 @@ private:
 
   FilePath	    argFile;
   bool    	    helpFlag;
-
+  bool		    haveStopFlag;
+  
   Str    	    logFile;
   ios::open_mode    logMode;
   int		    logProt;
@@ -379,7 +455,7 @@ operator << ( ostream & dest, const Param & obj );
 //	    The 'description' parameter is the description that will
 //	    be ised for the help output. It should be a short
 //	    description of how the arg is used by the application.
-
+//
 //	    The 'argId' is the string identifier for the command line
 //	    argument. The command line args are searched for an exact
 //	    match with a preceiding '-' character. So, if 'argId' is
@@ -402,6 +478,18 @@ operator << ( ostream & dest, const Param & obj );
 //		prog -x -a -b -c a_value b_value c_value
 //		prog -a -b -x -c a_value b_value c_value
 //		prog -a -b -c a_value -x b_value c_value
+//
+//	    Because of the increased use of '--agr' for long arguments,
+//	    both '--arg' and '-arg' are treated as the same argument.
+//
+//	    If there is a '--' on the command line, nothing after it
+//	    will be parse. So in the following:
+//
+//		prog -this --that -- -otherstuf
+//
+//	    Would leave the -otherstuff in the args for the application
+//	    to process. You can use the 'removeStopFlag()' call to
+//	    remove the '--' after all the args are processed.
 //
 //	    The 'envVar' parameter specifies an envronment variable to
 //	    be used for the value.
@@ -825,6 +913,12 @@ operator << ( ostream & dest, const Param & obj );
 //	    Returns true if all arguments have been processed.
 //
 //	inline
+//	bool
+//	extraFlags( void ) const
+//	    Returns true if any of the remaining args have a first
+//	    character of - and a -- was not found on the command line.
+//
+//	inline
 //  	void
 //  	abort( int  	    exitStatus = 1,
 //     	       bool 	    showArgs = false,
@@ -947,7 +1041,8 @@ operator << ( ostream & dest, const Param & obj );
 //	  bool status = Param::parseArgs();
 //
 //	  status &= argStr( inFnV, "input file name", "infile" );
-//	
+//
+//        removeStopFlag();
 //	  return( status );
 //      }
 //
@@ -1015,7 +1110,13 @@ operator << ( ostream & dest, const Param & obj );
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.4  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2000/07/31 13:38:02  houghton
 // Added long long arg support.
 //

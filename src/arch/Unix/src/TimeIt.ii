@@ -2,7 +2,8 @@
 #define _TimeIt_ii_
 //
 // File:        TimeIt.ii
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  	Inline source for TimeIt
@@ -12,11 +13,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 #if defined( STLUTILS_DEBUG )
@@ -137,7 +139,13 @@ operator >> ( istream & dest, const TimeIt & obj )
 
 // Revision Log:
 // 
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/07/31 13:39:41  houghton
 // Added getRealStartTimeT() & getRealStopTimeT().
 //

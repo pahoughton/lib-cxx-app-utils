@@ -2,7 +2,8 @@
 #define _SigCatcher_hh_
 //
 // File:        SigCatcher.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Catch signals.
@@ -14,11 +15,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -231,7 +233,13 @@ private:
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:07:31  houghton
 // Port: Sun CC 5.0.
 //

@@ -2,12 +2,22 @@
 #define _DateRange_hh_
 //
 // File:        DateRange.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:    	Used in comparing two DateRanges. A DateRange has a start 
 //  	    	(date/time) plus a duration(end date/time)
 //
 // Author:      Paul Houghton - (houghton@cworld)
 // Created:     02/20/94 08:46
 //
+// Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+//  %PID%
 
 #include <StlUtilsConfig.hh>
 #include <DateTime.hh>
@@ -171,7 +181,13 @@ compare( const DateRange & one, const DateRange & two );
 // Revision History:
 //
 // 
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:05:45  houghton
 // Port: Sun CC 5.0.
 //

@@ -1,0 +1,283 @@
+# -*- TODO -*-
+#
+# TODO
+#
+# $Id$
+#
+# This is the libStlUtils TODO file it is used to track all
+# bug reports and enhancement request. It is formated so
+# a perl script can be used to generate reports.
+#
+# The order of entries implies priority
+#
+# See End of file for format specs
+#
+
+ENH Paul Houghton 11/11/98 08:36
+Paul,
+
+Just wanted to let you know that, some of the compare functions you coded in Rating created some record not to be found.
+
+Because ulong-ulong can be greater than 2^31, causing a overflow to a negative value resulting in misdirection of the search.
+
+No big deal, we fixed it. 
+
+-Raman 
+
+ENH Paul Houghton 04/30/98 07:42
+Add argfile create to Param.
+
+ENH Paul Houghton 719-527-7834 03/08/98 10:24
+add getDirDelim() and getExtDelim to FilePath
+
+ENH Paul Houghton 719-527-7834 03/08/98 10:23
+add front() and back() to Str
+
+ENH Paul Houghton 09/20/97 06:02
+Add logdir to Param
+
+ENH Paul Houghton 08/28/97 15:45
+add test for new DateTime operator - ()
+add doc for new DateTime oprator - ()
+
+ENH Paul Houghton 08/24/97 16:52
+Add test to tDateTimeUtils that verifies a time_t is a long.
+
+ENH Paul A. Houghton 08/11/97 09:02
+also verify performance of current implementation against
+using memchr.
+
+ENH Paul A. Houghton 08/08/97 06:48
+Test Param arg file processing.
+
+ENH Paul A. Houghton 08/08/97 06:36
+Document FilePath
+
+ENH Paul Houghton 08/03/97 07:54
+Added argFileMode( ios::open_mode & mode ) to Param.
+
+BUG Paul Houghton 07/27/97 08:25
+StringFrom returns 0 if value is 0 ??
+CODE Paul Houghton 07/28/97 11:35
+
+ENH Paul Houghton 10/30/96 03:49
+Move basename from arch src to StlUtils
+
+ENH Paul Houghton 06/07/96 04:39
+ClassVersion uses static, needs mutex locking
+
+ENH Paul Houghton 05/30/96 09:02 
+ScanMatch if only 1, scanMatch( 1 ) == scanMatch( 0 )
+
+ENH Paul Houghton 05/22/96 09:55
+test that Str::to( t, b ) all spaces sets to 0 and returns true
+CODE Paul Houghton 05/24/96 06:45
+
+ENH Paul Houghton 05/10/96 06:09
+add 'of' method to SubStr returns the owning Str
+CODE Paul Houghton 05/24/96 06:48
+
+ENH Paul Houghton 05/06/96 05:25
+LibTest rework args to outputLine progress
+
+ENH Paul Houghton 05/06/96 05:25
+Log rework tee
+
+BUG Paul Houghton 03/08/96 09:11
+Str::getDelim( ... ) ignore leading delims
+
+BUG Paul Houghton 11/20/95 09:44
+Bitmask( size_t ) constructore causes unexpected results;
+need Bitmask( unsigned long value )
+CODE Paul Houghton 05/24/96 06:49
+
+BUG Chris Boys 11/15/95 07:00 Paul Houghton 11/15/95 07:00
+FilePath error. changePath( getPath(), "new" )
+changes ext. if getPath().size() == 0 only
+
+ENH Paul Houghton 11/11/95 04:39
+Add a constructer to Heap(Bin,Net)Stream that take a
+void * src, size_t srcSize.
+CODE Paul Houghton 11/12/95 09:02
+
+ENH Paul Houghton 11/11/95 04:36
+Change LogLevels from XXXX to Xxxxx
+CODE Paul Houghton 11/12/95 09:02
+
+ENH Paul Houghton 11/10/95 12:14
+Change default constructor of DateTime to get the current time
+CODE Paul Houghton 11/12/95 09:02
+
+BUG Chris Boys 11/08/95 12:00
+Bitmask::toStream on AIX does not detect bits that are set
+CODE Paul Houghton 11/1O/95
+
+ADM Paul Houghton 11/10/95 12:11
+review 00-Tested and create a list of test to write
+
+ENH Paul Houghton 11/10/95 10:40
+class Bitset (Bitmask with any number of bits)
+
+ENH Paul Houghton 11/09/95 10:00
+class Void
+CODE Paul Houghton 11/12/95 09:02
+
+ENH Paul Houghton 11/09/95 10:00
+class BFN Number
+
+BUG Paul Houghton 11/09/95 10:00
+FilePath - temp file name - tempnam does not work as expected
+Grab TempFileName from lib Common and use it.
+
+=== COMPLETED ===
+
+ENH Paul Houghton 08/28/97 11:32
+setw(n) was being ignored for SubStr.
+COMP Paul Houghton 08/28/97 11:32
+
+ENH Paul A. Houghton 08/11/97 09:02
+test StringFirstNotOf.
+document StringFirstNotOf.
+COMP Paul A. Houghton 08/12/97 05:05
+
+ADM Paul Houghton 11/10/95 12:11
+Move 00-Tested from test/ to docs/
+COMP Paul Houghton 05/24/96 06:50
+
+ADM Paul Houghton 11/10/95 10:11
+Compile & test without STLUTILS_DEBUG defined
+COMP Paul Houghton 05/24/96 06:50
+
+ADM Paul Houghton 11/12/95 08:59
+Move test to test/Test01 so I can have multible test when I'm ready
+COMP Paul Houghton 05/24/96 06:46
+
+ADM Paul Houghton 11/10/95 10:13
+run test against installed
+COMP Paul Houghton 11/11/95
+
+ADM Paul Houghton 11/09/95 10:00
+Build and run test
+comp Paul Houghton 11/10/95 12:10
+
+ADM Paul Houghton 11/10/95 10:01
+move regexcfg.h to _regexcfg.h in arch dirs
+comp Paul Houghton 11/10/95 12:10
+
+ADM Paul Houghton 11/09/95 10:00
+Regen Makefile using lastest MakeConfigs
+comp Paul Houghton 11/10/95 10:01
+
+# Format spec:
+#
+# Any line begining with a '#' is ignored by the parser
+#
+# Each entry starts with the line:
+# bug | enh[hancement] | adm who mm/dd/yy hh:mm[:ss] who mm/dd/yy hh:mm[:ss]
+#    bug - means this is a bug report
+#    enh - means this is an enhancment request
+#    adm - means this is a general admin/cleanup requirement
+#    who - is the requestor 
+#    mm/dd/yy - month, day and year of the initial request
+#    hh:mm[:ss] - hour ( 24 hr format), min and optional seconds of 
+#                 of the inital request
+#    who - received the request.
+#    mm/dd/yy - month, day and year of the initial estimate given
+#    hh:mm[:ss] - hour ( 24 hr format), min and optional seconds of 
+#                 of the inital request
+# The next line is a short description of the request (80 char or less)
+#
+# The rest of the lines should be indented and contain revent text 
+# describing the request and actions taken.
+#
+# The entry is terminated with the line:
+# canc[elled] | code[d] | built | test[ed] | comp[lete] who mm/dd/yy hh:mm[:ss]
+#    comp[lete] - specifies the request was completed
+#    test[ed] - specifies the mods have been regression tested
+#    canc[elled] = specifies the request was cancled
+#    who - completed / cancelled the request 
+#    mm/dd/yy - month, day and year of the completion
+#    hh:mm[:ss] - hour ( 24 hr format), min and optional seconds of 
+#                 of completion
+
+#
+# $Log$
+# Revision 1.1  2001/07/26 19:29:01  houghton
+# *** empty log message ***
+#
+# Revision 5.1  2000/05/25 10:33:13  houghton
+# Changed Version Num to 5
+#
+# Revision 4.5  1999/03/02 12:46:09  houghton
+# *** empty log message ***
+#
+# Revision 4.4  1998/10/13 15:16:10  houghton
+# *** empty log message ***
+#
+# Revision 4.3  1998/03/08 18:04:59  houghton
+# *** empty log message ***
+#
+# Revision 4.2  1997/09/21 13:16:33  houghton
+# *** empty log message ***
+#
+# Revision 4.1  1997/09/17 15:12:01  houghton
+# Changed to Version 4
+#
+# Revision 3.8  1997/09/17 11:07:53  houghton
+# Changed: renamed library to StlUtils.
+#
+# Revision 3.7  1997/08/28 21:19:21  houghton
+# *** empty log message ***
+#
+# Revision 3.6  1997/08/24 23:08:05  houghton
+# *** empty log message ***
+#
+# Revision 3.5  1997/08/12 11:11:23  houghton
+# *** empty log message ***
+#
+# Revision 3.4  1997/08/08 13:29:35  houghton
+# *** empty log message ***
+#
+# Revision 3.3  1997/08/03 13:55:58  houghton
+# *** empty log message ***
+#
+# Revision 3.2  1997/07/28 16:45:32  houghton
+# *** empty log message ***
+#
+# Revision 3.1  1996/11/14 01:23:12  houghton
+# Changed to Release 3
+#
+# Revision 2.10  1996/11/04 13:09:07  houghton
+# *** empty log message ***
+#
+# Revision 2.9  1996/06/08 12:42:51  houghton
+# *** empty log message ***
+#
+# Revision 2.8  1996/05/25 12:34:38  houghton
+# *** empty log message ***
+#
+# Revision 2.7  1996/05/11 11:00:34  houghton
+# *** empty log message ***
+#
+# Revision 2.6  1996/03/13 11:22:14  houghton
+# *** empty log message ***
+#
+# Revision 2.5  1995/12/04 11:14:06  houghton
+# *** empty log message ***
+#
+# Revision 2.4  1995/11/17  16:59:21  houghton
+# *** empty log message ***
+#
+# Revision 2.3  1995/11/12  17:51:00  houghton
+# *** empty log message ***
+#
+# Revision 2.2  1995/11/10  18:46:29  houghton
+# Updated
+#
+# Revision 2.1  1995/11/10  12:39:56  houghton
+# Change to Version 2
+#
+# Revision 1.2  1995/11/09  18:14:35  houghton
+# Updated
+#
+#

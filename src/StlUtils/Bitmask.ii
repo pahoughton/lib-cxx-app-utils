@@ -2,6 +2,8 @@
 #define _Bitmask_ii_
 //
 // File:        Bitmask.ii
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  	Inlines sources for Bitmask.
@@ -11,7 +13,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 //
 
 #include <Compare.hh>
@@ -349,19 +356,13 @@ Bitmask::operator ^= ( const Bitmask & rhs )
   return( *this );
 }
 
-inline
-bool
-Bitmask::operator == ( const Bitmask & rhs ) const
-{
-  return( compare( rhs ) == 0 );
-}
+STLUTILS_SELF_COMPARE_IMPL( Bitmask, == )
+STLUTILS_SELF_COMPARE_IMPL( Bitmask, != )
+STLUTILS_SELF_COMPARE_IMPL( Bitmask, <  )
+STLUTILS_SELF_COMPARE_IMPL( Bitmask, >  )
+STLUTILS_SELF_COMPARE_IMPL( Bitmask, <= )
+STLUTILS_SELF_COMPARE_IMPL( Bitmask, >= )
 
-inline
-bool
-Bitmask::operator <  ( const Bitmask & rhs ) const
-{
-  return( compare( rhs ) < 0 );
-}
 
 inline
 bool
@@ -577,7 +578,13 @@ operator << ( ostream & dest, const Bitmask::bit & obj )
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:29:01  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:14  houghton
 // Changed Version Num to 5
 //

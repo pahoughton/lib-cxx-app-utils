@@ -19,7 +19,7 @@ tDateTime( LibTest & tester )
 {
   const char * oldTZ = getenv( "TZ" );
   
-  putenv( "TZ=CST6CDT" );
+  putenv( (char *)"TZ=CST6CDT" );
 
   TESTP( tDateTime01( tester ) );
   TESTP( tDateTime02( tester ) );

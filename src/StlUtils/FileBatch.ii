@@ -2,7 +2,8 @@
 #define _FileBatch_ii_
 //
 // File:        FileBatch.ii
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  	Inline source for FileBatch
@@ -12,11 +13,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 
@@ -346,7 +348,13 @@ FileBatch< Rec >::file( void ) const
 
 // Revision Log:
 // 
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2001/01/25 12:20:15  houghton
 // Port(Sun CC5): ios::in|ios:out will not create, so force a create
 // before the real open.

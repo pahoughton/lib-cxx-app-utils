@@ -1,0 +1,54 @@
+=head1 Prerequisites for StlUtils =VER_MAJOR=
+
+=opt nopara
+
+Version: =VERSION=
+
+Paul A. Houghton <paul.houghton@wcom.com>
+
+=LAST_MOD=
+
+=opt para
+
+The following are the prerequisites for building and using =PROJECT=
+for each current port.
+
+=over
+
+=item Sun Plateform
+
+This is currently the primary development platform.
+
+OS Version:	5.6
+C++ Compiler:	5.0
+
+=item Others
+
+This version has not been ported to any other platform. It would not
+be much of a problem, All that is needed is a standard C++ compiler.
+
+=back
+
+=opt nopara
+
+=for html
+<hr>
+
+Paul A. Houghton <paul.houghton@wcom.com>
+
+Last Modified: =LAST_MOD=
+
+$Id$
+
+=opt para
+
+=cut
+
+$Log$
+Revision 1.1  2001/07/26 19:29:01  houghton
+*** empty log message ***
+
+Revision 1.1  2000/06/11 13:20:39  houghton
+Initial Version.
+
+

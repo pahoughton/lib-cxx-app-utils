@@ -2,7 +2,8 @@
 #define _User_hh_
 //
 // File:        User.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  A User provide logon information about a user on a Unix system.
@@ -12,7 +13,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$ 
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID% 
 //
 
 #include <StlUtilsConfig.hh>
@@ -184,7 +190,13 @@ compare( const User & one, const User & two );
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:28:57  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:07:31  houghton
 // Port: Sun CC 5.0.
 //

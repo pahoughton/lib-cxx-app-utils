@@ -1,42 +1,20 @@
 //
 // File:        StrStreambuf.C
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//  
+//  Compiled sources for StrStreambuf.
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/30/95 11:32 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:17  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/08/13 10:52:44  houghton
-// Port(Hpux10): expaded dumpInfo output.
-//
-// Revision 4.1  1997/09/17 15:12:58  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:49  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:24:13  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1995/12/04 11:18:28  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:07  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  16:04:05  houghton
-// Revised
-//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #if !defined( STLUTILS_SHORT_FN )
@@ -55,7 +33,7 @@
 
 STLUTILS_VERSION(
   StrStreambuf,
-  "$Id$" );
+  "%PID%" );
 
 
 const char *
@@ -105,7 +83,40 @@ StrStreambuf::getVersion( bool withPrjVer ) const
   return( version.getVer( withPrjVer ) );
 }
 
-  
-  
-
-
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.3  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
+// Revision 5.1  2000/05/25 10:33:17  houghton
+// Changed Version Num to 5
+//
+// Revision 4.2  1998/08/13 10:52:44  houghton
+// Port(Hpux10): expaded dumpInfo output.
+//
+// Revision 4.1  1997/09/17 15:12:58  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:49  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:24:13  houghton
+// Changed to Release 3
+//
+// Revision 2.2  1995/12/04 11:18:28  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:07  houghton
+// Change to Version 2
+//
+// Revision 1.4  1995/11/05  16:04:05  houghton
+// Revised
+//
+//

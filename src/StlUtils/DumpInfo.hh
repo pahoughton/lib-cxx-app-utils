@@ -2,7 +2,8 @@
 #define _DumpInfo_hh_
 //
 // File:        DumpInfo.hh
-// Project:	AniServer
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Most of my classes have a method called dumpInfo that is
@@ -58,7 +59,7 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+// %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -136,7 +137,13 @@ operator << ( ostream & dest, const DumpInfo<T> & src )
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:15  houghton
 // Changed Version Num to 5
 //

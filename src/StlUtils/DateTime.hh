@@ -2,7 +2,8 @@
 #define _DateTime_hh_
 //
 // File:        DateTime.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  The DateTime class provides many methods for managing and converting
@@ -22,11 +23,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -41,18 +43,18 @@
 
 class RegexScan;
 
-class STLUTILS_CLASS_T DateTime
+class DateTime
 {
 public:
 
-      // Constructors;
+  // Constructors
   inline DateTime( void );
   inline DateTime( time_t setTime, bool addLocal = false );
   inline DateTime( time_t day, time_t timeOfDay );
   inline DateTime( const char * yymmdd, const char * hhmmss );
   inline DateTime( int year, int month, int day,
 		   int hour = 0, int min = 0, int sec = 0 );
-  inline DateTime( const struct tm & tm );
+  inline DateTime( const struct tm & tmTime );
   inline DateTime( const char * timeString );
 
   inline DateTime( istream & src, bool text = false );
@@ -82,8 +84,10 @@ public:
   inline short		getYearOfCentury( void );
   inline short		getYear( void ) const;
   inline short		getYear( void );
-  inline const char *	getString( char * buf = 0, const char * fmt = 0 ) const;
-  inline const char *	getString( char * buf = 0, const char * fmt = 0 );
+  inline const char *	getString( char * buffer = 0,
+				   const char * fmt = 0 ) const;
+  inline const char *	getString( char * buffer = 0,
+				   const char * fmt = 0 );
   const char *		getYYYYMMDD( void ) const;
   const char *		getHHMMSS( void ) const;
   
@@ -323,7 +327,7 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //  	    return the day of the week. (sunday = 0) (0->6)
 //
 //  	short
-//  	getDayOfyear( void ) const;
+//  	getDayOfYear( void ) const;
 //  	    return day of the year. ( 1 -> 366 )
 //  	    non-const version sets the internal tm to improve performance.
 //
@@ -417,14 +421,6 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //  	getTimeZone( void ) const
 //  	    return the name of the timezone that has been set. If no
 //  	    timezone is set, 0 is returned.
-//
-//  	static
-//	long
-//  	getGmtOffset( const char * timeZone = 0 )
-//  	    return the value of the offset from Greenwich Mean Time
-//  	    in seconds.(i.e. -21600 for CST6CDT ). The value is negative
-//  	    when used in the USA. (west of GMT), Uses the TZ environment
-//  	    variable.
 //
 //  	static
 //	const char *
@@ -572,7 +568,7 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //  	    to the current value.
 //
 //  	DateTime &
-//      add( const DateTime & dt )
+//	add( const DateTime & dt )
 //  	    add the DateTime to the current value.
 //  	    Returns a reference to self
 //
@@ -625,12 +621,12 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //  	    method is used to provide to string.
 //
 //  	int
-//  	operator ==( const DateTime & two ) const;
+//  	operator == ( const DateTime & rhs ) const;
 //  	    return true if 'two' is equal to self. Only the actual
 //  	    date time value is used for comparison.
 //
 //  	int
-//  	operator !=( const DateTime & two ) const;
+//  	operator != ( const DateTime & rhs ) const;
 //  	    return true if 'two' is not equal to self. Only the actual
 //  	    date time value is used for comparison.
 //
@@ -653,7 +649,7 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //  Other Accociated Functions:
 //
 //  	ostream &
-//  	operator <<( ostream & dest, const DateTime & dt );
+//  	operator <<( ostream & dest, const DateTime & obj );
 //  	    send a formated string of the current date/time to 'dest'
 //  	    The format is '02/03/95 15:13:03'.
 //
@@ -677,7 +673,13 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:05:45  houghton
 // Port: Sun CC 5.0.
 //

@@ -2,7 +2,8 @@
 #define _FilePath_ii_
 //
 // File:        FilePath.ii
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  	Inline source for FilePath
@@ -12,11 +13,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 
@@ -138,7 +140,9 @@ FilePath::getPath( void ) const
 
   if( end != npos )
     path = substr( (size_type)0, end );
-
+  else
+    path = ".";
+  
   return( path );
 }
 
@@ -151,9 +155,14 @@ FilePath::getFileName( void ) const
   size_t dirBeg = rfind( dirDelim );
 
   if( dirBeg != npos )
-    name = substr( dirBeg + 1 );
-
-  return( name );
+    {
+      name = substr( dirBeg + 1 );
+      return( name );
+    }
+  else
+    {
+      return( *this );
+    }
 }
 
 
@@ -162,12 +171,12 @@ Str
 FilePath::getExt( void ) const
 {
   Str ext;
-  
+
   size_t extBeg = rfind( extDelim );
 
-  if( extBeg != npos )
+  if( extBeg != npos && find( dirDelim, extBeg ) == npos )
     ext = substr( extBeg + 1 );
-
+  
   return( ext );
 }
 
@@ -175,13 +184,19 @@ inline
 size_t
 FilePath::getDepth( void ) const
 {
-  size_t depth = 0;
-  for( size_t start = 0;
-       start != npos;
-       start = find( DirDelim, start + 1 ) )
-    depth++;
-
-  return( depth );
+  if( size() )
+    {
+      size_type depth = 0;
+      for( size_t start = 0;
+	   start != npos;
+	   start = find( DirDelim, start + 1 ) )
+	depth++;
+      return( depth );
+    }
+  else
+    {
+      return( 0 );
+    }
 }
 
 inline
@@ -354,7 +369,13 @@ operator << ( ostream & dest, const FilePath & obj )
 
 // Revision Log:
 // 
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

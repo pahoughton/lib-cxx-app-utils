@@ -1,6 +1,7 @@
 //
 // File:        RegexScan.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Compile source code for RegexScan class.
@@ -10,22 +11,27 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
 
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
 #include <climits>
-extern "C" {
-#include "GnuRegex.h"
-};
 #include "RegexScan.hh"
 #include "Str.hh"
 #include <algorithm>
+extern "C" {
+#include "GnuRegex.h"
+};
 
 
 STLUTILS_VERSION(
   RegexScan,
-  "$Id$" );
+  "%PID%" );
 
 unsigned int	RegexScan::defaultSyntax =
 #if !defined( Hpux10 )
@@ -212,6 +218,29 @@ RegexScan::matchInfo( int & start, int & len, unsigned short regNum ) const
 }
 
 
+void
+RegexScan::EscapeSpecialChars( Str & str )
+{
+  Str::size_type    pos = 0;
+  Str::size_type    from = 0;
+  Str	tmp;
+  static const char * SpecialChars = ".*+?[]^$\\|(){}";
+  
+  while( (pos = str.find_first_of( SpecialChars, from )) != Str::npos )
+    {
+      if( pos > from )
+	{
+	  tmp.append( str.substr( from, (pos - from) ) );
+	}
+      
+      tmp.append( '\\' );
+      tmp.append( str[pos] );
+      from = pos + 1;
+    }
+  if( tmp.size() && tmp.size() != str.size() )
+    str = tmp;
+}
+      
 RegexScan &
 RegexScan::operator = ( const RegexScan & from )
 {
@@ -370,7 +399,13 @@ RegexScan::cleanup()
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:17  houghton
 // Changed Version Num to 5
 //

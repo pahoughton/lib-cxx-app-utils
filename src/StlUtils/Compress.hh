@@ -2,10 +2,12 @@
 #define _Compress_hh_
 //
 // File:        Compress.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//
+//  Compress or Decompress a file using the same algorithm as the
+//  Unix compress(1) command.
 //
 // Quick Start: - short example of class usage
 //
@@ -14,11 +16,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -171,7 +174,9 @@ operator >> ( istream & src, const Compress & dest );
 //  	    Return the version string of this class.
 //
 //	virtual ostream &
-//	dumpInfo( ostream & dest, const char * prefix, bool showVer );
+//	dumpInfo( ostream &	dest = cerr,
+//	          const char *  prefix = "    ",
+//		  bool          showVer = true ) const
 //	    output detail info to dest. Includes instance variable
 //	    values, state info & version info.
 //
@@ -202,7 +207,13 @@ operator >> ( istream & src, const Compress & dest );
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:29:01  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:14  houghton
 // Changed Version Num to 5
 //

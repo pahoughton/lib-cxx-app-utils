@@ -2,7 +2,8 @@
 #define _Compare_hh_
 //
 // File:        Compare.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  This file defines inline functions to two compare values of the
@@ -23,7 +24,7 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+// %PID%
 //
 
 #include <cstring>	// needed for strcmp calls
@@ -91,6 +92,18 @@ Compare_NCMP( double );
 #undef Compare_NCMP_
 
 #endif // defined( Compare_SCMP_ ) ...
+
+
+#if !defined( STLUTILS_SELF_COMPARE_IMPL )
+#define STLUTILS_SELF_COMPARE_IMPL( SC_TYPE, SC_OPERATOR )		      \
+inline									      \
+bool									      \
+SC_TYPE::operator SC_OPERATOR ( const SC_TYPE & rhs ) const		      \
+{									      \
+  return( compare( rhs ) SC_OPERATOR 0 );				      \
+}
+#endif
+
 
 // Detail Documentation
 //
@@ -225,7 +238,13 @@ Compare_NCMP( double );
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:01  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/06/04 17:58:04  houghton
 // Updated documentation.
 //

@@ -1,55 +1,20 @@
 //
 // File:        SubStr.C
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//  
+//  Compiled source for SubStr
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     06/04/95 07:32 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:18  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1997/09/19 11:22:26  houghton
-// Changed to use size_type.
-//
-// Revision 4.1  1997/09/17 15:13:05  houghton
-// Changed to Version 4
-//
-// Revision 3.6  1997/09/17 11:08:55  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.5  1997/08/28 16:35:01  houghton
-// Bug-Fix: added toStream (was inline) and added support
-//     for setw(n) (the width was being ignored).
-//
-// Revision 3.4  1997/08/17 22:35:33  houghton
-// Added size_type.
-//
-// Revision 3.3  1997/07/18 19:30:08  houghton
-// Port(Sun5): changed local variable names to eliminate compiler warnings.
-//
-// Revision 3.2  1996/11/20 12:13:02  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:24:23  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1995/12/04 11:18:29  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:16  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:49  houghton
-// Revised
-//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #if !defined( STLUTILS_SHORT_FN )
@@ -74,7 +39,7 @@
 
 STLUTILS_VERSION(
   SubStr,
-  "$Id$" );
+  "%PID%" );
 
 
 const SubStr::size_type SubStr::npos = NPOS;
@@ -372,3 +337,53 @@ SubStr::compare( const string & two, size_t start, size_t len ) const
 #endif
 
 
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.3  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
+// Revision 5.2  2000/05/25 17:05:46  houghton
+// Port: Sun CC 5.0.
+//
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
+// Revision 4.2  1997/09/19 11:22:26  houghton
+// Changed to use size_type.
+//
+// Revision 4.1  1997/09/17 15:13:05  houghton
+// Changed to Version 4
+//
+// Revision 3.6  1997/09/17 11:08:55  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.5  1997/08/28 16:35:01  houghton
+// Bug-Fix: added toStream (was inline) and added support
+//     for setw(n) (the width was being ignored).
+//
+// Revision 3.4  1997/08/17 22:35:33  houghton
+// Added size_type.
+//
+// Revision 3.3  1997/07/18 19:30:08  houghton
+// Port(Sun5): changed local variable names to eliminate compiler warnings.
+//
+// Revision 3.2  1996/11/20 12:13:02  houghton
+// Removed support for BinStream.
+//
+// Revision 3.1  1996/11/14 01:24:23  houghton
+// Changed to Release 3
+//
+// Revision 2.2  1995/12/04 11:18:29  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:41:16  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:28:49  houghton
+// Revised
+//
+//

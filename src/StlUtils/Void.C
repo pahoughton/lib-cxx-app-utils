@@ -1,58 +1,20 @@
 //
 // File:        Void.C
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//  
+//  Compiled sources for Void.
 //  
 // Author:      Paul Houghton - (houghton@cworld1.wiltel.com)
 // Created:     11/11/95 06:21
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:18  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1997/09/19 11:22:33  houghton
-// Changed to use size_type.
-//
-// Revision 4.1  1997/09/17 15:13:09  houghton
-// Changed to Version 4
-//
-// Revision 3.8  1997/09/17 11:08:58  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.7  1997/04/01 13:39:55  houghton
-// Bug-Fix: correctly handle empty data.
-//
-// Revision 3.6  1997/03/16 08:56:50  houghton
-// Cleanup dump output.
-//
-// Revision 3.5  1997/03/16 07:38:36  houghton
-// Bug-Fix: reset error in read.
-//
-// Revision 3.4  1997/03/15 18:06:12  houghton
-// Bug-Fix: dumpInfo & toStream - AIX was not outputing hex values.
-//     had to change iostream::setf calls.
-//
-// Revision 3.3  1997/03/07 11:56:04  houghton
-// Bug-Fix: append was not setting data size.
-// Bug-Fix: set error if an alloc fails.
-// Bug-Fix: dumpInfo output format.
-//
-// Revision 3.2  1996/11/20 12:13:10  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:24:28  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1995/11/13 11:30:45  houghton
-// Added compare function.
-// Changed date type from void * to char *.
-//
-// Revision 2.1  1995/11/12  18:33:33  houghton
-// Initial Version.
-//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "Void.hh"
@@ -67,7 +29,7 @@
 
 STLUTILS_VERSION(
   Void,
-  "$Id$");
+  "%PID%");
 
 
 const char * Void::ErrorStrings[] =
@@ -349,3 +311,56 @@ Void::dumpInfo(
   return( dest );
 }
 
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:18  houghton
+// Changed Version Num to 5
+//
+// Revision 4.2  1997/09/19 11:22:33  houghton
+// Changed to use size_type.
+//
+// Revision 4.1  1997/09/17 15:13:09  houghton
+// Changed to Version 4
+//
+// Revision 3.8  1997/09/17 11:08:58  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.7  1997/04/01 13:39:55  houghton
+// Bug-Fix: correctly handle empty data.
+//
+// Revision 3.6  1997/03/16 08:56:50  houghton
+// Cleanup dump output.
+//
+// Revision 3.5  1997/03/16 07:38:36  houghton
+// Bug-Fix: reset error in read.
+//
+// Revision 3.4  1997/03/15 18:06:12  houghton
+// Bug-Fix: dumpInfo & toStream - AIX was not outputing hex values.
+//     had to change iostream::setf calls.
+//
+// Revision 3.3  1997/03/07 11:56:04  houghton
+// Bug-Fix: append was not setting data size.
+// Bug-Fix: set error if an alloc fails.
+// Bug-Fix: dumpInfo output format.
+//
+// Revision 3.2  1996/11/20 12:13:10  houghton
+// Removed support for BinStream.
+//
+// Revision 3.1  1996/11/14 01:24:28  houghton
+// Changed to Release 3
+//
+// Revision 2.2  1995/11/13 11:30:45  houghton
+// Added compare function.
+// Changed date type from void * to char *.
+//
+// Revision 2.1  1995/11/12  18:33:33  houghton
+// Initial Version.
+//
+//

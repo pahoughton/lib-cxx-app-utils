@@ -1,6 +1,7 @@
 //
 // File:        Log.C
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //              
 //  Compiled source for Log class.
@@ -9,6 +10,11 @@
 // Created:     03/14/94 12:22 
 //
 // Revision History: (See end of file for Revision Log)
+//
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
 
 #include "Log.hh"
@@ -21,7 +27,7 @@
 
 STLUTILS_VERSION(
   Log,
-  "$Id$" );
+  "%PID%" );
 
 
 Log * _LibLog = 0;
@@ -113,7 +119,8 @@ Log &
 Log::level(
   const LogLevel::Level &   current,
   const char *		    srcFile,
-  long			    srcLine
+  long			    srcLine,
+  time_t		    when
   )
 {
   if( rdbuf()->sync() == EOF )
@@ -126,7 +133,7 @@ Log::level(
 
   if( timeStamp )
     {
-      DateTime  now(time(0), localTimeStamp);
+      DateTime  now( when, localTimeStamp);
 
       *this << now << ' ';
     }
@@ -136,6 +143,43 @@ Log::level(
       *this << rdbuf()->getLogLevel() << ' ';
     }
 
+  if( locStamp && srcFile )
+    {
+      *this << srcFile << ':' << srcLine << ' ';
+    }
+  
+  return( *this );
+}
+
+	  
+Log &
+Log::level(
+  const char *	lvl,
+  const char *	srcFile,
+  long		srcLine,
+  time_t	when
+  )
+{
+  if( rdbuf()->sync() == EOF )
+    {
+      setstate( failbit | eofbit );
+      return( *this );
+    }
+  
+  rdbuf()->setCurrentLevel( lvl );
+
+  if( timeStamp )
+    {
+      DateTime now(when, localTimeStamp );
+
+      *this << now << ' ';
+    }
+
+  if( levelStamp )
+    {
+      *this << rdbuf()->getLogLevel() << ' ';
+    }
+  
   if( locStamp && srcFile )
     {
       *this << srcFile << ':' << srcLine << ' ';
@@ -171,37 +215,6 @@ Log::appendFile(
 	}
       (*this) << "end of '" << fileName << '\'' << endl;
     }
-  return( *this );
-}
-	  
-Log &
-Log::level( const char * lvl, const char * srcFile, long srcLine )
-{
-  if( rdbuf()->sync() == EOF )
-    {
-      setstate( failbit | eofbit );
-      return( *this );
-    }
-  
-  rdbuf()->setCurrentLevel( lvl );
-
-  if( timeStamp )
-    {
-      DateTime now(time(0), localTimeStamp );
-
-      *this << now << ' ';
-    }
-
-  if( levelStamp )
-    {
-      *this << rdbuf()->getLogLevel() << ' ';
-    }
-  
-  if( locStamp && srcFile )
-    {
-      *this << srcFile << ':' << srcLine << ' ';
-    }
-  
   return( *this );
 }
 
@@ -532,7 +545,13 @@ commonLog(
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.3  2001/07/26 19:29:00  houghton
+// *** empty log message ***
+//
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
 //

@@ -2,7 +2,8 @@
 #define _ClassVersion_hh_
 //
 // File:        ClassVersion.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  Provides information about a class's version that is accessible
@@ -38,7 +39,7 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-// $Id$
+// %PID%
 //
 
 #include "StlUtilsConfig.hh"
@@ -279,7 +280,13 @@ const ClassVersion className_::version( #className_,			      \
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:29:01  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:14  houghton
 // Changed Version Num to 5
 //

@@ -2,45 +2,25 @@
 #define _Mutex_hh_
 //
 // File:        Mutex.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//
+//  Provides an interface to Thread mutexes.
 //
 //  Quick Start: - short example of class usage
 //
 // Author:      Paul Houghton - (paul_houghton@wiltel.com)
 // Created:     02/06/96 07:15
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Id$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-// $Log$
-// Revision 5.1  2000/05/25 10:33:16  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:12:41  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:35  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:23:51  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/04 14:20:26  houghton
-// Changed to work even if STLUTILS_THREADS is not defined.
-//
-// Revision 2.3  1996/05/03 16:13:29  houghton
-// Cleanup.
-//
-// Revision 2.2  1996/04/27 13:05:06  houghton
-// Implemented Mutex locking. For theads.
-//
-// Revision 2.1  1996/02/29 19:06:08  houghton
-// Initial Version
-//
-//
+// %PID%
 
 #if !defined( STLUTILS_SHORT_FN )
 #include <StlUtilsConfig.hh>
@@ -155,6 +135,41 @@ private:
 //
 //  	ostream &
 //  	operator <<( ostream & dest, const Mutex & obj );
+//
+
+// Revision Log:
+//
+// 
+// %PL%
+// 
+// $Log$
+// Revision 5.2  2001/07/26 19:28:59  houghton
+// *** empty log message ***
+//
+// Revision 5.1  2000/05/25 10:33:16  houghton
+// Changed Version Num to 5
+//
+// Revision 4.1  1997/09/17 15:12:41  houghton
+// Changed to Version 4
+//
+// Revision 3.2  1997/09/17 11:08:35  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.1  1996/11/14 01:23:51  houghton
+// Changed to Release 3
+//
+// Revision 2.4  1996/11/04 14:20:26  houghton
+// Changed to work even if STLUTILS_THREADS is not defined.
+//
+// Revision 2.3  1996/05/03 16:13:29  houghton
+// Cleanup.
+//
+// Revision 2.2  1996/04/27 13:05:06  houghton
+// Implemented Mutex locking. For theads.
+//
+// Revision 2.1  1996/02/29 19:06:08  houghton
+// Initial Version
+//
 //
 #endif // ! def _Mutex_hh_ 
 

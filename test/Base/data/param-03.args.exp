@@ -12,25 +12,26 @@
 #
 # Revision History: (See end of file for Revision Log)
 #
-#   Last Mod By:    $Author$
-#   Last Mod:       $Date$
-#   Version:        $Revision$
+#   Last Mod By:    %PO%
+#   Last Mod:       %PRT%
+#   Version:        %PIV%
+#   Status:         %PS%
 #
-#   $Id$
+#   %PID%
 #
 
 -log-file		../data/param-03.log
--log-mode		ios::in | ios::out
+-log-mode		ios::out
 -log-prot		436
 -log-level		TEST | INFO
--log-filter		
+# -log-filter		
 # -log-tee
 -log-show-time		true
 -log-show-level		true
 -log-show-loc		true
 -log-max		10240
 -log-trim		1024
--error-log		
+# -error-log		
 -error-log-level	ERROR | WARN
 -string			test string
 -str			test str
@@ -56,7 +57,7 @@
 #   -version      show version and exit 'flag' 
 #   -gen-argfile  generate an args file. 'true' 
 #   -log-file     log file name. (LOG_FILE) '../data/param-03.log' 
-#   -log-mode     log open mode. (LOG_MODE) 'ios::in | ios::out' 
+#   -log-mode     log open mode. (LOG_MODE) 'ios::out' 
 #   -log-prot     log protection flag. (LOG_PROT) '436' 
 #   -log-level    log output level. (LOG_LEVEL) 'TEST | INFO' 
 #   -log-filter   regex for filtering log enties (LOG_FILTER)
@@ -85,12 +86,9 @@
 #   -timet        argDateTime time_t test args '07/15/95 08:15:15' 
 #   -datetime     argDateTime DateTime test args '08/01/95 06:00:10' 
 # 
+
 #
-# $Log$
-# Revision 5.1  2000/05/25 10:33:26  houghton
-# Changed Version Num to 5
+# Revision Log
 #
-# Revision 4.1  1999/11/09 11:10:28  houghton
-# Initial Version.
-#
+#  %PL%#
 #

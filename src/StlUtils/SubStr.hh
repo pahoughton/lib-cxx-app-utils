@@ -2,7 +2,8 @@
 #define _SubStr_hh_
 //
 // File:        SubStr.hh
-// Project:	StlUtils
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
 //  A 'SubStr' is a section of a 'Str'. Any modifications to
@@ -13,11 +14,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
 //
-//  $Id$
+//  %PID%
 //
 
 #include "StlUtilsConfig.hh"
@@ -128,7 +130,7 @@ public:
   
   friend int	compare( const char * 	one,
 			 const SubStr & two,
-			 size_type      len = npos ); 
+			 size_type      len = SubStr::npos ); 
   
   int	    fcompare( const Str &    two,
 		      size_type      start = 0,
@@ -142,7 +144,7 @@ public:
   
   friend int	fcompare( const char *    one,
 			  const SubStr &  two,
-			  size_type       len = npos ); 
+			  size_type       len = SubStr::npos ); 
 
   inline char &     operator [] ( size_type index ); 
   inline char       operator [] ( size_type index ) const;
@@ -479,7 +481,13 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.4  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.3  2000/06/04 17:58:05  houghton
 // Updated documentation.
 //

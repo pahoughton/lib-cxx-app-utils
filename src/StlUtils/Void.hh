@@ -2,9 +2,11 @@
 #define _Void_hh_
 //
 // File:        Void.hh
+// Project:	StlUtils (%PP%)
+// Item:   	%PI% (%PF%)
 // Desc:        
 //
-//
+//  Provides an expandable storage location for objects.
 //
 //  Quick Start: - short example of class usage
 //
@@ -13,6 +15,12 @@
 //
 // Revision History: (See end of file for Revision Log)
 //
+//  Last Mod By:    %PO%
+//  Last Mod:	    %PRT%
+//  Version:	    %PIV%
+//  Status: 	    %PS%
+//
+// %PID%
 //
 
 #include <StlUtilsConfig.hh>
@@ -204,7 +212,13 @@ compare( const Void & lhs, const Void & rhs );
 //
 // Revision Log:
 //
+// 
+// %PL%
+// 
 // $Log$
+// Revision 5.2  2001/07/26 19:28:58  houghton
+// *** empty log message ***
+//
 // Revision 5.1  2000/05/25 10:33:18  houghton
 // Changed Version Num to 5
 //
