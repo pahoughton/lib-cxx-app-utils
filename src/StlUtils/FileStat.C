@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/05/01 11:02:23  houghton
+// Bug-Fix: updated to reflect changes in Bitmask constructors.
+//
 // Revision 2.3  1995/12/31 11:25:31  houghton
 // Bug Fix - change the order of includes.
 //
@@ -29,6 +32,7 @@
 #include <UserGroup.hh>
 #include <User.hh>
 #include <DateTime.hh>
+#include <Bit.hh>
 #include <iomanip>
 #include <cstring>
 #include <cerrno>
@@ -37,6 +41,7 @@
 #include <UserGrp.hh>
 #include <User.hh>
 #include <DateTime.hh>
+#include <Bit.hh>
 #include <iomanip>
 #include <cstring>
 #include <cerrno>
@@ -52,14 +57,14 @@ CLUE_VERSION(
 
 const int FileStat::badFd = -1;
 
-const FileStat::Who 	FileStat::OTHER( 0 );
-const FileStat::Who 	FileStat::GROUP( 1 );
-const FileStat::Who 	FileStat::USER( 2 );
+const FileStat::Who 	FileStat::OTHER( Bit( 0 ) );
+const FileStat::Who 	FileStat::GROUP( Bit( 1 ) );
+const FileStat::Who 	FileStat::USER( Bit( 2 ) );
 const FileStat::Who 	FileStat::ALL( 0x07, false );
 
-const FileStat::What	FileStat::EXEC( 0 );
-const FileStat::What	FileStat::WRITE( 1 );
-const FileStat::What	FileStat::READ( 2 );
+const FileStat::What	FileStat::EXEC( Bit( 0 ) );
+const FileStat::What	FileStat::WRITE( Bit( 1 ) );
+const FileStat::What	FileStat::READ( Bit( 2 ) );
 
 
 bool
