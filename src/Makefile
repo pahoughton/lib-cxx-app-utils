@@ -1,12 +1,24 @@
 #
-# -*- Makefile -*- for StlUtils src dir
+# Title:        Makefile
+# Project:	StlUtils
+# Desc:
+# 
+#   
+# 
+# Notes:
+# 
+# Author:	Paul Houghton - (paul.houghton@wcom.com)
+# Created:	11/12/95
 #
-# Author: Paul Houghton
+# Revision History: (See end of file for Revision Log)
 #
-# Created: 11/12/95
+#   Last Mod By:    $Author$
+#   Last Mod:	    $Date$
+#   Version:	    $Revision$
 #
-# $Id$
-#
+#   $Id$
+# 
+
 
 make_cfg_ver	= 5.06
 show_commands 	= # true
@@ -46,6 +58,9 @@ install_all install install_default install_debug:
 
 #
 # $Log$
+# Revision 4.4  1999/05/04 11:57:21  houghton
+# Cleanup only.
+#
 # Revision 4.3  1998/10/23 13:03:43  houghton
 # Changed to use MakeConfigs 5.06.
 #
@@ -65,3 +80,9 @@ install_all install install_default install_debug:
 # Initial Version.
 #
 #
+
+# Local Variables:
+# mode:makefile
+# End:
+#
+
