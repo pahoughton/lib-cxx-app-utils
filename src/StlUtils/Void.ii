@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:22:36  houghton
+// Changed to use size_type.
+//
 // Revision 4.1  1997/09/17 15:13:10  houghton
 // Changed to Version 4
 //
@@ -49,7 +52,7 @@
 #endif
 
 inline
-size_t
+Void::size_type
 Void::size( void ) const
 {
   return( dataSize );
@@ -64,7 +67,7 @@ Void::vptr( void ) const
 
 inline
 bool
-Void::get( void * dest, size_t destSize, size_t start ) const
+Void::get( void * dest, size_type destSize, size_type start ) const
 {
   if( ! data )
     return( false );
@@ -83,7 +86,7 @@ Void::append( const Void & src )
 
 inline
 Void &
-Void::assign( const void * src, size_t size )
+Void::assign( const void * src, size_type size )
 {
   reset();
   return( append( src, size ) );
@@ -99,28 +102,28 @@ Void::assign( const Void & src )
 
 inline
 Void &
-Void::insert( size_t before, const void * src, size_t srcSize )
+Void::insert( size_type before, const void * src, size_type srcSize )
 {
   return( replace( before, 0, src, srcSize ) );
 }
 
 inline
 Void &
-Void::insert( size_t before, const Void & src )
+Void::insert( size_type before, const Void & src )
 {
   return( replace( before, 0, src ) );
 }
 
 inline
 Void &
-Void::replace( size_t start, size_t len, const Void & src )
+Void::replace( size_type start, size_type len, const Void & src )
 {
   return( replace( start, len, src.data, src.size() ) );
 }
 
 inline
 Void &
-Void::remove( size_t start, size_t len )
+Void::remove( size_type start, size_type len )
 {
   return( replace( start, len, 0, 0 ) );
 }

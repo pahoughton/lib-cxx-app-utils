@@ -29,7 +29,7 @@
 #endif
 
 inline
-SubStr::SubStr( Str & src, size_t start, size_t length )
+SubStr::SubStr( Str & src, size_type start, size_type length )
   : str( src ),
     constStr( src ),
     pos( start ),
@@ -38,7 +38,7 @@ SubStr::SubStr( Str & src, size_t start, size_t length )
 }
 
 inline
-SubStr::SubStr( const Str & src, size_t start, size_t length )
+SubStr::SubStr( const Str & src, size_type start, size_type length )
   : str(dummyStr),
     constStr( src ),
     pos( start ),
@@ -48,14 +48,14 @@ SubStr::SubStr( const Str & src, size_t start, size_t length )
 }
 
 inline
-size_t
+SubStr::size_type
 SubStr::size( void ) const
 {
   return( len );
 }
 
 inline
-size_t
+SubStr::size_type
 SubStr::length( void ) const
 {
   return( size() );
@@ -214,7 +214,7 @@ SubStr::toULong( unsigned short base ) const
 
 inline
 char &
-SubStr::operator [] ( size_t index )
+SubStr::operator [] ( size_type index )
 {
   static char bad = 0;
   STLUTILS_EXCPT_OUT_OF_RANGE( index >= size(), bad );
@@ -223,7 +223,7 @@ SubStr::operator [] ( size_t index )
 
 inline
 char 
-SubStr::operator [] ( size_t index ) const
+SubStr::operator [] ( size_type index ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( index >= size(), 0 );  
   return( constStr[ pos + index ] );
@@ -462,7 +462,7 @@ SubStr::strbase( void ) const
 }
 
 #if !defined( inline )
-#define SUBSTR_COMP_LEN	= NPOS
+#define SUBSTR_COMP_LEN	= SubStr::npos
 #else
 #define SUBSTR_COMP_LEN
 #endif
@@ -470,14 +470,20 @@ SubStr::strbase( void ) const
 
 inline
 int
-compare( const SubStr & one, const char * two, size_t len SUBSTR_COMP_LEN)
+compare(
+  const SubStr &    one,
+  const char *	    two,
+  SubStr::size_type len SUBSTR_COMP_LEN )
 {
   return( one.compare( two, 0, len ) );
 }
 
 inline
 int
-fcompare( const SubStr & one, const char * two, size_t len SUBSTR_COMP_LEN)
+fcompare(
+  const SubStr &    one,
+  const char *	    two,
+  SubStr::size_type len SUBSTR_COMP_LEN )
 {
   return( one.fcompare( two, 0, len ) );
 }
@@ -658,6 +664,9 @@ SubStr::operator =  ( const string & src )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.2  1997/09/19 11:22:30  houghton
+// Changed to use size_type.
+//
 // Revision 4.1  1997/09/17 15:13:06  houghton
 // Changed to Version 4
 //

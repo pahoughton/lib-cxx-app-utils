@@ -264,7 +264,7 @@ Str::compare( const char * two, size_type start, size_type len ) const
     return( size() - start ? 1 : 0  );
   
   size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( strlen( two ), len );
+  size_type twoLen = min( (size_type)strlen( two ), len );
 
   int diff = strncmp( strbase() + start, two, min( oneLen, twoLen ) );
 
@@ -280,7 +280,7 @@ compare( const SubStr & one, const Str & two, Str::size_type len )
 int
 compare( const char * one, const Str & two, Str::size_type len )
 {
-  Str::size_type oneLen = min( strlen( one ), len );
+  Str::size_type oneLen = min( (Str::size_type)strlen( one ), len );
   Str::size_type twoLen = min( two.size(), len );
 
   int diff = strncmp( one, two.strbase(), min( oneLen, twoLen ) );
@@ -322,7 +322,7 @@ int
 Str::fcompare( const char * two, size_type start, size_type len ) const
 {
   size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( strlen( two ), len );
+  size_type twoLen = min( (size_type)strlen( two ), len );
 
   int diff = StringCaseCompare( strbase() + start, two,
 				min( oneLen, twoLen ) );
@@ -339,7 +339,7 @@ fcompare( const SubStr & one, const Str & two, Str::size_type len )
 int
 fcompare( const char * one, const Str & two, Str::size_type len )
 {
-  Str::size_type oneLen = min( strlen( one ), len );
+  Str::size_type oneLen = min( (Str::size_type)strlen( one ), len );
   Str::size_type twoLen = min( two.size(), len );
 
   int diff = StringCaseCompare( one, two.strbase(),
@@ -407,7 +407,7 @@ Str::to( RangeList & range, unsigned short base ) const
 	{
 	  Str   numseq =  tmp.scanMatch( m );
 	  
-	  if( numseq.to( r ) )
+	  if( numseq.to( r, base ) )
 	    {
 	      range.push_back( r );
 	    }
@@ -905,7 +905,7 @@ Str::get( istream & src, size_type size )
       char buf[1024];
       while( len )
 	{
-	  src.read( buf, min( len, sizeof(buf) ) );
+	  src.read( buf, min( len, (size_type)sizeof(buf) ) );
 	  if( ! src.gcount() )
 	    break;
 	  rdbuf()->sputn( buf, src.gcount() );
@@ -936,13 +936,13 @@ Str::get( istream & src, size_type size )
 Str::size_type
 Str::getBinSize( void ) const
 {
-  return( sizeof( STLUTILS_U32 ) + size() );
+  return( sizeof( size_type ) + size() );
 }
 
 istream &
 Str::read( istream & src )
 {
-  STLUTILS_U32 len;
+  size_type len;
 
   src.read( (char *)&len, sizeof( len ) );
 
@@ -952,7 +952,7 @@ Str::read( istream & src )
 ostream &
 Str::write( ostream & dest ) const
 {
-  STLUTILS_U32 len = length();
+  size_type len = length();
   dest.write( (const char *)&len, sizeof( len ) );
   dest.write( strbase(), length() );
   return( dest );
@@ -1217,6 +1217,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:22:21  houghton
+// Changed to use size_type.
+//
 // Revision 4.1  1997/09/17 15:12:51  houghton
 // Changed to Version 4
 //

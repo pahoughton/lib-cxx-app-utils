@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:22:33  houghton
+// Changed to use size_type.
+//
 // Revision 4.1  1997/09/17 15:13:09  houghton
 // Changed to Version 4
 //
@@ -81,7 +84,7 @@ Void::Void( void )
 {
 }
 
-Void::Void( const void * src, size_t size )
+Void::Void( const void * src, size_type size )
   : data( 0 ),
     dataSize( 0 ),
     dataBufSize( 0 ),
@@ -106,7 +109,7 @@ Void::~Void( void )
 }
 
 Void &
-Void::append( const void * src, size_t srcSize )
+Void::append( const void * src, size_type srcSize )
 {
   if( ! src || ! srcSize )
     return( *this );
@@ -125,14 +128,14 @@ Void::append( const void * src, size_t srcSize )
 
 
 Void &
-Void::replace( size_t start, size_t len, const void * src, size_t srcSize )
+Void::replace( size_type start, size_type len, const void * src, size_type srcSize )
 {
   if( start > size() )
     return( setError( E_RANGE ) );
   
-  size_t    replaceLen = min( len, size() - start );
+  size_type    replaceLen = min( len, size() - start );
   
-  size_t    keepSize = size() - ( start + replaceLen );
+  size_type    keepSize = size() - ( start + replaceLen );
   char *    keepBuf = 0;
 
   if( keepSize )
@@ -159,7 +162,7 @@ Void::replace( size_t start, size_t len, const void * src, size_t srcSize )
 }
 
 bool
-Void::resize( size_t newSize, bool trunc )
+Void::resize( size_type newSize, bool trunc )
 {
   if( newSize < dataBufSize && ! trunc )
     return( true );
@@ -196,16 +199,16 @@ Void::compare( const Void & rhs ) const
     }
 }
 
-size_t
+Void::size_type
 Void::getBinSize( void ) const
 {
-  return( sizeof( STLUTILS_U32 ) + size() );
+  return( sizeof( size_type ) + size() );
 }
 
 ostream &
 Void::write( ostream & dest ) const
 {
-  STLUTILS_U32 len = size();
+  size_type len = size();
   dest.write( (const char *)&len, sizeof( len ) );
   dest.write( data, size() );
   return( dest );
@@ -214,7 +217,7 @@ Void::write( ostream & dest ) const
 istream &
 Void::read( istream & src )
 {
-  STLUTILS_U32 len;
+  size_type len;
   src.read( (char *) &len, sizeof( len ) );
   
   if( len && resize( len ) )
@@ -236,7 +239,7 @@ Void::toStream( ostream & dest ) const
   int	oldFlags = dest.setf( ios::hex, ios::basefield );
   dest.setf( ios::uppercase );
   
-  for( size_t pos = 0; pos < dataSize; pos++ )
+  for( size_type pos = 0; pos < dataSize; pos++ )
     {
       if( pos )
 	dest << ' ';
@@ -271,7 +274,7 @@ Void::error( void ) const
     }
   else
     {
-      size_t eSize = errStr.size();
+      size_type eSize = errStr.size();
 
       if( errorNum < E_UNDEFINED )
 	errStr << ": " << ErrorStrings[ errorNum ] ;
@@ -324,7 +327,7 @@ Void::dumpInfo(
 
   char * d = (char *)data;
   
-  for( size_t pos = 0 ; pos < dataSize; pos++ )
+  for( size_type pos = 0 ; pos < dataSize; pos++ )
     {
       if( pos && ! (pos % 8) )
 	dest << '\n' << prefix << "         0x" << setw(4) << pos << ' ';

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.2  1997/09/19 11:22:26  houghton
+// Changed to use size_type.
+//
 // Revision 4.1  1997/09/17 15:13:05  houghton
 // Changed to Version 4
 //
@@ -76,7 +79,7 @@ Str SubStr::dummyStr("dummy");
 
 
 int
-SubStr::compare( const Str & two, size_t start, size_t compLen ) const
+SubStr::compare( const Str & two, size_type start, size_type compLen ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
@@ -89,12 +92,12 @@ SubStr::compare( const Str & two, size_t start, size_t compLen ) const
 }
 
 int
-SubStr::compare( const SubStr & two, size_t start, size_t compLen ) const
+SubStr::compare( const SubStr & two, size_type start, size_type compLen ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, compLen );
-  size_t twoLen = min( two.size(), compLen );
+  size_type oneLen = min( size() - start, compLen );
+  size_type twoLen = min( two.size(), compLen );
 
   int diff = strncmp( strbase() + start, two.strbase(), min( oneLen, twoLen ) );
 
@@ -103,12 +106,12 @@ SubStr::compare( const SubStr & two, size_t start, size_t compLen ) const
 
 
 int
-SubStr::compare( const char * two, size_t start, size_t compLen ) const
+SubStr::compare( const char * two, size_type start, size_type compLen ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, compLen );
-  size_t twoLen = min( strlen( two ), compLen );
+  size_type oneLen = min( size() - start, compLen );
+  size_type twoLen = min( (size_type)strlen( two ), compLen );
 
   int diff = strncmp( strbase() + start, two, min( oneLen, twoLen ) );
 
@@ -116,12 +119,12 @@ SubStr::compare( const char * two, size_t start, size_t compLen ) const
 }
 
 int
-SubStr::fcompare( const Str & two, size_t start, size_t compLen ) const
+SubStr::fcompare( const Str & two, size_type start, size_type compLen ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, compLen );
-  size_t twoLen = min( two.size(), compLen );
+  size_type oneLen = min( size() - start, compLen );
+  size_type twoLen = min( two.size(), compLen );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				min( oneLen, twoLen ) );
@@ -130,12 +133,12 @@ SubStr::fcompare( const Str & two, size_t start, size_t compLen ) const
 }
 
 int
-SubStr::fcompare( const SubStr & two, size_t start, size_t compLen ) const
+SubStr::fcompare( const SubStr & two, size_type start, size_type compLen ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_t oneLen = min( size() - start, compLen );
-  size_t twoLen = min( two.size(), compLen );
+  size_type oneLen = min( size() - start, compLen );
+  size_type twoLen = min( two.size(), compLen );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				min( oneLen, twoLen ) );
@@ -144,10 +147,10 @@ SubStr::fcompare( const SubStr & two, size_t start, size_t compLen ) const
 }  
 
 int
-SubStr::fcompare( const char * two, size_t start, size_t compLen ) const
+SubStr::fcompare( const char * two, size_type start, size_type compLen ) const
 {
-  size_t oneLen = min( size() - start, compLen );
-  size_t twoLen = min( strlen( two ), compLen );
+  size_type oneLen = min( size() - start, compLen );
+  size_type twoLen = min( (size_type)strlen( two ), compLen );
 
   int diff = StringCaseCompare( strbase() + start, two,
 				min( oneLen, twoLen ) );
@@ -157,10 +160,10 @@ SubStr::fcompare( const char * two, size_t start, size_t compLen ) const
 
 
 int
-compare( const char * one, const SubStr & two, size_t len )
+compare( const char * one, const SubStr & two, SubStr::size_type len )
 {
-  size_t oneLen = min( strlen( one ), len );
-  size_t twoLen = min( two.size(), len );
+  SubStr::size_type oneLen = min( (SubStr::size_type)strlen( one ), len );
+  SubStr::size_type twoLen = min( two.size(), len );
 
   int diff = strncmp( one, two.strbase(), min( oneLen, twoLen ) );
   
@@ -168,26 +171,26 @@ compare( const char * one, const SubStr & two, size_t len )
 }
 
 int
-fcompare( const char * one, const SubStr & two, size_t len )
+fcompare( const char * one, const SubStr & two, SubStr::size_type len )
 {
-  size_t oneLen = min( strlen( one ), len );
-  size_t twoLen = min( two.size(), len );
+  SubStr::size_type oneLen = min( (SubStr::size_type)strlen( one ), len );
+  SubStr::size_type twoLen = min( two.size(), len );
 
   int diff = StringCaseCompare( one, two.strbase(), min( oneLen, twoLen ) );
   
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }
 
-size_t
+SubStr::size_type
 SubStr::getBinSize( void ) const
 {
-  return( sizeof( STLUTILS_U32 ) + len );
+  return( sizeof( size_type ) + len );
 }
 
 ostream &
 SubStr::write( ostream & dest ) const
 {
-  STLUTILS_U32 sLen = len;
+  size_type sLen = len;
   dest.write( (const char *)&sLen, sizeof( sLen ) );
   dest.write( strbase(), len );
   return( dest );
