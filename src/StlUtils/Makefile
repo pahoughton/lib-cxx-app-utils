@@ -184,7 +184,9 @@ USER_HH_INCS	=			\
 	DateRangeWeekly.hh              \
 	DateTime.hh                     \
 	DateTimeUtils.hh                \
+	FileBinStream.hh		\
 	FilePath.hh                     \
+	FileStream.hh			\
 	HeapBinStream.hh                \
 	HeapNetStream.hh                \
 	HeapStream.hh                   \
@@ -225,6 +227,7 @@ USER_II_INCS	=			\
 	DateTime.ii                     \
 	DateTimeUtils.ii                \
 	FilePath.ii                     \
+	FileStream.ii			\
 	HeapStream.ii                   \
 	Log.ii                          \
 	LogBuf.ii                       \
@@ -394,6 +397,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 2.22  1996/08/14 14:39:02  houghton
+# Added FileBinStream Headers to USER_HH_INCS.
+#
 # Revision 2.21  1996/08/12 17:49:02  houghton
 # Added FileBinStream sources.
 #
