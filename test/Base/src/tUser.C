@@ -3,8 +3,8 @@
 #include <LibTest.hh>
 #include <HeapBinStream.hh>
 #include <User.hh>
-#include <Str.hh>
 #include <Compare.hh>
+#include <rw/cstring.h>
 #include <fstream>
 #include <strstream>
 #else
@@ -359,7 +359,7 @@ tUser( LibTest & tester )
 
     for( size_t g = 0; g < gCount; g++ )
       {
-	Str grName( getgrgid( groups[g] )->gr_name ); ;
+	RWCString grName( getgrgid( groups[g] )->gr_name ); ;
 	
 	TESTR( grName, t.isMember( grName ) );
       }
@@ -381,7 +381,7 @@ tUser( LibTest & tester )
 
     for( size_t g = 0; g < gCount; g++ )
       {
-	Str grName( getgrgid( groups[g] )->gr_name ); ;
+	RWCString grName( getgrgid( groups[g] )->gr_name ); ;
 	
 	TESTR( grName, t.isMember( grName ) );
       }
