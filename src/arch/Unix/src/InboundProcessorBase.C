@@ -85,7 +85,7 @@ InboundProcessorBase::~InboundProcessorBase( void )
 }
 
 bool
-InboundProcessorBase::run( void )
+InboundProcessorBase::run( bool tossDups )
 {
 
   bool	    didit;
@@ -154,7 +154,41 @@ InboundProcessorBase::run( void )
 	      
 		  _LLg( LogLevel::Debug ) << "locked: '"
 					  << (*them).getName() << '\'' << endl;
-	  
+
+		  FilePath	destFn( procDir,
+					(*them).getName().getFileName() );
+		  FileStat	destStat( destFn );
+		  
+		  LLgDebug << "dup check:\n   '"
+			   << destStat.getName() << '\'' << endl;
+		    
+		  if( destStat.good() ) {
+		    if( tossDups ) {
+		      if( ! fileOp.remove( (*them).getName() ) ) {
+			LLgError << "remove dup failed:\n"
+				 << "  " << (*them).getName()
+				 << endl;
+			return( setError( fileOp.error(),
+					  destStat.getName() ) );
+		      } else {
+			LLgDebug << "removed dup:\n     '"
+				 << (*them).getName() << '\''
+				 << endl;
+		      }
+		      if( ! sem.remove() )
+			return( setError( sem.error() ) );
+		      
+		      ++ fileProcCounter;
+		      didit = true;
+		      continue;
+		    } else {
+		      LLgError << "dup input file:\n    '"
+			       << '\'' << endl;
+		      return( setError( "dup input file in proc dir",
+					destFn ) );
+		    }
+		  }
+	      
 		  // this one is mine to process.
 		  if( ! fileOp.move( (*them).getName(), procDir ) )
 		    {
@@ -328,6 +362,9 @@ InboundProcessorBase::setError(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2005/03/01 21:45:32  ptpogue
+// change to deal with duplicate batches
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //

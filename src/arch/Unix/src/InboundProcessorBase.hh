@@ -69,7 +69,8 @@ public:
   
   virtual ~InboundProcessorBase( void );
 
-  bool		run( void );
+  bool		run( bool tossDups = false );
+
   bool		caughtSignal( void ) const;
   
   virtual bool	    	good( void ) const;
@@ -253,6 +254,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2005/03/01 21:45:32  ptpogue
+// change to deal with duplicate batches
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //
