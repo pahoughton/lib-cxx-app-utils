@@ -279,6 +279,26 @@ tStr21( LibTest & tester )
     TEST( t.scanMatch(3) == " a" );
     TEST( t.scanMatch(4) == "test" );
   }
+  {
+    // scan( const char *   quoteChars,
+    //	     char	    escChar,
+    //	     const char *   delimChars,
+    //	     bool	    multiDelim,
+    //	     size_type	    start )
+    //
+
+    Str	t( "'this is, a test',1234,\\'abc\\',\"more testing\"" );
+
+    // cout << '\n' << t << endl;
+    
+    TEST( t.scan( "'", '\\', ",", false, 0 ) == 5 );
+    TEST( t.scanMatch( 0 ) == t );
+    TEST( t.scanMatch( 1 ) == "this is, a test" );
+    TEST( t.scanMatch( 2 ) == "1234" );
+    TEST( t.scanMatch( 3 ) == "'abc'" );
+    TEST( t.scanMatch( 4 ) == "\"more testing\"" );
+    
+  }
   
   {
     // scanPattern( const RegexScan & )
