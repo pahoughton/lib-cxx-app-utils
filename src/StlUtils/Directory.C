@@ -464,6 +464,12 @@ Directory::Where::match( const FileStat & entry ) const
 	    getSecond().match( entry ) );
 }
 
+Directory::Directory( void )
+  : options( Default ),
+    osErrno( 0 )
+{
+}
+
 Directory::Directory( const char * path, const Option & opts )
   : options( opts ),
     osErrno( 0 )
@@ -686,6 +692,8 @@ Directory::set(
   osErrno = 0;
   errorPath = "";
   
+  list.erase( list.begin(), list.end() );
+  
   Str::size_type wild = pattern.find_first_of( "*?" );
 
   if( wild != Str::npos )
@@ -778,7 +786,7 @@ Directory::readDir(
        dEnt != 0;
        dEnt = readdir( dir ) )
     {
-      if( (int)(opts & All) == 0  && (dEnt->d_name[0] == '.') )
+      if( bool(opts & All) == false  && (dEnt->d_name[0] == '.') )
 	continue;
       
       FilePath name( dEnt->d_name );
@@ -820,6 +828,10 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/07/11 15:55:53  houghton
+// Bug-Fix: set() was not emptying list before adding new entries.
+// Bug-Fix: convert (opts & All) to a bool.
+//
 // Revision 3.3  1997/06/09 14:31:16  houghton
 // Removed 'include dirent.h' now include ClueDirent.hh is in .hh file.
 // Changed AIX41 had to instanciate the sort objects before I could pass
