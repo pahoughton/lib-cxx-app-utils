@@ -177,6 +177,9 @@ StringFrom( const struct tm & src, const char * fmt )
 
 //
 // $Log$
+// Revision 3.1  1997/03/21 15:43:36  houghton
+// Changed base version to 3
+//
 // Revision 1.3  1996/11/25 10:12:48  houghton
 // Added StringFrom( const struct & tm, const char * fmt );
 //

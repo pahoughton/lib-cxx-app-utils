@@ -394,6 +394,9 @@ tStringFrom( LibTest & tester )
 
 //
 // $Log$
+// Revision 3.1  1997/03/21 15:45:35  houghton
+// Changed base version to 3
+//
 // Revision 1.1  1996/11/19 12:36:51  houghton
 // Initial Version of test for StringFrom function.
 //

@@ -164,6 +164,9 @@ Host2Net( unsigned long num )
 // Revision Log
 //
 // $Log$
+// Revision 3.1  1997/03/21 15:43:07  houghton
+// Changed base version to 3
+//
 // Revision 2.2  1997/03/02 13:19:40  houghton
 // Changed includes.
 //
