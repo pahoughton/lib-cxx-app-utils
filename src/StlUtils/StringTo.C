@@ -195,15 +195,9 @@
 //
 
 
-#if !defined( CLUE_SHORT_FN )
 #include "StringUtils.hh"
 #include <cstring>
 #include <cctype>
-#else
-#include "StrUtil.hh"
-#include <cstring>
-#include <cctype>
-#endif
 
 CLUE_FUNCT_VERSION(
   StringTo,
@@ -646,6 +640,10 @@ StringToBool(
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:26:05  houghton
+// Changed include lines to use " " instead of < > to accomidate rpm.
+// Removed support for short file names to accomidate rpm.
+//
 // Revision 3.1  1996/11/14 01:24:19  houghton
 // Changed to Release 3
 //
