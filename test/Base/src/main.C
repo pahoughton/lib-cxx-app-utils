@@ -46,6 +46,7 @@ LibTest::TestItem   TestList[] =
   { "StripWhite",   	    tStripWhite },
   { "StringFirstNotOf",	    tStringFirstNotOf },
   { "basename",     	    tbasename },
+  { "MfNumTo",		    tMfNumTo },
   { "ClassVersion",	    tClassVersion },
   { "Bitmask",		    tBitmask },
   { "Str",  	    	    tStr },
@@ -191,6 +192,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/12/19 12:53:01  houghton
+// Added tMfNumTo
+//
 // Revision 4.1  1997/09/17 15:14:01  houghton
 // Changed to Version 4
 //

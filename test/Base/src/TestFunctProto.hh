@@ -44,6 +44,8 @@ bool	tStringTo( LibTest & tester );
 bool	tStringFrom( LibTest & tester );
 bool	tStringFirstNotOf( LibTest & tester );
 bool	tbasename( LibTest & tester );
+bool	tMfNumTo( LibTest & tester );
+
 // ClassVersion.hh
 bool	tClassVersion( LibTest & tester );
 // BinStream.hh
@@ -155,6 +157,9 @@ bool	tFileBinStream( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1997/12/19 12:52:55  houghton
+// Added tMfNumTo
+//
 // Revision 4.1  1997/09/17 15:14:01  houghton
 // Changed to Version 4
 //
