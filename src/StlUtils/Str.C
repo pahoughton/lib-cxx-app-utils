@@ -951,7 +951,7 @@ Str::get( istream & src, size_type size )
 	  src.read( rdbuf()->pptr(), len );
 	  if( ! src.gcount() )
 	    break;
-#ifdef __linux__
+#if defined( STLUTILS_STRSTREAM_HACK )
 	  // This is a major hack to get around a problem with
 	  // GNU's libg++ strstream implementation.
 
@@ -1290,6 +1290,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.9  1998/10/13 16:22:37  houghton
+// Changed #if def __linux__ to #if def STRSTREAM_HACK.
+//
 // Revision 4.8  1998/10/13 15:24:51  houghton
 // Port(AIX41): write( wchar_t *) not available.
 //
