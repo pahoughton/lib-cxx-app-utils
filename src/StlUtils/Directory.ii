@@ -271,8 +271,8 @@ Directory::Where::Where( void )
 }
 
 inline
-Directory::Where::Where( const DirField & fld )
-  : fld( fld.dup() ),
+Directory::Where::Where( const DirField & dirFld )
+  : fld( dirFld.dup() ),
     left( 0 ),
     and( false ),
     right( 0 ),
@@ -303,14 +303,18 @@ Directory::Where::Where( const Where & from )
 }
 
 inline
-Directory::Where::Where( const Where & left, bool andLR, const Where & right )
+Directory::Where::Where(
+  const Where & leftWhere,
+  bool		andLR,
+  const Where & rightWhere
+  )
   : fld( 0 ),
-    left( new Where( left ) ),
+    left( new Where( leftWhere ) ),
     and( andLR ),
-    right( new Where( right ) ),
+    right( new Where( rightWhere ) ),
     refCount( 1 ),
-    leftDepth( left.leftDepth + 1 ),
-    rightDepth( right.rightDepth + 1 )
+    leftDepth( leftWhere.leftDepth + 1 ),
+    rightDepth( rightWhere.rightDepth + 1 )
 {
 }
 
@@ -477,6 +481,9 @@ Directory::empty( void ) const
 // Revision Log:
 // 
 // $Log$
+// Revision 3.4  1997/07/18 21:33:21  houghton
+// Port(Sun5): changed local variable names to eliminate compiler warnings.
+//
 // Revision 3.3  1997/06/09 14:37:41  houghton
 // Changed AIX41 - had to use Directory::DirField in constructors.
 //

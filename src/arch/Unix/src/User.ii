@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.2  1997/07/18 21:32:33  houghton
+// Port(Sun5): changed local variable names to eliminate compiler warnings.
+//
 // Revision 3.1  1996/11/14 01:25:10  houghton
 // Changed to Release 3
 //
@@ -203,9 +206,9 @@ User::set( uid_t user, bool findGrps )
 
 inline
 bool
-User::set( const char * name, bool findGrps )
+User::set( const char * userName, bool findGrps )
 {
-  return( set( getpwnam( name ), findGrps ));
+  return( set( getpwnam( userName ), findGrps ));
 }
 
 inline
