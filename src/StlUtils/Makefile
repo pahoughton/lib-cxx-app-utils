@@ -33,7 +33,7 @@ INSTALL_INCDIR	= $(beta_incdir)
 
 VER_MAJOR	= 3
 VER_MINOR	= 02
-VER_RELEASE	= 03.b.01
+VER_RELEASE	= 03.b.02
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
@@ -303,6 +303,9 @@ FORCE:
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 3.18  1997/04/21 12:15:12  houghton
+# Changed ver number.
+#
 # Revision 3.17  1997/04/04 20:53:53  houghton
 # Added IosOpenModeFromString.
 # Added IosOpenModeToSting.
