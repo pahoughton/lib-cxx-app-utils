@@ -61,6 +61,7 @@ public:
   Str		    getName( void ) const;
   inline Str	    getExt( void ) const;
   inline size_t	    getDepth( void ) const;
+  inline char	    dirSep( void ) const;
   
   bool		    match( const char * pattern ) const;
 
@@ -288,6 +289,9 @@ compare( const FilePath & one, const FilePath & two );
 // Revision Log:
 //
 // $Log$
+// Revision 4.4  1998/10/13 15:17:53  houghton
+// Added dirSep().
+//
 // Revision 4.3  1998/03/23 10:45:04  houghton
 // Changed to eliminate Sun5 compiler warnings.
 //
