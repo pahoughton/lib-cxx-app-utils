@@ -1,8 +1,8 @@
 #
-# Makefile for libClue
+# Makefile for Clue
 #
 #
-# Created: 3/23/95
+# Created: 9/25/95
 #
 # $Id$
 #
@@ -12,85 +12,243 @@
 # Include standard MakeConfig configuration for GNU make required
 #
 
-include Make/make.cfg.2.2
+makefile_type   = library
 
-BETA_LIB_DIR	= 
-BETA_INC_DIR	= 
+include Make/make.cfg.3.0
+
+BETA_DIR	= /home/houghton/prj/CirInv
+BETA_LIB_DIR	= $(BETA_DIR)/lib
+BETA_INC_DIR	= $(BETA_DIR)/include
 
 PROD_LIB_DIR	= 
 PROD_INC_DIR	= 
 
 LIBRARY		= libClue.a
 
-USER_INCS	=			\
-
 PROTO_H		= _Clue_Proto.h
 
 # **** S O U R C E   F I L E S ****
 
-LIB_C_SOURCES	=			\
-	regex.c				\
+C_SOURCES	=			\
+	regex.c                         \
+	$(CLUE1_C_SOURCES)		\
 
 
-LIB_CXX_SOURCES	=			\
-	ClassVersion.C			\
-	LibTest.C			\
-	BinStream.C			\
-	NetStream.C			\
-	RandomStream.C			\
-	HeapStream.C			\
-	HeapBinStream.C			\
-	HeapNetStream.C			\
-	StripWhite.C			\
-	StringCaseCompare.C		\
-	StringLower.C			\
-	StringUpper.C			\
-	StringCapitalize.C		\
-	StringSearch.C			\
-	StringReverseSearch.C		\
-	StringCaseSearch.C		\
-	StringCaseReverseSearch.C	\
-	StringTo.C			\
-	StrStreambuf.C			\
-	SubStr.C			\
-	Str.C				\
-	RegexScan.C			\
-	DateTimeUtils.C			\
-	DateTime.C			\
-	DateRange.C			\
-	DateRangeDaily.C		\
-	DateRangeWeekly.C		\
-	Bitmask.C			\
-	FilePath.C			\
-	LogLevel.C			\
-	LogBuf.C			\
-	Log.C				\
-	Param.C				\
-	Timer.C				\
-	$(ARCH_CXX_SOURCES)		\
+CLUE1_C_SOURCES = 			\
+	../Clue1/src/TeleNumDataFromString.c		\
+	../Clue1/src/TeleNumDataToString.c		\
+
+CXX_C_SOURCES	=			\
+	BinStream.C                     \
+	Bitmask.C                       \
+	ClassVersion.C                  \
+	DateRange.C                     \
+	DateRangeDaily.C                \
+	DateRangeWeekly.C               \
+	DateTime.C                      \
+	DateTimeUtils.C                 \
+	FilePath.C                      \
+	HeapBinStream.C                 \
+	HeapNetStream.C                 \
+	HeapStream.C                    \
+	LibTest.C                       \
+	Log.C                           \
+	LogBuf.C                        \
+	LogLevel.C                      \
+	NetStream.C                     \
+	Param.C                         \
+	RandomBinStream.C               \
+	RandomStream.C                  \
+	RegexScan.C                     \
+	Str.C                           \
+	StrStreambuf.C                  \
+	StringCapitalize.C              \
+	StringCaseCompare.C             \
+	StringCaseReverseSearch.C       \
+	StringCaseSearch.C              \
+	StringLower.C                   \
+	StringReverseSearch.C           \
+	StringSearch.C                  \
+	StringTo.C                      \
+	StringUpper.C                   \
+	StripWhite.C                    \
+	SubStr.C                        \
+	Timer.C                         \
+	$(ARCH_CXX_C_SOURCES)		\
+	$(CLUE1_CXX_C_SOURCES)		\
 
 
-UNIX_CXX_SOURCES    =			\
+UNIX_CXX_C_SOURCES    =			\
 	../arch/Unix/src/basename.C	\
 	../arch/Unix/src/OpenFlags.C	\
 	../arch/Unix/src/User.C		\
 	../arch/Unix/src/UserGroup.C	\
 	../arch/Unix/src/FileStat.C	\
 
-
-
 ifeq ($(arch),Linux)
-ARCH_CXX_SOURCES = $(UNIX_CXX_SOURCES)	\
+ARCH_CXX_C_SOURCES = $(UNIX_CXX_C_SOURCES)	\
 
 endif
 
 ifeq ($(arch),AIX)
-ARCH_CXX_SOURCES = $(UNIX_CXX_SOURCES)	\
-	../arch/AIX/src/bool.C		\
+ARCH_CXX_C_SOURCES = $(UNIX_CXX_C_SOURCES)	\
 
 endif
 
-HOLD = \
+
+CLUE1_CXX_C_SOURCES =				\
+	../Clue1/src/AvlTreeAddrBase.C		\
+	../Clue1/src/AvlTreeOffsetBase.C	\
+	../Clue1/src/DavlTreeOffsetBase.C	\
+	../Clue1/src/Field.C			\
+	../Clue1/src/FixedCharFile.C		\
+	../Clue1/src/FixedCharRec.C		\
+	../Clue1/src/MapFile.C			\
+	../Clue1/src/MapMem.C			\
+	../Clue1/src/MapMemFixedDynamic.C	\
+	../Clue1/src/MultiMem.C			\
+	../Clue1/src/MultiMemOffset.C		\
+	../Clue1/src/MultiMemOffsetMapFixed.C	\
+	../Clue1/src/Record.C			\
+	../Clue1/src/TeleNum.C			\
+
+
+
+CXX_CC_SOURCES	=			\
+
+CXX_CPP_SOURCES	=			\
+
+USER_INCS	=			\
+	BinStream.hh                    \
+	Bit.hh                          \
+	Bitmask.hh                      \
+	ClassVersion.hh                 \
+	Clue.hh                         \
+	ClueVersion.hh                  \
+	Compare.hh                      \
+	DateRange.hh                    \
+	DateRangeDaily.hh               \
+	DateRangeWeekly.hh              \
+	DateTime.hh                     \
+	DateTimeUtils.hh                \
+	FilePath.hh                     \
+	HeapBinStream.hh                \
+	HeapNetStream.hh                \
+	HeapStream.hh                   \
+	HeapStreambuf.hh                \
+	LibTest.hh                      \
+	Log.hh                          \
+	LogBuf.hh                       \
+	LogLevel.hh                     \
+	MinMax.hh                       \
+	NetStream.hh                    \
+	Param.hh                        \
+	RandomBinStream.hh              \
+	RandomStream.hh                 \
+	RegexScan.hh                    \
+	SortOrder.hh                    \
+	Str.hh                          \
+	StrStreambuf.hh                 \
+	StringUtils.hh                  \
+	SubStr.hh                       \
+	Timer.hh                        \
+	regex.h                         \
+	$(USER_INLINES)			\
+	$(ARCH_CXX_INCLUDES)		\
+	$(CLUE1_CXX_INCLUDES)		\
+	$(CLUE1_INCLUDES)		\
+
+USER_INLINES =				\
+	ClassVersion.ii			\
+	Clue.ii				\
+	Bit.ii				\
+	StringUtils.ii			\
+	DateTimeUtils.ii		\
+	SortOrder.ii			\
+
+
+UNIX_CXX_INCLUDES    =			\
+	../arch/Unix/src/ClueExceptions.hh	\
+	../arch/Unix/src/User.hh		\
+	../arch/Unix/src/UserGroup.hh		\
+	../arch/Unix/src/FileStat.hh		\
+
+ifeq ($(arch),Linux)
+ARCH_CXX_INCLUDES = $(UNIX_CXX_INCLUDES)	\
+	../arch/$(arch)/src/ClueConfig.hh	\
+	../arch/$(arch)/stdc++/fstream		\
+	../arch/$(arch)/stdc++/iomanip		\
+	../arch/$(arch)/stdc++/iostream		\
+	../arch/$(arch)/stdc++/strstream	\
+
+endif
+
+ifeq ($(arch),AIX)
+ARCH_CXX_INCLUDES = $(UNIX_CXX_INCLUDES)	\
+
+endif
+
+CLUE1_CXX_INCLUDES = 				\
+	../Clue1/src/AvlTreeAddrBase.hh		\
+	../Clue1/src/AvlTreeBase.hh		\
+	../Clue1/src/AvlTreeOffset.hh		\
+	../Clue1/src/AvlTreeOffsetBase.hh	\
+	../Clue1/src/DavlTreeOffset.hh		\
+	../Clue1/src/DavlTreeOffsetBase.hh	\
+	../Clue1/src/Field.hh			\
+	../Clue1/src/FixedCharFile.hh		\
+	../Clue1/src/FixedCharRec.hh		\
+	../Clue1/src/MapFile.hh			\
+	../Clue1/src/MapMem.hh			\
+	../Clue1/src/MapMemFixedDynamic.hh	\
+	../Clue1/src/MultiMem.hh		\
+	../Clue1/src/MultiMemOffset.hh		\
+	../Clue1/src/MultiMemOffsetMapFixed.hh	\
+	../Clue1/src/Record.hh			\
+	../Clue1/src/TeleNum.hh			\
+
+CLUE1_INCLUDES = 			\
+	../Clue1/src/TeleNum.h
+
+
+C_HEADERS	=			\
+	regex.h                         \
+
+CXX_HEADERS	=			\
+	BinStream.hh                    \
+	Bit.hh                          \
+	Bitmask.hh                      \
+	ClassVersion.hh                 \
+	Clue.hh                         \
+	ClueVersion.hh                  \
+	Compare.hh                      \
+	DateRange.hh                    \
+	DateRangeDaily.hh               \
+	DateRangeWeekly.hh              \
+	DateTime.hh                     \
+	DateTimeUtils.hh                \
+	FilePath.hh                     \
+	HeapBinStream.hh                \
+	HeapNetStream.hh                \
+	HeapStream.hh                   \
+	HeapStreambuf.hh                \
+	LibTest.hh                      \
+	Log.hh                          \
+	LogBuf.hh                       \
+	LogLevel.hh                     \
+	MinMax.hh                       \
+	NetStream.hh                    \
+	Param.hh                        \
+	RandomBinStream.hh              \
+	RandomStream.hh                 \
+	RegexScan.hh                    \
+	SortOrder.hh                    \
+	Str.hh                          \
+	StrStreambuf.hh                 \
+	StringUtils.hh                  \
+	SubStr.hh                       \
+	Timer.hh                        \
+	_Clue.hh                        \
 
 # 
 # =USE_CURRENT_MAKEFILE=
@@ -99,39 +257,64 @@ HOLD = \
 # if you want it re-gen'd, just delete the tags
 #
 
-VERSION_MAJOR	= 2
-VERSION_MINOR   = 00
-VERSION_PATCH   = 00
-VERSION_PRE     = a.01
-
 # *****  D E F I N E S  *****
 #
-# see MakeConfig(1) for portable library defines
+# Config defines avalable
+#
+# $(MMALLOC_DEF)    defines for libmmalloc
+# $(X11_DEF)	    defines for using X11
+# $(CF_DEF)	    defineds for using libWcf (CommFabric)
 #
 
-DEFINES		= -DCLUE_DEBUG=1 $(ARCH_DEFINES)
+SRCDEFINES	= 
+PRJDEFINES	= -DCLUE_DEBUG
 
+DEFINES		= $(PRJDEFINES) $(SRCDEFINES) 
 
 # *****  I N C L U D E S *****
 #
-# see MakeConfig(1) for portable library includes
+# Config includes available
 #
+# $(LOCAL_BETA_INC)
+# $(LOCAL_INC)
+# $(COMMON_BETA_INC)
+# $(COMMON_INC)
+# $(CF_BETA_INC)
+# $(CF_INC)
+# $(MMALLOC_BETA_INC)
+# $(MMALLOC_INC)
+# $(SYB_INC)
+# $(X11_INC)
 
+#TOPDIR		=
 
 SRCINCDIR	= -I.
 PRJINCDIR	= -I../arch/$(arch)/src \
 		  -I../arch/$(arch)/stdc++ \
 		  -I../arch/Unix/src \
+		  -I../Clue1/src \
+		  -I/home/houghton/prj/CirInv/include
+		  
 
 
-INCDIRS		= $(SRCINCDIR) \
+INCDIRS		= $(SRCINCDIR)	\
 		  $(PRJINCDIR)
 
+
 # **** C O M P I L E / C P P ****
+#
+# Config flags available
+#
+# $(CC_OPTIMIZE)
+# $(CC_DEBUG)
+# $(CC_PROFILE)
+#
 
 CPPOTHER 	=
-CCDEBUG		= -g
+CCDEBUG		= $(CC_DEBUG)
 CCOTHER		=
+
+# **** I N S T A L L ****
 
 INSTALL_LIB_FLAGS	= -m 664
 INSTALL_INC_FLAGS	= -m 664
@@ -141,18 +324,26 @@ INSTALL_MAN_FLAGS	= -m 664
 
 # =USE_CURRENT_MAKEFILE=
 
+#
+# Targets defined in make.cfg.targets.
+#
+# default: 	all
+# depend:	create .depend
+# profile:	MAKE CCDEBUG=CC_PROFILE all
+# proto:	create $(PROTO_H)
+# clean:  	rm -f LIB_OBJECTS LIBRARY
+# realclean:	rm -f LIB_OBJECTS LIBRARY .depend.lib PROTO_H TAGS
+# tags:		create TAGS using etags
+#
+#
+
+include Make/make.cfg.targets.3.0
+
+
 all: $(PROTO_H) $(LIBRARY)
 
-
-
-$(LIBRARY): $(LIB_OBJECTS)
+$(LIBRARY): $(OBJECTS) 
 	$(UPDATELIB) $@ $?
-
-clean:
-	rm -f $(LIBRARY) $(LIB_OBJECTS) 
-
-realclean:
-	rm -f $(LIBRARY) $(LIB_OBJECTS) $(PROTO_H) .depend.lib TAGS 
 
 install:
 	mkdirhier $(BETA_LIB_DIR)/old
@@ -171,31 +362,17 @@ install_production:
 	-( cd $(PROD_INC_DIR)/old; rm -f $(USER_INCS); cd ..; mv $(USER_INCS) old )
 	$(INSTALL) $(INSTALL_LIB_FLAGS) $(LIBRARY) $(PROD_LIB_DIR)
 	$(INSTALL) $(INSTALL_INC_FLAGS) $(USER_INCS) $(PROD_INC_DIR)
-	echo 'Beta Install Complete!'
+	echo 'Production Install Complete!'
 
-proto: 
-	$(MKPROTO) $(CPPFLAGS) $(LIB_C_SOURCES) >$(PROTO_H)
-
-   
-$(PROTO_H): $(LIB_C_SOURCES)
-	$(MKPROTO) $(CPPFLAGS) $(LIB_C_SOURCES) >$@
-
-
-tags: 
-	etags -t *.h *.c *.C *.hh
-
-depend: depend.lib
-
-FORCE:
 #
 # include dependancies generated by 'make depend'
 #
-include .depend.lib
+include .depend
 
 # 
 # $Log$
-# Revision 1.16  1995/11/05 15:28:42  houghton
-# Revised
+# Revision 1.17  1995/11/05 16:23:36  houghton
+# Added Old Clue classes
 #
 # Revision 1.2  1995/02/13  17:35:10  houghton
 # Major enhancements much cleaner
