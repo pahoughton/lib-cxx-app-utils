@@ -1,6 +1,0 @@
-
-ARCH_INCDIR 	= -I../src/arch/$(arch)/test \
-		  -I../src/arch/$(arch)/src \
-		  -I../src/arch/$(arch)/stdc++ \
-		  -I../src/arch/Unix/src \
-		  -I../src/arch/src
