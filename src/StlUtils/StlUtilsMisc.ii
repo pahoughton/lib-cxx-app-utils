@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/02/29 19:04:56  houghton
+// Added ifdef for abs( long )
+//
 // Revision 2.1  1995/11/10 12:40:21  houghton
 // Change to Version 2
 //
@@ -80,12 +83,15 @@ MemOverlap( const void * one, size_t lenOne, const void * two, size_t lenTwo )
 	    0 ) );
 }
 
+#if !defined( CLUE_HAVE_LONG_ABS )
 inline
 long
 abs( long value )
 {
   return( value < 0 ? (value * -1) : value );
 }
+#endif
+
 
 // tIsBaseDigit
 inline
