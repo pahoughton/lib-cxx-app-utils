@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.5  1997/03/16 07:38:36  houghton
+// Bug-Fix: reset error in read.
+//
 // Revision 3.4  1997/03/15 18:06:12  houghton
 // Bug-Fix: dumpInfo & toStream - AIX was not outputing hex values.
 //     had to change iostream::setf calls.
@@ -198,9 +201,14 @@ Void::read( istream & src )
 {
   CLUE_U32 len;
   src.read( (char *) &len, sizeof( len ) );
+  
   if( len && resize( len ) )
-    src.read( data, len );
-  dataSize = len;
+    {
+      src.read( data, len );
+      dataSize = len;
+      if( errorNum == E_NODATA )
+	setError( E_OK );
+    }
   return( src );
 }
 
