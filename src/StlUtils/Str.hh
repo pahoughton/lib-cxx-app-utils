@@ -151,7 +151,7 @@ public:
   inline Str &	insert( size_type start, char src );
 
   inline Str &  insert( iterator    	before,
-			InputIterator   first,
+ 			InputIterator   first,
 			InputIterator   last );
 
   
@@ -483,7 +483,7 @@ public:
   inline bool	    operator <  ( const SubStr & rhs ) const;
   inline bool	    operator <  ( const char * rhs ) const;
 
-#if !defined( __linux__ )
+#if !defined( Linux )
   inline bool       operator !=  ( const Str & rhs ) const;
   inline bool	    operator !=  ( const SubStr & rhs ) const;
   inline bool	    operator !=  ( const char * rhs ) const;
@@ -506,12 +506,9 @@ public:
     
   virtual ostream & 	write( ostream & dest ) const;
   virtual istream & 	read( istream & src );
+  virtual istream &	fromStream( istream & src );
+  virtual ostream &	toStream( ostream & dest = cout ) const;
   
-  virtual ostream & toStream( ostream & dest = cout ) const;
-  
-  friend inline ostream &   operator << ( ostream & dest, const Str & src );
-  friend istream &	    operator >> ( istream & src, Str & dest );
-
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
@@ -534,7 +531,8 @@ protected:
   {
     size_type  pos;
     size_type  len;
-    ScanMatch( size_type p = 0, size_type l = 0 ) { pos = p; len = l; };
+    ScanMatch( void ) { pos = 0; len = 0; };
+    ScanMatch( size_type p, size_type l = 0 ) { pos = p; len = l; };
     ~ScanMatch( ) {};
   };
   
@@ -628,6 +626,12 @@ long	    	StringToLong( const Str & str, unsigned short base = 0 );
 double	    	StringToDouble( const Str & str, unsigned short base = 0 );
 unsigned int 	StringToUInt( const Str & str, unsigned short base = 0 );
 unsigned long	StringToULong( const Str & str, unsigned short base = 0 );
+
+ostream &
+operator << ( ostream & dest, const Str & src );
+
+istream &
+operator >> ( istream & src, Str & dest );
 
 #endif
 
@@ -1671,6 +1675,13 @@ unsigned long	StringToULong( const Str & str, unsigned short base = 0 );
 // Revision Log:
 //
 // $Log$
+// Revision 3.7  1997/07/18 19:29:02  houghton
+// Added fromStream.
+// Port(Sun5): had to create a default constructor for 'ScanMatch' to
+//     prevent the compiler from CRASHING.
+// Chagned: istream operator >> Str and ostream operator << Str do not
+//     need to be freinds of Str.
+//
 // Revision 3.6  1997/04/03 23:23:21  houghton
 // Changed include stddef to stddef.h
 //
