@@ -33,6 +33,19 @@ Compress::dump( const char * prefix, bool showVer ) const
   return( DumpInfo< Compress >( *this, prefix, showVer ) );
 }
 
+inline
+bool
+Compress::compress( const FilePath & inFn, const FilePath & outFn )
+{
+  return( compress( inFn.c_str(), outFn.c_str() ) );
+}
+
+inline
+bool
+Compress::decompress( const FilePath & inFn, const FilePath & outFn )
+{
+  return( decompress( inFn.c_str(), outFn.c_str() ) );
+}
 
 #if defined( inline )
 #undef inline
@@ -44,6 +57,10 @@ Compress::dump( const char * prefix, bool showVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2001/10/23 16:59:24  houghton
+// Added compress( const FilePath &, const FilePath & )
+// Added decompress( const FilePath &, const FilePath & )
+//
 // Revision 5.2  2001/07/26 19:29:01  houghton
 // *** empty log message ***
 //

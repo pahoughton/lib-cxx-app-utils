@@ -43,15 +43,17 @@ public:
 
   virtual ~Compress( void );
 
-  bool	    compress( const char * fn );
-  bool	    compress( FilePath & fn, bool rmSrc = false );
-  bool	    compress( const char * inFn, const char * outFn );
+  bool		compress( const char * fn );
+  bool		compress( FilePath & fn, bool rmSrc = false );
+  bool		compress( const char * inFn, const char * outFn );
+  inline bool	compress( const FilePath & inFn, const FilePath & outFn );
   
-  bool	    compress( int inFd, int outFd );
+  bool		compress( int inFd, int outFd );
   
-  bool	    decompress( const char * fn );
-  bool	    decompress( FilePath & fn, bool rmSrc = false );
-  bool	    decompress( const char * inFn, const char * outFn );
+  bool		decompress( const char * fn );
+  bool		decompress( FilePath & fn, bool rmSrc = false );
+  bool		decompress( const char * inFn, const char * outFn );
+  inline bool	decompress( const FilePath & inFn, const FilePath & outFn );
   
   bool	    decompress( int inFd, int outFd );
 
@@ -180,6 +182,10 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2001/10/23 16:59:18  houghton
+// Added compress( const FilePath &, const FilePath & )
+// Added decompress( const FilePath &, const FilePath & )
+//
 // Revision 5.3  2001/07/28 01:15:00  houghton
 // *** empty log message ***
 //
