@@ -10,125 +10,63 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 12:22:20  houghton
-// Initial BinaryFile implementation
+// Revision 1.2  1995/11/05 13:11:27  houghton
+// Major rework
 //
 //
-static const char * RcsId =
-"$Id$";
 
 #include "BinaryFile.hh"
 
 #include <Str.hh>
-#include <Utils.hh>
+#include <Clue.hh>
 
 #include <unistd.h>
 #include <fcntl.h>
 #include <cerrno>
 
-void
-BinaryFile::open(
-  const char *	    fileName,
-  ios::open_mode    mode,
-  int	    	    perm
-  )
+#ifdef   CLUE_DEBUG
+#define  inline
+#include <BinaryFile.ii>
+#endif
+
+const char BinaryFile::version[] =
+LIB_CLUE_VERSION
+"$Id$";
+
+const char iBinaryFile::version[] =
+LIB_CLUE_VERSION
+"$Id$";
+
+const char oBinaryFile::version[] =
+LIB_CLUE_VERSION
+"$Id$";
+
+const char ioBinaryFile::version[] =
+LIB_CLUE_VERSION
+"$Id$";
+
+BinaryFile::~BinaryFile( void )
+{
+  close();
+}
+
+bool
+BinaryFile::open( const char * fn, ios::open_mode mode, int perm )
 {
   osError = 0;
   state = 0;
-
+  fileStat( fn );
+  
   if( (fd = ::open( fileName, OpenFlags( mode ), perm ) ) < 0 )
     {
       osError = errno;
       state |= ios::badbit;
     }
+  
+  return( good() );
 }
 
-void
-BinaryFile::close( void )
-{
-  if( is_open ) ::close( fd );
-  fd = -1;  
-}
-
-bool
-BinaryFile::is_open( void )
-{
-  return( fd >= 0 );
-}
-
-streampos
-BinaryFile::seekoff( streamoff offset, ios::seek_dir dir )
-{
-  return( seek( dir, offset ) );
-}
-
-streampos
-BinaryFile::seekpos( streampos pos )
-{
-  return( seek( ios::beg, pos ) );
-}
-
-streampos
-BinaryFile::seek( long pos )
-{
-  return( seek( ios::beg, pos ) );
-}
-
-streampos
-BinaryFile::seek( ios::seek_dir	dir, streamoff offset )
-{
-  return( lseek( fd, offset, whence( dir ) ) );
-}
-
-streampos
-BinaryFile::tell( void )
-{
-  return( seek( ios::cur, 0 ) );
-}
-
-int
-BinaryFile::sync( void )
-{
-  return( fsync( fd ) ? EOF : 0 );
-}
-
-int
-BinaryFile::rdstate( void ) const
-{
-  return( state );
-}
-
-void
-BinaryFile::clear( int stateFlags )
-{
-  state = stateFlags;
-}
-
-bool
-BinaryFile::operator ! ( void ) const
-{
-  return( fail() );
-}
-
-bool
-BinaryFile::eof( void ) const
-{
-  return( state & ios::eofbit );
-}
-
-bool
-BinaryFile::fail( void ) const
-{
-  return( state & (ios::failbit | ios::badbit) );
-}
-
-bool
-BinaryFile::bad( void ) const
-{
-  return( state & ios::badbit );
-}
-
-
+			 
 // getClassName - return the name of this class
 const char *
 BinaryFile::getClassName( void ) const
@@ -136,12 +74,6 @@ BinaryFile::getClassName( void ) const
   return( "BinaryFile" );
 }
 
-// good - return TRUE if no detected errors
-bool
-BinaryFile::good( void ) const
-{
-  return( state == ios::goodbit );
-}
 
 // error - return a string describing the current state
 const char *
@@ -154,60 +86,52 @@ BinaryFile::error( void ) const
 
   if( good() )
     {
-       errStr << ": Ok";
+       errStr << ": '" << fileName << "' ok.";
     }
   else
     {
       if( osError != 0 )
-	errStr << ": " << strerror( osError );
+	errStr << ": '" << fileName << "' - " << strerror( osError );
       else
-	errStr << ": unknown error";
+	errStr << ": '" << fileName << "' - unknown error";
     }
 
   return( errStr.cstr() );
 }
 
-
-BinaryFile::BinaryFile( void )
+ostream &
+BinaryFile::dumpInfo( ostream & dest ) const
 {
-  fd = 0;
-  state = ios::badbit;
-  osError = ENOENT;
+  dest << getClassName() << ":\n";
+
+  dest << "    " << version << '\n';
+
+  if( ! good() )
+    dest << "    Error: " << error() << '\n';
+  else
+    dest << "    " << "Good!" << '\n';
+
+  dest << "    fd:          " << fd << '\n'
+       << "    state:       " << state << '\n'
+       << "    osError:     " << osError << '\n'
+    ;
+
+  dest << getClassName() << "::";
+  fileStat.dumpInfo( dest );
+  
+  dest << '\n';
+
+  return( dest );
 }
 
-BinaryFile::BinaryFile(
-  const char *      fileName,
-  ios::open_mode    mode,
-  int   	    perm
-  )
-{
-  open( fileName, mode, perm );
-}
 
-int
-BinaryFile::whence( ios::seek_dir dir )
-{
-  return( dir == ios::beg ? SEEK_SET :
-	  dir == ios::cur ? SEEK_CUR : SEEK_END );
-}
-	  
-
-iBinaryFile::iBinaryFile( void )
-{
-  bytesRead = 0;
-}
-
-iBinaryFile::iBinaryFile( const char * fileName )
-  : BinaryFile( fileName, ios::in )
-{
-  bytesRead = 0;
-}
-
-void
+bool
 iBinaryFile::open( const char * fileName )
 {
-  BinaryFile::open( fileName, ios::in );
+  return( BinaryFile::open( fileName, ios::in ) );
 }
+
+// iBinaryFile
 
 iBinaryFile &
 iBinaryFile::read(
@@ -218,7 +142,7 @@ iBinaryFile::read(
   if( ! good() )
     return( *this );
   
-  if( (bytesRead = ::read( fd, dest, amount )) == amount )
+  if( (bytesRead = ::read( fd, dest, amount )) == (long)amount )
     return( *this );
 
   if( bytesRead == 0 )
@@ -237,7 +161,7 @@ iBinaryFile::read(
 
   char * rDest = (char *) dest;
   
-  for( int once; bytesRead < amount; bytesRead += once )
+  for( int once; bytesRead < (long)amount; bytesRead += once )
     {
       if( (once = ::read( fd, rDest + bytesRead, amount - bytesRead )) <= 0 )
 	{
@@ -260,60 +184,43 @@ iBinaryFile::read(
 
 }
 
-iBinaryFile &
-iBinaryFile::read( streampos pos, void * dest, size_t amount )
-{
-  seek( pos );
-  return( read( dest, amount ) );
-}
-
-iBinaryFile &
-iBinaryFile::read(
-  streamoff     offset,
-  ios::seek_dir	dir,
-  void * 	dest,
-  size_t	amount
-  )
-{
-  seek( dir, offset );
-  return( read( dest, amount ) );
-}
-
-int
-iBinaryFile::gcount( void )
-{
-  return( bytesRead );
-}
-
 const char *
 iBinaryFile::getClassName( void ) const
 {
   return( "iBinaryFile" );
 }
 
-oBinaryFile::oBinaryFile( void )
+ostream &
+iBinaryFile::dumpInfo( ostream & dest ) const
 {
-  ;
+  dest << getClassName() << ":\n";
+
+  dest << "    " << version << '\n';
+
+  if( ! good() )
+    dest << "    Error: " << error() << '\n';
+  else
+    dest << "    " << "Good!" << '\n';
+
+  dest << "    bytesRead:   " << bytesRead << '\n'
+    ;
+
+  dest << getClassName() << "::";
+  BinaryFile::dumpInfo( dest );
+  
+  dest << '\n';
+
+  return( dest );
 }
 
-oBinaryFile::oBinaryFile(
-  const char * 	    fileName,
-  ios::open_mode    mode,
-  int	    	    perm
-  )
-  : BinaryFile( fileName, mode, perm )
-{
-  ;
-}
-
-void
+bool
 oBinaryFile::open(
   const char * 	    fileName,
   ios::open_mode    mode,
   int	    	    perm
   )
 {
-  BinaryFile::open( fileName, mode, perm );
+  return( BinaryFile::open( fileName, mode, perm ) );
 }
 
 oBinaryFile &
@@ -324,7 +231,7 @@ oBinaryFile::write( const void * src, size_t amount )
   
   int w = ::write( fd, src, amount );
 
-  if( w == amount )
+  if( w == (long)amount )
     return( *this );
 
   if( w == -1 )
@@ -336,7 +243,7 @@ oBinaryFile::write( const void * src, size_t amount )
 
   const char * wSrc = (const char *)src;
   
-  for( int once; w < amount; w += once )
+  for( int once; w < (long)amount; w += once )
     {
       if( (once = ::write( fd, wSrc + w, amount - w ) ) < 0 )
 	{
@@ -349,51 +256,32 @@ oBinaryFile::write( const void * src, size_t amount )
   return( *this );
 }
 
-oBinaryFile &
-oBinaryFile::write( streampos pos, const void * src, size_t amount )
-{
-  seek( pos );
-  return( write( src, amount ) );
-}
-
-oBinaryFile &
-oBinaryFile::write(
-  streamoff     offset,
-  ios::seek_dir	dir,
-  const void * 	src,
-  size_t	amount
-  )
-{
-  seek( dir, offset );
-  return( write( src, amount ) );
-}
-
 const char *
 oBinaryFile::getClassName( void ) const
 {
   return( "oBinaryFile" );
 }
 
-
-ioBinaryFile::ioBinaryFile(
-  const char * 	    fileName,
-  ios::open_mode    mode,
-  int	    	    perm
-  )
-  : BinaryFile( fileName, mode, perm )
+ostream &
+oBinaryFile::dumpInfo( ostream & dest ) const
 {
-  ;
+  dest << getClassName() << ":\n";
+
+  dest << "    " << version << '\n';
+
+  if( ! good() )
+    dest << "    Error: " << error() << '\n';
+  else
+    dest << "    " << "Good!" << '\n';
+
+  dest << getClassName() << "::";
+  BinaryFile::dumpInfo( dest );
+  
+  dest << '\n';
+
+  return( dest );
 }
 
-void
-ioBinaryFile::open(
-  const char * 	    fileName,
-  ios::open_mode    mode,
-  int	    	    perm
-  )
-{
-  BinaryFile::open( fileName, mode, perm );
-}
 
 const char *
 ioBinaryFile::getClassName( void ) const
@@ -401,6 +289,36 @@ ioBinaryFile::getClassName( void ) const
   return( "ioBinaryFile" );
 }
 
+
+bool
+ioBinaryFile::open(
+  const char * 	    fileName,
+  ios::open_mode    mode,
+  int	    	    perm
+  )
+{
+  return( BinaryFile::open( fileName, mode, perm ) );
+}
+
+ostream &
+ioBinaryFile::dumpInfo( ostream & dest ) const
+{
+  dest << getClassName() << ":\n";
+
+  dest << "    " << version << '\n';
+
+  if( ! good() )
+    dest << "    Error: " << error() << '\n';
+  else
+    dest << "    " << "Good!" << '\n';
+
+  dest << getClassName() << "::";
+  BinaryFile::dumpInfo( dest );
+  
+  dest << '\n';
+
+  return( dest );
+}
 
   
   
