@@ -56,14 +56,12 @@ LibTest::TestItem   TestList[] =
   { "basename",     	    tbasename },
   { "ClassVersion",	    tClassVersion },
   { "Bitmask",		    tBitmask },
-#if defined( READY )
-  { "HeapBinStream",	    tHeapBinStream },
-  { "HeapNetStream",	    tHeapNetStream },
+#if !defined( FOR_RPM )
   { "Str",  	    	    tStr },
   { "SubStr",  	    	    tSubStr },
 #endif
   { "RegexScan",    	    tRegexScan },  
-#if defined( READY )
+#if !defined( FOR_RPM )
   { "DateTimeUtils",        tDateTimeUtils },  
   { "DateTime",		    tDateTime },
   { "DateRange",	    tDateRange },
@@ -77,9 +75,8 @@ LibTest::TestItem   TestList[] =
   { "LogLevel",		    tLogLevel },
   { "Log",		    tLog },
   { "Param",		    tParam },
-#if defined( READY )
+#if !defined( FOR_RPM )
   { "SortOrder",	    tSortOrder },
-  { "FileBinStream",	    tFileBinStream },
 #endif
 #if defined( ALL )
   { "WithCommon",	    tWithCommon },
@@ -207,6 +204,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1996/11/20 12:15:26  houghton
+// Added test for other souces.
+//
 // Revision 3.2  1996/11/19 12:33:13  houghton
 // Added StringFrom.
 //
