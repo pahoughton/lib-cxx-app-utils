@@ -386,25 +386,27 @@ struct UShortTestVal
 
 static struct UShortTestVal UShortTestValues[] =
 {
-  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5 },
-  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010 },
+  {" 5",     	    FALSE, FALSE,  0,  0, TRUE,        5 },
+  {" 5 ",     	    FALSE, FALSE,  0,  0, FALSE,       0 },
+  {" 010",    	    FALSE, FALSE,  0,  0, TRUE,      010 },
+  {" 010 ",    	    FALSE, FALSE,  0,  0, FALSE,       0 },
   {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
   { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
   
-  { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
-  { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
+  { " 5",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
+  { " 010",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
   { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23 },
   { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22 },
   { "       ",	    TRUE,  FALSE,  0,  0, TRUE,        0 },
 
-  { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5 },
-  { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010 },
+  { " 5 ",  	    TRUE,  TRUE,   0,  2, TRUE,        5 },
+  { " 010 15",      TRUE,  TRUE,   0,  4, TRUE,      010 },
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23 },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
   { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0 },
   
-  { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5 },
-  { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10 },
+  { " 5 ",  	    TRUE,  TRUE,  10,  2, TRUE,        5 },
+  { " 010 15",      TRUE,  TRUE,  10,  4, TRUE,       10 },
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23 },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110 },
   { "       ",	    TRUE,  TRUE,  10,  5, TRUE,        0 },
@@ -429,25 +431,27 @@ struct ULongTestVal
 
 static struct ULongTestVal ULongTestValues[] =
 {
-  {" 5 ",     	    FALSE, FALSE,  0,  0, TRUE,       5L },
-  {" 010 ",    	    FALSE, FALSE,  0,  0, TRUE,      010L },
+  {" 5",     	    FALSE, FALSE,  0,  0, TRUE,        5L },
+  {" 5 ",     	    FALSE, FALSE,  0,  0, FALSE,       0L },
+  {" 010",    	    FALSE, FALSE,  0,  0, TRUE,      010L },
+  {" 010 ",    	    FALSE, FALSE,  0,  0, FALSE,       0L },
   {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23L },
   { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
 
-  { " 5 ",  	    TRUE,  FALSE, 10,  0, TRUE,        5L },
-  { " 010 ",  	    TRUE,  FALSE,  8,  0, TRUE,      010L },
+  { " 5",  	    TRUE,  FALSE, 10,  0, TRUE,        5L },
+  { " 010",  	    TRUE,  FALSE,  8,  0, TRUE,      010L },
   { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23L },
   { "10110",  	    TRUE,  FALSE,  2,  0, TRUE,       22L },
   { "       ",	    TRUE,  FALSE,  8,  0, TRUE,        0L },
 
-  { " 5 ",  	    TRUE,  TRUE,   0,  3, TRUE,        5L },
-  { " 010 15",      TRUE,  TRUE,   0,  5, TRUE,      010L },
+  { " 5 ",  	    TRUE,  TRUE,   0,  2, TRUE,        5L },
+  { " 010 15",      TRUE,  TRUE,   0,  4, TRUE,      010L },
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23L },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110L },
   { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0L },
 
-  { " 5 ",  	    TRUE,  TRUE,  10,  3, TRUE,        5L },
-  { " 010 15",      TRUE,  TRUE,  10,  5, TRUE,       10L },
+  { " 5 ",  	    TRUE,  TRUE,  10,  2, TRUE,        5L },
+  { " 010 15",      TRUE,  TRUE,  10,  4, TRUE,       10L },
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23L },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110L },
   { "       ",	    TRUE,  TRUE,  16,  5, TRUE,        0L },
@@ -800,6 +804,17 @@ tStringTo( LibTest & tester )
 
     for( size_t t = 0; ULongTestValues[t].str; t++ )
       {
+#if defined( DEBUG_TEST_STRINGTO )
+	tester.getOutput() << "ULong: '"
+			   << setw(10) << ULongTestValues[t].str << "' "
+			   << ULongTestValues[t].useBase << ' '
+			   << ULongTestValues[t].useLen << ' '
+			   << setw(2) << ULongTestValues[t].base << ' '
+			   << setw(3) << ULongTestValues[t].len << ' '
+			   << ULongTestValues[t].good << ' '
+			   << ULongTestValues[t].value << ' '
+			   << endl;
+#endif
 	if( ! ULongTestValues[t].useBase && ! ULongTestValues[t].useLen )
 	  {
 	    unsigned long result = 0;
@@ -1067,6 +1082,9 @@ tStringTo( LibTest & tester )
 
 //
 // $Log$
+// Revision 4.3  1998/02/13 23:34:03  houghton
+// Change - converter does not allow trailing spaces.
+//
 // Revision 4.2  1998/01/22 18:35:06  houghton
 // Changed to work with latest version.
 //

@@ -26,7 +26,7 @@ tStr09( LibTest & tester )
 
     TEST( t.at( 4 ) == '4' );
 
-    TEST( t.at( (size_t)0 ) == '0');
+    TEST( t.at( (Str::size_type)0 ) == '0');
 
     t.at( 3 ) = 'a';
 

@@ -43,12 +43,12 @@ tStr17( LibTest & tester )
     TEST( t.to( n ) && n == 100 );
 
     t.reset();
-    t << "  0xbcd  ";
+    t << "  0xbcd";
 
     TEST( t.to( n ) && n == 0xbcd );
 
     t.reset();
-    t << "  077 ";
+    t << "  077";
 
     TEST( t.to( n ) && n == 077 );
 
