@@ -14,8 +14,8 @@
 
 include make.cfg
 
-BETA_LIB_DEST	= 
-BETA_INC_DEST	= 
+BETA_LIB_DEST	= /usr/local/lib/beta
+BETA_INC_DEST	= /usr/local/include/beta
 
 PROD_LIB_DEST	= 
 PROD_INC_DEST	= 
@@ -185,7 +185,10 @@ include .depend
 
 # 
 # $Log$
-# Revision 1.3  1994/08/16 20:50:17  houghton
+# Revision 1.4  1994/09/27 16:58:40  houghton
+# Added RoundUp and some DateTime cleanup
+#
+# Revision 1.3  1994/08/16  20:50:17  houghton
 # fixed datetime output if sec == 0
 #
 # Revision 1.2  1994/08/15  20:54:56  houghton

@@ -9,7 +9,10 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1994/08/15 20:54:51  houghton
+// Revision 1.3  1994/09/27 16:58:40  houghton
+// Added RoundUp and some DateTime cleanup
+//
+// Revision 1.2  1994/08/15  20:54:51  houghton
 // Split Mapped out of mapped avl.
 // Fixed a bunch of bugs.
 // Fixed for ident of object modules.
@@ -97,7 +100,7 @@ DateRange::streamOutput( ostream & dest ) const
   dest << "Start: " << (const DateTime)*this << ' '
        << "Dur: "
        << setfill('0')
-       << setw(2) << HourInTimeT( dur ) << ':'
+       << setw(2) << HoursInTimeT( dur ) << ':'
        << setw(2) << MinInTimeT( dur ) << ':'
        << setw(2) << SecInTimeT( dur )
        << setfill(' ')

@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.2  1994/08/15 20:54:50  houghton
+// Revision 1.3  1994/09/27 16:58:39  houghton
+// Added RoundUp and some DateTime cleanup
+//
+// Revision 1.2  1994/08/15  20:54:50  houghton
 // Split Mapped out of mapped avl.
 // Fixed a bunch of bugs.
 // Fixed for ident of object modules.
@@ -137,7 +140,36 @@ UnionOf(
   return( unionSum );
 }
       
+inline long
+RoundUp( long value, long factor  )
+{
 
+  long remain = value % factor;
+
+  if( remain == 0 )
+    {
+      remain = factor;
+    }
+
+  return( (value - remain) + factor );
+}
+
+inline long
+Round( long value, long factor )
+{
+  long remain = value % factor;
+
+  if( remain < (factor / 2) )
+    {
+      return( value - remain );
+    }
+  else
+    {
+      return( value + ( factor - remain ) );
+    }
+}
+	
+  
 #endif // ! def _Common_plus_hh_ 
 //
 //              This software is the sole property of

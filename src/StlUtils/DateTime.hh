@@ -12,7 +12,10 @@
 //
 // 
 // $Log$
-// Revision 1.2  1994/08/15 20:54:54  houghton
+// Revision 1.3  1994/09/27 16:58:40  houghton
+// Added RoundUp and some DateTime cleanup
+//
+// Revision 1.2  1994/08/15  20:54:54  houghton
 // Split Mapped out of mapped avl.
 // Fixed a bunch of bugs.
 // Fixed for ident of object modules.
@@ -51,11 +54,22 @@ HourInTimeT( long sec )
 }
 
 inline long
+HoursInTimeT( long sec )
+{
+  return( sec / (60 * 60) );
+}
+
+inline long
 DaysInTimeT( long sec )
 {
   return( (sec / SEC_PER_DAY ) );
 }
 
+inline time_t
+DateInTimeT( time_t sec )
+{
+  return( sec - (sec % SEC_PER_DAY ) );
+}
 
 class DateTime
 {
