@@ -134,20 +134,8 @@ File::copy( const char * destFn )
     {
       return( setError( errno, "closing dest", dest.getName() ) );
     }
-  
-  dest( dest.getName() );
 
-  if( ! dest.setTimes( src.getAccessTime(), src.getModificationTime() ) )
-    return( setError( dest.getSysError(), "setting times", dest.getName() ) );
-  
-  if( src.getUID() == 0 )
-    {
-      if( ! dest.setOwner( src.getUID(), src.getGID() ) )
-	return( setError( dest.getSysError(), "setting owner", dest.getName() ) );
-    }
-
-  if( ! dest.setMode( src.getMode() & 07777 ) )
-    return( setError( dest.getSysError(), "setting mode", dest.getName() ) );
+  return( setDestStat() );
   
   return( true );
 }
@@ -210,6 +198,7 @@ File::move( const char * destFn )
 		return( setError( errno,
 				  "renaming to dest",
 				  dest.getName() ) );
+	      return( setDestStat() );
 	    }
 	  else
 	    {
@@ -340,22 +329,20 @@ File::moveFile( void )
     {
       // same device
       if( dest.getInode() == src.getInode() )
+	return( setError( 0, "dest and src are the same file.", dest.getName() ) );
+
+      if( dest.good() )
 	{
-	  return( setError( 0,
-			    "dest and src are the same file.",
-			    dest.getName() ) );
-	}
-      else
-	{
+	  // there is an existing file in the way.
 	  if( remove( dest.getName() ) )
-	    return( setError( errno,
-			      "removing dest",
-			      dest.getName() ) );
-	  if( rename( src.getName(), dest.getName() ) )
-	    return( setError( errno,
-			      "renaming to dest",
-			      dest.getName() ) );
+	    return( setError( errno, "removing dest", dest.getName() ) );
 	}
+      
+      if( rename( src.getName(), dest.getName() ) )
+	return( setError( errno, "renaming to dest", dest.getName() ) );
+
+      return( setDestStat() );
+      
     }
   else
     {
@@ -367,6 +354,28 @@ File::moveFile( void )
 	}
     }
   
+  return( true );
+}
+
+bool
+File::setDestStat( void )
+{
+  dest( dest.getName() );
+  
+  if( ! dest.setTimes( src.getAccessTime(), src.getModificationTime() ) )
+    return( setError( dest.getSysError(), "setting times", dest.getName() ) );
+  
+  if( src.getUID() == 0 )
+    {
+      if( ! dest.setOwner( src.getUID(), src.getGID() ) )
+	return( setError( dest.getSysError(),
+			  "setting owner",
+			  dest.getName() ) );
+    }
+  
+  if( ! dest.setMode( src.getMode() & 07777 ) )
+    return( setError( dest.getSysError(), "setting mode", dest.getName() ) );
+
   return( true );
 }
 
@@ -433,6 +442,10 @@ File::setError( int osErr, const char * desc, const char * fileName )
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1998/03/11 16:08:22  houghton
+// Added setDestStat
+// Bug-Fix: a few.
+//
 // Revision 1.1  1998/03/08 18:08:28  houghton
 // Initial Version.
 //
