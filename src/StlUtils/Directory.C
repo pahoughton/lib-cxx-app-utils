@@ -24,7 +24,7 @@
 #include <algorithm>
 #include <glob.h>
 #include <unistd.h>
-#include <dirent.h>
+#include <errno.h>
 #include <cstring>
 
 #if defined( CLUE_DEBUG )
@@ -128,12 +128,19 @@ const Directory::DirFieldName	Directory::Name;
 const Directory::DirFieldSize	Directory::Size;
 const Directory::DirFieldTime	Directory::Time;
 
-const Directory::DirOrder	Directory::SortName( DirSortName() );
-cnost Directory::DirOrder	Directory::SortExt( DirSortExt() );
-const Directory::DirOrder	Directory::SortSize( DirSortSize() );
-const Directory::DirOrder	Directory::SortTime( DirSortTime() );
-const Directory::DirOrder	Directory::SortUser( DirSortUser() );
-const Directory::DirOrder	Directory::SortUserGroup( DirSortUserGroup() );
+static DirSortName	DirNameSort;
+static DirSortExt	DirExtSort;
+static DirSortSize	DirSizeSort;
+static DirSortTime	DirTimeSort;
+static DirSortUser	DirUserSort;
+static DirSortUserGroup	DirGroupSort;
+
+const Directory::DirOrder	Directory::SortName( DirNameSort );
+const Directory::DirOrder	Directory::SortExt( DirExtSort );
+const Directory::DirOrder	Directory::SortSize( DirSizeSort );
+const Directory::DirOrder	Directory::SortTime( DirTimeSort );
+const Directory::DirOrder	Directory::SortUser( DirUserSort );
+const Directory::DirOrder	Directory::SortUserGroup( DirGroupSort );
 
 const Directory::Option		Directory::Default( Bit( 0 ) );
 const Directory::Option		Directory::Recurs( Bit( 1 ) );
@@ -685,10 +692,11 @@ Directory::set(
     {
       glob_t	files;
 
-      int  ret = glob( pattern,
-		       ( options & All ) ? GLOB_PERIOD : 0,
-		       0,
-		       &files );
+      int  ret = glob( pattern, 0, 0, &files );
+      // ( options & All ) ? GLOB_PERIOD : 0,
+      // 0,
+      // &files );
+      
       if( ! ret )
 	{
 	  FileStat	fStat;
@@ -770,7 +778,7 @@ Directory::readDir(
        dEnt != 0;
        dEnt = readdir( dir ) )
     {
-      if( (opts & All) == 0  && (dEnt->d_name[0] == '.') )
+      if( (int)(opts & All) == 0  && (dEnt->d_name[0] == '.') )
 	continue;
       
       FilePath name( dEnt->d_name );
@@ -812,6 +820,11 @@ Directory::readDir(
 // Revision Log:
 //
 // $Log$
+// Revision 3.3  1997/06/09 14:31:16  houghton
+// Removed 'include dirent.h' now include ClueDirent.hh is in .hh file.
+// Changed AIX41 had to instanciate the sort objects before I could pass
+//     them to the DirOrder objects.
+//
 // Revision 3.2  1997/06/09 12:04:03  houghton
 // Completed initial coding.
 //
