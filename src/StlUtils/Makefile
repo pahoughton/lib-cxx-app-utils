@@ -1,7 +1,6 @@
+# -*- makefile -*- for Clue
 #
-# -*- Makefile -*- for Clue src/Clue dir
-#
-# Created: 11/21/95 using MakeConfigs 4.00.00.a.09
+# Created: 4/17/96 using MakeConfigs 5.01.00.a.02
 #
 # $Id$
 #
@@ -9,12 +8,16 @@
 
 #
 # Do not modifiy 'makefile_type'
-makefile_type   = library
+makefile_type   = lib
+# This is the make.cfg version that will be used
+make_cfg_ver	= 5.01
+# Default target type
+make_target	= default
 # Uncomment 'show_compile_command' to output compile command.
-show_commands = # true
+show_commands 	= # true
 
 # Include standard MakeConfig configuration for GNU make required
-include Make/make.cfg.4.01
+include Make/make.cfg.$(make_cfg_ver)
 
 # 
 # =USE_CURRENT_MAKEFILE=
@@ -25,98 +28,90 @@ include Make/make.cfg.4.01
 
 NAME		= Clue
 
-INSTALL_LIBDIR	= $(LOCAL_ALPHA_LIBDIR)
-INSTALL_INCDIR	= $(LOCAL_ALPHA_INCDIR)
+INSTALL_LIBDIR	= $(alpha_libdir)
+INSTALL_INCDIR	= $(alpha_incdir)
 
 VER_MAJOR	= 2
 VER_MINOR	= 00
-VER_RELEASE	= 00.a.12
+VER_RELEASE	= 00.a.14
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME).a
-LIBRARY_DEBUG	= lib$(NAME)g.a
-LIBRARY_PROFILE	= lib$(NAME)pg.a
-LIBRARY_SHARED	= lib$(NAME)$(SHLIB_EXT)
+LIBRARY_DEBUG	= lib$(NAME)_g.a
+LIBRARY_PROFILE	= lib$(NAME)_pg.a
+LIBRARY_SHARED	= lib$(NAME)$(shlib_ext)
 
-include ../arch/$(arch)/src/Makefile.Clue
+PRJ_TOPDIR	= .
+
+# include any arch specific makefile component
+-include ../arch/$(arch)/Makefile.$(NAME)
+
+VPATH		= $(ARCH_VPATH):.
 
 ###### D E F I N E S  #####
 # 
 # Config defines avalable
 #
-# $(X11_DEF)	    defines for X11
-# $(SYB_DEF)	    defines for SYB
-# $(MMALLOC_DEF)    defines for libmmalloc
-# $(DATA_DEF)	    defines for libData (C++)
-# $(CLUE_DEF)	    defines for libClue (C++)
-# $(COMMON_DEF)	    defines for libCommon
-# $(WT_DEF)	    defines for libWt
-# $(WCF_DEF)	    defines for libWcf (CommFabric)
 #
 
 
-SRCDEFINES	=
+SRC_DEFINES	= 
+PRJ_DEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
 
-PRJDEFINES	= -DVERSION=\"$(VERSION)\" $(ARCH_DEFINES)
-
-DEFINES		= $(PRJDEFINES) $(SRCDEFINES) 
+DEFAULT_DEFINES = -DCLUE_DEFAULT=1
+DEBUG_DEFINES	= -DCLUE_DEBUG=1
+PROFILE_DEFINES	= -DCLUE_PROFILE=1
+SHARED_DEFINES	= -DCLUE_SHARED=1
 
 ######  I N C L U D E S #####
 #
 # Config includes available
 #
-# $(X11_INC)
-# $(SYB_INC)
-# $(MALLOC_ALPHA_INC)	$(MMALLOC_BETA_INC)	$(MMALLOC_INC)
-# $(DATA_ALPHA_INC) 	$(DATA_BETA_INC) 	$(DATA_INC)
-# $(CLUE_ALPHA_INC)	$(CLUE_BETA_INC) 	$(CLUE_INC)
-# $(COMMON_ALPHA_INC)	$(COMMON_BETA_INC) 	$(COMMON_INC)
-# $(WT_ALPHA_INC) 	$(WT_BETA_INC) 		$(WT_INC)
-# $(WCF_ALPHA_INC) 	$(WCF_BETA_INC) 	$(WCF_INC)
-#
-# $(LOCAL_ALPHA_INC) 	$(LOCAL_BETA_INC) 	$(LOCAL_INC)
+# $(alpha_incdir) 	$(beta_incdir) 	$(local_incdir)
 #
 
 
-#TOPDIR		=
+SRC_INC		= $(ARCH_INC) -I. -I$(PRJ_TOPDIR)
+PRJ_INC		= -I$(alpha_incdir)
 
-SRCINCDIR	= -I. $(ARCH_INCDIR) $(COMMON_ALPHA_INC) 
-PRJINCDIR	= 
 
-INCDIRS		= $(SRCINCDIR)	\
-		  $(PRJINCDIR)
+# Any other cpp flags to use on for all targets
+
+CPP_FLAGS		= $(ARCH_CPP_FLAGS)
 
 ###### C O M P I L E / C P P #####
 #
 # Config flags available
 #
-# $(CC_OPTIMIZE) $(CXX_OPTIMIZE)
-# $(CC_DEBUG)	 $(CXX_DEBUG)
-# $(CC_PROFILE)	 $(CXX_PROFILE)
-# $(CC_WARN)	 $(CXX_WARN)
+# $(cc_optimize) $(cxx_optimize)
+# $(cc_debug)	 $(cxx_debug)
+# $(cc_profile)	 $(cxx_profile)
+# $(cc_warn)	 $(cxx_warn)
 #
 
 
-CPPOTHER 	=
+CC_FLAGS		= $(cc_warn) $(ARCH_CC_FLAGS)
 
-CCDEBUG		= $(CC_OPTIMIZE)
-CCOTHER		= $(CC_WARN)
+DEFAULT_CC_FLAGS	= $(cc_optimize)
+DEBUG_CC_FLAGS		= $(cc_debug)
+PROFILE_CC_FLAGS	= $(cc_profile)
+SHARED_CC_FLAGS		= $(cc_optimize)
 
-CXXDEBUG	= $(CXX_OPTIMIZE)
-CXXOTHER	= $(CXX_WARN)
+CXX_FLAGS		= $(cxx_warn) $(ARCH_CXX_FLAGS)
+
+DEFAULT_CXX_FLAGS	= $(cxx_optimize)
+DEBUG_CXX_FLAGS		= $(cxx_debug)
+PROFILE_CXX_FLAGS	= $(cxx_profile)
+SHARED_CXX_FLAGS	= $(cxx_optimize)
+
+# **** S H A R E D   D E P   L I B S *****
+
+SHDEP_LIBS		= -lc
 
 # **** I N S T A L L ****
 
 INSTALL_LIB_FLAGS	= 
 INSTALL_INC_FLAGS	= 
-
-
-OBJECTS_DEFAULT	= $(ARCH_OBJECTS_DEFAULT)
-OBJECTS_DEBUG	= $(ARCH_OBJECTS_DEBUG)
-OBJECTS_PROFILE	= $(ARCH_OBJECTS_PROFILE)
-OBJECTS_SHARED	= $(ARCH_OBJECTS_SHARED)
-
-DEPEND_CXX_SOURCES = $(CXX_SOURCES) $(ARCH_DEPEND_CXX_SOURCES)
 
 #
 # =USE_CURRENT_MAKEFILE=
@@ -125,7 +120,7 @@ DEPEND_CXX_SOURCES = $(CXX_SOURCES) $(ARCH_DEPEND_CXX_SOURCES)
 # **** S O U R C E   F I L E S ****
 
 C_SOURCES	=			\
-	$(ARCH_C_SOURCES)		\
+	$(ARCH_C_SOURCES)               \
 
 CXX_C_SOURCES	=			\
 	BinStream.C                     \
@@ -144,12 +139,13 @@ CXX_C_SOURCES	=			\
 	Log.C                           \
 	LogBuf.C                        \
 	LogLevel.C                      \
+	Mutex.C                         \
 	NetStream.C                     \
 	Param.C                         \
 	RandomBinStream.C               \
 	RandomStream.C                  \
 	RegexScan.C                     \
-	SizeIt.C			\
+	SizeIt.C                        \
 	Str.C                           \
 	StrStreambuf.C                  \
 	StringCapitalize.C              \
@@ -163,14 +159,15 @@ CXX_C_SOURCES	=			\
 	StringUpper.C                   \
 	StripWhite.C                    \
 	SubStr.C                        \
-	Thread.C			\
+	ThreadBase.C                    \
 	Timer.C                         \
 	Void.C                          \
 	$(ARCH_CXX_C_SOURCES)           \
 
 
 USER_H_INCS	=			\
-	$(ARCH_USER_H_INCS)		\
+	ClueVersion.h                   \
+	$(ARCH_USER_H_INCS)             \
 
 USER_HH_INCS	=			\
 	BinStream.hh                    \
@@ -190,23 +187,27 @@ USER_HH_INCS	=			\
 	HeapNetStream.hh                \
 	HeapStream.hh                   \
 	HeapStreambuf.hh                \
+	LibLog.hh                       \
 	LibTest.hh                      \
 	Log.hh                          \
 	LogBuf.hh                       \
 	LogLevel.hh                     \
 	MinMax.hh                       \
+	Mutex.hh                        \
 	NetStream.hh                    \
 	Param.hh                        \
 	RandomBinStream.hh              \
 	RandomStream.hh                 \
 	RegexScan.hh                    \
-	SizeIt.hh			\
+	SizeIt.hh                       \
+	Sort.hh                         \
 	SortOrder.hh                    \
 	Str.hh                          \
 	StrStreambuf.hh                 \
 	StringUtils.hh                  \
 	SubStr.hh                       \
-	Thread.hh			\
+	ThreadBase.hh                   \
+	Threaded.hh                     \
 	Timer.hh                        \
 	Void.hh                         \
 	$(ARCH_USER_HH_INCS)            \
@@ -227,16 +228,17 @@ USER_II_INCS	=			\
 	Log.ii                          \
 	LogBuf.ii                       \
 	LogLevel.ii                     \
+	Mutex.ii                        \
 	Param.ii                        \
 	RandomBinStream.ii              \
 	RandomStream.ii                 \
-	SizeIt.ii			\
+	SizeIt.ii                       \
 	SortOrder.ii                    \
 	Str.ii                          \
 	StrStreambuf.ii                 \
 	StringUtils.ii                  \
 	SubStr.ii                       \
-	Thread.ii			\
+	ThreadBase.ii                   \
 	Timer.ii                        \
 	Void.ii                         \
 	$(ARCH_USER_II_INCS)            \
@@ -247,6 +249,8 @@ USER_INCLUDES	=		\
 	$(USER_II_INCS)		\
 
 C_HEADERS	=			\
+	ClueVersion.h                   \
+	rx.h                            \
 	$(ARCH_C_HEADERS)               \
 
 CXX_HEADERS	=			\
@@ -267,25 +271,27 @@ CXX_HEADERS	=			\
 	HeapNetStream.hh                \
 	HeapStream.hh                   \
 	HeapStreambuf.hh                \
+	LibLog.hh                       \
 	LibTest.hh                      \
 	Log.hh                          \
 	LogBuf.hh                       \
 	LogLevel.hh                     \
 	MinMax.hh                       \
-	NetBinStream.hh                 \
+	Mutex.hh                        \
 	NetStream.hh                    \
 	Param.hh                        \
 	RandomBinStream.hh              \
 	RandomStream.hh                 \
 	RegexScan.hh                    \
-	SizeIt.hh			\
+	SizeIt.hh                       \
 	Sort.hh                         \
 	SortOrder.hh                    \
 	Str.hh                          \
 	StrStreambuf.hh                 \
 	StringUtils.hh                  \
 	SubStr.hh                       \
-	Thread.hh			\
+	ThreadBase.hh                   \
+	Threaded.hh                     \
 	Timer.hh                        \
 	Void.hh                         \
 	_Clue.hh                        \
@@ -307,16 +313,17 @@ CXX_INLINES	=			\
 	Log.ii                          \
 	LogBuf.ii                       \
 	LogLevel.ii                     \
+	Mutex.ii                        \
 	Param.ii                        \
 	RandomBinStream.ii              \
 	RandomStream.ii                 \
-	SizeIt.ii			\
+	SizeIt.ii                       \
 	SortOrder.ii                    \
 	Str.ii                          \
 	StrStreambuf.ii                 \
 	StringUtils.ii                  \
 	SubStr.ii                       \
-	Thread.ii			\
+	ThreadBase.ii                   \
 	Timer.ii                        \
 	Void.ii                         \
 	$(ARCH_CXX_INLINES)             \
@@ -328,7 +335,7 @@ CXX_INLINES	=			\
 # Targets defined in make.cfg.targets.
 #
 # default: 	all
-# depend:	create .depend
+# depend:	create .depend_default
 # profile:	MAKE CCDEBUG=CC_PROFILE all
 # proto:	create $(PROTO_H)
 # clean:  	rm -f LIB_OBJECTS LIBRARY
@@ -337,31 +344,24 @@ CXX_INLINES	=			\
 #
 
 
-include Make/make.cfg.targets.4.00
+include Make/make.cfg.targets.$(makefile_type).$(make_cfg_ver)
 
+tvp:
+	echo $(UNIX_VPATH)
+	echo $(CLUE1_VPATH)
+	echo $(ARCH_VPATH)
 
-default debug shared:: proto
+default debug profile shared:: proto
 
-default:: objects/default $(LIBRARY_DEFAULT)
+default:: $(LIBRARY_$($(make_target)))
+
+debug profile shared:: 
+	$(hide) $(MAKE) make_target=$@ $(LIBRARY_$($@))
 
 all::	default debug profile shared
 
-debug:: objects/debug
-	$(HIDE) $(MAKE) CCDEBUG='$(CC_DEBUG)' CXXDEBUG='$(CXX_DEBUG)' \
-			PRJDEFINES='$(PRJDEFINES) -DCLUE_DEBUG=1' \
-			$(LIBRARY_DEBUG)
 
-profile:: objects/profile
-	$(HIDE) $(MAKE) CCDEBUG='$(CC_PROFILE)' CXXDEBUG='$(CXX_PROFILE)' \
-			$(LIBRARY_PROFILE)
-
-shared:: objects/shared
-	$(HIDE) $(MAKE) CCDEBUG='$(CCDEBUG) $(CC_SHARED)' \
-			CXXDEBUG='$(CXXDEBUG) $(CXX_SHARED)' \
-			$(LIBRARY_SHARED)
-
-
-install:: install_lib_check install_default
+install:: install_lib_check install_$(make_target)
 	$(HIDE) echo Installation Complete!
 
 install_all:: install_lib_check
@@ -374,8 +374,6 @@ install_debug::   debug   $(INSTALL_LIBDIR)/$(LIBRARY_DEBUG)
 install_profile:: profile $(INSTALL_LIBDIR)/$(LIBRARY_PROFILE)
 install_shared::  shared  $(INSTALL_LIBDIR)/$(LIBRARY_SHARED)
 
-tst:
-	@echo $(OBJECTS_DEFAULT)
 
 test::	default
 
@@ -384,42 +382,16 @@ FORCE:
 #
 # include dependancies generated by 'make depend'
 #
--include .depend
+-include .depend_$(make_target)
 
 
 #
 # =MAKEFILE_LOG=
 #
 # $Log$
-# Revision 2.7  1996/03/13 11:26:55  houghton
-# Change Version Number
-# Add Sizeit
+# Revision 2.8  1996/04/27 13:03:56  houghton
+# Changed to use MakeConfigs 5
 #
-# Revision 2.6  1996/03/04 11:37:53  houghton
-# Change version number
-#
-# Revision 2.5  1996/02/29 19:05:52  houghton
-# Changed to use MakeConfigs 4.01
-#
-# Revision 2.4  1995/12/04 11:18:02  houghton
-# Changed to use MakeConfig 4.
-#
-# Revision 2.3  1995/11/12  18:07:15  houghton
-# Change to use MakeConfigs 3.5.
-# Added Void.(C,hh,ii).
-# Removed regex.(c,h) (now in libCommon GnuRegex).
-#
-# Revision 2.2  1995/11/10  18:47:14  houghton
-# *** empty log message ***
-#
-# Revision 2.1  1995/11/10  12:40:49  houghton
-# Change to Version 2
-#
-# Revision 1.20  1995/11/10  12:03:21  houghton
-# Change install dir from BETA to ALPHA
-#
-# Revision 1.19  1995/11/10  00:30:43  houghton
-# Change to MakeConfigs 3.4
 #
 # =MAKEFILE_LOG=
 #
