@@ -100,6 +100,18 @@ DateTime::DateTime( const char * dateString )
   set( dateString, 0 );
 }
 
+inline
+DateTime::DateTime( istream & src, bool text )
+{
+  if( ! text )
+    {
+      read( src );
+    }
+
+  // FIXME 'fromStream' missing
+  return;
+}
+
 // getTimeT - return current time_t value
 inline
 time_t
@@ -694,6 +706,9 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 // Revision Log:
 // 
 // $Log$
+// Revision 4.4  1999/03/02 12:46:01  houghton
+// Added DateTime( istream & src, bool text );
+//
 // Revision 4.3  1998/10/13 16:17:59  houghton
 // Change: init time zone vars in the constructors.
 //
