@@ -26,6 +26,8 @@
 #define CLUE_STRBUF_CONST_RDBUF
 #define CLUE_STRBUF_PBASE
 
+#define CLUE_HAS_USER	1
+
 #if defined( CLUE_THREADS )
 #include <pthread.h>
 #endif
@@ -127,6 +129,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1996/11/19 12:28:00  houghton
+// Added CLUE_HAS_USER Flag
+//
 // Revision 3.1  1996/11/14 01:24:59  houghton
 // Changed to Release 3
 //
