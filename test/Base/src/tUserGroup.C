@@ -596,7 +596,7 @@ tUserGroup( LibTest & tester )
 
     TEST( getgrgid( t )->gr_gid == gid );
   }
-
+#if defined( CLUE_BINSTREAM )
   {
     // getBinSize( void ) const
     // write( BinStream & dest ) const
@@ -628,7 +628,7 @@ tUserGroup( LibTest & tester )
 
     TEST( tr == tw );
   }
-
+#endif
   {
     // write( ostream & ) const
     // read( istream & )
