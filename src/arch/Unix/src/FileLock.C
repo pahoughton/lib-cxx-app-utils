@@ -73,11 +73,18 @@ FileLock::~FileLock( void )
   // remove any existing locks
   for( LockList::iterator them = locks.begin();
        them != locks.end();
-       ++ them )
+       them = locks.begin() )
     {
       if( (*them).type != T_Undefined )
-	unlock( (*them).offset, (*them).dir, (*them).amount);
+	{
+	  unlock( (*them).offset, (*them).dir, (*them).amount);
+	}
+      else
+	{
+	      locks.erase( them );
+	}
     }
+  
   if( closefd )
     ::close( fd );
 }
@@ -104,6 +111,35 @@ FileLock::lock(
     }
   else
     {
+      if( type == Unlock )
+	{
+	  LockList::iterator them( locks.begin() );
+
+	  for( ;; )
+	    {
+	      
+	      for( them = locks.begin();
+		   them != locks.end();
+		   ++ them )
+		{
+		  if( offset == (*them).offset
+		      && dir == (*them).dir
+		      && amount == (*them ).amount )
+		    break;
+		}
+	      if( them != locks.end() )
+		locks.erase( them );
+	      else
+		break;
+	    }
+	}
+      else
+	{
+	  locks.push_back( Lock( type,
+				 offset,
+				 dir,
+				 amount ) );
+	}
       return( true );
     }
 }
@@ -223,6 +259,9 @@ FileLock::typeName( Type t )
 // Revision Log:
 //
 // $Log$
+// Revision 5.2  2000/07/31 13:38:37  houghton
+// Bug-Fix: was not removing locks correctly.
+//
 // Revision 5.1  2000/05/25 10:33:22  houghton
 // Changed Version Num to 5
 //
