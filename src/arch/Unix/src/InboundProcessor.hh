@@ -5,10 +5,32 @@
 // Project:	Clue
 // Desc:        
 //
+//  The InboundProcessor watches an inbound directory for file
+//  names that match a specified pattern. When a matching file
+//  name is found, it is moved to the processing directory and
+//  the Proc::operator () ( const FilePath & fn ) method is 
+//  called for the file.
 //
+//  The application needs to call run() method (from InboundProcessorBase)
+//  to start watching for files. It will not return unless the Proc
+//  returns false, a signal is caught (with SigCatcher) or an
+//  error occures (See InboundProcessorBase::run()).
 //
-// Quick Start: - short example of class usage
+//  Files are processed in order of oldest to newest.
 //
+//  Multiple applications an use the inbound processor to watch for the
+//  same file names. The InboundProcessor uses semaphores to to guarantee
+//  only one application will process a specific file.
+//
+//  Matching files are moved from the inbound directory to a processing
+//  direcotry. The 'Proc' is responsible for any post processing cleanup
+//  of the file. Once the InboundProcessor has called 'Proc' for a
+//  specific file, it will ignore the file.
+//
+// Notes:
+//
+//  Most of the functionallity is provided by InboundProcessorBase
+//  
 // Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     07/20/97 06:10
 //
@@ -23,7 +45,8 @@
 
 #include <ClueConfig.hh>
 #include <InboundProcessorBase.hh>
-#include <iostream>
+
+class SigCatcher;
 
 template< class Proc >
 class InboundProcessor : public InboundProcessorBase
@@ -35,7 +58,14 @@ public:
 		    const char *    inDirName,
 		    const char *    procDirName,
 		    long	    rescanWaitSecs,
-		    Proc &	    proccessor );
+		    Proc &	    fileProccessor );
+
+  InboundProcessor( const char *	fileNamePattern,
+		    const char *	inDirName,
+		    const char *	procDirName,
+		    long		rescanWaitSecs,
+		    const SigCatcher *	sigCatcher,
+		    Proc &		fileProccessor );
 
   virtual ~InboundProcessor( void ) {};
 
@@ -63,83 +93,137 @@ private:
 //
 //  	InboundProcessor	class
 //
+//	Proc: template arg.
+//	    Proc needs to be a class (or struct) that has an
+//	    operator () method that matches:
+//
+//		bool operator () ( const FilePath & fn );
+//
+//	    This method will be called for each file that matches
+//	    the file name pattern. 
+//	    
 //  Constructors:
 //
-//  	InboundProcessor( );
+//  	InboundProcessor( const char *    fileNamePattern,
+//			  const char *    inDirName,
+//			  const char *    procDirName,
+//			  long		  rescanWaitSecs,
+//			  Proc &	  fileProccessor );
+//	    Construct an InboundProcessor instance.
+//		'fileNamePattern' is a shell style file name pattern
+//		    (i.e. shell wildcards work as expeced). It should
+//		    not include any directory components (i.e. '/' char).
+//		    The inbound direcotry (inDir) will be search for files
+//		    that match this pattern.
+//		'inDirName' is the name of the directory to search for
+//		    files that match 'fileNamePattern'.
+//		'procDirName' is the name of a directory to move files
+//		    that match 'fileNamePattern' to before the
+//		    'fileProcessor' is called.
+//		'rescanWaitSecs' is the number of seconds to wait (sleep)
+//		    between directory scans.
+//		'fileProcessor' is the object that will process the files
+//		    that have been moved to the 'procDirName'.
 //
-//  Destructors:
+//  	InboundProcessor( const char *		fileNamePattern,
+//			  const char *		inDirName,
+//			  const char *		procDirName,
+//			  long			rescanWaitSecs,
+//			  const SigCatcher *	sigCatcher,
+//			  Proc &		fileProccessor );
+//	    Construct an InboundProcessor instance.
+//		'fileNamePattern' is a shell style file name pattern
+//		    (i.e. shell wildcards work as expeced). It should
+//		    not include any directory components (i.e. '/' char).
+//		    The inbound direcotry (inDir) will be search for files
+//		    that match this pattern.
+//		'inDirName' is the name of the directory to search for
+//		    files that match 'fileNamePattern'.
+//		'procDirName' is the name of a directory to move files
+//		    that match 'fileNamePattern' to before the
+//		    'fileProcessor' is called.
+//		'rescanWaitSecs' is the number of seconds to wait (sleep)
+//		    between directory scans.
+//		'sigCatcher' is the applications signal catcher. It is
+//		    used by the InboundProcessorBase::run() method to
+//		    detect if any signals have be caught. It is NOT
+//		    deleted by the destructor.
+//		'fileProcessor' is the object that will process the files
+//		    that have been moved to the 'procDirName'.
 //
-//  Public Interface:
-//
-//	virtual ostream &
-//	write( ostream & dest ) const;
-//	    write the data for this class in binary form to the ostream.
-//
-//	virtual istream &
-//	read( istream & src );
-//	    read the data in binary form from the istream. It is
-//	    assumed it stream is correctly posistioned and the data
-//	    was written to the istream with 'write( ostream & )'
-//
-//	virtual ostream &
-//	toStream( ostream & dest ) const;
-//	    output class as a string to dest (used by operator <<)
-//
-//	virtual istream &
-//	fromStream( istream & src );
-//	    Set this class be reading a string representation from
-//	    src. Returns src.
-//
-//  	virtual Bool
-//  	good( void ) const;
-//  	    Return true if there are no detected errors associated
-//  	    with this class, otherwise false.
-//
-//  	virtual const char *
-//  	error( void ) const;
-//  	    Return a string description of the state of the class.
-//
-//  	virtual const char *
-//  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. InboundProcessor )
-//
-//  	virtual const char *
-//  	getVersion( bool withPrjVer = true ) const;
-//  	    Return the version string of this class.
-//
-//	virtual ostream &
-//	dumpInfo( ostream & dest, const char * prefix, bool showVer );
-//	    output detail info to dest. Includes instance variable
-//	    values, state info & version info.
-//
-//	static const ClassVersion version
-//	    Class and project version information. (see ClassVersion.hh)
-//
-//  Protected Interface:
-//
-//  Private Methods:
-//
-//  Associated Functions:
-//
-//  	ostream &
-//  	operator <<( ostream & dest, const InboundProcessor & src );
-//
-//	istream &
-//	operator >> ( istream & src, InboundProcessor & dest );
+//  Public Interface: See InboundProcessorBase
 //
 // Example:
-//
+//	
+//	
+//	class FileProc
+//	{
+//	public:
+//	
+//	  inline bool	operator () ( const FilePath & fn ) {
+//	    cout << "processing: " << fn << endl;
+//	  };
+//	};
+//	
+//	SigCatcher  signals;
+//	
+//	FileProc    fileProc;
+//	
+//	InboundProcessor< FileProc >	ibp( "*.rdy",
+//					     "/prj/data/in",
+//					     "/prj/data/proc",
+//					     5,
+//					     &signals,
+//					     fileProc );
+//	
+//	while( ibp.run() )
+//	{
+//	  if( signals.caught().size() )
+//	    {
+//	      cout << "some signal was caught" << endl;
+//	      signals.reset();
+//	    }
+//	
+//	  if( ! fileProc.good() )
+//	    {
+//	      cout << fileProc.error() << endl;
+//	      break;
+//	    }
+//	}
+//	
+//	if( ! ibp.good() )
+//	{
+//	  cout << ibp.error() << endl;
+//	}
+//					     
+//	  
 // See Also:
+//
+//  InboundProcessorBase(3), FilePath(3), SigCatcher(3)
+//
+//  libClue3/docs/design/InboundProcessor.txt
+//  libClue3/docs/design/InboundProcessorBase.txt
 //
 // Files:
 //
-// Documented Ver:
+//  InboundProcessor.hh, InboundProcessor.ii
+//  InboundProcessorBase.hh, InboundProcessorBase.ii
+//  FilePath.hh
+//
+//  libClue3.a
+//
+// Documented Ver: 3.1
 //
 // Tested Ver:
 //
 // Revision Log:
 //
 // $Log$
+// Revision 3.1  1997/07/25 12:05:46  houghton
+// Added constructor that takes a SigCatcher.
+// Added documentation.
+// Changed version number to 3.
+//
 // Revision 1.1  1997/07/20 18:52:01  houghton
 // Initial Version.
 //
