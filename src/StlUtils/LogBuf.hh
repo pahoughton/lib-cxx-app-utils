@@ -12,125 +12,117 @@
 //
 // 
 // $Log$
-// Revision 1.1  1995/02/13 16:08:46  houghton
-// New Style Avl an memory management. Many New Classes
+// Revision 1.2  1995/11/05 13:29:06  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
 
+#include <ClueConfig.hh>
 #include <LogLevel.hh>
-#include <iostream.h>
-#include <fstream.h>
+#include <FilePath.hh>
+
+#include <iostream>
+#include <fstream>
+
+#ifdef  CLUE_DEBUG
+#define inline
+#endif
 
 class LogBuf : public streambuf
 {
   
 public:
   
-  LogBuf( LogLevel::Level   outLevel = LogLevel::ERROR, 
-	  streambuf * 	    outStream = 0 );
+  inline LogBuf( LogLevel::Level   outLevel,
+		 streambuf * 	   outStream );
 
-  LogBuf( const char * 	outLevel,
-	  streambuf * 	outStream = 0 );
+  inline LogBuf( const char * 	outLevel,
+		 streambuf * 	outStream );
 
+  inline LogBuf( const char *	    fileName,
+		 LogLevel::Level    outLevel = LogLevel::ERROR, 
+		 ios::open_mode	    mode = ios::app,
+		 int		    prot = filebuf::openprot,
+		 size_t		    maxSize = 0,
+		 size_t		    trimSize = 0 );
+  
+  inline LogBuf( const char *	    fileName,
+		 const char *	    outLevel,
+		 ios::open_mode	    mode = ios::app,
+		 int		    prot = filebuf::openprot,
+		 size_t		    maxSize = 0,
+
+		 size_t		    trimSize = 0 );
+  
   virtual ~LogBuf( void );
+
+  inline bool		willOutput( LogLevel::Level outputLevel ) const;
+
   
   inline streambuf *	tee( streambuf * teeStreambuf );
+  filebuf *		open( const char *	name,
+			      ios::open_mode    mode,
+			      int	        prot = filebuf::openprot,
+			      size_t	        maxSize = 0,
+			      size_t	        trimSize = 0 );
   
-  inline Bool		isFile( void ) const;
+  void			close (void);
+
+  size_t		trim( size_t maxSize = 0 );
+  inline size_t	        setMaxSize( size_t maxSize );
+  inline size_t		setTrimSize( size_t trimSize );
   
-  filebuf *	open(const char * name, int om, int prot = filebuf::openprot);
-  void          close (void);
+  inline bool		isFile( void ) const;
+  
+  inline LogLevel &	   level( void );
+  inline const LogLevel &  level( void ) const;
 
-  LogLevel &	    level( void );
-  const LogLevel &  level( void ) const;
+  virtual int	    overflow(int=EOF);
+  virtual int	    underflow();
+  virtual int	    sync() ;
 
-  virtual int	overflow(int=EOF);
-  virtual int	underflow();
-  virtual int	sync() ;
+  const char *	    getClassName( void ) const;
+  ostream &	    dumpInfo( ostream & dest = cerr ) const;
+  
+  static const char version[];
   
 protected:
   
 private:
 
-  void initbuf( streambuf * outStream = 0 );
+  void initLogBuffer( void );
+  void initbuf( streambuf * outStream );
+  void initbuf( const char * fn,
+		ios::open_mode mode,
+		int prot,
+		size_t m,
+		size_t t );
+  
+
+  filebuf *	openLog( void );
+  size_t	trimLog( size_t curSize, size_t maxLogSize );
+  void		closeLog( void );
+  
+  FilePath	    logFileName;
+  size_t	    maxSize;
+  size_t	    trimSize;
+  ios::open_mode    openMode;
+  int		    openProt;
+  bool		    streamIsFile;
   
   char *    	buffer;
   streambuf *	stream;
   streambuf * 	teeStream;
-  Bool		streamIsFile;
   
   LogLevel 	logLevel;
   
 };
 
-
-//
-// Inline methods
-//
-
-inline
-LogBuf::LogBuf(
-  LogLevel::Level   outLevel,
-  streambuf *	    outStream
-  )
-  : logLevel( outLevel )
-{
-  initbuf( outStream );
-}
-
-inline
-LogBuf::LogBuf(
-  const char * 	outLevel,
-  streambuf *	outStream
-  )
-  : logLevel( outLevel )
-{
-  initbuf( outStream );
-}
-
-
-inline
-streambuf *
-LogBuf::tee( streambuf * teeStreambuf )
-{
-  streambuf * old = teeStream;
-  teeStream = teeStreambuf;
-  return( old );
-}
-
-inline Bool
-LogBuf::isFile( void ) const
-{
-  return( streamIsFile );
-}
-
-inline
-LogLevel &
-LogBuf::level( void )
-{
-  return( logLevel );
-}
-
-inline
-const LogLevel &
-LogBuf::level( void ) const
-{
-  return( logLevel );
-}
-
-
-
-
+#ifndef inline
+#include <LogBuf.ii>
+#else
+#undef inline
+#endif
 
 #endif // ! def _LogBuf_hh_ 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//

@@ -9,118 +9,155 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1994/08/15 20:54:53  houghton
-// Split Mapped out of mapped avl.
-// Fixed a bunch of bugs.
-// Fixed for ident of object modules.
-// Prep for Rating QA Testing
-//
-// Revision 1.1  1994/06/06  13:19:37  houghton
-// Lib Clue beta version used for Rating 1.0
+// Revision 1.3  1995/11/05 13:29:01  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
-static const char * RcsId =
-"$Id$";
-
-#include <Clue.hh>
 
 #include "DateRangeWeekly.hh"
 
+#include <Clue.hh>
+#include <Str.hh>
+
+#include <iomanip>
+
+#ifdef  CLUE_DEBUG
+#define inline
+#include "DateRangeWeekly.ii"
+#endif
+
+
+const char DateRangeWeekly::version[] =
+LIB_CLUE_VERSION
+"$Id$";
+
+
+time_t DateRangeWeekly::freq = (24 * 60 * 60 * 7);
+
 int
-DateRangeWeekly::isValid( void ) const
+DateRangeWeekly::getDayOfWeek( void ) const
 {
-  return( start >= 0 && start < (SEC_PER_DAY * 7) &&
-	  dur > 0 );
+  return( getStart() / SecPerDay );
+}
+
+time_t
+DateRangeWeekly::getFrequency( void ) const
+{
+  return( freq );
 }
 
 time_t
 DateRangeWeekly::secIn( const DateRange & dateTwo ) const
 {
-  time_t   secOfWeek = ( (dateTwo.getDayOfWeek() * SEC_PER_DAY) +
+  time_t   secOfWeek = ( (dateTwo.getDayOfWeek() * SecPerDay) +
        	 	         dateTwo.getSecOfDay() );
 
-  return( UnionOf( start, dur, secOfWeek, dateTwo.getDur(), 7 * SEC_PER_DAY ) );
+  return( UnionOfDur( getStart(), getDur(),
+		      secOfWeek, dateTwo.getDur(),
+		      getFrequency() ) );
 }
-
 
 time_t
 DateRangeWeekly::startsIn( const DateRange & dateTwo ) const
 {
   time_t  secs = 0;
-  time_t  secOfWeek = ( (dateTwo.getDayOfWeek() * SEC_PER_DAY) +
+  time_t  secOfWeek = ( (dateTwo.getDayOfWeek() * SecPerDay) +
     		      	dateTwo.getSecOfDay() );
   
-  if( secOfWeek >= start &&
-      secOfWeek <= start + dur )
+  if( secOfWeek >= getStart() &&
+      secOfWeek <= getStart() + dur )
     {
       secs = secIn( dateTwo );
     }
   return( secs );
 }
 
-#ifdef NEXT_SEC_WORKS
-
-// it doesn't right now
-
-time_t
-DateRangeWeekly::nextSec( const DateRange & dateTwo, time_t elapsed ) const
+bool
+DateRangeWeekly::good( void ) const
 {
-  time_t  secs = 0;
+  return( DateRange::good() &&
+	  getStart() >= 0 && getStart() < (SecPerDay * 7) );
+}
 
-  time_t  secOfWeek = ( (dateTwo.getDayOfWeek() * SEC_PER_DAY) +
-			dateTwo.getSecOfDay() );
+const char *
+DateRangeWeekly::error( void ) const
+{
+  static Str errStr;
+  errStr.reset();
+
+  errStr << getClassName() << ":";
+
   
-  if( secOfWeek + elapsed >= start &&
-      secOfWeek + elapsed <= start + dur )
+  if( good() )
     {
-      secs = secIn( dateTwo ) - elapsed;
+      errStr << "Ok";
     }
-  
-  return( secs );
+  else
+    {
+      if( ! DateRange::good() )
+	{
+	  errStr << ' ' << DateRange::error();
+	}
+
+      if( ! (getStart() >= 0 ) )
+	{
+	  errStr << " getStart < 0";
+	}
+
+      if( ! (getStart() < (SecPerDay * 7) ) )
+	{
+	  errStr << " start >= 7 days";
+	}
+    }
+  return( errStr.cstr() );
 }
 
-#endif
 
-int
-DateRangeWeekly::getDayOfWeek( void ) const
+const char *
+DateRangeWeekly::getClassName( void ) const
 {
-  return( getTimeT() / 7 );
+  return( "DateRangeWeekly" );
 }
 
-    
 ostream &
-DateRangeWeekly::streamOutput( ostream & dest ) const
+DateRangeWeekly::toStream( ostream & dest ) const
 {
   dest << "Start: "
-       << AbbrWeekDays[ DaysInTimeT( start ) ] << ' '
+       << AbbrWeekDays[ DaysInTimeT( getStart() ) ] << ' '
        << setfill('0')
-       << setw(2) << HourInTimeT( start ) << ':'
-       << setw(2) << MinInTimeT( start ) << ':'
-       << setw(2) << SecInTimeT( start ) << ' '
+       << setw(2) << HourInTimeT( getStart() ) << ':'
+       << setw(2) << MinInTimeT( getStart() ) << ':'
+       << setw(2) << SecInTimeT( getStart() ) << ' '
        << "Dur: "
-       << setw(2) <<  dur / SEC_PER_HOUR << ':'
-       << setw(2) << MinInTimeT( dur ) << ':'
-       << setw(2) << SecInTimeT( dur )
+       << setw(2) << HourInTimeT( getDur() ) << ':'
+       << setw(2) << MinInTimeT( getDur() ) << ':'
+       << setw(2) << SecInTimeT( getDur() )
        << setfill(' ')
        ;
   return( dest );
 }
 
-ostream & operator<<( ostream & dest, const DateRangeWeekly & range )
+ostream &
+DateRangeWeekly::dumpInfo( ostream & dest ) const
 {
-  return( range.streamOutput( dest ) );
+  dest << getClassName() << ":\n";
+
+  dest << "    " << version << '\n';
+
+  if( ! good() )
+    dest << "    Error: " << error() << '\n';
+  else
+    dest << "    " << "Good!" << '\n';
+
+  dest << "    " ;
+  toStream( dest );
+  dest << '\n';
+
+  dest << getClassName() << "::" ;
+  DateRangeDaily::dumpInfo( dest );
+
+  dest << '\n';
+
+  return( dest  );
 }
-
-
-
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//

@@ -9,39 +9,39 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.7  1995/11/05 12:04:22  houghton
-// Removed additonal DST stuff
-//
-// Revision 1.6  1995/08/29  19:36:28  ichudov
-// DST and MakeDateFromSybase added.
-//
-// Revision 1.5  1995/02/20  14:24:25  houghton
-// Linux port and Fix bugs in DateTime found with new test.
-//
-// Revision 1.4  1995/02/13  16:08:35  houghton
-// New Style Avl an memory management. Many New Classes
-//
-// Revision 1.3  1994/08/16  20:50:16  houghton
-// fixed datetime output if sec == 0
-//
-// Revision 1.2  1994/08/15  20:54:53  houghton
-// Split Mapped out of mapped avl.
-// Fixed a bunch of bugs.
-// Fixed for ident of object modules.
-// Prep for Rating QA Testing
-//
-// Revision 1.1  1994/06/06  13:19:37  houghton
-// Lib Clue beta version used for Rating 1.0
+// Revision 1.8  1995/11/05 13:29:02  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
-static const char * RcsId =
-"$Id$";
-
-#include <iostream.h>
+//
 
 #include "DateTime.hh"
 
-#include <ctype.h>
+#include "Str.hh"
+#include "StringUtils.hh"
+#include "File.hh"
+
+#include <cstdlib>
+#include <cstring>
+#include <cstdio>
+
+const char DateTime::version[] =
+LIB_CLUE_VERSION
+"$Id$";
+
+#ifdef   CLUE_DEBUG
+#define  inline
+#include <DateTime.ii>
+#endif
+
+
+RegexScan
+DateTime::strPattern(
+  "[^0-9]*" "([0-9]+)/([0-9]+)/([0-9]+)"
+  "[^0-9]*" "([0-9]*):*([0-9]*):*([0-9]*)" );
+
+long	DateTime::localSysOffset = 0;
 
 
 DateTime::~DateTime( void )
@@ -54,11 +54,11 @@ DateTime::~DateTime( void )
 int
 DateTime::getDayOfWeek( void ) const
 {
-  return( ((seconds / SEC_PER_DAY) + 4) % 7  );
+  return( ((seconds / SecPerDay) + 4) % 7  );
 }
 
-// isDST - return TRUE if Daylight Savings Time is in effect
-Bool
+// isDST - return true if Daylight Savings Time is in effect
+bool
 DateTime::isDST( void ) const
 {
   if( flags.dstKnown )
@@ -76,7 +76,7 @@ DateTime::isDST( void ) const
 	  static char * zone = 0;
 	  static char * delZone = 0;
 	  const char * oldZone = getenv( "TZ" );
-	  Bool isDst = FALSE;
+	  bool isDst = false;
 	  
 	  if( timeZoneName && strcmp( oldZone, timeZoneName ) )
 	    {
@@ -107,11 +107,11 @@ DateTime::isDST( void ) const
 	}
     }
 
-  return( FALSE );
+  return( false );
 }
 
-// isDST - return TRUE if Daylight Savings Time is in effect
-Bool
+// isDST - return true if Daylight Savings Time is in effect
+bool
 DateTime::isDST( void )
 {
   if( flags.dstKnown )
@@ -126,10 +126,8 @@ DateTime::isDST( void )
 	  return( flags.dst );
 	}
     }
-  return( FALSE );
+  return( false );
 }
-
-long	DateTime::localSysOffset = 0;
 
 // getGmtOffset - return the gmt offset for 'timeZone'
 //  NOTE: the 'timezone' value is converted to a
@@ -204,7 +202,7 @@ DateTime::setValid(
   )
 {
   time_t old = seconds;
-  flags.valid = TRUE;
+  flags.valid = true;
 
   offset = 0;
   timeZoneName = 0;
@@ -228,7 +226,7 @@ DateTime::setValid(
 	    }
 	  else
 	    {
-	      flags.valid = FALSE;
+	      flags.valid = false;
 	      seconds = 0;
 	      return( old );
 	    }
@@ -241,14 +239,14 @@ DateTime::setValid(
 	    }
 	  else
 	    {
-	      flags.valid = FALSE;
+	      flags.valid = false;
 	      seconds = 0;
 	      return( old );
 	    }
 	}
     }
 
-  flags.valid = FALSE;
+  flags.valid = false;
   seconds = 0;
   return( old );
   
@@ -258,109 +256,18 @@ DateTime::setValid(
 time_t
 DateTime::setValid( const char * dateString, const char * fmt )
 {
-  time_t old = seconds;
+  struct tm tmTime;
+
+  memset( &tmTime, 0, sizeof( tm ) );
   
-  if( fmt )
-    {
-      struct tm tmTime;
-      
-      tmTime.tm_year = 0;
-      tmTime.tm_mon = 0;
-      tmTime.tm_mday = 0;
-      tmTime.tm_hour = 0;
-      tmTime.tm_min = 0;
-      tmTime.tm_sec = 0;
-      
-      if( strptime( dateString, fmt, &tmTime ) )
-	{
-	  return( setValid( tmTime.tm_year + 1900,
-			    tmTime.tm_mon + 1,
-			    tmTime.tm_mday,
-			    tmTime.tm_hour, tmTime.tm_min, tmTime.tm_sec ) );
-	}
-      else
-	{
-	  flags.valid = FALSE;
-	  seconds = 0;
-	  return( old );
-	}
-    }
-  else
-    {
-      // note this is a duplication of code in DateStringToTimeT.c
-      
-      const char * start = dateString;
-      const char * end = 0;
-      
-      if( (end = strchr( start, '/' ) ) == 0 )
-	{
-	  flags.valid = FALSE;
-	  seconds = 0;
-	  return( old );
-	}
+  toTm( tmTime, dateString, fmt );
 
-      short month = StringToInt( start, 10, (end - start) );
-
-      start = end + 1;
-
-      if( (end = strchr( start, '/') ) == 0 )
-	{
-	  flags.valid = FALSE;
-	  seconds = 0;
-	  return( old );
-	}
-
-      short day = StringToInt( start, 10, (end - start)  );
-
-      start = end + 1;
-
-      for( end = start; isdigit( *end ); end++ );
-
-      short year = StringToInt( start, 10, (end - start) );
-
-        
-      for( start = end; ! isdigit( *start ) && *start != 0; start++ );
-
-      if( *start == 0 )
-	{
-	  return( setValid( year, month, day, 0, 0, 0 ) );
-	}
-
-      if( (end = strchr( start, ':' ) ) == 0 )
-	{
-	  flags.valid = FALSE;
-	  seconds = 0;
-	  return( old );
-	}
-
-      short hour = StringToInt( start, 10, (end - start) );
-
-      start = end + 1;
-
-      for( end++ ; isdigit( *end ); end++ );
-
-      if( end == start )
-	{
-	  flags.valid = FALSE;
-	  seconds = 0;
-	  return( old );
-	}
-
-      short min = StringToInt( start, 10, (end - start) );
-
-      short sec = 0;
-      if( *end == ':' )
-	{
-
-	  start = end + 1;
-
-	  for( end++; isdigit( *end ); end++ );
-
-	  sec = StringToInt( start, 10, (end - start) );
-	}      
-
-      return( setValid( year, month, day, hour, min, sec ) );
-    }
+  return( setValid( tmTime.tm_year + 1900,
+		    tmTime.tm_mon + 1,
+		    tmTime.tm_mday,
+		    tmTime.tm_hour,
+		    tmTime.tm_min,
+		    tmTime.tm_sec ) );
 }      
     
 // setYear - set the year
@@ -384,7 +291,7 @@ DateTime::setYear( short year )
       leapCount--;
     }
 
-  seconds -= ((oldYear - 70) * SEC_PER_YEAR ) + (leapCount * SEC_PER_DAY );
+  seconds -= ((oldYear - 70) * SecPerYear ) + (leapCount * SecPerDay );
 
   // now add the new year
 
@@ -400,29 +307,28 @@ DateTime::setYear( short year )
       leapCount--;
     }
 
-  seconds += ((year - 70) * SEC_PER_YEAR ) + (leapCount * SEC_PER_DAY );
+  seconds += ((year - 70) * SecPerYear ) + (leapCount * SecPerDay );
 
   if( oldIsLeap )
     {
       if( ! newIsLeap && oldMonth > 2 )
 	{
-	  seconds -= SEC_PER_DAY;
+	  seconds -= SecPerDay;
 	}
     }
   else
     {
       if( newIsLeap && oldMonth > 2 )
 	{
-	  seconds += SEC_PER_DAY;
+	  seconds += SecPerDay;
 	}
     }
   
-  flags.tmValid = FALSE;
+  flags.tmValid = false;
   if( offset ) setTm();
   
   return( old );
 }
-
 
 // setMonth - set the month
 time_t
@@ -435,38 +341,61 @@ DateTime::setMonth( short month )
 
   short oldMonth = getMonth();
 
-  seconds -= SEC_PER_DAY * MonthDayOfYear[ oldMonth - 1 ];
+  seconds -= SecPerDay * MonthDayOfYear[ oldMonth - 1 ];
   
   if( IsLeapYear( getYear() ) && oldMonth > 2 )
     {
-      seconds -= SEC_PER_DAY;
+      seconds -= SecPerDay;
     }
 
   // now add the new month
 
-  seconds += SEC_PER_DAY * MonthDayOfYear[ month - 1 ];
+  seconds += SecPerDay * MonthDayOfYear[ month - 1 ];
 
   if( IsLeapYear( getYear() ) && month > 2 )
     {
-      seconds += SEC_PER_DAY;
+      seconds += SecPerDay;
     }
 
-  flags.tmValid = FALSE;
+  flags.tmValid = false;
   if( offset ) setTm();
   
   return( old );
 }
 
-
-// getClassName - return the name of this class
-const char *
-DateTime::getClassName( void ) const
+// setTimeZone - adjust time for timezone 'zone'
+long
+DateTime::setTimeZone( const char * zone )
 {
-  return( "DateTime" );
+  seconds -= offset;  
+  flags.dstKnown = false;
+  flags.tmValid = false;
+  offset = getGmtOffset( zone );
+  timeZoneName = zone;
+  seconds += offset;
+  setTm();
+  return( offset );
 }
 
-// good - return TRUE if current value is valid
-Bool
+
+// compare - return the difference between me and 'two'
+int
+DateTime::compare( const DateTime & two ) const
+{
+  return( (*this < two ) ? -1 :
+	  (*this == two ) ? 0 : 1 );
+}
+
+ostream &
+DateTime::toStream( ostream & dest ) const
+{
+  dest << getString();
+  
+  return( dest );
+}  
+  
+// good - return true if current value is valid
+bool
 DateTime::good( void ) const
 {
   return( flags.valid );
@@ -492,6 +421,13 @@ DateTime::error( void ) const
   return( errStr.cstr() );  
 }
   
+// getClassName - return the name of this class
+const char *
+DateTime::getClassName( void ) const
+{
+  return( "DateTime" );
+}
+
 // setTmOffset - set the tm struct using a local time offset
 void
 DateTime::setTmOffset( void )
@@ -501,7 +437,7 @@ DateTime::setTmOffset( void )
   if( flags.dstKnown && flags.dst )
     {
       seconds -= offset;
-      offset -= SEC_PER_HOUR;
+      offset -= SecPerHour;
       seconds += offset;
     }     
 
@@ -534,35 +470,230 @@ DateTime::setTmOffset( void )
       seconds += offset;
     }
   
-  flags.dstKnown = TRUE;
+  flags.dstKnown = true;
   flags.dst = tm.tm_isdst;
   if( flags.dst )
     {
       seconds -= offset;
-      offset += SEC_PER_HOUR;
+      offset += SecPerHour;
       seconds += offset;
     }     
 }
 
-	  
-ostream & operator<<( ostream & dest, const DateTime & time )
+const char *
+DateTime::fromTm( char * buf, const char * fmt, const struct tm * tmTime ) const
 {
-  dest << time.getString();
-  
-  return( dest );
+  static char 	dateString[50];
+
+  char * str = (buf) ? buf : dateString;
+
+  if( fmt )
+    {
+      strftime( str, 50, fmt, tmTime );
+    }
+  else
+    {
+      sprintf( str, "%02d/%02d/%02d %02d:%02d:%02d",
+	       tmTime->tm_mon + 1,
+	       tmTime->tm_mday,
+	       tmTime->tm_year,
+	       tmTime->tm_hour,
+	       tmTime->tm_min,
+	       tmTime->tm_sec );
+    }
+  return( str );
 }
 
+bool
+DateTime::toTm( struct tm & tmTime, const char * str, const char * fmt ) const
+{
+  if( str == 0 )
+    {
+      return( false );
+    }
 
+  if( fmt )
+    {
+      strptime( (char *)str, fmt, &tmTime );
+      return( true );
+    }
+  else
+    {
+      if( strPattern.search( str ) && strPattern.matchCount() > 0 )
+	{
+	  if( strPattern.matchLength( 1 ) )
+	    {
+	      tmTime.tm_mon = StringToInt( str + strPattern.matchStart( 1 ), 10,
+					   strPattern.matchLength( 1 ) );
+	      tmTime.tm_mon--;
+	    }
 
+	  if( strPattern.matchLength( 2 ) )
+	    {
+	      tmTime.tm_mday = StringToInt( str + strPattern.matchStart( 2 ), 10,
+					    strPattern.matchLength( 2 ) );
+	    }
 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
+	  if( strPattern.matchLength( 3 ) )
+	    {
+	      tmTime.tm_year = StringToInt( str + strPattern.matchStart( 3 ), 10,
+					    strPattern.matchLength( 3 ) );
+	      tmTime.tm_year = ( ( tmTime.tm_year > 1900 ) ?
+				 tmTime.tm_year - 1900 :
+				 tmTime.tm_year < 50 ?
+				 tmTime.tm_year += 100 :
+				 tmTime.tm_year );
+	    }
+
+	  if( strPattern.matchLength( 4 ) )
+	    {
+	      tmTime.tm_hour = StringToInt( str + strPattern.matchStart( 4 ), 10,
+					     strPattern.matchLength( 4 ) );
+	    }
+
+	  
+	  if( strPattern.matchLength( 5 ) )
+	    {
+	      tmTime.tm_min = StringToInt( str + strPattern.matchStart( 5 ), 10,
+					   strPattern.matchLength( 5 ) );
+	    }
+
+	  
+	  if( strPattern.matchLength( 6 ) )
+	    {
+	      tmTime.tm_sec = StringToInt( str + strPattern.matchStart( 6 ), 10,
+					   strPattern.matchLength( 6 ) );
+	    }
+	  return( true );
+	}
+    }
+  
+  return( false );
+}      
+  
+time_t
+DateTime::toTimeT( const char * str, const char * fmt ) const
+{
+
+  struct tm tmTime;
+  memset( &tmTime, 0, sizeof( tmTime ) );
+  
+  if( toTm( tmTime, str, fmt ) )
+    {
+      return( toTimeT( tmTime.tm_year,
+		      tmTime.tm_mon + 1,
+		      tmTime.tm_mday,
+		      tmTime.tm_hour,
+		      tmTime.tm_min,
+		      tmTime.tm_sec ) );
+    }
+  else
+    {
+      return( 0 );
+    }
+}
+
+time_t
+DateTime::toTimeT(
+  int 	year,
+  int 	month,
+  int	day,
+  int 	hour,
+  int	min,
+  int	sec
+  ) const
+{
+  long  secs = 0;
+  int	leapCount = 0;
+  
+  if( year )
+    {      
+      if( year > 1900 )
+	{
+	  year = year - 1900;
+	}
+      else
+	{
+	  if( year < 50 )
+	    {
+	      year = year + 100;
+	    }
+	}
+
+      leapCount = ((year - 70) + 2) / 4;
+
+      if( IsLeapYear( year ) )
+	{
+	  leapCount--;
+	}
+  
+      secs = ((year - 70) * SecPerYear) + (leapCount * SecPerDay );
+    }
+
+  if( month )
+    {
+      secs += SecPerDay * MonthDayOfYear[ month - 1 ];
+      
+      if( IsLeapYear( year ) && month > 2 )
+	{
+	  secs += SecPerDay;
+	}
+    }
+
+  if( day )
+    {
+      day--;
+  
+      secs += SecPerDay * day;
+    }
+  
+  secs += ( (hour * 60 * 60 ) + (min * 60) + sec );
+
+  return( secs );
+}
+
+ostream &
+DateTime::dumpInfo( ostream & dest ) const
+{
+  dest << getClassName() << ":\n";
+
+  dest << "    " << version << '\n';
+
+  if( ! good() )
+    dest << "    Error: " << error() << '\n';
+  else
+    dest << "    " << "Good!" << '\n';
+
+  dest << "    " ;
+  toStream( dest );
+  dest << '\n';
+
+  dest << "    localSysOffset: " << localSysOffset << '\n'
+    ;
+  if( timeZoneName )
+    dest << "    timeZoneName:   " << timeZoneName << '\n'
+      ;
+
+  dest << "    flags.valid:    " << flags.valid << '\n'
+       << "    flags.dstKnown: " << flags.dstKnown << '\n'
+       << "    flags.dst:      " << flags.dst << '\n'
+       << "    flags.tmValid:  " << flags.tmValid << '\n'
+    ;
+  
+  if( flags.tmValid )
+    dest << "    tm.tm_year:     " << tm.tm_year << '\n'
+	 << "    tm.tm_mon:      " << tm.tm_mon << '\n'
+	 << "    tm.tm_mday:     " << tm.tm_mday << '\n'
+	 << "    tm.tm_hour:     " << tm.tm_hour << '\n'
+	 << "    tm.tm_min:      " << tm.tm_min << '\n'
+	 << "    tm.tm_sec:      " << tm.tm_sec << '\n'
+	 << "    tm.tm_wday:     " << tm.tm_wday << '\n'
+	 << "    tm.tm_yday:     " << tm.tm_yday << '\n'
+	 << "    tm.tm_isdst:    " << tm.tm_isdst << '\n'
+      ;
+
+  dest << "    seconds:        " << seconds << '\n'
+    ;
+  
+  return( dest  );
+}

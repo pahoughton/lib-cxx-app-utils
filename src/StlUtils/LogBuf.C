@@ -9,14 +9,30 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/02/13 16:08:46  houghton
-// New Style Avl an memory management. Many New Classes
+// Revision 1.2  1995/11/05 13:29:04  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
-static const char * RcsId =
-"$Id$";
 
 #include "LogBuf.hh"
+#include "FileStat.hh"
+
+#include <iostream>
+
+#include <cstdio>
+#include <cstring>
+#include <unistd.h>
+#include <sys/stat.h>
+
+#ifdef   CLUE_DEBUG
+#define  inline
+#include <LogBuf.ii>
+#endif
+
+const char LogBuf::version [] =
+LIB_CLUE_VERSION
+"$Id$";
 
 #define LOGBUF_SIZE 512
 
@@ -27,75 +43,86 @@ static const char * RcsId =
 
 LogBuf::~LogBuf( void )
 {
-  if( streamIsFile )
-    {
-      close();
-    }
-
+  close();
+  
   if( buffer )
     {
       delete buffer;
+      buffer = 0;
     }
 }
 
-void
-LogBuf::initbuf( streambuf * outStream )
-{
-  stream    	= outStream;  
-  streamIsFile 	= FALSE;
-  teeStream 	= 0;  
-
-  buffer = new char[LOGBUF_SIZE];
   
-  setb( buffer, buffer+LOGBUF_SIZE );
-  setp( buffer, buffer+LOGBUF_SIZE );
-  
-}
-
 
 filebuf *
 LogBuf::open(
-    const char * name,
-    int          om,
-    int          prot )
+    const char *    name,
+    ios::open_mode  mode,
+    int		    prot,
+    size_t	    logMaxSize,
+    size_t	    logTrimSize
+    )
 {
   if( stream != 0 && isFile() )
     {
       close();
     }
 
-  filebuf * file = new filebuf();
+ maxSize = logMaxSize;
+ trimSize = logTrimSize;
+ logFileName = name;
+ openMode = mode;
+ openProt = prot;
 
-  stream = file;
-
-  streamIsFile = TRUE;
+  FileStat  stat( logFileName );
   
-  return( file->open( name, om, prot ) );
-  
+ if( logMaxSize && stat.good() && ( (size_t)stat.getSize() > logMaxSize ) )
+   trimLog( stat.getSize(), logMaxSize );
+ else
+   openLog();
+ 
+ return( (filebuf *)(stream) );
 }
 
 
 void
 LogBuf::close( void )
 {
-  if( isFile() )
-    {
-      if( stream != 0 )
-	{
-	  filebuf * file = (filebuf *)stream;
+  sync();
+  closeLog();  
+}
+
+size_t
+LogBuf::trim( size_t maxLog )
+{
+  size_t maxLogSize = ( maxLog ? maxLog : maxSize );
+  size_t trimLogSize = ( trimSize ? trimSize : (maxLogSize / 4 ) );
   
-	  file->close();
-	  delete file;
-	}
+  if( ! maxLogSize || ! isFile() ) return( 0 );
+
+  if( stream )
+    close();
+
+  FileStat  stat( logFileName );
+
+  if( ! stat.good() ||
+      ( (size_t)stat.getSize() < (maxLogSize - trimLogSize) ) )
+    {
+      openLog();
+      return( 0 );
     }
-  streamIsFile = FALSE;
-  stream = 0;
+
+  return( trimLog( stat.getSize(), maxLogSize ) );
 }
 
 int 
 LogBuf::overflow( int c )
 {
   sync();
+  
+  if( ! stream )
+    return( EOF );
+  
   if( teeStream )
     {
       teeStream->overflow(c);
@@ -106,15 +133,24 @@ LogBuf::overflow( int c )
 int
 LogBuf::underflow( void )
 {
+  if( ! stream )
+    return( EOF );
+  
   return( stream->underflow() );
 }
 
 int
 LogBuf::sync( void )
 {
+  if( ! stream )
+    {
+      setp( pbase(), epptr() );
+      return( EOF );
+    }
+  
   char *    base = pbase();
   int	    len = pptr() - pbase();
-
+  
   if( logLevel.shouldOutput() && len != 0 && base != 0)
     {
       for( int cnt = stream->sputn( base, len );
@@ -131,20 +167,211 @@ LogBuf::sync( void )
     }
 
   setp( pbase(), epptr() );
-  
-  return( stream->sync() );
+
+  int  syncResult = stream->sync();
+
+  size_t curSize = (size_t)stream->seekoff( 0, ios::cur, ios::out );
+		    
+  if( isFile() && maxSize && curSize > maxSize )
+    {
+      closeLog();
+      trimLog( curSize, maxSize );
+    }
+    
+  return( syncResult );
+}
+
+const char *
+LogBuf::getClassName( void ) const
+{
+  return( "LogBuf" );
 }
 
 
+ostream &
+LogBuf::dumpInfo( ostream & dest ) const
+{
+  dest << getClassName() << ":\n";
 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
+  dest << "    " << version << '\n';
+
+  dest << "    Is file:     " << (isFile() ? "yes" : "no" ) << '\n';
+  if( isFile() )
+    dest << "    LogFileName: " << logFileName << '\n';
+  dest << "    MaxSize:     " << maxSize << '\n';
+  dest << "    TrimSize:    " << trimSize << '\n';
+  dest << "    OpenMode:    " << openMode << '\n';
+  dest << "    OpenProt:    " << openProt << '\n';
+  
+  dest << "    LogLevel:    " << getClassName() << "::" ;
+  
+  logLevel.dumpInfo( dest );
+
+  dest << '\n';
+
+  return( dest );
+}
+
+  
+void
+LogBuf::initLogBuffer( void )
+{
+  buffer = new char[LOGBUF_SIZE];
+  
+  setb( buffer, buffer + LOGBUF_SIZE );
+  setp( buffer, buffer + LOGBUF_SIZE );
+}
+
+void
+LogBuf::initbuf( streambuf * outStream )
+{
+  initLogBuffer();
+  
+  stream    	= outStream;  
+  streamIsFile 	= false;
+  teeStream 	= 0;  
+}
+
+void
+LogBuf::initbuf(
+  const char *	    fileName,
+  ios::open_mode    mode,
+  int		    prot,
+  size_t	    logMaxSize,
+  size_t	    logTrimSize
+  )
+{
+  initLogBuffer();
+
+  stream = 0;
+  streamIsFile = true;
+  teeStream 	= 0;  
+  
+  open( fileName, mode, prot, logMaxSize, logTrimSize );
+ 
+}
+ 
+filebuf *
+LogBuf::openLog( void )
+{
+  filebuf * file = new filebuf();
+
+  stream = file;
+  streamIsFile = true;
+
+  int prevMask = umask( 0 );
+
+  filebuf * ret = file->open( logFileName, openMode, openProt );
+  
+  umask( prevMask );
+
+  return( ret );
+}
+
+
+size_t
+LogBuf::trimLog( size_t curSize, size_t maxLogSize )
+{
+  FilePath  tmpFn( logFileName );
+
+  tmpFn.setTempName();
+
+  if( rename( logFileName, tmpFn ) )
+    {
+      openLog();
+      return( 0 );
+    }
+  
+  ifstream  in( tmpFn );
+  ofstream  out( logFileName, openMode, openProt );
+
+  if( ! in.good() || ! out.good() )
+    {
+      rename( tmpFn, logFileName );
+      openLog();
+      return( 0 );
+    }
+
+  size_t  trimAmount = ( trimSize ? trimSize : maxLogSize / 4 );
+  
+  in.seekg( (curSize - maxLogSize) + trimAmount );
+
+  if( ! in.good() )
+    {
+      in.close();
+      out.close();
+      rename( tmpFn, logFileName );
+      open( logFileName, openMode, openProt );
+      return( 0 );
+    }
+
+  char copyBuf[4096];
+  bool first = true;
+  
+  for( in.read( copyBuf, sizeof( copyBuf ) );
+       in.good() && out.good();
+       in.read( copyBuf, sizeof( copyBuf ) ) )
+    {
+      if( first )
+	{
+	  const char * crPos = (const char *)memchr( (const void *)copyBuf,
+						     '\n',
+						     in.gcount() );
+	  if( crPos )
+	    {
+	      out.write( crPos + 1,
+			 in.gcount() - ( (crPos + 1) - copyBuf ) );
+	      first = false;
+	    }
+	}
+      else
+	{
+	  out.write( copyBuf, in.gcount() );
+	}
+    }
+
+  if( in.gcount() )
+    {
+      if( first )
+	{
+	  const char * crPos = (const char *)memchr( (const void *)copyBuf,
+						     '\n',
+						     in.gcount() );
+	  if( crPos )
+	    {
+	      out.write( crPos + 1,
+			 in.gcount() - ( (crPos + 1) - copyBuf ) );
+	      first = false;
+	    }
+	}
+      else
+	{
+	  out.write( copyBuf, in.gcount() );
+	}
+    }
+
+  streampos newSize = out.tellp();
+  out.close();
+  in.close();
+
+  remove( tmpFn );
+  openLog();
+  
+  return( curSize - newSize );
+}
+
+void
+LogBuf::closeLog( void )
+{
+  if( isFile() && stream != 0 )
+    {
+      filebuf * file = (filebuf *)stream;
+      
+      file->close();
+      delete file;
+      file = 0;
+    }
+    
+  streamIsFile = false;
+  stream = 0;
+}

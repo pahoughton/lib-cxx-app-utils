@@ -12,68 +12,58 @@
 //
 // 
 // $Log$
-// Revision 1.2  1994/08/15 20:54:53  houghton
-// Split Mapped out of mapped avl.
-// Fixed a bunch of bugs.
-// Fixed for ident of object modules.
-// Prep for Rating QA Testing
-//
-// Revision 1.1  1994/06/06  13:19:37  houghton
-// Lib Clue beta version used for Rating 1.0
+// Revision 1.3  1995/11/05 13:29:01  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
 
+#include <ClueConfig.hh>
+#include <DateRangeDaily.hh>
 
-#include <DateRange.hh>
+#ifdef  CLUE_DEBUG
+#define inline
+#endif
 
-class DateRangeWeekly : public DateRange
+class DateRangeWeekly : public DateRangeDaily
 {
 
 public:
 
-  DateRangeWeekly( short dayOfWeek, time_t startTime, time_t durSec );
-
-  virtual int	  isValid( void ) const;
+  inline DateRangeWeekly( short dayOfWeek, time_t startTime, time_t durSec );
   
-  virtual time_t  secIn( const DateRange & dateTwo ) const;
-  virtual time_t  startsIn( const DateRange & dateTwo ) const;
-//  virtual time_t  nextSec( const DateRange & dateTwo, time_t elapsed ) const;
+  virtual int	    getDayOfWeek( void ) const;
+  virtual time_t    getFrequency( void ) const;
+  
+  virtual time_t    secIn( const DateRange & dateTwo ) const;
+  virtual time_t    startsIn( const DateRange & dateTwo ) const;
+  
+  virtual bool		good( void ) const;
+  virtual const char *  error( void ) const;
+  virtual const char *	getClassName( void ) const;
+  virtual ostream & 	toStream( ostream & dest ) const;
+  virtual ostream & 	dumpInfo( ostream & dest ) const;
 
-  virtual int   getDayOfWeek( void ) const;
-
-  virtual ostream & streamOutput( ostream & dest ) const;
-
-friend ostream & operator<<( ostream & dest, const DateRange & range );
-
+  static const char version[];
+  
 protected:
 
 private:
 
-  time_t   start;
-  
+  static time_t    freq;
 };
 
-inline
-DateRangeWeekly::DateRangeWeekly(
-    short   dayOfWeek,
-    time_t  startTime,
-    time_t  durSec
-    )
-: DateRange( 0, durSec )
-{
-  start = (dayOfWeek * SEC_PER_DAY) + startTime;
-}
+#ifndef inline
+#include <DateRangeDaily.ii>
+#else
+#undef inline
 
+int
+compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
+
+ostream &
+operator << ( ostream & dest, const DateTime & time );
+
+#endif
 
 #endif // ! def _DateRangeWeekly_hh_ 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//

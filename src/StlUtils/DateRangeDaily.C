@@ -9,35 +9,43 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1994/08/15 20:54:52  houghton
-// Split Mapped out of mapped avl.
-// Fixed a bunch of bugs.
-// Fixed for ident of object modules.
-// Prep for Rating QA Testing
-//
-// Revision 1.1  1994/06/06  13:19:36  houghton
-// Lib Clue beta version used for Rating 1.0
+// Revision 1.3  1995/11/05 13:29:00  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
-static const char * RcsId =
-"$Id$";
-
 
 #include "DateRangeDaily.hh"
 
-int
-DateRangeDaily::isValid( void ) const
+#include <Clue.hh>
+#include <Str.hh>
+
+#include <iomanip>
+
+#ifdef  CLUE_DEBUG
+#define inline
+#include "DateRangeDaily.ii"
+#endif
+
+const char DateRangeDaily::version[] =
+LIB_CLUE_VERSION
+"$Id$";
+
+
+time_t DateRangeDaily::freq = (24 * 60 * 60); // SecPerDay
+
+time_t
+DateRangeDaily::getFrequency( void ) const
 {
-  return( start >= 0 && start < SEC_PER_DAY &&
-	  dur > 0 );
+  return( freq );
 }
 
 time_t
 DateRangeDaily::secIn( const DateRange & dateTwo ) const
 {
-  return( UnionOf( start, dur,
-		   dateTwo.getSecOfDay(), dateTwo.getDur(),
-		   SEC_PER_DAY ) );
+  return( UnionOfDur( start, dur,
+		      dateTwo.getSecOfDay(), dateTwo.getDur(),
+		      getFrequency() ) );
 }
 
 
@@ -49,33 +57,16 @@ DateRangeDaily::startsIn( const DateRange & dateTwo ) const
   if( dateTwo.getSecOfDay() >= start &&
       dateTwo.getSecOfDay() <= start + dur )
     {
-      secs = UnionOf( start, dur, dateTwo.getSecOfDay(), dateTwo.getDur() );
+      secs = secIn( dateTwo );
     }
   return( secs );
 }
-
-
-#ifdef NEXT_SEC_WORKS
-
-// it doesn't right now
 
 time_t
-DateRangeDaily::nextSec( const DateRange & dateTwo, time_t elapsed ) const
+DateRangeDaily::getSecOfDay( void ) const
 {
-  time_t  secs = 0;
-
-  time_t  secOfWeek = dateTwo.getDayOfWeek() * SEC_PER_DAY;
-  
-  if( secOfWeek + elapsed >= start &&
-      secOfWeek + elapsed <= start + dur )
-    {
-      secs = UnionOf( start, dur, dateTwo.getSecOfDay(), dateTwo.getDur() ) - elapsed;
-    }
-  
-  return( secs );
+  return( SecOfDay( start ) );
 }
-
-#endif
 
 int
 DateRangeDaily::getDayOfWeek( void ) const
@@ -83,36 +74,121 @@ DateRangeDaily::getDayOfWeek( void ) const
   return( -1 );
 }
 
-ostream &
-DateRangeDaily::streamOutput( ostream & dest ) const
+time_t
+DateRangeDaily::getStart( void ) const
 {
+  return( start );
+}
+
+time_t
+DateRangeDaily::setStart( time_t newStart )
+{
+  time_t old = start;
+  start = newStart;
+  return( old );
+}
+
+int
+DateRangeDaily::compare( const DateRange & two ) const
+{
+  int diff = ::compare( start, two.getSecOfDay() );
+  return( diff ? diff : ::compare( getDur(),two.getDur() ) );
+}
+
+int
+DateRangeDaily::compare( const DateRangeDaily & two ) const
+{
+  int diff = ::compare( getStart(), two.getStart() );
+  return( diff ? diff : ::compare( getDur(), two.getDur() ) );
+}
+
+
+    
+bool
+DateRangeDaily::good( void ) const
+{
+  return( DateRange::good() &&
+	  start >= 0 && start < SecPerDay );
+}
+
+const char *
+DateRangeDaily::error( void ) const
+{
+  static Str errStr;
+  errStr.reset();
+
+  errStr << getClassName() << ":";
+
+  
+  if( good() )
+    {
+      errStr << "Ok";
+    }
+  else
+    {
+      if( ! DateRange::good() )
+	{
+	  errStr << ' ' << DateRange::error();
+	}
+
+      if( ! (start >= 0 ) )
+	{
+	  errStr << " start < 0";
+	}
+
+      if( ! (start < SecPerDay ) )
+	{
+	  errStr << " start >= 1 day";
+	}
+    }
+  return( errStr.cstr() );
+}
+
+	    
+const char *
+DateRangeDaily::getClassName( void ) const
+{
+  return( "DateRangeDaily" );
+}
+
+ostream &
+DateRangeDaily::toStream( ostream & dest ) const
+{
+  
   dest << "Start: "
        << setfill('0')
-       << setw(2) << HourInTimeT( start ) << ':'
-       << setw(2) << MinInTimeT( start ) << ':'
-       << setw(2) << SecInTimeT( start ) << ' '
+       << setw(2) << HourInTimeT( getStart() ) << ':'
+       << setw(2) << MinInTimeT( getStart() ) << ':'
+       << setw(2) << SecInTimeT( getStart() ) << ' '
        << "Dur: "
-       << setw(2) << HourInTimeT( dur ) << ':'
-       << setw(2) << MinInTimeT( dur ) << ':'
-       << setw(2) << SecInTimeT( dur )
+       << setw(2) << HourInTimeT( getDur() ) << ':'
+       << setw(2) << MinInTimeT( getDur() ) << ':'
+       << setw(2) << SecInTimeT( getDur() )
        << setfill(' ')
        ;
   return( dest );
 }
 
-ostream & operator<<( ostream & dest, const DateRangeDaily & range )
+ostream &
+DateRangeDaily::dumpInfo( ostream & dest ) const
 {
-  return( range.streamOutput( dest ) );
-}
+  dest << getClassName() << ":\n";
 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
+  dest << "    " << version << '\n';
+
+  if( ! good() )
+    dest << "    Error: " << error() << '\n';
+  else
+    dest << "    " << "Good!" << '\n';
+
+  dest << "    " ;
+  toStream( dest );
+  dest << '\n';
+
+  dest << getClassName() << "::" ;
+  DateRange::dumpInfo( dest );
+
+  dest << '\n';
+
+  return( dest  );
+}

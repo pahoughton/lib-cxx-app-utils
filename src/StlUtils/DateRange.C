@@ -9,33 +9,49 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.4  1995/02/13 16:08:34  houghton
-// New Style Avl an memory management. Many New Classes
-//
-// Revision 1.3  1994/09/27  16:58:40  houghton
-// Added RoundUp and some DateTime cleanup
-//
-// Revision 1.2  1994/08/15  20:54:51  houghton
-// Split Mapped out of mapped avl.
-// Fixed a bunch of bugs.
-// Fixed for ident of object modules.
-// Prep for Rating QA Testing
-//
-// Revision 1.1  1994/06/06  13:19:35  houghton
-// Lib Clue beta version used for Rating 1.0
+// Revision 1.5  1995/11/05 13:28:59  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
-static const char * RcsId =
-"$Id$";
-
-#include <Clue.hh>
+//
 
 #include "DateRange.hh"
 
-int
-DateRange::isValid( void ) const
+#include <Clue.hh>
+#include <Str.hh>
+
+#include <iomanip>
+
+#ifdef   CLUE_DEBUG
+#define  inline
+#include <DateRange.ii>
+#endif
+
+const char DateRange::version[] =
+LIB_CLUE_VERSION
+"$Id$";
+
+
+time_t
+DateRange::getDur( void ) const
 {
-  return( DateTime::good() );
+  return( dur );
+}
+
+time_t
+DateRange::getSecOfDay( void ) const
+{
+  return( DateTime::getSecOfDay() );
+}
+
+time_t
+DateRange::setDur( time_t newDur )
+{
+  time_t oldDur = dur;
+  dur = newDur;
+  
+  return( oldDur );
 }
 
 time_t
@@ -43,7 +59,8 @@ DateRange::secIn( const DateRange & dateTwo ) const
 {
   time_t   secs = 0;
 
-  return( UnionOf( getTimeT(), dur, dateTwo.getTimeT(), dateTwo.getDur() ) );
+  return( UnionOfDur( getTimeT(), dur,
+		      dateTwo.getTimeT(), dateTwo.getDur() ) );
   
   return( secs );
 }
@@ -63,70 +80,94 @@ DateRange::startsIn( const DateRange & dateTwo ) const
 }
 
 
-#ifdef NEXT_SEC_WORKS
-
-// it doesn't right now
-
-time_t
-DateRange::nextSec( const DateRange & dateTwo, time_t elapsed ) const
+int
+DateRange::compare( const DateRange & two ) const
 {
-  time_t  secs = 0;
+  int diff = DateTime::compare( two );
+  return( diff ? diff : ::compare( dur, two.dur ) );
+}
 
-  if( (dateTwo.getTimeT() + elapsed) >= getTimeT() &&
-      (dateTwo.getTimeT() + elapsed) <= (getTimeT() + dur ) )
+
+bool
+DateRange::good( void ) const
+{
+  return( DateTime::good() && dur > 0 );
+}
+
+const char *
+DateRange::error( void ) const
+{
+  static Str errStr;
+  errStr.reset();
+
+  errStr << getClassName() << ':';
+
+  if( good() )
     {
-      secs = secIn(dateTwo) - elapsed;
+      errStr << " Ok";
     }
-  return( secs );
+  else
+    {
+      if( ! (DateTime::good() ) )
+	{
+	  errStr << " " << DateTime::error();
+	}
+      if( ! (dur > 0) )
+	{
+	  errStr << " Stop time <= StartTime";
+	}
+    }
+  return( errStr.cstr() );  
 }
 
-#endif
-
-time_t
-DateRange::setDur( int newDur )
+const char *
+DateRange::getClassName( void ) const
 {
-  time_t oldDur = dur;
-  dur = newDur;
-  
-  return( oldDur );
-}
-
-time_t
-DateRange::getDur( void ) const
-{
-  return( dur );
+  return( "DateRange" );
 }
 
 ostream &
-DateRange::streamOutput( ostream & dest ) const
+DateRange::toStream( ostream & dest ) const
 {
-  dest << "Start: " << (const DateTime)*this << ' '
-       << "Dur: "
+  
+  dest << "Start: "
+    ;
+
+  DateTime::toStream( dest );
+  
+  dest << "Dur: "
        << setfill('0')
-       << setw(2) << HoursInTimeT( dur ) << ':'
-       << setw(2) << MinInTimeT( dur ) << ':'
-       << setw(2) << SecInTimeT( dur )
+       << setw(2) << HoursInTimeT( getDur() ) << ':'
+       << setw(2) << MinInTimeT( getDur() ) << ':'
+       << setw(2) << SecInTimeT( getDur() )
        << setfill(' ')
        ;
+  
   return( dest );
 }
-    
-ostream & operator<<( ostream & dest, const DateRange & range )
+
+ostream &
+DateRange::dumpInfo( ostream & dest  ) const
 {
-  return( range.streamOutput( dest ) );
+  dest << getClassName() << ":\n";
+
+  dest << "    " << version << '\n';
+
+  if( ! good() )
+    dest << "    Error: " << error() << '\n';
+  else
+    dest << "    " << "Good!" << '\n';
+
+  dest << "    " ;
+  toStream( dest );
+  dest << '\n';
+
+  dest << getClassName() << "::" ;
+  DateTime::dumpInfo( dest );
+
+  dest << '\n';
+
+  return( dest  );
 }
-
-
-
-
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
+  
+  

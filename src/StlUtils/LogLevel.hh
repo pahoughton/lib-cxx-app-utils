@@ -14,52 +14,67 @@
 //
 // 
 // $Log$
-// Revision 1.1  1995/02/13 16:08:47  houghton
-// New Style Avl an memory management. Many New Classes
+// Revision 1.2  1995/11/05 13:29:07  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
 
-#include <Clue.hh>
+#include <ClueConfig.hh>
+#include <Bitmask.hh>
+
+#include <iostream>
+
+#ifdef  CLUE_DEBUG
+#define inline
+#endif
 
 class LogLevel 
 {
   
 public:
-  
-  enum Level {
-    NONE	= 0,
-    ERROR	= Bit(1),
-    WARNING	= Bit(2),
-    USR_1	= Bit(3),
-    USR_2	= Bit(4),
-    USR_3	= Bit(5),
-    USR_4	= Bit(6),
-    INFO    	= Bit(7),
-    TEST       	= Bit(8),
-    DEBUG	= Bit(9),
-    FUNCT	= Bit(10),
-    ALL		= 0xffff
-  };
 
-  LogLevel( Level out = NONE );
-  LogLevel( const char * out );
-  
-  
-  inline Level 	setOutput( Level out );
-  Level		setOutput( const char * out );
-  
-  inline Level 	setCurrent( Level cur );
-  Level		setCurrent( const char * cur );
+  typedef Bitmask Level;
 
-  inline Level	getOutput( void ) const;
-  inline Level	getCurrent( void  ) const;
+  static const Level	NONE;
+  static const Level	ERROR;
+  static const Level	ERR;
+  static const Level	WARNING;
+  static const Level	WARN;
+  static const Level	USER_1;
+  static const Level	USER_2;
+  static const Level	USER_3;
+  static const Level	USER_4;
+  static const Level	INFO;
+  static const Level	TEST;
+  static const Level	DEBUG;
+  static const Level	FUNCT;
+  static const Level	ALL;
   
-  const char *	getName( Level level );
-  const char * 	getLevelNames( Level level );
+  inline LogLevel( const Level out = NONE );
+  inline LogLevel( const char * out );
   
-  void		setName( Level level, const char * name );
+  inline Level	    setOutput( const Level out );
+  Level		    setOutput( const char * out );
+  
+  inline Level	    setCurrent( const Level cur );
+  Level		    setCurrent( const char * cur );
 
-  Bool 		shouldOutput( void ) const;
+  inline Level	    getOutput( void ) const;
+  inline Level	    getCurrent( void  ) const;
+  
+  const char *	    getName( const Level level ) const;
+  const char *	    getLevelNames( const Level level ) const;
+  
+  inline void	    setName( const Level level, const char * name );
+
+  inline bool 	    shouldOutput( void ) const;
+  inline bool	    willOutput( const Level outLevel ) const;
+
+  const char *	    getClassName( void ) const;
+  ostream &	    dumpInfo( ostream & dest = cerr ) const;
+
+  static const char version[];
   
 private:
 
@@ -70,78 +85,10 @@ private:
   
 };
 
-
-//
-// Inline methods
-//
-
-inline
-LogLevel::LogLevel( Level out )
-{
-  setCurrent( ERROR );
-  setOutput( out );
-}
-
-inline
-LogLevel::LogLevel( const char * out )
-{
-  setCurrent( ERROR );
-  setOutput( out );
-}
-
-inline
-LogLevel::Level
-LogLevel::setOutput( LogLevel::Level out )
-{
-  Level	old = output;
-  output = out;
-  return( old );
-}
-
-inline
-LogLevel::Level
-LogLevel::setCurrent( LogLevel::Level cur )
-{
-  Level	old = current;
-  current = cur;
-  return( old );
-}
-
-
-inline
-LogLevel::Level
-LogLevel::getOutput( void ) const
-{
-  return( output );
-}
-
-inline
-LogLevel::Level
-LogLevel::getCurrent( void  ) const
-{
-  return( current );
-}
-
-
-inline Bool
-LogLevel::shouldOutput( void ) const
-{
-  return( output & current );
-}
-
-
-
-
+#ifndef inline
+#include <LogLevel.ii>
+#else
+#undef inline
+#endif
 
 #endif // ! def _LogLevel_hh_ 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//

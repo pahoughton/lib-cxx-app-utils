@@ -12,67 +12,83 @@
 //
 // 
 // $Log$
-// Revision 1.2  1994/08/15 20:54:52  houghton
-// Split Mapped out of mapped avl.
-// Fixed a bunch of bugs.
-// Fixed for ident of object modules.
-// Prep for Rating QA Testing
-//
-// Revision 1.1  1994/06/06  13:19:36  houghton
-// Lib Clue beta version used for Rating 1.0
+// Revision 1.3  1995/11/05 13:29:00  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
 
-#include <Clue.hh>
+#include <ClueConfig.hh>
 #include <DateRange.hh>
+
+#ifdef  CLUE_DEBUG
+#define inline
+#endif
 
 class DateRangeDaily : public DateRange
 {
 
 public:
 
-  DateRangeDaily( time_t startTime, time_t durSec );
+  inline DateRangeDaily( time_t startTime, time_t durSec );
 
-  virtual int	  isValid( void ) const;
+  virtual time_t    getSecOfDay( void ) const;
+  virtual int       getDayOfWeek( void ) const;
+  virtual time_t    getStart( void ) const;
+  virtual time_t    getFrequency( void ) const;
   
-  virtual time_t  secIn( const DateRange & dateTwo ) const;
-  virtual time_t  startsIn( const DateRange & dateTwo ) const;
-//  virtual time_t  nextSec( const DateRange & dateTwo, time_t elapsed ) const;
+  virtual time_t    secIn( const DateRange & dateTwo ) const;
+  virtual time_t    startsIn( const DateRange & dateTwo ) const;
 
-  virtual int   getDayOfWeek( void ) const;
+  virtual time_t    setStart( time_t newStart );
+  
+  inline size_t	    getStreamSize( void ) const;
+  inline ostream &  write( ostream & dest ) const;
+  inline istream &  read( istream & src );
+  
+  virtual int	    compare( const DateRange & two ) const;
+  virtual int	    compare( const DateRangeDaily & two ) const;
 
-  virtual ostream & streamOutput( ostream & dest ) const;
-
-friend ostream & operator<<( ostream & dest, const DateRangeDaily & range );
-
+  bool		    operator == ( const DateRangeDaily & two ) const;
+  bool		    operator <  ( const DateRangeDaily & two ) const;
+    
+  virtual bool	    	good( void ) const;
+  virtual const char *  error( void ) const;
+  virtual const char *	getClassName( void ) const;
+  virtual ostream & 	toStream( ostream & dest ) const;
+  virtual ostream & 	dumpInfo( ostream & dest ) const;
+  
+  static const char version[];
+  
 protected:
 
 private:
 
-  time_t   start;
+  static time_t	    freq;
+  time_t	    start;
   
 };
-inline
-DateRangeDaily::DateRangeDaily(
-    time_t  startTime,
-    time_t  durSec
-    )
-: DateRange( 0, durSec )
-{
-  start = startTime;
-}
 
+#ifndef inline
+#include <DateRangeDaily.ii>
+#else
+#undef inline
 
+int
+compare( const DateTime & one, const DateTime & two );
+
+ostream &
+operator << ( ostream & dest, const DateTime & time );
+
+#endif
 
 #endif // ! def _DateRangeDaily_hh_ 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
+
+
+
+
+
+
+
+
+

@@ -9,15 +9,43 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/02/13 16:08:46  houghton
+// Revision 1.2  1995/11/05 13:29:06  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
+//
+// Revision 1.1  1995/02/13  16:08:46  houghton
 // New Style Avl an memory management. Many New Classes
 //
 //
-static const char * RcsId =
-"$Id$";
 
 #include "LogLevel.hh"
+#include "Clue.hh"
 
+#include <cstring>
+
+#ifdef   CLUE_DEBUG
+#define  inline
+#include <LogLevel.ii>
+#endif
+
+const char LogLevel::version [] =
+LIB_CLUE_VERSION
+"$Id$";
+
+const LogLevel::Level	LogLevel::NONE;
+const LogLevel::Level	LogLevel::ERROR( 0 );
+const LogLevel::Level	LogLevel::ERR( 0 );
+const LogLevel::Level	LogLevel::WARNING( 1 );
+const LogLevel::Level	LogLevel::WARN( 1 );
+const LogLevel::Level	LogLevel::USER_1( 2 );
+const LogLevel::Level	LogLevel::USER_2( 3 );
+const LogLevel::Level	LogLevel::USER_3( 4 );
+const LogLevel::Level	LogLevel::USER_4( 5 );
+const LogLevel::Level	LogLevel::INFO( 6 );
+const LogLevel::Level	LogLevel::TEST( 7 );
+const LogLevel::Level	LogLevel::DEBUG( 8 );
+const LogLevel::Level	LogLevel::FUNCT( 9 );
+const LogLevel::Level	LogLevel::ALL( 0, true );
 
 const char * LogLevel::LevelNames[] =
 {
@@ -36,46 +64,27 @@ const char * LogLevel::LevelNames[] =
   0
 };
 
-const LogLevel::Level Levels[] =
-{
-  LogLevel::NONE,
-  LogLevel::ERROR,
-  LogLevel::WARNING,
-  LogLevel::USR_1,
-  LogLevel::USR_2,
-  LogLevel::USR_3,
-  LogLevel::USR_4,
-  LogLevel::INFO,
-  LogLevel::TEST,
-  LogLevel::DEBUG,
-  LogLevel::FUNCT,
-  LogLevel::ALL
-};
-
-#define LAST_LEVEL  ( sizeof( Levels ) / sizeof( Levels[0] ) )
 const char *
-LogLevel::getName( Level level )
+LogLevel::getName( const Level level ) const
 {
   // NONE is always first
   if( level == NONE ) return( LevelNames[0] );
   
   // all is always the last name
-  if( level == ALL ) return( LevelNames[ LAST_LEVEL - 1 ] );      
+  if( level == ALL ) return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
     
 
-  for( int l = 1; l < LAST_LEVEL  - 1; l++ )
+  for( size_t l = 0; l < (ArraySize( LevelNames )  - 1); l++ )
     {
-      if( level & Levels[l] )
-	{
-	  return( LevelNames[l] );
-	}
+      if( level.isSet( l ) )
+	return( LevelNames[l + 1] );
     }
   
   return( "unknown" );
 }
 
 const char * 
-LogLevel::getLevelNames( Level level )
+LogLevel::getLevelNames( const Level level ) const
 {
   static char  names[512];
   names[0] = 0;
@@ -84,15 +93,15 @@ LogLevel::getLevelNames( Level level )
   if( level == NONE ) return( LevelNames[0] );
   
   // all is always the last name
-  if( level == ALL ) return( LevelNames[ LAST_LEVEL - 1 ] );      
+  if( level == ALL ) return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
 
   names[0] = 0;
   
-  for( int l = 1; l < LAST_LEVEL  - 1; l++ )
+  for( size_t l = 0; l < (ArraySize( LevelNames )  - 1); l++ )
     {
-      if( level & Levels[l] )
+      if( level.isSet( l ) )
 	{
-	  strcat( names, LevelNames[l] );
+	  strcat( names, LevelNames[l + 1] );
 	  strcat( names, " | " );
 	}
     }
@@ -106,18 +115,16 @@ LogLevel::Level
 LogLevel::setOutput( const char * lvl )
 {
   Level old = output;
-  output = LogLevel::NONE;
+  output = NONE;
 
-  for( int l = 0;
-       LevelNames[l] != 0;
-       l++ )
+  for( size_t l = 0; LevelNames[l] != 0; l++ )
     {
       if( strstr( lvl, LevelNames[l] ) != 0 )
 	{
-	  setOutput( (LogLevel::Level) (Levels[l] | output) );
+	  Level  n( l - 1 );
+	  setOutput( n | output );
 	}
     }
-  
   return( old );
 }
       
@@ -126,39 +133,44 @@ LogLevel::setCurrent( const char * lvl )
 {
   Level old = current;
   
-  for( int l = 0;
-       LevelNames[l] != 0;
-       l++ )
+  for( int l = 0; LevelNames[l] != 0; l++ )
     {
       if( strstr( lvl, LevelNames[l] ) != 0 )
 	{
-	  setCurrent( (LogLevel::Level) (Levels[l] | current) );
+	  Level  n( l - 1 );
+	  setCurrent( n );
 	}
     }
   
   return( old );
 }
-      
 
-  
-void
-LogLevel::setName( Level lvl, const char * name )
+const char *
+LogLevel::getClassName( void ) const
 {
-  if( lvl & USR_1 ) 	LevelNames[3] = name;
-  if( lvl & USR_2 ) 	LevelNames[4] = name;
-  if( lvl & USR_3 ) 	LevelNames[5] = name;
-  if( lvl & USR_4 ) 	LevelNames[6] = name;
+  return( "LogLevel" );
 }
 
+ostream &
+LogLevel::dumpInfo( ostream & dest ) const
+{
+  dest << getClassName() << ":\n";
 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
+  dest << "    " << version << '\n';
+
+  dest << "    Output:  " ;
+  dest << getLevelNames( getOutput() ) << '\n';
+  dest << "    Current: " ;
+  dest << getLevelNames( getCurrent() ) << '\n';
+  
+  dest << "    Output Bits:  " ;
+  dest << getOutput() << '\n';
+  dest << "    Current Bits: " ;
+  dest << getCurrent() << '\n';
+  dest << '\n';
+
+  return( dest  );
+}
+  
+  
+  

@@ -12,44 +12,52 @@
 //
 // 
 // $Log$
-// Revision 1.3  1995/02/13 16:08:34  houghton
-// New Style Avl an memory management. Many New Classes
-//
-// Revision 1.2  1994/08/15  20:54:51  houghton
-// Split Mapped out of mapped avl.
-// Fixed a bunch of bugs.
-// Fixed for ident of object modules.
-// Prep for Rating QA Testing
-//
-// Revision 1.1  1994/06/06  13:19:36  houghton
-// Lib Clue beta version used for Rating 1.0
+// Revision 1.4  1995/11/05 13:28:59  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
 
+#include <ClueConfig.hh>
 
-#include "DateTime.hh"
+#include <DateTime.hh>
+
+#ifdef  CLUE_DEBUG
+#define inline
+#endif
+
 
 class DateRange : public DateTime
 {
 public:
 
-  DateRange( time_t startTime, time_t durSec );
-  DateRange( const DateTime & startTime, time_t durSec );
-  DateRange( const DateTime & startTime, const DateTime & stopTime );
+  inline DateRange( time_t startTime, time_t durSec );
+  inline DateRange( const DateTime & startTime, time_t durSec );
+  inline DateRange( const DateTime & startTime, const DateTime & stopTime );
 
-  virtual int     isValid( void ) const;
+  virtual time_t    getDur( void ) const;
+  virtual time_t    setDur( time_t newDur );
+  virtual time_t    getSecOfDay( void ) const;
   
-  virtual time_t  secIn( const DateRange & dateTwo ) const;
-  virtual time_t  startsIn( const DateRange & dateTwo ) const;
-//  virtual time_t  nextSec( const DateRange & dateTwo, time_t elapsed ) const;
+  virtual time_t    secIn( const DateRange & dateTwo ) const;
+  virtual time_t    startsIn( const DateRange & dateTwo ) const;
 
-  virtual time_t  setDur( int newDur );
-
-  virtual time_t  getDur( void ) const;
+  inline size_t	    getStreamSize( void ) const;
+  inline ostream &  write( ostream & dest ) const;
+  inline istream &  read( istream & src );
   
-  virtual ostream & streamOutput( ostream & dest ) const;
-
-friend ostream & operator<<( ostream & dest, const DateRange & range );
+  virtual int	    compare( const DateRange & two ) const;
+  
+  bool		    operator == ( const DateRange & two ) const;
+  bool		    operator <  ( const DateRange & two ) const;
+  
+  virtual bool	    	good( void ) const;
+  virtual const char *	error( void ) const;
+  virtual const char *	getClassName( void ) const;
+  virtual ostream & 	toStream( ostream & dest ) const;
+  virtual ostream & 	dumpInfo( ostream & dest ) const;
+  
+  static const char version[];
   
 protected:
 
@@ -59,45 +67,18 @@ private:
 
 };
 
-inline
-DateRange::DateRange( 
-    time_t	startTime,
-    time_t	durSec
-    )
-: DateTime( startTime )
-{
-  dur = durSec;
-}
+#ifndef inline
+#include <DateRange.ii>
+#else
+#undef inline
 
-inline
-DateRange::DateRange(
-    const DateTime & startTime,
-    time_t           durSec
-    )
-: DateTime( startTime )
-{
-  dur = durSec;
-}
+int
+compare( const DateRange & one, const DateRange & two );
 
-inline
-DateRange::DateRange(
-    const DateTime & startTime,
-    const DateTime & stopTime
-    )
-: DateTime( startTime )
-{
-  dur = (time_t)stopTime - (time_t)startTime;
-}
+ostream &
+operator << ( ostream & dest, const DateRange & time );
+
+#endif
+
 
 #endif // ! def _DateRange_hh_ 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//

@@ -12,36 +12,45 @@
 //
 // 
 // $Log$
-// Revision 1.2  1995/03/02 16:35:41  houghton
-// Linux ports & new Classes
+// Revision 1.3  1995/11/05 13:29:09  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
-// Revision 1.1  1995/02/13  16:08:59  houghton
-// New Style Avl an memory management. Many New Classes
 //
 //
 
-#include <DateTime.hh>
+#include <ClueConfig.hh>
+#include <time.h>
+
+#include <iostream>
+
+#ifdef  CLUE_DEBUG
+#define inline
+#endif
 
 class Timer
 {
 
 public:
 
-  Timer( time_t startTime = 0 );
+  inline Timer( time_t startTime = 0 );
 
-  time_t    	start( time_t startTime = 0 );
-  time_t    	stop( time_t stopTime = 0 );
+  inline time_t    	start( time_t startTime = 0 );
+  inline time_t    	stop( time_t stopTime = 0 );
 
-  time_t    	getDur( void ) const;
-  time_t    	getStart( void ) const;
-  time_t    	getStop( void ) const;
+  inline time_t    	getDur( void ) const;
+  inline time_t    	getStart( void ) const;
+  inline time_t    	getStop( void ) const;
+
+  inline const char *	getClassName( void ) const;
+  inline ostream &	toStream( ostream & dest = cout ) const;
+  ostream &		dumpInfo( ostream & dest = cerr ) const;
+
+  static const char version[];
   
 protected:
 
 private:
-
-  Timer( const Timer & copyFrom );
-  Timer & operator=( const Timer & assignFrom );
 
   time_t    startSec;
   time_t    stopSec;
@@ -49,104 +58,14 @@ private:
 };
 
 
-//
-// Inline methods
-//
+#ifndef	 inline
+#include <Timer.ii>
+#else
+#undef inline
 
-inline
-Timer::Timer( time_t startTime )
-{
-  startSec = startTime;
-  stopSec = 0;
-}
+ostream &
+operator<<( ostream & dest, const Timer & timer );
 
-inline time_t
-Timer::start( time_t startTime )
-{
-  time_t old = startSec;
-  
-  if( startTime == 0 )
-    {
-      startSec = time(0);
-    }
-  else
-    {
-      startSec = startTime;
-    }
-  return( old );
-}
-
-inline time_t
-Timer::stop( time_t stopTime )
-{
-  time_t old = stopSec;
-  
-  if( stopTime == 0 )
-    {
-      stopSec = time(0);
-    }
-  else
-    {
-      stopSec = stopTime;
-    }
-
-  return( old );
-}
-
-inline time_t
-Timer::getDur( void ) const
-{
-  return( stopSec - startSec );
-}
-
-inline time_t
-Timer::getStart( void ) const
-{
-  return( startSec );
-}
-
-
-inline time_t
-Timer::getStop( void ) const
-{
-  return( stopSec );
-}
-
-
-inline ostream &
-operator<<( ostream & dest, const Timer & timer )
-{
-  if( timer.getStart() == 0 || timer.getStop() == 0 )
-    {
-      dest << "no duration";
-    }
-
-  int hours = timer.getDur() / (60 * 60);
-  int minutes = MinInTimeT( timer.getDur() );
-  int seconds = SecInTimeT( timer.getDur() );
-
-  dest << setfill('0') << setw(2) << hours << ':'
-       << setw(2) << minutes << ':'
-       << setw(2) << seconds
-    ;
-
-  dest << setfill(' ');
-
-  return( dest );
-}
-
-      
-
+#endif
 
 #endif // ! def _Timer_hh_ 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//

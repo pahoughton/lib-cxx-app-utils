@@ -4,233 +4,134 @@
 // File:        Compare.hh
 // Desc:        
 //
-//  This file defines inline functions to compare values for
-//  each of the following data types:
+//  This file defines inline functions to compare values
 //
-//  	const char
-//  	const unsigned char
-//  	const int
-//  	const unsigned int
-//  	const short
-//  	const unsigned short
-//  	const long
-//  	const unsigned long
-//  	const double
+//      int compare( number, number )
+//      int compare( char, char )
+//      int compare( signed char, signed char )
+//      int compare( unsigned char, unsigned char )
+//      int compare( short, short )
+//      int compare( unsigned short, unsigned short )
+//      int compare( int, int )
+//      int compare( unsigned int, unsigned int )
+//      int compare( long, long )
+//      int compare( unsigned long, unsigned long )
+//      int compare( float, float )
+//      int compare( double, double )
+//      int compare( char *, char * );
+//      int compare( char *, const char * )
+//      int compare( const char *, char * )
+//      int compare( char **, char ** )
+//      int compare( char **, const char ** )
+//      int compare( char **, char * const * )
+//      int compare( char **, const char * const * )
+//      int compare( const char **, char ** )
+//      int compare( const char **, const char ** )
+//      int compare( const char **, char * const * )
+//      int compare( const char **, const char * const * )
+//      int compare( char * const *, char ** )
+//      int compare( char * const *, const char ** )
+//      int compare( char * const *, char * const * )
+//      int compare( char * const *, const char * const * )
+//      int compare( const char * const *, char ** )
+//      int compare( const char * const *, const char ** )
+//      int compare( const char * const *, char * const * )
+//      int compare( const char * const *, const char * const * )
 //
-//  	const char * (note: this is a string - ie uses strcmp)
-//  	const unsigned char * (this is NOT a string)
-//  	const int *
-//  	const unsigned int *
-//  	const short *
-//  	const unsigned short *
-//  	const long *
-//  	const unsigned long *
-//  	const double *
-//
-//  	const char ** (note: this is a string - ie uses strcmp)
-//  	const char * const * (note: this is a string - ie uses strcmp)
-//  	const unsigned char ** (this is NOT a string)
-//  	const int **
-//  	const unsigned int **
-//  	const short **
-//  	const unsigned short **
-//  	const long **
-//  	const unsigned long **
-//  	const double **
-//
-//  	const char *** (note: this is a string - ie uses strcmp)
-//  	const char * const ** (note: this is a string - ie uses strcmp)
-//  	const char * const * const * (note: this is a string - ie uses strcmp)
 //
 // Author:      Paul Houghton x2309 - (houghton@shoe.wiltel.com)
-// Created:     01/31/95 14:54
+// Created:     05/01/95 9:00
 //
 // Revision History:
 //
 // 
 // $Log$
-// Revision 1.1  1995/02/13 16:08:33  houghton
-// New Style Avl an memory management. Many New Classes
+// Revision 1.2  1995/11/05 13:28:58  houghton
+// Major Implementation Changes.
+// Made more consistant with the C++ Standard
 //
 //
-
-#include <string.h>
-
-inline int Compare( const char one, const char two )
-{
-  return( ( one  > two ) ? 1 : ( one < two ) ? -1 : 0 );
-}
-
-inline int Compare( const unsigned char one, const unsigned char two )
-{
-  return( ( one  > two ) ? 1 : ( one < two ) ? -1 : 0 );
-}
-
-inline int Compare( const int one, const int two )
-{
-  return( ( one  > two ) ? 1 : ( one < two ) ? -1 : 0 );
-}
-
-inline int Compare( const unsigned int one, const unsigned int two )
-{
-  return( ( one  > two ) ? 1 : ( one < two ) ? -1 : 0 );
-}
-
-inline int Compare( const short one, const short two )
-{
-  return( ( one  > two ) ? 1 : ( one < two ) ? -1 : 0 );
-}
-
-inline int Compare( const unsigned short one, const unsigned short two )
-{
-  return( ( one  > two ) ? 1 : ( one < two ) ? -1 : 0 );
-}
-
-inline int Compare( const long one, const long two )
-{
-  return( ( one  > two ) ? 1 : ( one < two ) ? -1 : 0 );
-}
-
-inline int Compare( const unsigned long one, const unsigned long two )
-{
-  return( ( one  > two ) ? 1 : ( one < two ) ? -1 : 0 );
-}
-
-inline int Compare( const double one, const double two )
-{
-  return( ( one  > two ) ? 1 : ( one < two ) ? -1 : 0 );
-}
-
 //
-// Now the pointers
-//
-inline int Compare( const char * one, const char * two )
-{
-  return( strcmp( one, two ) );
-}
 
-inline int Compare( const unsigned char * one, const unsigned char * two )
-{
-  return( Compare( *one, *two ) );
-}
+#include <ClueConfig.hh>
 
-inline int Compare( const int * one, const int * two )
-{
-  return( Compare( *one, *two ) );
-}	  
-	  
-inline int Compare( const unsigned int * one, const unsigned int * two )
-{
-  return( Compare( *one, *two ) );
-}
+#include <cstring>
 
-inline int Compare( const short * one, const short * two )
-{
-  return( Compare( *one, *two ) );
-}
+#ifdef _compare_h
+#error "GNU's compare.h has been include"
+#else
+#define _compare_h
+#endif
 
-inline int Compare( const unsigned short * one, const unsigned short * two )
-{
-  return( Compare( *one, *two ) );
-}
+#if defined( Compare_SCMP_ ) || defined( Compare_PSCMP_ ) || defined( Compare_NCMP_ )
 
-inline int Compare( const long * one, const long * two )
-{
-  return( Compare( *one, *two ) );
-}
+#error "Interal Compare macro already defined"
+#else
 
-inline int Compare( const unsigned long * one, const unsigned long * two )
-{
-  return( Compare( *one, *two ) );
-}
+#define Compare_SCMP_( T1, T2 ) \
+inline int compare( T1 a, T2 b) { return( strcmp( a, b ) ); }
 
-inline int Compare( const double * one, const double * two )
-{
-  return( Compare( *one, *two ) );
-}
+#define Compare_PSCMP_( T1, T2 ) \
+inline int compare( T1 a, T2 b ) { return( strcmp( *a, *b ) ); }
 
-//
-// Now the indirect pointers
-//
-inline int Compare( const char ** one, const char ** two )
-{
-  return( Compare( *one, *two ) );
-}
-
-inline int Compare( const char * const * one, const char * const * two )
-{
-  return( Compare( *one, *two ) );
-}
-
-inline int Compare( const unsigned char ** one, const unsigned char ** two )
-{
-  return( Compare( **one, **two ) );
-}
-
-inline int Compare( const int ** one, const int ** two )
-{
-  return( Compare( **one, **two ) );
-}
-	  	  
-inline int Compare( const unsigned int ** one, const unsigned int ** two )
-{
-  return( Compare( **one, **two ) );
-}
-
-inline int Compare( const short ** one, const short ** two )
-{
-  return( Compare( **one, **two ) );
-}
-
-inline int Compare( const unsigned short ** one, const unsigned short ** two )
-{
-  return( Compare( **one, **two ) );
-}
-
-inline int Compare( const long ** one, const long ** two )
-{
-  return( Compare( **one, **two ) );
-}
-
-inline int Compare( const unsigned long ** one, const unsigned long ** two )
-{
-  return( Compare( **one, **two ) );
-}
-
-inline int Compare( const double ** one, const double ** two )
-{
-  return( Compare( **one, **two ) );
-}
-
-//
-// One more level for strings
-//
-inline int Compare( const char * const ** one, const char * const ** two )
-{
-  return( Compare( **one, **two ) );
-}
-
-inline int Compare( const char * const * const * one,
-		    const char * const * const * two )
-{
-  return( Compare( **one, **two ) );
-}
+#define Compare_NCMP( T1 ) \
+inline int compare( T1 a, T1 b ) { return( (a < b ) ? -1 : ( a == b ) ? 0 : 1 ); }
 
 
+Compare_SCMP_( const char *, const char * );
+Compare_SCMP_( const char *, char * );
+Compare_SCMP_( char *, const char * );
+Compare_SCMP_( char *, char * );
 
+Compare_PSCMP_( const char * const * , const char * const * );
+Compare_PSCMP_( const char * const * , const char * * );
+Compare_PSCMP_( const char * const * , char * const * );
+Compare_PSCMP_( const char * const * , char * * );
+Compare_PSCMP_( const char * * , const char * const * );
+Compare_PSCMP_( const char * * , const char * * );
+Compare_PSCMP_( const char * * , char * const * );
+Compare_PSCMP_( const char * * , char * * );
+Compare_PSCMP_( char * const * , const char * const * );
+Compare_PSCMP_( char * const * , const char * * );
+Compare_PSCMP_( char * const * , char * const * );
+Compare_PSCMP_( char * const * , char * * );
+Compare_PSCMP_( char * * , const char * const * );
+Compare_PSCMP_( char * * , const char * * );
+Compare_PSCMP_( char * * , char * const * );
+Compare_PSCMP_( char * * , char * * );
 
+Compare_NCMP( char );
+Compare_NCMP( short );
+Compare_NCMP( int );
+Compare_NCMP( long );
+Compare_NCMP( float );
+Compare_NCMP( double );
+Compare_NCMP( unsigned char );
+Compare_NCMP( unsigned short );
+Compare_NCMP( unsigned int );
+Compare_NCMP( unsigned long );
 
+#undef Compare_SCMP_
+#undef Compare_PSCMP_
+#undef Compare_NCMP_
 
+#endif // defined( Compare_SCMP_ ) ...
+
+/* 
+Copyright (C) 1988 Free Software Foundation
+    written by Doug Lea (dl@rocky.oswego.edu)
+
+This file is part of the GNU C++ Library.  This library is free
+software; you can redistribute it and/or modify it under the terms of
+the GNU Library General Public License as published by the Free
+Software Foundation; either version 2 of the License, or (at your
+option) any later version.  This library is distributed in the hope
+that it will be useful, but WITHOUT ANY WARRANTY; without even the
+implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the GNU Library General Public License for more details.
+You should have received a copy of the GNU Library General Public
+License along with this library; if not, write to the Free Software
+Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
 
 #endif // ! def _Compare_hh_ 
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
