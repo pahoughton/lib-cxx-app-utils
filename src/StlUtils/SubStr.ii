@@ -86,13 +86,13 @@ inline
 SubStr::size_type
 SubStr::copy( char * dest, size_type destLen, size_type start ) const
 {
-  size_type len = (destLen == npos ? size() - start :
-		   min( destLen, size() - start ) );
+  size_type copyLen = (destLen == npos ? size() - start :
+		       min( destLen, size() - start ) );
   
-  strncpy( dest, strbase() + start, len );
-  if( destLen == npos || len < destLen )
-    dest[ len ] = 0;
-  return( len );
+  strncpy( dest, strbase() + start, copyLen );
+  if( destLen == npos || copyLen < destLen )
+    dest[ copyLen ] = 0;
+  return( copyLen );
 }
   
 inline
@@ -658,6 +658,9 @@ SubStr::operator =  ( const string & src )
 // Revision Log:
 // 
 // $Log$
+// Revision 3.5  1997/09/02 21:29:16  houghton
+// Port(Sun5): Changed variable name 'len' to copyLen to avoid compiler warning.
+//
 // Revision 3.4  1997/08/28 16:34:11  houghton
 // Bug-Fix: moved toStream to .C (was inline) and added support
 //     for setw(n) (the width was being ignored).
