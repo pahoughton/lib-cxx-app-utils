@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.2  1996/06/20 15:23:22  houghton
+// Added Debugging loging
+//
 // Revision 2.1  1996/04/27 13:11:51  houghton
 // Initial version.
 //
@@ -69,8 +72,24 @@ ThreadBase::start( void )
 bool
 ThreadBase::join( void )
 {
-  void *    status;
+  void *    status = 0;
+  _LLgLock;
+  _LLg( LogLevel::Debug )
+    << ThreadBase::getClassName() << "::join() -"
+    << " threadId: " << threadId
+    << endl;
+  _LLgUnLock;
+  
   errorNum = pthread_join( threadId, &status );
+  
+  _LLgLock;
+  _LLg( LogLevel::Debug )
+    << ThreadBase::getClassName() << "::join() -"
+    << " errorNum: " << errorNum
+    << " status: " << status
+    << endl;
+  _LLgUnLock;
+  
   return( good() );
 }
 
@@ -90,7 +109,7 @@ ThreadBase::threadEntry( void * obj )
 bool
 ThreadBase::good( void ) const
 {
-  return( true );
+  return( errorNum == 0 );
 }
 
 const char *
@@ -108,6 +127,10 @@ ThreadBase::error( void ) const
     {
       size_t eSize = errStr.size();
 
+      if( errorNum != 0 )
+	errStr << ": (" << errorNum << ") " << strerror( errorNum )
+	       << " - thread: " << threadId;
+      
       if( eSize == errStr.size() )
         errStr << ": unknown error";
     }
@@ -144,7 +167,10 @@ ThreadBase::dumpInfo(
   else
     dest << prefix << "Good" << '\n';
 
-
+  dest << "threadId:  " << threadId << '\n'
+       << "cleanup:   " << (cleanup ? "true" : "false" ) << '\n'
+    ;
+  
   return( dest );
 }
 

@@ -10,6 +10,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.4  1996/06/20 15:25:25  houghton
+// Added Debugging loging
+//
 // Revision 2.3  1996/05/01 11:01:21  houghton
 // Bug-Fix: static const User eff was causing segv.
 //   change so the effective() method just returns a new 'User'
@@ -27,6 +30,7 @@
 
 #include "User.hh"
 #include "Compare.hh"
+#include "LibLog.hh"
 #include <iostream>
 
 #if defined( CLUE_DEBUG )
@@ -66,6 +70,14 @@ User::findGroups( void )
 	  if( ! ::compare( name, gr->gr_mem[m] )  )
 	    {
 	      UserGroup g( gr, false );
+	      _LLgLock;
+	      _LLg( LogLevel::Debug )
+		<< "Inserting group: " << g
+		<< " size: " << groups.size()
+		<< endl;
+	      
+	      _LLgUnLock;
+	      
 	      groups.insert( g );
 	    }
 	}
