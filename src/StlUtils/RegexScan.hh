@@ -198,7 +198,7 @@
 //
 
 #include "StlUtilsConfig.hh"
-#include <stddef.h>
+#include <cstddef>
 
 
 class STLUTILS_CLASS_T RegexScan 
@@ -522,6 +522,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.2  1998/10/13 16:21:29  houghton
+// Changed to include stddef.h.
+//
 // Revision 4.1  1997/09/17 15:12:47  houghton
 // Changed to Version 4
 //
