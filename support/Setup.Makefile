@@ -21,7 +21,8 @@
 
 SHELL		= /bin/ksh
 
-PROJECT		= libSqlClient-3
+PROJECT		= libStlUtils-4
+CFG_DIR		= $(PROJECT)/src/config
 
 common_h	= $(INSTALL_INC_DIR)/Common.h
 gnuregex_h	= $(INSTALL_INC_DIR)/GnuRegex.h
@@ -31,10 +32,9 @@ tools_build_dir		= $(TOOL_DIR)/src/Build/Tools
 libs_build_dir		= $(TOOL_DIR)/src/Build/Libs
 
 exports	    = 					\
-	INSTALL_BIN_DIR=$(INSTALL_BIN_DIR)	\
 	INSTALL_INC_DIR=$(INSTALL_INC_DIR)	\
 	INSTALL_LIB_DIR=$(INSTALL_LIB_DIR)	\
-	INSTALL_MAN_DIR=$(INSTALL_MAN_DIR)	\
+	INSTALL_DOC_DIR=$(INSTALL_DOC_DIR)	\
 	show_commands=$(show_commands)		\
 	check_install=$(check_install)
 
@@ -76,7 +76,7 @@ $(common_h): $(libs_build_dir)/libCommon-3
 	cd $(libs_build_dir)						      \
 	&& $(MAKE) -f libCommon-3/Makefile setup
 	$(TOOL_DIR)/bin/make -C $(libs_build_dir)/libCommon-3		      \
-	    install_all $(exports) 
+	    install_lib_all $(exports) 
 
 $(libs_build_dir)/libGnuRegex-2:
 	cd $(libs_build_dir)						      \
@@ -87,7 +87,7 @@ $(gnuregex_h): $(libs_build_dir)/libGnuRegex-2
 	cd $(libs_build_dir)						      \
 	&& $(MAKE) -f libGnuRegex-2/Makefile setup
 	$(TOOL_DIR)/bin/make -C $(libs_build_dir)/libGnuRegex-2		      \
-	    install_all $(exports) 
+	    install_lib_all $(exports) 
 
 $(libs_build_dir)/libStdC++-2:
 	cd $(libs_build_dir)						      \
@@ -98,15 +98,27 @@ $(stdcxx_hh): $(libs_build_dir)/libStdC++-2
 	cd $(libs_build_dir)						      \
 	&& $(MAKE) -f libStdC++-2/Makefile setup
 	$(TOOL_DIR)/bin/make -C $(libs_build_dir)/libStdC++-2		      \
-	    install_all $(exports) 
+	    install_lib_all $(exports) 
 
-setup: check_cvs $(common_h) $(gnuregex_h) $(stdcxx_hh)
+gen_setup_cfg:
+	rm -f $(CFG_DIR)/Setup.cfg
+	sed								      \
+		-e 's!%INSTALL_INC_DIR%!$(INSTALL_INC_DIR)!'		      \
+		-e 's!%INSTALL_LIB_DIR%!$(INSTALL_LIB_DIR)!'		      \
+		-e 's!%INSTALL_DOC_DIR%!$(INSTALL_DOC_DIR)!'		      \
+	  < $(CFG_DIR)/Setup.cfg.src					      \
+	  > $(CFG_DIR)/Setup.cfg
+	chmod 444 $(CFG_DIR)/Setup.cfg
 
 
+setup: check_cvs $(common_h) $(gnuregex_h) $(stdcxx_hh) gen_setup_cfg
 
 
 #
 # $Log$
+# Revision 1.2  1999/11/09 11:10:06  houghton
+# Added gen_setup_cfg target.
+#
 # Revision 1.1  1999/10/30 10:41:02  houghton
 # Initial Version.
 #
