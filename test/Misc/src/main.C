@@ -20,9 +20,11 @@
 #include "StlUtilsConfig.hh"
 // #include "AppParam.hh"
 
-#include <Directory.hh>
+// #include <Directory.hh>
+#include <DateTime.hh>
 
 #include <iostream>
+#include <cstdlib>
 
 // AppParam * App = 0;
 
@@ -30,6 +32,7 @@ STLUTILS_FUNCT_VERSION(
   main,
   "$Id$");
 
+#if defined( DIRTEST )
 int
 test( void )
 {
@@ -44,9 +47,41 @@ test( void )
 
   return( 1 );
 }
-
+#endif
       
-    
+int
+test( void )
+{
+  const char * envTz;
+  putenv( "TZ=CST6CDT" );
+
+  {
+    DateTime dt;
+    if( strcmp( dt.getTimeZone(), "CST6CDT" ) )
+      cerr << "FAIL." << endl;
+    else
+      cerr << "ok" << endl;
+  }
+
+  cerr << "tz: " << getenv( "TZ" ) << endl;
+  {
+    DateTime dt( "02/29/92 05:45:50" );
+  }
+
+  cerr << "tz: " << getenv( "TZ" ) << endl;
+  {
+    DateTime dt;
+    if( strcmp( dt.getTimeZone(), "CST6CDT" ) )
+      cerr << "FAIL." << endl;
+    else
+      cerr << "ok" << endl;
+  }
+
+  cerr << "tz: " << getenv( "TZ" ) << endl;
+
+  return( 1 );
+}
+  
 int
 main( int argc, char * argv[] )
 {
@@ -62,7 +97,19 @@ main( int argc, char * argv[] )
 #endif
 
 
-  for( ;; )
+  char	envTz[100];
+
+  strcpy( envTz, "TZ=CST6CDT" );
+
+  putenv( envTz );
+  cerr << getenv( "TZ" ) << endl;
+
+  strcpy( envTz, "TZ=xxxxxxxx" );
+
+  cerr << getenv( "TZ" ) << endl;
+
+  exit ( 1 );
+  // for( ;; )
     {
       test();
     }
@@ -73,6 +120,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 1.2  1998/10/23 13:10:21  houghton
+// *** empty log message ***
+//
 // Revision 1.1  1998/10/13 15:22:53  houghton
 // Initial version.
 //

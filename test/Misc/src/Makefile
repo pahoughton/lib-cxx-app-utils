@@ -105,7 +105,7 @@ SHARED_DEFINES	= -DTEST_SHARED=1
 
 
 SRC_INC		= $(ARCH_INC) -I. $(STLUTILS_SRC_INC)
-PRJ_INC		= -I$(beta_incdir)
+PRJ_INC		= -I$(local_incdir)
 
 # Any other cpp flags to use on for all targets
 
@@ -172,7 +172,7 @@ PROFILE_LD_FLAGS	= $(ld_profile_flags)
 STATIC_LD_FLAGS		= $(ld_static_flags) $(ld_optimize_flags)
 SHARED_LD_FLAGS		= $(ld_shared_flags) $(ld_optimize_flags)
 
-DEFAULT_LD_LIBDIRS	= -L$(beta_libdir)
+DEFAULT_LD_LIBDIRS	= -L$(local_libdir)
 DEBUG_LD_LIBDIRS	= $(STLUTILS_SRC_LDIR) $(DEFAULT_LD_LIBDIRS)
 TEST_LD_LIBDIRS		= $(DEBUG_LD_LIBDIRS)
 PROFILE_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
@@ -181,7 +181,7 @@ SHARED_LD_LIBDIRS	= $(DEFAULT_LD_LIBDIRS)
 
 DEFAULT_LD_LIBS		= -lStlUtils -lCommon -lGnuRegex
 DEBUG_LD_LIBS		= -lStlUtils_g -lCommon -lGnuRegex
-TEST_LD_LIBS		= $(DEBUG_LD_LIBS)
+TEST_LD_LIBS		= -lStlUtils_tg -lCommon -lGnuRegex
 PROFILE_LD_LIBS		= $(DEFAULT_LD_LIBS)
 STATIC_LD_LIBS		= $(DEFAULT_LD_LIBS)
 SHARED_LD_LIBS		= $(DEFAULT_LD_LIBS)
@@ -190,7 +190,7 @@ SHARED_LD_LIBS		= $(DEFAULT_LD_LIBS)
 
 DEFAULT_DEP_LIBS	= 
 DEBUG_DEP_LIBS		= $(PRJ_TOPDIR)/src/StlUtils/libStlUtils_g.a
-TEST_DEP_LIBS		= $(DEBUG_DEP_LIBS)
+TEST_DEP_LIBS		= $(PRJ_TOPDIR)/src/StlUtils/libStlUtils_tg.a
 PROFILE_DEP_LIBS	= 
 STATIC_DEP_LIBS		= 
 SHARED_DEP_LIBS		= 
@@ -283,6 +283,9 @@ install_shared::
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 1.2  1998/10/23 13:10:21  houghton
+# *** empty log message ***
+#
 # Revision 1.1  1998/10/13 15:22:52  houghton
 # Initial version.
 #
