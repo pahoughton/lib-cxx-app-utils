@@ -10,9 +10,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 12:55:20  houghton
-// Put inlines in their own source file
-// Change to be more consistant with the C++ Standard
+// Revision 1.3  1995/11/05 14:01:36  houghton
+// Port to AIX
 //
 //
 
@@ -25,6 +24,7 @@
 #include <iomanip>
 
 #include <cstring>
+#include <cerrno>
 
 #ifdef   CLUE_DEBUG
 #define  inline

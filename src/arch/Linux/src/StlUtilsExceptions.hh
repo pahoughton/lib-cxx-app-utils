@@ -12,17 +12,23 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 12:41:30  houghton
-// Initial implementation of ClueExceptions
+// Revision 1.2  1995/11/05 14:01:35  houghton
+// Port to AIX
 //
 //
-#include <ClueConfig.hh>
 
-#define OUT_OF_RANGE( test_val, ret_val ) \
-    if( (test_val) ) return( ret_val )
+#define CLUE_EXCPT_OUT_OF_RANGE( test_, ret_ ) \
+  if( (test_) ) return( ret_ );
 
-#define BAD_ALLOC( test_val, ret_val ) \
-    if( (test_val) ) return( ret_val )
+#define CLUE_EXCPT_BAD_ALLOC( test_, ret_ ) \
+  if( (test_) ) return( ret_ );
+
+#define CLUE_EXCPT_NR_OUT_OF_RANGE( test_ ) \
+  if( (test_) ) return;
+
+#define CLUE_EXCPT_NR_BAD_ALLOC( test_, ret_ ) \
+  if( (test_) ) return;
+
 
 #endif // ! def _ClueExceptinos_hh_ 
 

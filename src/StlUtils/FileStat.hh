@@ -12,9 +12,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 12:55:20  houghton
-// Put inlines in their own source file
-// Change to be more consistant with the C++ Standard
+// Revision 1.3  1995/11/05 14:01:36  houghton
+// Port to AIX
 //
 //
 
@@ -22,6 +21,7 @@
 #include <ClueConfig.hh>
 
 #include <Str.hh>
+#include <FilePath.hh>
 
 #include <Bitmask.hh>
 
@@ -89,10 +89,10 @@ public:
   inline bool	    	canWrite( Who who ) const;
   inline bool	    	canExec( Who who ) const;
 
-  inline const char * 	getName( void ) const;
-  inline const char *	getModeString( void ) const;
-  inline const char *	getUserName( void ) const;
-  inline const char * 	getGroupName( void ) const;
+  inline const FilePath &   getName( void ) const;
+  inline const char *	    getModeString( void ) const;
+  inline const char *	    getUserName( void ) const;
+  inline const char * 	    getGroupName( void ) const;
   
   inline FileStat & 	stat( const char * fileName );
   inline FileStat & 	stat( int fd, bool keepName = false );
@@ -143,10 +143,10 @@ private:
   
   int	fd;
   
-  Str   name;
-  Str 	userName;
-  Str 	groupName;
-  Str  	modeString;
+  FilePath   name;
+  Str 	     userName;
+  Str 	     groupName;
+  Str  	     modeString;
 
   struct stat	st;
   
