@@ -35,6 +35,15 @@ STLUTILS_VERSION(
   StrStreambuf,
   "%PID%" );
 
+// FIXME - do this better
+
+void
+StrStreambuf::readPrep( void )
+{
+  if( egptr() < pptr() ) {
+    setg( gptr(), gptr(), pptr() );
+  }
+}
 
 const char *
 StrStreambuf::getClassName( void ) const
@@ -89,6 +98,9 @@ StrStreambuf::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 5.4  2003/06/25 08:52:05  houghton
+// Added readPrep method - still need to improve this.
+//
 // Revision 5.3  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //

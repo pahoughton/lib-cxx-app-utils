@@ -41,6 +41,8 @@ public:
   inline size_t	    	psize(void) STLUTILS_STRBUF_CONST_RDBUF;
   inline const char * 	cstr(void);  
 
+  void			readPrep( void );
+  
   const char *		getClassName( void ) const;
   const char *		getVersion( bool withPrjVer = true ) const;
   
@@ -121,6 +123,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 5.3  2003/06/25 08:52:08  houghton
+// Added readPrep method - still need to improve this.
+//
 // Revision 5.2  2001/07/26 19:28:59  houghton
 // *** empty log message ***
 //
