@@ -48,7 +48,15 @@
 
 class SigCatcher;
 
-template< class Proc >
+class IbpDefaultPreScan
+{
+public:
+  inline bool	operator () ( void ) {
+    return( true );
+  };
+};
+
+template< class Proc, class PreScan >
 class InboundProcessor : public InboundProcessorBase
 {
 
@@ -58,14 +66,16 @@ public:
 		    const char *    inDirName,
 		    const char *    procDirName,
 		    long	    rescanWaitSecs,
-		    Proc &	    fileProccessor );
+		    Proc &	    fileProccessor,
+		    PreScan &	    prescanProcessor );
 
   InboundProcessor( const char *	fileNamePattern,
 		    const char *	inDirName,
 		    const char *	procDirName,
 		    long		rescanWaitSecs,
 		    const SigCatcher *	sigCatcher,
-		    Proc &		fileProccessor );
+		    Proc &		fileProccessor,
+		    PreScan &		prescanProcessor );
 
   virtual ~InboundProcessor( void ) {};
 
@@ -75,12 +85,18 @@ protected:
     return( proc( filePath ) );
   };
   
+  inline bool	    prescanProc( void ) {
+    return( prescan() );
+  };
+  
 private:
 
   // InboundProcessor( const InboundProcessor & from );
   // InboundProcessor & operator =( const InboundProcessor & from );
 
   Proc &    proc;
+  PreScan & prescan;
+  
 };
 
 #include <InboundProcessor.ii>
@@ -101,7 +117,17 @@ private:
 //
 //	    This method will be called for each file that matches
 //	    the file name pattern. 
-//	    
+//
+//	PreScan: template arg.
+//	    PreScan needs to be a class (or struct) that has an
+//	    opreator () method that matches:
+//
+//		bool operator () ( void );
+//
+//	    This method will be called before each directory scan and after
+//	    each call to 'Proc'. If returns false, run() will return true. If
+//	    it returns true, run will keep processing.
+//
 //  Constructors:
 //
 //  	InboundProcessor( const char *    fileNamePattern,
@@ -167,14 +193,17 @@ private:
 //	
 //	SigCatcher  signals;
 //	
-//	FileProc    fileProc;
-//	
-//	InboundProcessor< FileProc >	ibp( "*.rdy",
-//					     "/prj/data/in",
-//					     "/prj/data/proc",
-//					     5,
-//					     &signals,
-//					     fileProc );
+//	FileProc	    fileProc;
+//	IbpDefaultPreScan   prescan;
+//
+//	InboundProcessor< FileProc, IbpDefaultPreScan >
+//	    ibp( "*.rdy",
+//		 "/prj/data/in",
+//		 "/prj/data/proc",
+//		 5,
+//		 &signals,
+//		 fileProc,
+//		 prescan );
 //	
 //	while( ibp.run() )
 //	{
@@ -219,6 +248,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.2  1997/09/16 11:26:04  houghton
+// Added prescan support (ie do 'prescan' before scanning dir and after
+//     processing each file.
+//
 // Revision 3.1  1997/07/25 12:05:46  houghton
 // Added constructor that takes a SigCatcher.
 // Added documentation.

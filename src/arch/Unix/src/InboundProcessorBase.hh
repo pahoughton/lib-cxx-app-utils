@@ -85,6 +85,7 @@ public:
 
 protected:
 
+  virtual bool	    prescanProc( void );
   virtual bool	    processInbound( const FilePath & filePath ) = 0;
   
 private:
@@ -243,6 +244,10 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/16 11:27:20  houghton
+// Added prescan support (ie do 'prescan' before scanning dir and after
+//     processing each file.
+//
 // Revision 3.3  1997/07/25 13:54:40  houghton
 // Changed caughtSignal to non-inline.
 //
