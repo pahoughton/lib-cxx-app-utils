@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 3.5  1997/06/09 12:01:18  houghton
+// Changed 'match' to be a const method.
+//
 // Revision 3.4  1997/03/03 18:58:47  houghton
 // Changed arg to write calls to const char * (AIX workaround)
 // Changed arg to write class to char * (AIX workaround)
@@ -87,7 +90,7 @@ FilePath::getName( void ) const
 }
 
 bool
-FilePath::match( const char * pattern )
+FilePath::match( const char * pattern ) const
 {
   return( fnmatch( pattern, c_str(), 0 ) == 0 );
 }

@@ -62,7 +62,7 @@ public:
   inline Str	    getExt( void ) const;
   inline size_t	    getDepth( void ) const;
   
-  bool		    match( const char * pattern );
+  bool		    match( const char * pattern ) const;
   
   inline bool	    set( const char * fullPath );
   inline bool	    set( const Str & fullPath );
@@ -275,6 +275,9 @@ compare( const FilePath & one, const FilePath & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.6  1997/06/09 12:01:24  houghton
+// Changed 'match' to be a const method.
+//
 // Revision 3.5  1997/03/12 12:01:41  houghton
 // Added FilePath( dir, fn, ext, ddelim, edelim ) constructor.
 // Cleanup comments.
