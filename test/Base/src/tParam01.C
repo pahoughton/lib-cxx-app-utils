@@ -75,8 +75,8 @@ tParam01( LibTest & tester )
     t.log().setTimeStamp( false );
     t.log().setLevelStamp( false );
     
-    TEST( t.log().getCurrent() == LogLevel::ERROR );
-    TEST( t.log( LogLevel::TEST ).getCurrent() == LogLevel::TEST );
+    TEST( t.log().getCurrent() == LogLevel::Error );
+    TEST( t.log( LogLevel::Test ).getCurrent() == LogLevel::Test );
   }
 
   {
@@ -105,13 +105,13 @@ tParam01( LibTest & tester )
     t.log().setLevelStamp( false );
 
     TEST( t.help() );
-    TEST( t.log().getOutput() == ( LogLevel::TEST | LogLevel::INFO ) );
+    TEST( t.log().getOutput() == ( LogLevel::Test | LogLevel::Info ) );
 
-    ALog( LogLevel::TEST ) << t;
+    ALog( LogLevel::Test ) << t;
 
     {
       for( int l = 0; l < 500; l++ )
-	ALog( LogLevel::INFO ) << "info message: " << l
+	ALog( LogLevel::Info ) << "info message: " << l
 			       << " to test log trimming\n";
     }
 
@@ -169,7 +169,7 @@ tParam01( LibTest & tester )
     TEST( t.argDateTime( dt, "argDateTime DateTime test args", "datetime" ) );
     TEST( dt == dtval );
 
-    ALog( LogLevel::TEST ) << t;
+    ALog( LogLevel::Test ) << t;
 
     TEST( t.count() == 1 );
   }

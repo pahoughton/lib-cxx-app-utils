@@ -47,37 +47,37 @@ tLog01( LibTest & tester )
     Log	    t( logOutput );
 
     
-    t( LogLevel::ERROR ) << "good" << '\n';
+    t( LogLevel::Error ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::ERR ) << "good" << '\n';
+    t( LogLevel::Err ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::WARNING ) << "BAD" << '\n';
+    t( LogLevel::Warning ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_1 ) << "BAD" << '\n';
+    t( LogLevel::App1 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_2 ) << "BAD" << '\n';
+    t( LogLevel::App2 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_3 ) << "BAD" << '\n';
+    t( LogLevel::App3 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_4 ) << "BAD" << '\n';
+    t( LogLevel::App4 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::INFO ) << "BAD" << '\n';
+    t( LogLevel::Info ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::TEST ) << "BAD" << '\n';
+    t( LogLevel::Test ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::DEBUG ) << "BAD" << '\n';
+    t( LogLevel::Debug ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::FUNCT ) << "BAD" << '\n';
+    t( LogLevel::Funct ) << "BAD" << '\n';
     t << "BAD" << '\n';
 
   }
@@ -89,10 +89,10 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream & ) - mm/dd/yy hh:mm:ss ERROR good\n";
     Log	    t( logOutput );
 
-    t( LogLevel::ERROR ) << "good" << '\n';
+    t( LogLevel::Error ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::WARNING ) << "BAD" << '\n';
+    t( LogLevel::Warning ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
   }
@@ -106,15 +106,15 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream &, LogLevel::Level ) - "
       "mm/dd/yy hh:mm:ss WARNING good\n";
     
-    Log	    t( logOutput, LogLevel::WARNING );
+    Log	    t( logOutput, LogLevel::Warning );
 
-    t( LogLevel::WARNING ) << "good" << '\n';
+    t( LogLevel::Warning ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::WARN ) << "good" << '\n';
+    t( LogLevel::Warn ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::ERROR ) << "BAD" << '\n';
+    t( LogLevel::Error ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
   }
@@ -128,9 +128,9 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool ) - "
       "mm/dd/yy hh:mm:ss TEST good\n";
     
-    Log	    t( logOutput, LogLevel::TEST, true );
+    Log	    t( logOutput, LogLevel::Test, true );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -140,9 +140,9 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool ) - "
       "mm/dd/yy hh:mm:ss good\n";
     
-    Log	    t( logOutput, LogLevel::TEST, false );
+    Log	    t( logOutput, LogLevel::Test, false );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {
@@ -154,9 +154,9 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
       "mm/dd/yy hh:mm:ss TEST good\n";
     
-    Log	    t( logOutput, LogLevel::TEST, true, true );
+    Log	    t( logOutput, LogLevel::Test, true, true );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -166,9 +166,9 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
       "TEST good\n";
     
-    Log	    t( logOutput, LogLevel::TEST, true, false );
+    Log	    t( logOutput, LogLevel::Test, true, false );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -178,9 +178,9 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
       "mm/dd/yy hh:mm:ss good\n";
     
-    Log	    t( logOutput, LogLevel::TEST, false, true );
+    Log	    t( logOutput, LogLevel::Test, false, true );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -190,9 +190,9 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
       "good\n";
     
-    Log	    t( logOutput, LogLevel::TEST, false, false );
+    Log	    t( logOutput, LogLevel::Test, false, false );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
 
     
@@ -207,7 +207,7 @@ tLog01( LibTest & tester )
     
     Log	    t( logOutput, "TEST", true );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -219,7 +219,7 @@ tLog01( LibTest & tester )
     
     Log	    t( logOutput, "TEST", false );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -233,7 +233,7 @@ tLog01( LibTest & tester )
     
     Log	    t( logOutput, "TEST", true, true );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -245,7 +245,7 @@ tLog01( LibTest & tester )
     
     Log	    t( logOutput, "TEST", true, false );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -257,7 +257,7 @@ tLog01( LibTest & tester )
     
     Log	    t( logOutput, "TEST", false, true );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -269,7 +269,7 @@ tLog01( LibTest & tester )
     
     Log	    t( logOutput, "TEST", false, false );
 
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
   }
   
   {    
@@ -280,39 +280,39 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream &, LogLevel::Level ) - "
       "mm/dd/yy hh:mm:ss TEST | ERROR good\n";
     
-    Log	    t( logOutput, LogLevel::ERROR | LogLevel::TEST );
+    Log	    t( logOutput, LogLevel::Error | LogLevel::Test );
     
-    t( LogLevel::ERROR ) << "good" << '\n';
+    t( LogLevel::Error ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::ERR ) << "good" << '\n';
+    t( LogLevel::Err ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::WARNING ) << "BAD" << '\n';
+    t( LogLevel::Warning ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_1 ) << "BAD" << '\n';
+    t( LogLevel::App1 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_2 ) << "BAD" << '\n';
+    t( LogLevel::App2 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_3 ) << "BAD" << '\n';
+    t( LogLevel::App3 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_4 ) << "BAD" << '\n';
+    t( LogLevel::App4 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::INFO ) << "BAD" << '\n';
+    t( LogLevel::Info ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::DEBUG ) << "BAD" << '\n';
+    t( LogLevel::Debug ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::FUNCT ) << "BAD" << '\n';
+    t( LogLevel::Funct ) << "BAD" << '\n';
     t << "BAD" << '\n';
 
   }
@@ -327,37 +327,37 @@ tLog01( LibTest & tester )
     
     Log	    t( logOutput, " ERROR | TEST "  );
     
-    t( LogLevel::ERROR ) << "good str |" << '\n';
+    t( LogLevel::Error ) << "good str |" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::ERR ) << "good" << '\n';
+    t( LogLevel::Err ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::WARNING ) << "BAD" << '\n';
+    t( LogLevel::Warning ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_1 ) << "BAD" << '\n';
+    t( LogLevel::App1 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_2 ) << "BAD" << '\n';
+    t( LogLevel::App2 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_3 ) << "BAD" << '\n';
+    t( LogLevel::App3 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_4 ) << "BAD" << '\n';
+    t( LogLevel::App4 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::INFO ) << "BAD" << '\n';
+    t( LogLevel::Info ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::DEBUG ) << "BAD" << '\n';
+    t( LogLevel::Debug ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::FUNCT ) << "BAD" << '\n';
+    t( LogLevel::Funct ) << "BAD" << '\n';
     t << "BAD" << '\n';
 
   }
@@ -372,37 +372,37 @@ tLog01( LibTest & tester )
     
     Log	    t( logOutput, "ERROR|TEST"  );
     
-    t( LogLevel::ERROR ) << "good" << '\n';
+    t( LogLevel::Error ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::ERR ) << "good" << '\n';
+    t( LogLevel::Err ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::WARNING ) << "BAD" << '\n';
+    t( LogLevel::Warning ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_1 ) << "BAD" << '\n';
+    t( LogLevel::App1 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_2 ) << "BAD" << '\n';
+    t( LogLevel::App2 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_3 ) << "BAD" << '\n';
+    t( LogLevel::App3 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::USER_4 ) << "BAD" << '\n';
+    t( LogLevel::App4 ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::INFO ) << "BAD" << '\n';
+    t( LogLevel::Info ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::DEBUG ) << "BAD" << '\n';
+    t( LogLevel::Debug ) << "BAD" << '\n';
     t << "BAD" << '\n';
     
-    t( LogLevel::FUNCT ) << "BAD" << '\n';
+    t( LogLevel::Funct ) << "BAD" << '\n';
     t << "BAD" << '\n';
 
   }
@@ -415,42 +415,42 @@ tLog01( LibTest & tester )
     logOutput << "Log::Log( ostream &, LogLevel::Level ) - "
       "mm/dd/yy hh:mm:ss ALL good\n";
     
-    Log	    t( logOutput, LogLevel::ALL );
+    Log	    t( logOutput, LogLevel::All );
     
-    t( LogLevel::ERROR ) << "good" << '\n';
+    t( LogLevel::Error ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::ERR ) << "good" << '\n';
+    t( LogLevel::Err ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::WARNING ) << "good" << '\n';
+    t( LogLevel::Warning ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::WARN ) << "good" << '\n';
+    t( LogLevel::Warn ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::USER_1 ) << "good" << '\n';
+    t( LogLevel::App1 ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::USER_2 ) << "good" << '\n';
+    t( LogLevel::App2 ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::USER_3 ) << "good" << '\n';
+    t( LogLevel::App3 ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::USER_4 ) << "good" << '\n';
+    t( LogLevel::App4 ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::INFO ) << "good" << '\n';
+    t( LogLevel::Info ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::TEST ) << "good" << '\n';
+    t( LogLevel::Test ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::DEBUG ) << "good" << '\n';
+    t( LogLevel::Debug ) << "good" << '\n';
     t << "good" << '\n';
     
-    t( LogLevel::FUNCT ) << "good" << '\n';
+    t( LogLevel::Funct ) << "good" << '\n';
     t << "good" << '\n';
     
   }  
@@ -465,7 +465,7 @@ tLog01( LibTest & tester )
 
     const FileStat t( LogStreamFn );
 
-    TEST( t.getSize() == 2431 );
+    TEST( t.getSize() == 2425 );
     
   }
 

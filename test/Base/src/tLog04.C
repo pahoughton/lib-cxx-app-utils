@@ -27,15 +27,15 @@ tLog04( LibTest & tester )
 
     ofstream tfile( "data/logfile.05.tee" );
     
-    Log t( fn, LogLevel::ERROR, true, false );
+    Log t( fn, LogLevel::Error, true, false );
 
 
     t.tee( tfile );
 
-    t( LogLevel::WARN ) << "BAD\n";
+    t( LogLevel::Warn ) << "BAD\n";
 
     for( int l = 0; l < 50; l++ )
-      t( LogLevel::ERROR ) << "good line: " << l << '\n';
+      t( LogLevel::Error ) << "good line: " << l << '\n';
 
   }
 
@@ -50,10 +50,10 @@ tLog04( LibTest & tester )
   {
     // trim( size_t );
 
-    Log t( fn, LogLevel::TEST, true, false );
+    Log t( fn, LogLevel::Test, true, false );
 
     for( int l = 0; l < 1000; l++ )
-      t( LogLevel::TEST ) << "good line: " << l << '\n';
+      t( LogLevel::Test ) << "good line: " << l << '\n';
 
 
     t.trim( 10240 );
@@ -73,10 +73,10 @@ tLog04( LibTest & tester )
   {
     // trim( void )
 
-    Log t( fn, LogLevel::TEST, true, false, ios::app, 0660, 10240 );
+    Log t( fn, LogLevel::Test, true, false, ios::app, 0660, 10240 );
 
     for( int l = 0; l < 50; l++ )
-      t( LogLevel::TEST ) << "good line: " << l << '\n';
+      t( LogLevel::Test ) << "good line: " << l << '\n';
 
     t.trim();
   }
@@ -96,13 +96,13 @@ tLog04( LibTest & tester )
     // setMaxSize( void )
     // setTrimSize( void )
     
-    Log t( fn, LogLevel::TEST, true, false );
+    Log t( fn, LogLevel::Test, true, false );
 
     t.setTrimSize( 1024 );
     t.setMaxSize( 8192 );
 
     for( int l = 0; l < 50; l++ )
-      t( LogLevel::TEST ) << "good line: " << l << '\n';
+      t( LogLevel::Test ) << "good line: " << l << '\n';
 
   }
 

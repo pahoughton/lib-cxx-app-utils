@@ -26,7 +26,7 @@ tLog02( LibTest & tester )
         
     Log	t( fn );
 
-    t( LogLevel::ERROR ) << "good\n";
+    t( LogLevel::Error ) << "good\n";
 
     logSize += strlen( "mm/dd/yy hh:mm:ss ERROR good\n" );
     
@@ -35,10 +35,10 @@ tLog02( LibTest & tester )
   {
     // Log( const char *, LogLevel::Level )
 
-    Log	t( fn, LogLevel::WARNING );
+    Log	t( fn, LogLevel::Warning );
 
-    t( LogLevel::ERROR ) << "BAD\n";
-    t( LogLevel::WARNING ) << "good\n";
+    t( LogLevel::Error ) << "BAD\n";
+    t( LogLevel::Warning ) << "good\n";
     
     logSize += strlen( "mm/dd/yy hh:mm:ss WARNING good\n" );
   }
@@ -46,20 +46,20 @@ tLog02( LibTest & tester )
   {
     // Log( const char *, LogLevel::Level, bool )
 
-    Log	t( fn, LogLevel::TEST, true );
+    Log	t( fn, LogLevel::Test, true );
 
-    t( LogLevel::ERROR ) << "BAD\n";
-    t( LogLevel::TEST ) << "good\n";
+    t( LogLevel::Error ) << "BAD\n";
+    t( LogLevel::Test ) << "good\n";
     
     logSize += strlen( "mm/dd/yy hh:mm:ss TEST good\n" );
   }
 
   {
     
-    Log	t( fn, LogLevel::TEST, false );
+    Log	t( fn, LogLevel::Test, false );
 
-    t( LogLevel::ERROR ) << "BAD\n";
-    t( LogLevel::TEST ) << "good\n";
+    t( LogLevel::Error ) << "BAD\n";
+    t( LogLevel::Test ) << "good\n";
     
     logSize += strlen( "mm/dd/yy hh:mm:ss good\n" );
   }
@@ -67,19 +67,19 @@ tLog02( LibTest & tester )
   {
     // Log( const char *, LogLevel::Level, bool, bool )
     
-    Log	t( fn, LogLevel::TEST, false, true );
+    Log	t( fn, LogLevel::Test, false, true );
 
-    t( LogLevel::ERROR ) << "BAD\n";
-    t( LogLevel::TEST ) << "good\n";
+    t( LogLevel::Error ) << "BAD\n";
+    t( LogLevel::Test ) << "good\n";
     
     logSize += strlen( "mm/dd/yy hh:mm:ss good\n" );
   }
 
   {
-    Log	t( fn, LogLevel::TEST, false, false );
+    Log	t( fn, LogLevel::Test, false, false );
 
-    t( LogLevel::ERROR ) << "BAD\n";
-    t( LogLevel::TEST ) << "good\n";
+    t( LogLevel::Error ) << "BAD\n";
+    t( LogLevel::Test ) << "good\n";
     
     logSize += strlen( "good\n" );
   }
@@ -95,22 +95,22 @@ tLog02( LibTest & tester )
   {  
     // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode )
 
-    Log t( fn, LogLevel::TEST, false, false, ios::out );
+    Log t( fn, LogLevel::Test, false, false, ios::out );
 
-    t( LogLevel::TEST ) << "1 good\n";
-    t( LogLevel::ERROR ) << "BAD\n";
-    t( LogLevel::TEST ) << "2 good\n";
+    t( LogLevel::Test ) << "1 good\n";
+    t( LogLevel::Error ) << "BAD\n";
+    t( LogLevel::Test ) << "2 good\n";
 
   }
   
   {
     
-    Log t( fn, LogLevel::TEST | LogLevel::WARN, false, false, ios::app );
+    Log t( fn, LogLevel::Test | LogLevel::Warn, false, false, ios::app );
 
-    t( LogLevel::TEST ) << "3 good\n";
-    t( LogLevel::ERROR ) << "BAD\n";
-    t( LogLevel::TEST ) << "4 good\n";
-    t( LogLevel::WARN ) << "5 good\n";
+    t( LogLevel::Test ) << "3 good\n";
+    t( LogLevel::Error ) << "BAD\n";
+    t( LogLevel::Test ) << "4 good\n";
+    t( LogLevel::Warn ) << "5 good\n";
 
   }
 
@@ -125,12 +125,12 @@ tLog02( LibTest & tester )
   {
     // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode, int )
 
-    Log t( fn, LogLevel::TEST | LogLevel::INFO, true, false, ios::app, 0666 );
+    Log t( fn, LogLevel::Test | LogLevel::Info, true, false, ios::app, 0666 );
 
-    t( LogLevel::DEBUG ) << "BAD\n";
-    t( LogLevel::TEST ) << "1 good\n";
-    t( LogLevel::INFO ) << "2 good\n";
-    t( LogLevel::TEST ) << "3 good\n";
+    t( LogLevel::Debug ) << "BAD\n";
+    t( LogLevel::Test ) << "1 good\n";
+    t( LogLevel::Info ) << "2 good\n";
+    t( LogLevel::Test ) << "3 good\n";
   }
 
   {
@@ -147,7 +147,7 @@ tLog02( LibTest & tester )
   {
     // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode, int, size_t )
 
-     Log t( fn, LogLevel::TEST | LogLevel::INFO, true, false,
+     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
 	    ios::app, 0666, 4096 );
 
      size_t lineLen = strlen( "TEST good test with log trimming.\n" );
@@ -156,7 +156,7 @@ tLog02( LibTest & tester )
      
      for( size_t line = 0; line < maxLines; line++ )
        {
-	 t( LogLevel::TEST ) << "good test with log trimming.\n";
+	 t( LogLevel::Test ) << "good test with log trimming.\n";
        }
   }
 
@@ -171,11 +171,11 @@ tLog02( LibTest & tester )
   
   {
 
-     Log t( fn, LogLevel::TEST | LogLevel::INFO, true, false,
+     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
 	    ios::app, 0666, 4096 );
 
      for( size_t l = 0; l < 50; l++ )       
-       t( LogLevel::TEST ) << "good test with log trimming.\n";
+       t( LogLevel::Test ) << "good test with log trimming.\n";
   }
   
   {
@@ -187,7 +187,7 @@ tLog02( LibTest & tester )
   }
 
   {
-     Log t( fn, LogLevel::TEST | LogLevel::INFO, true, false,
+     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
 	    ios::app, 0666, 2048 );
 
   }
@@ -207,7 +207,7 @@ tLog02( LibTest & tester )
   {
     // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode, int, size_t, size_t )
 
-     Log t( fn, LogLevel::TEST | LogLevel::INFO, true, false,
+     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
 	    ios::app, 0666, 4096, 2048 );
 
      size_t lineLen = strlen( "TEST good test with log trimming.\n" );
@@ -216,7 +216,7 @@ tLog02( LibTest & tester )
      
      for( size_t line = 0; line < maxLines; line++ )
        {
-	 t( LogLevel::TEST ) << "good test with log trimming.\n";
+	 t( LogLevel::Test ) << "good test with log trimming.\n";
        }
   }
 
@@ -231,11 +231,11 @@ tLog02( LibTest & tester )
   
   {
 
-     Log t( fn, LogLevel::TEST | LogLevel::INFO, true, false,
+     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
 	    ios::app, 0666, 4096, 2048 );
 
      for( size_t l = 0; l < 50; l++ )       
-       t( LogLevel::TEST ) << "good test with log trimming.\n";
+       t( LogLevel::Test ) << "good test with log trimming.\n";
   }
   
   {
@@ -247,7 +247,7 @@ tLog02( LibTest & tester )
   }
 
   {
-     Log t( fn, LogLevel::TEST | LogLevel::INFO, true, false,
+     Log t( fn, LogLevel::Test | LogLevel::Info, true, false,
 	    ios::app, 0666, 2048, 128 );
 
   }
