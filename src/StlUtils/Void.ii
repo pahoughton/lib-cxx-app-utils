@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/05/14 13:53:46  houghton
+// Added ::compare( const Void & lhs, const Void & rhs )
+//
 // Revision 2.4  1996/04/27 13:13:33  houghton
 // Bug-Fix: if inline gets defined at the top, it needs to be undef at
 //   at the bottom.
@@ -133,6 +136,13 @@ ostream &
 operator << ( ostream & dest, const Void & obj )
 {
   return( obj.toStream( dest ) );
+}
+
+inline
+int
+compare( const Void & lhs, const Void & rhs )
+{
+  return( lhs.compare( rhs ) );
 }
 
 #if defined( inline )

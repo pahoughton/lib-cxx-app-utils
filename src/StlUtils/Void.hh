@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 2.5  1996/05/14 13:53:54  houghton
+// Added ::compare( const Void & lhs, const Void & rhs )
+//
 // Revision 2.4  1996/04/27 13:13:26  houghton
 // Bug-Fix: '#else was missing'
 //
@@ -159,6 +162,10 @@ private:
 #endif
 #else
 #undef inline
+
+int
+compare( const Void & lhs, const Void & rhs );
+
 #endif
 
 
