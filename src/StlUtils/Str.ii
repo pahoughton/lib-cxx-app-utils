@@ -13,8 +13,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:44  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:47  houghton
+// Revised
 //
 //
 
@@ -27,49 +27,49 @@
 
 inline
 Str::Str( void )
-  : ios( new StrStreambuf )
+  : iostream( new StrStreambuf )
 {
   ;
 }
 
 inline
 Str::Str( const Str & src, size_t srcStart, size_t srcLen )
-  : ios( new StrStreambuf )
+  : iostream( new StrStreambuf )
 {
   append( src, srcStart, srcLen );
 }
 
 inline
 Str::Str( const SubStr & src, size_t srcStart, size_t srcLen )
-  : ios( new StrStreambuf )
+  : iostream( new StrStreambuf )
 {
   append( src, srcStart, srcLen );
 }
 
 inline
 Str::Str( const char * src, size_t srcLen )
-  : ios( new StrStreambuf )
+  : iostream( new StrStreambuf )
 {
   append( src, srcLen );
 }
 
 inline
 Str::Str( size_t count, char src )
-  : ios( new StrStreambuf )
+  : iostream( new StrStreambuf )
 {
   append( count, src );
 }
 
 inline
 Str::Str( InputIterator first, InputIterator last )
-  : ios( new StrStreambuf )
+  : iostream( new StrStreambuf )
 {
   append( first, last );
 }
 
 inline
 Str::Str( istream & src, bool text, bool line )
-  : ios( new StrStreambuf )
+  : iostream( new StrStreambuf )
 {
   if( line )
     {
@@ -1376,6 +1376,7 @@ void
 Str::reset( void )
 {
   seekp(0);
+  clear();
 }
 
 inline

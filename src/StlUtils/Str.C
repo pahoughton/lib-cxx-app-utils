@@ -10,8 +10,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:43  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:46  houghton
+// Revised
 //
 //
 
@@ -891,19 +891,11 @@ Str::toStream( ostream & dest ) const
   return( dest );
 }
 
-
-// getClassName - return the name of this class
-const char *
-Str::getClassName( void ) const
-{
-  return( "Str" );
-}
-
 // good - return TRUE if no detected errors
 bool
 Str::good( void ) const
 {
-  return( ios::good() );
+  return( rdbuf() != 0 && ios::good() );
 }
 
 // error - return a string describing the current state
@@ -921,10 +913,43 @@ Str::error( void ) const
     }
   else
     {
-      errStr << ": unknown error";
+      size_t eSize = errStr.size();
+
+      if( rdbuf() == 0 )
+	errStr << ": no 'streambuf'";
+      
+      if( ! ios::good() )
+	{
+	  if( ios::rdstate() & ios::eofbit )
+	    errStr << ": EOF bit set";
+	  if( ios::rdstate() & ios::failbit )
+	    errStr << ": FAIL bit set";
+	  if( ios::rdstate() & ios::badbit )
+	    errStr << ": BAD bit set";
+	}
+      
+      if( eSize == errStr.size() )
+	errStr << ": unknown error";
+      
     }
 
   return( errStr.cstr() );
+}
+
+// getClassName - return the name of this class
+const char *
+Str::getClassName( void ) const
+{
+  return( "Str" );
+}
+
+const char *
+Str::getVersion( bool withPrjVer ) const
+{
+  if( rdbuf() )
+    return( version.getVer( withPrjVer, rdbuf()->getVersion( false ) ) );
+  else
+    return( version.getVer( withPrjVer ) );  
 }
 
 ostream &
@@ -967,20 +992,8 @@ Str::dumpInfo(
       rdbuf()->dumpInfo( dest, pre, false );
     }
   
-
   return( dest  );
 }  
-
-
-const char *
-Str::getVersion( bool withPrjVer ) const
-{
-  if( rdbuf() )
-    return( version.getVer( withPrjVer, rdbuf()->getVersion( false ) ) );
-  else
-    return( version.getVer( withPrjVer ) );  
-}
-
     
 bool
 Str::writeNum( unsigned long num, unsigned short base, bool neg )

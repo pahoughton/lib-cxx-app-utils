@@ -12,24 +12,27 @@
 //
 // 
 // $Log$
-// Revision 1.3  1995/11/05 14:44:37  houghton
-// Ports and Version ID changes
+// Revision 1.4  1995/11/05 15:28:39  houghton
+// Revised
 //
 //
 
-#ifdef CLUE_SHORT_FN
-#include <ClueCfg.hh>
-#else
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-#endif
-
 #include <LogLevel.hh>
 #include <FilePath.hh>
-
 #include <iostream>
 #include <fstream>
+#else
+#include <ClueCfg.hh>
+#include <LogLvl.hh>
+#include <FilePath.hh>
+#include <iostream>
+#include <fstream>
+#endif
 
-#ifdef  CLUE_DEBUG
+
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
@@ -86,10 +89,13 @@ public:
   virtual int	    underflow();
   virtual int	    sync() ;
 
-  const char *	    getClassName( void ) const;
-  ostream &	    dumpInfo( ostream & dest = cerr ) const;
+  virtual const char *  getClassName( void ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
   
-  static const char version[];
+  static const ClassVersion version;
   
 protected:
   
@@ -123,7 +129,7 @@ private:
   
 };
 
-#ifndef inline
+#if !defined( inline )
 #include <LogBuf.ii>
 #else
 #undef inline

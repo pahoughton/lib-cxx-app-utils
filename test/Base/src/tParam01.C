@@ -1,10 +1,20 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Param.hh>
-
 #include <Compare.hh>
 #include <Clue.hh>
-
 #include <cstdio>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <Param.hh>
+#include <Compare.hh>
+#include <Clue.hh>
+#include <cstdio>
+#endif
+
+
 
 char * argv01[] =
 {
@@ -37,7 +47,7 @@ char * argv02[] =
 };
 
 bool
-tParam01( LibTest & test )
+tParam01( LibTest & tester )
 {
   remove( "data/param.log.01" );
   
@@ -55,18 +65,18 @@ tParam01( LibTest & test )
     
     Param   t( argc, argv01, "ParamTest 01" );
 
-    test( compare( t.appName(), "test" ) == 0 );
-    test( compare( t.appFullName(), "test/test" ) == 0 );
-    test( compare( t.arg(0), "test/test" ) == 0 );
-    test( t.arg(1) == 0 );
-    test( t.count() == 1 );
-    test( compare( t.env( "USER" ), "houghton" ) == 0 );
+    TEST( compare( t.appName(), "test" ) == 0 );
+    TEST( compare( t.appFullName(), "test/test" ) == 0 );
+    TEST( compare( t.arg(0), "test/test" ) == 0 );
+    TEST( t.arg(1) == 0 );
+    TEST( t.count() == 1 );
+    TEST( compare( t.env( "USER" ), "houghton" ) == 0 );
     
     t.log().setTimeStamp( false );
     t.log().setLevelStamp( false );
     
-    test( t.log().getCurrent() == LogLevel::ERROR );
-    test( t.log( LogLevel::TEST ).getCurrent() == LogLevel::TEST );
+    TEST( t.log().getCurrent() == LogLevel::ERROR );
+    TEST( t.log( LogLevel::TEST ).getCurrent() == LogLevel::TEST );
   }
 
   {
@@ -94,8 +104,8 @@ tParam01( LibTest & test )
     t.log().setTimeStamp( false );
     t.log().setLevelStamp( false );
 
-    test( t.help() );
-    test( t.log().getOutput() == ( LogLevel::TEST | LogLevel::INFO ) );
+    TEST( t.help() );
+    TEST( t.log().getOutput() == ( LogLevel::TEST | LogLevel::INFO ) );
 
     ALog( LogLevel::TEST ) << t;
 
@@ -106,62 +116,62 @@ tParam01( LibTest & test )
     }
 
     char * string = "init";
-    test( t.argString( string, "argString test args", "string" ) );
-    test( compare( string, "test string" ) == 0 );
+    TEST( t.argString( string, "argString test args", "string" ) );
+    TEST( compare( string, "test string" ) == 0 );
     
     Str str( "init" );
-    test( t.argStr( str, "argStr test args", "str" ) );
-    test( compare( str, "test str" ) == 0 );
+    TEST( t.argStr( str, "argStr test args", "str" ) );
+    TEST( compare( str, "test str" ) == 0 );
 
     int i = 0;
-    test( t.argInt( i, "argInt test args", "int" ) );
-    test( i == -123 );
+    TEST( t.argInt( i, "argInt test args", "int" ) );
+    TEST( i == -123 );
 
     unsigned int ui = 0;
-    test( t.argInt( ui, "argInt unsigned test args", "uint" ) );
-    test( ui == 123 );
+    TEST( t.argInt( ui, "argInt unsigned test args", "uint" ) );
+    TEST( ui == 123 );
 
     short s = 0;
-    test( t.argShort( s, "argShort test args", "short" ) );
-    test( s == -456 );
+    TEST( t.argShort( s, "argShort test args", "short" ) );
+    TEST( s == -456 );
 
     unsigned short us = 0;
-    test( t.argShort( us, "argShort unsigned test args", "ushort" ) );
-    test( us == 456 );
+    TEST( t.argShort( us, "argShort unsigned test args", "ushort" ) );
+    TEST( us == 456 );
 
     long l = 0;
-    test( t.argLong( l, "argLong test args", "long" ) );
-    test( l == -789 );
+    TEST( t.argLong( l, "argLong test args", "long" ) );
+    TEST( l == -789 );
 
     unsigned long ul = 0;
-    test( t.argLong( ul, "argLong unsigned test args", "ulong" ) );
-    test( ul == 789 );
+    TEST( t.argLong( ul, "argLong unsigned test args", "ulong" ) );
+    TEST( ul == 789 );
 
     double d = 0;
-    test( t.argDouble( d, "argDouble test args", "double" ) );
-    test( d == 10.10 );
+    TEST( t.argDouble( d, "argDouble test args", "double" ) );
+    TEST( d == 10.10 );
 
     bool b = false;
-    test( t.argBool( b, "argBool test args", "bool" ) );
-    test( b == true );
+    TEST( t.argBool( b, "argBool test args", "bool" ) );
+    TEST( b == true );
 
     bool f = false;
-    test( t.argFlag( f, "argFlag test args", "flag" ) );
-    test( f == true );
+    TEST( t.argFlag( f, "argFlag test args", "flag" ) );
+    TEST( f == true );
 
     time_t tt = 0;
     DateTime tval( "7/15/95 08:15:15" );
-    test( t.argDateTime( tt, "argDateTime time_t test args", "timet" ) );
-    test( tt == tval.getTimeT() );
+    TEST( t.argDateTime( tt, "argDateTime time_t test args", "timet" ) );
+    TEST( tt == tval.getTimeT() );
 
     DateTime dt( "9/1/95 06:00:10" );
     DateTime dtval( "8/1/95 06:00:10" );
-    test( t.argDateTime( dt, "argDateTime DateTime test args", "datetime" ) );
-    test( dt == dtval );
+    TEST( t.argDateTime( dt, "argDateTime DateTime test args", "datetime" ) );
+    TEST( dt == dtval );
 
     ALog( LogLevel::TEST ) << t;
 
-    test( t.count() == 1 );
+    TEST( t.count() == 1 );
   }
   
       

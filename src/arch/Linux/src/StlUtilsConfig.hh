@@ -11,8 +11,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 14:49:28  houghton
-// Linux Configuration Headers
+// Revision 1.2  1995/11/05 15:29:33  houghton
+// Revised
 //
 //
 
@@ -24,7 +24,7 @@
 #define CLUE_SAFETY_ON 1
 #endif
 
-#define CLUE_STRBUF_CONST_RDBUF
+#define CLUE_STRBUF_CONST_RDBUF const
 
 
 #define CLUE_CHAR   char

@@ -9,27 +9,38 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 14:44:38  houghton
-// Ports and Version ID changes
+// Revision 1.4  1995/11/05 15:28:40  houghton
+// Revised
 //
 // Revision 1.1  1995/02/13  16:08:46  houghton
 // New Style Avl an memory management. Many New Classes
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "LogLevel.hh"
 #include "Clue.hh"
-
+#include "Str.hh"
 #include <cstring>
-
-#ifdef   CLUE_DEBUG
-#define  inline
-#include <LogLevel.ii>
+#else
+#include "LogLvl.hh"
+#include "Clue.hh"
+#include "Str.hh"
+#include <cstring>
 #endif
 
-const char LogLevel::version [] =
-LIB_CLUE_VERSION
-"$Id$";
+#if defined( CLUE_DEBUG )
+#define  inline
+#if !defined( CLUE_SHORT_FN )
+#include "LogLevel.ii"
+#else
+#include "LogLvl.ii"
+#endif
+#endif
+
+CLUE_VERSION(
+  LogLevel,
+  "$Id$" );
 
 const LogLevel::Level	LogLevel::NONE;
 const LogLevel::Level	LogLevel::ERROR( 0 );
@@ -144,32 +155,92 @@ LogLevel::setCurrent( const char * lvl )
   return( old );
 }
 
+size_t
+LogLevel::getBinSize( void ) const
+{
+  return( Sizeof( output ) + Sizeof( current ) );
+}
+
+BinStream &
+LogLevel::write( BinStream & dest ) const
+{
+  dest.write( output );
+  dest.write( current );
+  return( dest );
+}
+
+BinStream &
+LogLevel::read( BinStream & src )
+{
+  src.read( output );
+  src.read( current );
+  return( src );
+}
+
+ostream &
+LogLevel::write( ostream & dest ) const
+{
+  output.write( dest );
+  current.write( dest );
+  return( dest );
+}
+
+istream &
+LogLevel::read( istream & src )
+{
+  output.read( src );
+  current.read( src );
+  return( src );
+}
+
+ostream &
+LogLevel::toStream( ostream & dest ) const
+{
+  dest << getName( current );
+  return( dest );
+}
+
 const char *
 LogLevel::getClassName( void ) const
 {
   return( "LogLevel" );
 }
 
-ostream &
-LogLevel::dumpInfo( ostream & dest ) const
+const char *
+LogLevel::getVersion( bool withPrjVer ) const
 {
-  dest << getClassName() << ":\n";
-
-  dest << "    " << version << '\n';
-
-  dest << "    Output:  " ;
-  dest << getLevelNames( getOutput() ) << '\n';
-  dest << "    Current: " ;
-  dest << getLevelNames( getCurrent() ) << '\n';
+  return( version.getVer( withPrjVer, output.getVersion( false ) ) );
+}
   
-  dest << "    Output Bits:  " ;
-  dest << getOutput() << '\n';
-  dest << "    Current Bits: " ;
-  dest << getCurrent() << '\n';
+
+ostream &
+LogLevel::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << LogLevel::getClassName() << ":\n"
+	 << LogLevel::getVersion() << '\n';
+
+  Str pre;
+  pre = prefix ;
+  pre << "output:" << output.getClassName() << "::";
+  output.dumpInfo( dest, pre, false );
+
+  pre = prefix;
+  pre << "current:" << current.getClassName() << "::";
+  current.dumpInfo( dest, pre, false );
+  
+  dest << prefix << "output:    " << getLevelNames( output ) << '\n'
+       << prefix << "current:   " << getLevelNames( current ) << '\n'
+    ;
+  
   dest << '\n';
 
   return( dest  );
 }
-  
+
   
   

@@ -1,13 +1,22 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Log.hh>
-
 #include <FileStat.hh>
-
 #include <fstream>
 #include <cstdio>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <Log.hh>
+#include <FileStat.hh>
+#include <fstream>
+#include <cstdio>
+#endif
+
 
 bool
-tLog04( LibTest & test )
+tLog04( LibTest & tester )
 {
   const char * fn = "data/logfile.05";
 
@@ -31,8 +40,8 @@ tLog04( LibTest & test )
   }
 
   {
-    test.file( fn );
-    test.file( "data/logfile.05.tee" );
+    tester.file( __FILE__, __LINE__, fn );
+    tester.file( __FILE__, __LINE__, "data/logfile.05.tee" );
   }
 
   fn = "data/logfile.06";
@@ -57,7 +66,7 @@ tLog04( LibTest & test )
 
     size_t lineLen = strlen( "TEST good line: 000\n" );
     
-    test( (size_t) t.getSize() > ( (10240 / 4) - lineLen ) &&
+    TEST( (size_t) t.getSize() > ( (10240 / 4) - lineLen ) &&
 	  (size_t) t.getSize() < ( ( 10240 - ( 10240 / 4 ) ) + lineLen ));
   }
 
@@ -78,7 +87,7 @@ tLog04( LibTest & test )
 
     size_t lineLen = strlen( "TEST good line: 000\n" );
     
-    test( (size_t) t.getSize() > ( (10240 / 4) - lineLen ) &&
+    TEST( (size_t) t.getSize() > ( (10240 / 4) - lineLen ) &&
 	  (size_t) t.getSize() < ( ( 10240 - ( 10240 / 4 ) ) + lineLen ));
   }
 
@@ -103,7 +112,7 @@ tLog04( LibTest & test )
 
     size_t lineLen = strlen( "TEST good line: 000\n" );
     
-    test( (size_t) t.getSize() > ( (8192 - 1024) - lineLen ) &&
+    TEST( (size_t) t.getSize() > ( (8192 - 1024) - lineLen ) &&
 	  t.getSize() <  8192 );
   }
  

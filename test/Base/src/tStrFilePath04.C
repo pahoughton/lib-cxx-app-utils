@@ -34,7 +34,7 @@ tFilePath04( LibTest & tester )
 
     TEST( tStrm.good() );
     TEST( (size_t)tStrm.tellp() == tw.getBinSize() );
-    TEST( tStrm.tellg() == tr.tellp() );
+    TEST( tStrm.tellg() == tStrm.tellp() );
     TEST( tr.getBinSize() == tw.getBinSize() );
     TEST( tw == tr );
 
@@ -48,16 +48,16 @@ tFilePath04( LibTest & tester )
   }
 
   {
-    // write( void ) const
-    // read( void ) const
+    // write( ostream & ) const
+    // read( istream & )
 
-    const FilePath  tout( ":usr:src","libClue.a", '/','.' );
-    FilePath	    tin;
+    const FilePath  tw( ":usr:src","libClue.a", '/','.' );
+    FilePath	    tr;
 
-    strstream testStream;
+    strstream tStrm;
 
-    streampos gpos = testStream.tellg();
-    streampos ppos = testStream.tellp();
+    streampos gpos = tStrm.tellg();
+    streampos ppos = tStrm.tellp();
 
 #ifdef AIX
     ppos = 0;
@@ -67,14 +67,14 @@ tFilePath04( LibTest & tester )
     TEST( ppos == 0 );
     TEST( gpos == 0 );
     
-    tout.write( testStream );
-    ppos += tout.getBinSize();
-    TEST( ppos == testStream.tellp() );
+    tw.write( tStrm );
+    ppos += tw.getBinSize();
+    TEST( ppos == tStrm.tellp() );
       
-    tin.read( testStream );
-    gpos += tin.getBinSize();
-    TEST( gpos == testStream.tellg() );
-    TEST( tin == tout );
+    tr.read( tStrm );
+    gpos += tr.getBinSize();
+    TEST( gpos == tStrm.tellg() );
+    TEST( tr == tw );
   }
 
   {
@@ -97,7 +97,7 @@ tFilePath04( LibTest & tester )
 
     const FilePath	t( ":usr:src", "test.c", ':' );
 
-    TEST( t.good() );
+    TESTR( t.error(), t.good() );
     TEST( t.error() != 0 );
     TEST( t.getClassName() != 0 );
     TEST( t.getVersion() != 0 );

@@ -12,23 +12,24 @@
 //
 // 
 // $Log$
-// Revision 1.4  1995/11/05 14:44:55  houghton
-// Ports and Version ID changes
+// Revision 1.5  1995/11/05 15:28:50  houghton
+// Revised
 //
 //
 //
 
-#ifdef CLUE_SHORT_FN
-#include <ClueCfg.hh>
-#else
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
+#include <ctime>
+#include <iostream>
+#else
+#include <ClueCfg.hh>
+#include <ctime>
+#include <iostream>
 #endif
 
-#include <time.h>
 
-#include <iostream>
-
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
@@ -39,6 +40,8 @@ public:
 
   inline Timer( time_t startTime = 0 );
 
+  virtual ~Timer( void ) {};
+  
   inline time_t    	start( time_t startTime = 0 );
   inline time_t    	stop( time_t stopTime = 0 );
 
@@ -46,11 +49,17 @@ public:
   inline time_t    	getStart( void ) const;
   inline time_t    	getStop( void ) const;
 
-  inline const char *	getClassName( void ) const;
-  inline ostream &	toStream( ostream & dest = cout ) const;
-  ostream &		dumpInfo( ostream & dest = cerr ) const;
-
-  static const char version[];
+  virtual ostream &	toStream( ostream & dest = cout ) const;
+  
+  friend inline ostream & operator<<( ostream & dest, const Timer & timer );
+  
+  virtual const char *	getClassName( void ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
+  
+  static const ClassVersion version;
   
 protected:
 
@@ -62,14 +71,10 @@ private:
 };
 
 
-#ifndef	 inline
+#if !defined( inline )
 #include <Timer.ii>
 #else
 #undef inline
-
-ostream &
-operator<<( ostream & dest, const Timer & timer );
-
 #endif
 
 #endif // ! def _Timer_hh_ 

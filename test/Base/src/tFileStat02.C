@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FileStat.hh>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <FileStat.hh>
+#endif
 
 bool
-tFileStat02( LibTest & test )
+tFileStat02( LibTest & tester )
 {
   {
     // isLink( void ) const
@@ -17,93 +24,93 @@ tFileStat02( LibTest & test )
     
     const FileStat t( "data/FileStat.01" );
     
-    test( ! t.isLink() );
-    test(   t.isReg() );
-    test( ! t.isDir() );
-    test( ! t.isBlock() );
-    test( ! t.isChar() );
-    test( ! t.isSocket() );
-    test( ! t.isSetUID() );
-    test( ! t.isSetGID() );
+    TEST( ! t.isLink() );
+    TEST(   t.isReg() );
+    TEST( ! t.isDir() );
+    TEST( ! t.isBlock() );
+    TEST( ! t.isChar() );
+    TEST( ! t.isSocket() );
+    TEST( ! t.isSetUID() );
+    TEST( ! t.isSetGID() );
   }
 
   {
     
     const FileStat t( "data/FileStat.l1", true );
     
-    test(   t.isLink() );
-    test( ! t.isReg() );
-    test( ! t.isDir() );
-    test( ! t.isBlock() );
-    test( ! t.isChar() );
-    test( ! t.isSocket() );
-    test( ! t.isSetUID() );
-    test( ! t.isSetGID() );
+    TEST(   t.isLink() );
+    TEST( ! t.isReg() );
+    TEST( ! t.isDir() );
+    TEST( ! t.isBlock() );
+    TEST( ! t.isChar() );
+    TEST( ! t.isSocket() );
+    TEST( ! t.isSetUID() );
+    TEST( ! t.isSetGID() );
   }
 
   {
     const FileStat t( "data" );
 
-    test( ! t.isLink() );
-    test( ! t.isReg() );
-    test(   t.isDir() );
-    test( ! t.isBlock() );
-    test( ! t.isChar() );
-    test( ! t.isSocket() );
-    test( ! t.isSetUID() );
-    test( ! t.isSetGID() );
+    TEST( ! t.isLink() );
+    TEST( ! t.isReg() );
+    TEST(   t.isDir() );
+    TEST( ! t.isBlock() );
+    TEST( ! t.isChar() );
+    TEST( ! t.isSocket() );
+    TEST( ! t.isSetUID() );
+    TEST( ! t.isSetGID() );
   }
 
   {
     const FileStat t( "/dev/fd0" );
 
-    test( ! t.isLink() );
-    test( ! t.isReg() );
-    test( ! t.isDir() );
-    test(   t.isBlock() );
-    test( ! t.isChar() );
-    test( ! t.isSocket() );
-    test( ! t.isSetUID() );
-    test( ! t.isSetGID() );
+    TEST( ! t.isLink() );
+    TEST( ! t.isReg() );
+    TEST( ! t.isDir() );
+    TEST(   t.isBlock() );
+    TEST( ! t.isChar() );
+    TEST( ! t.isSocket() );
+    TEST( ! t.isSetUID() );
+    TEST( ! t.isSetGID() );
   }
 
   {
     const FileStat t( "/dev/tty" );
 
-    test( ! t.isLink() );
-    test( ! t.isReg() );
-    test( ! t.isDir() );
-    test( ! t.isBlock() );
-    test(   t.isChar() );
-    test( ! t.isSocket() );
-    test( ! t.isSetUID() );
-    test( ! t.isSetGID() );
+    TEST( ! t.isLink() );
+    TEST( ! t.isReg() );
+    TEST( ! t.isDir() );
+    TEST( ! t.isBlock() );
+    TEST(   t.isChar() );
+    TEST( ! t.isSocket() );
+    TEST( ! t.isSetUID() );
+    TEST( ! t.isSetGID() );
   }
 
   {
     const FileStat t("/dev/log" );
 
-    test( ! t.isLink() );
-    test( ! t.isReg() );
-    test( ! t.isDir() );
-    test( ! t.isBlock() );
-    test( ! t.isChar() );
-    test(   t.isSocket() );
-    test( ! t.isSetUID() );
-    test( ! t.isSetGID() );
+    TEST( ! t.isLink() );
+    TEST( ! t.isReg() );
+    TEST( ! t.isDir() );
+    TEST( ! t.isBlock() );
+    TEST( ! t.isChar() );
+    TEST(   t.isSocket() );
+    TEST( ! t.isSetUID() );
+    TEST( ! t.isSetGID() );
   }
 
   {
     const FileStat t( "/bin/passwd" );
     
-    test( ! t.isLink() );
-    test(   t.isReg() );
-    test( ! t.isDir() );
-    test( ! t.isBlock() );
-    test( ! t.isChar() );
-    test( ! t.isSocket() );
-    test(   t.isSetUID() );
-    test( ! t.isSetGID() );
+    TEST( ! t.isLink() );
+    TEST(   t.isReg() );
+    TEST( ! t.isDir() );
+    TEST( ! t.isBlock() );
+    TEST( ! t.isChar() );
+    TEST( ! t.isSocket() );
+    TEST(   t.isSetUID() );
+    TEST( ! t.isSetGID() );
   }
 
   {
@@ -112,14 +119,14 @@ tFileStat02( LibTest & test )
 #else    
     const FileStat t( "/usr/bin/elm" );
 #endif
-    test( ! t.isLink() );
-    test(   t.isReg() );
-    test( ! t.isDir() );
-    test( ! t.isBlock() );
-    test( ! t.isChar() );
-    test( ! t.isSocket() );
-    test( ! t.isSetUID() );
-    test(   t.isSetGID() );
+    TEST( ! t.isLink() );
+    TEST(   t.isReg() );
+    TEST( ! t.isDir() );
+    TEST( ! t.isBlock() );
+    TEST( ! t.isChar() );
+    TEST( ! t.isSocket() );
+    TEST( ! t.isSetUID() );
+    TEST(   t.isSetGID() );
   }
 
   return( true );

@@ -1,10 +1,19 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Log.hh>
-
+#include <FileStat.hh>
 #include <cstdio>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <Log.hh>
+#include <FileStat.hh>
+#include <cstdio>
+#endif
 
 bool
-tLog05( LibTest & test )
+tLog05( LibTest & tester )
 {
   const char * fn = "data/logfile.07";
 
@@ -42,7 +51,7 @@ tLog05( LibTest & test )
   }
 
   {
-    test.file( fn );
+    tester.file( __FILE__, __LINE__, fn );
   }
 
   fn = "data/logfile.08";
@@ -83,7 +92,7 @@ tLog05( LibTest & test )
   }
 
   {
-    test.file( fn );
+    tester.file( __FILE__, __LINE__, fn );
   }
 
   {
@@ -94,12 +103,12 @@ tLog05( LibTest & test )
 
     Log t( fn, LogLevel::ERROR | LogLevel::INFO, true, false );
 
-    test( t.getCurrent() == LogLevel::ERROR );
-    test( t.getOutput() == LogLevel::ERROR | LogLevel::INFO );
+    TEST( t.getCurrent() == LogLevel::ERROR );
+    TEST( t.getOutput() == LogLevel::ERROR | LogLevel::INFO );
 
-    test( t.willOutput( LogLevel::ERROR ) );
-    test( t.willOutput( LogLevel::INFO ) );
-    test( ! t.willOutput( LogLevel::TEST ) );
+    TEST( t.willOutput( LogLevel::ERROR ) );
+    TEST( t.willOutput( LogLevel::INFO ) );
+    TEST( ! t.willOutput( LogLevel::TEST ) );
   }
 
   {
@@ -125,13 +134,13 @@ tLog05( LibTest & test )
 	t() << "BAD " << l << "\n";
     }
     
-    test( ! t.good() );
+    TEST( ! t.good() );
     
-    test.file( "data/logfile.09" );
+    tester.file( __FILE__, __LINE__, "data/logfile.09" );
 
     t.open( "data/logfile.10", ios::out );
 
-    test( t.good() );
+    TEST( t.good() );
 
     {
       for( size_t l = 0; l < 50; l++ )
@@ -140,7 +149,7 @@ tLog05( LibTest & test )
   }
 
   {
-    test.file( "data/logfile.10" );
+    tester.file( __FILE__, __LINE__, "data/logfile.10" );
   }
   
   fn = "data/logfile.11";
@@ -183,7 +192,7 @@ tLog05( LibTest & test )
   }
 
   {
-    test.file( fn );
+    tester.file( __FILE__, __LINE__, fn );
   }
 
   fn = "data/logfile.12";
@@ -191,20 +200,32 @@ tLog05( LibTest & test )
   
   {
     // getClassName( void ) const
+    // getVersion( void ) const
+    // getVersion( bool ) const
+
+    Log t( fn, LogLevel::ERROR, true, false );
+
+    TEST( t.getClassName() != 0 );
+    TEST( t.getVersion() != 0 );
+    TEST( t.getVersion( false ) != 0 );
+    
+  }
+
+  {
     // dumpInfo( ostream & ) const
     // version
 
     Log t( fn, LogLevel::ERROR, true, false );
 
-    test( t.getClassName() != 0 );
-
-    strstream tStream;
-
-    t.dumpInfo( tStream );
-
-    test( t.version != 0 );
+    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
+    t.dumpInfo( tester.getDump(), " -> ", true );
+    tester.getDump() << '\n' << t.getClassName() << " version:\n";
+    tester.getDump() << t.version;
+    
+    tester.getDump() << '\n' << tester.getCurrentTestName();
+    
   }
-
+  
   {
     // LogIf( Log &, LogLeve::Level )
 
@@ -220,7 +241,7 @@ tLog05( LibTest & test )
   }
 
   {
-    test.file( fn );
+    tester.file( __FILE__, __LINE__, fn );
   }
 
   return( true );

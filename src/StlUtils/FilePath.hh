@@ -13,8 +13,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:33  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:34  houghton
+// Revised
 //
 //
 
@@ -26,7 +26,7 @@
 #include <Str.hh>
 #endif
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
@@ -47,7 +47,9 @@ public:
 		   const char * fileName,
 		   char    	dirDelim = CLUE_DIR_DELIM,
 		   char    	extDelim = '.' );
-  	    
+
+  inline FilePath( const FilePath & from );
+  
   inline Str 	    getFullName( void ) const;
   inline Str  	    getPath( void ) const;
   inline Str  	    getFileName( void ) const;

@@ -24,6 +24,8 @@ tStr01( LibTest & tester )
 {
   {
     // Str( void ) const
+    // good( void ) const
+    // reset( void )
     // size( void ) const
     // length( void ) const
     // empty( void ) const
@@ -34,18 +36,25 @@ tStr01( LibTest & tester )
     
     Str t;
     
+    TEST( t.good() );
+    t.reset();
+    TEST( t.good() );
+    
     TEST( t.size() == 0 );
     TEST( t.length() == t.size() );
     TEST( t.empty() );
     TEST( t.max_size() > 0 );
+    TEST( t.good() );
     
     t << Tstr;
 
+    TEST( t.good() );
     TEST( ! strcmp( t.cstr(), Tstr ) );
     TEST( strcmp( t.cstr(), "diff string" ) );
     TEST( t.size() == strlen( Tstr ) );
     TEST( t.length() == t.size() );
     TEST( ! t.empty() );
+    TEST( t.good() );
     
     // Test operator == next so I can use it for the rest of the tests
 
@@ -53,6 +62,7 @@ tStr01( LibTest & tester )
     TEST( ! (t == "diff string" ) );
     TEST( ! ( t != Tstr ) );
     TEST( t != "diff string" );    
+    TEST( t.good() );
   }
 
   {

@@ -12,8 +12,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  1995/11/05 13:23:27  houghton
-// Initaial implementation
+// Revision 1.2  1995/11/05 15:28:41  houghton
+// Revised
 //
 //
 
@@ -88,6 +88,39 @@ bool
 LogLevel::willOutput( const Level level ) const
 {
   return( level & output );
+}
+
+inline
+int
+LogLevel::compare( const LogLevel & two ) const
+{
+  int diff = current.compare( two.current );
+  if( ! diff )
+    return( output.compare( two.output ) );
+  else
+    return( diff );
+}
+
+inline
+bool
+LogLevel::operator == ( const LogLevel & rhs ) const
+{
+  return( compare( rhs ) == 0 );
+}
+
+inline
+bool
+LogLevel::operator <  ( const LogLevel & rhs ) const
+{
+  return( compare( rhs ) < 0 );
+}
+
+
+inline
+ostream &
+operator << ( ostream & dest, const LogLevel & obj )
+{
+  return( obj.toStream( dest ) );
 }
 
 #endif // ! def _LogLevel_ii_ 

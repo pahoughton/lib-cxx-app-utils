@@ -10,8 +10,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 14:45:48  houghton
-// Ports and Test method changes
+// Revision 1.4  1995/11/05 15:29:37  houghton
+// Revised
 //
 //
 
@@ -68,12 +68,12 @@ bool	tDateRange( LibTest & tester );
 bool	tDateRangeDaily( LibTest & tester );
 // DateRangeWeekly.hh
 bool	tDateRangeWeekly( LibTest & tester );
-// FilePath.hh
-bool	tFilePath( LibTest & tester );
 // Bitmask.hh
 bool	tBitmask( LibTest & tester );
 // SortOrder.hh
 bool	tSortOrder( LibTest & tester );
+// FilePath.hh
+bool	tFilePath( LibTest & tester );
 // User.hh
 bool	tUser( LibTest & tester );
 // UserGroup.hh
@@ -84,6 +84,9 @@ bool	tFileStat( LibTest & tester );
 bool	tLog( LibTest & tester );
 // Param.hh
 bool	tParam( LibTest & tester );
+
+// libClue works with LibCommon
+bool	tWithCommon( LibTest & tester );
 
 // Components
 bool tCompare01( LibTest & test );
@@ -129,10 +132,19 @@ bool tDateTime05( LibTest & tester );
 bool tDateTime06( LibTest & tester );
 bool tDateTime07( LibTest & tester );
 bool tDateTime08( LibTest & tester );
+bool tBitmask01( LibTest & tester );
+bool tBitmask02( LibTest & tester );
+bool tBitmask03( LibTest & tester );
 bool tFilePath01( LibTest & tester );
 bool tFilePath02( LibTest & tester );
 bool tFilePath03( LibTest & tester );
 bool tFilePath04( LibTest & tester );
+bool tLogLevel( LibTest & tester );
+bool tLog01( LibTest & tester );
+bool tLog02( LibTest & tester );
+bool tLog03( LibTest & tester );
+bool tLog04( LibTest & tester );
+bool tLog05( LibTest & tester );
 
 
 
@@ -166,15 +178,16 @@ LibTest::TestItem   TestList[] =
   { "DateRange",	    tDateRange },
   { "DateRangeDaily",	    tDateRangeDaily },
   { "DateRangeWeekly",	    tDateRangeWeekly },
-  { "FilePath",		    tFilePath },
-#if 0
   { "Bitmask",		    tBitmask },
   { "SortOrder",	    tSortOrder },
+  { "FilePath",		    tFilePath },
   { "User",		    tUser },
   { "UserGroup",	    tUserGroup },
   { "FileStat",		    tFileStat },
   { "Log",		    tLog },
   { "Param",		    tParam },
+  { "WithCommon",	    tWithCommon },
+#if 0
 #endif
 #ifdef COMPONENT_TEST
   { "ArraySize",    	    tArraySize },
@@ -244,10 +257,29 @@ LibTest::TestItem   TestList[] =
   { "DateRange",	    tDateRange },
   { "DateRangeDaily",	    tDateRangeDaily },
   { "DateRangeWeekly",	    tDateRangeWeekly },
+  { "Bitmask01",	    tBitmask01 },
+  { "Bitmask02",	    tBitmask02 },
+  { "Bitmask03",	    tBitmask03 },
+  { "SortOrder",	    tSortOrder },
   { "FilePath01",	    tFilePath01 },
   { "FilePath02",	    tFilePath02 },
   { "FilePath03",	    tFilePath03 },
   { "FilePath04",	    tFilePath04 },
+  { "User",		    tUser },
+  { "UserGroup",	    tUserGroup },
+  { "FileStat01",	    tFileStat01 },
+  { "FileStat02",	    tFileStat02 },
+  { "FileStat03",	    tFileStat03 },
+  { "FileStat04",	    tFileStat04 },
+  { "FileStat05",	    tFileStat05 },
+  { "FileStat06",	    tFileStat06 },
+  { "LogLevel",		    tLogLevel },
+  { "Log01",		    tLog01 },
+  { "Log02",		    tLog02 },
+  { "Log03",		    tLog03 },
+  { "Log04",		    tLog04 },
+  { "Log05",		    tLog05 },
+  { "Param01",		    tParam01 },
   
 #endif  
   { 0, 0 }

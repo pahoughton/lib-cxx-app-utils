@@ -10,8 +10,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:45  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:49  houghton
+// Revised
 //
 //
 

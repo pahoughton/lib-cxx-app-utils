@@ -16,8 +16,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.5  1995/11/05 14:44:44  houghton
-// Ports and Version ID changes
+// Revision 1.6  1995/11/05 15:28:47  houghton
+// Revised
 //
 //
 
@@ -55,8 +55,8 @@
 class CLUE_CLASS_T SubStr;
 class CLUE_CLASS_T RegexScan;
 
-class CLUE_CLASS_T Str : virtual public BinObject,
-			 virtual public iostream
+class CLUE_CLASS_T Str : public iostream,
+			 public BinObject
 {
 
 public:

@@ -1,13 +1,24 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
+#include <HeapBinStream.hh>
 #include <UserGroup.hh>
 #include <User.hh>
-
 #include <Compare.hh>
-
 #include <strstream>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <HBinStrm.hh>
+#include <UserGrp.hh>
+#include <User.hh>
+#include <Compare.hh>
+#include <strstream>
+#endif
+
 
 bool
-tUserGroup( LibTest & test )
+tUserGroup( LibTest & tester )
 {
   gid_t	gid = getgid();
   gid_t egid = getegid();
@@ -38,7 +49,7 @@ tUserGroup( LibTest & test )
   egrp.gr_name = ename;
 
   tgrp = getgrnam( "bin" );
-  test( tgrp != 0 );
+  TEST( tgrp != 0 );
 
   strcpy( bname, tgrp->gr_name );
   memcpy( &bgrp, tgrp, sizeof( bgrp ) );
@@ -58,9 +69,9 @@ tUserGroup( LibTest & test )
     
     UserGroup t;
 
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0 );
-    test( t.getMembers().size() == 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0 );
+    TEST( t.getMembers().size() == 0 );
   }
 
   {
@@ -68,9 +79,9 @@ tUserGroup( LibTest & test )
 
     UserGroup t( true );
     
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0 );
-    test( t.getMembers().size() != 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0 );
+    TEST( t.getMembers().size() != 0 );
   }
 
   {
@@ -78,9 +89,9 @@ tUserGroup( LibTest & test )
 
     UserGroup t( bgid );
 
-    test( t.getGID() == bgid );
-    test( compare( t.getName(), bgrp.gr_name ) == 0 );
-    test( t.getMembers().size() == 0 );
+    TEST( t.getGID() == bgid );
+    TEST( compare( t.getName(), bgrp.gr_name ) == 0 );
+    TEST( t.getMembers().size() == 0 );
   }
   
   {
@@ -88,9 +99,9 @@ tUserGroup( LibTest & test )
 
     UserGroup t( gid, true );
 
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0 );
-    test( t.getMembers().size() != 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0 );
+    TEST( t.getMembers().size() != 0 );
   }
 
   {
@@ -98,9 +109,9 @@ tUserGroup( LibTest & test )
 
     UserGroup t( bgrp.gr_name );
 
-    test( t.getGID() == bgid );
-    test( compare( t.getName(), bgrp.gr_name ) == 0 );
-    test( t.getMembers().size() == 0 );
+    TEST( t.getGID() == bgid );
+    TEST( compare( t.getName(), bgrp.gr_name ) == 0 );
+    TEST( t.getMembers().size() == 0 );
   }
 
   {
@@ -108,9 +119,9 @@ tUserGroup( LibTest & test )
     
     UserGroup t( grp.gr_name, true );
 
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0);
-    test( t.getMembers().size() != 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0);
+    TEST( t.getMembers().size() != 0 );
   }
 
   {
@@ -118,9 +129,9 @@ tUserGroup( LibTest & test )
 
     UserGroup t( getgrgid( gid ) );
 
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0);
-    test( t.getMembers().size() == 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0);
+    TEST( t.getMembers().size() == 0 );
   }
 
   {
@@ -128,9 +139,9 @@ tUserGroup( LibTest & test )
 
     UserGroup t( getgrgid( gid ), true );
 
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0);
-    test( t.getMembers().size() != 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0);
+    TEST( t.getMembers().size() != 0 );
   }
 
   {
@@ -144,9 +155,9 @@ tUserGroup( LibTest & test )
 
     UserGroup t( tStream );
     
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0);
-    test( t.getMembers().size() == 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0);
+    TEST( t.getMembers().size() == 0 );
   }
   
   {
@@ -159,9 +170,9 @@ tUserGroup( LibTest & test )
 
     UserGroup t( tStream, true );
     
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0);
-    test( t.getMembers().size() == 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0);
+    TEST( t.getMembers().size() == 0 );
   }
   
   {
@@ -174,15 +185,15 @@ tUserGroup( LibTest & test )
 
     UserGroup t( tStream, true, true );
     
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0);
-    test( t.getMembers().size() != 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0);
+    TEST( t.getMembers().size() != 0 );
   }
 
   {
     // effective( void )
 
-    test( UserGroup::effective().getGID() == egid );
+    TEST( UserGroup::effective().getGID() == egid );
   }
 
   {
@@ -192,7 +203,7 @@ tUserGroup( LibTest & test )
 
     UserGroup t( gid );
 
-    test( t.findMembers() > 0 );
+    TEST( t.findMembers() > 0 );
 
     struct group * gent = getgrgid( gid );
     struct group g;
@@ -215,14 +226,14 @@ tUserGroup( LibTest & test )
       g.gr_mem[mCount] = 0;
     }
     
-    test( t.getMembers().size() >= mCount );
+    TEST( t.getMembers().size() >= mCount );
 
     {
       for( size_t m = 0; g.gr_mem[m]; m++ )
 	{
 	  const User u( g.gr_mem[m] );
 	  
-	  test( t.isMember( u ) );
+	  TEST( t.isMember( u ) );
 	}
     }
     {
@@ -262,14 +273,14 @@ tUserGroup( LibTest & test )
       g.gr_mem[mCount] = 0;
     }
     
-    test( t.getMembers().size() >= mCount );
+    TEST( t.getMembers().size() >= mCount );
 
     {
       for( size_t m = 0; g.gr_mem[m]; m++ )
 	{
 	  const User u( g.gr_mem[m] );
 	  
-	  test( t.isMember( u ) );
+	  TEST( t.isMember( u ) );
 	}
     }
     {
@@ -287,7 +298,7 @@ tUserGroup( LibTest & test )
     
     UserGroup t( gid );
 
-    test( t.findMembers() > 0 );
+    TEST( t.findMembers() > 0 );
 
     struct group * gent = getgrgid( gid );
     struct group g;
@@ -310,14 +321,14 @@ tUserGroup( LibTest & test )
       g.gr_mem[mCount] = 0;
     }
     
-    test( t.getMembers().size() >= mCount );
+    TEST( t.getMembers().size() >= mCount );
 
     {
       for( size_t m = 0; g.gr_mem[m]; m++ )
 	{
 	  const User u( g.gr_mem[m] );
 	  
-	  test( t.isMember( u.getUID() ) );
+	  TEST( t.isMember( u.getUID() ) );
 	}
     }
     {
@@ -357,14 +368,14 @@ tUserGroup( LibTest & test )
       g.gr_mem[mCount] = 0;
     }
     
-    test( t.getMembers().size() >= mCount );
+    TEST( t.getMembers().size() >= mCount );
 
     {
       for( size_t m = 0; g.gr_mem[m]; m++ )
 	{
 	  const User u( g.gr_mem[m] );
 	  
-	  test( t.isMember( u.getUID() ) );
+	  TEST( t.isMember( u.getUID() ) );
 	}
     }
     {
@@ -382,7 +393,7 @@ tUserGroup( LibTest & test )
     
     UserGroup t( gid );
 
-    test( t.findMembers() > 0 );
+    TEST( t.findMembers() > 0 );
 
     struct group * gent = getgrgid( gid );
     struct group g;
@@ -405,12 +416,12 @@ tUserGroup( LibTest & test )
       g.gr_mem[mCount] = 0;
     }
     
-    test( t.getMembers().size() >= mCount );
+    TEST( t.getMembers().size() >= mCount );
 
     {
       for( size_t m = 0; g.gr_mem[m]; m++ )
 	{
-	  test( t.isMember( g.gr_mem[m] ) );
+	  TEST( t.isMember( g.gr_mem[m] ) );
 	}
     }
     {
@@ -449,12 +460,12 @@ tUserGroup( LibTest & test )
       g.gr_mem[mCount] = 0;
     }
     
-    test( t.getMembers().size() >= mCount );
+    TEST( t.getMembers().size() >= mCount );
 
     {
       for( size_t m = 0; g.gr_mem[m]; m++ )
 	{
-	  test( t.isMember( g.gr_mem[m] ) );
+	  TEST( t.isMember( g.gr_mem[m] ) );
 	}
     }
     {
@@ -474,9 +485,9 @@ tUserGroup( LibTest & test )
 
     t.set( bgid );
 
-    test( t.getGID() == bgid );
-    test( compare( t.getName(), bgrp.gr_name ) == 0 );
-    test( t.getMembers().size() == 0 );
+    TEST( t.getGID() == bgid );
+    TEST( compare( t.getName(), bgrp.gr_name ) == 0 );
+    TEST( t.getMembers().size() == 0 );
   }
 
   {
@@ -486,9 +497,9 @@ tUserGroup( LibTest & test )
 
     t.set( gid, true );
     
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0 );
-    test( t.getMembers().size() != 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0 );
+    TEST( t.getMembers().size() != 0 );
   }
 
   {
@@ -498,9 +509,9 @@ tUserGroup( LibTest & test )
 
     t.set( grp.gr_name );
     
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0 );
-    test( t.getMembers().size() == 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0 );
+    TEST( t.getMembers().size() == 0 );
   }
 
   {
@@ -510,9 +521,9 @@ tUserGroup( LibTest & test )
 
     t.set( grp.gr_name, true );
     
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0 );
-    test( t.getMembers().size() != 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0 );
+    TEST( t.getMembers().size() != 0 );
   }
 
   {
@@ -522,9 +533,9 @@ tUserGroup( LibTest & test )
 
     t.set( &grp );
     
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0 );
-    test( t.getMembers().size() == 0 );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0 );
+    TEST( t.getMembers().size() == 0 );
   }
 
   {
@@ -534,40 +545,9 @@ tUserGroup( LibTest & test )
 
     t.set( &grp, true );
     
-    test( t.getGID() == gid );
-    test( compare( t.getName(), grp.gr_name ) == 0 );
-    test( t.getMembers().size() != 0 );
-  }
-
-  {
-    // getStreamSize( void ) const
-    // write( ostream & ) const
-    // read( ostream & )
-
-    const UserGroup tout( gid );
-    UserGroup	    tin( bgid );
-
-    strstream testStream;
-
-    streampos gpos = testStream.tellg();
-    streampos ppos = testStream.tellp();
-
-#ifdef AIX
-    ppos = 0;
-    gpos = 0;
-#endif
-    
-    test( ppos == 0 );
-    test( gpos == 0 );
-    
-    tout.write( testStream );
-    ppos += tout.getStreamSize();
-    test( ppos == testStream.tellp() );
-      
-    tin.read( testStream );
-    gpos += tin.getStreamSize();
-    test( gpos == testStream.tellg() );
-    test( tin == tout );
+    TEST( t.getGID() == gid );
+    TEST( compare( t.getName(), grp.gr_name ) == 0 );
+    TEST( t.getMembers().size() != 0 );
   }
 
   {
@@ -593,12 +573,12 @@ tUserGroup( LibTest & test )
     const UserGroup t( l );
     const UserGroup tm( m );
 
-    test( t.compare( t ) == 0 );
-    test( t == t );
-    test( t.compare( tm ) < 0 );
-    test( t < tm );
-    test( tm.compare( t ) > 0 );
-    test( tm > t );
+    TEST( t.compare( t ) == 0 );
+    TEST( t == t );
+    TEST( t.compare( tm ) < 0 );
+    TEST( t < tm );
+    TEST( tm.compare( t ) > 0 );
+    TEST( tm > t );
   }
 
   {
@@ -611,33 +591,118 @@ tUserGroup( LibTest & test )
 
     strcpy( gn, t );
 
-    test( compare( t.getName(), gn ) == 0 );
+    TEST( compare( t.getName(), gn ) == 0 );
 
-    test( getgrgid( t )->gr_gid == gid );
+    TEST( getgrgid( t )->gr_gid == gid );
   }
 
+  {
+    // getBinSize( void ) const
+    // write( BinStream & dest ) const
+    // read( BinStream & src )
+    // BinStream::write( const BinObject & obj )
+    // BinStream::read( BinObject & obj )
+
+    HeapBinStream tStrm;
+
+    const UserGroup  tw( gid );
+    UserGroup	     tr(bgid);
+
+    TEST( tw.getBinSize() );
+
+    tw.write( tStrm );
+    tr.read( tStrm );
+
+    TEST( tStrm.good() );
+    TEST( (size_t)tStrm.tellp() == tw.getBinSize() );
+    TEST( tStrm.tellg() == tStrm.tellp() );
+    TEST( tr.getBinSize() == tw.getBinSize() );
+    TEST( tw == tr );
+
+    tr = bgid;
+    TEST( tw != tr );
+    
+    tStrm.write( tw );
+    tStrm.read( tr );
+
+    TEST( tr == tw );
+  }
+
+  {
+    // write( ostream & ) const
+    // read( istream & )
+
+    const UserGroup  tw( gid );
+    UserGroup	     tr( bgid );
+
+    strstream tStrm;
+
+    streampos gpos = tStrm.tellg();
+    streampos ppos = tStrm.tellp();
+
+#ifdef AIX
+    ppos = 0;
+    gpos = 0;
+#endif
+    
+    TEST( ppos == 0 );
+    TEST( gpos == 0 );
+    
+    tw.write( tStrm );
+    ppos += tw.getBinSize();
+    TEST( ppos == tStrm.tellp() );
+      
+    tr.read( tStrm );
+    gpos += tr.getBinSize();
+    TEST( gpos == tStrm.tellg() );
+    TEST( tr == tw );
+  }
+
+  {
+    // toStream( ostream & ) const
+    // operator << ( ostream &, const FilePath & )
+
+    strstream tStrm;
+    const UserGroup t( gid );
+
+    t.toStream( tStrm );
+    tStrm << t;
+  }
+    
   {
     // good( void ) const
     // error( void ) const
     // getClassName( void ) const
-    // toStream( ostream & ) const
+    // getVersion( void ) const
+    // getVersion( bool ) const
+
+    const UserGroup t( gid );
+
+    TESTR( t.error(), t.good() );
+    TEST( t.error() != 0 );
+    TEST( t.getClassName() != 0 );
+    TEST( t.getVersion() != 0 );
+    TEST( t.getVersion( false ) != 0 );
+    
+  }
+
+  {
     // dumpInfo( ostream & ) const
     // version
 
-    const UserGroup t;
+    const UserGroup t( gid );
 
-    test( t.good() );
-    test( t.error() != 0 );
-    test( t.getClassName() != 0 );
-
-    strstream tStream;
-
-    t.toStream( tStream );
-    t.dumpInfo( tStream );
-
-    test( t.version != 0 );
+    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
+    t.toStream( tester.getDump() );
+    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
+    t.dumpInfo( tester.getDump(), " -> ", true );
+    tester.getDump() << '\n' << t.getClassName() << " version:\n";
+    tester.getDump() << t.version;
+    
+    tester.getDump() << '\n' << tester.getCurrentTestName();
+    
   }
-  
+    
   {
     // ::compare( const UserGroup &, const UserGroup & );
     const char * l = 0;
@@ -657,19 +722,9 @@ tUserGroup( LibTest & test )
     const UserGroup t( l );
     const UserGroup tm( m );
 
-    test( compare( t, t ) == 0 );
-    test( compare( t, tm ) < 0 );
-    test( compare( tm, t ) > 0 );
-  }
-
-  {
-    // operator << ( ostream &, const UserGroup & )
-
-    const UserGroup t( gid );
-
-    strstream tStream;
-
-    tStream << t;
+    TEST( compare( t, t ) == 0 );
+    TEST( compare( t, tm ) < 0 );
+    TEST( compare( tm, t ) > 0 );
   }
 
   return( true );

@@ -11,30 +11,33 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.6  1995/11/05 14:44:36  houghton
-// Ports and Version ID changes
+// Revision 1.7  1995/11/05 15:28:37  houghton
+// Revised
 //
 //
 
-#ifdef CLUE_SHORT_FN
-#include <ClueCfg.hh>
-#else
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-#endif
-
-#include <LogLevel.hh>
 #include <LogBuf.hh>
-
 #include <iostream>
 #include <iomanip>
-
 #include <fstream>
+#else
+#include <ClueCfg.hh>
+#include <LogBuf.hh>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#endif
+
+
+
 
 #define WHERE  __FILE__ << ':' << __LINE__ 
 
 #define LogIf( lg, lvl ) if( (lg).willOutput( lvl ) ) ((lg)( lvl ))
 
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
@@ -107,11 +110,15 @@ public:
   inline LogBuf *	    rdbuf( void );
   inline const LogBuf *	    rdbuf( void ) const;
 
-  inline bool 		    good( void ) const;
-  const char *		    getClassName( void ) const;
-  ostream &		    dumpInfo( ostream & dest = cerr ) const;
+  virtual bool 		good( void ) const;
+  virtual const char *	error( void ) const;
+  virtual const char *	getClassName( void ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
   
-  static const char version[];
+  static const ClassVersion version;
   
 protected:
 

@@ -12,29 +12,33 @@
 //
 // 
 // $Log$
-// Revision 1.5  1995/11/05 14:44:40  houghton
-// Ports and Version ID changes
+// Revision 1.6  1995/11/05 15:28:44  houghton
+// Revised
 //
 //
 
-#ifdef CLUE_SHORT_FN
-#include <ClueCfg.hh>
-#else
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-#endif
-
 #include <Log.hh>
 #include <Str.hh>
 #include <DateTime.hh>
-
 #include <cstdlib>
 #include <climits>
+#else
+#include <ClueCfg.hh>
+#include <Log.hh>
+#include <Str.hh>
+#include <DateTime.hh>
+#include <cstdlib>
+#include <climits>
+#endif
+
 
 #define DEFAULT_LOGLEVEL "ERROR | WARNING"
 
 #define ALog( lvl )	LogIf( App->log(), lvl )
 
-#ifndef UTIL_OPTIMIZE
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
@@ -143,13 +147,21 @@ public:
 		       bool 	    showArgs = false,
 		       ostream &    dest = cerr );
 
+  // libClue Common Class Methods
+  
+  virtual ostream & 	toStream( ostream & dest ) const;
+
+  friend inline ostream & operator << ( ostream & dest, const Param & obj );
+    
   virtual bool	    	good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char *	getClassName( void ) const;
-  virtual ostream & 	toStream( ostream & dest ) const;
-  virtual ostream & 	dumpInfo( ostream & dest ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
   
-  static const char version[];
+  static const ClassVersion version;
   
 protected:
 
@@ -186,10 +198,6 @@ private:
 #include <Param.ii>
 #else
 #undef inline
-
-ostream &
-operator<<( ostream & dest, const Param & param );
-    
 #endif
 
 

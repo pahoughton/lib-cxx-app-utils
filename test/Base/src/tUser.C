@@ -1,11 +1,23 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
+#include <HeapBinStream.hh>
 #include <User.hh>
-
 #include <Str.hh>
 #include <Compare.hh>
-
 #include <fstream>
 #include <strstream>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <HBinStrm.hh>
+#include <User.hh>
+#include <Str.hh>
+#include <Compare.hh>
+#include <fstream>
+#include <strstream>
+#endif
+
 
 int
 compareGid( gid_t * one, gid_t * two )
@@ -14,7 +26,7 @@ compareGid( gid_t * one, gid_t * two )
 }
 
 bool
-tUser( LibTest & test )
+tUser( LibTest & tester )
 {
   uid_t	    uid = getuid();
   uid_t	    euid = geteuid();
@@ -78,15 +90,15 @@ tUser( LibTest & test )
     
     User t;
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() == 0 );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() == 0 );
     
   }
 
@@ -95,15 +107,15 @@ tUser( LibTest & test )
 
     User t( true );
     
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() != 0 );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -111,9 +123,9 @@ tUser( LibTest & test )
     
     User t( (uid_t)0 );
 
-    test( t.getUID() == 0 );
-    test( compare( t.getName(), "root" ) == 0 );
-    test( t.getGroups().size() == 0 );
+    TEST( t.getUID() == 0 );
+    TEST( compare( t.getName(), "root" ) == 0 );
+    TEST( t.getGroups().size() == 0 );
   }
 
   {
@@ -121,9 +133,9 @@ tUser( LibTest & test )
 
     User t( (uid_t)0, true );
     
-    test( t.getUID() == 0 );
-    test( compare( t.getName(), "root" ) == 0 );
-    test( t.getGroups().size() != 0 );
+    TEST( t.getUID() == 0 );
+    TEST( compare( t.getName(), "root" ) == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -131,15 +143,15 @@ tUser( LibTest & test )
 
     User t( pw.pw_name );
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() == 0 );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() == 0 );
   }
 
   {
@@ -147,15 +159,15 @@ tUser( LibTest & test )
     
     User t( pw.pw_name, true );
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() != 0 );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -163,15 +175,15 @@ tUser( LibTest & test )
 
     User t( &pw );
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() == 0 );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() == 0 );
   }
 
   {
@@ -179,15 +191,15 @@ tUser( LibTest & test )
     
     User t( &pw, true );
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() != 0 );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -201,15 +213,15 @@ tUser( LibTest & test )
 
     User t( tStream );
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() == 0 );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() == 0 );
   }
 
   {
@@ -222,15 +234,15 @@ tUser( LibTest & test )
 
     User t( tStream, true );
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() == 0 );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() == 0 );
   }
 
   {
@@ -244,21 +256,21 @@ tUser( LibTest & test )
 
     User t( tStream, true, true );
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() != 0 );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
     // effective( void )
 
-    test( User::effective().getUID() == euid );
+    TEST( User::effective().getUID() == euid );
 
   }
 
@@ -290,11 +302,11 @@ tUser( LibTest & test )
     
     User t( uid );
 
-    test( t.getGroups().size() == 0 );
+    TEST( t.getGroups().size() == 0 );
 
     t.findGroups();
 
-    test( t.getGroups().size() == gCount );
+    TEST( t.getGroups().size() == gCount );
 
     for( User::Groups::iterator them = t.getGroups().begin();
 	 them != t.getGroups().end();
@@ -307,8 +319,8 @@ tUser( LibTest & test )
 					  gCount,
 					  sizeof( groups[0] ),
 					  (int(*)(const void*,const void*))compareGid );
-	test( found != 0 );
-	test( *found == (*them).getGID() );
+	TEST( found != 0 );
+	TEST( *found == (*them).getGID() );
       }
   }
 
@@ -318,7 +330,7 @@ tUser( LibTest & test )
     User t( uid );
 
     for( size_t g = 0; g < gCount; g++ )
-      test( t.isMember( groups[g] ) );
+      TEST( t.isMember( groups[g] ) );
 
   }
   
@@ -328,7 +340,7 @@ tUser( LibTest & test )
     const User t( uid );
 
     for( size_t g = 0; g < gCount; g++ )
-      test( ! t.isMember( groups[g] ) );
+      TEST( ! t.isMember( groups[g] ) );
 
   }
     
@@ -338,7 +350,7 @@ tUser( LibTest & test )
     const User t( uid, true );
 
     for( size_t g = 0; g < gCount; g++ )
-      test( t.isMember( groups[g] ) );
+      TEST( t.isMember( groups[g] ) );
 
   }
 
@@ -348,7 +360,7 @@ tUser( LibTest & test )
     User t( uid );
 
     for( size_t g = 0; g < gCount; g++ )
-      test( t.isMember( getgrgid( groups[g] )->gr_name ) );
+      TEST( t.isMember( getgrgid( groups[g] )->gr_name ) );
   }
   
   {
@@ -357,7 +369,7 @@ tUser( LibTest & test )
     const User t( uid );
 
     for( size_t g = 0; g < gCount; g++ )
-      test( ! t.isMember( getgrgid( groups[g] )->gr_name ) );
+      TEST( ! t.isMember( getgrgid( groups[g] )->gr_name ) );
   }
   
   {
@@ -366,7 +378,7 @@ tUser( LibTest & test )
     const User t( uid, true );
 
     for( size_t g = 0; g < gCount; g++ )
-      test( t.isMember( getgrgid( groups[g] )->gr_name ) );
+      TEST( t.isMember( getgrgid( groups[g] )->gr_name ) );
   }
 
   {
@@ -376,9 +388,9 @@ tUser( LibTest & test )
 
     t.set( (uid_t) 0 );
 
-    test( t.getUID() == 0 );
-    test( compare( t.getName(), "root" ) == 0 );
-    test( t.getGroups().size() == 0 );
+    TEST( t.getUID() == 0 );
+    TEST( compare( t.getName(), "root" ) == 0 );
+    TEST( t.getGroups().size() == 0 );
   }
 
   {
@@ -388,9 +400,9 @@ tUser( LibTest & test )
 
     t.set( (uid_t) 0, true );
 
-    test( t.getUID() == 0 );
-    test( compare( t.getName(), "root" ) == 0 );
-    test( t.getGroups().size() != 0 );
+    TEST( t.getUID() == 0 );
+    TEST( compare( t.getName(), "root" ) == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
 
   {
@@ -399,9 +411,9 @@ tUser( LibTest & test )
 
     t.set( "root" );
 
-    test( t.getUID() == 0 );
-    test( compare( t.getName(), "root" ) == 0 );
-    test( t.getGroups().size() == 0 );
+    TEST( t.getUID() == 0 );
+    TEST( compare( t.getName(), "root" ) == 0 );
+    TEST( t.getGroups().size() == 0 );
   }
   
   {
@@ -410,9 +422,9 @@ tUser( LibTest & test )
 
     t.set( "root", true );
 
-    test( t.getUID() == 0 );
-    test( compare( t.getName(), "root" ) == 0 );
-    test( t.getGroups().size() != 0 );
+    TEST( t.getUID() == 0 );
+    TEST( compare( t.getName(), "root" ) == 0 );
+    TEST( t.getGroups().size() != 0 );
   }
     
   {
@@ -422,15 +434,15 @@ tUser( LibTest & test )
 
     t.set( &pw );
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() == 0 );    
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() == 0 );    
   }
     
   {
@@ -440,46 +452,15 @@ tUser( LibTest & test )
 
     t.set( &pw, true );
 
-    test( t.getUID() == uid );
-    test( compare( t.getName(), pw.pw_name ) == 0 );
-    test( compare( t.getPassword(), pw.pw_passwd ) == 0 );
-    test( compare( t.getRealName(), pw.pw_gecos ) == 0 );
-    test( compare( t.getGecos(), pw.pw_gecos ) == 0 );
-    test( compare( t.getHome(), pw.pw_dir ) == 0 );
-    test( compare( t.getShell(), pw.pw_shell ) == 0 );
-    test( t.getPrimaryGroup().getGID() == pw.pw_gid );
-    test( t.getGroups().size() != 0 );    
-  }
-
-  {
-    // getStreamSize( void ) const
-    // write( ostream & ) const
-    // read( istream & ) const
-    
-    const User	    tout( uid );
-    User	    tin;
-
-    strstream testStream;
-
-    streampos gpos = testStream.tellg();
-    streampos ppos = testStream.tellp();
-
-#ifdef AIX
-    ppos = 0;
-    gpos = 0;
-#endif
-    
-    test( ppos == 0 );
-    test( gpos == 0 );
-    
-    tout.write( testStream );
-    ppos += tout.getStreamSize();
-    test( ppos == testStream.tellp() );
-      
-    tin.read( testStream );
-    gpos += tin.getStreamSize();
-    test( gpos == testStream.tellg() );
-    test( tin == tout );
+    TEST( t.getUID() == uid );
+    TEST( compare( t.getName(), pw.pw_name ) == 0 );
+    TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
+    TEST( compare( t.getRealName(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getGecos(), pw.pw_gecos ) == 0 );
+    TEST( compare( t.getHome(), pw.pw_dir ) == 0 );
+    TEST( compare( t.getShell(), pw.pw_shell ) == 0 );
+    TEST( t.getPrimaryGroup().getGID() == pw.pw_gid );
+    TEST( t.getGroups().size() != 0 );    
   }
 
   {
@@ -491,13 +472,13 @@ tUser( LibTest & test )
     const User  tr( (uid_t) 0 );
     const User  tu( uid );
 
-    test( tu.compare( tu ) == 0 );
-    test( tu == tu );
-    test( tu.compare( tr ) != 0 );
-    test( tr.compare( tu ) > 0 );
-    test( tr > tu );
-    test( tu.compare( tr ) < 0 );
-    test( tu < tr );
+    TEST( tu.compare( tu ) == 0 );
+    TEST( tu == tu );
+    TEST( tu.compare( tr ) != 0 );
+    TEST( tr.compare( tu ) > 0 );
+    TEST( tr > tu );
+    TEST( tu.compare( tr ) < 0 );
+    TEST( tu < tr );
   }
 
   {
@@ -505,7 +486,7 @@ tUser( LibTest & test )
 
     const User t( uid );
 
-    test( strcmp( t, pw.pw_name ) == 0 );
+    TEST( strcmp( t, pw.pw_name ) == 0 );
   }
 
   {
@@ -513,52 +494,127 @@ tUser( LibTest & test )
 
     const User t( uid );
 
-    test( getpwuid( t )->pw_uid == t.getUID() );
+    TEST( getpwuid( t )->pw_uid == t.getUID() );
   }
 
+  {
+    // getBinSize( void ) const
+    // write( BinStream & dest ) const
+    // read( BinStream & src )
+    // BinStream::write( const BinObject & obj )
+    // BinStream::read( BinObject & obj )
+
+    HeapBinStream tStrm;
+
+    const User  tw( uid );
+    User	tr;
+
+    TEST( tw.getBinSize() );
+
+    tw.write( tStrm );
+    tr.read( tStrm );
+
+    TEST( tStrm.good() );
+    TEST( (size_t)tStrm.tellp() == tw.getBinSize() );
+    TEST( tStrm.tellg() == tStrm.tellp() );
+    TEST( tr.getBinSize() == tw.getBinSize() );
+    TEST( tw == tr );
+
+    tr = 0;
+    TEST( tw != tr );
+    
+    tStrm.write( tw );
+    tStrm.read( tr );
+
+    TEST( tr == tw );
+  }
+
+  {
+    // write( ostream & ) const
+    // read( istream & )
+
+    const User  tw( uid );
+    User	tr;
+
+    strstream tStrm;
+
+    streampos gpos = tStrm.tellg();
+    streampos ppos = tStrm.tellp();
+
+#ifdef AIX
+    ppos = 0;
+    gpos = 0;
+#endif
+    
+    TEST( ppos == 0 );
+    TEST( gpos == 0 );
+    
+    tw.write( tStrm );
+    ppos += tw.getBinSize();
+    TEST( ppos == tStrm.tellp() );
+      
+    tr.read( tStrm );
+    gpos += tr.getBinSize();
+    TEST( gpos == tStrm.tellg() );
+    TEST( tr == tw );
+  }
+
+  {
+    // toStream( ostream & ) const
+    // operator << ( ostream &, const FilePath & )
+
+    strstream tStrm;
+    const User t( uid );
+
+    t.toStream( tStrm );
+    tStrm << t;
+  }
+    
   {
     // good( void ) const
     // error( void ) const
     // getClassName( void ) const
-    // toStream( ostream & ) const
+    // getVersion( void ) const
+    // getVersion( bool ) const
+
+    const User t( uid );
+
+    TESTR( t.error(), t.good() );
+    TEST( t.error() != 0 );
+    TEST( t.getClassName() != 0 );
+    TEST( t.getVersion() != 0 );
+    TEST( t.getVersion( false ) != 0 );
+    
+  }
+
+  {
     // dumpInfo( ostream & ) const
     // version
 
     const User t( uid );
 
-    test( t.good() );
-    test( t.error() != 0 );
-    test( t.getClassName() != 0 );
-
-    strstream tStream;
-
-    t.toStream( tStream );
-    t.dumpInfo( tStream );
-
-    test( t.version != 0 );
+    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
+    t.toStream( tester.getDump() );
+    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
+    t.dumpInfo( tester.getDump(), " -> ", true );
+    tester.getDump() << '\n' << t.getClassName() << " version:\n";
+    tester.getDump() << t.version;
+    
+    tester.getDump() << '\n' << tester.getCurrentTestName();
+    
   }
-
+    
   {
     // ::compare( const User &, const User & );
     
     const User  tr( (uid_t) 0 );
     const User  tu( uid );
 
-    test( compare( tu, tu ) == 0 );
-    test( compare( tu, tr ) != 0 );
-    test( compare( tr, tu ) > 0 );
-    test( compare( tu, tr ) < 0 );
+    TEST( compare( tu, tu ) == 0 );
+    TEST( compare( tu, tr ) != 0 );
+    TEST( compare( tr, tu ) > 0 );
+    TEST( compare( tu, tr ) < 0 );
   }
   
-  {
-    // operator << ( ostream &, const User & )
-
-    const User t;
-
-    strstream tStream;
-
-    tStream << t;
-  }
-
   return( true );
 }

@@ -1,16 +1,32 @@
-
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Log.hh>
 #include <FileStat.hh>
-
 #include <cstdlib>
 #include <cstdio>
 #include <cerrno>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <Log.hh>
+#include <FileStat.hh>
+#include <cstdlib>
+#include <cstdio>
+#include <cerrno>
+#endif
 
-const char * LogStreamFn = "data/log.stream.test";
+
+
+
+#if !defined( CLUE_SHORT_FN )
+const char * LogStreamFn = TESTDATA_PATH "log.stream.test";
+#else
+const char * LogStreamFn = TESTDATA_PATH "logstrm.tst";
+#endif
 
 bool
-tLog01( LibTest & test )
+tLog01( LibTest & tester )
 {
 
   {
@@ -24,7 +40,7 @@ tLog01( LibTest & test )
     // operator () ( LogLevel::Level )
 
     ofstream	logOutput( LogStreamFn );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
 
     logOutput << "Log::Log( ostream & ) - mm/dd/yy hh:mm:ss ERROR good\n";
     
@@ -68,7 +84,7 @@ tLog01( LibTest & test )
 
   {    
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream & ) - mm/dd/yy hh:mm:ss ERROR good\n";
     Log	    t( logOutput );
@@ -85,7 +101,7 @@ tLog01( LibTest & test )
     // Log( ostream &, LogLevel::Level )
     
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, LogLevel::Level ) - "
       "mm/dd/yy hh:mm:ss WARNING good\n";
@@ -107,7 +123,7 @@ tLog01( LibTest & test )
     // Log( ostream &, LogLevel::Level, bool )
     
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool ) - "
       "mm/dd/yy hh:mm:ss TEST good\n";
@@ -119,7 +135,7 @@ tLog01( LibTest & test )
   
   {    
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool ) - "
       "mm/dd/yy hh:mm:ss good\n";
@@ -133,7 +149,7 @@ tLog01( LibTest & test )
     // Log( ostream &, LogLevel::Level, bool, bool )
     
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
       "mm/dd/yy hh:mm:ss TEST good\n";
@@ -145,7 +161,7 @@ tLog01( LibTest & test )
   
   {    
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
       "TEST good\n";
@@ -157,7 +173,7 @@ tLog01( LibTest & test )
   
   {    
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
       "mm/dd/yy hh:mm:ss good\n";
@@ -169,7 +185,7 @@ tLog01( LibTest & test )
   
   {    
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, LogLevel::Level, bool, bool ) - "
       "good\n";
@@ -184,7 +200,7 @@ tLog01( LibTest & test )
     // Log( ostream &, const char *, bool )
     
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, const char *, bool ) - "
       "mm/dd/yy hh:mm:ss TEST good\n";
@@ -196,7 +212,7 @@ tLog01( LibTest & test )
   
   {    
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, const char *, bool ) - "
       "mm/dd/yy hh:mm:ss good\n";
@@ -210,7 +226,7 @@ tLog01( LibTest & test )
     // Log( ostream &, const char *, bool, bool )
     
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, const char *, bool, bool ) - "
       "mm/dd/yy hh:mm:ss TEST good\n";
@@ -222,7 +238,7 @@ tLog01( LibTest & test )
   
   {    
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, const char *, bool, bool ) - "
       "TEST good\n";
@@ -234,7 +250,7 @@ tLog01( LibTest & test )
   
   {    
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, const char *, bool, bool ) - "
       "mm/dd/yy hh:mm:ss good\n";
@@ -246,7 +262,7 @@ tLog01( LibTest & test )
   
   {    
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, const char *, bool, bool ) - "
       "good\n";
@@ -259,7 +275,7 @@ tLog01( LibTest & test )
   {    
     
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, LogLevel::Level ) - "
       "mm/dd/yy hh:mm:ss TEST | ERROR good\n";
@@ -304,7 +320,7 @@ tLog01( LibTest & test )
   {    
     
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, const char * ) - "
       "mm/dd/yy hh:mm:ss ERROR | TEST good\n";
@@ -349,7 +365,7 @@ tLog01( LibTest & test )
   {    
     
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, const char * ) - "
       "mm/dd/yy hh:mm:ss ERROR | TEST good\n";
@@ -394,7 +410,7 @@ tLog01( LibTest & test )
   {    
     
     ofstream	logOutput( LogStreamFn, ios::app );
-    test( logOutput.good() );
+    TEST( logOutput.good() );
     
     logOutput << "Log::Log( ostream &, LogLevel::Level ) - "
       "mm/dd/yy hh:mm:ss ALL good\n";
@@ -449,7 +465,7 @@ tLog01( LibTest & test )
 
     const FileStat t( LogStreamFn );
 
-    test( t.getSize() == 2431 );
+    TEST( t.getSize() == 2431 );
     
   }
 

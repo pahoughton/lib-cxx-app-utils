@@ -60,11 +60,8 @@ LIB_CXX_SOURCES	=			\
 	DateRange.C			\
 	DateRangeDaily.C		\
 	DateRangeWeekly.C		\
-	FilePath.C			\
-	../arch/Unix/src/basename.C	\
-
-hold = \
 	Bitmask.C			\
+	FilePath.C			\
 	LogLevel.C			\
 	LogBuf.C			\
 	Log.C				\
@@ -72,11 +69,13 @@ hold = \
 	Timer.C				\
 	$(ARCH_CXX_SOURCES)		\
 
+
 UNIX_CXX_SOURCES    =			\
+	../arch/Unix/src/basename.C	\
+	../arch/Unix/src/OpenFlags.C	\
 	../arch/Unix/src/User.C		\
 	../arch/Unix/src/UserGroup.C	\
 	../arch/Unix/src/FileStat.C	\
-	../arch/Unix/src/OpenFlags.C	\
 
 
 
@@ -195,8 +194,8 @@ include .depend.lib
 
 # 
 # $Log$
-# Revision 1.15  1995/11/05 14:44:39  houghton
-# Ports and Version ID changes
+# Revision 1.16  1995/11/05 15:28:42  houghton
+# Revised
 #
 # Revision 1.2  1995/02/13  17:35:10  houghton
 # Major enhancements much cleaner

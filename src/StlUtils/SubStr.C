@@ -10,8 +10,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:53  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:49  houghton
+// Revised
 //
 //
 
@@ -171,9 +171,13 @@ SubStr::read( BinStream & src )
 {
   Str tmp;
   tmp.read( src );
-  if( tmp.good() && src.good() )
-    str.replace( pos, len, tmp );
+
+  if( ! tmp.good() || ! src.good() )
+    return( src );
+
+  str.replace( pos, len, tmp );
   len = tmp.size();
+    
   return( src );
 }
 
@@ -181,7 +185,7 @@ ostream &
 SubStr::write( ostream & dest ) const
 {
   ULong sLen = len;
-  dest.write( &sLen, sizeof( sLen ) );
+  dest.write( (const char *)&sLen, sizeof( sLen ) );
   dest.write( strbase(), len );
   return( dest );
 }

@@ -1,14 +1,21 @@
-
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Log.hh>
-
 #include <FileStat.hh>
-
 #include <cstdio>
-#include <cstring>
+#include <cerrno>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <Log.hh>
+#include <FileStat.hh>
+#include <cstdio>
+#include <cerrno>
+#endif
 
 bool
-tLog02( LibTest & test )
+tLog02( LibTest & tester )
 {
   static const char *   fn = "data/logfile.01";
   size_t		logSize = 0;
@@ -80,7 +87,7 @@ tLog02( LibTest & test )
   {
     FileStat t( fn );
 
-    test( (size_t)t.getSize() == logSize );
+    TEST( (size_t)t.getSize() == logSize );
   }
 
   fn = "data/logfile.02";
@@ -108,7 +115,7 @@ tLog02( LibTest & test )
   }
 
   {
-    test.file( fn );
+    tester.file( __FILE__, __LINE__, fn );
   }
 
   fn = "data/logfile.03";
@@ -129,8 +136,8 @@ tLog02( LibTest & test )
   {
     FileStat t( fn );
 
-    test( (t.getMode() & 0777 ) == 0666 );
-    test.file( fn );
+    TEST( (t.getMode() & 0777 ) == 0666 );
+    tester.file( __FILE__, __LINE__, fn );
   }
   
   fn = "data/logfile.04";
@@ -158,7 +165,7 @@ tLog02( LibTest & test )
 
     size_t minSize = (4096 / 4) * 3;
 
-    test( (size_t)t.getSize() > minSize && (size_t)t.getSize() < 4096 );
+    TEST( (size_t)t.getSize() > minSize && (size_t)t.getSize() < 4096 );
   }
 
   
@@ -176,7 +183,7 @@ tLog02( LibTest & test )
 
     size_t minSize = (4096 / 4) * 3;
 
-    test( (size_t)t.getSize() > minSize && t.getSize() < 4096 );
+    TEST( (size_t)t.getSize() > minSize && t.getSize() < 4096 );
   }
 
   {
@@ -191,7 +198,7 @@ tLog02( LibTest & test )
     size_t minSize = ((2048 / 4) * 3) -
       (strlen( "TEST good test with log trimming.\n" ));
  
-    test( (size_t)t.getSize() > minSize && t.getSize() < 2048 );
+    TEST( (size_t)t.getSize() > minSize && t.getSize() < 2048 );
   }
 
   remove( fn );
@@ -218,7 +225,7 @@ tLog02( LibTest & test )
 
     size_t minSize = (4096 / 4) * 3;
 
-    test( (size_t)t.getSize() > minSize && t.getSize() < 4096 );
+    TEST( (size_t)t.getSize() > minSize && t.getSize() < 4096 );
   }
 
   
@@ -236,7 +243,7 @@ tLog02( LibTest & test )
 
     size_t minSize = (4096 / 4) * 3;
 
-    test( (size_t)t.getSize() > minSize && t.getSize() < 4096 );
+    TEST( (size_t)t.getSize() > minSize && t.getSize() < 4096 );
   }
 
   {
@@ -251,7 +258,7 @@ tLog02( LibTest & test )
     size_t minSize = (2048 - 128 ) -
       (strlen( "TEST good test with log trimming.\n" ));
 
-    test( (size_t)t.getSize() > minSize && t.getSize() < 2048 );
+    TEST( (size_t)t.getSize() > minSize && t.getSize() < 2048 );
   }
 
   return( true );

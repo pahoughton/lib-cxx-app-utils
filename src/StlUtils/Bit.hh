@@ -18,16 +18,21 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 13:27:59  houghton
-// Completely new implementation
+// Revision 1.3  1995/11/05 15:28:30  houghton
+// Revised
 //
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
-
 #include <cstddef>
 #include <climits>
+#else
+#include <ClueCfg.hh>
+#include <cstddef>
+#include <climits>
+#endif
 
 #define Bit( _b_ ) ( 1 << _b_ )
 

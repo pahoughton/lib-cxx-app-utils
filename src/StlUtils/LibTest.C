@@ -10,8 +10,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:34  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:35  houghton
+// Revised
 //
 //
 
@@ -192,7 +192,7 @@ LibTest::file(
 	  return( test( srcFn, srcLine, reason, false ) );
 	}
 
-      if( ! testf.gcount() )
+      if( ! testf.good() || testf.gcount() < 1 )
 	{
 	  if( ! testf.good() )
 	    {
@@ -408,6 +408,7 @@ LibTest::DefaultResults::failed(
   tester.getOut() << srcFile << ':' << srcLine
 		  << ':' << " FAILED here." << endl;
   exit( 1 );
+  return( false );
 }
 
 				    

@@ -14,8 +14,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:42  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:45  houghton
+// Revised
 //
 //
 
@@ -72,10 +72,10 @@ private:
   Order	    order;
 };
 
-#ifdef CLUE_SHORT_FN
-#include <SortOrdr.ii>
-#else
+#if !defined( CLUE_SHORT_FN )
 #include <SortOrder.ii>
+#else
+#include <SortOrdr.ii>
 #endif
 
 

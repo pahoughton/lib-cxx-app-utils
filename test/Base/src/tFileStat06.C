@@ -1,10 +1,17 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FileStat.hh>
-
 #include <strstream>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <FileStat.hh>
+#include <strstream>
+#endif
 
 bool
-tFileStat06( LibTest & test )
+tFileStat06( LibTest & tester )
 {
   {
     // compare( const FileStat & ) const
@@ -15,55 +22,68 @@ tFileStat06( LibTest & test )
     const FileStat tl( "data/FileStat.01" );
     const FileStat tm( "data/FileStat.l1" );
 
-    test( tl.compare( tl ) == 0 );
-    test( tl == tl );
-    test( tl.compare( tm ) <  0 );
-    test( tl < tm );
-    test( tm.compare( tl ) >  0 );
-    test( tm > tl );
+    TEST( tl.compare( tl ) == 0 );
+    TEST( tl == tl );
+    TEST( tl.compare( tm ) <  0 );
+    TEST( tl < tm );
+    TEST( tm.compare( tl ) >  0 );
+    TEST( tm > tl );
   }
 
+  {
+    // toStream( ostream & ) const
+    // operator << ( ostream &, const FilePath & )
+
+    strstream tStrm;
+    const FileStat t( "data/FileStat.01" );
+
+    t.toStream( tStrm );
+    tStrm << t;
+  }
+    
   {
     // good( void ) const
     // error( void ) const
     // getClassName( void ) const
-    // toStream( ostream & ) const
+    // getVersion( void ) const
+    // getVersion( bool ) const
+
+    const FileStat t( "data/FileStat.01" );
+
+    TESTR( t.error(), t.good() );
+    TEST( t.error() != 0 );
+    TEST( t.getClassName() != 0 );
+    TEST( t.getVersion() != 0 );
+    TEST( t.getVersion( false ) != 0 );
+    
+  }
+
+  {
     // dumpInfo( ostream & ) const
     // version
 
     const FileStat t( "data/FileStat.01" );
 
-    test( t.good() );
-    test( t.error() != 0 );
-    test( t.getClassName() != 0 );
-
-    strstream tStream;
-
-    t.toStream( tStream );
-    t.dumpInfo( tStream );
-
-    test( t.version != 0 );
+    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
+    t.toStream( tester.getDump() );
+    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
+    t.dumpInfo( tester.getDump(), " -> ", true );
+    tester.getDump() << '\n' << t.getClassName() << " version:\n";
+    tester.getDump() << t.version;
+    
+    tester.getDump() << '\n' << tester.getCurrentTestName();
+    
   }
-
+    
   {
     // ::compare( const FileStat &, const FileStat & ) 
       
     const FileStat tl( "data/FileStat.01" );
     const FileStat tm( "data/FileStat.l1" );
 
-    test( compare( tl, tl ) == 0 );
-    test( compare( tl, tm ) <  0 );
-    test( compare( tm, tl ) >  0 );
-  }
-
-  {
-    // operator << ( ostream &, const FileStat & )
-    
-    const FileStat t( "data/FileStat.01" );
-
-    strstream tStream;
-
-    tStream << t;
+    TEST( compare( tl, tl ) == 0 );
+    TEST( compare( tl, tm ) <  0 );
+    TEST( compare( tm, tl ) >  0 );
   }
 
   return( true );

@@ -1,16 +1,21 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
-#include <Bitmask.hh>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#endif
 
 bool tBitmask01( LibTest & tester );
 bool tBitmask02( LibTest & tester );
 bool tBitmask03( LibTest & tester );
 
 bool
-tBitmask( LibTest & test )
+tBitmask( LibTest & tester )
 {
-  test( tBitmask01( test ), true );
-  test( tBitmask02( test ), true );
-  test( tBitmask03( test ), true );
+  TESTP( tBitmask01( tester ), true );
+  TESTP( tBitmask02( tester ), true );
+  TESTP( tBitmask03( tester ), true );
    
   return( true );
 }

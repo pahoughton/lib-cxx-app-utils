@@ -22,6 +22,8 @@ tFilePath01( LibTest & tester )
   {
     // FilePath( void )
     FilePath	t;
+
+    TESTR( t.error(), t.good() );    
   }
 
   {

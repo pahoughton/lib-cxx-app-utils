@@ -13,8 +13,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:34  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:35  houghton
+// Revised
 //
 //
 
@@ -28,8 +28,8 @@ FilePath::FilePath( char d, char e )
 
 inline
 FilePath::FilePath( const char * fullName, char d, char e  )
-  : Str( fullName )
 {
+  assign( fullName );
   dirDelim = d;
   extDelim = e;
 }
@@ -41,8 +41,8 @@ FilePath::FilePath(
   char 	    	d,
   char 	    	e
   )
-  : Str( dir )
 {
+  assign( dir );
   dirDelim = d;
   extDelim = e;
 
@@ -54,10 +54,10 @@ FilePath::FilePath(
 
 inline
 FilePath::FilePath( const FilePath & from )
-  : dirDelim( from.dirDelim ),
-    extDelim( from.extDelim ),
-    Str( from )
 {
+  assign( from );
+  dirDelim = from.dirDelim;
+  extDelim = from.extDelim;
 }
 
 inline

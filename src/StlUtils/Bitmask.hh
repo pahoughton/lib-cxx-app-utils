@@ -11,18 +11,20 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:23  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:31  houghton
+// Revised
 //
 //
 
 #if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
+#include <BinStream.hh>
 #include <iostream>
 #include <algorithm>
 #include <cstddef>
 #else
 #include <ClueCfg.hh>
+#include <BinStrm.hh>
 #include <iostream>
 #include <algorithm>
 #include <cstddef>
@@ -32,12 +34,12 @@
 #define inline
 #endif
 
-class Bitmask
+class Bitmask : public BinObject
 {
 
 public:
 
-  typedef unsigned long  ValueType;
+  typedef ULong  ValueType;
 
   inline Bitmask( void );
   inline Bitmask( size_t pos );
@@ -51,10 +53,6 @@ public:
   inline bool		isClear( size_t pos ) const;
 
   inline unsigned long	all( void ) const;
-  
-  inline size_t	    getStreamSize( void ) const;
-  inline ostream &  write( ostream & dest ) const;
-  inline istream &  read( istream & src );
   
   inline int	    compare( const Bitmask & two ) const;
   inline int	    compare( unsigned long two ) const;
@@ -76,12 +74,28 @@ public:
   inline    	    	operator bool ( void ) const;
   inline    	    	operator unsigned long ( void ) const;
 
-  inline const char *	getClassName( void ) const;
-  inline ostream &	toStream( ostream & dest = cout ) const;
-  ostream &		dumpInfo( ostream & dest = cerr ) const;
+  // libClue Common Class Methods
+    
+  virtual size_t	getBinSize( void ) const;
+  virtual BinStream &	write( BinStream & dest ) const;
+  virtual BinStream &	read( BinStream & src );
+  
+  virtual ostream &	write( ostream & dest ) const;
+  virtual istream &	read( istream & src );
+
+  virtual ostream &	toStream( ostream & dest = cout ) const;
+  
+  friend inline ostream & operator << ( ostream & dest, const Bitmask & obj );
+  
+  virtual const char *	getClassName( void ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
+  
+  static const ClassVersion version;
   
   static const size_t	maxPos;
-  static const char	version[];
   
 protected:
 
@@ -129,9 +143,6 @@ operator <  ( unsigned long lhs, const Bitmask & rhs );
 bool
 operator >  ( unsigned long lhs, const Bitmask & rhs );
 
-ostream &
-operator << ( ostream & dest, const Bitmask & obj );
-  
 #endif
 
 

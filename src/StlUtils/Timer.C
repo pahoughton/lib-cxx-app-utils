@@ -10,39 +10,83 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:55  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:50  houghton
+// Revised
 //
 //
 
+#if !defined( CLUE_SHORT_FN )
 #include "Timer.hh"
 #include "DateTimeUtils.hh"
-
 #include <iomanip>
+#else
+#include "Timer.hh"
+#include "DateTimeUtils.hh"
+#include <iomanip>
+#endif
 
-const char Timer::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION(
+  Timer,
+  "$Id$" );
 
-#ifdef   CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define  inline
 #include "Timer.ii"
 #endif
 
 ostream &
-Timer::dumpInfo( ostream & dest  ) const
+Timer::toStream( ostream & dest ) const
 {
-  dest << getClassName() << ":\n";
+  if( getStart() == 0 || getStop() == 0 )
+    {
+      dest << "no duration";
+    }
 
-  dest << "    " << version << '\n';
+  int hours = getDur() / (60 * 60);
+  int minutes = MinInTimeT( getDur() );
+  int seconds = SecInTimeT( getDur() );
 
-  dest << "    " ;
+  dest << setfill('0') << setw(2) << hours << ':'
+       << setw(2) << minutes << ':'
+       << setw(2) << seconds
+    ;
+
+  dest << setfill(' ');
+
+  return( dest );
+}
+
+const char *
+Timer::getClassName( void ) const
+{
+  return( "Timer" );
+}
+
+const char *
+Timer::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer ) );
+}
+
+
+ostream &
+Timer::dumpInfo( 
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << Timer::getClassName() << ":\n"
+	 << Timer::getVersion() << '\n';
+  
+  dest << prefix;
   toStream( dest );
   dest << '\n';
 
-  dest << "    Start:   " << startSec << '\n'
-       << "    Stop:    " << stopSec << '\n'
-       << "    Dur:     " << getDur() << '\n'
+  dest << prefix << "start:   " << startSec << '\n'
+       << prefix << "stop:    " << stopSec << '\n'
+       << prefix << "dur:     " << getDur() << '\n'
     ;
   
   dest << '\n';

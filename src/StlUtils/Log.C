@@ -9,24 +9,22 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.5  1995/11/05 14:44:35  houghton
-// Ports and Version ID changes
+// Revision 1.6  1995/11/05 15:28:36  houghton
+// Revised
 //
 //
 
 #include "Log.hh"
-
 #include "DateTime.hh"
 
-#ifdef   CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define  inline
 #include <Log.ii>
 #endif
 
-
-const char Log::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION(
+  Log,
+  "$Id$" );
 
 Log &
 Log::level( LogLevel::Level lvl )
@@ -80,26 +78,92 @@ Log::level( const char * lvl )
   return( *this );
 }
 
+bool
+Log::good( void ) const
+{
+  return( rdbuf() != 0 && ostream::good() );
+}
+
+const char *
+Log::error( void ) const
+{
+  static Str errStr;
+  errStr.reset();
+
+  errStr << getClassName();
+
+  if( good() )
+    {
+       errStr << ": Ok";
+    }
+  else
+    {
+      size_t eSize = errStr.size();
+
+      if( rdbuf() == 0 )
+	errStr << ": no 'streambuf'";
+      
+      if( ! ios::good() )
+	{
+	  if( ios::rdstate() & ios::eofbit )
+	    errStr << ": EOF bit set";
+	  if( ios::rdstate() & ios::failbit )
+	    errStr << ": FAIL bit set";
+	  if( ios::rdstate() & ios::badbit )
+	    errStr << ": BAD bit set";
+	}
+      
+      if( eSize == errStr.size() )
+	errStr << ": unknown error";
+      
+    }
+
+  return( errStr.cstr() );
+}
+  
 const char *
 Log::getClassName( void ) const
 {
   return( "Log" );
 }
 
-ostream &
-Log::dumpInfo( ostream & dest ) const
+const char *
+Log::getVersion( bool withPrjVer ) const
 {
-  dest << getClassName() << ":\n";
+  if( rdbuf() )
+    return( version.getVer( withPrjVer, rdbuf()->getVersion( false ) ) );
+  else
+    return( version.getVer( withPrjVer ) );
+}
 
-  dest << "    " << version << '\n';
-
-  dest << "    Good:       " << (good() == true ? "yes" : "no" ) << '\n';
-  dest << "    TimeStamp:  " << (timeStamp == true ? "on" : "off" ) << '\n';
-  dest << "    LevelStamp: " << (levelStamp == true ? "on" : "off" ) << '\n';
+ostream &
+Log::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << Log::getClassName() << ":\n"
+	 << Log::getVersion() << '\n';
   
-  dest << "    " << getClassName() << "::" ;
-  rdbuf()->dumpInfo( dest );
+  if( ! Log::good() )
+    dest << prefix << "Error: " << Log::error() << '\n';
+  else
+    dest << prefix << "Good!" << '\n';
 
+  dest << prefix << "timeStamp:    " << (timeStamp == true ? "on" : "off" ) << '\n';
+  dest << prefix << "levelStamp:   " << (levelStamp == true ? "on" : "off" ) << '\n';
+
+  if( rdbuf() )
+    {
+      Str pre;
+      pre = prefix;
+      pre << "rdbuf: " << rdbuf()->getClassName() << "::";
+
+      rdbuf()->dumpInfo( dest, pre, false );
+    }
+  
   dest << '\n';
   
   return( dest  );

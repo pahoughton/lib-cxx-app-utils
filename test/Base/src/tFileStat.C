@@ -1,21 +1,27 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#endif
 
-bool tFileStat01( LibTest & test );
-bool tFileStat02( LibTest & test );
-bool tFileStat03( LibTest & test );
-bool tFileStat04( LibTest & test );
-bool tFileStat05( LibTest & test );
-bool tFileStat06( LibTest & test );
+bool tFileStat01( LibTest & tester );
+bool tFileStat02( LibTest & tester );
+bool tFileStat03( LibTest & tester );
+bool tFileStat04( LibTest & tester );
+bool tFileStat05( LibTest & tester );
+bool tFileStat06( LibTest & tester );
 
 bool
-tFileStat( LibTest & test )
+tFileStat( LibTest & tester )
 {
-  test( tFileStat01( test ), true  );
-  test( tFileStat02( test ), true  );
-  test( tFileStat03( test ), true  );
-  test( tFileStat04( test ), true  );
-  test( tFileStat05( test ), true  );
-  test( tFileStat06( test ), true  );
+  TESTP( tFileStat01( tester ), true  );
+  TESTP( tFileStat02( tester ), true  );
+  TESTP( tFileStat03( tester ), true  );
+  TESTP( tFileStat04( tester ), true  );
+  TESTP( tFileStat05( tester ), true  );
+  TESTP( tFileStat06( tester ), true  );
 
   return( true );
 }

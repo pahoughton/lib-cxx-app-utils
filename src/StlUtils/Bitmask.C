@@ -10,8 +10,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:23  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:31  houghton
+// Revised
 //
 //
 
@@ -24,21 +24,80 @@
 #include <Bitmask.ii>
 #endif // def( CLUE_DEBUG )
 
-const char Bitmask::version[] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION(
+  Bitmask,
+  "$Id$" );
 
 const size_t Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::ValueType );
 
-ostream &
-Bitmask::dumpInfo( ostream & dest ) const
+size_t
+Bitmask::getBinSize( void ) const
 {
-  dest << getClassName() << ":\n";
+  return( Sizeof( value ) );
+}
 
-  dest << "    " << version << '\n';
+BinStream &
+Bitmask::write( BinStream & dest ) const
+{
+  return( dest.write( value ) );
+}
 
-  dest << "    " ;
-  toStream( dest );
+BinStream &
+Bitmask::read( BinStream & src )
+{
+  return( src.read( value ) );
+}
+
+ostream &
+Bitmask::write( ostream & dest ) const
+{
+  dest.write( (const char *)&value, Sizeof( value ) );
+  return( dest );
+}
+
+inline
+istream &
+Bitmask::read( istream & src )
+{
+  src.read( (char *)&value, Sizeof( value ) );
+  return( src );
+}
+
+ostream &
+Bitmask::toStream( ostream & dest ) const
+{
+  for( int p = maxPos - 1; p >= 0; p-- )
+    dest << ((isSet( p ) == true ) ? '1' : '0' );
+  
+  return( dest );
+}
+
+const char *
+Bitmask::getClassName( void ) const
+{
+  return( "Bitmask" );
+}
+
+const char *
+Bitmask::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer ) );
+}
+
+
+ostream &
+Bitmask::dumpInfo( 
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
+{
+  if( showVer )
+    dest << Bitmask::getClassName() << ":\n"
+	 << Bitmask::getVersion() << '\n';
+  
+  dest << prefix << "bits:    ";
+  Bitmask::toStream( dest );
   dest << '\n';
 
   dest << '\n';

@@ -1,10 +1,19 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Bitmask.hh>
-
+#include <HeapBinStream.hh>
 #include <strstream>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <Bitmask.hh>
+#include <HBinStrm.hh>
+#include <strstream>
+#endif
 
 bool
-tBitmask02( LibTest & test )
+tBitmask02( LibTest & tester )
 {
   {
     // compare( const Bitmask & ) const
@@ -19,13 +28,13 @@ tBitmask02( LibTest & test )
     unsigned long ll = 0x04;
     unsigned long lm = 0x20;
 
-    test( t.compare( te ) == 0 );
-    test( t.compare( tl ) > 0 );
-    test( t.compare( tm ) < 0 );
+    TEST( t.compare( te ) == 0 );
+    TEST( t.compare( tl ) > 0 );
+    TEST( t.compare( tm ) < 0 );
 
-    test( t.compare( le ) == 0 );
-    test( t.compare( ll ) > 0 );
-    test( t.compare( lm ) < 0 );
+    TEST( t.compare( le ) == 0 );
+    TEST( t.compare( ll ) > 0 );
+    TEST( t.compare( lm ) < 0 );
 
   }
 
@@ -39,23 +48,23 @@ tBitmask02( LibTest & test )
     Bitmask rhs;
     
     t = 0x1080;
-    test( (unsigned long) t == 0x1080 );
+    TEST( (unsigned long) t == 0x1080 );
 
     rhs.set( 7 );
     t &= rhs;
     
-    test( (unsigned long) t == 0x80 );
+    TEST( (unsigned long) t == 0x80 );
 
     rhs.set( 0 );
     t |= rhs;
 
-    test( (unsigned long) t == 0x81 );
+    TEST( (unsigned long) t == 0x81 );
     rhs.clear();
     rhs.set( 7 );
     rhs.set( 15 );
     t ^= rhs;
     
-    test( (unsigned long) t == 0x8001 );
+    TEST( (unsigned long) t == 0x8001 );
   }
 
   {
@@ -77,19 +86,19 @@ tBitmask02( LibTest & test )
     unsigned long ll = 0x04;
     unsigned long lm = 0x20;
 
-    test( t( 4 ) );
-    test( ! t( 3 ) );
-    test( ! t( 5 ) );
+    TEST( t( 4 ) );
+    TEST( ! t( 3 ) );
+    TEST( ! t( 5 ) );
 
-    test( t == te );
-    test( t != tl );
-    test( t < tm );
-    test( t > tl );
+    TEST( t == te );
+    TEST( t != tl );
+    TEST( t < tm );
+    TEST( t > tl );
 
-    test( t == le );
-    test( t != lm );
-    test( t <  lm );
-    test( t >  ll );
+    TEST( t == le );
+    TEST( t != lm );
+    TEST( t <  lm );
+    TEST( t >  ll );
   }
 
   {
@@ -99,32 +108,116 @@ tBitmask02( LibTest & test )
     const Bitmask t1;
     const Bitmask t2( 3 );
 
-    test( ! t1 );
-    test( t2 );
+    TEST( ! t1 );
+    TEST( t2 );
 
-    test( (unsigned long)t1  == 0UL );
-    test( (unsigned long)t2 == 0x08 );
+    TEST( (unsigned long)t1  == 0UL );
+    TEST( (unsigned long)t2 == 0x08 );
   }
 
   {
-    // getClassName( void ) const;
-    // toStream( ostream & ) const
-    // dumpInfo( ostream & ) const
-    // maxPos
-    // version
-    
-    strstream tStream;
-    
-    const Bitmask t( 2 );
+    // getBinSize( void ) const
+    // write( BinStream & dest ) const
+    // read( BinStream & src )
+    // BinStream::write( const BinObject & obj )
+    // BinStream::read( BinObject & obj )
 
-    test( t.getClassName() != 0 );
-    t.toStream( tStream );
-    t.dumpInfo( tStream );
+    HeapBinStream tStrm;
 
-    test( t.maxPos > 0 );
-    test( t.version != 0 );
+    const Bitmask   tw( 9 );
+    Bitmask	    tr(5);
+
+    TEST( tw.getBinSize() );
+
+    tw.write( tStrm );
+    tr.read( tStrm );
+
+    TEST( tStrm.good() );
+    TEST( (size_t)tStrm.tellp() == tw.getBinSize() );
+    TEST( tStrm.tellg() == tStrm.tellp() );
+    TEST( tr.getBinSize() == tw.getBinSize() );
+    TEST( tw == tr );
+
+    tr = 0xff;
+    TEST( tw != tr );
+    
+    tStrm.write( tw );
+    tStrm.read( tr );
+
+    TEST( tr == tw );
   }
-  
+
+  {
+    // write( ostream & ) const
+    // read( istream & )
+
+    const Bitmask   tw(9);
+    Bitmask	    tr(5);
+
+    strstream tStrm;
+
+    streampos gpos = tStrm.tellg();
+    streampos ppos = tStrm.tellp();
+
+#ifdef AIX
+    ppos = 0;
+    gpos = 0;
+#endif
+    
+    TEST( ppos == 0 );
+    TEST( gpos == 0 );
+    
+    tw.write( tStrm );
+    ppos += tw.getBinSize();
+    TEST( ppos == tStrm.tellp() );
+      
+    tr.read( tStrm );
+    gpos += tr.getBinSize();
+    TEST( gpos == tStrm.tellg() );
+    TEST( tr == tw );
+  }
+
+  {
+    // toStream( ostream & ) const
+    // operator << ( ostream &, const FilePath & )
+
+    const Bitmask   t(9);
+    strstream tStrm;
+
+    t.toStream( tStrm );
+    tStrm << t;
+  }
+    
+  {
+    // getClassName( void ) const
+    // getVersion( void ) const
+    // getVersion( bool ) const
+
+    const Bitmask t(2);
+
+    TEST( t.getClassName() != 0 );
+    TEST( t.getVersion() != 0 );
+    TEST( t.getVersion( false ) != 0 );
+    
+  }
+
+  {
+    // dumpInfo( ostream & ) const
+    // version
+
+    const Bitmask t(4);
+
+    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
+    t.toStream( tester.getDump() );
+    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
+    t.dumpInfo( tester.getDump(), " -> ", true );
+    tester.getDump() << '\n' << t.getClassName() << " version:\n";
+    tester.getDump() << t.version;
+    
+    tester.getDump() << '\n' << tester.getCurrentTestName();
+    
+  }
+    
     
   return( true );
 }

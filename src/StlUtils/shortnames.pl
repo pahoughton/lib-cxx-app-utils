@@ -23,8 +23,10 @@
      "DateRange",		    "daterg",
      "DateRangeDaily",		    "datergdl",
      "DateRangeWeekly",		    "datergwk",
-     "Directory",		    "director",
-     "SortOrder",                   "sortordr" );
+     "SortOrder",                   "sortordr",
+     "LogLevel",		    "loglvl",
+
+);
 
 chdir( "../arch/ShortFn/src" );
 

@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FileStat.hh>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <FileStat.hh>
+#endif
 
 bool
-tFileStat03( LibTest & test )
+tFileStat03( LibTest & tester )
 {
   {
     // canRead( void ) const
@@ -14,105 +21,105 @@ tFileStat03( LibTest & test )
     
     const FileStat t( "data/FileStat.h.t.yyy.yyy.yyy" );
 
-    test(   t.canRead() );
-    test(   t.canWrite() );
-    test(   t.canExec() );
+    TEST(   t.canRead() );
+    TEST(   t.canWrite() );
+    TEST(   t.canExec() );
 
-    test(   t.canRead( FileStat::USER ) );
-    test(   t.canWrite( FileStat::USER ) );
-    test(   t.canExec( FileStat::USER ) );
+    TEST(   t.canRead( FileStat::USER ) );
+    TEST(   t.canWrite( FileStat::USER ) );
+    TEST(   t.canExec( FileStat::USER ) );
 
-    test(   t.canRead( FileStat::GROUP ) );
-    test(   t.canWrite( FileStat::GROUP ) );
-    test(   t.canExec( FileStat::GROUP ) );
+    TEST(   t.canRead( FileStat::GROUP ) );
+    TEST(   t.canWrite( FileStat::GROUP ) );
+    TEST(   t.canExec( FileStat::GROUP ) );
 
-    test(   t.canRead( FileStat::OTHER ) );
-    test(   t.canWrite( FileStat::OTHER ) );
-    test(   t.canExec( FileStat::OTHER ) );
+    TEST(   t.canRead( FileStat::OTHER ) );
+    TEST(   t.canWrite( FileStat::OTHER ) );
+    TEST(   t.canExec( FileStat::OTHER ) );
     
   }
 
   {
     const FileStat t( "data/FileStat.h.t.nnn.nnn.nnn" );
 
-    test( ! t.canRead() );
-    test( ! t.canWrite() );
-    test( ! t.canExec() );
+    TEST( ! t.canRead() );
+    TEST( ! t.canWrite() );
+    TEST( ! t.canExec() );
 
-    test( ! t.canRead( FileStat::USER ) );
-    test( ! t.canWrite( FileStat::USER ) );
-    test( ! t.canExec( FileStat::USER ) );
+    TEST( ! t.canRead( FileStat::USER ) );
+    TEST( ! t.canWrite( FileStat::USER ) );
+    TEST( ! t.canExec( FileStat::USER ) );
 
-    test( ! t.canRead( FileStat::GROUP ) );
-    test( ! t.canWrite( FileStat::GROUP ) );
-    test( ! t.canExec( FileStat::GROUP ) );
+    TEST( ! t.canRead( FileStat::GROUP ) );
+    TEST( ! t.canWrite( FileStat::GROUP ) );
+    TEST( ! t.canExec( FileStat::GROUP ) );
 
-    test( ! t.canRead( FileStat::OTHER ) );
-    test( ! t.canWrite( FileStat::OTHER ) );
-    test( ! t.canExec( FileStat::OTHER ) );
+    TEST( ! t.canRead( FileStat::OTHER ) );
+    TEST( ! t.canWrite( FileStat::OTHER ) );
+    TEST( ! t.canExec( FileStat::OTHER ) );
     
   }
 
   {
     const FileStat t( "data/FileStat.h.t.nnn.yyy.nnn" );
 
-    test( ! t.canRead() );
-    test( ! t.canWrite() );
-    test( ! t.canExec() );
+    TEST( ! t.canRead() );
+    TEST( ! t.canWrite() );
+    TEST( ! t.canExec() );
 
-    test( ! t.canRead( FileStat::USER ) );
-    test( ! t.canWrite( FileStat::USER ) );
-    test( ! t.canExec( FileStat::USER ) );
+    TEST( ! t.canRead( FileStat::USER ) );
+    TEST( ! t.canWrite( FileStat::USER ) );
+    TEST( ! t.canExec( FileStat::USER ) );
 
-    test(   t.canRead( FileStat::GROUP ) );
-    test(   t.canWrite( FileStat::GROUP ) );
-    test(   t.canExec( FileStat::GROUP ) );
+    TEST(   t.canRead( FileStat::GROUP ) );
+    TEST(   t.canWrite( FileStat::GROUP ) );
+    TEST(   t.canExec( FileStat::GROUP ) );
 
-    test( ! t.canRead( FileStat::OTHER ) );
-    test( ! t.canWrite( FileStat::OTHER ) );
-    test( ! t.canExec( FileStat::OTHER ) );
+    TEST( ! t.canRead( FileStat::OTHER ) );
+    TEST( ! t.canWrite( FileStat::OTHER ) );
+    TEST( ! t.canExec( FileStat::OTHER ) );
     
   }
 #ifdef HAVE_BIN_UID
   {
     const FileStat t( "data/FileStat.b.b.yyy.yyy.nnn" );
 
-    test( ! t.canRead() );
-    test( ! t.canWrite() );
-    test( ! t.canExec() );
+    TEST( ! t.canRead() );
+    TEST( ! t.canWrite() );
+    TEST( ! t.canExec() );
 
-    test(   t.canRead( FileStat::USER ) );
-    test(   t.canWrite( FileStat::USER ) );
-    test(   t.canExec( FileStat::USER ) );
+    TEST(   t.canRead( FileStat::USER ) );
+    TEST(   t.canWrite( FileStat::USER ) );
+    TEST(   t.canExec( FileStat::USER ) );
 
-    test(   t.canRead( FileStat::GROUP ) );
-    test(   t.canWrite( FileStat::GROUP ) );
-    test(   t.canExec( FileStat::GROUP ) );
+    TEST(   t.canRead( FileStat::GROUP ) );
+    TEST(   t.canWrite( FileStat::GROUP ) );
+    TEST(   t.canExec( FileStat::GROUP ) );
 
-    test( ! t.canRead( FileStat::OTHER ) );
-    test( ! t.canWrite( FileStat::OTHER ) );
-    test( ! t.canExec( FileStat::OTHER ) );
+    TEST( ! t.canRead( FileStat::OTHER ) );
+    TEST( ! t.canWrite( FileStat::OTHER ) );
+    TEST( ! t.canExec( FileStat::OTHER ) );
     
   }
 
   {
     const FileStat t( "data/FileStat.b.b.yyy.yny.yny" );
 
-    test(   t.canRead() );
-    test( ! t.canWrite() );
-    test(   t.canExec() );
+    TEST(   t.canRead() );
+    TEST( ! t.canWrite() );
+    TEST(   t.canExec() );
 
-    test(   t.canRead( FileStat::USER ) );
-    test(   t.canWrite( FileStat::USER ) );
-    test(   t.canExec( FileStat::USER ) );
+    TEST(   t.canRead( FileStat::USER ) );
+    TEST(   t.canWrite( FileStat::USER ) );
+    TEST(   t.canExec( FileStat::USER ) );
 
-    test(   t.canRead( FileStat::GROUP ) );
-    test( ! t.canWrite( FileStat::GROUP ) );
-    test(   t.canExec( FileStat::GROUP ) );
+    TEST(   t.canRead( FileStat::GROUP ) );
+    TEST( ! t.canWrite( FileStat::GROUP ) );
+    TEST(   t.canExec( FileStat::GROUP ) );
 
-    test(   t.canRead( FileStat::OTHER ) );
-    test( ! t.canWrite( FileStat::OTHER ) );
-    test(   t.canExec( FileStat::OTHER ) );
+    TEST(   t.canRead( FileStat::OTHER ) );
+    TEST( ! t.canWrite( FileStat::OTHER ) );
+    TEST(   t.canExec( FileStat::OTHER ) );
     
   }
 #endif

@@ -9,29 +9,27 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.3  1995/11/05 14:44:37  houghton
-// Ports and Version ID changes
+// Revision 1.4  1995/11/05 15:28:39  houghton
+// Revised
 //
 //
 
 #include "LogBuf.hh"
 #include "FileStat.hh"
-
 #include <iostream>
-
 #include <cstdio>
 #include <cstring>
 #include <unistd.h>
 #include <sys/stat.h>
 
-#ifdef   CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define  inline
 #include <LogBuf.ii>
 #endif
 
-const char LogBuf::version [] =
-LIB_CLUE_VERSION
-"$Id$";
+CLUE_VERSION(
+  LogBuf,
+  "$Id$" );
 
 #define LOGBUF_SIZE 512
 
@@ -186,25 +184,37 @@ LogBuf::getClassName( void ) const
   return( "LogBuf" );
 }
 
+const char *
+LogBuf::getVersion( bool withPrjVer ) const
+{
+  return( version.getVer( withPrjVer, logLevel.getVersion( false ) ) );
+}
 
 ostream &
-LogBuf::dumpInfo( ostream & dest ) const
+LogBuf::dumpInfo( 
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
 {
-  dest << getClassName() << ":\n";
+  if( showVer )
+    dest << LogBuf::getClassName() << ":\n"
+	 << LogBuf::getVersion() << '\n';
 
-  dest << "    " << version << '\n';
-
-  dest << "    Is file:     " << (isFile() == true ? "yes" : "no" ) << '\n';
+  dest << prefix << "is file:      " << (isFile() == true ? "yes" : "no" ) << '\n';
   if( isFile() )
-    dest << "    LogFileName: " << logFileName << '\n';
-  dest << "    MaxSize:     " << maxSize << '\n';
-  dest << "    TrimSize:    " << trimSize << '\n';
-  dest << "    OpenMode:    " << openMode << '\n';
-  dest << "    OpenProt:    " << openProt << '\n';
+    dest << prefix << "logFileName:  " << logFileName << '\n';
+  dest << prefix << "maxSize:      " << maxSize << '\n'
+       << prefix << "trimSize:     " << trimSize << '\n'
+       << prefix << "openMode:    " << openMode << '\n'
+       << prefix << "openProt:    " << openProt << '\n'
+    ;
   
-  dest << "    LogLevel:    " << getClassName() << "::" ;
-  
-  logLevel.dumpInfo( dest );
+  Str pre;
+  pre = prefix;
+  pre << "logLevel:" << logLevel.getClassName() << "::";
+
+  logLevel.dumpInfo( dest, pre, false );
 
   dest << '\n';
 

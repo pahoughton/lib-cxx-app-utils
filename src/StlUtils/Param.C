@@ -9,28 +9,29 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.4  1995/11/05 14:44:40  houghton
-// Ports and Version ID changes
+// Revision 1.5  1995/11/05 15:28:43  houghton
+// Revised
 //
 //
 
+
+#if !defined( CLUE_SHORT_FN )
 #include "Param.hh"
-
-#ifdef CLUE_SHORT_FN
-#include "StrUtil.hh"
-#else
 #include "StringUtils.hh"
+#else
+#include "Param.hh"
+#include "StrUtil.hh"
 #endif
 
-
-const char Param::version[] =
-LIB_CLUE_VERSION
-"$Id$";
-
-#ifdef   CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define  inline
 #include <Param.ii>
 #endif
+
+CLUE_VERSION(
+  Param,
+  "$Id$" );
+
 
 Param::Param( int & mainArgc, char ** mainArgv, const char * ver )
   : argc( mainArgc ),
@@ -538,12 +539,6 @@ Param::getArg( const char * argId, const char * envVar )
   ;
 }
 
-const char *
-Param::getClassName( void ) const
-{
-  return "Param";
-}
-
 bool
 Param::good( void ) const
 {
@@ -579,6 +574,27 @@ Param::error( void ) const
   return( errStr.cstr() );  
 }
 
+const char *
+Param::getClassName( void ) const
+{
+  return "Param";
+}
+
+const char *
+Param::getVersion( bool withPrjVer ) const
+{
+  static Str ver;
+
+  if( ! ver.size() )
+    {
+      ver << version.getVer( withPrjVer ) << '\n'
+	  << "    " << appLog.getVersion( false ) << '\n'
+	  << "    " << helpString.getVersion( false ) << '\n'
+	;
+    }
+  return( ver );
+}
+
 
 ostream &
 Param::toStream( ostream & dest ) const
@@ -588,43 +604,54 @@ Param::toStream( ostream & dest ) const
 }
 
 ostream &
-Param::dumpInfo( ostream & dest ) const
+Param::dumpInfo(
+  ostream &	dest,
+  const char *  prefix,
+  bool		showVer
+  ) const
 {
-  dest << getClassName() << ":\n";
-
-  dest << "    " << version << '\n';
-
-  if( ! good() )
-    dest << "    Error: " << error() << '\n';
+  if( showVer )
+    dest << Param::getClassName() << ":\n"
+	 << Param::getVersion() << '\n';
+  
+  
+  if( ! Param::good() )
+    dest << prefix << "Error: " << Param::error() << '\n';
   else
-    dest << "    " << "Good!" << '\n';
+    dest << prefix << "Good!" << '\n';
 
-  dest << "    " ;
+  Str pre;
+  pre = prefix;
+  pre << "appLog:" << appLog.getClassName() << "::";
+
+  appLog.dumpInfo( dest, pre, false );
+  
+  dest << prefix;
   toStream( dest );
   dest << '\n';
 
   
-  dest << "    " << "argc: " << argc << '\n';
-  dest << "    " << "args:\n";
+  dest << prefix << "argc:      " << argc << '\n';
   
   for( int i = 0; i < argc; i++ )
     {
-      dest << "      '" << argv[i] << "'\n";
+      dest << prefix << "argv[" << i << "]:";
+      if( i > 9 )
+	dest << "  '";
+      else
+	dest << "   '";
+      dest << argv[i] << "'\n";
     }
   
   dest << '\n';
 
-  dest << "    helpFlag:       " << helpFlag << '\n'
-       << "    logFile:        " << logFile << '\n'
-       << "    logOutputLevel: " << logOutputLevel << '\n'
-       << "    logTee:         " << logTee << '\n'
+  dest << prefix << "helpFlag:       " << helpFlag << '\n'
+       << prefix << "logFile:        " << logFile << '\n'
+       << prefix << "logOutputLevel: " << logOutputLevel << '\n'
+       << prefix << "logTee:         " << logTee << '\n'
     ;
-  
-  dest << "    appLog:\n";
-
-  appLog.dumpInfo( dest );
-
-  dest << getClassName() << " - END\n";
+ 
+  dest << '\n';
   
   return( dest  );
 }

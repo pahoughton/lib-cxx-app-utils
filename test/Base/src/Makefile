@@ -101,18 +101,16 @@ CXX_SOURCES	=			\
 	tDateRange.C			\
 	tDateRangeDaily.C		\
 	tDateRangeWeekly.C		\
-	tFilePath.C			\
-	tFilePath01.C			\
-	tFilePath02.C			\
-	tFilePath03.C			\
-	tFilePath04.C			\
-
-hold = \
 	tBitmask.C			\
 	tBitmask01.C			\
 	tBitmask02.C			\
 	tBitmask03.C			\
 	tSortOrder.C			\
+	tFilePath.C			\
+	tFilePath01.C			\
+	tFilePath02.C			\
+	tFilePath03.C			\
+	tFilePath04.C			\
 	tUser.C				\
 	tUserGroup.C			\
 	tFileStat.C			\
@@ -131,6 +129,12 @@ hold = \
 	tLog05.C			\
 	tParam.C			\
 	tParam01.C			\
+	tWithCommon.C			\
+	tWithCommon01.C			\
+	tWithCommon02.C			\
+
+
+hold = \
 
 
 
@@ -166,6 +170,7 @@ PRJINCDIR	= -I../src \
 		  -I../arch/$(arch)/src \
 		  -I../arch/$(arch)/stdc++ \
 		  -I../arch/Unix/src \
+		  -I/home/houghton/prj/generic/libCommon/src
 
 
 INCDIRS		= $(SRCINCDIR)	\
@@ -185,7 +190,9 @@ INSTALL_BIN_FLAGS   = -m 775
 # see MakeConfig(1) for portable libraries
 #
 
-LDLIBS		= -L../src -lClue -lm
+LDLIBS		= -L../src -lClue \
+		  -I/home/houghton/prj/generic/libCommon/src -lCommon \
+		  -lm
 
 ifeq ($(arch),Linux)
 ARCH_LIBS = -lstdc++
@@ -243,8 +250,8 @@ include .depend.prog
 
 # 
 # $Log$
-# Revision 1.4  1995/11/05 14:45:46  houghton
-# Ports and Test method changes
+# Revision 1.5  1995/11/05 15:29:35  houghton
+# Revised
 #
 # Revision 1.2  1995/02/13  17:35:10  houghton
 # Major enhancements much cleaner

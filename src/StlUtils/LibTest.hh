@@ -13,8 +13,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:35  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:36  houghton
+// Revised
 //
 //
 
@@ -35,6 +35,14 @@
 #define TEST( tf_ ) if( ! TESTIT( tester, (tf_) ) ) return( false )
 #define TESTR( r_, tf_ ) if( ! TESTITR( tester, (r_), (tf_) ) ) return( false )
 #define TESTP( tf_, p_ ) if( ! TESTITP( tester, (tf_), (p_) ) ) return( false )
+
+// Macro Argument descriptions for: TESTIT, TESTITR, TESTITR,
+//				    TEST, TESTR & TESTP
+// 
+//  tester  LibTest &	    the tester
+//  tf	    bool	    true=pass false=fail
+//  r	    const char *    fail reason description
+//  p	    bool	    true=output a progress marker (i.e. '.')
 
 class CLUE_CLASS_T LibTest
 {

@@ -12,8 +12,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:32  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:32  houghton
+// Revised
 //
 //
 
@@ -41,6 +41,9 @@ extern const char * CLUE_GVAR_T AbbrMonths[];
 extern const char * CLUE_GVAR_T WeekDays[];
 extern const char * CLUE_GVAR_T AbbrWeekDays[];
 
+#if !defined( DAYOFWEEK_ENUM )
+#define DAYOFWEEK_ENUM 1
+
 typedef enum {
   Sunday = 0,
   Monday,
@@ -50,6 +53,8 @@ typedef enum {
   Friday,
   Saturday
 } DayOfWeek;
+
+#endif
 
 #if !defined( CLUE_SHORT_FN )
 #include <DateTimeUtils.ii>

@@ -1,14 +1,25 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
-#include <Compare.hh>
 #include <FileStat.hh>
+#include <Compare.hh>
 #include <User.hh>
-
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <FileStat.hh>
+#include <Compare.hh>
+#include <User.hh>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#endif
 
 bool
-tFileStat04( LibTest & test )
+tFileStat04( LibTest & tester )
 {
   {
     // getName( void ) const
@@ -18,11 +29,11 @@ tFileStat04( LibTest & test )
 
     const FileStat t( "data/FileStat.01" );
 
-    test( t.good() );
-    test( compare( (const char *)t.getName(), "data/FileStat.01" ) == 0 );
-    test( compare( t.getModeString(), "-rw-rw-r--" ) == 0 );
-    test( compare( t.getUserName(), "houghton" ) == 0 );
-    test( compare( t.getGroupName(), "tools" ) == 0 );
+    TEST( t.good() );
+    TEST( compare( (const char *)t.getName(), "data/FileStat.01" ) == 0 );
+    TEST( compare( t.getModeString(), "-rw-rw-r--" ) == 0 );
+    TEST( compare( t.getUserName(), "houghton" ) == 0 );
+    TEST( compare( t.getGroupName(), "tools" ) == 0 );
   }
   
   {
@@ -35,32 +46,32 @@ tFileStat04( LibTest & test )
     
     struct stat fstat;
     
-    test( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( "data/FileStat.01", &fstat ) );
 
-    test( t.getUID() == fstat.st_uid );
-    test( t.getUID() == h.getUID() );
+    TEST( t.getUID() == fstat.st_uid );
+    TEST( t.getUID() == h.getUID() );
 
-    test( t.getGID() == fstat.st_gid );
+    TEST( t.getGID() == fstat.st_gid );
 
-    test( t.getMode() == fstat.st_mode );
-    test( (t.getMode() & 0777) == 0664 );
+    TEST( t.getMode() == fstat.st_mode );
+    TEST( (t.getMode() & 0777) == 0664 );
     
-    test( t.getSize() == fstat.st_size );
-    test( t.getSize() == 10240 );
+    TEST( t.getSize() == fstat.st_size );
+    TEST( t.getSize() == 10240 );
 
-    test( t.getDevice() == fstat.st_dev );
-    test( t.getDeviceType() == fstat.st_rdev );
-    test( t.getInode() == fstat.st_ino );
+    TEST( t.getDevice() == fstat.st_dev );
+    TEST( t.getDeviceType() == fstat.st_rdev );
+    TEST( t.getInode() == fstat.st_ino );
 
-    test( t.getHardLinks() == fstat.st_nlink );
-    test( t.getHardLinks() == 1 );
+    TEST( t.getHardLinks() == fstat.st_nlink );
+    TEST( t.getHardLinks() == 1 );
 
-    test( t.getBlockSize() == fstat.st_blksize );
-    test( t.getBlocks() == fstat.st_blocks );
+    TEST( t.getBlockSize() == fstat.st_blksize );
+    TEST( t.getBlocks() == fstat.st_blocks );
 
-    test( t.getAccessTime() == fstat.st_atime );
-    test( t.getModificationTime() == fstat.st_mtime );
-    test( t.getStatusChangeTime() == fstat.st_ctime );
+    TEST( t.getAccessTime() == fstat.st_atime );
+    TEST( t.getModificationTime() == fstat.st_mtime );
+    TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
 
   {
@@ -68,7 +79,7 @@ tFileStat04( LibTest & test )
 
     int fd = open( "data/FileStat.01", O_RDONLY, 0 );
 
-    test( fd >= 0 );
+    TEST( fd >= 0 );
 
     FileStat t( "data" );
     User     h( "houghton" );
@@ -77,32 +88,32 @@ tFileStat04( LibTest & test )
     
     struct stat fstat;
     
-    test( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( "data/FileStat.01", &fstat ) );
 
-    test( t.getUID() == fstat.st_uid );
-    test( t.getUID() == h.getUID() );
+    TEST( t.getUID() == fstat.st_uid );
+    TEST( t.getUID() == h.getUID() );
 
-    test( t.getGID() == fstat.st_gid );
+    TEST( t.getGID() == fstat.st_gid );
 
-    test( t.getMode() == fstat.st_mode );
-    test( (t.getMode() & 0777) == 0664 );
+    TEST( t.getMode() == fstat.st_mode );
+    TEST( (t.getMode() & 0777) == 0664 );
     
-    test( t.getSize() == fstat.st_size );
-    test( t.getSize() == 10240 );
+    TEST( t.getSize() == fstat.st_size );
+    TEST( t.getSize() == 10240 );
 
-    test( t.getDevice() == fstat.st_dev );
-    test( t.getDeviceType() == fstat.st_rdev );
-    test( t.getInode() == fstat.st_ino );
+    TEST( t.getDevice() == fstat.st_dev );
+    TEST( t.getDeviceType() == fstat.st_rdev );
+    TEST( t.getInode() == fstat.st_ino );
 
-    test( t.getHardLinks() == fstat.st_nlink );
-    test( t.getHardLinks() == 1 );
+    TEST( t.getHardLinks() == fstat.st_nlink );
+    TEST( t.getHardLinks() == 1 );
 
-    test( t.getBlockSize() == fstat.st_blksize );
-    test( t.getBlocks() == fstat.st_blocks );
+    TEST( t.getBlockSize() == fstat.st_blksize );
+    TEST( t.getBlocks() == fstat.st_blocks );
 
-    test( t.getAccessTime() == fstat.st_atime );
-    test( t.getModificationTime() == fstat.st_mtime );
-    test( t.getStatusChangeTime() == fstat.st_ctime );
+    TEST( t.getAccessTime() == fstat.st_atime );
+    TEST( t.getModificationTime() == fstat.st_mtime );
+    TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
 
   {
@@ -116,30 +127,30 @@ tFileStat04( LibTest & test )
     t.lstat( "data/FileStat.l1" );
     struct stat fstat;
     
-    test( ! lstat( "data/FileStat.l1", &fstat ) );
+    TEST( ! lstat( "data/FileStat.l1", &fstat ) );
 
-    test( t.getUID() == fstat.st_uid );
-    test( t.getUID() == h.getUID() );
+    TEST( t.getUID() == fstat.st_uid );
+    TEST( t.getUID() == h.getUID() );
 
-    test( t.getGID() == fstat.st_gid );
+    TEST( t.getGID() == fstat.st_gid );
 
-    test( t.getMode() == fstat.st_mode );
+    TEST( t.getMode() == fstat.st_mode );
     
-    test( t.getSize() == fstat.st_size );
+    TEST( t.getSize() == fstat.st_size );
 
-    test( t.getDevice() == fstat.st_dev );
-    test( t.getDeviceType() == fstat.st_rdev );
-    test( t.getInode() == fstat.st_ino );
+    TEST( t.getDevice() == fstat.st_dev );
+    TEST( t.getDeviceType() == fstat.st_rdev );
+    TEST( t.getInode() == fstat.st_ino );
 
-    test( t.getHardLinks() == fstat.st_nlink );
-    test( t.getHardLinks() == 1 );
+    TEST( t.getHardLinks() == fstat.st_nlink );
+    TEST( t.getHardLinks() == 1 );
 
-    test( t.getBlockSize() == fstat.st_blksize );
-    test( t.getBlocks() == fstat.st_blocks );
+    TEST( t.getBlockSize() == fstat.st_blksize );
+    TEST( t.getBlocks() == fstat.st_blocks );
 
-    test( t.getAccessTime() == fstat.st_atime );
-    test( t.getModificationTime() == fstat.st_mtime );
-    test( t.getStatusChangeTime() == fstat.st_ctime );
+    TEST( t.getAccessTime() == fstat.st_atime );
+    TEST( t.getModificationTime() == fstat.st_mtime );
+    TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
     
   {
@@ -152,32 +163,32 @@ tFileStat04( LibTest & test )
     
     struct stat fstat;
     
-    test( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( "data/FileStat.01", &fstat ) );
 
-    test( t.getUID() == fstat.st_uid );
-    test( t.getUID() == h.getUID() );
+    TEST( t.getUID() == fstat.st_uid );
+    TEST( t.getUID() == h.getUID() );
 
-    test( t.getGID() == fstat.st_gid );
+    TEST( t.getGID() == fstat.st_gid );
 
-    test( t.getMode() == fstat.st_mode );
-    test( (t.getMode() & 0777) == 0664 );
+    TEST( t.getMode() == fstat.st_mode );
+    TEST( (t.getMode() & 0777) == 0664 );
     
-    test( t.getSize() == fstat.st_size );
-    test( t.getSize() == 10240 );
+    TEST( t.getSize() == fstat.st_size );
+    TEST( t.getSize() == 10240 );
 
-    test( t.getDevice() == fstat.st_dev );
-    test( t.getDeviceType() == fstat.st_rdev );
-    test( t.getInode() == fstat.st_ino );
+    TEST( t.getDevice() == fstat.st_dev );
+    TEST( t.getDeviceType() == fstat.st_rdev );
+    TEST( t.getInode() == fstat.st_ino );
 
-    test( t.getHardLinks() == fstat.st_nlink );
-    test( t.getHardLinks() == 1 );
+    TEST( t.getHardLinks() == fstat.st_nlink );
+    TEST( t.getHardLinks() == 1 );
 
-    test( t.getBlockSize() == fstat.st_blksize );
-    test( t.getBlocks() == fstat.st_blocks );
+    TEST( t.getBlockSize() == fstat.st_blksize );
+    TEST( t.getBlocks() == fstat.st_blocks );
 
-    test( t.getAccessTime() == fstat.st_atime );
-    test( t.getModificationTime() == fstat.st_mtime );
-    test( t.getStatusChangeTime() == fstat.st_ctime );
+    TEST( t.getAccessTime() == fstat.st_atime );
+    TEST( t.getModificationTime() == fstat.st_mtime );
+    TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
   
   {
@@ -185,7 +196,7 @@ tFileStat04( LibTest & test )
 
     int fd = open( "data/FileStat.01", O_RDONLY, 0 );
 
-    test( fd >= 0 );
+    TEST( fd >= 0 );
 
     FileStat t( "data" );
     static const User     h( "houghton" );
@@ -194,32 +205,32 @@ tFileStat04( LibTest & test )
     
     struct stat fstat;
     
-    test( ! stat( "data/FileStat.01", &fstat ) );
+    TEST( ! stat( "data/FileStat.01", &fstat ) );
 
-    test( t.getUID() == fstat.st_uid );
-    test( t.getUID() == h.getUID() );
+    TEST( t.getUID() == fstat.st_uid );
+    TEST( t.getUID() == h.getUID() );
 
-    test( t.getGID() == fstat.st_gid );
+    TEST( t.getGID() == fstat.st_gid );
 
-    test( t.getMode() == fstat.st_mode );
-    test( (t.getMode() & 0777) == 0664 );
+    TEST( t.getMode() == fstat.st_mode );
+    TEST( (t.getMode() & 0777) == 0664 );
     
-    test( t.getSize() == fstat.st_size );
-    test( t.getSize() == 10240 );
+    TEST( t.getSize() == fstat.st_size );
+    TEST( t.getSize() == 10240 );
 
-    test( t.getDevice() == fstat.st_dev );
-    test( t.getDeviceType() == fstat.st_rdev );
-    test( t.getInode() == fstat.st_ino );
+    TEST( t.getDevice() == fstat.st_dev );
+    TEST( t.getDeviceType() == fstat.st_rdev );
+    TEST( t.getInode() == fstat.st_ino );
 
-    test( t.getHardLinks() == fstat.st_nlink );
-    test( t.getHardLinks() == 1 );
+    TEST( t.getHardLinks() == fstat.st_nlink );
+    TEST( t.getHardLinks() == 1 );
 
-    test( t.getBlockSize() == fstat.st_blksize );
-    test( t.getBlocks() == fstat.st_blocks );
+    TEST( t.getBlockSize() == fstat.st_blksize );
+    TEST( t.getBlocks() == fstat.st_blocks );
 
-    test( t.getAccessTime() == fstat.st_atime );
-    test( t.getModificationTime() == fstat.st_mtime );
-    test( t.getStatusChangeTime() == fstat.st_ctime );
+    TEST( t.getAccessTime() == fstat.st_atime );
+    TEST( t.getModificationTime() == fstat.st_mtime );
+    TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
 
   return( true );

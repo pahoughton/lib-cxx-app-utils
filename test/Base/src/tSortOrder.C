@@ -1,12 +1,18 @@
+#if !defined( CLUE_SHORT_FN )
 #include <TestConfig.hh>
-
 #include <LibTest.hh>
 #include <SortOrder.hh>
-
 #include <Compare.hh>
-
 #include <algorithm>
 #include <vector>
+#else
+#include <TestConfig.hh>
+#include <LibTest.hh>
+#include <SortOrdr.hh>
+#include <Compare.hh>
+#include <algorithm>
+#include <vector>
+#endif
 
 class Data
 {
@@ -60,7 +66,7 @@ DataCompC   CompC;
 
 
 bool
-tSortOrder( LibTest & test )
+tSortOrder( LibTest & tester )
 {
   SortOrder< Data >	orderA( CompA );
   SortOrder< Data >	orderB( CompB );
@@ -87,7 +93,7 @@ tSortOrder( LibTest & test )
 	 them != list.end();
 	 them++ )
       {
-	test( prev <= (*them).a );
+	TEST( prev <= (*them).a );
 	prev = (*them).a;
       }
     
@@ -103,7 +109,7 @@ tSortOrder( LibTest & test )
 	 them != list.end();
 	 them++ )
       {
-	test( (prevB == (*them).b && prevA <= (*them).a ) ||
+	TEST( (prevB == (*them).b && prevA <= (*them).a ) ||
 	      (prevB < (*them).b ) );
 	prevB = (*them).b;
 	prevA = (*them).a;

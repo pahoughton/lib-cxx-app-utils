@@ -12,8 +12,8 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.2  1995/11/05 14:44:33  houghton
-// Ports and Version ID changes
+// Revision 1.3  1995/11/05 15:28:33  houghton
+// Revised
 //
 //
 
@@ -313,7 +313,7 @@ FilePath::read( istream & src )
 bool
 FilePath::good( void ) const
 {
-  return( Str::good() && ! empty() );
+  return( Str::good() );
 }
 
 // error - return a string describing the current state
@@ -331,14 +331,13 @@ FilePath::error( void ) const
     }
   else
     {
+      size_t eSize = errStr.size();
+
       if( ! Str::good() )
-	{
-	  errStr << ' ' << Str::error();
-	}
-      else
-	{
-	  errStr << " empty";
-	}
+	errStr << ": " << Str::error();
+      
+      if( eSize == errStr.size() )
+	errStr << ": unknown error";
     }
 
   return( errStr.cstr() );

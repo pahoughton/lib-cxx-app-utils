@@ -14,26 +14,28 @@
 //
 // 
 // $Log$
-// Revision 1.3  1995/11/05 14:44:39  houghton
-// Ports and Version ID changes
+// Revision 1.4  1995/11/05 15:28:40  houghton
+// Revised
 //
 //
 
-#ifdef CLUE_SHORT_FN
-#include <ClueCfg.hh>
-#else
+#if !defined( CLUE_SHORT_FN )
 #include <ClueConfig.hh>
+#include <BinStream.hh>
+#include <Bitmask.hh>
+#include <iostream>
+#else
+#include <ClueCfg.hh>
+#include <BinStrm.hh>
+#include <Bitmask.hh>
+#include <iostream>
 #endif
 
-#include <Bitmask.hh>
-
-#include <iostream>
-
-#ifdef  CLUE_DEBUG
+#if defined( CLUE_DEBUG )
 #define inline
 #endif
 
-class LogLevel 
+class LogLevel : public BinObject
 {
   
 public:
@@ -75,10 +77,31 @@ public:
   inline bool 	    shouldOutput( void ) const;
   inline bool	    willOutput( const Level outLevel ) const;
 
-  const char *	    getClassName( void ) const;
-  ostream &	    dumpInfo( ostream & dest = cerr ) const;
+  inline int	    compare( const LogLevel & two ) const;
+  
+  inline bool	    operator == ( const LogLevel & rhs ) const;
+  inline bool	    operator <  ( const LogLevel & rhs ) const;
+  
+  // libClue Common Class Methods
+    
+  virtual size_t	getBinSize( void ) const;
+  virtual BinStream &	write( BinStream & dest ) const;
+  virtual BinStream &	read( BinStream & src );
+  
+  virtual ostream &	write( ostream & dest ) const;
+  virtual istream &	read( istream & src );
 
-  static const char version[];
+  virtual ostream &	toStream( ostream & dest = cout ) const;
+  
+  friend inline ostream & operator << ( ostream & dest, const LogLevel & obj );
+  
+  virtual const char *	getClassName( void ) const;
+  virtual const char *	getVersion( bool withPrjVer = true ) const;
+  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+				  const char *	prefix = "    ",
+				  bool		showVer = true ) const;
+  
+  static const ClassVersion version;
   
 private:
 
@@ -89,8 +112,12 @@ private:
   
 };
 
-#ifndef inline
+#if !defined( inline )
+#if !defined( CLUE_SHORT_FN )
 #include <LogLevel.ii>
+#else
+#include <LogLvl.ii>
+#endif
 #else
 #undef inline
 #endif

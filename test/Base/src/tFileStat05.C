@@ -1,8 +1,15 @@
+#if !defined( CLUE_SHORT_FN )
+#include <TestConfig.hh>
 #include <LibTest.hh>
 #include <FileStat.hh>
+#else
+#include <TestCfg.hh>
+#include <LibTest.hh>
+#include <FileStat.hh>
+#endif
 
 bool
-tFileStat05( LibTest & test )
+tFileStat05( LibTest & tester )
 {
   {
     // setMode( mode_t )
@@ -10,29 +17,29 @@ tFileStat05( LibTest & test )
     FileStat t( "data/FileStat.set" );
     FileStat c;
     
-    test( t.setMode( 0777 ) );
+    TEST( t.setMode( 0777 ) );
 
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0777 );
-    test( (t.getMode() & 0777) == 0777 );
+    TEST( (c.getMode() & 0777) == 0777 );
+    TEST( (t.getMode() & 0777) == 0777 );
 
-    test( t.setMode( 0644 ) );
+    TEST( t.setMode( 0644 ) );
 
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0644 );
-    test( (t.getMode() & 0777) == 0644 );
+    TEST( (c.getMode() & 0777) == 0644 );
+    TEST( (t.getMode() & 0777) == 0644 );
     
 #ifdef HAVE_BIN_UID
     t.stat( "data/FileStat.b.b.yyy.yny.yny" );
 
-    test( ! t.setMode( 0444 ) );
+    TEST( ! t.setMode( 0444 ) );
     
     c.stat( "data/FileStat.b.b.yyy.yny.yny" );
 
-    test( (c.getMode() & 0777) == 0755 );
-    test( (t.getMode() & 0777) == 0755 );
+    TEST( (c.getMode() & 0777) == 0755 );
+    TEST( (t.getMode() & 0777) == 0755 );
 #endif
   }
 
@@ -42,38 +49,38 @@ tFileStat05( LibTest & test )
     FileStat t( "data/FileStat.set" );
     FileStat c;
     
-    test( t.setMode( 0444 ) );
+    TEST( t.setMode( 0444 ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0444 );
-    test( (t.getMode() & 0777) == 0444 );
+    TEST( (c.getMode() & 0777) == 0444 );
+    TEST( (t.getMode() & 0777) == 0444 );
 
-    test( t.setMode( FileStat::USER, FileStat::EXEC ) );
+    TEST( t.setMode( FileStat::USER, FileStat::EXEC ) );
 
     c.stat( "data/FileStat.set" );
     
-    test( c.canExec( FileStat::USER ) );
-    test( t.canExec( FileStat::USER ) );
+    TEST( c.canExec( FileStat::USER ) );
+    TEST( t.canExec( FileStat::USER ) );
 
-    test( (c.getMode() & 0777) == 0544 );
-    test( (t.getMode() & 0777) == 0544 );
+    TEST( (c.getMode() & 0777) == 0544 );
+    TEST( (t.getMode() & 0777) == 0544 );
     
-    test( t.setMode( FileStat::USER | FileStat::GROUP | FileStat::OTHER,
+    TEST( t.setMode( FileStat::USER | FileStat::GROUP | FileStat::OTHER,
 		     FileStat::WRITE ) );
     
     c.stat( "data/FileStat.set" );
     
-    test( c.canWrite( FileStat::USER ) );
-    test( c.canWrite( FileStat::GROUP ) );
-    test( c.canWrite( FileStat::OTHER ) );
+    TEST( c.canWrite( FileStat::USER ) );
+    TEST( c.canWrite( FileStat::GROUP ) );
+    TEST( c.canWrite( FileStat::OTHER ) );
 
-    test( t.canWrite( FileStat::USER ) );
-    test( t.canWrite( FileStat::GROUP ) );
-    test( t.canWrite( FileStat::OTHER ) );
+    TEST( t.canWrite( FileStat::USER ) );
+    TEST( t.canWrite( FileStat::GROUP ) );
+    TEST( t.canWrite( FileStat::OTHER ) );
 
-    test( (c.getMode() & 0777) == 0766 );
-    test( (t.getMode() & 0777) == 0766 );
+    TEST( (c.getMode() & 0777) == 0766 );
+    TEST( (t.getMode() & 0777) == 0766 );
     
   }
 
@@ -83,28 +90,28 @@ tFileStat05( LibTest & test )
     FileStat t( "data/FileStat.set" );
     FileStat c;
     
-    test( t.setMode( 0777 ) );
+    TEST( t.setMode( 0777 ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0777 );
-    test( (t.getMode() & 0777) == 0777 );
+    TEST( (c.getMode() & 0777) == 0777 );
+    TEST( (t.getMode() & 0777) == 0777 );
 
-    test( t.setMode( FileStat::OTHER, FileStat::EXEC, false ) );
+    TEST( t.setMode( FileStat::OTHER, FileStat::EXEC, false ) );
 
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0776 );
-    test( (t.getMode() & 0777) == 0776 );
+    TEST( (c.getMode() & 0777) == 0776 );
+    TEST( (t.getMode() & 0777) == 0776 );
 
     
-    test( t.setMode( FileStat::USER | FileStat::GROUP | FileStat::OTHER,
+    TEST( t.setMode( FileStat::USER | FileStat::GROUP | FileStat::OTHER,
 		     FileStat::WRITE, false ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0554 );
-    test( (t.getMode() & 0777) == 0554 );
+    TEST( (c.getMode() & 0777) == 0554 );
+    TEST( (t.getMode() & 0777) == 0554 );
   }
 
   {
@@ -118,54 +125,54 @@ tFileStat05( LibTest & test )
     FileStat t( "data/FileStat.set" );
     FileStat c;
     
-    test( t.setMode( 0 ) );
+    TEST( t.setMode( 0 ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0 );
-    test( (t.getMode() & 0777) == 0 );
+    TEST( (c.getMode() & 0777) == 0 );
+    TEST( (t.getMode() & 0777) == 0 );
 
-    test( t.setRead( FileStat::ALL ) );
+    TEST( t.setRead( FileStat::ALL ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0444 );
-    test( (t.getMode() & 0777) == 0444 );
+    TEST( (c.getMode() & 0777) == 0444 );
+    TEST( (t.getMode() & 0777) == 0444 );
 
-    test( t.setRead( FileStat::OTHER, false ) );
+    TEST( t.setRead( FileStat::OTHER, false ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0440 );
-    test( (t.getMode() & 0777) == 0440 );
+    TEST( (c.getMode() & 0777) == 0440 );
+    TEST( (t.getMode() & 0777) == 0440 );
 
-    test( t.setWrite( FileStat::ALL ) );
+    TEST( t.setWrite( FileStat::ALL ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0662 );
-    test( (t.getMode() & 0777) == 0662 );
+    TEST( (c.getMode() & 0777) == 0662 );
+    TEST( (t.getMode() & 0777) == 0662 );
 
-    test( t.setWrite( FileStat::OTHER, false ) );
+    TEST( t.setWrite( FileStat::OTHER, false ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0660 );
-    test( (t.getMode() & 0777) == 0660 );
+    TEST( (c.getMode() & 0777) == 0660 );
+    TEST( (t.getMode() & 0777) == 0660 );
 
-    test( t.setExec( FileStat::ALL ) );
+    TEST( t.setExec( FileStat::ALL ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0771 );
-    test( (t.getMode() & 0777) == 0771 );
+    TEST( (c.getMode() & 0777) == 0771 );
+    TEST( (t.getMode() & 0777) == 0771 );
 
-    test( t.setExec( FileStat::OTHER, false ) );
+    TEST( t.setExec( FileStat::OTHER, false ) );
     
     c.stat( "data/FileStat.set" );
 
-    test( (c.getMode() & 0777) == 0770 );
-    test( (t.getMode() & 0777) == 0770 );
+    TEST( (c.getMode() & 0777) == 0770 );
+    TEST( (t.getMode() & 0777) == 0770 );
 
   }
 
