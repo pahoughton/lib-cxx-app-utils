@@ -13,6 +13,15 @@
 # See End of file for format specs
 #
 
+ENH Paul Houghton 05/10/96 06:09
+add 'of' method to SubStr returns the owning Str
+
+ENH Paul Houghton 05/06/96 05:25
+LibTest rework args to outputLine progress
+
+ENH Paul Houghton 05/06/96 05:25
+Log rework tee
+
 BUG Paul Houghton 03/08/96 09:11
 Str::getDelim( ... ) ignore leading delims
 
@@ -120,6 +129,9 @@ comp Paul Houghton 11/10/95 10:01
 
 #
 # $Log$
+# Revision 2.7  1996/05/11 11:00:34  houghton
+# *** empty log message ***
+#
 # Revision 2.6  1996/03/13 11:22:14  houghton
 # *** empty log message ***
 #
