@@ -464,6 +464,13 @@ FileStat::operator <  ( const FileStat & two ) const
 }
 
 inline
+bool
+FileStat::exist( void ) const
+{
+  return( ! (getSysError() == ENOENT ) );
+}
+
+inline
 int
 compare( const FileStat & one, const FileStat & two )
 {
@@ -480,6 +487,9 @@ operator << ( ostream & dest, const FileStat & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 3.4  1997/09/16 11:23:22  houghton
+// Added 'exist' method.
+//
 // Revision 3.3  1997/07/18 19:17:40  houghton
 // Port(Sun5): changed local variable names to eliminate compiler warnings.
 //

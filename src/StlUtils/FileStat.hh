@@ -125,8 +125,9 @@ public:
   
   ostream &		toStream( ostream & dest = cout ) const;
   
-  bool		good() const;
-  const char *	error() const;
+  bool		good( void ) const;
+  inline bool	exist( void ) const;
+  const char *	error( void ) const;
   const char *	getClassName( void ) const;
   const char *	getVersion( bool withPrjVer = true ) const;
   ostream & 	dumpInfo( ostream &	dest = cerr,
@@ -573,6 +574,9 @@ compare( const FileStat & one, const FileStat & two );
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/09/16 11:23:15  houghton
+// Added 'exist' method.
+//
 // Revision 3.4  1997/06/09 12:02:10  houghton
 // Changed 'getName' to return a FilePath.
 // Changed to use size_type (vs size_t).
