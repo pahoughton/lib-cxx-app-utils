@@ -1,63 +1,21 @@
-#include "FilePath.hh"
-
 //
 // File:        FilePath.C
+// Project:	StlUtils
 // Desc:        
 //
+//  Compiled sources for FilePath
 //  
-//  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul.houghton@wcom.com)
 // Created:     06/15/95 07:48 
 //
-// Revision History:
+// Revision History: (See end of file for Revision Log)
 //
-// $Log$
-// Revision 4.2  1997/09/19 11:20:59  houghton
-// Changed to use size_type (vs size_t).
+//  Last Mod By:    $Author$
+//  Last Mod:	    $Date$
+//  Version:	    $Revision$
 //
-// Revision 4.1  1997/09/17 15:12:25  houghton
-// Changed to Version 4
-//
-// Revision 3.8  1997/09/17 11:08:21  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.7  1997/08/08 12:37:29  houghton
-// Added expand() method.
-//
-// Revision 3.6  1997/07/18 19:13:04  houghton
-// Port(Sun5): changed all locale variables named beg and end to
-//     eliminate compiler warnings.
-//
-// Revision 3.5  1997/06/09 12:01:18  houghton
-// Changed 'match' to be a const method.
-//
-// Revision 3.4  1997/03/03 18:58:47  houghton
-// Changed arg to write calls to const char * (AIX workaround)
-// Changed arg to write class to char * (AIX workaround)
-//
-// Revision 3.3  1997/03/03 14:35:53  houghton
-// Changed base class from string back to Str (Massive improvement of
-//     functionallity )
-//
-// Revision 3.2  1996/11/20 12:06:10  houghton
-// Changed: Major rework to change base class from Str to string.
-//
-// Revision 3.1  1996/11/14 01:23:41  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/11/04 13:35:19  houghton
-// Bug-Fix: changeDirs - if oldDirs not found in path, return false.
-//
-// Revision 2.2  1995/12/04 11:17:22  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:34  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:33  houghton
-// Revised
-//
-//
+
+
 
 #include "FilePath.hh"
 
@@ -408,7 +366,13 @@ FilePath::setTempName( const char * path, const char * prefix )
   else
     fnPrefix = "tmp";
 
-  assign( tempnam( (char *)path, (char *)fnPrefix.c_str() ) );
+  {
+    // tempnam returns a malloc'ed string
+    char * tempFileName = tempnam( (char *)path, (char *)fnPrefix.c_str() );
+    assign( tempFileName );
+    free( tempFileName );
+  }
+    
   return( size() != 0 );
 }
 
@@ -527,4 +491,58 @@ FilePath::dumpInfo(
   
   return( dest  );
 }  
+
+// Revision Log:
+//
+// $Log$
+// Revision 4.3  1997/09/20 14:27:59  houghton
+// Bug-Fix: setTempName had a memory leak. tempnam returns a malloc'ed
+//     string and it was not being free'ed.
+//
+// Revision 4.2  1997/09/19 11:20:59  houghton
+// Changed to use size_type (vs size_t).
+//
+// Revision 4.1  1997/09/17 15:12:25  houghton
+// Changed to Version 4
+//
+// Revision 3.8  1997/09/17 11:08:21  houghton
+// Changed: renamed library to StlUtils.
+//
+// Revision 3.7  1997/08/08 12:37:29  houghton
+// Added expand() method.
+//
+// Revision 3.6  1997/07/18 19:13:04  houghton
+// Port(Sun5): changed all locale variables named beg and end to
+//     eliminate compiler warnings.
+//
+// Revision 3.5  1997/06/09 12:01:18  houghton
+// Changed 'match' to be a const method.
+//
+// Revision 3.4  1997/03/03 18:58:47  houghton
+// Changed arg to write calls to const char * (AIX workaround)
+// Changed arg to write class to char * (AIX workaround)
+//
+// Revision 3.3  1997/03/03 14:35:53  houghton
+// Changed base class from string back to Str (Massive improvement of
+//     functionallity )
+//
+// Revision 3.2  1996/11/20 12:06:10  houghton
+// Changed: Major rework to change base class from Str to string.
+//
+// Revision 3.1  1996/11/14 01:23:41  houghton
+// Changed to Release 3
+//
+// Revision 2.3  1996/11/04 13:35:19  houghton
+// Bug-Fix: changeDirs - if oldDirs not found in path, return false.
+//
+// Revision 2.2  1995/12/04 11:17:22  houghton
+// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:40:34  houghton
+// Change to Version 2
+//
+// Revision 1.3  1995/11/05  15:28:33  houghton
+// Revised
+//
+//
 
