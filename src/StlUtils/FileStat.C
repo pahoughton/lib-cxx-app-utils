@@ -20,12 +20,11 @@
 
 #include <DateTime.hh>
 
-#include "Bit.hh"
+#include <Bit.hh>
 #include <iomanip>
 #include <strstream.h>
 #include <cstring>
 #include <cerrno>
-#include <unistd.h>
 
 #if defined( CLUE_DEBUG )
 #include "FileStat.ii"
@@ -385,6 +384,9 @@ FileStat::setModeString( void )
 // Revision Log:
 //
 // $Log$
+// Revision 3.5  1997/07/18 19:17:05  houghton
+// Cleanup.
+//
 // Revision 3.4  1997/03/03 18:59:16  houghton
 // Removed support for RW Tools++.
 //
