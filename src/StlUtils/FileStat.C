@@ -1,30 +1,14 @@
 //
 // File:        FileStat.C
+// Project	Clue
 // Desc:        
 //
-//  
+//  Compiled source for the FileStat class
 //  
 // Author:      Paul Houghton - (houghton@cworld.wiltel.com)
 // Created:     05/17/95 08:38 
 //
-// Revision History:
-//
-// $Log$
-// Revision 2.4  1996/05/01 11:02:23  houghton
-// Bug-Fix: updated to reflect changes in Bitmask constructors.
-//
-// Revision 2.3  1995/12/31 11:25:31  houghton
-// Bug Fix - change the order of includes.
-//
-// Revision 2.2  1995/12/04 11:20:33  houghton
-// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:47:11  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  15:49:26  houghton
-// Revised
-//
+// Revision History: (See end of file for Revision Log)
 //
 
 #if !defined( CLUE_SHORT_FN )
@@ -373,6 +357,28 @@ FileStat::setModeString( void )
     ;
 }
 
+// Revision Log:
+//
+// $Log$
+// Revision 2.5  1996/11/04 14:37:09  houghton
+// Restructure header comments layout.
+//
+// Revision 2.4  1996/05/01 11:02:23  houghton
+// Bug-Fix: updated to reflect changes in Bitmask constructors.
+//
+// Revision 2.3  1995/12/31 11:25:31  houghton
+// Bug Fix - change the order of includes.
+//
+// Revision 2.2  1995/12/04 11:20:33  houghton
+// Bug Fix - Can now compile with out '-DCLUE_DEBUG'.
+//
+// Revision 2.1  1995/11/10  12:47:11  houghton
+// Change to Version 2
+//
+// Revision 1.4  1995/11/05  15:49:26  houghton
+// Revised
+//
+//
     
 
 
