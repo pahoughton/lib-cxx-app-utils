@@ -24,6 +24,8 @@
 #include <cstring>
 #include <ctime>
 
+#define STLUTILS_DIGITS_SPACE	"0123456789 "
+
 char *
 STLUTILS_FUNCT_T
 StripWhite( char *  	    buffer,
@@ -742,6 +744,9 @@ basename( char * fn );
 // Revision Log:
 //
 // $Log$
+// Revision 4.6  1998/01/05 13:21:44  houghton
+// Added STLUTILS_DIGITS_SPACE define.
+//
 // Revision 4.5  1997/12/23 12:06:44  houghton
 // Added StringFrom( char * dest ).
 //
