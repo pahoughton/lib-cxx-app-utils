@@ -905,6 +905,9 @@ operator << ( ostream & dest, const Param & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:44  houghton
+// Changed to Version 4
+//
 // Revision 3.16  1997/09/17 11:08:38  houghton
 // Changed: renamed library to StlUtils.
 //

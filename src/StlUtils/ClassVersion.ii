@@ -82,6 +82,9 @@ operator << ( ostream & dest, const ClassVersion & obj )
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:12  houghton
+// Changed to Version 4
+//
 // Revision 3.2  1996/11/19 12:20:40  houghton
 // Restructure header comments.
 //

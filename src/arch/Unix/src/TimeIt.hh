@@ -366,6 +366,9 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:13:39  houghton
+// Changed to Version 4
+//
 // Revision 3.6  1997/09/17 11:09:27  houghton
 // Changed: renamed library to StlUtils.
 //

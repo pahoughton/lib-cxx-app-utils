@@ -203,6 +203,9 @@ compare( const Void & lhs, const Void & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:13:09  houghton
+// Changed to Version 4
+//
 // Revision 3.6  1997/09/17 11:08:59  houghton
 // Changed: renamed library to StlUtils.
 //

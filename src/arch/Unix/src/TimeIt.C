@@ -239,6 +239,9 @@ TimeIt::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:13:38  houghton
+// Changed to Version 4
+//
 // Revision 3.6  1997/09/17 15:10:29  houghton
 // Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
 //

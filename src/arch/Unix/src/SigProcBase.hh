@@ -162,6 +162,9 @@ operator >> ( istream & src, const SigProcBase & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:13:37  houghton
+// Changed to Version 4
+//
 // Revision 3.2  1997/09/17 11:09:25  houghton
 // Changed: renamed library to StlUtils.
 //

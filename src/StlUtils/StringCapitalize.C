@@ -80,6 +80,9 @@ StringCapitalize( char * str, size_t len )
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:59  houghton
+// Changed to Version 4
+//
 // Revision 3.3  1997/09/17 11:08:50  houghton
 // Changed: renamed library to StlUtils.
 //

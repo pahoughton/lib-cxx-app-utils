@@ -1217,6 +1217,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:51  houghton
+// Changed to Version 4
+//
 // Revision 3.8  1997/09/17 14:10:20  houghton
 // Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
 //

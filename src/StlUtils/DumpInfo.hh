@@ -137,6 +137,9 @@ operator << ( ostream & dest, const DumpInfo<T> & src )
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:24  houghton
+// Changed to Version 4
+//
 // Revision 3.2  1997/09/17 11:08:20  houghton
 // Changed: renamed library to StlUtils.
 //

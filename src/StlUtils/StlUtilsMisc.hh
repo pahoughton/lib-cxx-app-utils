@@ -171,6 +171,9 @@ IosSeekDirToString( ios::seek_dir dir );
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:50  houghton
+// Changed to Version 4
+//
 // Revision 3.6  1997/09/17 14:10:19  houghton
 // Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
 //

@@ -57,6 +57,9 @@ basename( char * fn )
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:13:15  houghton
+// Changed to Version 4
+//
 // Revision 3.3  1997/09/17 11:09:09  houghton
 // Changed: renamed library to StlUtils.
 //

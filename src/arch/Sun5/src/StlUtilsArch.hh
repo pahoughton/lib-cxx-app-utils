@@ -142,6 +142,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:13:27  houghton
+// Changed to Version 4
+//
 // Revision 3.2  1997/09/17 11:09:17  houghton
 // Changed: renamed library to StlUtils.
 //

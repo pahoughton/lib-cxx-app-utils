@@ -714,6 +714,9 @@ operator >= ( unsigned long lhs, const Bitmask & rhs );
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:10  houghton
+// Changed to Version 4
+//
 // Revision 3.3  1997/09/17 11:08:09  houghton
 // Changed: renamed library to StlUtils.
 //

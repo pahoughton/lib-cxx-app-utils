@@ -59,6 +59,9 @@ ARCH_CXX_INLINES	=		\
 
 #
 # $Log$
+# Revision 4.1  1997/09/17 15:13:13  houghton
+# Changed to Version 4
+#
 # Revision 3.6  1997/09/17 11:09:07  houghton
 # Changed: renamed library to StlUtils.
 #

@@ -376,6 +376,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:38  houghton
+// Changed to Version 4
+//
 // Revision 3.6  1997/09/17 11:08:32  houghton
 // Changed: renamed library to StlUtils.
 //

@@ -164,6 +164,9 @@ private:
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:49  houghton
+// Changed to Version 4
+//
 // Revision 3.4  1997/09/17 11:08:41  houghton
 // Changed: renamed library to StlUtils.
 //

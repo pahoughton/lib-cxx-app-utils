@@ -316,6 +316,9 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:37  houghton
+// Changed to Version 4
+//
 // Revision 3.8  1997/09/17 14:10:16  houghton
 // Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
 //

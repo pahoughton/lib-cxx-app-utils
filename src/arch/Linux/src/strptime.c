@@ -356,6 +356,9 @@ Boston, MA 02111-1307, USA.  */
  * Revision Log:
  *
  * $Log$
+ * Revision 4.1  1997/09/17 15:13:19  houghton
+ * Changed to Version 4
+ *
  * Revision 3.2  1997/09/17 11:09:12  houghton
  * Changed: renamed library to StlUtils.
  *

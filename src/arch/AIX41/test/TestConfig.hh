@@ -14,6 +14,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:13:16  houghton
+// Changed to Version 4
+//
 // Revision 3.2  1997/07/21 10:24:31  houghton
 // Added defines for various types of files (used in tFileStat02.C).
 //

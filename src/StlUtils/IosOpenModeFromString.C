@@ -61,6 +61,9 @@ IosOpenModeFromString( const char * modeString )
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:29  houghton
+// Changed to Version 4
+//
 // Revision 3.3  1997/09/17 11:08:24  houghton
 // Changed: renamed library to StlUtils.
 //

@@ -235,6 +235,9 @@ Log::unlock( void )
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:34  houghton
+// Changed to Version 4
+//
 // Revision 3.9  1997/09/17 11:08:28  houghton
 // Changed: renamed library to StlUtils.
 //

@@ -16,6 +16,9 @@ include Make/make.cfg.targets.3.5
 
 #
 # $Log$
+# Revision 4.1  1997/09/17 15:11:57  houghton
+# Changed to Version 4
+#
 # Revision 3.2  1997/09/17 11:07:50  houghton
 # Changed: renamed library to StlUtils.
 #

@@ -1703,6 +1703,9 @@ operator >> ( istream & src, Str & dest );
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:53  houghton
+// Changed to Version 4
+//
 // Revision 3.10  1997/09/17 11:08:45  houghton
 // Changed: renamed library to StlUtils.
 //

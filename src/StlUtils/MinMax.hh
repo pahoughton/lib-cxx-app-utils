@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:40  houghton
+// Changed to Version 4
+//
 // Revision 3.1  1996/11/14 01:23:51  houghton
 // Changed to Release 3
 //

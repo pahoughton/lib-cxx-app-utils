@@ -481,6 +481,9 @@ Log::commonLog(
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:12:31  houghton
+// Changed to Version 4
+//
 // Revision 3.11  1997/09/17 11:08:26  houghton
 // Changed: renamed library to StlUtils.
 //

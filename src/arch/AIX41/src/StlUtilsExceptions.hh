@@ -12,6 +12,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:13:14  houghton
+// Changed to Version 4
+//
 // Revision 3.2  1997/09/17 11:09:08  houghton
 // Changed: renamed library to StlUtils.
 //

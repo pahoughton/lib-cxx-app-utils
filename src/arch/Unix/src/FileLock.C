@@ -216,6 +216,9 @@ FileLock::typeName( Type t )
 // Revision Log:
 //
 // $Log$
+// Revision 4.1  1997/09/17 15:13:30  houghton
+// Changed to Version 4
+//
 // Revision 3.3  1997/09/17 15:10:28  houghton
 // Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
 //
