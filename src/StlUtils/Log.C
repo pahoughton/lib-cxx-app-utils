@@ -16,12 +16,13 @@
 #include <rw/cstring.h>
 
 #if defined( CLUE_DEBUG )
-#include <Log.ii>
+#include "Log.ii"
 #endif
 
 CLUE_VERSION(
   Log,
   "$Id$" );
+
 
 Log * _LibLog = 0;
 
@@ -110,7 +111,7 @@ Log::error( void ) const
 
       if( rdbuf() == 0 )
 	errStr += ": no 'streambuf'";
-      
+
       if( ! ios::good() )
 	{
 	  if( ios::rdstate() & ios::eofbit )
@@ -122,11 +123,10 @@ Log::error( void ) const
 	}
       
       if( eSize == errStr.length() )
-	errStr += ": unknown error";
-      
+	errStr += ": unknown error";      
     }
 
-  return( errStr.str() );
+  return( errStr );
 }
   
 const char *
@@ -175,7 +175,7 @@ Log::dumpInfo(
       pre += rdbuf()->getClassName() ;
       pre += "::";
       
-      rdbuf()->dumpInfo( dest, pre.str(), false );
+      rdbuf()->dumpInfo( dest, pre, false );
     }
   
   dest << '\n';
@@ -187,6 +187,14 @@ Log::dumpInfo(
 // Revision Log:
 //
 // $Log$
+// Revision 2.9  1996/11/13 16:25:41  houghton
+// Changed include lines to use "file" instead of <file> to
+//     accomidate rpm.
+// Changed to use ios::setstate (instead of clear) to be compilant
+//     with the ios class beheavior defined by the standard.
+// Bug-Fix: Fixed some compile errors that were do to the change
+//     to RWCString.
+//
 // Revision 2.8  1996/11/11 13:33:47  houghton
 // Changed to use RWCString instead of strstream where possible because
 //     of an inconsitancy in the public member of strstream.
