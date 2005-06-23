@@ -52,11 +52,11 @@ tCommaNum( LibTest & tester )
   
   for( int i = 0; TestValues[i].expString != 0; ++ i ) {
     test.reset();
-    CommaNum( test,
-	      TestValues[i].value,
-	      TestValues[i].width,
-	      TestValues[i].fill,
-	      TestValues[i].decimalPlaces );
+    CommaNumber( test,
+		 TestValues[i].value,
+		 TestValues[i].width,
+		 TestValues[i].fill,
+		 TestValues[i].decimalPlaces );
     TESTR( test.c_str(),
 	   test.compare( TestValues[i].expString ) == 0 );
   }
