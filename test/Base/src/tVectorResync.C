@@ -31,7 +31,8 @@ public:
 		    TestVector::size_type aRec,
 		    const TestVector & b,
 		    TestVector::size_type bRec ) const {
-    cout << "checking " << aRec << " to " << bRec << endl;
+    cout << "checking " << aRec << " to " << bRec
+	 << "  (" << a[aRec] << ") (" << b[bRec] << ")" << endl;
     return( ::compare( a[aRec], b[bRec] ) );
   };
 };
@@ -99,6 +100,9 @@ tVectorResync( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2005/07/13 17:16:35  houghton
+// added output.
+//
 // Revision 6.1  2003/08/09 11:22:53  houghton
 // Changed to version 6
 //
