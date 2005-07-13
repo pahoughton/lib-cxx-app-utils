@@ -44,9 +44,9 @@ VectorResync(
   SizeTypeA asr = aRec;
   SizeTypeB bsr = bRec;
 
-  SizeTypeA	maxRec = min( a.size(), b.size() );
-
-  for( SizeTypeA end = 1; end < maxRec; ++ end )
+  for( SizeTypeA end = 1;
+       aRec + end < a.size()
+	 && bRec + end < b.size() ; ++ end )
     {
       
       for( SizeTypeA beg = 0; beg < end; ++ beg )
@@ -98,6 +98,9 @@ VectorResync(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2005/07/13 16:33:40  houghton
+// Bug-Fix: max checking was not correct.
+//
 // Revision 6.1  2003/08/09 11:22:44  houghton
 // Changed to version 6
 //
