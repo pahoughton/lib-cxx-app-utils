@@ -45,20 +45,22 @@ VectorResync(
   SizeTypeB bsr = bRec;
 
   for( SizeTypeA end = 1;
-       aRec + end < a.size()
-	 && bRec + end < b.size() ; ++ end )
+       aRec + end < a.size() || bRec + end < b.size() ;
+       ++ end )
     {
       
       for( SizeTypeA beg = 0; beg < end; ++ beg )
 	{
-	  if( compare( a, asr + beg, b, bsr + end ) == 0 )
+	  if( bsr + end < b.size()
+	      && compare( a, asr + beg, b, bsr + end ) == 0 )
 	    {
 	      aRec = asr + beg;
 	      bRec = bsr + end;
 	      return( true );
 	    }
 
-	  if( compare( a, asr + end, b, bsr + beg ) == 0 )
+	  if( asr + end < a.size()
+	      && compare( a, asr + end, b, bsr + beg ) == 0 )
 	    {
 	      aRec = asr + end;
 	      bRec = bsr + beg;
@@ -66,7 +68,9 @@ VectorResync(
 	    }
 	}
       
-      if( compare( a, asr + end, b, bsr + end ) == 0 )
+      if( asr + end < a.size()
+	  && bsr+ end < b.size()
+	  && compare( a, asr + end, b, bsr + end ) == 0 )
 	{
 	  aRec = asr + end;
 	  bRec = bsr + end;
@@ -98,6 +102,9 @@ VectorResync(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2005/07/13 17:16:25  houghton
+// Bug-Fix: max checking was not correct.
+//
 // Revision 6.2  2005/07/13 16:33:40  houghton
 // Bug-Fix: max checking was not correct.
 //
