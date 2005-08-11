@@ -624,9 +624,12 @@ Param::argChar(
 {
   Str	arg = getArgValue( argId, envVar );
 
-  if( arg.size() == 1 )
+  if( arg.size() == 1 ) {
     dest = arg[0];
-
+  } else if( isprint( dest ) ) {
+    arg << dest;
+  }
+  
   if( arg.size() > 1 )
     {
       Str tmpErrDesc;
@@ -1769,6 +1772,9 @@ Param::genArgFile( bool exitApp ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2005/08/11 18:57:15  houghton
+// Bug-Fix: help for argChar was not showing default value.
+//
 // Revision 6.1  2003/08/09 11:22:42  houghton
 // Changed to version 6
 //
