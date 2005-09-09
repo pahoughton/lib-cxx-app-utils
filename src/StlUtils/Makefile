@@ -209,6 +209,7 @@ CXX_C_SOURCES	=			\
 	IosOpenModeFromString.C         \
 	IosOpenModeToString.C           \
 	IosSeekDirToString.C            \
+	IsTimetDst.C			\
 	LibTest.C                       \
 	Log.C                           \
 	LogBuf.C                        \

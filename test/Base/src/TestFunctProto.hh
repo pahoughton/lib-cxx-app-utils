@@ -72,6 +72,9 @@ bool	tDateRange( LibTest & tester );
 bool	tDateRangeDaily( LibTest & tester );
 // DateRangeWeekly.hh
 bool	tDateRangeWeekly( LibTest & tester );
+// IsTimetDst.C
+bool	tIsTimetDst( LibTest & tester );
+
 // Bitmask.hh
 bool	tBitmask( LibTest & tester );
 // FilePath.hh
@@ -171,6 +174,9 @@ bool tCommaNum( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 6.3  2005/09/09 18:51:13  houghton
+// *** empty log message ***
+//
 // Revision 6.2  2004/04/19 18:17:12  houghton
 // Added tCommaNum proto
 //

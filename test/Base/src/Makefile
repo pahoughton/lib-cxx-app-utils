@@ -348,6 +348,7 @@ CXX_C_SOURCES	=			\
 	tDateRange.C                    \
 	tDateRangeDaily.C               \
 	tDateRangeWeekly.C              \
+	tIsTimetDst.C			\
 	tFileOp.C			\
 	tFileOp01.C			\
 	tFileOp02.C			\
@@ -869,6 +870,9 @@ clean_test_data:
 # %PL%
 #
 # $Log$
+# Revision 6.3  2005/09/09 18:51:12  houghton
+# *** empty log message ***
+#
 # Revision 6.2  2004/04/19 18:17:00  houghton
 # Added tCommaNum.C
 #

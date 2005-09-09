@@ -79,6 +79,8 @@ STLUTILS_FUNCT_T
 strptime( char * b, const char * fmt, struct tm * t );
 #endif
 
+bool
+IsTimetDst( time_t val );
 
 
 #include <DateTimeUtils.ii>
@@ -180,6 +182,10 @@ strptime( char * b, const char * fmt, struct tm * t );
 //	    convert 970304 to 19970304. if the first digit is < 5
 //	    the year is assumed to be 2000, so 050304 will be 20050304.
 //
+//	bool
+//	IsTimetDst( time_t val );
+//	    Returns true if the time of val is between the 2 am First
+//	    Sunday of April and 2 am the last Sunday of October
 // Example:
 //
 // See Also:
@@ -200,6 +206,9 @@ strptime( char * b, const char * fmt, struct tm * t );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2005/09/09 18:50:58  houghton
+// *** empty log message ***
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

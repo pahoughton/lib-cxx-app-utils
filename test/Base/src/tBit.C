@@ -16,15 +16,9 @@
 // $Id$
 //
 
-#if !defined( STLUTILS_SHORT_FN )
 #include <TestConfig.hh>
 #include <LibTest.hh>
 #include <Bit.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Bit.hh>
-#endif
 
 bool
 tBit( LibTest & tester )
@@ -350,29 +344,3 @@ tBit( LibTest & tester )
   return( true );
   
 }
-
-//
-// $Log$
-// Revision 6.1  2003/08/09 11:22:50  houghton
-// Changed to version 6
-//
-// Revision 5.2  2003/07/19 09:17:28  houghton
-// Port to 64 bit.
-//
-// Revision 5.1  2000/05/25 10:33:27  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:03  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:09:35  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:26:21  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1996/11/04 14:45:21  houghton
-// Added header comments.
-// Changed so that everything in Bit.hh is tested.
-//
-//

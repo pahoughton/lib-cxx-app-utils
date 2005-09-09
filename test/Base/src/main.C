@@ -60,6 +60,7 @@ LibTest::TestItem   TestList[] =
   { "DateRange",	    tDateRange },
   { "DateRangeDaily",	    tDateRangeDaily },
   { "DateRangeWeekly",	    tDateRangeWeekly },
+  { "IsTimetDst",	    tIsTimetDst },
   { "FilePath",		    tFilePath },
   { "User",		    tUser },
   { "UserGroup",	    tUserGroup },
@@ -203,6 +204,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 6.3  2005/09/09 18:51:13  houghton
+// *** empty log message ***
+//
 // Revision 6.2  2004/04/19 18:17:24  houghton
 // Added CommaNum test.
 //
