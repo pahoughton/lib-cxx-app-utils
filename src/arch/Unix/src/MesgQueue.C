@@ -92,7 +92,7 @@ MesgQueue::~MesgQueue( void )
 bool
 MesgQueue::send( const Mesg & mesg, size_type size )
 {
-  if( msgsnd( queueId, (void *)&mesg, size, 0 ) < 0 )
+  if( msgsnd( queueId, (void *)&mesg, size - sizeof( mesg.mesgType ), 0 ) < 0 )
     return( setError( E_SEND, errno ) );
   else
     return( true );
@@ -101,7 +101,7 @@ MesgQueue::send( const Mesg & mesg, size_type size )
 bool
 MesgQueue::recv( Mesg & mesg, size_type size, long type )
 {
-  if( msgrcv( queueId, &mesg, size, type, 0 ) < 0 )
+  if( msgrcv( queueId, &mesg, size - sizeof( mesg.mesgType ), type, 0 ) < 0 )
     return( setError( E_RECV, errno ) );
   else
     return( true );
@@ -304,6 +304,9 @@ MesgQueue::setError( ErrorNum errNum, int osErr )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2005/09/12 19:54:41  houghton
+// *** empty log message ***
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //
