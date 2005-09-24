@@ -52,6 +52,7 @@ VectorResync(
       for( SizeTypeA beg = 0; beg < end; ++ beg )
 	{
 	  if( bsr + end < b.size()
+	      && asr + beg < a.size()
 	      && compare( a, asr + beg, b, bsr + end ) == 0 )
 	    {
 	      aRec = asr + beg;
@@ -60,6 +61,7 @@ VectorResync(
 	    }
 
 	  if( asr + end < a.size()
+	      && bsr + beg < b.size()
 	      && compare( a, asr + end, b, bsr + beg ) == 0 )
 	    {
 	      aRec = asr + end;
@@ -102,6 +104,9 @@ VectorResync(
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2005/09/24 19:33:11  houghton
+// Bug-Fix.
+//
 // Revision 6.3  2005/07/13 17:16:25  houghton
 // Bug-Fix: max checking was not correct.
 //
