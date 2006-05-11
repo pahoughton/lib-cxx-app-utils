@@ -41,23 +41,23 @@ public:
   
   Semaphore( key_t  semKey,
 	     int    numSems = 1,
-	     int    flags = (IPC_CREAT | 0664) );
+	     int    flags = (IPC_CREAT | IPC_EXCL | 0664 ) );
 
   Semaphore( const char *   keyPath,
 	     char	    proj = ' ',
 	     int	    numSems = 1,
-	     int	    flags = (IPC_CREAT | 0664) );
+	     int	    flags = (IPC_CREAT | IPC_EXCL | 0664) );
   
   virtual ~Semaphore( void );
 
   bool	    create( key_t   semKey,
 		    int	    numSems = 1,
-		    int	    flags = (IPC_CREAT | 0664) );
+		    int	    flags = (IPC_CREAT | IPC_EXCL | 0664) );
   
   bool	    create( const char *    keyPath,
 		    char	    proj = ' ',
 		    int		    numSems = 1,
-		    int		    flags = (IPC_CREAT | 0664) );
+		    int		    flags = (IPC_CREAT | IPC_EXCL | 0664) );
 
   bool	    open( key_t semKey, int numSems = 1 );
   bool	    open( const char * keyPath, char proj = ' ', int numSems = 1 );
@@ -198,6 +198,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2006/05/11 19:37:59  houghton
+// Changed default create flag to exclusive.
+//
 // Revision 6.1  2003/08/09 11:22:47  houghton
 // Changed to version 6
 //
