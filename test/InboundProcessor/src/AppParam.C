@@ -49,19 +49,31 @@ AppParam::parseArgs( void )
   bool status = Param::parseArgs();
 
   status &= argStr( fnPatternV,
+		    "FNPATTERN",
 		    "file name pattern",
+		    0,
+		    true,
 		    "p" );
 
   status &= argStr( inDirV,
+		    "DIR",
 		    "inbound directory",
+		    0,
+		    true,
 		    "in" );
 
   status &= argStr( procDirV,
+		    "DIR",
 		    "process direcotry",
+		    0,
+		    true,
 		    "proc" );
 
   status &= argLong( waitSecsV,
+		     "SECONDS",
 		    "rescan wait seconds",
+		     0,
+		     true,
 		    "w" );
 		    
   // status &= argStr( varV, "desc", "argid", "envVar" );
@@ -72,6 +84,9 @@ AppParam::parseArgs( void )
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2006/05/11 19:38:11  houghton
+// *** empty log message ***
+//
 // Revision 6.1  2003/08/09 11:22:54  houghton
 // Changed to version 6
 //
