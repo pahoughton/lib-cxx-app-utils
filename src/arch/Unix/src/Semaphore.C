@@ -257,7 +257,9 @@ Semaphore::error( void ) const
 
       if( semId == badSem )
 	errStr << ": no semaphore!";
-
+      else
+	errStr << '(' << semId << ')';
+      
       if( osErrno != 0 )
 	errStr << ": " << strerror( errno );
       
@@ -337,6 +339,9 @@ Semaphore::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2006/05/11 19:37:39  houghton
+// Added sem id to error output.
+//
 // Revision 6.1  2003/08/09 11:22:47  houghton
 // Changed to version 6
 //
