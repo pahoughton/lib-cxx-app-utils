@@ -27,9 +27,6 @@
 #include <DumpInfo.hh>
 #include <iostream>
 
-#if defined( TLU_DEBUG )
-#define inline
-#endif
 
 class CommaNum
 {
