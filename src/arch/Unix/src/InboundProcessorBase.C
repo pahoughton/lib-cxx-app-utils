@@ -129,32 +129,51 @@ InboundProcessorBase::run( bool tossDups )
 
 	      if( sigCatcher && sigCatcher->caught().size() )
 		return( true );
-	  
-	      if( ! sem.create( (*them).getName() ) )
-		{
-		  // maybe someone move the file
-		  FileStat semStat( (*them).getName() );
 
-		  if( semStat.good() )
-		    {
-		      return( setError( sem.error(), (*them).getName() ) );
-		    }
-		  else
-		    {
+	      {
+		char semPrj = 1;
+		bool reScan( false );
+		for( ; semPrj < CHAR_MAX; ++ semPrj ) {
+
+		  if( ! sem.create( (*them).getName(), semPrj ) ) {
+		    // maybe someone move the file
+		    FileStat semStat( (*them).getName() );
+
+		    if( ! semStat.good() ) {
 		      // best rescan the dir, something has changed.
 		      // lie about didit so we don't go to sleep yet.
+		      LLgDebug << "file moved:\n"
+			       << (*them).getName()
+			       << endl;
 		      didit = true;
+		      reScan = true;
 		      break;
 		    }
+		    LLgDebug << "sem failed retrying (prj "
+			     << (int) semPrj
+			     << ')'
+			     << endl;
+		    // else try w/ diff semPrj
+		  } else {
+		    // sem created
+		    break;
+		  }
 		}
+	      
+		if( reScan )
+		  break;
+	      }
+	      
+	      if( ! sem.good() ) 
+		return( setError( sem.error(), (*them).getName() ) );
 
 	      if( sem.lock( false ) )
 		{
 		  FileOp	fileOp;
 	      
-		  _LLg( LogLevel::Debug ) << "locked: '"
-					  << (*them).getName() << '\'' << endl;
-
+		  LLgDebug << "locked: '"
+			   << (*them).getName() << '\'' << endl;
+		  
 		  FilePath	destFn( procDir,
 					(*them).getName().getFileName() );
 		  FileStat	destStat( destFn );
@@ -362,6 +381,9 @@ InboundProcessorBase::setError(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2006/05/11 19:37:16  houghton
+// Changed to create exclusive semaphores with retry loop.
+//
 // Revision 6.2  2005/03/01 21:45:32  ptpogue
 // change to deal with duplicate batches
 //
