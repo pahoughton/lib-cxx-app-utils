@@ -18,7 +18,7 @@
 //  All 'char *' functions (i.e. * **) check the actual
 //  characters and not the pointers.
 // 
-// Author:      Paul Houghton (paul_houghton@mci.com)
+// Author:      Paul Houghton (paul4hough@gmail.com)
 // Created:     05/01/95 9:00
 //
 // Revision History: (See end of file for Revision Log)
@@ -241,6 +241,9 @@ SC_TYPE::operator SC_OPERATOR ( const SC_TYPE & rhs ) const		      \
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:11  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:40  houghton
 // Changed to version 6
 //

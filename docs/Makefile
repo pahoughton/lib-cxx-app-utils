@@ -8,7 +8,7 @@
 # 
 # Notes:
 # 
-# Author:	Paul Houghton <Paul.Houghton@wcom.com>
+# Author:	Paul Houghton <paul4hough@gmail.com>
 # Created:	07/07/01 using GenProject 6.01.01
 #
 # Revision History: (See end of file for Revision Log)

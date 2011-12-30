@@ -28,7 +28,7 @@
 //	argFlag and argBool both take 'bool' types but function
 //	differently.
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     01/26/95 13:28
 //
 // Revision History: (See end of file for Revision Log)
@@ -84,8 +84,7 @@ public:
 	 bool		    useDefaultArgFn = false,
 	 const char *	    logLevel = STLUTILS_DEFAULT_LOGLEVEL,
 	 bool		    useDefaultLogFn = false,
-	 ios::open_mode	    logOpenMode = (ios::open_mode)(ios::out|ios::app),
-	 int		    logOpenProt = 0664 );
+	 ios::openmode	    logOpenMode = (ios::openmode)(ios::out|ios::app) );
 
   Param( int 		    mainArgc,
 	 char **	    mainArgv,
@@ -93,8 +92,7 @@ public:
 	 bool		    useDefaultArgFn = false,
 	 const char *	    logLevel = STLUTILS_DEFAULT_LOGLEVEL,
 	 bool		    useDefaultLogFn = false,
-	 ios::open_mode	    logOpenMode = (ios::open_mode)(ios::out|ios::app),
-	 int		    logOpenProt = 0664 );
+	 ios::openmode	    logOpenMode = (ios::openmode)(ios::out|ios::app) );
 
   virtual ~Param( void );
 
@@ -395,8 +393,8 @@ private:
   bool		    haveStopFlag;
   
   Str    	    logFile;
-  ios::open_mode    logMode;
-  int		    logProt;
+  ios::openmode    logMode;
+
   
   Str    	    logOutputLevel;
   Str		    logFilter;
@@ -556,7 +554,7 @@ operator << ( ostream & dest, const Param & obj );
 //	-log-file   string - log file name. File name that should be used
 //		    for log output. Env: LOG_FILE. Default: cout
 //
-//	-log-mode   string - this is the 'ios::open_mode' for the
+//	-log-mode   string - this is the 'ios::openmode' for the
 //		    log file. It should be either 'ios::app|ios::out' or
 //		    'ios::out'. (note: the ios:: and the | are ignored,
 //		    so 'app out' will also work.
@@ -612,7 +610,7 @@ operator << ( ostream & dest, const Param & obj );
 //	       bool		useDefaultArgFn = false,
 //	       const char *	logLevel = STLUTILS_DEFAULT_LOGLEVEL,
 //	       bool		useDefaultLogfn = false,
-//	       ios::open_mode	logOpenMode = (ios::out|ios::app)
+//	       ios::openmode	logOpenMode = (ios::out|ios::app)
 //	       int		logOpenProt = 0664 );
 //	    Construct an instance of the Param class. 'mainArgc' and
 //	    mainArgv should be the original argv and argc from main
@@ -1129,6 +1127,9 @@ operator << ( ostream & dest, const Param & obj );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:18  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:42  houghton
 // Changed to version 6
 //

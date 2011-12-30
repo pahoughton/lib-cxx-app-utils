@@ -5,7 +5,7 @@
 //
 //  Compiled sources for IosOpenModeToString
 //  
-// Author:      Paul A. Houghton - (paul.houghton@mci.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     04/04/97 08:59
 //
 // Revision History: (See end of file for Revision Log)
@@ -25,7 +25,10 @@ STLUTILS_FUNCT_VERSION(
   "$Id$ " );
 
 const char *
-IosOpenModeToString( ios::open_mode mode )
+IosOpenModeToString( ios::openmode mode );
+
+const char *
+IosOpenModeToString( ios::openmode mode )
 {
   static Str modeStr;
 
@@ -45,17 +48,6 @@ IosOpenModeToString( ios::open_mode mode )
 
   if( mode & ios::trunc )
     modeStr << "ios::trunc | ";
-
-  if( mode & ios::nocreate )
-    modeStr << "ios::nocreate | ";
-
-  if( mode & ios::noreplace )
-    modeStr << "ios::noreplace | ";
-
-#if !defined( AIX41 )
-  if( mode & ios::binary )
-    modeStr << "ios::binary | ";
-#endif
   
   if( modeStr.size() > 3 )
     modeStr.remove( modeStr.size() - 3 );
@@ -70,6 +62,9 @@ IosOpenModeToString( ios::open_mode mode )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:14  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

@@ -5,7 +5,7 @@
 //
 //  Source for OpenFlags function.
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/14/95 12:35 
 //
 // Revision History: (See end of file for Revision Log)
@@ -28,7 +28,7 @@ STLUTILS_FUNCT_VERSION(
   "$Id$ " );
 
 int
-OpenFlags( ios::open_mode openMode )
+OpenFlags( ios::openmode openMode )
 {
   int flags = 0;
   int mode = openMode;
@@ -36,32 +36,22 @@ OpenFlags( ios::open_mode openMode )
   if( mode & (ios::app) )
     mode |= ios::out;
 
-  switch( mode & (ios::in|ios::out ) )
-    {
-    case ios::in:
-      flags = O_RDONLY;
-      break;
+  if( (mode & (ios::in|ios::out)) == (ios::in|ios::out)) {
+    flags = O_RDWR;
+    
+  } else if( (mode & (ios::in|ios::out)) == ios::in ) {
+    flags = O_RDONLY;
 
-    case ios::out:
-      flags = O_WRONLY;
-      break;
+  } else if( (mode & (ios::in|ios::out)) == ios::out ) {
+    flags = O_WRONLY;
 
-    case (ios::in|ios::out):
-      flags = O_RDWR;
-      break;      
-    }
+  }
 
   if( mode & ios::trunc)
     flags |= O_TRUNC;
 
   if( mode & ios::app )
     flags |= O_APPEND;
-
-  if( !(mode & ios::nocreate) && mode != ios::in )
-    flags |= O_CREAT;
-
-  if( mode & ios::noreplace )
-    flags |= O_EXCL;
 
   return( flags );
 }
@@ -73,6 +63,9 @@ OpenFlags( ios::open_mode openMode )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:33  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //

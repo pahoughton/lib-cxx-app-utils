@@ -5,7 +5,7 @@
 //
 //  Compiled sources for AppParam
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     07/20/97 07:08
 //
 // Revision History: (See end of file for Revision Log)
@@ -84,6 +84,9 @@ AppParam::parseArgs( void )
 // Revision Log:
 //
 // $Log$
+// Revision 6.3  2011/12/30 23:57:50  paul
+// First go at Mac gcc Port
+//
 // Revision 6.2  2006/05/11 19:38:11  houghton
 // *** empty log message ***
 //

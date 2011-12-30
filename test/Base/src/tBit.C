@@ -8,7 +8,7 @@
 //  
 // Source Header Version: 2.3
 //  
-// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     10/28/96 07:02
 //
 // Revision History: (See end of file for Revision Log)

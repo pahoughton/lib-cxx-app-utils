@@ -13,7 +13,7 @@
 //  mask of all levels that should be output. The second is 'current',
 //  which is the level for the current log message.
 //	
-// Author:      Paul Houghton x2309 - (houghton@shoe.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     01/29/95 12:27
 //
 // Revision History: (See end of file for Revision Log);
@@ -392,6 +392,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:16  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:42  houghton
 // Changed to version 6
 //

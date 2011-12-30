@@ -5,7 +5,7 @@
 //
 //  Compiled sources for InboundProcessorBase
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     07/20/97 06:26
 //
 // Revision History: (See end of file for Revision Log)
@@ -209,7 +209,8 @@ InboundProcessorBase::run( bool tossDups )
 		  }
 	      
 		  // this one is mine to process.
-		  if( ! fileOp.move( (*them).getName(), procDir ) )
+		  if( ! fileOp.move( (*them).getName().c_str(),
+				     procDir.c_str() ) )
 		    {
 		      // rename failed.
 		  
@@ -381,6 +382,9 @@ InboundProcessorBase::setError(
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2011/12/30 23:57:32  paul
+// First go at Mac gcc Port
+//
 // Revision 6.3  2006/05/11 19:37:16  houghton
 // Changed to create exclusive semaphores with retry loop.
 //

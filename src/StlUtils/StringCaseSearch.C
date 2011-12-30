@@ -9,7 +9,7 @@
 //    found, a 0 is returned. Use NPOS for the len parameters if the
 //    corisponding string is null (0) terminated.
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     04/29/95 11:56 
 //
 // Revision History: (See end of file for Revision Log)
@@ -91,6 +91,9 @@ StringCaseSearch(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:20  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

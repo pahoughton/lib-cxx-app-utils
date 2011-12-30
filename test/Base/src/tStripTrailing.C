@@ -5,7 +5,7 @@
 //
 //  Compiled sources for tStripTrailing
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     12/20/97 08:20
 //
 // Revision History: (See end of file for Revision Log)
@@ -53,6 +53,9 @@ tStripTrailing( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:48  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:53  houghton
 // Changed to version 6
 //

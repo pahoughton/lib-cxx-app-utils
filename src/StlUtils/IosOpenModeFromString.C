@@ -5,7 +5,7 @@
 //
 //  Compiled sources for IosOpenModeFromString
 //  
-// Author:      Paul A. Houghton - (paul.houghton@mci.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     04/04/97 08:24
 //
 // Revision History: (See end of file for Revision Log)
@@ -26,36 +26,28 @@ STLUTILS_FUNCT_VERSION(
   "$Id$ " );
 
 
-ios::open_mode
+ios::openmode
+IosOpenModeFromString( const char * modeString );
+
+ios::openmode
 IosOpenModeFromString( const char * modeString )
 {
-  ios::open_mode    mode = (ios::open_mode)0;
+  ios::openmode    mode = (ios::openmode)0;
 
   if( StringCaseSearch( modeString, NPOS, "in", NPOS ) )
-    mode = (ios::open_mode)( mode | ios::in);
+    mode = (ios::openmode)( mode | ios::in);
 
   if( StringCaseSearch( modeString, NPOS, "out", NPOS ) )
-    mode = (ios::open_mode)( mode | ios::out);
+    mode = (ios::openmode)( mode | ios::out);
 
   if( StringCaseSearch( modeString, NPOS, "ate", NPOS ) )
-    mode = (ios::open_mode)( mode | ios::ate);
+    mode = (ios::openmode)( mode | ios::ate);
 
   if( StringCaseSearch( modeString, NPOS, "app", NPOS ) )
-    mode = (ios::open_mode)( mode | ios::app);
+    mode = (ios::openmode)( mode | ios::app);
 
   if( StringCaseSearch( modeString, NPOS, "trunc", NPOS ) )
-    mode = (ios::open_mode)( mode | ios::trunc);
-
-  if( StringCaseSearch( modeString, NPOS, "nocreate", NPOS ) )
-    mode = (ios::open_mode)( mode | ios::nocreate);
-  
-  if( StringCaseSearch( modeString, NPOS, "noreplace", NPOS ) )
-    mode = (ios::open_mode)( mode | ios::noreplace);
-
-#if !defined( AIX41 )
-  if( StringCaseSearch( modeString, NPOS, "binary", NPOS ) )
-    mode = (ios::open_mode)( mode | ios::binary);
-#endif
+    mode = (ios::openmode)( mode | ios::trunc);
   
   return( mode );
 }
@@ -66,6 +58,9 @@ IosOpenModeFromString( const char * modeString )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:14  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

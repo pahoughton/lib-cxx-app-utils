@@ -9,7 +9,7 @@
   
   Notes:
     
-  Author(s):	Paul Houghton 719-527-7834 <paul.houghton@mci.com>
+  Author(s):	Paul Houghton <paul4hough@gmail.com>
   Created:	12/10/2004 12:03
   
   Revision History: (See ChangeLog for details)

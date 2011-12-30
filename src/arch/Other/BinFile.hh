@@ -8,12 +8,15 @@
 //
 //  Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     08/02/95 05:05
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:27  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:45  houghton
 // Changed to version 6
 //
@@ -52,11 +55,11 @@ class BinFile : public File
 public:
 
   inline BinFile( void );
-  inline BinFile( const char * fn, ios::open_mode mode, int perm = 0664 );
+  inline BinFile( const char * fn, ios::openmode mode, int perm = 0664 );
   
   virtual ~BinFile( void );
 
-  virtual bool	open( const char * fn, ios::open_mode mode, int	perm = 0664 );
+  virtual bool	open( const char * fn, ios::openmode mode, int	perm = 0664 );
   virtual void	close( void );
   virtual bool	is_open( void ) const;
   
@@ -71,7 +74,7 @@ public:
   inline size_t	    truncate( size_t end );
   
   inline const FileStat &   getFileStat( void ) const;
-  inline ios::open_mode	    getOpenMode( void ) const;
+  inline ios::openmode	    getOpenMode( void ) const;
   inline int		    getFD( void ) const;
   
   virtual bool	    	good( void ) const;
@@ -87,7 +90,7 @@ private:
   
   FileStat	    fileStat;
   int		    fd;
-  ios::open_mode    openMode;
+  ios::openmode    openMode;
   int		    openPerm;  
 
   BinFile( const BinFile & from );

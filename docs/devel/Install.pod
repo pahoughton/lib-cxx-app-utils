@@ -2,7 +2,7 @@
 
 Version: =VERSION=
 
-Paul A. Houghton <paul.houghton@wcom.com>
+Paul A. Houghton <paul4hough@gmail.com>
 
 =LAST_MOD=
 
@@ -92,7 +92,7 @@ the main Makefile.
 =for html
 <hr>
 
-Paul A. Houghton <paul.houghton@wcom.com>
+Paul A. Houghton <paul4hough@gmail.com>
 
 Last Modified: =LAST_MOD=
 
@@ -101,6 +101,9 @@ $Id$
 =cut
 
 $Log$
+Revision 6.2  2011/12/30 23:57:05  paul
+First go at Mac gcc Port
+
 Revision 6.1  2003/08/09 11:22:39  houghton
 Changed to version 6
 

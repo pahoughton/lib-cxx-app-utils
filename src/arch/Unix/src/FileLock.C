@@ -5,7 +5,7 @@
 //
 //  Compiled sources for FileLock
 //  
-// Author:      Paul A. Houghton - (paul.houghton@mci.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     09/12/97 11:35
 //
 // Revision History: (See end of file for Revision Log)
@@ -45,7 +45,7 @@ static const char * FileLock_TypeName[] =
   "read", "write", "unlock", "UNDEFINED", 0
 };
 
-FileLock::FileLock( const char * fileName, ios::open_mode mode )
+FileLock::FileLock( const char * fileName, ios::openmode mode )
   : lockFn( fileName ),
     fd( -1 ),
     oserrno( ENOENT ),
@@ -264,6 +264,9 @@ FileLock::typeName( Type t )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:30  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //

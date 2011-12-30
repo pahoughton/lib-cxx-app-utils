@@ -11,7 +11,7 @@
 #
 #   Try 'make help' for a list of standard targets.
 # 
-# Author:	Paul Houghton (paul.houghton@wcom.com)
+# Author:	Paul Houghton (paul4hough@gmail.com)
 # Created:	10/2/98 using MakeConfigs 5.05.00.b.04
 #
 # Revision History: (See end of file for Revision Log)
@@ -283,6 +283,9 @@ install_shared::
 # =MAKEFILE_LOG=
 #
 # $Log$
+# Revision 6.2  2011/12/30 23:57:51  paul
+# First go at Mac gcc Port
+#
 # Revision 6.1  2003/08/09 11:22:54  houghton
 # Changed to version 6
 #

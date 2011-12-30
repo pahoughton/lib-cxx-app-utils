@@ -8,7 +8,7 @@
 //  Architecture specific header for Sun5
 //
 //
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     07/17/97 11:04
 //
 // Revision History: (See end of file for Revision Log)
@@ -172,6 +172,9 @@ extern "C" int getrusage(int who, struct rusage * rusage);
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:29  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //

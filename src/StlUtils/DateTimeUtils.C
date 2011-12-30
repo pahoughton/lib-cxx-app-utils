@@ -5,7 +5,7 @@
 //
 //  Compiled sources for DateTimeUtils
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/02/95 06:57 
 //
 // Revision History: (See end of file for Revision Log)
@@ -114,6 +114,9 @@ const char * AbbrWeekDays[] =
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:12  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

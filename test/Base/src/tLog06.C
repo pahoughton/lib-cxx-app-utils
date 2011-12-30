@@ -7,7 +7,7 @@
 //  Test the following Log methods
 //
 //  
-// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/12/96 09:32
 //
 // Revision History: (See end of file for Revision Log)
@@ -61,7 +61,7 @@ tLog06( LibTest & tester )
     {
       Log t( TestFn,
 	     LogLevel::Info,
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -85,7 +85,7 @@ tLog06( LibTest & tester )
     {
       Log t( TestFn,
 	     LogLevel::Info,
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -143,7 +143,7 @@ tLog06( LibTest & tester )
   }
 
   {
-    // open( const char *, ios::open_mode )
+    // open( const char *, ios::openmode )
 
     const char * TestFn = TEST_DATA_DIR "/log.22";
 
@@ -175,7 +175,7 @@ tLog06( LibTest & tester )
 
       t() << "BAD\n";
 
-      t.open( TestFn, (ios::open_mode)(ios::app|ios::out) );
+      t.open( TestFn, (ios::openmode)(ios::app|ios::out) );
 
       t() << "error Good\n";
       t( "info" ) << "Info good" << endl;
@@ -221,7 +221,7 @@ tLog06( LibTest & tester )
   }
 
   {
-    // setFileName( const char *, ios::open_mode )
+    // setFileName( const char *, ios::openmode )
 
     const char * TestFn = TEST_DATA_DIR "/log.24";
 
@@ -253,7 +253,7 @@ tLog06( LibTest & tester )
 
       t() << "BAD\n";
 
-      t.setFileName( TestFn, (ios::open_mode)(ios::app|ios::out) );
+      t.setFileName( TestFn, (ios::openmode)(ios::app|ios::out) );
 
       t() << "error Good\n";
       t( "info" ) << "Info good" << endl;
@@ -310,6 +310,9 @@ tLog06( LibTest & tester )
 
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:45  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:51  houghton
 // Changed to version 6
 //
@@ -329,7 +332,7 @@ tLog06( LibTest & tester )
 // Changed: renamed library to StlUtils.
 //
 // Revision 3.3  1997/07/18 21:46:09  houghton
-// Port(Sun5): Changed ios::app to (ios::open_mode)(ios::app|ios::out).
+// Port(Sun5): Changed ios::app to (ios::openmode)(ios::app|ios::out).
 //
 // Revision 3.2  1996/11/19 12:35:39  houghton
 // Changed include strstream to include strstream.h because strstream

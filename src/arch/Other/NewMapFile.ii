@@ -6,12 +6,15 @@
 //
 //  	inlines for MapFile
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     08/02/95 06:06
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:29  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:45  houghton
 // Changed to version 6
 //
@@ -55,7 +58,7 @@ MapFile::MapFile( void )
 inline
 MapFile::MapFile(
   const char *	    fileName,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   int		    perm,
   caddr_t	    mapOpenBase,
   streampos	    mapOpenPos,

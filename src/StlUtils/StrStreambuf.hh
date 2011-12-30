@@ -7,7 +7,7 @@
 //
 //  Defines the streambuf used by Str.
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/30/95 11:09
 //
 // Revision History: (See end of file for Revision Log)
@@ -22,7 +22,7 @@
 
 #include "StlUtilsConfig.hh"
 #include <cstddef>
-#include <strstream.h>
+#include <sstream>
 
 
 #if defined( STLUTILS_DEBUG )
@@ -32,7 +32,7 @@
 class STLUTILS_CLASS_T Str;
 class STLUTILS_CLASS_T SubStr;
 
-class STLUTILS_CLASS_T StrStreambuf : public strstreambuf
+class STLUTILS_CLASS_T StrStreambuf : public stringbuf
 {
 
 public:
@@ -123,6 +123,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:20  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

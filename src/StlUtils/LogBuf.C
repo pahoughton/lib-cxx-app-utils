@@ -5,7 +5,7 @@
 //
 //	Compiled source for for the LogBuf class.
 //
-// Author:      Paul Houghton x2309 - (houghton@shoe.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     01/29/95 13:06 
 //
 // Revision History: (See end of file for Revision Log)
@@ -23,7 +23,7 @@
 #include "FileStat.hh"
 #include "FilePath.hh"
 #include "RegexScan.hh"
-#include <strstream.h>
+
 #include <iostream>
 #include <cstdio>
 #include <cstring>
@@ -83,8 +83,7 @@ LogBuf::LogBuf(
 LogBuf::LogBuf(
   const char *	    fileName,
   LogLevel::Level   outLevel,
-  ios::open_mode    mode,
-  int		    prot,
+  ios::openmode    mode,
   size_t	    logMaxSize,
   size_t	    logTrimSize
   )
@@ -98,14 +97,13 @@ LogBuf::LogBuf(
     regex( 0 ),
     newMesg( true )
 {
-  initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
+  initbuf( fileName, mode, logMaxSize, logTrimSize );
 }
   
 LogBuf::LogBuf(
   const char *	    fileName,
   const char *      outLevel,
-  ios::open_mode    mode,
-  int		    prot,
+  ios::openmode    mode,
   size_t	    logMaxSize,
   size_t	    logTrimSize
   )
@@ -119,7 +117,7 @@ LogBuf::LogBuf(
     regex( 0 ),
     newMesg( true )
 {
-  initbuf( fileName, mode, prot, logMaxSize, logTrimSize );
+  initbuf( fileName, mode, logMaxSize, logTrimSize );
 }
 
 LogBuf::~LogBuf( void )
@@ -174,37 +172,32 @@ LogBuf::trim( size_t maxLog )
 filebuf *
 LogBuf::open(
     const char *    name,
-    ios::open_mode  mode,
-    int		    prot,
+    ios::openmode   mode,
     size_t	    logMaxSize,
     size_t	    logTrimSize
     )
 {
-  if( stream != 0 && is_file() )
-    {
-      close();
-    }
+  if( stream != 0 && is_file() ) {
+    close();
+  }
 
  maxSize = logMaxSize;
  trimSize = logTrimSize;
- return( open( name, mode, prot ) );
+ return( open( name, mode ) );
 }
 
 filebuf *
 LogBuf::open(
     const char *    name,
-    ios::open_mode  mode,
-    int		    prot
+    ios::openmode   mode
     )
 {
-  if( stream != 0 && is_file() )
-    {
-      close();
-    }
+  if( stream != 0 && is_file() ) {
+    close();
+  }
 
  logFileName = name;
  openMode = mode;
- openProt = prot;
 
  FileStat  stat( logFileName );
   
@@ -524,7 +517,6 @@ LogBuf::dumpInfo(
   dest << prefix << "maxSize:      " << maxSize << '\n'
        << prefix << "trimSize:     " << trimSize << '\n'
        << prefix << "openMode:    " << openMode << '\n'
-       << prefix << "openProt:    " << openProt << '\n'
     ;
 
   {
@@ -564,8 +556,7 @@ LogBuf::initbuf( streambuf * outStream )
 void
 LogBuf::initbuf(
   const char *	    fileName,
-  ios::open_mode    mode,
-  int		    prot,
+  ios::openmode	    mode,
   size_t	    logMaxSize,
   size_t	    logTrimSize
   )
@@ -576,15 +567,15 @@ LogBuf::initbuf(
   streamIsFile  = true;
   teeStream 	= 0;  
   
-  open( fileName, mode, prot, logMaxSize, logTrimSize );
+  open( fileName, mode, logMaxSize, logTrimSize );
  
 }
 
-size_t
-LogBuf::sendToStream( streambuf * dest, char * base, size_t len )
+streamsize
+LogBuf::sendToStream( streambuf * dest, char * base, streamsize len )
 {
-  long total = 0;
-  long cnt = 0;
+  streamsize total = 0;
+  streamsize cnt = 0;
   
   for( cnt = dest->sputn( base, len );
        cnt > 0 && cnt < len && len > 0;
@@ -604,7 +595,7 @@ LogBuf::sendToStream( streambuf * dest, char * base, size_t len )
 // reopen the file.
 //
 filebuf *
-LogBuf::openLog( ios::open_mode openMask )
+LogBuf::openLog( ios::openmode openMask )
 {
   filebuf * file = new filebuf();
 
@@ -615,40 +606,35 @@ LogBuf::openLog( ios::open_mode openMask )
   // FileStat stat( logFileName );
   
   stream = file->open( logFileName,
-		       (ios::open_mode)(openMode | openMask),
-		       openProt );
+		       (ios::openmode)(openMode | openMask) );
 
   umask( prevMask );
 
-  if( ! stream )
-    {
+  if( ! stream ) {
       errorDesc << "open '" << logFileName
 		<< "' mode: " << IosOpenModeToString( openMode )
-		<< " prot: " << StringFrom( openProt, 8 ) << " failed: "
-		<< strerror( ::errno ) ;
+		<< strerror( errno ) ;
       
       delete file;
       file = 0;
-    }
-  else
-    {
-      logFd = file->fd();
+  } else {
 #if defined( DEBUG_SEEK ) 
-      size_t curSize = (size_t)stream->pubseekoff( 0, ios::cur, ios::out );
-      size_t fcurSize = (size_t)file->pubseekoff( 0, ios::cur, ios::out );
-      size_t fendSize = (size_t)file->pubseekoff( 0, ios::end, ios::out );
-      FileStat fdStat( logFd );
-  
-      cerr << "Log size:\n"
-	   << "   stat: " << (stat.good() ? stat.getSize() : 0) << '\n'
-	   << "    cur: " << curSize << '\n'
-	   << "   fcur: " << fcurSize << '\n'
-	   << "   fend: " << fendSize << '\n'
-	   << "     fd: " << logFd << '\n'
-	   << "  fstat: " << fdStat.getSize() << '\n'
-	   << endl;
+    int logFd = file->fd();
+    size_t curSize = (size_t)stream->pubseekoff( 0, ios::cur, ios::out );
+    size_t fcurSize = (size_t)file->pubseekoff( 0, ios::cur, ios::out );
+    size_t fendSize = (size_t)file->pubseekoff( 0, ios::end, ios::out );
+    FileStat fdStat( logFd );
+    
+    cerr << "Log size:\n"
+	 << "   stat: " << (stat.good() ? stat.getSize() : 0) << '\n'
+	 << "    cur: " << curSize << '\n'
+	 << "   fcur: " << fcurSize << '\n'
+	 << "   fend: " << fendSize << '\n'
+	 << "     fd: " << logFd << '\n'
+	 << "  fstat: " << fdStat.getSize() << '\n'
+	 << endl;
 #endif
-    }
+  }
   
   return( file );
 }
@@ -700,7 +686,7 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
       return( 0 );
     }
 
-  ofstream  out( logFileName, openMode, openProt );
+  ofstream  out( logFileName, openMode );
 
   if( ! out.good() )
     {
@@ -801,6 +787,9 @@ LogBuf::closeLog( void )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:16  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:42  houghton
 // Changed to version 6
 //
@@ -867,7 +856,7 @@ LogBuf::closeLog( void )
 //     to accomidate rpm.
 // Changed isFile() to is_file() to be more consistant with the
 //     standard filebuf::is_open().
-// Changed openLog to take an ios::open_mode arg that will be
+// Changed openLog to take an ios::openmode arg that will be
 //     or'ed (|) with the original open mode. This allows the
 //     log to be appended if it was not opened with 'ios::app', but
 //     it was reopened from within LogBuf.

@@ -24,7 +24,7 @@
     Filters can be used to write log entries with a specific
     level and content to any 'streambuf' destination.
   
-   Author:      Paul Houghton x2309 - (houghton@shoe)
+   Author:      Paul Houghton - (houghton@shoe)
    Created:     03/14/94 10:49
   
    Revision History: (See end of file for Revision Log)
@@ -85,8 +85,7 @@ public:
        LogLevel::Level 	outLevel = ( LogLevel::Error |
 				     LogLevel::Warn |
 				     LogLevel::Info ),
-       ios::open_mode	mode = (ios::open_mode)(ios::app|ios::out),
-       int		prot = openprot,
+       ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
        bool		stampLevel = true,
        bool		stampTime = true,
        bool		stampLoc = true,
@@ -95,8 +94,7 @@ public:
   
   Log( const char * 	fileName,
        const char *	outLevel,
-       ios::open_mode	mode = (ios::open_mode)(ios::app|ios::out),
-       int		prot = openprot,
+       ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
        bool		stampLevel = true,
        bool		stampTime = true,
        bool		stampLoc = true,
@@ -181,12 +179,12 @@ public:
   size_t	    trim( size_t maxSize = 0 );
   
   void	    open( const char *	    fileName,
-		  ios::open_mode    mode = (ios::open_mode)(ios::out|ios::app),
+		  ios::openmode    mode = (ios::openmode)(ios::out|ios::app),
 		  int		    prot = 0664 );
   
   void	    setFileName( const char *	    fileName,
-			 ios::open_mode    mode =
-			   (ios::open_mode)(ios::out|ios::app),
+			 ios::openmode    mode =
+			   (ios::openmode)(ios::out|ios::app),
 			 int		    prot = 0664 );
   
   void		    close( void );
@@ -300,7 +298,7 @@ private:
     	     LogLevel::Level	outLevel = ( LogLevel::Error |
   				             LogLevel::Warn |
   				             LogLevel::Info ),
-  	     ios::open_mode	mode = (ios::open_mode)(ios::app|ios::out),
+  	     ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
     	     int		prot = openprot,
     	     bool		stampLevel = true,
     	     bool		stampTime = true,
@@ -311,7 +309,7 @@ private:
   	inline
     	Log( const char *	fileName,
     	     const char *	outLevel,
-  	     ios::open_mode	mode = (ios::open_mode)(ios::app|ios::out),
+  	     ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
     	     int		prot = openprot,
     	     bool		stampLevel = true,
     	     bool		stampTime = true,
@@ -512,7 +510,7 @@ private:
   	inline
   	void
   	open( const char *	fileName,
-	      ios::open_mode	mode = (ios::open_mode)(ios::out|ios::app),
+	      ios::openmode	mode = (ios::openmode)(ios::out|ios::app),
 	      int		prot = 0664 );
   	    This will open 'fileName' using 'mode' and make it the
   	    primary destionation for output. use 'good()' to
@@ -521,8 +519,8 @@ private:
   	inline
   	void
   	setFileName( const char *	fileName,
-		     ios::open_mode	mode
-		       = (ios::open_mode)(ios::out|ios::app),
+		     ios::openmode	mode
+		       = (ios::openmode)(ios::out|ios::app),
 		     int		prot = 0664 );
   	    This is just another name for 'open'.
   
@@ -683,6 +681,9 @@ private:
    %PL%
    
    $Log$
+   Revision 6.2  2011/12/30 23:57:15  paul
+   First go at Mac gcc Port
+
    Revision 6.1  2003/08/09 11:22:41  houghton
    Changed to version 6
 
@@ -733,7 +734,7 @@ private:
    Changed: renamed library to StlUtils.
   
    Revision 3.9  1997/07/18 19:21:57  houghton
-   Port(Sun5): changed default ios::open_mode it (ios::app|ios::out).
+   Port(Sun5): changed default ios::openmode it (ios::app|ios::out).
   
    Revision 3.8  1997/05/02 12:15:00  houghton
    Bug-Fix: changed commonLevelMap to a * to remove any posibilities of

@@ -7,7 +7,7 @@
 //
 //  	inlines for DateRangeDaily
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     07/17/95 22:31
 //
 // Revision History: (See end of file for Revision Log)
@@ -75,6 +75,8 @@ DateRangeDaily::operator >= ( const DateRangeDaily & rhs ) const
 }
 #endif 
 
+int compare( const DateRangeDaily & one, const DateRangeDaily & two );
+
 inline
 int
 compare( const DateRangeDaily & one, const DateRangeDaily & two )
@@ -101,6 +103,9 @@ operator << ( ostream & dest, const DateRangeDaily & obj )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:11  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:40  houghton
 // Changed to version 6
 //

@@ -5,7 +5,7 @@
 //
 //  Application entry point.
 //
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     09/12/97 16:18
 //
 // Revision History: (See end of file for Revision Log)
@@ -102,7 +102,7 @@ main( int argc, char * argv[] )
       return( 1 );
     }
 
-  FileLock  lock( App->lockFn(), (ios::open_mode)(ios::in | ios::out) );
+  FileLock  lock( App->lockFn(), (ios::openmode)(ios::in | ios::out) );
 
   if( ! lock.good() )
     {
@@ -169,6 +169,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:50  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:53  houghton
 // Changed to version 6
 //

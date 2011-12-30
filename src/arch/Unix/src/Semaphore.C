@@ -5,7 +5,7 @@
 //
 //  Compiled sources for Semaphore
 //  
-// Author:      Paul A. Houghton - (paul.houghton@mci.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     06/10/97 05:33
 //
 // Revision History: (See end of file for Revision Log)
@@ -339,6 +339,9 @@ Semaphore::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2011/12/30 23:57:33  paul
+// First go at Mac gcc Port
+//
 // Revision 6.2  2006/05/11 19:37:39  houghton
 // Added sem id to error output.
 //

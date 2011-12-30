@@ -7,7 +7,7 @@
 //  
 // Source Header Version: 2.4
 //  
-// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     10/31/96 07:10
 //
 // Revision History: (See end of file for Revision Log)
@@ -69,6 +69,9 @@ tDwordAlign( LibTest & tester )
 
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:43  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:50  houghton
 // Changed to version 6
 //

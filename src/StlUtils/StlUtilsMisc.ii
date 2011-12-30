@@ -8,7 +8,7 @@
 //  This file contains the source for the inline
 //  functions documented in StlUtilsUtils.hh
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/02/95 06:32
 //
 // Revision History: (See end of file for Revision Log)
@@ -31,7 +31,7 @@ inline
 void
 IncCounter( CounterMap & map, const KeyType & key )
 {
-  pair< CounterMap::iterator, bool >  ins;
+  pair< typename CounterMap::iterator, bool >  ins;
     
   ins = map.insert( CounterMap::value_type( key, 1 ) );
 
@@ -266,6 +266,9 @@ RoundDown( NumberType value, int factor  )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:19  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

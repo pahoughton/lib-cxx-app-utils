@@ -13,7 +13,7 @@
     All position parameters are right to left staring with 0.
     So, for 00010000, pos 4 is a 1.
   
-   Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+   Author:      Paul Houghton - (paul4hough@gmail.com)
    Created:     05/18/95 04:35
   
    Revision History: (See end of file for Revision Log)
@@ -730,6 +730,9 @@ operator >= ( Bitmask::value_type lhs, const Bitmask & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:10  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:40  houghton
 // Changed to version 6
 //

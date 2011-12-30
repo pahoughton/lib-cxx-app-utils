@@ -4,12 +4,15 @@
 //
 //  
 //  
-// Author:      Paul Houghton - (houghton@cworld1.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     08/02/95 05:29
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:27  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:45  houghton
 // Changed to version 6
 //
@@ -60,7 +63,7 @@ BinFile::~BinFile( void )
 }
 
 bool
-BinFile::open( const char * fn, ios::open_mode mode, int perm )
+BinFile::open( const char * fn, ios::openmode mode, int perm )
 {
   openMode = mode;
   openPerm = perm;

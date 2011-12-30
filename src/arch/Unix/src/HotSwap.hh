@@ -9,7 +9,7 @@
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/04/99 05:21
 //
 // Revision History: (See end of file for Revision Log)
@@ -43,7 +43,7 @@ class HotSwap
 public:
 
   HotSwap( const FilePath &	lockFileName,
-	   ios::open_mode	mode );
+	   ios::openmode	mode );
 
   virtual ~HotSwap( void );
 
@@ -207,6 +207,9 @@ operator >> ( istream & src, const HotSwap & dest );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:31  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //

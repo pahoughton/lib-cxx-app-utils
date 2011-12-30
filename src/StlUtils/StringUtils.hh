@@ -12,7 +12,7 @@
 //  the string's length. When this value is passed, the string
 //  is search for a null terminator (i.e. 0).
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/02/95 06:32
 //
 // Revision History: (See end of file for Revision Log)
@@ -858,6 +858,9 @@ basename( const char * fn );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:21  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

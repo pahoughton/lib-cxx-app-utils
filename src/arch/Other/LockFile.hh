@@ -41,12 +41,15 @@
 //  	ostream &
 //  	operator <<( ostream & dest, const LockFile & obj );
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/14/95 08:38
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:28  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:45  houghton
 // Changed to version 6
 //
@@ -75,7 +78,7 @@ protected:
 
   LockFile( void ) {};
   LockFile( const char *    fileName,
-	    ios::open_mode  mode,
+	    ios::openmode  mode,
 	    int	    	    perm = 0664 );
 
 public:
@@ -112,11 +115,11 @@ public:
   
   oLockFile( void ) {};
   oLockFile( const char *     fileName,
-	       ios::open_mode   mode = ios::out,
+	       ios::openmode   mode = ios::out,
 	       int	    	perm = 0664 );
 
   void	    open( const char * 	    fileName,
-		  ios::open_mode    mode = ios::out,
+		  ios::openmode    mode = ios::out,
 		  int	    	    perm = 0664 );
 
   oLockFile & 	lwrite( const void * src, size_t amount );
@@ -135,11 +138,11 @@ class ioLockFile : public iLockFile, public oLockFile
 {
   ioLockFile( void ) {};
   ioLockFile( const char *   	fileName,
-	      ios::open_mode 	mode = (ios::open_mode)(ios::in|ios::out),
+	      ios::openmode 	mode = (ios::openmode)(ios::in|ios::out),
 	      int	    	perm = 0664 );
 
   void	    open( const char * 	    fileName,
-		  ios::open_mode    mode = (ios::open_mode)(ios::in|ios::out),
+		  ios::openmode    mode = (ios::openmode)(ios::in|ios::out),
 		  int	    	    perm = 0664 );
   
   virtual const char * getClassName( void ) const;

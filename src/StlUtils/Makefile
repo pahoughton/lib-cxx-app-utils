@@ -17,7 +17,7 @@
 #   Try 'make help' for a list of standard targets.
 #
 #
-# Author:	Paul Houghton <Paul.Houghton@mci.com>
+# Author:	Paul Houghton <paul4hough@gmail.com>
 # Created:	6/4/101 using MakeConfigs 6.01.01
 #
 # Revision History: (See end of file for Revision Log)

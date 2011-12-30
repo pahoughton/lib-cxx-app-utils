@@ -16,7 +16,7 @@
 #
 #   Try 'make help' for a list of standard targets.
 # 
-# Author:	Paul Houghton (Paul.Houghton@wcom.com)
+# Author:	Paul Houghton (paul4hough@gmail.com)
 # Created:	7/26/101 using MakeConfigs 6.01.01
 #
 # Revision History: (See end of file for Revision Log)
@@ -870,6 +870,9 @@ clean_test_data:
 # %PL%
 #
 # $Log$
+# Revision 6.4  2011/12/30 23:57:41  paul
+# First go at Mac gcc Port
+#
 # Revision 6.3  2005/09/09 18:51:12  houghton
 # *** empty log message ***
 #

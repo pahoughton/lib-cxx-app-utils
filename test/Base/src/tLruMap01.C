@@ -5,7 +5,7 @@
 //
 //  Compiled sources for tLruMap01
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     09/08/98 10:21
 //
 // Revision History: (See end of file for Revision Log)
@@ -105,6 +105,9 @@ tLruMap01( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:45  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:51  houghton
 // Changed to version 6
 //

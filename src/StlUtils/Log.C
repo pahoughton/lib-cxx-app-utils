@@ -5,7 +5,7 @@
 //              
 //  Compiled source for Log class.
 //
-// Author:      Paul Houghton x2309 - (houghton@shoe)
+// Author:      Paul Houghton - (houghton@shoe)
 // Created:     03/14/94 12:22 
 //
 // Revision History: (See end of file for Revision Log)
@@ -71,15 +71,14 @@ Log::Log(
 Log::Log(
   const char *	    fileName,
   LogLevel::Level   outLvl,
-  ios::open_mode    mode,
-  int		    prot,
+  ios::openmode	    mode,
   bool		    stampLevel,
   bool		    stampTime,
   bool		    stampLoc,
   size_t	    maxSize,
   size_t	    trimSize
   )
-  : ostream( new LogBuf(fileName, outLvl, mode, prot, maxSize, trimSize ) ),
+  : ostream( new LogBuf(fileName, outLvl, mode, maxSize, trimSize ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
@@ -92,15 +91,14 @@ Log::Log(
 Log::Log(
   const char *	    fileName,
   const char *	    outLvl,
-  ios::open_mode    mode,
-  int		    prot,
+  ios::openmode	    mode,
   bool		    stampLevel,
   bool		    stampTime,
   bool		    stampLoc,
   size_t	    maxSize,
   size_t	    trimSize
   )
-  : ostream( new LogBuf(fileName, outLvl, mode, prot, maxSize, trimSize ) ),
+  : ostream( new LogBuf(fileName, outLvl, mode, maxSize, trimSize ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
@@ -227,7 +225,7 @@ Log::trim( size_t maxSize )
 void
 Log::setFileName(
   const char *	    outFn,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   int		    prot
   )
 {
@@ -237,13 +235,13 @@ Log::setFileName(
 void
 Log::open(
   const char *	    outFn,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   int		    prot
   )
 {
   rdbuf()->close();
   
-  if( rdbuf()->open( outFn, mode, prot ) != 0 )
+  if( rdbuf()->open( outFn, mode ) != 0 )
     clear();
   else
     setstate( badbit );
@@ -549,6 +547,9 @@ commonLog(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:15  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

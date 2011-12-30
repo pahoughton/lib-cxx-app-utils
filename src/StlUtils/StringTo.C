@@ -5,7 +5,7 @@
 //
 //  Convert string to a number (See Description at end of file).
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/06/95 09:31 
 //
 // Revision History: (See end of file for Revision Log)
@@ -381,7 +381,7 @@ StringTo(
   const char *	src,
   const char *	fmt )
 {
-  strptime( (char *)src, fmt, &dest );
+  strptime( src, fmt, &dest );
   return( true );
 }
 
@@ -513,7 +513,7 @@ struct tm
 StringToTm( const char * src, const char * fmt )
 {
   struct tm dest;
-  strptime( (char *)src, fmt, &dest );
+  strptime( src, fmt, &dest );
   return( dest );
 }
 
@@ -711,6 +711,9 @@ StringToTm( const char * src, const char * fmt )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:21  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

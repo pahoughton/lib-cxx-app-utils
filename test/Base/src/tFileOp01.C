@@ -5,7 +5,7 @@
 //
 //  Compiled sources for tFile01
 //  
-// Author:      Paul Houghton 719-527-7834 - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     03/08/98 09:03
 //
 // Revision History: (See end of file for Revision Log)
@@ -193,6 +193,9 @@ tFileOp01( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:43  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:50  houghton
 // Changed to version 6
 //

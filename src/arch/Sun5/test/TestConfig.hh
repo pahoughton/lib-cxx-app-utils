@@ -8,12 +8,15 @@
 //
 //  Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     10/02/95 09:39
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.3  2011/12/30 23:57:30  paul
+// First go at Mac gcc Port
+//
 // Revision 6.2  2003/09/08 15:13:44  ptpogue
 // change sideswipe to soundwave
 //

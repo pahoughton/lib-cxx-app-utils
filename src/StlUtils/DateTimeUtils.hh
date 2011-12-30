@@ -9,7 +9,7 @@
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/02/95 06:32
 //
 // Revision History: (See end of file for Revision Log)
@@ -206,6 +206,9 @@ IsTimetDst( time_t val );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2011/12/30 23:57:12  paul
+// First go at Mac gcc Port
+//
 // Revision 6.2  2005/09/09 18:50:58  houghton
 // *** empty log message ***
 //

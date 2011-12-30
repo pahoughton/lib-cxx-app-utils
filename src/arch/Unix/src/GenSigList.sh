@@ -8,7 +8,7 @@
 # 
 # Notes:
 # 
-# Author:	Paul A. Houghton - (paul.houghton@mci.com)
+# Author:	Paul A. Houghton - (paul4hough@gmail.com)
 # Created:	08/05/97 07:15
 #
 # Revision History: (See end of file for Revision Log)

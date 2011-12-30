@@ -1,21 +1,21 @@
-//
-// File:        TimeIt.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for TimeIt
-//  
-// Author:      Paul A. Houghton - (houghton@cshore.mci.com)
-// Created:     01/17/97 07:59
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+/*
+   File:        TimeIt.C
+   Project:	StlUtils ()
+   Desc:        
+  
+    Compiled sources for TimeIt
+    
+   Author:      Paul A. Houghton - (paul4hough@gmail.com)
+   Created:     01/17/97 07:59
+  
+   Revision History: (See end of file for Revision Log)
+  
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
+*/
 
 #include "TimeIt.hh"
 #include <StlUtilsMisc.hh>
@@ -244,6 +244,9 @@ TimeIt::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:34  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:47  houghton
 // Changed to version 6
 //

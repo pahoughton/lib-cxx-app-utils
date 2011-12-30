@@ -7,7 +7,7 @@
 //
 // Source Header Version: 3.2
 //
-// Author:      Paul A. Houghton - (paul.houghton@wcom.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     11/05/95 13:44
 //
 // Revision History: (See end of file for Revision Log)
@@ -143,6 +143,9 @@ tSortOrder( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:46  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:52  houghton
 // Changed to version 6
 //

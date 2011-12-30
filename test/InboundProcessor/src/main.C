@@ -5,7 +5,7 @@
 //
 //  Application entry point.
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     07/20/97 07:07
 //
 // Revision History: (See end of file for Revision Log)

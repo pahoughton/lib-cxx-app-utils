@@ -4,12 +4,15 @@
 //
 //  
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/14/95 10:27 
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:28  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:45  houghton
 // Changed to version 6
 //
@@ -69,7 +72,7 @@ BinaryFile::~BinaryFile( void )
 }
 
 bool
-BinaryFile::open( const char * fn, ios::open_mode mode, int perm )
+BinaryFile::open( const char * fn, ios::openmode mode, int perm )
 {
   osError = 0;
   state = 0;
@@ -234,7 +237,7 @@ iBinaryFile::dumpInfo( ostream & dest ) const
 bool
 oBinaryFile::open(
   const char * 	    fileName,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   int	    	    perm
   )
 {
@@ -311,7 +314,7 @@ ioBinaryFile::getClassName( void ) const
 bool
 ioBinaryFile::open(
   const char * 	    fileName,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   int	    	    perm
   )
 {

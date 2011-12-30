@@ -5,7 +5,7 @@
 //
 //  Compiled sources for FilePath
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     06/15/95 07:48 
 //
 // Revision History: (See end of file for Revision Log)
@@ -370,7 +370,7 @@ FilePath::setTempName( const char * path, const char * prefix )
 
   {
     // tempnam returns a malloc'ed string
-    char * tempFileName = tempnam( (char *)path, (char *)fnPrefix.c_str() );
+    char * tempFileName = tempnam( path, fnPrefix.c_str() );
     assign( tempFileName );
     free( tempFileName );
   }
@@ -545,6 +545,9 @@ FilePath::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:13  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

@@ -4,12 +4,15 @@
 //
 //  
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/14/95 09:00 
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:28  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:45  houghton
 // Changed to version 6
 //
@@ -41,7 +44,7 @@ static const char * RcsId =
 
 LockFile::LockFile(
   const char * 	    fileName,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   int	    	    perm
   )
   : BinaryFile( fileName, mode, perm )
@@ -174,7 +177,7 @@ iLockFile::getClassName( void ) const
 
 oLockFile::oLockFile(
   const char * 	    fileName,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   int	    	    perm
   )
   : LockFile( fileName, mode, perm )
@@ -265,7 +268,7 @@ oLockFile::getClassName( void ) const
 
 ioLockFile::ioLockFile(
   const char * 	    fileName,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   int	    	    perm
   )
   : LockFile( fileName, mode, perm )
@@ -276,7 +279,7 @@ ioLockFile::ioLockFile(
 void
 ioLockFile::open( 
   const char * 	    fileName,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   int	    	    perm
   )
 {

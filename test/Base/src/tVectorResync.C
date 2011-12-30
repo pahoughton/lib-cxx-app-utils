@@ -5,7 +5,7 @@
 //
 //  Compiled sources for tVectorResync
 //  
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/04/97 08:30
 //
 // Revision History: (See end of file for Revision Log)
@@ -100,6 +100,9 @@ tVectorResync( LibTest & tester )
 // Revision Log:
 //
 // $Log$
+// Revision 6.3  2011/12/30 23:57:48  paul
+// First go at Mac gcc Port
+//
 // Revision 6.2  2005/07/13 17:16:35  houghton
 // added output.
 //

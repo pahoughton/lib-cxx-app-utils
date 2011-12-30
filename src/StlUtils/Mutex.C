@@ -5,7 +5,7 @@
 //
 //  Compiled source for Mutex.
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     02/06/96 07:15
 //
 // Revision History: (See end of file for Revision Log)
@@ -20,7 +20,7 @@
 
 #include "Mutex.hh"
 #include "Str.hh"
-#include <strstream.h>
+
 
 #if defined( STLUTILS_DEBUG )
 #include "Mutex.ii"
@@ -232,6 +232,9 @@ Mutex::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:17  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:42  houghton
 // Changed to version 6
 //

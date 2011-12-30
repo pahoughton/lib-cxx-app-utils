@@ -17,7 +17,7 @@
 //  value passed would exceed the range ( 1901 < year < 2038) of legal
 //  values, the DateTime will be set to MinTimeT or MaxTimeT accordingly.
 //
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     02/09/94 12:24
 //
 // Revision History: (See end of file for Revision Log)
@@ -690,6 +690,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:11  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

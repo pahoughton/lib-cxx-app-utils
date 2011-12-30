@@ -5,7 +5,7 @@
 //
 //  Compiled sources for Directory
 //  
-// Author:      Paul A. Houghton - (paul.houghton@mci.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     09/19/95 08:18
 //
 // Revision History: (See end of file for Revision Log)
@@ -741,7 +741,7 @@ Directory::buildDirList( void )
 	  FileStat	fStat;
 	  bool		status = true;
 	  
-	  for( int g = 0; g < files.gl_pathc; ++ g )
+	  for( unsigned int g = 0; g < files.gl_pathc; ++ g )
 	    {
 	      fStat.stat( files.gl_pathv[g] );
 
@@ -913,6 +913,9 @@ Directory::readDir(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:12  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

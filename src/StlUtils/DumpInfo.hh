@@ -53,7 +53,7 @@
 //	dumpInfo( cerr ) << endl; 
 //
 //
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     12/08/96 07:46
 //
 // Revision History: (See end of file for Revision Log)
@@ -72,16 +72,17 @@ public:
   inline ostream &	    toStream( ostream & dest ) const {
     return( obj.dumpInfo( dest, prefix, showVer ) ); };
 
+  inline DumpInfo( const T & dumpObj, const char * pre, bool ver )
+    : obj( dumpObj ), prefix( pre ), showVer( ver ) {};
+  
 protected:
 
-  friend class T;
+  // friend T;
   
   const T &	obj;
   const char *	prefix;
   bool		showVer;
   
-  inline DumpInfo( const T & dumpObj, const char * pre, bool ver )
-    : obj( dumpObj ), prefix( pre ), showVer( ver ) {};
 };
 
 template< class T >
@@ -140,6 +141,9 @@ operator << ( ostream & dest, const DumpInfo<T> & src )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:12  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

@@ -5,7 +5,7 @@
 //
 //  Compiled source for UserGroup
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/09/95 06:30 
 //
 // Revision History: (See end of file for Revision Log)
@@ -21,7 +21,6 @@
 #include "UserGroup.hh"
 #include "User.hh"
 #include "Compare.hh"
-#include <strstream.h>
 #include <climits>
 #include <cerrno>
 #include <pwd.h>
@@ -139,7 +138,7 @@ UserGroup::set( const struct group * gr, bool findMemb )
     {
       name = "";
       gid = bad;
-      osError = ::errno;      
+      osError = errno;      
       return( false );
     }
 }
@@ -292,6 +291,9 @@ UserGroup::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:35  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:47  houghton
 // Changed to version 6
 //

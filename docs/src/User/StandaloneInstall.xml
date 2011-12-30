@@ -33,7 +33,7 @@
     </keywords>
     <authorgrp>
       <author fullname="Paul Houghton"
-	      email="Paul.Houghton@wcom.com"/>
+	      email="paul4hough@gmail.com"/>
     </authorgrp>
     <projectname>
        &PRJ.NAME;
@@ -98,7 +98,7 @@
 	<p>
 	  <indent>
 	    <ulink>
-	      ftp://soundwave.mcilink.com/pub/tools/&PRJ.DIR;.tar.gz
+	      ftp://&TOOLS.HOST;/pub/tools/&PRJ.DIR;.tar.gz
 	    </ulink>
 	  </indent>
 	</p>

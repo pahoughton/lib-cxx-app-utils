@@ -5,7 +5,7 @@
 //
 //  	Remove leading and trailing white space from a string.
 //  
-// Author:      Paul Houghton - (paul_houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     02/18/95 16:13
 //
 // Revision History: (See end of file for Revision Log)
@@ -80,6 +80,9 @@ StripWhite( char * buffer, const char * white, size_t bufSize )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:22  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

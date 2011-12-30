@@ -5,7 +5,7 @@
 //
 //  Compiled source for the FileStat class
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/17/95 08:38 
 //
 // Revision History: (See end of file for Revision Log)
@@ -30,7 +30,7 @@
 
 #include <Bit.hh>
 #include <iomanip>
-#include <strstream.h>
+#include <sstream>
 #include <cstring>
 
 #include <utime.h>
@@ -67,7 +67,7 @@ FileStat::setTimes(
 
   if( utime( name, &tv ) )
     {
-      sysError = ::errno;
+      sysError = errno;
       return( false );
     }
   else
@@ -86,7 +86,7 @@ FileStat::setMode( mode_t mode )
 
   if( chmod( name, mode ) )
     {
-      sysError = ::errno;
+      sysError = errno;
       return( false );
     }
 
@@ -140,7 +140,7 @@ FileStat::setUser( uid_t uid )
 
   if( chown( name, uid, getGID() ) )
     {
-      sysError = ::errno;
+      sysError = errno;
       return( false );
     }
 
@@ -158,7 +158,7 @@ FileStat::setGroup( gid_t gid )
 
   if( chown( name, getUID(), gid ) )
     {
-      sysError = ::errno;
+      sysError = errno;
       return( false );
     }
 
@@ -176,7 +176,7 @@ FileStat::setOwner( uid_t uid, gid_t gid )
 
   if( chown( name, uid, gid ) )
     {
-      sysError = ::errno;
+      sysError = errno;
       return( false );
     }
 
@@ -426,6 +426,9 @@ FileStat::setModeString( void )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:14  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

@@ -1,30 +1,31 @@
-//
-// File:        StringFrom.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  The StringFrom functions were developed out of my
-//  frustration in trying to find a good way to convert
-//  number into character strings and append them to
-//  a 'class string'.
-//
-//  The only standard text conversion for numbers are the
-//  '<<' operators for ostream. The number of code lines and
-//  perfomance expence in using a strstream (or the new sstream)
-//  just to get a number converted to text is WAY to high.
-//  
-// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
-// Created:     11/15/96 14:56
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-// $Id$ 
+/**
+   File:        StringFrom.C
+   Project:	StlUtils ()
+   Desc:        
+  
+    The StringFrom functions were developed out of my
+    frustration in trying to find a good way to convert
+    number into character strings and append them to
+    a 'class string'.
+  
+    The only standard text conversion for numbers are the
+    '<<' operators for ostream. The number of code lines and
+    perfomance expence in using a strstream (or the new sstream)
+    just to get a number converted to text is WAY to high.
+    
+   Author:      Paul Houghton - (paul4hough@gmail.com)
+   Created:     11/15/96 14:56
+  
+   Revision History: (See end of file for Revision Log)
+  
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
+  
+ $Id$ 
+**/
 
 #if defined( STLUTILS_THREADS )
 #error Mutex needed
@@ -32,7 +33,7 @@
 
 #include "StringUtils.hh"
 // #include "Mutex.hh"
-#include <strstream.h>
+#include <Str.hh>
 #include <cstring>
 #include <cctype>
 
@@ -362,15 +363,15 @@ UNSIGNED_STR_FRM_TYPE( unsigned long long );
 const char *
 StringFrom( double num, short prec )
 {
-  strstream tmp;
+  Str tmp;
   tmp.setf( ios::fixed, ios::floatfield );
   tmp.precision( prec );
 
   tmp << num << ends;
   //  NumBufMutex.lock();
-  strcpy( NumBuf, tmp.str() );
+  strcpy( NumBuf, tmp.c_str() );
   //  NumBufMutex.unlock();
-  tmp.rdbuf()->freeze(0);
+  
   return( NumBuf );
 }
 
@@ -389,6 +390,9 @@ StringFrom( const struct tm & src, const char * fmt )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:20  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

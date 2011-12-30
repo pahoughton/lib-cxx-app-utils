@@ -32,7 +32,7 @@
     </keywords>
     <authorgrp>
       <author fullname="Paul Houghton"
-	      email="Paul.Houghton@wcom.com"/>
+	      email="paul4hough@gmail.com"/>
     </authorgrp>
     <projectname>
       &PRJ.NAME;
@@ -154,7 +154,7 @@
 	<p>
 	  <indent>
 	    <ulink>
-	      ftp://soundwave.mcilink.com/pub/tools/gzip-1.2.4.tar
+	      ftp://&TOOLS.HOST;/pub/tools/gzip-1.2.4.tar
 	    </ulink>
 	  </indent>
 	</p>

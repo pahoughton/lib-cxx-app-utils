@@ -7,7 +7,7 @@
 //
 //  Provide a Unix user's Group information.
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/09/95 06:06
 //
 // Revision History: (See end of file for Revision Log)
@@ -183,6 +183,9 @@ compare( const UserGroup & one, const UserGroup & two );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:35  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:47  houghton
 // Changed to version 6
 //

@@ -5,7 +5,7 @@
 //
 //  Compiled sources for StripTrailing
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     12/20/97 08:02
 //
 // Revision History: (See end of file for Revision Log)
@@ -47,6 +47,9 @@ StripTrailing( char * buffer, const char * white, size_t bufferSize )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:22  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

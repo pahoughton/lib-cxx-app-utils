@@ -4,7 +4,7 @@
 
 Version: =VERSION=
 
-Paul A. Houghton <paul.houghton@wcom.com>
+Paul A. Houghton <paul4hough@gmail.com>
 
 =LAST_MOD=
 
@@ -13,8 +13,8 @@ Paul A. Houghton <paul.houghton@wcom.com>
 =head3 Overview
 
 All the sources for the =PROJECT= project are kept in a CVS version control
-repository on soundwave.mcilink.com. This repository is currently being
-maintained by Paul Houghton <paul.houghton@wcom.com>, please contact
+repository on &TOOLS.HOST;. This repository is currently being
+maintained by Paul Houghton <paul4hough@gmail.com>, please contact
 him for remote write access or any problems you encounter.  For read
 only access to the repository you can use the B<cvsguest> id.
 
@@ -22,10 +22,10 @@ only access to the repository you can use the B<cvsguest> id.
 
 First, set your CVSROOT environment variable to:
 
-  export CVSROOT=:pserver:cvsguest@soundwave.mcilink.com:/Tools/src/CvsRepository
+  export CVSROOT=:pserver:cvsguest@&TOOLS.HOST;:/Tools/src/CvsRepository
 
 Then follow the instructions in
-http://soundwave.mcilink.com/Tools/VersionControl/CvsQuickRef.html to
+http://&TOOLS.HOST;/Tools/VersionControl/CvsQuickRef.html to
 checkout a copy of the sources using the project name of
 B<lib=PROJECT=-=VER_MAJOR=>.
 
@@ -34,7 +34,7 @@ B<lib=PROJECT=-=VER_MAJOR=>.
 
 =opt nopara
 
-Paul A. Houghton <paul.houghton@wcom.com>
+Paul A. Houghton <paul4hough@gmail.com>
 
 Last Modified: =LAST_MOD=
 
@@ -45,6 +45,9 @@ $Id$
 =cut
 
 $Log$
+Revision 6.3  2011/12/30 23:57:05  paul
+First go at Mac gcc Port
+
 Revision 6.2  2003/09/08 15:13:07  ptpogue
 change sideswipe to soundwave
 

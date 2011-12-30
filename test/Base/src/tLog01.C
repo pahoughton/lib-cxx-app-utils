@@ -19,7 +19,7 @@
 //	  
 //	  inline Log( const char * 	fileName,
 //		      LogLevel::Level 	outLevel = LogLevel::Error,
-//		      ios::open_mode	mode = ios::app,
+//		      ios::openmode	mode = ios::app,
 //		      int		prot = filebuf::openprot,
 //		      bool		stampLevel = true,
 //		      bool		stampTime = true,
@@ -29,7 +29,7 @@
 //		      
 //	  inline Log( const char * 	fileName,
 //		      const char *	outLevel,
-//		      ios::open_mode	mode = ios::app,
+//		      ios::openmode	mode = ios::app,
 //		      int		prot = filebuf::openprot,
 //		      bool		stampLevel = true,
 //		      bool		stampTime = true,
@@ -38,7 +38,7 @@
 //		      size_t		trimSize = 0 );
 //
 //
-// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/11/96 16:31
 //
 // Revision History: (See end of file for Revision Log)
@@ -312,7 +312,7 @@ tLog01( LibTest & tester )
   }
 
   {
-    // Log( const char *, LogLevel::Level, ios::open_mode )
+    // Log( const char *, LogLevel::Level, ios::openmode )
 
     remove( LogFileName );
 
@@ -333,14 +333,14 @@ tLog01( LibTest & tester )
   }
 
   {
-    // Log( const char *, LogLevel::Level, ios::open_mode, int )
+    // Log( const char *, LogLevel::Level, ios::openmode, int )
 
     remove( LogFileName );
 
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0711 );
 
       TESTR( t.error(), t.good() );
@@ -360,14 +360,14 @@ tLog01( LibTest & tester )
 
 
   {
-    // Log( const char *, LogLevel::Level, ios::open_mode, int, bool )
+    // Log( const char *, LogLevel::Level, ios::openmode, int, bool )
 
     remove( LogFileName );
 
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     true );
 
@@ -381,7 +381,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     false );
 
@@ -400,14 +400,14 @@ tLog01( LibTest & tester )
   }
 
   {
-    // Log( const char *, LogLevel::Level, ios::open_mode, int, bool, bool )
+    // Log( const char *, LogLevel::Level, ios::openmode, int, bool, bool )
 
     remove( LogFileName );
 
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true );
@@ -422,7 +422,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     false );
@@ -444,7 +444,7 @@ tLog01( LibTest & tester )
   {
     // Log( const char *,
     //	    LogLevel::Level,
-    //	    ios::open_mode,
+    //	    ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -453,7 +453,7 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, LogLevel::Info, (ios::open_mode)(ios::app|ios::out), 0664, true, true, true );
+      Log t( LogFileName, LogLevel::Info, (ios::openmode)(ios::app|ios::out), 0664, true, true, true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -463,7 +463,7 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, LogLevel::Info, (ios::open_mode)(ios::app|ios::out), 0664, true, true, false );
+      Log t( LogFileName, LogLevel::Info, (ios::openmode)(ios::app|ios::out), 0664, true, true, false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -482,7 +482,7 @@ tLog01( LibTest & tester )
   {
     // Log( const char *,
     //	    LogLevel::Level,
-    //	    ios::open_mode,
+    //	    ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -494,7 +494,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -518,7 +518,7 @@ tLog01( LibTest & tester )
   {
     // Log( const char *,
     //	    LogLevel::Level,
-    //	    ios::open_mode,
+    //	    ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -531,7 +531,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -578,7 +578,7 @@ tLog01( LibTest & tester )
   }
 
   {
-    // Log( const char *, const char *, ios::open_mode )
+    // Log( const char *, const char *, ios::openmode )
 
     remove( LogFileName );
 
@@ -599,12 +599,12 @@ tLog01( LibTest & tester )
   }
 
   {
-    // Log( const char *, const char *, ios::open_mode, int )
+    // Log( const char *, const char *, ios::openmode, int )
 
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0711 );
+      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0711 );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -621,12 +621,12 @@ tLog01( LibTest & tester )
   }
 
   {
-    // Log( const char *, const char *, ios::open_mode, int, bool )
+    // Log( const char *, const char *, ios::openmode, int, bool )
 
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true );
+      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -636,7 +636,7 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, false );
+      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -653,12 +653,12 @@ tLog01( LibTest & tester )
   }
 
   {
-    // Log( const char *, const char *, ios::open_mode, int, bool, bool )
+    // Log( const char *, const char *, ios::openmode, int, bool, bool )
 
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true, true );
+      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true, true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -668,7 +668,7 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true, false );
+      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true, false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -687,7 +687,7 @@ tLog01( LibTest & tester )
   {
     // Log( const char *,
     //	    const char *,
-    //	    ios::open_mode,
+    //	    ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -696,7 +696,7 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true, true, true );
+      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true, true, true );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -706,7 +706,7 @@ tLog01( LibTest & tester )
     }
 
     {
-      Log t( LogFileName, "info", (ios::open_mode)(ios::app|ios::out), 0664, true, true, false );
+      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true, true, false );
 
       TEST( t.getOutput() == LogLevel::Info );
     
@@ -725,7 +725,7 @@ tLog01( LibTest & tester )
   {
     // Log( const char *,
     //	    const char *,
-    //	    ios::open_mode,
+    //	    ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -737,7 +737,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     "info",
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -762,7 +762,7 @@ tLog01( LibTest & tester )
   {
     // Log( const char *,
     //	    const char *,
-    //	    ios::open_mode,
+    //	    ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -775,7 +775,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     "info",
-	     (ios::open_mode)(ios::app|ios::out),
+	     (ios::openmode)(ios::app|ios::out),
 	     0664,
 	     true,
 	     true,
@@ -805,6 +805,9 @@ tLog01( LibTest & tester )
 
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:44  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:51  houghton
 // Changed to version 6
 //
@@ -818,7 +821,7 @@ tLog01( LibTest & tester )
 // Changed: renamed library to StlUtils.
 //
 // Revision 3.5  1997/07/18 21:39:57  houghton
-// Port(Sun5): Changed ios::app to (ios::open_mode)(ios::app|ios::out).
+// Port(Sun5): Changed ios::app to (ios::openmode)(ios::app|ios::out).
 //
 // Revision 3.4  1997/03/21 15:41:02  houghton
 // Changed for new default output level.

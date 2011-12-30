@@ -5,7 +5,7 @@
 //
 //  Compiled sources for StringFirstNotOf
 //  
-// Author:      Paul A. Houghton - (paul.houghton@mci.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     08/11/97 08:47
 //
 // Revision History: (See end of file for Revision Log)
@@ -81,6 +81,9 @@ StringFirstNotOf(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:20  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

@@ -12,7 +12,7 @@
 //  header (StlUtilsArch.hh) and the Version Info for StlUtils classes
 //  and functions.
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     12/01/96 04:49
 //
 // Revision History: (See end of file for Revision Log)
@@ -49,6 +49,9 @@
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:19  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

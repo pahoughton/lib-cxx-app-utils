@@ -34,7 +34,7 @@ How to install StlUtils independantly of a project.
 =for html
 <hr>
 
-Paul A. Houghton <paul.houghton@wcom.com>
+Paul A. Houghton <paul4hough@gmail.com>
 
 $Id$
 
@@ -43,6 +43,9 @@ Last Modified: =LAST_MOD=
 =cut
 
 $Log$
+Revision 6.2  2011/12/30 23:57:06  paul
+First go at Mac gcc Port
+
 Revision 6.1  2003/08/09 11:22:39  houghton
 Changed to version 6
 

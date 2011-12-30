@@ -15,7 +15,7 @@
   
   Notes:
     
-  Author(s):	Paul Houghton <<paul.houghton@mci.com>>
+  Author(s):	Paul Houghton <<paul4hough@gmail.com>>
   Created:	06/16/95 04:43 
   
   Revision History: (See ChangeLog for details)

@@ -5,7 +5,7 @@
 //
 //  Compiled sources for Whence
 //  
-// Author:      Paul A. Houghton - (paul.houghton@mci.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     09/12/97 13:00
 //
 // Revision History: (See end of file for Revision Log)
@@ -43,6 +43,9 @@ Whence( ios::seek_dir dir )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:35  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:47  houghton
 // Changed to version 6
 //

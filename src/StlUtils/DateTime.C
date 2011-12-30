@@ -5,7 +5,7 @@
 //
 //  Compiled sources for DateTime
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     02/24/94 06:46 
 //
 // Revision History: (See end of file for Revision Log)
@@ -238,7 +238,7 @@ DateTime::setValid(
   int sec
   )
 {
-  time_t old = seconds;
+  // time_t old = seconds;
   flags.valid = true;
 
   offset = 0;
@@ -747,7 +747,7 @@ DateTime::toTm( struct tm & tmTime, const char * str, const char * fmt ) const
 
   if( fmt )
     {
-      return( strptime( (char *)str, fmt, &tmTime ) != 0 );
+      return( strptime( str, fmt, &tmTime ) != 0 );
     }
   else
     {
@@ -978,6 +978,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:11  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

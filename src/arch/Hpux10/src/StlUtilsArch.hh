@@ -9,7 +9,7 @@
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     07/09/98 11:13
 //
 // Revision History: (See end of file for Revision Log)
@@ -161,6 +161,9 @@ const size_t NPOS = (size_t)(-1);
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:25  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:44  houghton
 // Changed to version 6
 //

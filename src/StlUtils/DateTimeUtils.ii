@@ -36,7 +36,7 @@
 //	    convert 970304 to 19970304. if the first digit is < 5
 //	    the year is assumed to be 2000, so 050304 will be 20050304.
 //
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/02/95 06:32
 //
 // Revision History: (See end of file for Revision Log)
@@ -142,6 +142,9 @@ YYMMDDtoYYYYMMDD( char * dest, const char * src )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:12  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

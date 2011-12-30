@@ -10,7 +10,7 @@
  *
  * Notes:
  *
- * Author:	Paul Houghton - (paul.houghton@mci.com)
+ * Author:	Paul Houghton - (paul4hough@gmail.com)
  * Created:	01/30/98 06:26
  *
  * Revision History: (See end of file for Revision Log)
@@ -45,6 +45,9 @@ const char * StrSignal( int sig );
  * %PL%
  * 
  * $Log$
+ * Revision 6.2  2011/12/30 23:57:34  paul
+ * First go at Mac gcc Port
+ *
  * Revision 6.1  2003/08/09 11:22:47  houghton
  * Changed to version 6
  *

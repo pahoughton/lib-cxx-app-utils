@@ -8,7 +8,7 @@
 //  This is a specialized streambuf used by Log to
 //  output log messages.
 //
-// Author:      Paul Houghton x2309 - (houghton@shoe.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     01/29/95 12:32
 //
 // Revision History: (See end of file for Revision Log)
@@ -27,6 +27,7 @@
 #include <LogLevel.hh>
 #include <FilePath.hh>
 
+#include <sstream>
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -46,24 +47,22 @@ public:
   typedef long	FilterId;
   
   LogBuf( LogLevel::Level   outLevel,
-		 streambuf * 	   outStream );
+	  streambuf * 	   outStream );
 
   LogBuf( const char * 	outLevel,
-		 streambuf * 	outStream );
+	  streambuf * 	outStream );
 
   LogBuf( const char *	    fileName,
-		 LogLevel::Level    outLevel = LogLevel::Error, 
-		 ios::open_mode	    mode = ios::app,
-		 int		    prot = 0664,
-		 size_t		    maxSize = 0,
-		 size_t		    trimSize = 0 );
+	  LogLevel::Level   outLevel = LogLevel::Error, 
+	  ios::openmode	    mode = ios::app,
+	  size_t	    maxSize = 0,
+	  size_t	    trimSize = 0 );
   
   LogBuf( const char *	    fileName,
-		 const char *	    outLevel,
-		 ios::open_mode	    mode = ios::app,
-		 int		    prot = 0664,
-		 size_t		    maxSize = 0,
-		 size_t		    trimSize = 0 );
+	  const char *	    outLevel,
+	  ios::openmode	    mode = ios::app,
+	  size_t	    maxSize = 0,
+	  size_t	    trimSize = 0 );
   
   virtual ~LogBuf( void );
 
@@ -87,14 +86,12 @@ public:
   inline const FilePath &	getLogFileName( void ) const;
 
   filebuf *		open( const char *	name,
-			      ios::open_mode    mode,
-			      int	        prot,
+			      ios::openmode     mode,
 			      size_t	        maxSize,
 			      size_t	        trimSize );
   
   filebuf *		open( const char *	name,
-			      ios::open_mode    mode,
-			      int	        prot = 0664 );
+			      ios::openmode     mode );
   
   void			close (void);
   
@@ -153,14 +150,13 @@ protected:
   void initLogBuffer( void );
   void initbuf( streambuf * outStream );
   void initbuf( const char * fn,
-		ios::open_mode mode,
-		int prot,
+		ios::openmode mode,
 		size_t m,
 		size_t t );
   
-  size_t	sendToStream( streambuf * dest, char * base, size_t len );
+  streamsize	sendToStream( streambuf * dest, char * base, streamsize len );
   
-  filebuf *	openLog( ios::open_mode modeMask );
+  filebuf *	openLog( ios::openmode modeMask );
   size_t	trimLog( size_t curSize, size_t maxLogSize );
   void		closeLog( void );
 
@@ -169,10 +165,9 @@ protected:
   FilePath	    logFileName;
   size_t	    maxSize;
   size_t	    trimSize;
-  ios::open_mode    openMode;
-  int		    openProt;
+  ios::openmode	    openMode;
   bool		    streamIsFile;
-  int		    logFd;
+  // int		    logFd;
   
   char *    	buffer;
   
@@ -212,14 +207,14 @@ private:
 //
 //  	LogBuf( const char *	    fileName,
 //		LogLevel::Level    outLevel = LogLevel::ERROR, 
-//		ios::open_mode	    mode = ios::app,
+//		ios::openmode	    mode = ios::app,
 //		int		    prot = filebuf::openprot,
 //		size_t		    maxSize = 0,
 //		size_t		    trimSize = 0 );
 //  
 //  	LogBuf( const char *	    fileName,
 //		const char *	    outLevel,
-//		ios::open_mode	    mode = ios::app,
+//		ios::openmode	    mode = ios::app,
 //		int		    prot = filebuf::openprot,
 //		size_t		    maxSize = 0,
 //		size_t		    trimSize = 0 );
@@ -235,7 +230,7 @@ private:
 //
 //  	filebuf *
 //  	open( const char *	name,
-//	      ios::open_mode    mode,
+//	      ios::openmode    mode,
 //	      int	        prot = filebuf::openprot,
 //	      size_t	        maxSize = 0,
 //	      size_t	        trimSize = 0 );
@@ -286,7 +281,7 @@ private:
 //
 //  	void
 //  	initbuf( const char * fn,
-//		 ios::open_mode mode,
+//		 ios::openmode mode,
 //	    	 int prot,
 //		 size_t m,
 //
@@ -309,6 +304,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:16  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:42  houghton
 // Changed to version 6
 //
@@ -394,7 +392,7 @@ private:
 // Added is_open() to detect if there is a valid primary stream open.
 // Changed delFitler to return the streambuf that was given as
 //     the filter's destination.
-// Changed openLog to take an ios::open_mode arg that will be
+// Changed openLog to take an ios::openmode arg that will be
 //     or'ed (|) with the original open mode. This allows the
 //     log to be appended if it was not opened with 'ios::app', but
 //     it was reopened from within LogBuf.

@@ -5,7 +5,7 @@
 //
 //  Compiled sources for FileBatch
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     03/24/99 06:54
 //
 // Revision History: (See end of file for Revision Log)
@@ -115,6 +115,9 @@ FileBatchBase::setError( ErrorNum errNum, streampos errPos, int osErr )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:12  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

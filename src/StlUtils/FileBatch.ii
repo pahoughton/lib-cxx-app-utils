@@ -1,38 +1,38 @@
 #ifndef _FileBatch_ii_
 #define _FileBatch_ii_
-//
-// File:        FileBatch.ii
-// Project:	StlUtils ()
-// Desc:        
-//
-//  	Inline source for FileBatch
-//
-// Author:      Paul Houghton - (paul.houghton@mci.com)
-// Created:     11/10/98 11:18
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-//  $Id$ 
-//
+/**
+   File:        FileBatch.ii
+   Project:	StlUtils ()
+   Desc:        
+  
+    	Inline source for FileBatch
+  
+   Author:      Paul Houghton - (paul4hough@gmail.com)
+   Created:     11/10/98 11:18
+  
+   Revision History: (See end of file for Revision Log)
+  
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
+  
+    $Id$ 
+**/
 
+#include <FileStat.hh>
 
 template< class Rec >
 inline
 FileBatch< Rec >::FileBatch(
   const char *	fileName,
-  ios::open_mode    mode,
-  unsigned short    permMask
+  ios::openmode    mode
   )
   : FileBatchBase( fileName, sizeof( Rec ) ),
     fileSize( 0 )
 {
-  batch = new fstream( name, mode, 0666 ^ permMask );
+  batch = new fstream( name, mode );
 
   streampos cur( 0 );
   streampos endPos( 0 );
@@ -63,26 +63,24 @@ template< class Rec >
 inline
 FileBatch< Rec >::FileBatch(
   const char *	fileName,
-  ios::open_mode    mode,
-  bool		    create,
-  unsigned short    permMask
+  ios::openmode    mode,
+  bool		    create
   )
   : FileBatchBase( fileName, sizeof( Rec ) ),
     fileSize( 0 )
 {
-  if( ! create )
-    {
-      if( ! (mode & ios::nocreate ) )
-	{
-	  mode = (ios::open_mode)(mode | ios::nocreate);
-	}
+  if( ! create ) {
+    FileStat fStat( fileName );
+    if( ! fStat.good() ) {
+      setError( E_OPEN, 0, ENOENT );
+      return;
     }
-  else
-    {
-      fstream tmp(name, ios::out, 0666 ^ permMask );
-    }
+  } else {
+    // create is true, make sure the file exists
+    fstream tmp(name, ios::out );
+  }
   
-  batch = new fstream( name, mode, 0666 ^ permMask );
+  batch = new fstream( name, mode );
 
   streampos cur( 0 );
   streampos endPos( 0 );
@@ -352,6 +350,9 @@ FileBatch< Rec >::file( void ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:13  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

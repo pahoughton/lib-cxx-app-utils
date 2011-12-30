@@ -7,7 +7,7 @@
 //
 // Source Header Version: 2.8
 //
-// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/11/96 16:28
 //
 // Revision History: (See end of file for Revision Log)
@@ -49,6 +49,9 @@ tLog( LibTest & tester )
 
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:44  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:51  houghton
 // Changed to version 6
 //

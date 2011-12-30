@@ -7,7 +7,7 @@
 //
 //  	Definitions for FileStat inline functions.
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     07/22/95 07:18
 //
 // Revision History: (See end of file for Revision Log)
@@ -348,7 +348,7 @@ FileStat::stat( const char * fileName )
   fd = badFd;
   
   if( ::stat( fileName, &st ) )
-    sysError = ::errno;
+    sysError = errno;
   else
     sysError = 0;
   
@@ -364,7 +364,7 @@ FileStat::stat( int fileDesc, bool keepName )
   fd = fileDesc;
 
   if( ::fstat( fd, &st ) )
-    sysError = ::errno;
+    sysError = errno;
   else
     sysError = 0;
 
@@ -380,7 +380,7 @@ FileStat::lstat( const char * fileName )
   fd = badFd;
   
   if( ::lstat( fileName, &st ) )
-    sysError = ::errno;
+    sysError = errno;
   else
     sysError = 0;
 
@@ -532,6 +532,9 @@ FileStat::dump( const char * prefix, bool showVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:14  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

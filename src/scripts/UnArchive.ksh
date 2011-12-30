@@ -8,7 +8,7 @@
 #
 # Notes:
 #
-# Author(s):   Paul Houghton 719-527-7834 <paul.houghton@wcom.com>
+# Author(s):   Paul Houghton <paul4hough@gmail.com>
 # Created:     04/25/2003 06:17
 #
 # Revision History: (See end of file for Revision Log)

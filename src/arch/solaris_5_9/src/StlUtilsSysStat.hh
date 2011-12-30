@@ -9,7 +9,7 @@
   
   Notes:
     
-  Author(s):	Paul Houghton <<paul.houghton@mci.com>>
+  Author(s):	Paul Houghton <<paul4hough@gmail.com>>
   Created:	07/19/2003 04:31
   
   Revision History: (See ChangeLog for details)

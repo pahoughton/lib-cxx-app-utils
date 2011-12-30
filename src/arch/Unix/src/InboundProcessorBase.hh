@@ -31,7 +31,7 @@
 //
 //  The SigCatcher passed will NOT be deleted.
 //
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     07/20/97 06:21
 //
 // Revision History: (See end of file for Revision Log)
@@ -254,6 +254,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2011/12/30 23:57:32  paul
+// First go at Mac gcc Port
+//
 // Revision 6.2  2005/03/01 21:45:32  ptpogue
 // change to deal with duplicate batches
 //

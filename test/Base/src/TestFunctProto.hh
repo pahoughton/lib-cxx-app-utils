@@ -8,7 +8,7 @@
 //  Function prototypes for test functions
 //
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     04/29/96 07:42
 //
 // Revision History: (See end of file for Revision Log)
@@ -174,6 +174,9 @@ bool tCommaNum( LibTest & tester );
 // Revision Log:
 //
 // $Log$
+// Revision 6.4  2011/12/30 23:57:41  paul
+// First go at Mac gcc Port
+//
 // Revision 6.3  2005/09/09 18:51:13  houghton
 // *** empty log message ***
 //

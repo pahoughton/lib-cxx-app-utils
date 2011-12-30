@@ -16,7 +16,7 @@
 //	operator () ( LogLevel::Level );
 //	operator () ( LogLevel::Level, const char *, long );
 //
-// Author:      Paul Houghton - (houghton@cmore.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/11/96 17:36
 //
 // Revision History: (See end of file for Revision Log)
@@ -132,7 +132,7 @@ tLog02( LibTest & tester )
     remove( TestFn );
     
     {
-      Log	t( TestFn, LogLevel::All, (ios::open_mode)(ios::app|ios::out), 0644,
+      Log	t( TestFn, LogLevel::All, (ios::openmode)(ios::app|ios::out), 0644,
 		   true, false, false  );
       
       t.level( LogLevel::Error )   << "test Error" << '\n';
@@ -166,7 +166,7 @@ tLog02( LibTest & tester )
     {
       Log	t( TestFn,
 		   LogLevel::Warn | LogLevel::Info | LogLevel::Debug,
-		   (ios::open_mode)(ios::app|ios::out), 0644,
+		   (ios::openmode)(ios::app|ios::out), 0644,
 		   true, false, true  );
       
       t.level( LogLevel::Error,   "Src" ) << "test Error (bad)" << '\n';
@@ -200,7 +200,7 @@ tLog02( LibTest & tester )
     {
       Log	t( TestFn,
 		   "App1 | Warn | Error | Info | Debug",
-		   (ios::open_mode)(ios::app|ios::out), 0644,
+		   (ios::openmode)(ios::app|ios::out), 0644,
 		   true, false, true  );
       
       t.level( LogLevel::Error,   "Src",  1 ) << "test Error" << '\n';
@@ -251,7 +251,7 @@ tLog02( LibTest & tester )
     remove( TestFn );
     
     {
-      Log	t( TestFn, LogLevel::All, (ios::open_mode)(ios::app|ios::out), 0644,
+      Log	t( TestFn, LogLevel::All, (ios::openmode)(ios::app|ios::out), 0644,
 		   true, false, false  );
       
       t( LogLevel::Error )   << "test Error" << '\n';
@@ -285,7 +285,7 @@ tLog02( LibTest & tester )
     {
       Log	t( TestFn,
 		   "App1 | Warn | Error | Info | Debug",
-		   (ios::open_mode)(ios::app|ios::out), 0644,
+		   (ios::openmode)(ios::app|ios::out), 0644,
 		   true, false, true  );
       
       t( LogLevel::Error,   "Src",  1 ) << "test Error" << '\n';
@@ -316,6 +316,9 @@ tLog02( LibTest & tester )
 
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:44  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:51  houghton
 // Changed to version 6
 //
@@ -329,7 +332,7 @@ tLog02( LibTest & tester )
 // Changed: renamed library to StlUtils.
 //
 // Revision 3.4  1997/07/18 21:42:22  houghton
-// Port(Sun5): Changed ios::app to (ios::open_mode)(ios::app|ios::out).
+// Port(Sun5): Changed ios::app to (ios::openmode)(ios::app|ios::out).
 //
 // Revision 3.3  1997/03/03 19:10:02  houghton
 // Changed for port to AIX. There appears to be a bug in AIX's strstream.

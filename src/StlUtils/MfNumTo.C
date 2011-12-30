@@ -1,48 +1,48 @@
-//
-// File:        MfNumTo.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  The mainframe uses the high nibble (4 bits) of the last char
-//  to indicate + or - sign.
-//
-//  This table show the conversion
-//
-//	Last Char   Value	pos/neg
-//
-//	{	    0		pos
-//	A	    1		pos
-//	B	    2		pos
-//	C	    3		pos
-//	D	    4		pos
-//	E	    5		pos
-//	F	    6		pos
-//	G	    7		pos
-//	H	    8		pos
-//	I	    9		pos
-//
-//	}	    0		neg
-//	J	    1		neg
-//	K	    2		neg
-//	L	    3		neg
-//	M	    4		neg
-//	N	    5		neg
-//	O	    6		neg
-//	P	    7		neg
-//	Q	    8		neg
-//	R	    9		neg
-//
-// Author:      Paul Houghton - (houghton@cworld.mci.com)
-// Created:     11/18/97 06:25
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+/*
+   File:        MfNumTo.C
+   Project:	StlUtils ()
+   Desc:        
+  
+    The mainframe uses the high nibble (4 bits) of the last char
+    to indicate + or - sign.
+  
+    This table show the conversion
+  
+  	Last Char   Value	pos/neg
+  
+  	{	    0		pos
+  	A	    1		pos
+  	B	    2		pos
+  	C	    3		pos
+  	D	    4		pos
+  	E	    5		pos
+  	F	    6		pos
+  	G	    7		pos
+  	H	    8		pos
+  	I	    9		pos
+  
+  	}	    0		neg
+  	J	    1		neg
+  	K	    2		neg
+  	L	    3		neg
+  	M	    4		neg
+  	N	    5		neg
+  	O	    6		neg
+  	P	    7		neg
+  	Q	    8		neg
+  	R	    9		neg
+  
+   Author:      Paul Houghton - (paul4hough@gmail.com)
+   Created:     11/18/97 06:25
+  
+   Revision History: (See end of file for Revision Log)
+  
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
+*/
 
 #include "StringUtils.hh"
 #include <cctype>
@@ -244,6 +244,9 @@ MfNumTo(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:17  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:42  houghton
 // Changed to version 6
 //

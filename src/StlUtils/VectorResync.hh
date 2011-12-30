@@ -9,7 +9,7 @@
 //  two vectors so that they both point to the same 'key' value. The 'key'
 //  is determined by the 'Compare' object. 
 //
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/04/97 07:36
 //
 // Revision History: (See end of file for Revision Log)
@@ -104,6 +104,9 @@ VectorResync(
 // %PL%
 // 
 // $Log$
+// Revision 6.5  2011/12/30 23:57:23  paul
+// First go at Mac gcc Port
+//
 // Revision 6.4  2005/09/24 19:33:11  houghton
 // Bug-Fix.
 //

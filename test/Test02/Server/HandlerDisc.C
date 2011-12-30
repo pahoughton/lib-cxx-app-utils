@@ -4,12 +4,15 @@
 //
 //  
 //  
-// Author:      Paul Houghton - (houghton@cworld1.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/09/95 11:04
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:52  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:54  houghton
 // Changed to version 6
 //

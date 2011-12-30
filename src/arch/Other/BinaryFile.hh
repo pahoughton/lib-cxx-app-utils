@@ -6,12 +6,15 @@
 //
 //
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/14/95 09:25
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:28  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:45  houghton
 // Changed to version 6
 //
@@ -55,7 +58,7 @@ public:
 
   virtual ~BinaryFile( void );
   
-  virtual bool	open( const char * fn, ios::open_mode mode, int	perm = 0664 );
+  virtual bool	open( const char * fn, ios::openmode mode, int	perm = 0664 );
   virtual void	close( void );
   virtual bool  is_open( void ) const;
   
@@ -90,7 +93,7 @@ protected:
   
   BinaryFile( void );
   BinaryFile( const char *  	fn,
-	      ios::open_mode	mode,
+	      ios::openmode	mode,
 	      int   	    	perm = 0664 );
 
   int	whence( ios::seek_dir dir ) const;
@@ -145,11 +148,11 @@ public:
   
   inline oBinaryFile( void );
   inline oBinaryFile( const char *	fileName,
-		      ios::open_mode    mode = ios::out,
+		      ios::openmode    mode = ios::out,
 		      int	    	perm = 0664 );
 
   virtual bool	open( const char * 	fileName,
-		      ios::open_mode	mode = ios::out,
+		      ios::openmode	mode = ios::out,
 		      int	    	perm = 0664 );
 
   virtual oBinaryFile &	write( const void * src, size_t amount );
@@ -172,11 +175,11 @@ public:
 class ioBinaryFile : public iBinaryFile, public oBinaryFile
 {
   ioBinaryFile( const char *   fileName,
-		ios::open_mode mode = (ios::open_mode)(ios::in|ios::out),
+		ios::openmode mode = (ios::openmode)(ios::in|ios::out),
 		int	    perm = 0664 );
 
   virtual bool	open( const char * 	fileName,
-		      ios::open_mode	mode = (ios::open_mode)(ios::in|ios::out),
+		      ios::openmode	mode = (ios::openmode)(ios::in|ios::out),
 		      int	    	    perm = 0664 );
 
   virtual const char *	getClassName( void ) const;

@@ -5,7 +5,7 @@
 //
 //  Entry point for testing libStlUtils classes, functions & macros.
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/01/95 12:08 
 //
 // Revision History: (See end of file for Revision Log)
@@ -204,6 +204,9 @@ main( int argc, char * argv[] )
 // Revision Log:
 //
 // $Log$
+// Revision 6.4  2011/12/30 23:57:41  paul
+// First go at Mac gcc Port
+//
 // Revision 6.3  2005/09/09 18:51:13  houghton
 // *** empty log message ***
 //

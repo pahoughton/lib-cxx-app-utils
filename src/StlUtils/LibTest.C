@@ -5,7 +5,7 @@
 //
 //  Compiled sources for LibTest.
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/09/95 09:54 
 //
 // Revision History: (See end of file for Revision Log)
@@ -233,6 +233,18 @@ bool
 LibTest::test(
   const char *	srcFn,
   long		srcLine,
+  const Str &	reason,
+  bool		pass,
+  bool		progress
+  )
+{
+  return( test( srcFn, srcLine, reason.c_str(), pass, progress ) );
+}
+	  
+bool
+LibTest::test(
+  const char *	srcFn,
+  long		srcLine,
   const char *	reason,
   bool		pass,
   bool		progress
@@ -277,83 +289,74 @@ LibTest::file(
   const char *	expFileName
   )
 {
-  char reason[100];
+  Str reason;
   size_t  byte = 0;
   
   ifstream testf( testFileName );
   ifstream expf( expFileName );
 
-  sprintf( reason, "Test File: '%s' open error", testFileName );
+  reason.reset();
+  reason << "Test File: '" << testFileName << "' open error.";
   test( srcFn, srcLine, reason, testf.good() );
-  sprintf( reason, "Expected File: '%s' open error", expFileName );
+
+  reason.reset();
+  reason << "Expected File: '" << expFileName << "' open error.";
   test( srcFn, srcLine, reason, expf.good() );
 
   char testBuf[4096];
   char expBuf[4096];
 
-  for(;;)
-    {
-      testf.read( testBuf, sizeof( testBuf ) );
-      expf.read( expBuf, sizeof( expBuf ) );
+  for(;;) {
+    testf.read( testBuf, sizeof( testBuf ) );
+    expf.read( expBuf, sizeof( expBuf ) );
 
-      if( testf.gcount() != expf.gcount() )
-	{
-	  sprintf( reason, "Read count mismatch: %d expected: %d",
-		   testf.gcount(), expf.gcount() );
+    if( testf.gcount() != expf.gcount() ) {
+      reason.reset();
+      reason << "Read count mismatch: "
+	     << testf.gcount()
+	     << " expected: "
+	     << expf.gcount();
+      return( test( srcFn, srcLine, reason, false ) );
+    }
+
+    if( ! testf.good() || testf.gcount() < 1 ) {
+      if( ! testf.good() ) {
+	
+	if( ! testf.eof() ) {
+	  return( test( srcFn, srcLine,
+			"Test input file error", false ) );
+	} else {
+	  if( ! expf.eof() ) {
+	    return( test( srcFn, srcLine,
+			  "Unexpected end of test file", false ) );
+	  } else {
+	    return( test( srcFn, srcLine, true ) );
+	  }
+	}
+      } else {
+	return( test( srcFn, srcLine,
+		      "Test read no data", false ) );
+      }
+    }
+
+    if( memcmp( testBuf, expBuf, testf.gcount() ) != 0 ) {
+      for( streamsize bufByte = 0; bufByte < testf.gcount(); bufByte++ ) {
+	if( testBuf[ bufByte ] != expBuf[ bufByte ] ) {
+	  reason.reset();
+	  reason << "Data mismatch at byte "
+		 << byte + bufByte
+		 << ": got: " << testBuf[ bufByte ]
+		 << " expected " << expBuf[ bufByte ];			   
+			   
 	  return( test( srcFn, srcLine, reason, false ) );
 	}
-
-      if( ! testf.good() || testf.gcount() < 1 )
-	{
-	  if( ! testf.good() )
-	    {
-	      if( ! testf.eof() )
-		{
-		  return( test( srcFn, srcLine,
-				"Test input file error", false ) );
-		}
-	      else
-		{
-		  if( ! expf.eof() )
-		    {
-		      return( test( srcFn, srcLine,
-				    "Unexpected end of test file", false ) );
-		    }
-		  else
-		    {
-		      return( test( srcFn, srcLine, true ) );
-		    }
-		}
-	    }
-	  else
-	    {
-	      return( test( srcFn, srcLine,
-			    "Test read no data", false ) );
-	    }
-	}
-
-      if( memcmp( testBuf, expBuf, testf.gcount() ) != 0 )
-	{
-	  for( size_t bufByte = 0; bufByte < testf.gcount(); bufByte++ )
-	    {
-	      if( testBuf[ bufByte ] != expBuf[ bufByte ] )
-		{
-		  sprintf( reason,
-			   "Data mismatch at byte %d: '0x%x' expected '0x%x'",
-			   byte + bufByte,
-			   testBuf[ bufByte ],
-			   expBuf[ bufByte ] );			   
-			   
-		  return( test( srcFn, srcLine, reason, false ) );
-		}	     
-	    }
-	  return( test( srcFn, srcLine, "memcmp LIED!", false ) );
-	}
-      else
-	{
-	  byte += testf.gcount();
-	}
+      }
+      // should never get here
+      return( test( srcFn, srcLine, "memcmp LIED!", false ) );
+    } else {
+      byte += testf.gcount();
     }
+  }
 }
 
 bool
@@ -541,6 +544,9 @@ LibTest::DefaultResults::passed(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:15  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

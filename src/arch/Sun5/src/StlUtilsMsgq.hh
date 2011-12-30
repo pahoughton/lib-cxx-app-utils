@@ -9,7 +9,7 @@
 //
 // Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul.houghton@wcom.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/06/98 06:54
 //
 // Revision History: (See end of file for Revision Log)
@@ -43,6 +43,9 @@
 // Revision Log:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:30  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //

@@ -5,7 +5,7 @@
 //              
 //  Compiled sources for the Param class
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     01/26/95 14:43 
 //
 // Revision History: (See end of file for Revision Log)
@@ -68,26 +68,24 @@ Param::Param(
   bool		    useDefaultArgFn,
   const char *	    logLevel,
   bool		    useDefaultLogFn,
-  ios::open_mode    logOpenMode,
-  int		    logOpenProt
+  ios::openmode     logOpenMode
   )
   : versionText( appVersion ? appVersion : "version unknown" ),
     appLog( cout, logLevel ),
     helpFlag( false ),
     haveStopFlag( false ),
     logMode( logOpenMode ),
-    logProt( logOpenProt ),
     logOutputLevel( logLevel ),
+    errorLogFile( 0 ),
+    errorLogId( LogBuf::badFilterId ),
+    errorLogLevels( "ERROR | WARN" ),
     logTee( false ),
     logMaxSize( 0 ),
     logTrimSize( 0 ),
     logTimeStamp( true ),
     logLevelStamp( true ),
     logLocStamp( true ),
-    generateArgFile( false ),
-    errorLogFile( 0 ),
-    errorLogId( LogBuf::badFilterId ),
-    errorLogLevels( "ERROR | WARN" )
+    generateArgFile( false )
 {
   init( mainArgc, 0, mainArgv, useDefaultArgFn, useDefaultLogFn );
 }
@@ -99,26 +97,24 @@ Param::Param(
   bool		    useDefaultArgFn,
   const char *	    logLevel,
   bool		    useDefaultLogFn,
-  ios::open_mode    logOpenMode,
-  int		    logOpenProt
+  ios::openmode	    logOpenMode
   )
   : versionText( appVersion ? appVersion : "version unknown" ),
     appLog( cout, logLevel ),
     helpFlag( false ),
     haveStopFlag( false ),
     logMode( logOpenMode ),
-    logProt( logOpenProt ),
     logOutputLevel( logLevel ),
+    errorLogFile( 0 ),
+    errorLogId( LogBuf::badFilterId ),
+    errorLogLevels( "ERROR | WARN" ),
     logTee( false ),
     logMaxSize( 0 ),
     logTrimSize( 0 ),
     logTimeStamp( true ),
     logLevelStamp( true ),
     logLocStamp( true ),
-    generateArgFile( false ),
-    errorLogFile( 0 ),
-    errorLogId( LogBuf::badFilterId ),
-    errorLogLevels( "ERROR | WARN" )
+    generateArgFile( false )
 {
   init( mainArgc, mainArgv, 0, useDefaultArgFn, useDefaultLogFn );
 }
@@ -333,14 +329,6 @@ Param::parseArgs( void )
 
   logMode = IosOpenModeFromString( logModeStr );
   
-  argInt( logProt,
-	  "MODE",
-	  "log protection flag.",
-	  0,
-	  false,
-	  "log-prot",
-	  "LOG_PROT" );
-  
   argStr( logOutputLevel,
 	  "LOG LEVEL",
 	  "log output level.",
@@ -442,8 +430,7 @@ Param::parseArgs( void )
     {
       if( logFile.size() )
 	appLog.setFileName( logFile.c_str(),
-			    logMode,
-			    logProt );
+			    logMode );
 
       if( errorLogName.size() && errorLogLevels.size() )
 	{
@@ -452,8 +439,7 @@ Param::parseArgs( void )
 	  if( errLevel.getOutput() != LogLevel::None )
 	    {
 	      errorLogFile = new ofstream( errorLogName,
-					   ios::out | ios::app,
-					   0664 );
+					   ios::out | ios::app );
       
 	      if( errorLogFile )
 		{
@@ -1651,7 +1637,8 @@ Param::genArgFile( bool exitApp ) const
 	  FilePath	destFn( argFile );
 
 	  destFn << ".bak";
-	  if( ! fileOp.copy( argFile, destFn ) )
+	  if( ! fileOp.copy( argFile.c_str(),
+			     destFn.c_str() ) )
 	    {
 	      LLgError
 		<< "gen args file - " << fileOp.error()
@@ -1772,6 +1759,9 @@ Param::genArgFile( bool exitApp ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2011/12/30 23:57:17  paul
+// First go at Mac gcc Port
+//
 // Revision 6.2  2005/08/11 18:57:15  houghton
 // Bug-Fix: help for argChar was not showing default value.
 //

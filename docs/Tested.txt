@@ -1377,11 +1377,11 @@
     // Log( const char *, LogLevel::Level )
     // Log( const char *, LogLevel::Level, bool )
     // Log( const char *, LogLevel::Level, bool, bool )
-    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode )
-    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode, int )
-    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode,
+    // Log( const char *, LogLevel::Level, bool, bool, ios::openmode )
+    // Log( const char *, LogLevel::Level, bool, bool, ios::openmode, int )
+    // Log( const char *, LogLevel::Level, bool, bool, ios::openmode,
 	int, size_t )
-    // Log( const char *, LogLevel::Level, bool, bool, ios::open_mode,
+    // Log( const char *, LogLevel::Level, bool, bool, ios::openmode,
 	int, size_t, size_t )
 
     ** tLog03.C
@@ -1389,11 +1389,11 @@
     // Log( const char *, const char * )
     // Log( const char *, const char *, bool )
     // Log( const char *, const char *, bool, bool )
-    // Log( const char *, const char *, bool, bool, ios::open_mode )
-    // Log( const char *, const char *, bool, bool, ios::open_mode, int )
-    // Log( const char *, const char *, bool, bool, ios::open_mode,
+    // Log( const char *, const char *, bool, bool, ios::openmode )
+    // Log( const char *, const char *, bool, bool, ios::openmode, int )
+    // Log( const char *, const char *, bool, bool, ios::openmode,
 	int, size_t )
-    // Log( const char *, const char *, bool, bool, ios::open_mode,
+    // Log( const char *, const char *, bool, bool, ios::openmode,
 	int, size_t, size_t )
 
     ** tLog04.C

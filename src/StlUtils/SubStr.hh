@@ -8,7 +8,7 @@
 //  A 'SubStr' is a section of a 'Str'. Any modifications to
 //  the 'SubStr' modify the 'Str' it is a section of.
 //
-// Author:      Paul A. Houghton - (paul.houghton@mci.com)
+// Author:      Paul A. Houghton - (paul4hough@gmail.com)
 // Created:     05/30/95 14:59
 //
 // Revision History: (See end of file for Revision Log)
@@ -485,6 +485,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:22  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:43  houghton
 // Changed to version 6
 //

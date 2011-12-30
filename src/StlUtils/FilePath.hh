@@ -13,7 +13,7 @@
   
    Quick Start: - short example of class usage
   
-   Author:      Paul Houghton - (paul.houghton@mci.com)
+   Author:      Paul Houghton - (paul4hough@gmail.com)
    Created:     05/18/95 07:43
   
    Revision History: (See end of file for Revision Log)
@@ -351,6 +351,9 @@ compare( const FilePath & one, const FilePath & two );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:13  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:41  houghton
 // Changed to version 6
 //

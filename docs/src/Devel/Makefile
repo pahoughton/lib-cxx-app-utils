@@ -16,7 +16,7 @@
 #
 #   Try 'make help' for a list of standard targets.
 # 
-# Author:	Paul Houghton <Paul.Houghton@wcom.com>
+# Author:	Paul Houghton <paul4hough@gmail.com>
 # Created:	6/20/101 using MakeConfigs 6.01.01
 #
 # Revision History: (See end of file for Revision Log)
@@ -300,7 +300,7 @@ realclean:: clean
 #   XSL_HTML_FILE   If this is not empty, it will be used as the
 #		    default XSLT conversion stylesheet. If it is
 #		    empty, the default
-#		    $(TOOL_DIR)/share/xsl/wcom/html/doctools.xsl
+#		    $(TOOL_DIR)/share/xsl/pahough/html/doctools.xsl
 #		    will be used.
 #
 # Source Variables

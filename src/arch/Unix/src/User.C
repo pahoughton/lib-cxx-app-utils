@@ -5,7 +5,7 @@
 //
 //  Compiled source for User.
 //  
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/18/95 06:37 
 //
 // Revision History: (See end of file for Revision Log)
@@ -21,7 +21,7 @@
 #include "User.hh"
 #include "Compare.hh"
 #include "LibLog.hh"
-#include <strstream.h>
+#include "Str.hh"
 
 #if defined( STLUTILS_DEBUG )
 #include "User.ii"
@@ -219,11 +219,11 @@ User::dumpInfo(
     dest << prefix << "Good!" << '\n';
 
   {
-    strstream pre;
+    Str pre;
     pre << prefix << "primeGroup:"
 	<< primeGroup.getClassName() << "::" << ends;
     
-    primeGroup.dumpInfo( dest, pre.str(), false );
+    primeGroup.dumpInfo( dest, pre.c_str(), false );
     
     dest << prefix << "uid:	  " << uid << '\n'
 	 << prefix << "name:        " << name << '\n'
@@ -278,6 +278,9 @@ User::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:34  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:47  houghton
 // Changed to version 6
 //

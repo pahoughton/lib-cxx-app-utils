@@ -10,7 +10,7 @@ During the period commencing at 2 o'clock antemeridian on the first Sunday of Ap
   
   Notes:
     
-  Author(s):	Paul Houghton 719-527-7834 <paul.houghton@mci.com>
+  Author(s):	Paul Houghton <paul4hough@gmail.com>
   Created:	09/09/2005 10:07
   
   Revision History: (See ChangeLog for details)

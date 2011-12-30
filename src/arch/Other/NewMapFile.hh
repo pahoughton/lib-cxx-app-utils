@@ -8,12 +8,15 @@
 //
 //  Quick Start: - short example of class usage
 //
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     08/01/95 10:17
 //
 // Revision History:
 //
 // $Log$
+// Revision 6.2  2011/12/30 23:57:29  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:45  houghton
 // Changed to version 6
 //
@@ -53,7 +56,7 @@ public:
 
   inline MapFile( void );
   inline MapFile( const char *	    fileName,
-		  ios::open_mode    mode,
+		  ios::openmode    mode,
 		  int		    perm = 0664,
 		  caddr_t	    mapAddr = 0,
 		  streampos	    mapPos = 0,
@@ -62,7 +65,7 @@ public:
   virtual ~MapFile( void );
 
   virtual bool	    open( const char *	    fileName,
-			  ios::open_mode    mode,
+			  ios::openmode    mode,
 			  int		    perm = 0664,
 			  caddr_t	    mapAddr = 0,
 			  streampos	    mapPos = 0,

@@ -10,7 +10,7 @@
 #
 # Notes:
 #
-# Author:	Paul Houghton <Paul.Houghton@mci.com>
+# Author:	Paul Houghton <paul4hough@gmail.com>
 # Created:	07/07/01 using GenProject 6.01.01
 #
 # Revision History: (See end of file for Revision Log)
@@ -49,8 +49,6 @@ MAKEOVERRIDES	=
 SUPPORT_ITEMS	=		\
 	$(MAKE_CONFIGS_ITEMS)	\
 	DOCTOOLS		\
-	COMMON			\
-	GNUREGEX
 
 SUPPORT_MAKEFILES	=						\
 	$(foreach var,							\

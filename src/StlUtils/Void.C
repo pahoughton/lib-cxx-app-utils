@@ -5,7 +5,7 @@
 //
 //  Compiled sources for Void.
 //  
-// Author:      Paul Houghton - (houghton@cworld1.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/11/95 06:21
 //
 // Revision History: (See end of file for Revision Log)
@@ -200,8 +200,8 @@ Void::toStream( ostream & dest ) const
 {
   unsigned char * d = (unsigned char *)data;
 
-  char	oldFill  = dest.fill( '0' );
-  int	oldFlags = dest.setf( ios::hex, ios::basefield );
+  char	    oldFill  = dest.fill( '0' );
+  ios::fmtflags  oldFlags = dest.setf( ios::hex, ios::basefield );
   // dest.setf( ios::uppercase );
   
   for( size_type pos = 0; pos < dataSize; pos++ )
@@ -287,8 +287,9 @@ Void::dumpInfo(
 
   dest << prefix << "data:    " << "0x0000 ";
 
-  char  oldFill = dest.fill( '0' );
-  int	oldFlags = dest.setf( ios::hex, ios::basefield );
+  char		oldFill = dest.fill( '0' );
+  ios::fmtflags	oldFlags = dest.setf( ios::hex, ios::basefield );
+  
   dest.setf( ios::uppercase );
 
   char * d = (char *)data;
@@ -318,6 +319,9 @@ Void::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:23  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:44  houghton
 // Changed to version 6
 //

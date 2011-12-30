@@ -5,7 +5,7 @@
 //
 //  Compiled sources for MesgQueue
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     11/06/98 06:23
 //
 // Revision History: (See end of file for Revision Log)
@@ -42,7 +42,7 @@ STLUTILS_VERSION(
 MesgQueue::MesgQueue(
   const char *	    keyFn,
   char		    proj,
-  ios::open_mode    mode,
+  ios::openmode    mode,
   bool		    create
   )
   : keyFileName( keyFn ),
@@ -70,13 +70,10 @@ MesgQueue::MesgQueue(
   // use the key file's permissions
   queueFlags = keyFnStat.getMode() & 0666;
   
-  if( create )
-    {
-      queueFlags |= IPC_CREAT;
-
-      if( mode & ios::noreplace )
-	queueFlags |= IPC_EXCL;
-    }
+  if( create ) {
+    queueFlags |= IPC_CREAT;
+    
+  }
 
   if( (queueId = msgget( key, queueFlags )) < 0 )
     {
@@ -304,6 +301,9 @@ MesgQueue::setError( ErrorNum errNum, int osErr )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2011/12/30 23:57:32  paul
+// First go at Mac gcc Port
+//
 // Revision 6.2  2005/09/12 19:54:41  houghton
 // *** empty log message ***
 //

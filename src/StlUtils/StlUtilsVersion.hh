@@ -15,7 +15,7 @@
 //  int DoThis( int i );
 //  STLUTILS_FUNCT_VERSION( DoThis, versionIdTag );
 // 
-// Author:      Paul Houghton - (paul_houghton@wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     10/05/95 04:47
 //
 // Revision History: (See end of file for Revision Log)
@@ -81,6 +81,9 @@ const char VERID_##name_[] =						\
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2011/12/30 23:57:19  paul
+// First go at Mac gcc Port
+//
 // Revision 6.2  2006/05/11 19:40:02  houghton
 // Changed ver num.
 //

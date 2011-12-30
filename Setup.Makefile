@@ -9,7 +9,7 @@
 #
 # Notes:
 #
-# Author:	Paul Houghton <Paul.Houghton@mci.com>
+# Author:	Paul Houghton <paul4hough@gmail.com>
 # Created:	07/07/01 using GenProject 6.01.01
 #
 # Revision History: (See end of file for Revision Log)
@@ -27,22 +27,17 @@ SHELL	= /bin/ksh
 hide	= @
 
 PROJECT_NAME		= StlUtils
-PROJECT_VER_MAJOR	= 6
-PROJECT_VER_MINOR	= 03
-PROJECT_VER_RELEASE	= 05
+PROJECT_VER_MAJOR	= 11
+PROJECT_VER_MINOR	= 12
+PROJECT_VER_RELEASE	= 01
 
-PROJECT_VER_MGMT	= DIM
-PROJECT_VER_DIM_DB	= COS
-PROJECT_VER_DIM_PRODUCT	= INFR_OBJS
-PROJECT_VER_DIM_RELEASE	= \
-	$(PROJECT_NAME)							\
-	$(PROJECT_VER_MAJOR).$(PROJECT_VER_MINOR).$(PROJECT_VER_RELEASE)
+PROJECT_VER_MGMT	= CVS
 
 PROJECT_VER_PROD	= $(PROJECT_VER_MAJOR).$(PROJECT_VER_MINOR)
 PROJECT_VER_PREV	= 0.00.00
 
 PROJECT_CONTACT_NAME	= Paul Houghton
-PROJECT_CONTACT_EMAIL	= Paul.Houghton@mci.com
+PROJECT_CONTACT_EMAIL	= paul4hough@gmail.com
 
 PROJECT_DESC	=							\
 	$(PROJECT_NAME) is a library generic of C++ utility classes and	\
@@ -62,8 +57,8 @@ WWW_PROJECTS_ROOT	= $(WWW_TOP_DIR)/Projects
 RUN_BASE_DIR		= $(TOOL_DIR)
 INSTALL_BASE_DIR	= $(TOOL_DIR)
 
-make_cfg_ver		= 6.01
-tools_host		= soundwave.mcilink.com
+make_cfg_ver		= 11.12
+tools_host		= &TOOLS.HOST;
 tools_host_dir		= pub/tools
 
 CONFIG_VARS	=		\

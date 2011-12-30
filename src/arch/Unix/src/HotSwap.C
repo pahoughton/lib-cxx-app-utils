@@ -5,7 +5,7 @@
 //
 //  Compiled sources for HotSwap
 //  
-// Author:      Paul Houghton - (paul.houghton@mci.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     05/04/99 05:32
 //
 // Revision History: (See end of file for Revision Log)
@@ -43,7 +43,7 @@ const char * HotSwap::ErrorDesc[] =
 
 HotSwap::HotSwap(
   const FilePath & lockFileName,
-  ios::open_mode    lockMode
+  ios::openmode    lockMode
   )
   : lockFn( lockFileName ),
     filelock( lockFn, lockMode ),
@@ -356,6 +356,9 @@ HotSwap::setErrorFnDesc( int osErr, const char * fn, const char * desc )
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2011/12/30 23:57:31  paul
+// First go at Mac gcc Port
+//
 // Revision 6.1  2003/08/09 11:22:46  houghton
 // Changed to version 6
 //

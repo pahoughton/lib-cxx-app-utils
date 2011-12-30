@@ -8,7 +8,7 @@
 //  This is a collection of general purpose functions and
 //  macros.
 //
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
+// Author:      Paul Houghton - (paul4hough@gmail.com)
 // Created:     04/23/95 09:13
 //
 // Revision History: (See end of file for Revision Log)
@@ -45,16 +45,16 @@ SC_TYPE::operator SC_OPERATOR ( const SC_TYPE & rhs ) const		      \
 // Functions
 int
 STLUTILS_FUNCT_T
-OpenFlags( ios::open_mode openMode );
+OpenFlags( ios::openmode openMode );
 
 int
 Whence( ios::seek_dir dir );
 
-ios::open_mode
+ios::openmode
 IosOpenModeFromString( const char * modeString );
 
 const char * 
-IosOpenModeToString( ios::open_mode mode );
+IosOpenModeToString( ios::openmode mode );
 
 const char * 
 IosSeekDirToString( ios::seek_dir dir );
@@ -83,8 +83,8 @@ CommaNumber( ostream &	dest,
 //  Functions:
 //
 //	int
-//	OpenFlags( ios::open_mode openMode )
-//	    Returns the ios::open_mode flags converted to
+//	OpenFlags( ios::openmode openMode )
+//	    Returns the ios::openmode flags converted to
 //	    open mode flags expected by the standard 'c' open
 //	    and create functions.
 //	    (i.e. OpenFlags( ios::out | ios::app ) == O_WRONLY | O_APPEND )
@@ -216,6 +216,9 @@ CommaNumber( ostream &	dest,
 // %PL%
 // 
 // $Log$
+// Revision 6.5  2011/12/30 23:57:19  paul
+// First go at Mac gcc Port
+//
 // Revision 6.4  2004/12/14 15:37:51  houghton
 // Changed CommaNum to CommaNumber.
 //

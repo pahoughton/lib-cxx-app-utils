@@ -11,7 +11,7 @@
 #   $XConsortium: mkdirhier.sh,v 1.7 94/03/24 15:46:34 gildea Exp $
 #   Courtesy of Paul Eggert
 #   
-# Author:	Paul Houghton - <paul.houghton@mci.com>
+# Author:	Paul Houghton - <paul4hough@gmail.com>
 # Created:	06/11/00 17:05
 #
 # Revision History: (See end of file for Revision Log)
