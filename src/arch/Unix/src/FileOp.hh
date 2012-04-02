@@ -1,42 +1,42 @@
 #ifndef _FileOp_hh_
 #define _FileOp_hh_
-//
-// File:        FileOp.hh
-// Project:	StlUtils ()
-// Desc:        
-//
-//  FileOp provides operations on entire files, such as copy and
-//  move (rename).
-//
-// Notes:
-//
-//  This class is not fully developed or tested yet. I have only
-//  tested the following so far:
-//
-//	copy( filename, filename )
-//	copy( filename, dir )
-//	move( filename, filename )
-//	move( filename, dir )
-//
-//  I have tested the move across devices (file systems) works
-//  correctly. But I have not verified it deals with file system
-//  full yet.
-//
-// Quick Start: - short example of class usage
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     03/08/98 07:31
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-//  $Id$ 
-//
+/**
+   File:        FileOp.hh
+   Project:	StlUtils ()
+   Desc:        
+  
+    FileOp provides operations on entire files, such as copy and
+    move (rename).
+  
+   Notes:
+  
+    This class is not fully developed or tested yet. I have only
+    tested the following so far:
+  
+  	copy( filename, filename )
+  	copy( filename, dir )
+  	move( filename, filename )
+  	move( filename, dir )
+  
+    I have tested the move across devices (file systems) works
+    correctly. But I have not verified it deals with file system
+    full yet.
+  
+   Quick Start: - short example of class usage
+  
+   Author:      Paul Houghton - (paul4hough@gmail.com)
+   Created:     03/08/98 07:31
+  
+   Revision History: (See end of file for Revision Log)
+  
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
+
+    $Id$ 
+**/
 
 #include <StlUtilsConfig.hh>
 #include <FileStat.hh>
@@ -237,6 +237,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/02 10:12:46  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:31  paul
 // First go at Mac gcc Port
 //

@@ -70,7 +70,8 @@ FileOp::good( void ) const
 {
   return( osError == 0
 	  && errorDesc.size() == 0
-	  && src.good() && src.isReg() && src.canRead() );
+	  && src.good()
+	  && src.canRead() );
 }
 
 const char *
@@ -80,39 +81,29 @@ FileOp::error( void ) const
 
   errStr = FileOp::getClassName();
 
-  if( good() )
-    {
-      errStr << ": ok";
+  if( good() ) {
+    errStr << ": ok";
+
+  } else {
+    size_t eSize = errStr.size();
+
+    if( errorDesc.size() ) {
+      errStr << ": " << errorDesc;
     }
-  else
-    {
-      size_t eSize = errStr.size();
 
-      if( errorDesc.size() )
-	{
-	  errStr << ": " << errorDesc;
-	}
+    if( ! src.good() ) {
+      errStr << ": " << src.error();
 
-      if( ! src.good() )
-	{
-	  errStr << ": " << src.error();
-	}
-      else
-	{
-	  if( ! src.isReg() )
-	    {
-	      errStr << ": src '" << src.getName() << "' not a regular file .";
-	    }
-	  
-	  if( ! src.canRead() )
-	    {
-	      errStr << ": can not read src '" << src.getName() << "'.";
-	    }
-	}
+    } else {
+  
+      if( ! src.canRead() ) {
+	errStr << ": can not read src '" << src.getName() << "'.";
+      }
+    }
       
-      if( eSize == errStr.size() )
-        errStr << ": unknown error";
-    }
+    if( eSize == errStr.size() )
+      errStr << ": unknown error";
+  }
 
   return( errStr.c_str() );
 }
@@ -590,6 +581,9 @@ FileOp::setError(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/02 10:12:47  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:31  paul
 // First go at Mac gcc Port
 //

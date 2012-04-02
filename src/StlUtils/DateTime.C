@@ -226,7 +226,25 @@ DateTime::getHHMMSS( void ) const
   return( hhmmss );
 
 }
-	   
+
+const char *
+DateTime::getYYYY_MM_DD_HH_MM_SS( void ) const
+{
+  static char timeStr[32];
+
+  const struct tm * tmTime = ( flags.tmValid ? &tm : gmtime( &seconds ) );
+  
+  snprintf( timeStr, sizeof( timeStr )
+	    ,"%04d-%02d-%02d %02d:%02d:%02d"
+	    ,tmTime->tm_year + 1900
+	    ,tmTime->tm_mon + 1
+	    ,tmTime->tm_mday
+	    ,tmTime->tm_hour
+	    ,tmTime->tm_min
+	    ,tmTime->tm_sec
+	    );
+  return( timeStr );
+}
 // setValid - verify input and set 
 bool
 DateTime::setValid( 
@@ -978,6 +996,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/02 10:12:18  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:11  paul
 // First go at Mac gcc Port
 //

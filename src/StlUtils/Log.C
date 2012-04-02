@@ -1,24 +1,25 @@
-//
-// File:        Log.C
-// Project:	StlUtils ()
-// Desc:        
-//              
-//  Compiled source for Log class.
-//
-// Author:      Paul Houghton - (houghton@shoe)
-// Created:     03/14/94 12:22 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+/**
+   File:        Log.C
+   Project:	StlUtils ()
+   Desc:        
+                
+    Compiled source for Log class.
+  
+   Author:      Paul Houghton - (houghton@shoe)
+   Created:     03/14/94 12:22 
+  
+   Revision History: (See end of file for Revision Log)
+  
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
+**/
 
 #include "Log.hh"
 #include "DateTime.hh"
+#include "StringUtils.hh"
 #include <cstdio>
 
 #if defined( STLUTILS_DEBUG )
@@ -143,7 +144,8 @@ Log::level(
 
   if( locStamp && srcFile )
     {
-      *this << srcFile << ':' << srcLine << ' ';
+      
+      *this << basename( srcFile ) << ':' << srcLine << ' ';
     }
   
   return( *this );
@@ -180,7 +182,7 @@ Log::level(
   
   if( locStamp && srcFile )
     {
-      *this << srcFile << ':' << srcLine << ' ';
+      *this << basename( srcFile ) << ':' << srcLine << ' ';
     }
   
   return( *this );
@@ -540,126 +542,3 @@ commonLog(
     }
 }
 
-//
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.2  2011/12/30 23:57:15  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:41  houghton
-// Changed to version 6
-//
-// Revision 5.5  2003/08/09 11:20:59  houghton
-// Changed ver strings.
-//
-// Revision 5.4  2003/07/19 09:17:12  houghton
-// Port to 64 bit.
-//
-// Revision 5.3  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:16  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1999/10/07 13:56:18  houghton
-// Added appendFile().
-//
-// Revision 4.1  1997/09/17 15:12:31  houghton
-// Changed to Version 4
-//
-// Revision 3.11  1997/09/17 11:08:26  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.10  1997/07/19 19:58:25  houghton
-// Bug-Fix: STLUTILS_HAS_CONST_IOSGOOD is the correct define name.
-//
-// Revision 3.9  1997/07/18 19:21:02  houghton
-// Port(Sun5): changed local variable names to eliminate compiler
-//     warnings.
-// Port(Sun5): changed '#if defined' because sun also does not have any
-//     const member functions in ios or iostream.
-//
-// Revision 3.8  1997/05/02 12:14:41  houghton
-// Bug-Fix: changed commonLevelMap to a * to remove any posibilities of
-//     problems with static instanciation.
-// Bug-Fix: changed commonLog to reset the log level after it output's
-//     its log entry. This was causing some log output to be lost if
-//     Logger was being called from within a Log entry statement.
-// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
-//
-// Revision 3.7  1997/04/26 14:11:09  houghton
-// Added tieCommonLogger().
-// Added commonLog().
-//
-// Revision 3.6  1997/04/04 20:52:54  houghton
-// Added mode & prot specificers to open log file.
-// Added LogBuf error checking.
-//
-// Revision 3.5  1997/04/04 03:09:05  houghton
-// Moved constructors to here from .ii.
-// Added getFilterStream
-// Added getFilterLogLevel
-// Added getFilterRegex
-//
-// Revision 3.4  1997/03/21 15:37:54  houghton
-// Bug-Fix: date stamp was not using localTimeStamp.
-//
-// Revision 3.3  1997/03/21 12:21:16  houghton
-// Added localTimeStamp var to determin if logtime stamp should be
-//     local or GMT.
-//
-// Revision 3.2  1997/03/03 14:36:23  houghton
-// Removed support for RW Tools++
-//
-// Revision 3.1  1996/11/14 01:23:45  houghton
-// Changed to Release 3
-//
-// Revision 2.9  1996/11/13 16:25:41  houghton
-// Changed include lines to use "file" instead of <file> to
-//     accomidate rpm.
-// Changed to use ios::setstate (instead of clear) to be compilant
-//     with the ios class beheavior defined by the standard.
-// Bug-Fix: Fixed some compile errors that were do to the change
-//     to RWCString.
-//
-// Revision 2.8  1996/11/11 13:33:47  houghton
-// Changed to use RWCString instead of strstream where possible because
-//     of an inconsitancy in the public member of strstream.
-//
-// Revision 2.7  1996/11/04 13:39:33  houghton
-// Restructure header comments layout.
-// Changed to use rwtime instead of DateTime for time stamp output.
-//     (as required by Mike Alexandar).
-// Changed to work with modifications to LogBuf class.
-// Changed error to use a strstream instead of an Str
-//     (as required by Mike Alexandar).
-//
-// Revision 2.6  1996/10/22 22:05:33  houghton
-// Change: Added locStamp to turn on/off output of src file & line.
-//
-// Revision 2.5  1996/04/27 13:02:32  houghton
-// Added global _LibLog variable.
-//
-// Revision 2.4  1995/12/04 11:17:23  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.3  1995/11/12  18:49:31  houghton
-// Bug fix - current (not lvl).
-//
-// Revision 2.2  1995/11/12  18:00:02  houghton
-// Added srcFile, srcLine args to level().
-//
-// Revision 2.1  1995/11/10  12:40:42  houghton
-// Change to Version 2
-//
-// Revision 1.6  1995/11/05  15:28:36  houghton
-// Revised
-//
-//

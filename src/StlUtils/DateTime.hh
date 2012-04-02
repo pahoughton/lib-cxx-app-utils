@@ -1,35 +1,35 @@
 #ifndef _DateTime_hh_
 #define _DateTime_hh_
-//
-// File:        DateTime.hh
-// Project:	StlUtils ()
-// Desc:        
-//
-//  The DateTime class provides many methods for managing and converting
-//  date/time values. A time_t value is used inside the class for
-//  storage.
-//
-// Notes:
-//
-//  Most methods do NOT verify the values passed.
-//
-//  When setting the DateTime (with 'set()' or the constructors), If the
-//  value passed would exceed the range ( 1901 < year < 2038) of legal
-//  values, the DateTime will be set to MinTimeT or MaxTimeT accordingly.
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     02/09/94 12:24
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-//  $Id$ 
-//
+/**
+   File:        DateTime.hh
+   Project:	StlUtils ()
+   Desc:        
+  
+    The DateTime class provides many methods for managing and converting
+    date/time values. A time_t value is used inside the class for
+    storage.
+  
+   Notes:
+  
+    Most methods do NOT verify the values passed.
+  
+    When setting the DateTime (with 'set()' or the constructors), If the
+    value passed would exceed the range ( 1901 < year < 2038) of legal
+    values, the DateTime will be set to MinTimeT or MaxTimeT accordingly.
+  
+   Author:      Paul Houghton - (paul4hough@gmail.com)
+   Created:     02/09/94 12:24
+  
+   Revision History: (See end of file for Revision Log)
+  
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
+  
+    $Id$ 
+**/
 
 #include <StlUtilsConfig.hh>
 #include <DateTimeUtils.hh>
@@ -90,6 +90,7 @@ public:
 				   const char * fmt = 0 );
   const char *		getYYYYMMDD( void ) const;
   const char *		getHHMMSS( void ) const;
+  const char *		getYYYY_MM_DD_HH_MM_SS( void ) const;
   
   inline short	    	getOffset( void ) const;
   inline bool	    	isLocal( void ) const;
@@ -690,6 +691,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/02 10:12:17  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:11  paul
 // First go at Mac gcc Port
 //

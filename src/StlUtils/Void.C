@@ -1,27 +1,29 @@
-//
-// File:        Void.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for Void.
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/11/95 06:21
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+/**
+   File:        Void.C
+   Project:	StlUtils ()
+   Desc:        
+  
+    Compiled sources for Void.
+    
+   Author:      Paul Houghton - (paul4hough@gmail.com)
+   Created:     11/11/95 06:21
+  
+   Revision History: (See end of file for Revision Log)
+  
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
+**/
 
 #include "Void.hh"
 #include <Str.hh>
+#include <FileStat.hh>
 #include <Compare.hh>
 #include <iomanip>
 #include <cctype>
+#include <fstream>
 
 #if defined( STLUTILS_DEBUG )
 #include "Void.ii"
@@ -70,7 +72,7 @@ Void::Void( const Void & src )
 
 Void::~Void( void )
 {
-  if( data ) delete data;
+  if( data ) delete [] data;
 }
 
 Void &
@@ -195,6 +197,34 @@ Void::read( istream & src )
   return( src );
 }
 
+bool
+Void::fromFile( const char * fn )
+{
+  FileStat stat( fn );
+
+  if( ! stat.good() || stat.getSize() < 1 ) {
+    return false;
+  } else {
+    resize( stat.getSize() );
+    if( ! good() ) {
+      if( errorNum != E_NODATA ) {
+	return false;
+      }
+    }
+    ifstream ifile( fn );
+    if( ! ifile.good() ) {
+      return false;
+    }
+    ifile.read( data, stat.getSize() );
+    if( ifile.gcount() == stat.getSize() ) {
+      dataSize = ifile.gcount();
+      if( errorNum == E_NODATA )
+        setError( E_OK );
+      return true;
+    }
+  }
+    return false;
+}
 ostream &
 Void::toStream( ostream & dest ) const
 {
@@ -313,68 +343,3 @@ Void::dumpInfo(
   return( dest );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.2  2011/12/30 23:57:23  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:44  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2003/06/07 16:48:45  houghton
-// Cleanup dump output.
-//
-// Revision 5.2  2001/07/26 19:28:58  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:18  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1997/09/19 11:22:33  houghton
-// Changed to use size_type.
-//
-// Revision 4.1  1997/09/17 15:13:09  houghton
-// Changed to Version 4
-//
-// Revision 3.8  1997/09/17 11:08:58  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.7  1997/04/01 13:39:55  houghton
-// Bug-Fix: correctly handle empty data.
-//
-// Revision 3.6  1997/03/16 08:56:50  houghton
-// Cleanup dump output.
-//
-// Revision 3.5  1997/03/16 07:38:36  houghton
-// Bug-Fix: reset error in read.
-//
-// Revision 3.4  1997/03/15 18:06:12  houghton
-// Bug-Fix: dumpInfo & toStream - AIX was not outputing hex values.
-//     had to change iostream::setf calls.
-//
-// Revision 3.3  1997/03/07 11:56:04  houghton
-// Bug-Fix: append was not setting data size.
-// Bug-Fix: set error if an alloc fails.
-// Bug-Fix: dumpInfo output format.
-//
-// Revision 3.2  1996/11/20 12:13:10  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:24:28  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1995/11/13 11:30:45  houghton
-// Added compare function.
-// Changed date type from void * to char *.
-//
-// Revision 2.1  1995/11/12  18:33:33  houghton
-// Initial Version.
-//
-//

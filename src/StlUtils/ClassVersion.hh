@@ -78,7 +78,7 @@ public:
   inline		operator const char * () const;
   
   friend
-  inline ostream & operator << ( ostream & dest, const ClassVersion & obj );
+  inline std::ostream & operator << ( std::ostream & dest, const ClassVersion & obj );
 
   static const ClassVersion version;
   
@@ -283,6 +283,9 @@ const ClassVersion className_::version( #className_,			      \
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/02 10:12:18  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:10  paul
 // First go at Mac gcc Port
 //

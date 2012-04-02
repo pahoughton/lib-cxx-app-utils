@@ -1,27 +1,27 @@
 #ifndef _Void_hh_
 #define _Void_hh_
-//
-// File:        Void.hh
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Provides an expandable storage location for objects.
-//
-//  Quick Start: - short example of class usage
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/11/95 05:08
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-// $Id$ 
-//
+/**
+   File:        Void.hh
+   Project:	StlUtils ()
+   Desc:        
+  
+    Provides an expandable storage location for objects.
+  
+    Quick Start: - short example of class usage
+  
+   Author:      Paul Houghton - (paul4hough@gmail.com)
+   Created:     11/11/95 05:08
+  
+   Revision History: (See end of file for Revision Log)
+  
+    $Author$ 
+    $Date$ 
+    $Name$ 
+    $Revision$ 
+    $State$ 
+  
+   $Id$ 
+**/
 
 #include <StlUtilsConfig.hh>
 #include <DumpInfo.hh>
@@ -83,6 +83,8 @@ public:
   inline void		reset( void );
   
   bool			resize( size_type newSize, bool trunc = false );
+  
+  bool			fromFile( const char * fn );
   
   virtual int		compare( const Void & rhs ) const;
   
@@ -216,6 +218,9 @@ compare( const Void & lhs, const Void & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/02 10:12:16  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:23  paul
 // First go at Mac gcc Port
 //

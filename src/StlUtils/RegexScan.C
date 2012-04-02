@@ -379,23 +379,31 @@ RegexScan::cleanup()
   
   if( buf )
     {
-      if( buf->fastmap ) free( buf->fastmap );
-      if( buf->allocated ) free( buf->buffer );
-
+      if( buf->fastmap ) {
+	free( buf->fastmap );
+	buf->fastmap = 0;
+      }
+      if( buf->allocated ) {
+	free( buf->buffer );
+	buf->allocated = 0;
+	buf->buffer = 0;
+      }
+      
       if( reg )
 	{
 	  if( buf->regs_allocated == REGS_REALLOCATE )
 	    {
 	      free( reg->start );
 	      free( reg->end );
+	      reg->start = 0;
+	      reg->end = 0;
 	    }
 	  free( reg );
+	  reg = 0;
 	}
-      
-      if( buf->allocated )
-	free( buf->buffer );
-      
+            
       free( buf );
+      buf = 0;
     }
 }
 
@@ -406,6 +414,9 @@ RegexScan::cleanup()
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/02 10:12:17  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:18  paul
 // First go at Mac gcc Port
 //
