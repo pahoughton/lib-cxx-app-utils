@@ -130,16 +130,16 @@ DateRange::getBinSize( void ) const
 }
 
 
-ostream &
-DateRange::write( ostream & dest ) const
+std::ostream &
+DateRange::write( std::ostream & dest ) const
 {
   DateTime::write( dest );
   dest.write( (const char *)&dur, sizeof( dur ) );
   return( dest );
 }
 
-istream &
-DateRange::read( istream & src )
+std::istream &
+DateRange::read( std::istream & src )
 {
   DateTime::read( src );
 
@@ -149,8 +149,8 @@ DateRange::read( istream & src )
   return( src );
 }
 
-ostream &
-DateRange::toStream( ostream & dest ) const
+std::ostream &
+DateRange::toStream( std::ostream & dest ) const
 {
   
   dest << "Start: "
@@ -159,11 +159,11 @@ DateRange::toStream( ostream & dest ) const
   DateTime::toStream( dest );
   
   dest << " Dur: "
-       << setfill('0')
-       << setw(2) << HoursInTimeT( getDur() ) << ':'
-       << setw(2) << MinInTimeT( getDur() ) << ':'
-       << setw(2) << SecInTimeT( getDur() )
-       << setfill(' ')
+       << std::setfill('0')
+       << std::setw(2) << HoursInTimeT( getDur() ) << ':'
+       << std::setw(2) << MinInTimeT( getDur() ) << ':'
+       << std::setw(2) << SecInTimeT( getDur() )
+       << std::setfill(' ')
        ;
   
   return( dest );
@@ -207,9 +207,9 @@ DateRange::getClassName( void ) const
   return( "DateRange" );
 }
 
-ostream &
+std::ostream &
 DateRange::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -250,6 +250,9 @@ DateRange::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2012/04/26 20:08:54  paul
+// *** empty log message ***
+//
 // Revision 6.1  2003/08/09 11:22:40  houghton
 // Changed to version 6
 //

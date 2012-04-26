@@ -100,7 +100,7 @@ Void::replace( size_type start, size_type len, const void * src, size_type srcSi
   if( start > size() )
     return( setError( E_RANGE ) );
   
-  size_type    replaceLen = min( len, size() - start );
+  size_type    replaceLen = std::min( len, size() - start );
   
   size_type    keepSize = size() - ( start + replaceLen );
   char *    keepBuf = 0;
@@ -153,7 +153,7 @@ Void::compare( const Void & rhs ) const
   
   if( data && rhs.data )
     {
-      int diff = memcmp( data, rhs.data, min( size(), rhs.size() ) );
+      int diff = memcmp( data, rhs.data, std::min( size(), rhs.size() ) );
 
       if( diff )
 	return( diff );
@@ -172,8 +172,8 @@ Void::getBinSize( void ) const
   return( sizeof( size_type ) + size() );
 }
 
-ostream &
-Void::write( ostream & dest ) const
+std::ostream &
+Void::write( std::ostream & dest ) const
 {
   size_type len = size();
   dest.write( (const char *)&len, sizeof( len ) );
@@ -181,8 +181,8 @@ Void::write( ostream & dest ) const
   return( dest );
 }
 
-istream &
-Void::read( istream & src )
+std::istream &
+Void::read( std::istream & src )
 {
   size_type len;
   src.read( (char *) &len, sizeof( len ) );
@@ -211,7 +211,7 @@ Void::fromFile( const char * fn )
 	return false;
       }
     }
-    ifstream ifile( fn );
+    std::ifstream ifile( fn );
     if( ! ifile.good() ) {
       return false;
     }
@@ -225,14 +225,14 @@ Void::fromFile( const char * fn )
   }
     return false;
 }
-ostream &
-Void::toStream( ostream & dest ) const
+std::ostream &
+Void::toStream( std::ostream & dest ) const
 {
   unsigned char * d = (unsigned char *)data;
 
   char	    oldFill  = dest.fill( '0' );
-  ios::fmtflags  oldFlags = dest.setf( ios::hex, ios::basefield );
-  // dest.setf( ios::uppercase );
+  std::ios::fmtflags  oldFlags = dest.setf( std::ios::hex, std::ios::basefield );
+  // dest.setf( std::ios::uppercase );
   
   for( size_type pos = 0; pos < dataSize; pos++ )
     {
@@ -240,7 +240,7 @@ Void::toStream( ostream & dest ) const
       if( pos )
 	dest << ' ';
       
-      dest << setw(2) << (unsigned int)d[pos];
+      dest << std::setw(2) << (unsigned int)d[pos];
     }
 
   dest.fill( oldFill );
@@ -295,9 +295,9 @@ Void::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 Void::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -311,28 +311,28 @@ Void::dumpInfo(
   else
     dest << prefix << "Good" << '\n';
 
-  dest << prefix << "size:    " << size() << endl
-       << prefix << "bufSize: " << dataBufSize << endl
+  dest << prefix << "size:    " << size() << std::endl
+       << prefix << "bufSize: " << dataBufSize << std::endl
     ;
 
   dest << prefix << "data:    " << "0x0000 ";
 
   char		oldFill = dest.fill( '0' );
-  ios::fmtflags	oldFlags = dest.setf( ios::hex, ios::basefield );
+  std::ios::fmtflags	oldFlags = dest.setf( std::ios::hex, std::ios::basefield );
   
-  dest.setf( ios::uppercase );
+  dest.setf( std::ios::uppercase );
 
   char * d = (char *)data;
   
   for( size_type pos = 0 ; pos < dataSize; pos++ )
     {
       if( pos && ! (pos % 8) )
-	dest << '\n' << prefix << "         0x" << setw(4) << pos << ' ';
+	dest << '\n' << prefix << "         0x" << std::setw(4) << pos << ' ';
       
       if( isprint( d[pos] ) )
 	dest << d[pos] << ' ';
       else
-	dest << "0x" << setw(2) << (unsigned int)(unsigned char)d[pos] << ' ' ;
+	dest << "0x" << std::setw(2) << (unsigned int)(unsigned char)d[pos] << ' ' ;
     }
 
   dest.fill( oldFill );

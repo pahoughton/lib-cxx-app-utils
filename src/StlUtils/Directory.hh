@@ -70,7 +70,7 @@ public:
     virtual DirField *	dup( void ) const = 0;
 
     virtual const char *    getClassName( void ) const;
-    virtual ostream &	    dumpInfo( ostream &		dest = cerr,
+    virtual std::ostream &	    dumpInfo( std::ostream &		dest = std::cerr,
 				      const char *	prefix = "    ",
 				      bool		showVer = true ) const;
 
@@ -105,7 +105,7 @@ public:
     inline DirFieldName	operator >= ( const char * rhs ) const;
     
     virtual const char *    getClassName( void ) const;
-    virtual ostream &	    dumpInfo( ostream &		dest = cerr,
+    virtual std::ostream &	    dumpInfo( std::ostream &		dest = std::cerr,
 				      const char *	prefix = "    ",
 				      bool		showVer = true ) const;
     
@@ -141,7 +141,7 @@ public:
     inline DirFieldSize	operator >= ( size_type rhs ) const;
 
     virtual const char *    getClassName( void ) const;
-    virtual ostream &	    dumpInfo( ostream &		dest = cerr,
+    virtual std::ostream &	    dumpInfo( std::ostream &		dest = std::cerr,
 				      const char *	prefix = "    ",
 				      bool		showVer = true ) const;
     
@@ -172,7 +172,7 @@ public:
     inline DirFieldTime	operator >= ( time_t rhs ) const;
 
     virtual const char *    getClassName( void ) const;
-    virtual ostream &	    dumpInfo( ostream &		dest = cerr,
+    virtual std::ostream &	    dumpInfo( std::ostream &		dest = std::cerr,
 				      const char *	prefix = "    ",
 				      bool		showVer = true ) const;
     
@@ -206,7 +206,7 @@ public:
     inline bool		delRef( void );
 
     virtual const char *    getClassName( void ) const;
-    virtual ostream &	    dumpInfo( ostream &		dest = cerr,
+    virtual std::ostream &	    dumpInfo( std::ostream &		dest = std::cerr,
 				      const char *	prefix = "    ",
 				      bool		showVer = true ) const;
     
@@ -238,7 +238,7 @@ public:
 
   // Types
   
-  typedef vector< FileStat >	    DirList;
+  typedef std::vector< FileStat >   DirList;
   typedef DirList::iterator	    iterator;
   typedef DirList::const_iterator   const_iterator;
   typedef DirList::size_type	    size_type;
@@ -311,13 +311,13 @@ public:
   
   bool		sort( const DirOrder & order );
 
-  virtual ostream &	    toStream( ostream & dest ) const;
+  virtual std::ostream &	    toStream( std::ostream & dest ) const;
 
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *  getVersion( bool withPrjVer = true ) const;
-  virtual ostream &     dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream &     dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *  prefix = "    ",
                                   bool          showVer = true ) const;
   
@@ -358,8 +358,8 @@ private:
 #else
 #undef inline
 
-ostream &
-operator << ( ostream & dest, const Directory & src );
+std::ostream &
+operator << ( std::ostream & dest, const Directory & src );
 
 
 #endif
@@ -380,8 +380,8 @@ operator << ( ostream & dest, const Directory & src );
 //
 //  Public Interface:
 //
-//	virtual ostream &
-//	toStream( ostream & dest ) const;
+//	virtual std::ostream &
+//	toStream( std::ostream & dest ) const;
 //	    output class as a string to dest (used by operator <<)
 //
 //  	virtual Bool
@@ -401,8 +401,8 @@ operator << ( ostream & dest, const Directory & src );
 //  	getVersion( bool withPrjVer = true ) const;
 //  	    Return the version string of this class.
 //
-//	virtual ostream &
-//	dumpInfo( ostream &	dest = cerr,
+//	virtual std::ostream &
+//	dumpInfo( std::ostream &	dest = std::cerr,
 //	          const char *  prefix = "    ",
 //		  bool          showVer = true ) const
 //	    output detail info to dest. Includes instance variable
@@ -417,11 +417,11 @@ operator << ( ostream & dest, const Directory & src );
 //
 //  Associated Functions:
 //
-//  	ostream &
-//  	operator <<( ostream & dest, const Directory & src );
+//  	std::ostream &
+//  	operator <<( std::ostream & dest, const Directory & src );
 //
-//	istream &
-//	operator >> ( istream & src, Directory & dest );
+//	std::istream &
+//	operator >> ( std::istream & src, Directory & dest );
 //
 // Example:
 //
@@ -439,6 +439,9 @@ operator << ( ostream & dest, const Directory & src );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:12  paul
 // First go at Mac gcc Port
 //

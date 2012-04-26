@@ -103,7 +103,7 @@ DateTime::DateTime( const char * dateString )
 }
 
 inline
-DateTime::DateTime( istream & src, bool text )
+DateTime::DateTime( std::istream & src, bool text )
 {
   if( ! text )
     {
@@ -772,7 +772,7 @@ operator - ( const time_t lhs, const DateTime & rhs )
 }
 
 inline
-ostream & operator<<( ostream & dest, const DateTime & obj )
+std::ostream & operator<<( std::ostream & dest, const DateTime & obj )
 {
   return( obj.toStream( dest ) );
 }
@@ -787,6 +787,9 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:12  paul
 // First go at Mac gcc Port
 //
@@ -809,7 +812,7 @@ ostream & operator<<( ostream & dest, const DateTime & obj )
 // Changed Version Num to 5
 //
 // Revision 4.4  1999/03/02 12:46:01  houghton
-// Added DateTime( istream & src, bool text );
+// Added DateTime( std::istream & src, bool text );
 //
 // Revision 4.3  1998/10/13 16:17:59  houghton
 // Change: init time zone vars in the constructors.

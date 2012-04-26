@@ -76,7 +76,7 @@ class Param
 
 public:
 
-  typedef deque< Str >	Args;
+  typedef std::deque< Str >	Args;
   
   Param( int 		    mainArgc,
 	 char const **	    mainArgv,
@@ -84,7 +84,7 @@ public:
 	 bool		    useDefaultArgFn = false,
 	 const char *	    logLevel = STLUTILS_DEFAULT_LOGLEVEL,
 	 bool		    useDefaultLogFn = false,
-	 ios::openmode	    logOpenMode = (ios::openmode)(ios::out|ios::app) );
+	 std::ios::openmode	    logOpenMode = (std::ios::openmode)(std::ios::out|std::ios::app) );
 
   Param( int 		    mainArgc,
 	 char **	    mainArgv,
@@ -92,7 +92,7 @@ public:
 	 bool		    useDefaultArgFn = false,
 	 const char *	    logLevel = STLUTILS_DEFAULT_LOGLEVEL,
 	 bool		    useDefaultLogFn = false,
-	 ios::openmode	    logOpenMode = (ios::openmode)(ios::out|ios::app) );
+	 std::ios::openmode	    logOpenMode = (std::ios::openmode)(std::ios::out|std::ios::app) );
 
   virtual ~Param( void );
 
@@ -283,17 +283,17 @@ public:
 		       bool 	    showArgs = false,
 		       const char * srcFile = 0,
 		       long	    srcLine = 0,
-		       ostream &    mesgDest = cerr );
+		       std::ostream &    mesgDest = std::cerr );
 
   // libStlUtils Common Class Methods
   
-  virtual ostream & 	toStream( ostream & dest ) const;
+  virtual std::ostream & 	toStream( std::ostream & dest ) const;
 
   virtual bool	    	good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -323,7 +323,7 @@ public:
 protected:
 
   inline bool	readArgs( const char * fileName );
-  bool		readArgs( istream & src );
+  bool		readArgs( std::istream & src );
 
   inline void	removeStopFlag( void );
   
@@ -393,14 +393,14 @@ private:
   bool		    haveStopFlag;
   
   Str    	    logFile;
-  ios::openmode    logMode;
+  std::ios::openmode    logMode;
 
   
   Str    	    logOutputLevel;
   Str		    logFilter;
 
   FilePath	    errorLogName;
-  ofstream *	    errorLogFile;
+  std::ofstream *	    errorLogFile;
   LogBuf::FilterId  errorLogId;
   Str		    errorLogLevels;
   
@@ -428,7 +428,7 @@ private:
 		  const char *	envVar,
 		  const char *	desc );
   
-  typedef vector< Error >   ErrorList;
+  typedef std::vector< Error >   ErrorList;
 
   ErrorList		    errors;
 
@@ -439,8 +439,8 @@ private:
 #else
 #undef inline
 
-ostream &
-operator << ( ostream & dest, const Param & obj );
+std::ostream &
+operator << ( std::ostream & dest, const Param & obj );
     
 #endif
 
@@ -540,7 +540,7 @@ operator << ( ostream & dest, const Param & obj );
 //
 //	-help	    flag - show usage help. The application must
 //		    check the help() method and put the
-//		    Param object on an ostream ( cout << param; )
+//		    Param object on an std::ostream ( std::cout << param; )
 //		    to actually output the help text.
 //
 //	-version    flag - output the version info to stdout (cout)
@@ -552,11 +552,11 @@ operator << ( ostream & dest, const Param & obj );
 //		    and used as the application's argfile.
 //
 //	-log-file   string - log file name. File name that should be used
-//		    for log output. Env: LOG_FILE. Default: cout
+//		    for log output. Env: LOG_FILE. Default: std::cout
 //
 //	-log-mode   string - this is the 'ios::openmode' for the
 //		    log file. It should be either 'ios::app|ios::out' or
-//		    'ios::out'. (note: the ios:: and the | are ignored,
+//		    'ios::out'. (note: the std::ios:: and the | are ignored,
 //		    so 'app out' will also work.
 //
 //	-log-prot   int - this is the protection for a new log file.
@@ -572,7 +572,7 @@ operator << ( ostream & dest, const Param & obj );
 //		    the pattern will be output.
 //		    Env: LOG_FILTER. Default: none.
 //
-//	-log-tee    flag - Tee log output to cerr.
+//	-log-tee    flag - Tee log output to std::cerr.
 //
 //	-log-show-time
 //		    bool - write a time stamp to each
@@ -610,7 +610,7 @@ operator << ( ostream & dest, const Param & obj );
 //	       bool		useDefaultArgFn = false,
 //	       const char *	logLevel = STLUTILS_DEFAULT_LOGLEVEL,
 //	       bool		useDefaultLogfn = false,
-//	       ios::openmode	logOpenMode = (ios::out|ios::app)
+//	       std::ios::openmode	logOpenMode = (ios::out|ios::app)
 //	       int		logOpenProt = 0664 );
 //	    Construct an instance of the Param class. 'mainArgc' and
 //	    mainArgv should be the original argv and argc from main
@@ -747,7 +747,7 @@ operator << ( ostream & dest, const Param & obj );
 //	    Returns true if there were no errors, else returns false.
 //
 //	bool
-//	readArgs( istream & src )
+//	readArgs( std::istream & src )
 //	    Reads args from 'src' ( see readArgs( const char *) ).
 //
 //  	bool
@@ -937,15 +937,15 @@ operator << ( ostream & dest, const Param & obj );
 //     	       bool 	    showArgs = false,
 //	       const char * srcFile = 0,
 //	       long	    srcLine = 0,
-//	       ostream &    dest = cerr );
+//	       std::ostream &    dest = std::cerr );
 //	    Exit the program with 'exitStatus' and output a
 //	    message to 'dest'. If 'showArgs' is true, the help
 //	    message is output. 'srcFile' and 'srcLine' should be
 //	    the location abort is called from (i.e. __FILE__, __LINE__ ).
 //
 //	virtual
-//	ostream &
-//	toStream( ostream & dest )
+//	std::ostream &
+//	toStream( std::ostream & dest )
 //	    Output the help message to the stream 'dest'. Returns dest
 //
 //  	virtual
@@ -1074,7 +1074,7 @@ operator << ( ostream & dest, const Param & obj );
 //	{
 //	  if( ! (App = new AppParam( argc, argv, Version ) ) )
 //	    {
-//	       cerr << "Can't new AppParam!" << endl;
+//	       std::cerr << "Can't new AppParam!" << endl;
 //	       exit( 1 );
 //	    }
 //	  if( ! (*App).good() || (*App).help() || ! (*App).allArgs() )
@@ -1086,7 +1086,7 @@ operator << ( ostream & dest, const Param & obj );
 //
 //	  bool status( true );
 //
-//	  cout << "Input is: " << App->inFn() << endl;
+//	  std::cout << "Input is: " << App->inFn() << endl;
 //
 //	  if( status )
 //	    {
@@ -1127,6 +1127,9 @@ operator << ( ostream & dest, const Param & obj );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:50  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:18  paul
 // First go at Mac gcc Port
 //
@@ -1235,7 +1238,7 @@ operator << ( ostream & dest, const Param & obj );
 // Removed support for short file names to accomidate rpm.
 // Major re-work to use 'string'
 // Major re-work to use vector<string> for managing argv.
-// Added readArgs to read arg from a istream.
+// Added readArgs to read arg from a std::istream.
 //
 // Revision 3.1  1996/11/14 01:23:54  houghton
 // Changed to Release 3

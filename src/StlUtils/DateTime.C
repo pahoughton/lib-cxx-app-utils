@@ -553,8 +553,8 @@ DateTime::compare( const DateTime & two ) const
 	  (*this == two ) ? 0 : 1 );
 }
 
-ostream &
-DateTime::toStream( ostream & dest ) const
+std::ostream &
+DateTime::toStream( std::ostream & dest ) const
 {
   dest << getString();
   
@@ -696,8 +696,8 @@ DateTime::getBinSize( void ) const
   return( sizeof( seconds ) );
 }
 
-ostream &
-DateTime::write( ostream & dest ) const
+std::ostream &
+DateTime::write( std::ostream & dest ) const
 {
   time_t  value = seconds - offset;
   
@@ -705,8 +705,8 @@ DateTime::write( ostream & dest ) const
   return( dest );
 }
 
-istream &
-DateTime::read( istream & src )
+std::istream &
+DateTime::read( std::istream & src )
 {
   resetFlags();
   if( ! src.read( (char *)&seconds, sizeof( seconds ) ).good() )
@@ -929,9 +929,9 @@ DateTime::toTimeT(
   return( secs );
 }
 
-ostream &
+std::ostream &
 DateTime::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -996,6 +996,9 @@ DateTime::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.3  2012/04/02 10:12:18  paul
 // *** empty log message ***
 //

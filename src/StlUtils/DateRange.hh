@@ -62,19 +62,19 @@ public:
   
   virtual size_t    	getBinSize( void ) const;
   
-  virtual ostream & 	write( ostream & dest ) const;
-  virtual istream & 	read( istream & src );
+  virtual std::ostream & 	write( std::ostream & dest ) const;
+  virtual std::istream & 	read( std::istream & src );
   
-  virtual ostream & 	toStream( ostream & dest = cout ) const;
+  virtual std::ostream & 	toStream( std::ostream & dest = std::cout ) const;
   
-  friend inline ostream & operator << ( ostream &	    dest,
+  friend inline std::ostream & operator << ( std::ostream &	    dest,
 					const DateRange &   obj );
   
   virtual bool	    	good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char * 	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -140,11 +140,11 @@ compare( const DateRange & one, const DateRange & two );
 //  	size_t
 //  	getStreamSize( void ) const;
 //
-//  	ostream &
-//  	write( ostream & dest ) const;
+//  	std::ostream &
+//  	write( std::ostream & dest ) const;
 //
-//  	istream &
-//  	read( istream & src );
+//  	std::istream &
+//  	read( std::istream & src );
 //
 //  	virtual int
 //  	compare( const DateRange & two ) const;
@@ -168,13 +168,13 @@ compare( const DateRange & one, const DateRange & two );
 //  	getClassName( void ) const;
 //  	    return the name of this class.
 //
-//  	virtual ostream &
-//  	toStream( ostream & dest = cout ) const;
+//  	virtual std::ostream &
+//  	toStream( std::ostream & dest = std::cout ) const;
 //  	    send a formated string of the current date/time to 'dest'
 //  	    The format is '02/03/95 15:13:03'.
 //
-//  	virtual ostream &
-//  	dumpInfo( ostream & dest ) const;
+//  	virtual std::ostream &
+//  	dumpInfo( std::ostream & dest ) const;
 //
 //
 //  Other Accociated Functions:
@@ -187,6 +187,9 @@ compare( const DateRange & one, const DateRange & two );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2012/04/26 20:08:54  paul
+// *** empty log message ***
+//
 // Revision 6.1  2003/08/09 11:22:40  houghton
 // Changed to version 6
 //

@@ -96,11 +96,11 @@ LogBuf::getTrimSize( void ) const
 }
 
 inline
-streambuf *
-LogBuf::tee( streambuf * teeStreambuf )
+std::streambuf *
+LogBuf::tee( std::streambuf * teeStreambuf )
 {
   sync();
-  streambuf * old = teeStream;
+  std::streambuf * old = teeStream;
   teeStream = teeStreambuf;
   return( old );
 }
@@ -189,6 +189,9 @@ LogBuf::Filter::operator = ( const Filter & rhs )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:51  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:16  paul
 // First go at Mac gcc Port
 //

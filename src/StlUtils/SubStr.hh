@@ -187,19 +187,19 @@ public:
 
   size_type	    getBinSize( void ) const;
 
-  ostream &	    write( ostream & dest ) const;
-  istream &	    read( istream & src );
+  std::ostream &	    write( std::ostream & dest ) const;
+  std::istream &	    read( std::istream & src );
   
-  virtual ostream & toStream( ostream & dest = cout ) const;
+  virtual std::ostream & toStream( std::ostream & dest = std::cout ) const;
 
-  friend inline ostream &  operator << ( ostream & dest, const SubStr & src ); 
-  friend inline istream &  operator >> ( istream & src, SubStr & dest ); 
+  friend inline std::ostream &  operator << ( std::ostream & dest, const SubStr & src ); 
+  friend inline std::istream &  operator >> ( std::istream & src, SubStr & dest ); 
   
   inline bool	    good( void ) const;
   const char *	    error( void ) const;
   const char *	    getClassName( void ) const;
   const char *	    getVersion( bool withPrjVer = true ) const;
-  ostream &	    dumpInfo( ostream &	    dest = cerr,
+  std::ostream &	    dumpInfo( std::ostream &	    dest = std::cerr,
 			      const char *  prefix = "    ",
 			      bool	    showVer = true ) const;
   
@@ -466,8 +466,8 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 //
 //  Other Associated Functions:
 //
-//  	ostream &
-//  	operator <<( ostream & dest, const SubStr & obj );
+//  	std::ostream &
+//  	operator <<( std::ostream & dest, const SubStr & obj );
 //
 // Example:
 //
@@ -485,6 +485,9 @@ unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:48  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:22  paul
 // First go at Mac gcc Port
 //

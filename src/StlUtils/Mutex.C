@@ -112,9 +112,9 @@ Mutex::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 Mutex::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -204,9 +204,9 @@ Mutex::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 Mutex::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -232,6 +232,9 @@ Mutex::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:50  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:17  paul
 // First go at Mac gcc Port
 //

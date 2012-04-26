@@ -23,6 +23,7 @@
   $Id$
 
 **/
+#include <stdint.h>
 
 
 #define __EXTENSIONS__
@@ -75,27 +76,27 @@
 
 #define STLUTILS_CHAR_8_T	char
 #define STLUTILS_CHAR_S8_T	signed char
-#define STLUTILS_CHAR_U8_T	unsigned char
-#define STLUTILS_SHORT_S16_T	short
-#define STLUTILS_SHORT_U16_T    unsigned short
+#define STLUTILS_CHAR_U8_T	uint8_t
+#define STLUTILS_SHORT_S16_T	int16_t
+#define STLUTILS_SHORT_U16_T    uint16_t
 #define STLUTILS_SINT_T		int
 #define STLUTILS_UINT_T         unsigned int
-#define STLUTILS_LONG_S64_T	long
-#define STLUTILS_LONG_U64_T     unsigned long
+#define STLUTILS_LONG_S64_T	int64_t
+#define STLUTILS_LONG_U64_T     uint64_t
 #define STLUTILS_FLOAT_FP32_T   float
 #define STLUTILS_DOUBLE_FP64_T  double
 #define STLUTILS_BOOL_T		bool
 #define STLUTILS_SSIZE_T	ssize_t
 #define STLUTILS_SIZE_T		size_t
 
-#define STLUTILS_S16_T		short
-#define STLUTILS_U16_T		unsigned short
+#define STLUTILS_S16_T		int16_t
+#define STLUTILS_U16_T		uint16_t
 
-#define STLUTILS_S32_T		int
-#define STLUTILS_U32_T		unsigned int
+#define STLUTILS_S32_T		int32_t
+#define STLUTILS_U32_T		uint32_t
 
-#define STLUTILS_S64_T		long
-#define STLUTILS_U64_T		unsigned long
+#define STLUTILS_S64_T		int64_t
+#define STLUTILS_U64_T		uint64_t
 
 #define STLUTILS_64_TIME_T	long
 /* #define STLUTILS_64_TIME_T  */
@@ -128,7 +129,7 @@ typedef STLUTILS_U64_T	    type_u64;
 #define STLUTILS_UNUSED( x )
 
 // #include <climits>
-using namespace std;
+// using namespace std;
 
 #include <cstddef>
 

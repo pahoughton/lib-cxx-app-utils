@@ -89,7 +89,7 @@ StringCaseCompare(
   size_t lenTwo
   )
 {
-  int diff = StringCaseCompare( one, two, min( lenOne, lenTwo ) );
+  int diff = StringCaseCompare( one, two, std::min( lenOne, lenTwo ) );
   return( diff ? diff : compare( lenOne, lenTwo ) );
 }
 
@@ -100,6 +100,9 @@ StringCaseCompare(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:48  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:20  paul
 // First go at Mac gcc Port
 //

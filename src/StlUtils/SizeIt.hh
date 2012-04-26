@@ -66,11 +66,11 @@ public:
   inline size_type	grow( void );
   inline size_type	shrink( void );
   
-  virtual ostream &	    write( ostream & dest ) const;
-  virtual istream &	    read( istream & src );
+  virtual std::ostream &	    write( std::ostream & dest ) const;
+  virtual std::istream &	    read( std::istream & src );
 
-  virtual ostream &	    toStream( ostream & dest ) const;
-  virtual istream &	    fromStream( istream & src );
+  virtual std::ostream &	    toStream( std::ostream & dest ) const;
+  virtual std::istream &	    fromStream( std::istream & src );
 
   inline	    operator size_type ( void ) const;
   
@@ -93,7 +93,7 @@ public:
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *  getVersion( bool withPrjVer = true ) const;
-  virtual ostream &     dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream &     dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *  prefix = "    ",
                                   bool          showVer = true ) const;
 
@@ -117,11 +117,11 @@ private:
 #else
 #undef inline
 
-ostream &
-operator << ( ostream & dest, const SizeIt & src );
+std::ostream &
+operator << ( std::ostream & dest, const SizeIt & src );
 
-istream &
-operator >> ( istream & src, const SizeIt & dest );
+std::istream &
+operator >> ( std::istream & src, const SizeIt & dest );
 
 
 #endif
@@ -155,22 +155,22 @@ operator >> ( istream & src, const SizeIt & dest );
 //	shrink( void )
 //	    Half the sizing value and return the new value.
 //
-//	virtual ostream &
-//	write( ostream & dest ) const;
-//	    write the data for this class in binary form to the ostream.
+//	virtual std::ostream &
+//	write( std::ostream & dest ) const;
+//	    write the data for this class in binary form to the std::ostream.
 //
-//	virtual istream &
-//	read( istream & src );
-//	    read the data in binary form from the istream. It is
+//	virtual std::istream &
+//	read( std::istream & src );
+//	    read the data in binary form from the std::istream. It is
 //	    assumed it stream is correctly posistioned and the data
-//	    was written to the istream with 'write( ostream & )'
+//	    was written to the std::istream with 'write( std::ostream & )'
 //
-//	virtual ostream &
-//	toStream( ostream & dest ) const;
+//	virtual std::ostream &
+//	toStream( std::ostream & dest ) const;
 //	    output class as a string to dest (used by operator <<)
 //
-//	virtual istream &
-//	fromStream( istream & src );
+//	virtual std::istream &
+//	fromStream( std::istream & src );
 //	    Set this class be reading a string representation from
 //	    src. Returns src.
 //
@@ -241,8 +241,8 @@ operator >> ( istream & src, const SizeIt & dest );
 //  	getVersion( bool withPrjVer = true ) const;
 //  	    Return the version string of this class.
 //
-//	virtual ostream &
-//	dumpInfo( ostream & dest, const char * prefix, bool showVer );
+//	virtual std::ostream &
+//	dumpInfo( std::ostream & dest, const char * prefix, bool showVer );
 //	    output detail info to dest. Includes instance variable
 //	    values, state info & version info.
 //
@@ -261,11 +261,11 @@ operator >> ( istream & src, const SizeIt & dest );
 //
 //  Associated Functions:
 //
-//  	ostream &
-//  	operator <<( ostream & dest, const SizeIt & src );
+//  	std::ostream &
+//  	operator <<( std::ostream & dest, const SizeIt & src );
 //
-//	istream &
-//	operator >> ( istream & src, SizeIt & dest );
+//	std::istream &
+//	operator >> ( std::istream & src, SizeIt & dest );
 //
 // Example:
 //
@@ -283,6 +283,9 @@ operator >> ( istream & src, const SizeIt & dest );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:50  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:18  paul
 // First go at Mac gcc Port
 //

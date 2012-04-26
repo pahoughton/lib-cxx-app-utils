@@ -283,9 +283,9 @@ Semaphore::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 Semaphore::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -339,6 +339,9 @@ Semaphore::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/04/26 20:08:46  paul
+// *** empty log message ***
+//
 // Revision 6.3  2011/12/30 23:57:33  paul
 // First go at Mac gcc Port
 //

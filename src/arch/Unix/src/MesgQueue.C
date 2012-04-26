@@ -42,7 +42,7 @@ STLUTILS_VERSION(
 MesgQueue::MesgQueue(
   const char *	    keyFn,
   char		    proj,
-  ios::openmode    mode,
+  std::ios::openmode    mode,
   bool		    create
   )
   : keyFileName( keyFn ),
@@ -221,9 +221,9 @@ MesgQueue::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 MesgQueue::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -242,7 +242,7 @@ MesgQueue::dumpInfo(
        << prefix << "key:           " << key << '\n'
        << prefix << "queue id:      " << queueId << '\n'
        << prefix << "queue flags:   "
-       << setbase( 8 ) << queueFlags << setbase( 0 ) << '\n'
+       << std::setbase( 8 ) << queueFlags << std::setbase( 0 ) << '\n'
     ;
 
   struct msqid_ds   qData;
@@ -301,6 +301,9 @@ MesgQueue::setError( ErrorNum errNum, int osErr )
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/04/26 20:08:46  paul
+// *** empty log message ***
+//
 // Revision 6.3  2011/12/30 23:57:32  paul
 // First go at Mac gcc Port
 //

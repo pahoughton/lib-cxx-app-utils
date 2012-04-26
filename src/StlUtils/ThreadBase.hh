@@ -53,7 +53,7 @@ public:
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *  getVersion( bool withPrjVer = true ) const;
-  virtual ostream &     dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream &     dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *  prefix = "    ",
                                   bool          showVer = true ) const;
 
@@ -104,8 +104,8 @@ private:
 //
 //  Public Interface:
 //
-//	virtual ostream &
-//	toStream( ostream & dest ) const
+//	virtual std::ostream &
+//	toStream( std::ostream & dest ) const
 //	    output class as a string to dest (used by operator <<)
 //
 //  	virtual Bool
@@ -125,8 +125,8 @@ private:
 //  	getVersion( bool withPrjVer = true ) const;
 //  	    Return the version string of this class.
 //
-//	virtual ostream &
-//	dumpInfo( ostream & dest, const char * prefix, bool showVer )
+//	virtual std::ostream &
+//	dumpInfo( std::ostream & dest, const char * prefix, bool showVer )
 //	    output detail info to dest. Includes instance variable
 //	    values, state info & version info.
 //
@@ -140,8 +140,8 @@ private:
 //
 //  Other Associated Functions:
 //
-//  	ostream &
-//  	operator <<( ostream & dest, const ThreadBase & obj );
+//  	std::ostream &
+//  	operator <<( std::ostream & dest, const ThreadBase & obj );
 //
 
 // Revision Log:
@@ -150,6 +150,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:48  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:22  paul
 // First go at Mac gcc Port
 //

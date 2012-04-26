@@ -98,8 +98,8 @@ Timer::getStop( void ) const
 
 
 inline
-ostream &
-operator<<( ostream & dest, const Timer & timer )
+std::ostream &
+operator<<( std::ostream & dest, const Timer & timer )
 {
   return( timer.toStream( dest ) );
 }
@@ -117,6 +117,9 @@ operator<<( ostream & dest, const Timer & timer )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:48  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:23  paul
 // First go at Mac gcc Port
 //

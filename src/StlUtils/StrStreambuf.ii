@@ -44,7 +44,7 @@ const char *
 StrStreambuf::cstr( void )
 {
   sputc(0);
-  seekoff( -1, ios::cur, ios::out );
+  seekoff( -1, std::ios::cur, std::ios::out );
 
   return( pbase() );
 }
@@ -66,6 +66,9 @@ StrStreambuf::strbase( void ) STLUTILS_STRBUF_CONST_RDBUF
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:49  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:20  paul
 // First go at Mac gcc Port
 //

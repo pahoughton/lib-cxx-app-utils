@@ -102,9 +102,9 @@ PidFile::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 PidFile::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -132,7 +132,7 @@ PidFile::createPidFile( void )
   
   remove( fileName );
 
-  ofstream pidFile( fileName );
+  std::ofstream pidFile( fileName );
 
   if( ! pidFile.good() )
     {
@@ -140,7 +140,7 @@ PidFile::createPidFile( void )
     }
   else
     {
-      pidFile << getpid() << endl;
+      pidFile << getpid() << std::endl;
     }
 
   if( ! pidFile.good() )
@@ -166,6 +166,9 @@ PidFile::removePidFile( void )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:46  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:33  paul
 // First go at Mac gcc Port
 //

@@ -20,11 +20,11 @@
 #include <StlUtilsMisc.hh>
 
 const char * 
-IosSeekDirToString( ios::seek_dir dir )
+IosSeekDirToString( std::ios::seek_dir dir )
 {
-  return( dir == ios::beg ? "beg" :
-	  dir == ios::cur ? "cur" :
-	  dir == ios::end ? "end" : "bad dir" );
+  return( dir == std::ios::beg ? "beg" :
+	  dir == std::ios::cur ? "cur" :
+	  dir == std::ios::end ? "end" : "bad dir" );
 }
 
 // Revision Log:
@@ -33,6 +33,9 @@ IosSeekDirToString( ios::seek_dir dir )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:52  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:15  paul
 // First go at Mac gcc Port
 //

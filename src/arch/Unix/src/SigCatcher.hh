@@ -41,7 +41,7 @@ class SigCatcher
 public:
 
   typedef int			Signal;
-  typedef vector< Signal >	SigList;
+  typedef std::vector< Signal >	SigList;
   typedef SigList::size_type	size_type;
   
   typedef Bitmask Flag;
@@ -75,7 +75,7 @@ public:
     time_t		whenCaught;
   };
 
-  typedef deque< Caught >   CaughtQueue;
+  typedef std::deque< Caught >   CaughtQueue;
   
   SigCatcher( void );
   SigCatcher( Signal catchSig );
@@ -107,7 +107,7 @@ public:
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *  getVersion( bool withPrjVer = true ) const;
-  virtual ostream &     dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream &     dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *  prefix = "    ",
                                   bool          showVer = true ) const;
 
@@ -237,6 +237,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:46  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:33  paul
 // First go at Mac gcc Port
 //

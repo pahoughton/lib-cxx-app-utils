@@ -144,7 +144,7 @@ RegexScan::setPattern(
     buf->fastmap = 0;
   buf->translate = (char *)tranTable;
 
-  buf->allocated = max( bufSize, patLen );
+  buf->allocated = std::max( bufSize, patLen );
   buf->buffer = (unsigned char*)malloc( buf->allocated );
   if( (re_msg = GnuRe_compile_pattern( pattern, patLen, buf )) )
       return;
@@ -294,9 +294,9 @@ RegexScan::error( void ) const
   return( errStr );
 }
 
-ostream &
+std::ostream &
 RegexScan::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
  ) const
@@ -414,6 +414,9 @@ RegexScan::cleanup()
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/04/26 20:08:50  paul
+// *** empty log message ***
+//
 // Revision 6.3  2012/04/02 10:12:17  paul
 // *** empty log message ***
 //

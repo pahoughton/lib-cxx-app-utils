@@ -26,28 +26,28 @@ STLUTILS_FUNCT_VERSION(
   "$Id$ " );
 
 
-ios::openmode
+std::ios::openmode
 IosOpenModeFromString( const char * modeString );
 
-ios::openmode
+std::ios::openmode
 IosOpenModeFromString( const char * modeString )
 {
-  ios::openmode    mode = (ios::openmode)0;
+  std::ios::openmode    mode = (std::ios::openmode)0;
 
   if( StringCaseSearch( modeString, NPOS, "in", NPOS ) )
-    mode = (ios::openmode)( mode | ios::in);
+    mode = (std::ios::openmode)( mode | std::ios::in);
 
   if( StringCaseSearch( modeString, NPOS, "out", NPOS ) )
-    mode = (ios::openmode)( mode | ios::out);
+    mode = (std::ios::openmode)( mode | std::ios::out);
 
   if( StringCaseSearch( modeString, NPOS, "ate", NPOS ) )
-    mode = (ios::openmode)( mode | ios::ate);
+    mode = (std::ios::openmode)( mode | std::ios::ate);
 
   if( StringCaseSearch( modeString, NPOS, "app", NPOS ) )
-    mode = (ios::openmode)( mode | ios::app);
+    mode = (std::ios::openmode)( mode | std::ios::app);
 
   if( StringCaseSearch( modeString, NPOS, "trunc", NPOS ) )
-    mode = (ios::openmode)( mode | ios::trunc);
+    mode = (std::ios::openmode)( mode | std::ios::trunc);
   
   return( mode );
 }
@@ -58,6 +58,9 @@ IosOpenModeFromString( const char * modeString )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:52  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:14  paul
 // First go at Mac gcc Port
 //
@@ -80,7 +83,7 @@ IosOpenModeFromString( const char * modeString )
 // Changed: renamed library to StlUtils.
 //
 // Revision 3.2  1997/04/05 11:57:33  houghton
-// Changed AIX41 does not have ios::binary.
+// Changed AIX41 does not have std::ios::binary.
 //
 // Revision 3.1  1997/04/04 20:51:45  houghton
 // Initial Versionn.

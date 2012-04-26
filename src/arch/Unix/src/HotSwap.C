@@ -43,7 +43,7 @@ const char * HotSwap::ErrorDesc[] =
 
 HotSwap::HotSwap(
   const FilePath & lockFileName,
-  ios::openmode    lockMode
+  std::ios::openmode    lockMode
   )
   : lockFn( lockFileName ),
     filelock( lockFn, lockMode ),
@@ -281,9 +281,9 @@ HotSwap::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 HotSwap::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -356,6 +356,9 @@ HotSwap::setErrorFnDesc( int osErr, const char * fn, const char * desc )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:47  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:31  paul
 // First go at Mac gcc Port
 //

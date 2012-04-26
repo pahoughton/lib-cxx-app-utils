@@ -35,8 +35,8 @@ STLUTILS_VERSION(
 #include "Timer.ii"
 #endif
 
-ostream &
-Timer::toStream( ostream & dest ) const
+std::ostream &
+Timer::toStream( std::ostream & dest ) const
 {
   if( getStart() == 0 || getStop() == 0 )
     {
@@ -47,12 +47,12 @@ Timer::toStream( ostream & dest ) const
   int minutes = MinInTimeT( getDur() );
   int seconds = SecInTimeT( getDur() );
 
-  dest << setfill('0') << setw(2) << hours << ':'
-       << setw(2) << minutes << ':'
-       << setw(2) << seconds
+  dest << std::setfill('0') << std::setw(2) << hours << ':'
+       << std::setw(2) << minutes << ':'
+       << std::setw(2) << seconds
     ;
 
-  dest << setfill(' ');
+  dest << std::setfill(' ');
 
   return( dest );
 }
@@ -70,9 +70,9 @@ Timer::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 Timer::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -101,6 +101,9 @@ Timer::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:48  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:22  paul
 // First go at Mac gcc Port
 //

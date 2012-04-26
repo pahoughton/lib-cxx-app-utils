@@ -57,7 +57,7 @@ public:
   inline DateTime( const struct tm & tmTime );
   inline DateTime( const char * timeString );
 
-  inline DateTime( istream & src, bool text = false );
+  inline DateTime( std::istream & src, bool text = false );
   
   virtual ~DateTime( void );
   
@@ -175,18 +175,18 @@ public:
   
   virtual size_t    	getBinSize( void ) const;
   
-  virtual ostream & 	write( ostream & dest ) const;
-  virtual istream & 	read( istream & src );
+  virtual std::ostream & 	write( std::ostream & dest ) const;
+  virtual std::istream & 	read( std::istream & src );
   
-  virtual ostream & 	toStream( ostream & dest = cout ) const;
+  virtual std::ostream & 	toStream( std::ostream & dest = std::cout ) const;
   
-  friend inline ostream & operator << ( ostream & dest, const DateTime & obj );
+  friend inline std::ostream & operator << ( std::ostream & dest, const DateTime & obj );
   
   virtual bool	    	good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char * 	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
 
@@ -260,11 +260,11 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //
 //  	DateTime    	dt( time(0) );
 //
-//  	cout << dt << endl; 	// output gmt time
+//  	std::cout << dt << endl; 	// output gmt time
 //
 //  	dt.setTimeZone();	// set to local time
 //
-//  	cout << dt << endl; 	// output local time;
+//  	std::cout << dt << endl; 	// output local time;
 //
 //  	dt.addDay( 5 );     	// add 5 days to the datetime
 //
@@ -662,8 +662,8 @@ operator - ( const time_t lhs, const DateTime & rhs );
 //
 //  Other Accociated Functions:
 //
-//  	ostream &
-//  	operator <<( ostream & dest, const DateTime & obj );
+//  	std::ostream &
+//  	operator <<( std::ostream & dest, const DateTime & obj );
 //  	    send a formated string of the current date/time to 'dest'
 //  	    The format is '02/03/95 15:13:03'.
 //
@@ -691,6 +691,9 @@ operator - ( const time_t lhs, const DateTime & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.3  2012/04/02 10:12:17  paul
 // *** empty log message ***
 //

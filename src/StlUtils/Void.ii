@@ -47,7 +47,7 @@ Void::get( void * dest, size_type destSize, size_type start ) const
   if( ! data )
     return( false );
   
-  memcpy( dest, data + start, min( destSize, size() - start ) );
+  memcpy( dest, data + start, std::min( destSize, size() - start ) );
 
   return( true );
 }
@@ -151,8 +151,8 @@ Void::dump( const char * prefix, bool showVer ) const
 }
 
 inline
-ostream &
-operator << ( ostream & dest, const Void & obj )
+std::ostream &
+operator << ( std::ostream & dest, const Void & obj )
 {
   return( obj.toStream( dest ) );
 }
@@ -174,6 +174,9 @@ compare( const Void & lhs, const Void & rhs )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:47  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:23  paul
 // First go at Mac gcc Port
 //

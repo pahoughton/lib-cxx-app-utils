@@ -59,8 +59,8 @@ TimeIt::~TimeIt( void )
 {
 }
 
-ostream &
-TimeIt::toStream( ostream & dest ) const
+std::ostream &
+TimeIt::toStream( std::ostream & dest ) const
 {
   if( good() )
     {
@@ -73,9 +73,9 @@ TimeIt::toStream( ostream & dest ) const
       char ofill = dest.fill('0');
       
       dest << "Times: "
-	   << " real: " << rDiff.tv_sec << '.' << setw(6) << rDiff.tv_usec
-	   << " user: " << uDiff.tv_sec << '.' << setw(6) << uDiff.tv_usec
-	   << " sys: "  << sDiff.tv_sec << '.' << setw(6) << sDiff.tv_usec
+	   << " real: " << rDiff.tv_sec << '.' << std::setw(6) << rDiff.tv_usec
+	   << " user: " << uDiff.tv_sec << '.' << std::setw(6) << uDiff.tv_usec
+	   << " sys: "  << sDiff.tv_sec << '.' << std::setw(6) << sDiff.tv_usec
 	;
       dest.fill(ofill);
     }
@@ -157,9 +157,9 @@ TimeIt::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 TimeIt::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -182,57 +182,57 @@ TimeIt::dumpInfo(
   char ofill;
   
   dest << prefix << "real time diff:       "
-       << setw(8) << rDiff.tv_sec << '.'
+       << std::setw(8) << rDiff.tv_sec << '.'
     ;
   
   ofill = dest.fill('0');
-  dest << setw(6) << rDiff.tv_usec << '\n';
+  dest << std::setw(6) << rDiff.tv_usec << '\n';
   dest.fill(ofill);
 
   dest << prefix << "user time diff:       "
-       << setw(8) << uDiff.tv_sec << '.'
+       << std::setw(8) << uDiff.tv_sec << '.'
     ;
 
   ofill = dest.fill('0');
-  dest << setw(6) << uDiff.tv_usec << '\n';
+  dest << std::setw(6) << uDiff.tv_usec << '\n';
   dest.fill(ofill);
   
   dest << prefix << "sys time diff:        "
-       << setw(8) << sDiff.tv_sec << '.'
+       << std::setw(8) << sDiff.tv_sec << '.'
     ;
   
   ofill = dest.fill('0');
-  dest << setw(6) << sDiff.tv_usec << '\n';
+  dest << std::setw(6) << sDiff.tv_usec << '\n';
   dest.fill(ofill);
 
   dest << prefix << "max rss diff:         "
-       << setw(8) << usageStop.ru_maxrss - usageStart.ru_maxrss << '\n'
+       << std::setw(8) << usageStop.ru_maxrss - usageStart.ru_maxrss << '\n'
        << prefix << "shared mem size diff: "
-       << setw(8) << usageStop.ru_ixrss - usageStart.ru_ixrss << '\n'
+       << std::setw(8) << usageStop.ru_ixrss - usageStart.ru_ixrss << '\n'
        << prefix << "data size diff:       "
-       << setw(8) << usageStop.ru_idrss - usageStart.ru_idrss << '\n'
+       << std::setw(8) << usageStop.ru_idrss - usageStart.ru_idrss << '\n'
        << prefix << "stack size diff:      "
-       << setw(8) << usageStop.ru_isrss - usageStart.ru_isrss << '\n'
+       << std::setw(8) << usageStop.ru_isrss - usageStart.ru_isrss << '\n'
        << prefix << "page reclaims diff:   "
-       << setw(8) << usageStop.ru_minflt - usageStart.ru_minflt << '\n'
+       << std::setw(8) << usageStop.ru_minflt - usageStart.ru_minflt << '\n'
        << prefix << "page faults diff:     "
-       << setw(8) << usageStop.ru_majflt - usageStart.ru_majflt << '\n'
+       << std::setw(8) << usageStop.ru_majflt - usageStart.ru_majflt << '\n'
        << prefix << "swaps diff:           "
-       << setw(8) << usageStop.ru_nswap - usageStart.ru_nswap << '\n'
+       << std::setw(8) << usageStop.ru_nswap - usageStart.ru_nswap << '\n'
        << prefix << "in block diff:        "
-       << setw(8) << usageStop.ru_inblock - usageStart.ru_inblock << '\n'
+       << std::setw(8) << usageStop.ru_inblock - usageStart.ru_inblock << '\n'
        << prefix << "out block diff:       "
-       << setw(8) << usageStop.ru_oublock - usageStart.ru_oublock << '\n'
+       << std::setw(8) << usageStop.ru_oublock - usageStart.ru_oublock << '\n'
        << prefix << "msgs sent diff:       "
-       << setw(8) << usageStop.ru_msgsnd - usageStart.ru_msgsnd << '\n'
+       << std::setw(8) << usageStop.ru_msgsnd - usageStart.ru_msgsnd << '\n'
        << prefix << "msgs rcvd diff:       "
-       << setw(8) << usageStop.ru_msgrcv - usageStart.ru_msgrcv << '\n'
+       << std::setw(8) << usageStop.ru_msgrcv - usageStart.ru_msgrcv << '\n'
        << prefix << "signals diff:         "
-       << setw(8) << usageStop.ru_nsignals - usageStart.ru_nsignals << '\n'
+       << std::setw(8) << usageStop.ru_nsignals - usageStart.ru_nsignals << '\n'
        << prefix << "vol ctx swt diff:     "
-       << setw(8) << usageStop.ru_nvcsw - usageStart.ru_nvcsw << '\n'
+       << std::setw(8) << usageStop.ru_nvcsw - usageStart.ru_nvcsw << '\n'
        << prefix << "invol ctx swt diff:   "
-       << setw(8) << usageStop.ru_nivcsw - usageStart.ru_nivcsw << '\n'
+       << std::setw(8) << usageStop.ru_nivcsw - usageStart.ru_nivcsw << '\n'
     ;
   
   return( dest );
@@ -244,6 +244,9 @@ TimeIt::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:46  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:34  paul
 // First go at Mac gcc Port
 //

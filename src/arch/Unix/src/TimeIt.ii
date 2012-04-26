@@ -118,8 +118,8 @@ TimeIt::dump( const char * prefix, bool showVer ) const
 
 
 inline
-ostream &
-operator << ( ostream & dest, const TimeIt & obj )
+std::ostream &
+operator << ( std::ostream & dest, const TimeIt & obj )
 {
   return( obj.toStream( dest ) );
 }
@@ -143,6 +143,9 @@ operator >> ( istream & dest, const TimeIt & obj )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:45  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:34  paul
 // First go at Mac gcc Port
 //

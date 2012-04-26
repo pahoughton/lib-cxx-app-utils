@@ -7,17 +7,17 @@
 //
 //  Most of my classes have a method called dumpInfo that is
 //  used to dump the entire contents of the instance to an
-//  ostream. This is mostly used for debuging.
+//  std::ostream. This is mostly used for debuging.
 //
 //  The DumpInfo<T> template class makes it easier to use the
 //  dumpInfo methdod. To use it, your class must have a the
-//  a 'ostream & dumpInfo( ostream &, const char * , bool )' method
+//  a 'ostream & dumpInfo( std::ostream &, const char * , bool )' method
 //  that dumps an instance to the stream in a readable form.
 //  The DumpInf<T> object can only be instaciated by the
 //  class specified as 'T' and only has a toStream method.
 //  
 //  A class that uses this should return an instance that can
-//  then be inserted (i.e. <<) into an ostream. Please see the
+//  then be inserted (i.e. <<) into an std::ostream. Please see the
 //  example.
 //
 //  Example:
@@ -25,7 +25,7 @@
 //	class MyClass
 //	{
 //	public:
-//	  ostream & dumpInfo( ostream &	    dest,
+//	  std::ostream & dumpInfo( std::ostream &	    dest,
 //			      const char *  prefix = "    ",
 //			      bool	    showVer = true ) const;
 //	
@@ -46,11 +46,11 @@
 //
 //	MyClass obj;
 //	
-//	cerr << obj.dump() << endl;
+//	std::cerr << obj.dump() << endl;
 //	
 //	// Without dump info you would have to
 //
-//	dumpInfo( cerr ) << endl; 
+//	dumpInfo( std::cerr ) << endl; 
 //
 //
 // Author:      Paul Houghton - (paul4hough@gmail.com)
@@ -69,7 +69,7 @@ class DumpInfo
 {
 
 public:
-  inline ostream &	    toStream( ostream & dest ) const {
+  inline std::ostream &	    toStream( std::ostream & dest ) const {
     return( obj.dumpInfo( dest, prefix, showVer ) ); };
 
   inline DumpInfo( const T & dumpObj, const char * pre, bool ver )
@@ -87,8 +87,8 @@ protected:
 
 template< class T >
 inline
-ostream &
-operator << ( ostream & dest, const DumpInfo<T> & src )
+std::ostream &
+operator << ( std::ostream & dest, const DumpInfo<T> & src )
 {
   return( src.toStream( dest ) );
 }
@@ -110,8 +110,8 @@ operator << ( ostream & dest, const DumpInfo<T> & src )
 //
 //  Public Interface:
 //
-//	virtual ostream &
-//	toStream( ostream & dest ) const;
+//	virtual std::ostream &
+//	toStream( std::ostream & dest ) const;
 //	    output class as a string to dest (used by operator <<)
 //
 
@@ -122,8 +122,8 @@ operator << ( ostream & dest, const DumpInfo<T> & src )
 //  Associated Functions:
 //
 //	inline
-//  	ostream &
-//  	operator <<( ostream & dest, const DumpInfo & src );
+//  	std::ostream &
+//  	operator <<( std::ostream & dest, const DumpInfo & src );
 //
 // Example:
 //
@@ -141,6 +141,9 @@ operator << ( ostream & dest, const DumpInfo<T> & src )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:12  paul
 // First go at Mac gcc Port
 //

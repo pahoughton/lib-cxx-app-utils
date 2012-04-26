@@ -43,7 +43,7 @@ class STLUTILS_CLASS_T StrStreambuf;
 class STLUTILS_CLASS_T SubStr;
 class STLUTILS_CLASS_T RegexScan;
 
-class STLUTILS_CLASS_T Str : public iostream
+class STLUTILS_CLASS_T Str : public std::iostream
 {
 
 public:
@@ -69,8 +69,8 @@ public:
 #else
   
 #if defined( STDCXX_PARTIAL_SPECIALIZATION )
-  typedef ::reverse_iterator< iterator >	reverse_iterator;
-  typedef ::reverse_iterator< const_iterator >	const_reverse_iterator;
+  typedef std::reverse_iterator< iterator >	reverse_iterator;
+  typedef std::reverse_iterator< const_iterator >	const_reverse_iterator;
 #else
   typedef ::reverse_iterator< iterator, char, char &, ptrdiff_t >
 	reverse_iterator;
@@ -81,12 +81,12 @@ public:
 #endif
   
 #if defined( STLUTILS_HAVE_LONG_LONG )
-  typedef pair< long long, long long >	Range;
+  typedef std::pair< long long, long long >	Range;
 #else
-  typedef pair< long, long >	Range;
+  typedef std::pair< long, long >	Range;
 #endif
   
-  typedef vector< Range >   RangeList;
+  typedef std::vector< Range >   RangeList;
   
   typedef const_iterator    InputIterator; // work around no compiler support
   
@@ -109,7 +109,7 @@ public:
 
   inline Str( InputIterator first, InputIterator last ); 
 
-  inline Str( istream & src, bool text = false, bool line = false );
+  inline Str( std::istream & src, bool text = false, bool line = false );
   
   virtual ~Str( void );
 
@@ -537,29 +537,29 @@ public:
 
   // io helpers
 
-  istream &	    getline( istream & src );
+  std::istream &	    getline( std::istream & src );
   
-  // from istream
-  inline istream &  getline( char * dest, int size, char delim = '\n' );
-  inline istream &  getline( unsigned char * dest, int size, char d = '\n' );
+  // from std::istream
+  inline std::istream &  getline( char * dest, int size, char delim = '\n' );
+  inline std::istream &  getline( unsigned char * dest, int size, char d = '\n' );
   
-  istream & 	getDelim( istream & 	src,
+  std::istream & 	getDelim( std::istream & 	src,
 			  char      	delim,
 			  bool 	    	discard = true );
 
-  istream & 	getDelim( istream & 	src,
+  std::istream & 	getDelim( std::istream & 	src,
 			  const char *  delimChars,
 			  bool 	    	discard = true );
   
-  istream &	    get( istream & src, size_type bytes );
+  std::istream &	    get( std::istream & src, size_type bytes );
 
-  // from istream
-  inline istream &  get( char & dest );
-  inline istream &  get( char * dest, int size, char delim = '\n' );
-  inline istream &  get( unsigned char * dest, int size, char delim = '\n' );
-  inline istream &  get( unsigned char & dest );
+  // from std::istream
+  inline std::istream &  get( char & dest );
+  inline std::istream &  get( char * dest, int size, char delim = '\n' );
+  inline std::istream &  get( unsigned char * dest, int size, char delim = '\n' );
+  inline std::istream &  get( unsigned char & dest );
   inline int	    get( void );
-  inline istream &  get( streambuf & dest, char delim = '\n' );
+  inline std::istream &  get( std::streambuf & dest, char delim = '\n' );
   
   // operators
   
@@ -608,36 +608,36 @@ public:
   
   virtual size_type	getBinSize( void ) const;
     
-  virtual ostream & 	write( ostream & dest ) const;
+  virtual std::ostream & 	write( std::ostream & dest ) const;
 
-  // from ostream
-  virtual ostream &	write( const char * src, int size );
+  // from std::ostream
+  virtual std::ostream &	write( const char * src, int size );
 #if defined( STLUTILS_STR_UNSIGNED )
-  virtual ostream &	write( const unsigned char * src, int size );
+  virtual std::ostream &	write( const unsigned char * src, int size );
 #endif
   
 #if defined( STLUTILS_STR_WCHAR )
-  virtual ostream &	write( const wchar_t * src, int size );
+  virtual std::ostream &	write( const wchar_t * src, int size );
 #endif
-  virtual ostream &	write( const void * src, size_type size );
+  virtual std::ostream &	write( const void * src, size_type size );
   
-  virtual istream & 	read( istream & src );
+  virtual std::istream & 	read( std::istream & src );
 
-  // from istream
-  virtual istream &	read( char * dest, int size );
+  // from std::istream
+  virtual std::istream &	read( char * dest, int size );
   
 #if defined( STLUTILS_STR_UNSIGNED )
-  virtual istream &	read( unsigned char * dest, int size );
+  virtual std::istream &	read( unsigned char * dest, int size );
 #endif
   
-  virtual istream &	fromStream( istream & src );
-  virtual ostream &	toStream( ostream & dest = cout ) const;
+  virtual std::istream &	fromStream( std::istream & src );
+  virtual std::ostream &	toStream( std::ostream & dest = std::cout ) const;
   
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *  prefix = "    ",
 				  bool		showVer = true ) const;
     
@@ -668,7 +668,7 @@ protected:
     ~ScanMatch( ) {};
   };
   
-  vector<ScanMatch>  matches;
+  std::vector<ScanMatch>  matches;
   
 private:
 
@@ -746,8 +746,8 @@ operator <= ( const char * lhs, const Str & rhs );
 bool
 operator >= ( const char * lhs, const Str & rhs );
 
-istream &
-getline( istream & src, Str & dest, char delim = '\n' );
+std::istream &
+getline( std::istream & src, Str & dest, char delim = '\n' );
 
 
 bool	    	StringToBool( const Str & str );
@@ -757,11 +757,11 @@ double	    	StringToDouble( const Str & str, unsigned short base = 0 );
 unsigned int 	StringToUInt( const Str & str, unsigned short base = 0 );
 unsigned long	StringToULong( const Str & str, unsigned short base = 0 );
 
-ostream &
-operator << ( ostream & dest, const Str & src );
+std::ostream &
+operator << ( std::ostream & dest, const Str & src );
 
-istream &
-operator >> ( istream & src, Str & dest );
+std::istream &
+operator >> ( std::istream & src, Str & dest );
 
 #endif
 
@@ -1637,27 +1637,27 @@ operator >> ( istream & src, Str & dest );
     	size_type
     	scanMatchLength( size_type scanNum = 0 ) const;
   
-    	friend ostream & operator << ( ostream & dest, const Str & str );
+    	friend std::ostream & operator << ( std::ostream & dest, const Str & str );
   
-    	friend istream & operator >> ( istream & src, Str & dest );
+    	friend std::istream & operator >> ( std::istream & src, Str & dest );
   
-    	istream &
-    	getline( istream & src );
+    	std::istream &
+    	getline( std::istream & src );
   
-    	istream &
-    	getDelim( istream & src, const char * delimChars, bool discard = true );
+    	std::istream &
+    	getDelim( std::istream & src, const char * delimChars, bool discard = true );
   
-    	istream &
-    	getDelim( istream & src, char delim, bool discard = true );
+    	std::istream &
+    	getDelim( std::istream & src, char delim, bool discard = true );
   
     	size_type
     	getBinSize( void ) const;
   
-    	ostream &
-    	write( ostream & dest ) const;
+    	std::ostream &
+    	write( std::ostream & dest ) const;
   
-    	istream &
-    	read( istream & src );
+    	std::istream &
+    	read( std::istream & src );
   
     	operator const char * ( void ) const;
   
@@ -1770,12 +1770,12 @@ operator >> ( istream & src, Str & dest );
     	operator >= ( const char * rhs ) const;
     	    operator == acts like a compare.
   
-    	virtual ostream &
-    	toStream( ostream & dest = cout ) const;
+    	virtual std::ostream &
+    	toStream( std::ostream & dest = std::cout ) const;
   
   	virtual
-  	ostream &
-  	dumpInfo( ostream &	dest = cerr,
+  	std::ostream &
+  	dumpInfo( std::ostream &	dest = std::cerr,
   		  const char *	prefix = "    ",
   		  bool		showVer = true ) const;
   	    Output detailed information about the current
@@ -1800,8 +1800,8 @@ operator >> ( istream & src, Str & dest );
   
     Other Associated Functions:
   
-    	ostream &
-    	operator <<( ostream & dest, const Str & obj );
+    	std::ostream &
+    	operator <<( std::ostream & dest, const Str & obj );
 
 **/
 
@@ -1812,6 +1812,9 @@ operator >> ( istream & src, Str & dest );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:49  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:19  paul
 // First go at Mac gcc Port
 //
@@ -1909,7 +1912,7 @@ operator >> ( istream & src, Str & dest );
 // Added fromStream.
 // Port(Sun5): had to create a default constructor for 'ScanMatch' to
 //     prevent the compiler from CRASHING.
-// Chagned: istream operator >> Str and ostream operator << Str do not
+// Chagned: std::istream operator >> Str and std::ostream operator << Str do not
 //     need to be freinds of Str.
 //
 // Revision 3.6  1997/04/03 23:23:21  houghton

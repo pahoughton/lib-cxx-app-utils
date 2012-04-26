@@ -9,7 +9,7 @@
     a 'class string'.
   
     The only standard text conversion for numbers are the
-    '<<' operators for ostream. The number of code lines and
+    '<<' operators for std::ostream. The number of code lines and
     perfomance expence in using a strstream (or the new sstream)
     just to get a number converted to text is WAY to high.
     
@@ -364,10 +364,10 @@ const char *
 StringFrom( double num, short prec )
 {
   Str tmp;
-  tmp.setf( ios::fixed, ios::floatfield );
+  tmp.setf( std::ios::fixed, std::ios::floatfield );
   tmp.precision( prec );
 
-  tmp << num << ends;
+  tmp << num << std::ends;
   //  NumBufMutex.lock();
   strcpy( NumBuf, tmp.c_str() );
   //  NumBufMutex.unlock();
@@ -390,6 +390,9 @@ StringFrom( const struct tm & src, const char * fmt )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:48  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:20  paul
 // First go at Mac gcc Port
 //

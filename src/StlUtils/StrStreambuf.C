@@ -51,9 +51,9 @@ StrStreambuf::getClassName( void ) const
   return( "StrStreambuf" );
 }
 
-ostream &
+std::ostream &
 StrStreambuf::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   )
@@ -98,6 +98,9 @@ StrStreambuf::getVersion( bool withPrjVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:49  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:20  paul
 // First go at Mac gcc Port
 //

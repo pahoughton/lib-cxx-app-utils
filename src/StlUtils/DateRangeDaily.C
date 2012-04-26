@@ -134,20 +134,20 @@ DateRangeDaily::compare( const DateRangeDaily & two ) const
     return( ::compare( getDur(), two.getDur() ) );
 }
 
-ostream &
-DateRangeDaily::toStream( ostream & dest ) const
+std::ostream &
+DateRangeDaily::toStream( std::ostream & dest ) const
 {
   
   dest << "Start: "
-       << setfill('0')
-       << setw(2) << HourInTimeT( getStart() ) << ':'
-       << setw(2) << MinInTimeT( getStart() ) << ':'
-       << setw(2) << SecInTimeT( getStart() ) << ' '
+       << std::setfill('0')
+       << std::setw(2) << HourInTimeT( getStart() ) << ':'
+       << std::setw(2) << MinInTimeT( getStart() ) << ':'
+       << std::setw(2) << SecInTimeT( getStart() ) << ' '
        << "Dur: "
-       << setw(2) << HourInTimeT( getDur() ) << ':'
-       << setw(2) << MinInTimeT( getDur() ) << ':'
-       << setw(2) << SecInTimeT( getDur() )
-       << setfill(' ')
+       << std::setw(2) << HourInTimeT( getDur() ) << ':'
+       << std::setw(2) << MinInTimeT( getDur() ) << ':'
+       << std::setw(2) << SecInTimeT( getDur() )
+       << std::setfill(' ')
        ;
   return( dest );
 }
@@ -206,9 +206,9 @@ DateRangeDaily::getVersion( bool withPrjVer ) const
   return( version.getVer( withPrjVer , DateRange::getVersion( false ) ) );
 }
 
-ostream &
+std::ostream &
 DateRangeDaily::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -246,6 +246,9 @@ DateRangeDaily::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2012/04/26 20:08:54  paul
+// *** empty log message ***
+//
 // Revision 6.1  2003/08/09 11:22:40  houghton
 // Changed to version 6
 //

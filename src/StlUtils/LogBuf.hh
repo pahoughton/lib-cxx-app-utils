@@ -39,7 +39,7 @@
 
 class RegexScan;
 
-class LogBuf : public streambuf
+class LogBuf : public std::streambuf
 {
   
 public:
@@ -47,20 +47,20 @@ public:
   typedef long	FilterId;
   
   LogBuf( LogLevel::Level   outLevel,
-	  streambuf * 	   outStream );
+	  std::streambuf * 	   outStream );
 
   LogBuf( const char * 	outLevel,
-	  streambuf * 	outStream );
+	  std::streambuf * 	outStream );
 
   LogBuf( const char *	    fileName,
 	  LogLevel::Level   outLevel = LogLevel::Error, 
-	  ios::openmode	    mode = ios::app,
+	  std::ios::openmode	    mode = std::ios::app,
 	  size_t	    maxSize = 0,
 	  size_t	    trimSize = 0 );
   
   LogBuf( const char *	    fileName,
 	  const char *	    outLevel,
-	  ios::openmode	    mode = ios::app,
+	  std::ios::openmode	    mode = std::ios::app,
 	  size_t	    maxSize = 0,
 	  size_t	    trimSize = 0 );
   
@@ -81,17 +81,17 @@ public:
   inline size_t		getMaxSize( void ) const;
   inline size_t		getTrimSize( void ) const;
   
-  inline streambuf *	tee( streambuf * teeStreambuf );
+  inline std::streambuf *	tee( std::streambuf * teeStreambuf );
   
   inline const FilePath &	getLogFileName( void ) const;
 
-  filebuf *		open( const char *	name,
-			      ios::openmode     mode,
+  std::filebuf *		open( const char *	name,
+			      std::ios::openmode     mode,
 			      size_t	        maxSize,
 			      size_t	        trimSize );
   
-  filebuf *		open( const char *	name,
-			      ios::openmode     mode );
+  std::filebuf *		open( const char *	name,
+			      std::ios::openmode     mode );
   
   void			close (void);
   
@@ -101,15 +101,15 @@ public:
   bool		    filter( const char * regex );
   const char *	    getFilter( void ) const;
   
-  FilterId	    addFilter( streambuf *		destBuf,
+  FilterId	    addFilter( std::streambuf *		destBuf,
 			       const LogLevel::Level &	outputLevel,
 			       const char *		regex = 0 );
 
-  streambuf *	    getFilterStream( LogBuf::FilterId filter );
+  std::streambuf *	    getFilterStream( LogBuf::FilterId filter );
   LogLevel::Level   getFilterLogLevel( LogBuf::FilterId filter );
   const char *	    getFilterRegex( LogBuf::FilterId filter );
   
-  streambuf *	    delFilter( FilterId id );
+  std::streambuf *	    delFilter( FilterId id );
 
   inline bool		willOutput( const LogLevel::Level & lvl ) const;
   
@@ -122,7 +122,7 @@ public:
   virtual const char *	error( void ) const;
   virtual const char *  getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -139,7 +139,7 @@ public:
 
     inline Filter & operator = ( const Filter & rhs );
       
-    streambuf *	    dest;
+    std::streambuf *	    dest;
     LogLevel::Level outputLevel;
     RegexScan *	    regex;
   };
@@ -148,31 +148,31 @@ public:
 protected:
   
   void initLogBuffer( void );
-  void initbuf( streambuf * outStream );
+  void initbuf( std::streambuf * outStream );
   void initbuf( const char * fn,
-		ios::openmode mode,
+		std::ios::openmode mode,
 		size_t m,
 		size_t t );
   
-  streamsize	sendToStream( streambuf * dest, char * base, streamsize len );
+  std::streamsize	sendToStream( std::streambuf * dest, char * base, std::streamsize len );
   
-  filebuf *	openLog( ios::openmode modeMask );
+  std::filebuf *	openLog( std::ios::openmode modeMask );
   size_t	trimLog( size_t curSize, size_t maxLogSize );
   void		closeLog( void );
 
-  typedef vector< Filter > FilterList;
+  typedef std::vector< Filter > FilterList;
 
   FilePath	    logFileName;
   size_t	    maxSize;
   size_t	    trimSize;
-  ios::openmode	    openMode;
+  std::ios::openmode	    openMode;
   bool		    streamIsFile;
   // int		    logFd;
   
   char *    	buffer;
   
-  streambuf *	stream;
-  streambuf * 	teeStream;
+  std::streambuf *	stream;
+  std::streambuf * 	teeStream;
 
   LogLevel 	logLevel;
   RegexScan *	regex;
@@ -207,14 +207,14 @@ private:
 //
 //  	LogBuf( const char *	    fileName,
 //		LogLevel::Level    outLevel = LogLevel::ERROR, 
-//		ios::openmode	    mode = ios::app,
+//		std::ios::openmode	    mode = std::ios::app,
 //		int		    prot = filebuf::openprot,
 //		size_t		    maxSize = 0,
 //		size_t		    trimSize = 0 );
 //  
 //  	LogBuf( const char *	    fileName,
 //		const char *	    outLevel,
-//		ios::openmode	    mode = ios::app,
+//		std::ios::openmode	    mode = std::ios::app,
 //		int		    prot = filebuf::openprot,
 //		size_t		    maxSize = 0,
 //		size_t		    trimSize = 0 );
@@ -230,7 +230,7 @@ private:
 //
 //  	filebuf *
 //  	open( const char *	name,
-//	      ios::openmode    mode,
+//	      std::ios::openmode    mode,
 //	      int	        prot = filebuf::openprot,
 //	      size_t	        maxSize = 0,
 //	      size_t	        trimSize = 0 );
@@ -268,8 +268,8 @@ private:
 //  	const char *
 //  	getClassName( void ) const;
 //
-//  	ostream &
-//  	dumpInfo( ostream & dest = cerr ) const;
+//  	std::ostream &
+//  	dumpInfo( std::ostream & dest = std::cerr ) const;
 //
 //  Private interface:
 //
@@ -281,7 +281,7 @@ private:
 //
 //  	void
 //  	initbuf( const char * fn,
-//		 ios::openmode mode,
+//		 std::ios::openmode mode,
 //	    	 int prot,
 //		 size_t m,
 //
@@ -304,6 +304,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:51  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:16  paul
 // First go at Mac gcc Port
 //
@@ -392,7 +395,7 @@ private:
 // Added is_open() to detect if there is a valid primary stream open.
 // Changed delFitler to return the streambuf that was given as
 //     the filter's destination.
-// Changed openLog to take an ios::openmode arg that will be
+// Changed openLog to take an std::ios::openmode arg that will be
 //     or'ed (|) with the original open mode. This allows the
 //     log to be appended if it was not opened with 'ios::app', but
 //     it was reopened from within LogBuf.

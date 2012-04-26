@@ -58,14 +58,14 @@ protected:
     E_UNDEFINED
   };
   
-  bool		setError( ErrorNum errNum, streampos pos, int osErr );
+  bool		setError( ErrorNum errNum, std::streampos pos, int osErr );
   
   FilePath	name;
-  fstream *	batch;
+  std::fstream *	batch;
   size_type	recSize;
   
   ErrorNum	errorNum;
-  streampos	errorPos;
+  std::streampos	errorPos;
   int		osErrno;
 };
 
@@ -88,7 +88,7 @@ public:
 
   // * iterator *
   class iterator
-    : public std::iterator< bidirectional_iterator_tag,
+    : public std::iterator< std::bidirectional_iterator_tag,
                             Rec,
                             difference_type,
                             Rec *,
@@ -108,7 +108,7 @@ public:
       {};
 
     inline iterator &	operator ++ ( void ) {
-      pos += (streampos) sizeof( Rec );
+      pos += (std::streampos) sizeof( Rec );
       return( *this );
     };
 
@@ -119,7 +119,7 @@ public:
     };
 
     inline iterator &	operator -- ( void ) {
-      pos -= (streampos) sizeof( Rec );
+      pos -= (std::streampos) sizeof( Rec );
       return( *this );
     };
 
@@ -132,11 +132,11 @@ public:
     inline reference	operator *  ( void ) {
       if( readPos != pos )
 	{
-	  streampos cur( (*owner).file().tellg() );
+	  std::streampos cur( (*owner).file().tellg() );
 	  readPos = pos;
-	  (*owner).file().seekg( pos, ios::beg );
+	  (*owner).file().seekg( pos, std::ios::beg );
 	  (*owner).read( rec );
-	  (*owner).file().seekg( cur, ios::beg );
+	  (*owner).file().seekg( cur, std::ios::beg );
 	}
       return( rec );
     };
@@ -162,28 +162,28 @@ public:
       : owner( o ),
 	readPos( NPOS )
       {
-	streampos cur( (*owner).file().tellg() );
+	std::streampos cur( (*owner).file().tellg() );
 
 	if( recNum == NPOS )
-	  (*owner).file().seekg( 0, ios::end );
+	  (*owner).file().seekg( 0, std::ios::end );
 	else
-	  (*owner).file().seekg( recNum * sizeof( rec ), ios::beg );
+	  (*owner).file().seekg( recNum * sizeof( rec ), std::ios::beg );
 
 	pos = (*owner).file().tellg();
 
-	(*owner).file().seekg( cur, ios::beg );
+	(*owner).file().seekg( cur, std::ios::beg );
       };
 
     FileBatch< T > *	    owner;
     Rec			    rec;
-    streampos		    pos;
-    streampos		    readPos;
+    std::streampos		    pos;
+    std::streampos		    readPos;
   };
 
 
   // * const_iterator *
   class const_iterator
-    : public std::iterator< bidirectional_iterator_tag,
+    : public std::iterator< std::bidirectional_iterator_tag,
                             Rec,
                             difference_type,
                             Rec *,
@@ -209,7 +209,7 @@ public:
       {};
 
     inline const_iterator &	operator ++ ( void ) {
-      pos += (streampos) sizeof( Rec );
+      pos += (std::streampos) sizeof( Rec );
       return( *this );
     };
 
@@ -220,7 +220,7 @@ public:
     };
 
     inline const_iterator &	operator -- ( void ) {
-      pos -= (streampos) sizeof( Rec );
+      pos -= (std::streampos) sizeof( Rec );
       return( *this );
     };
 
@@ -233,11 +233,11 @@ public:
     inline const reference	operator *  ( void ) {
       if( readPos != pos )
 	{
-	  streampos cur( (*owner).file().tellg() );
+	  std::streampos cur( (*owner).file().tellg() );
 	  readPos = pos;
-	  (*owner).file().seekg( pos, ios::beg );
+	  (*owner).file().seekg( pos, std::ios::beg );
 	  (*owner).read( rec );
-	  (*owner).file().seekg( cur, ios::beg );
+	  (*owner).file().seekg( cur, std::ios::beg );
 	}
       return( rec );
     };
@@ -285,29 +285,29 @@ public:
       : owner( o ),
 	readPos( NPOS )
       {
-	streampos cur( (*owner).file().tellg() );
+	std::streampos cur( (*owner).file().tellg() );
 
 	if( recNum == NPOS )
-	  (*owner).file().seekg( 0, ios::end );
+	  (*owner).file().seekg( 0, std::ios::end );
 	else
-	  (*owner).file().seekg( recNum * sizeof( rec ), ios::beg );
+	  (*owner).file().seekg( recNum * sizeof( rec ), std::ios::beg );
 
 	pos = (*owner).file().tellg();
 
-	(*owner).file().seekg( cur, ios::beg );
+	(*owner).file().seekg( cur, std::ios::beg );
       };
 
     const FileBatch< T > *	owner;
     Rec				rec;
-    streampos			pos;
-    streampos			readPos;
+    std::streampos			pos;
+    std::streampos			readPos;
   };
     
   FileBatch( const char *   fileName,
-	     ios::openmode  mode = ios::in );
+	     std::ios::openmode  mode = std::ios::in );
 
   FileBatch( const char *   fileName,
-	     ios::openmode  mode,
+	     std::ios::openmode  mode,
 	     bool	    create );
 
   virtual ~FileBatch( void ) {
@@ -342,7 +342,7 @@ public:
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
-  virtual ostream &     dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream &     dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *  prefix = "    ",
                                   bool          showVer = true ) const;
 
@@ -354,7 +354,7 @@ protected:
   friend class const_iterator;
   friend class iterator;
   
-  fstream &	file( void ) const;
+  std::fstream &	file( void ) const;
   
   size_type	fileSize;
 
@@ -405,6 +405,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:13  paul
 // First go at Mac gcc Port
 //

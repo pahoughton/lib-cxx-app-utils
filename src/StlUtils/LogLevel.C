@@ -190,24 +190,24 @@ LogLevel::getBinSize( void ) const
   return( output.getBinSize() + current.getBinSize() );
 }
 
-ostream &
-LogLevel::write( ostream & dest ) const
+std::ostream &
+LogLevel::write( std::ostream & dest ) const
 {
   output.write( dest );
   current.write( dest );
   return( dest );
 }
 
-istream &
-LogLevel::read( istream & src )
+std::istream &
+LogLevel::read( std::istream & src )
 {
   output.read( src );
   current.read( src );
   return( src );
 }
 
-ostream &
-LogLevel::toStream( ostream & dest ) const
+std::ostream &
+LogLevel::toStream( std::ostream & dest ) const
 {
   dest << getName( current );
   return( dest );
@@ -226,9 +226,9 @@ LogLevel::getVersion( bool withPrjVer ) const
 }
   
 
-ostream &
+std::ostream &
 LogLevel::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -325,6 +325,9 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:51  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:16  paul
 // First go at Mac gcc Port
 //

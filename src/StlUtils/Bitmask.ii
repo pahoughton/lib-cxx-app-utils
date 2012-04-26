@@ -557,22 +557,22 @@ operator >= ( Bitmask::value_type lhs, const Bitmask & rhs )
 
 
 inline
-ostream &
-operator << ( ostream & dest, const Bitmask & obj )
+std::ostream &
+operator << ( std::ostream & dest, const Bitmask & obj )
 {
   return( obj.toStream( dest ) );
 }
 
 inline
-istream &
-operator >> ( istream & src, Bitmask & obj )
+std::istream &
+operator >> ( std::istream & src, Bitmask & obj )
 {
   return( obj.fromStream( src ) );
 }
 
 inline
-ostream &
-operator << ( ostream & dest, const Bitmask::bit & obj )
+std::ostream &
+operator << ( std::ostream & dest, const Bitmask::bit & obj )
 {
   return( obj.toStream( dest ) );
 }
@@ -588,6 +588,9 @@ operator << ( ostream & dest, const Bitmask::bit & obj )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:55  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:10  paul
 // First go at Mac gcc Port
 //
@@ -636,8 +639,8 @@ operator << ( ostream & dest, const Bitmask::bit & obj )
 // Added Copy Constructor.
 // Changed to_string to return a const char *.
 // Reorder functions to match header order.
-// Added ::operator >> ( istream, Bitmask )
-// Added ::operator << ( ostream, Bitmask::bit )
+// Added ::operator >> ( std::istream, Bitmask )
+// Added ::operator << ( std::ostream, Bitmask::bit )
 //
 // Revision 2.5  1996/05/02 01:27:28  houghton
 // Add missing operators for <= & >= long rhs.

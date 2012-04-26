@@ -42,16 +42,16 @@ public:
   virtual time_t    secIn( const DateRange & dateTwo ) const;
   virtual time_t    startsIn( const DateRange & dateTwo ) const;
   
-  virtual ostream & 	toStream( ostream & dest ) const;
+  virtual std::ostream & 	toStream( std::ostream & dest ) const;
   
-  friend inline ostream & operator << ( ostream &		dest,
+  friend inline std::ostream & operator << ( std::ostream &		dest,
 					const DateRangeWeekly & obj );
 
   virtual bool		good( void ) const;
   virtual const char *  error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -128,11 +128,11 @@ compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
 //  	getClassName( void ) const;
 //  	    return the name of this class.
 //
-//  	virtual ostream &
-//  	toStream( ostream & dest ) const;
+//  	virtual std::ostream &
+//  	toStream( std::ostream & dest ) const;
 //
-//  	virtual ostream &
-//  	dumpInfo( ostream & dest ) const;
+//  	virtual std::ostream &
+//  	dumpInfo( std::ostream & dest ) const;
 //
 //  Other Accociated Functions:
 //
@@ -144,6 +144,9 @@ compare( const DateRangeWeekly & one, const DateRangeWeekly & two );
 // %PL%
 // 
 // $Log$
+// Revision 6.2  2012/04/26 20:08:54  paul
+// *** empty log message ***
+//
 // Revision 6.1  2003/08/09 11:22:40  houghton
 // Changed to version 6
 //

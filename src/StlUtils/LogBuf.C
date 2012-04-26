@@ -48,7 +48,7 @@ const LogBuf::FilterId    LogBuf::badFilterId = -1;
 
 LogBuf::LogBuf(
   LogLevel::Level   outLevel,
-  streambuf *	    outStream
+  std::streambuf *	    outStream
   )
   : maxSize( 0 ),
     trimSize( 0 ),
@@ -65,7 +65,7 @@ LogBuf::LogBuf(
 
 LogBuf::LogBuf(
   const char * 	outLevel,
-  streambuf *	outStream
+  std::streambuf *	outStream
   )
   : maxSize( 0 ),
     trimSize( 0 ),
@@ -83,7 +83,7 @@ LogBuf::LogBuf(
 LogBuf::LogBuf(
   const char *	    fileName,
   LogLevel::Level   outLevel,
-  ios::openmode    mode,
+  std::ios::openmode    mode,
   size_t	    logMaxSize,
   size_t	    logTrimSize
   )
@@ -103,7 +103,7 @@ LogBuf::LogBuf(
 LogBuf::LogBuf(
   const char *	    fileName,
   const char *      outLevel,
-  ios::openmode    mode,
+  std::ios::openmode    mode,
   size_t	    logMaxSize,
   size_t	    logTrimSize
   )
@@ -162,17 +162,17 @@ LogBuf::trim( size_t maxLog )
   if( ! stat.good() ||
       ( (size_t)stat.getSize() < (maxLogSize - trimLogSize) ) )
     {
-      openLog(ios::app);
+      openLog(std::ios::app);
       return( 0 );
     }
 
   return( trimLog( stat.getSize(), maxLogSize ) );
 }
 
-filebuf *
+std::filebuf *
 LogBuf::open(
     const char *    name,
-    ios::openmode   mode,
+    std::ios::openmode   mode,
     size_t	    logMaxSize,
     size_t	    logTrimSize
     )
@@ -186,10 +186,10 @@ LogBuf::open(
  return( open( name, mode ) );
 }
 
-filebuf *
+std::filebuf *
 LogBuf::open(
     const char *    name,
-    ios::openmode   mode
+    std::ios::openmode   mode
     )
 {
   if( stream != 0 && is_file() ) {
@@ -206,7 +206,7 @@ LogBuf::open(
  else
    openLog( mode );
  
- return( (filebuf *)(stream) );
+ return( (std::filebuf *)(stream) );
 }
 
 
@@ -219,7 +219,7 @@ LogBuf::close( void )
 
 LogBuf::FilterId
 LogBuf::addFilter(
-  streambuf *		    destBuf,
+  std::streambuf *		    destBuf,
   const LogLevel::Level &   output,
   const char *		    regexString
   )
@@ -288,7 +288,7 @@ LogBuf::getFilter( void ) const
   return( regex ? regex->getPattern() : 0 );
 }
 
-streambuf *
+std::streambuf *
 LogBuf::getFilterStream( LogBuf::FilterId id )
 {
   if( id < (long)filters.size() )
@@ -316,11 +316,11 @@ LogBuf::getFilterRegex( LogBuf::FilterId id )
     return( 0 );
 }
   
-streambuf *
+std::streambuf *
 LogBuf::delFilter( FilterId id )
 {
   sync();
-  streambuf * dest = 0;
+  std::streambuf * dest = 0;
   if( id < (long)filters.size() && filters[id].dest != 0 )
     {
       dest = filters[id].dest;
@@ -439,16 +439,16 @@ LogBuf::sync( void )
     {
 #if defined( STLUTILS_STD_STREAMBUF_STUPID )
       // SUN5 BUG - FIXME - seekoff lies
-      size_t curSize = (size_t)stream->pubseekoff( 0, ios::end, ios::out );
+      size_t curSize = (size_t)stream->pubseekoff( 0, std::ios::end, std::ios::out );
       // FileStat fdStat( logFd );
       
       // size_t curSize = (fdStat.good() ? fdStat.getSize() : 0 );
 #else  
-      size_t curSize = (size_t)stream->seekoff( 0, ios::cur, ios::out );
+      size_t curSize = (size_t)stream->seekoff( 0, std::ios::cur, std::ios::out );
 #endif
 
 #if defined( DEBUG_LOG_TRIM )
-      cerr << "\nlog size: max(" << maxSize
+      std::cerr << "\nlog size: max(" << maxSize
 	   << ") cur (" << curSize << ")"
 	   << endl;
 #endif
@@ -497,9 +497,9 @@ LogBuf::getVersion( bool withPrjVer ) const
   return( version.getVer( withPrjVer, logLevel.getVersion( false ) ) );
 }
 
-ostream &
+std::ostream &
 LogBuf::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -544,7 +544,7 @@ LogBuf::initLogBuffer( void )
 }
 
 void
-LogBuf::initbuf( streambuf * outStream )
+LogBuf::initbuf( std::streambuf * outStream )
 {
   initLogBuffer();
   
@@ -556,7 +556,7 @@ LogBuf::initbuf( streambuf * outStream )
 void
 LogBuf::initbuf(
   const char *	    fileName,
-  ios::openmode	    mode,
+  std::ios::openmode	    mode,
   size_t	    logMaxSize,
   size_t	    logTrimSize
   )
@@ -571,11 +571,11 @@ LogBuf::initbuf(
  
 }
 
-streamsize
-LogBuf::sendToStream( streambuf * dest, char * base, streamsize len )
+std::streamsize
+LogBuf::sendToStream( std::streambuf * dest, char * base, std::streamsize len )
 {
-  streamsize total = 0;
-  streamsize cnt = 0;
+  std::streamsize total = 0;
+  std::streamsize cnt = 0;
   
   for( cnt = dest->sputn( base, len );
        cnt > 0 && cnt < len && len > 0;
@@ -591,13 +591,13 @@ LogBuf::sendToStream( streambuf * dest, char * base, streamsize len )
 }
 
 //
-// the openMask lets me reopen in ios::app when I have to
+// the openMask lets me reopen in std::ios::app when I have to
 // reopen the file.
 //
-filebuf *
-LogBuf::openLog( ios::openmode openMask )
+std::filebuf *
+LogBuf::openLog( std::ios::openmode openMask )
 {
-  filebuf * file = new filebuf();
+  std::filebuf * file = new std::filebuf();
 
   streamIsFile = true;
 
@@ -606,7 +606,7 @@ LogBuf::openLog( ios::openmode openMask )
   // FileStat stat( logFileName );
   
   stream = file->open( logFileName,
-		       (ios::openmode)(openMode | openMask) );
+		       (std::ios::openmode)(openMode | openMask) );
 
   umask( prevMask );
 
@@ -620,12 +620,12 @@ LogBuf::openLog( ios::openmode openMask )
   } else {
 #if defined( DEBUG_SEEK ) 
     int logFd = file->fd();
-    size_t curSize = (size_t)stream->pubseekoff( 0, ios::cur, ios::out );
-    size_t fcurSize = (size_t)file->pubseekoff( 0, ios::cur, ios::out );
-    size_t fendSize = (size_t)file->pubseekoff( 0, ios::end, ios::out );
+    size_t curSize = (size_t)stream->pubseekoff( 0, std::ios::cur, std::ios::out );
+    size_t fcurSize = (size_t)file->pubseekoff( 0, std::ios::cur, std::ios::out );
+    size_t fendSize = (size_t)file->pubseekoff( 0, std::ios::end, std::ios::out );
     FileStat fdStat( logFd );
     
-    cerr << "Log size:\n"
+    std::cerr << "Log size:\n"
 	 << "   stat: " << (stat.good() ? stat.getSize() : 0) << '\n'
 	 << "    cur: " << curSize << '\n'
 	 << "   fcur: " << fcurSize << '\n'
@@ -665,7 +665,7 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
   
   if( rename( logFileName, tmpFn ) )
     {
-      openLog( ios::app );
+      openLog( std::ios::app );
       errorDesc << "rename '"
 		<< logFileName
 		<< "' to '"
@@ -674,7 +674,7 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
       return( 0 );
     }
   
-  ifstream  in( tmpFn );
+  std::ifstream  in( tmpFn );
   
   if( ! in.good() )
     {
@@ -682,11 +682,11 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
 		<< strerror( errno )
 	;
       rename( tmpFn, logFileName );
-      openLog( ios::app );
+      openLog( std::ios::app );
       return( 0 );
     }
 
-  ofstream  out( logFileName, openMode );
+  std::ofstream  out( logFileName, openMode );
 
   if( ! out.good() )
     {
@@ -694,13 +694,13 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
 		<< strerror( errno )
 	;
       rename( tmpFn, logFileName );
-      openLog( ios::app );
+      openLog( std::ios::app );
       return( 0 );
     }
 
   size_t  trimAmount = ( trimSize ? trimSize : maxLogSize / 4 );
 
-  // cerr << "seek: " << (curSize - maxLogSize) + trimAmount << endl;
+  // std::cerr << "seek: " << (curSize - maxLogSize) + trimAmount << endl;
   
   in.seekg( (curSize - maxLogSize) + trimAmount );
 
@@ -709,7 +709,7 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
       in.close();
       out.close();
       rename( tmpFn, logFileName );
-      openLog( ios::app );
+      openLog( std::ios::app );
       return( 0 );
     }
 
@@ -758,12 +758,12 @@ LogBuf::trimLog( size_t curSize, size_t maxLogSize )
 	}
     }
 
-  streampos newSize = out.tellp();
+  std::streampos newSize = out.tellp();
   out.close();
   in.close();
 
   remove( tmpFn );
-  openLog( ios::app );
+  openLog( std::ios::app );
   
   return( curSize - newSize );
 }
@@ -773,7 +773,7 @@ LogBuf::closeLog( void )
 {
   if( is_file() && stream != 0 )
     {
-      filebuf * file = (filebuf *)stream;
+      std::filebuf * file = (std::filebuf *)stream;
       
       file->close();
       delete file;
@@ -787,6 +787,9 @@ LogBuf::closeLog( void )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:51  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:16  paul
 // First go at Mac gcc Port
 //
@@ -803,7 +806,7 @@ LogBuf::closeLog( void )
 // *** empty log message ***
 //
 // Revision 5.3  2000/05/30 15:08:52  houghton
-// Changed mode to use what was given (don't strip ios::in).
+// Changed mode to use what was given (don't strip std::ios::in).
 //
 // Revision 5.2  2000/05/25 17:05:46  houghton
 // Port: Sun CC 5.0.
@@ -856,7 +859,7 @@ LogBuf::closeLog( void )
 //     to accomidate rpm.
 // Changed isFile() to is_file() to be more consistant with the
 //     standard filebuf::is_open().
-// Changed openLog to take an ios::openmode arg that will be
+// Changed openLog to take an std::ios::openmode arg that will be
 //     or'ed (|) with the original open mode. This allows the
 //     log to be appended if it was not opened with 'ios::app', but
 //     it was reopened from within LogBuf.

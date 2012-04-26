@@ -35,28 +35,28 @@ SizeIt::~SizeIt( void )
 {
 }
 
-ostream &
-SizeIt::toStream( ostream & dest ) const
+std::ostream &
+SizeIt::toStream( std::ostream & dest ) const
 {
   dest << it;
   return( dest );
 }
 
-istream &
-SizeIt::fromStream( istream & src )
+std::istream &
+SizeIt::fromStream( std::istream & src )
 {
   src >> it;
   return( src );
 }
 
-ostream &
-SizeIt::write( ostream & dest ) const
+std::ostream &
+SizeIt::write( std::ostream & dest ) const
 {
   return( dest.write( (const char *)&it, sizeof( it ) ) );
 }
 
-istream &
-SizeIt::read( istream & src )
+std::istream &
+SizeIt::read( std::istream & src )
 {
   return( src.read( (char *)&it, sizeof( it ) ) );
 }
@@ -102,9 +102,9 @@ SizeIt::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 SizeIt::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -148,6 +148,9 @@ SizeIt::setSize( size_type size )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:50  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:18  paul
 // First go at Mac gcc Port
 //

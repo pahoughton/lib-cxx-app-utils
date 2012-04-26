@@ -55,7 +55,7 @@ User::User( const struct passwd * passwdEntry, bool findGrps )
 }
 
 inline
-User::User( istream & src, bool text, bool findGrps )
+User::User( std::istream & src, bool text, bool findGrps )
 {
   if( text )
     {
@@ -278,8 +278,8 @@ compare( const User & one, const User & two )
 }
 
 inline
-ostream &
-operator << ( ostream & dest, const User & obj )
+std::ostream &
+operator << ( std::ostream & dest, const User & obj )
 {
   return( obj.toStream( dest ) );
 }
@@ -290,6 +290,9 @@ operator << ( ostream & dest, const User & obj )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:44  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:35  paul
 // First go at Mac gcc Port
 //

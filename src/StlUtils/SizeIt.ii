@@ -137,15 +137,15 @@ SizeIt::dump( const char * prefix, bool showVer ) const
 }
 
 inline
-ostream &
-operator << ( ostream & dest, const SizeIt & obj )
+std::ostream &
+operator << ( std::ostream & dest, const SizeIt & obj )
 {
   return( obj.toStream( dest ) );
 }
 
 inline
-istream &
-operator >> ( istream & src, SizeIt & obj )
+std::istream &
+operator >> ( std::istream & src, SizeIt & obj )
 {
   return( obj.fromStream( src ) );
 }
@@ -161,6 +161,9 @@ operator >> ( istream & src, SizeIt & obj )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:50  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:18  paul
 // First go at Mac gcc Port
 //

@@ -378,8 +378,8 @@ FilePath::setTempName( const char * path, const char * prefix )
   return( size() != 0 );
 }
 
-ostream &
-FilePath::toStream( ostream & dest ) const
+std::ostream &
+FilePath::toStream( std::ostream & dest ) const
 {
   return( Str::toStream( dest ) );
 }
@@ -394,8 +394,8 @@ FilePath::getBinSize( void ) const
 }
 
 	    
-ostream & 
-FilePath::write( ostream & dest ) const
+std::ostream & 
+FilePath::write( std::ostream & dest ) const
 {
   size_type  len = size();
   dest.write( (const char *)&len, sizeof( len ) );
@@ -405,27 +405,27 @@ FilePath::write( ostream & dest ) const
   return( dest );
 }
 
-ostream &
+std::ostream &
 FilePath::write( const char * src, int size )
 {
   return( Str::write( src, size ) );
 }
 
 #if defined( STLUTILS_STR_UNSIGNED )
-ostream &
+std::ostream &
 FilePath::write( const unsigned char * src, int size )
 {
   return( Str::write( src, size ) );
 }
 #endif
 
-ostream &
+std::ostream &
 FilePath::write( const wchar_t * src, int size )
 {
   return( Str::write( src, size ) );
 }
 
-ostream &
+std::ostream &
 FilePath::write( const void * src, size_type size )
 {
   return( Str::write( src, size ) );
@@ -433,8 +433,8 @@ FilePath::write( const void * src, size_type size )
 
   
 
-istream &
-FilePath::read( istream & src )
+std::istream &
+FilePath::read( std::istream & src )
 {
   size_type  len = 0;
   src.read( (char *)&len, sizeof( len ) );
@@ -453,14 +453,14 @@ FilePath::read( istream & src )
   return( src );
 }
 
-istream &
+std::istream &
 FilePath::read( char * dest, int size )
 {
   return( Str::read( dest, size ) );
 }
 
 #if defined( STLUTILS_STR_UNSIGNED )
-istream &
+std::istream &
 FilePath::read( unsigned char * dest, int size )
 {
   return( Str::read( dest, size ) );
@@ -513,9 +513,9 @@ FilePath::getVersion( bool withPrjVer ) const
   return( version.getVer( withPrjVer ) );
 }
 
-ostream &
+std::ostream &
 FilePath::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -545,6 +545,9 @@ FilePath::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:13  paul
 // First go at Mac gcc Port
 //

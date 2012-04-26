@@ -36,7 +36,7 @@ SubStr::SubStr( Str & src, size_type start, size_type length )
   : str( src ),
     constStr( src ),
     pos( start ),
-    len( min( src.size() - start, length ) )
+    len( std::min( src.size() - start, length ) )
 {
 }
 
@@ -45,7 +45,7 @@ SubStr::SubStr( const Str & src, size_type start, size_type length )
   : str(dummyStr),
     constStr( src ),
     pos( start ),
-    len( min( src.size() - start, length ) )
+    len( std::min( src.size() - start, length ) )
 {
   ;
 }
@@ -90,7 +90,7 @@ SubStr::size_type
 SubStr::copy( char * dest, size_type destLen, size_type start ) const
 {
   size_type copyLen = (destLen == npos ? size() - start :
-		       min( destLen, size() - start ) );
+		       std::min( destLen, size() - start ) );
   
   strncpy( dest, strbase() + start, copyLen );
   if( destLen == npos || copyLen < destLen )
@@ -477,15 +477,15 @@ SubStr::good( void ) const
 }
 
 inline
-ostream &
-operator << ( ostream & dest, const SubStr & src )
+std::ostream &
+operator << ( std::ostream & dest, const SubStr & src )
 {
   return( src.toStream( dest ) );
 }
 
 inline
-istream &
-operator >> ( istream & src, SubStr & dest )
+std::istream &
+operator >> ( std::istream & src, SubStr & dest )
 {
   Str tmp( src );
   if( src.good() )
@@ -706,6 +706,9 @@ SubStr::operator =  ( const string & src )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:48  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:22  paul
 // First go at Mac gcc Port
 //
@@ -756,7 +759,7 @@ SubStr::operator =  ( const string & src )
 // Added copy( const char * ... ).
 //
 // Revision 3.2  1997/07/18 19:30:52  houghton
-// Port(Sun5): reworked istream operator >> SubStr to eliminate compiler error.
+// Port(Sun5): reworked std::istream operator >> SubStr to eliminate compiler error.
 //
 // Revision 3.1  1996/11/14 01:24:24  houghton
 // Changed to Release 3

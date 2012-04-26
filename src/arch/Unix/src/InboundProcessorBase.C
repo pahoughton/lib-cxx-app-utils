@@ -66,7 +66,7 @@ InboundProcessorBase::InboundProcessorBase(
 	  LLgDebug << "looking for(" << p << "):\n"
 		   << "  '" << inDir << "'\n"
 		   << "  '" << tmp << "'"
-		   << endl;
+		   << std::endl;
 	}
     }
   else
@@ -75,7 +75,7 @@ InboundProcessorBase::InboundProcessorBase(
       LLgDebug << "looking for:\n"
 	       << "  '" << inDir << "'\n"
 	       << "  '" << fnPattern << "'"
-	       << endl;
+	       << std::endl;
       
     }
 }
@@ -125,7 +125,7 @@ InboundProcessorBase::run( bool tossDups )
 	      ++ fileFoundCounter;
 	  
 	      _LLg( LogLevel::Debug ) << "found: '"
-				      << (*them).getName() << '\'' << endl;
+				      << (*them).getName() << '\'' << std::endl;
 
 	      if( sigCatcher && sigCatcher->caught().size() )
 		return( true );
@@ -144,7 +144,7 @@ InboundProcessorBase::run( bool tossDups )
 		      // lie about didit so we don't go to sleep yet.
 		      LLgDebug << "file moved:\n"
 			       << (*them).getName()
-			       << endl;
+			       << std::endl;
 		      didit = true;
 		      reScan = true;
 		      break;
@@ -152,7 +152,7 @@ InboundProcessorBase::run( bool tossDups )
 		    LLgDebug << "sem failed retrying (prj "
 			     << (int) semPrj
 			     << ')'
-			     << endl;
+			     << std::endl;
 		    // else try w/ diff semPrj
 		  } else {
 		    // sem created
@@ -172,27 +172,27 @@ InboundProcessorBase::run( bool tossDups )
 		  FileOp	fileOp;
 	      
 		  LLgDebug << "locked: '"
-			   << (*them).getName() << '\'' << endl;
+			   << (*them).getName() << '\'' << std::endl;
 		  
 		  FilePath	destFn( procDir,
 					(*them).getName().getFileName() );
 		  FileStat	destStat( destFn );
 		  
 		  LLgDebug << "dup check:\n   '"
-			   << destStat.getName() << '\'' << endl;
+			   << destStat.getName() << '\'' << std::endl;
 		    
 		  if( destStat.good() ) {
 		    if( tossDups ) {
 		      if( ! fileOp.remove( (*them).getName() ) ) {
 			LLgError << "remove dup failed:\n"
 				 << "  " << (*them).getName()
-				 << endl;
+				 << std::endl;
 			return( setError( fileOp.error(),
 					  destStat.getName() ) );
 		      } else {
 			LLgDebug << "removed dup:\n     '"
 				 << (*them).getName() << '\''
-				 << endl;
+				 << std::endl;
 		      }
 		      if( ! sem.remove() )
 			return( setError( sem.error() ) );
@@ -202,7 +202,7 @@ InboundProcessorBase::run( bool tossDups )
 		      continue;
 		    } else {
 		      LLgError << "dup input file:\n    '"
-			       << '\'' << endl;
+			       << '\'' << std::endl;
 		      return( setError( "dup input file in proc dir",
 					destFn ) );
 		    }
@@ -252,7 +252,7 @@ InboundProcessorBase::run( bool tossDups )
 	      else
 		{
 		  if( ! sem.good() )
-		    _LLg( LogLevel::Debug ) << sem.error() << endl;
+		    _LLg( LogLevel::Debug ) << sem.error() << std::endl;
 		}
 	    }
 
@@ -315,9 +315,9 @@ InboundProcessorBase::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 InboundProcessorBase::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -382,6 +382,9 @@ InboundProcessorBase::setError(
 // %PL%
 // 
 // $Log$
+// Revision 6.5  2012/04/26 20:08:46  paul
+// *** empty log message ***
+//
 // Revision 6.4  2011/12/30 23:57:32  paul
 // First go at Mac gcc Port
 //

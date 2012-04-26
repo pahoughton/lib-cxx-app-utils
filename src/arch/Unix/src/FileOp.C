@@ -121,9 +121,9 @@ FileOp::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 FileOp::dumpInfo(
-  ostream &	destStream,
+  std::ostream &	destStream,
   const char *	prefix,
   bool		showVer
   ) const
@@ -420,7 +420,7 @@ FileOp::removeFile( const char * fn )
 bool
 FileOp::removeDir( const char * dn, bool recurse )
 {
-  LLgDebug << "removeDir( " << dn << ", " << recurse << ")." << endl;
+  LLgDebug << "removeDir( " << dn << ", " << recurse << ")." << std::endl;
   
   if( recurse )
     {
@@ -437,7 +437,7 @@ FileOp::removeDir( const char * dn, bool recurse )
 	      if( (*them).isDir() )
 		{
 		  LLgDebug << "removing dir  '" << (*them).getName() << "'."
-			   << endl;
+			   << std::endl;
 		  
 		  if( ! removeDir( (*them).getName(), true ))
 		    return( false );
@@ -445,7 +445,7 @@ FileOp::removeDir( const char * dn, bool recurse )
 	      else
 		{
 		  LLgDebug << "removing file '" << (*them).getName() << "'."
-			   << endl;
+			   << std::endl;
 		  
 		  if( ! removeFile( (*them).getName() ) )
 		    return( false );
@@ -455,7 +455,7 @@ FileOp::removeDir( const char * dn, bool recurse )
     }
 
   LLgDebug << "removing dir  '" << dn << "'."
-	   << endl;
+	   << std::endl;
   
   if( ::rmdir( dn ) )
     {
@@ -581,6 +581,9 @@ FileOp::setError(
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/04/26 20:08:47  paul
+// *** empty log message ***
+//
 // Revision 6.3  2012/04/02 10:12:47  paul
 // *** empty log message ***
 //

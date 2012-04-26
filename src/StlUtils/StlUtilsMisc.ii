@@ -31,7 +31,7 @@ inline
 void
 IncCounter( CounterMap & map, const KeyType & key )
 {
-  pair< typename CounterMap::iterator, bool >  ins;
+  std::pair< typename CounterMap::iterator, bool >  ins;
     
   ins = map.insert( CounterMap::value_type( key, 1 ) );
 
@@ -266,6 +266,9 @@ RoundDown( NumberType value, int factor  )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:49  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:19  paul
 // First go at Mac gcc Port
 //

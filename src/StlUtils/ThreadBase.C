@@ -165,9 +165,9 @@ ThreadBase::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 ThreadBase::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -262,9 +262,9 @@ ThreadBase::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 ThreadBase::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -291,6 +291,9 @@ ThreadBase::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:48  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:22  paul
 // First go at Mac gcc Port
 //

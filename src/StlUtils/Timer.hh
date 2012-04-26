@@ -51,13 +51,13 @@ public:
   inline time_t    	getStart( void ) const;
   inline time_t    	getStop( void ) const;
 
-  virtual ostream &	toStream( ostream & dest = cout ) const;
+  virtual std::ostream &	toStream( std::ostream & dest = std::cout ) const;
   
-  friend inline ostream & operator<<( ostream & dest, const Timer & timer );
+  friend inline std::ostream & operator<<( std::ostream & dest, const Timer & timer );
   
   virtual const char *	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -84,6 +84,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:48  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:23  paul
 // First go at Mac gcc Port
 //

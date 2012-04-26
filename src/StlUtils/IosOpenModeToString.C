@@ -25,28 +25,28 @@ STLUTILS_FUNCT_VERSION(
   "$Id$ " );
 
 const char *
-IosOpenModeToString( ios::openmode mode );
+IosOpenModeToString( std::ios::openmode mode );
 
 const char *
-IosOpenModeToString( ios::openmode mode )
+IosOpenModeToString( std::ios::openmode mode )
 {
   static Str modeStr;
 
   modeStr = "";
   
-  if( mode & ios::in )
+  if( mode & std::ios::in )
     modeStr << "ios::in | ";
 
-  if( mode & ios::out )
+  if( mode & std::ios::out )
     modeStr << "ios::out | ";
 
-  if( mode & ios::ate )
+  if( mode & std::ios::ate )
     modeStr << "ios::ate | ";
 
-  if( mode & ios::app )
+  if( mode & std::ios::app )
     modeStr << "ios::app | ";
 
-  if( mode & ios::trunc )
+  if( mode & std::ios::trunc )
     modeStr << "ios::trunc | ";
   
   if( modeStr.size() > 3 )
@@ -62,6 +62,9 @@ IosOpenModeToString( ios::openmode mode )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:52  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:14  paul
 // First go at Mac gcc Port
 //
@@ -84,7 +87,7 @@ IosOpenModeToString( ios::openmode mode )
 // Changed: renamed library to StlUtils.
 //
 // Revision 3.2  1997/04/05 11:57:41  houghton
-// Changed AIX41 does not have ios::binary.
+// Changed AIX41 does not have std::ios::binary.
 //
 // Revision 3.1  1997/04/04 20:51:48  houghton
 // Initial Versionn.

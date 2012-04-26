@@ -70,7 +70,7 @@ User::findGroups( void )
 	      _LLg( LogLevel::Debug )
 		<< "Inserting group: " << g
 		<< " size: " << groups.size()
-		<< endl;
+		<< std::endl;
 	      
 	      _LLgUnLock;
 
@@ -118,15 +118,15 @@ User::getBinSize( void ) const
   return( sizeof( uid_t ) );
 }
 
-ostream &
-User::write( ostream & dest ) const
+std::ostream &
+User::write( std::ostream & dest ) const
 {
   dest.write( (const char *)&uid, sizeof( uid ) );
   return( dest );
 }
 
-istream &
-User::read( istream & src )
+std::istream &
+User::read( std::istream & src )
 {
   uid_t	user;
   src.read( (char *)&user, sizeof( user ) );
@@ -135,15 +135,15 @@ User::read( istream & src )
 }
 
 
-ostream &
-User::toStream( ostream & dest ) const
+std::ostream &
+User::toStream( std::ostream & dest ) const
 {
   dest << name;
   return( dest );
 }
 
-istream &
-User::fromStream( istream & src )
+std::istream &
+User::fromStream( std::istream & src )
 {
   Str inName;
   src >> inName;
@@ -201,9 +201,9 @@ User::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 User::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -221,7 +221,7 @@ User::dumpInfo(
   {
     Str pre;
     pre << prefix << "primeGroup:"
-	<< primeGroup.getClassName() << "::" << ends;
+	<< primeGroup.getClassName() << "::" << std::ends;
     
     primeGroup.dumpInfo( dest, pre.c_str(), false );
     
@@ -247,7 +247,7 @@ User::dumpInfo(
 	   them != groups.end();
 	   them++ )
 	{
-	  dest << prefix << *them << endl;
+	  dest << prefix << *them << std::endl;
 	}
     }
 
@@ -278,6 +278,9 @@ User::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:45  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:34  paul
 // First go at Mac gcc Port
 //

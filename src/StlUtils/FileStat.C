@@ -189,25 +189,25 @@ FileStat::setOwner( uid_t uid, gid_t gid )
   return( true );
 }
 
-ostream &
-FileStat::toStream( ostream & dest ) const
+std::ostream &
+FileStat::toStream( std::ostream & dest ) const
 {
   if( ! good() )
     dest << error();
   else
     {
-      dest.setf( ios::left );
+      dest.setf( std::ios::left );
       
       dest << getModeString() << ' '
-	   << setw( 8 ) << getUserName() << ' '
-	   << setw( 8 ) << getGroupName() << ' '
+	   << std::setw( 8 ) << getUserName() << ' '
+	   << std::setw( 8 ) << getGroupName() << ' '
 	;
       
-      dest.unsetf( ios::left );
+      dest.unsetf( std::ios::left );
 
       DateTime mdt( getModificationTime(), true );
       
-      dest << setw( 10 ) << getSize() << ' '
+      dest << std::setw( 10 ) << getSize() << ' '
 	   << mdt << ' '
 	   << getName()
 	;
@@ -267,9 +267,9 @@ FileStat::getVersion( bool withPrjVer ) const
   return( version.getVer( withPrjVer ) );
 }
 
-ostream &
+std::ostream &
 FileStat::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -426,6 +426,9 @@ FileStat::setModeString( void )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:52  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:14  paul
 // First go at Mac gcc Port
 //

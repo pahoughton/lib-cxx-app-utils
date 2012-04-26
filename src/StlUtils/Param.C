@@ -68,10 +68,10 @@ Param::Param(
   bool		    useDefaultArgFn,
   const char *	    logLevel,
   bool		    useDefaultLogFn,
-  ios::openmode     logOpenMode
+  std::ios::openmode     logOpenMode
   )
   : versionText( appVersion ? appVersion : "version unknown" ),
-    appLog( cout, logLevel ),
+    appLog( std::cout, logLevel ),
     helpFlag( false ),
     haveStopFlag( false ),
     logMode( logOpenMode ),
@@ -97,10 +97,10 @@ Param::Param(
   bool		    useDefaultArgFn,
   const char *	    logLevel,
   bool		    useDefaultLogFn,
-  ios::openmode	    logOpenMode
+  std::ios::openmode	    logOpenMode
   )
   : versionText( appVersion ? appVersion : "version unknown" ),
-    appLog( cout, logLevel ),
+    appLog( std::cout, logLevel ),
     helpFlag( false ),
     haveStopFlag( false ),
     logMode( logOpenMode ),
@@ -230,7 +230,7 @@ Param::logStartInfo( void )
   if( ! appLog.getTimeStamp() )
     appLog << " at " << appStartTime;
 
-  appLog << '.' << endl;
+  appLog << '.' << std::endl;
   return( appLog );
 }
 
@@ -247,7 +247,7 @@ Param::logExitInfo( int exitCode )
   if( ! appLog.getTimeStamp() )
     appLog << " at " << DateTime( time(0), true );
 
-  appLog << '.' << endl;
+  appLog << '.' << std::endl;
   
   return( appLog );
 }
@@ -294,13 +294,13 @@ Param::parseArgs( void )
     {
       if( versionText.size() )
 	{
-	  cout << "Version: " << versionText;
+	  std::cout << "Version: " << versionText;
 	}
       else
 	{
-	  cout << "Version: (unknown)";
+	  std::cout << "Version: (unknown)";
 	}
-      cout << endl;
+      std::cout << std::endl;
       exit( 0 );
     }
 
@@ -346,7 +346,7 @@ Param::parseArgs( void )
 	  "LOG_FILTER" );
   
   argFlag( logTee,
-	   "Tee log output to cerr.",
+	   "Tee log output to std::cerr.",
 	   0,
 	   "log-tee",
 	   "LOG_TEE" );
@@ -411,7 +411,7 @@ Param::parseArgs( void )
     appLog.filter( logFilter.c_str() );
   
   if( logTee )
-    appLog.tee( cerr );
+    appLog.tee( std::cerr );
   
   appLog.setTimeStamp( logTimeStamp );
   appLog.setLevelStamp( logLevelStamp );
@@ -438,8 +438,8 @@ Param::parseArgs( void )
 
 	  if( errLevel.getOutput() != LogLevel::None )
 	    {
-	      errorLogFile = new ofstream( errorLogName,
-					   ios::out | ios::app );
+	      errorLogFile = new std::ofstream( errorLogName,
+					   std::ios::out | std::ios::app );
       
 	      if( errorLogFile )
 		{
@@ -512,7 +512,7 @@ Param::parseArgs( int argCount, char * argValue[] )
   
   
 bool
-Param::readArgs( istream & src )
+Param::readArgs( std::istream & src )
 {
   Str    line;
 
@@ -1186,10 +1186,10 @@ Param::abort(
   bool		showArgs,
   const char *	srcFile,
   long		srcLine,
-  ostream &	mesgDest )
+  std::ostream &	mesgDest )
 {
   if( showArgs )
-    mesgDest << *this << endl;
+    mesgDest << *this << std::endl;
 
   if( exitStatus )
     mesgDest << "Aborted(" << exitStatus << ")";
@@ -1201,9 +1201,9 @@ Param::abort(
 
   if( log().rdbuf()->is_file() )
     mesgDest << ": see log (" << log().rdbuf()->getLogFileName()
-	     << ") for more info." << endl;
+	     << ") for more info." << std::endl;
   else
-    mesgDest << '.' << endl;
+    mesgDest << '.' << std::endl;
   
   exit( exitStatus );
 }
@@ -1241,7 +1241,7 @@ Param::error( void ) const
       Str::size_type	errorSize = errStr.size();
       
       if( ! appLog.good() )
-	errStr << ": " << appLog.error() << endl;
+	errStr << ": " << appLog.error() << std::endl;
       
       for( ErrorList::const_iterator them = errors.begin();
 	   them != errors.end();
@@ -1295,8 +1295,8 @@ Param::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
-Param::toStream( ostream & dest ) const
+std::ostream &
+Param::toStream( std::ostream & dest ) const
 {
   dest << "\n" << appName() << " usage help: \n\n";
 
@@ -1323,7 +1323,7 @@ Param::toStream( ostream & dest ) const
       for( Args::const_iterator them = fileArgs.begin();
 	   them != fileArgs.end();
 	   ++ them )
-	dest << "  " << (*them) << endl;
+	dest << "  " << (*them) << std::endl;
     }
 	  
   if( count() )
@@ -1332,7 +1332,7 @@ Param::toStream( ostream & dest ) const
       
       Args::const_iterator them = argv.begin();
       for( ; them != argv.end(); ++ them )
-	dest << "  " << (*them) << endl;
+	dest << "  " << (*them) << std::endl;
     }
 
   if( ! good() )
@@ -1341,9 +1341,9 @@ Param::toStream( ostream & dest ) const
   return( dest );
 }
 
-ostream &
+std::ostream &
 Param::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -1401,7 +1401,7 @@ Param::dumpInfo(
       for( Args::const_iterator them = fileArgs.begin();
 	   them != fileArgs.end();
 	   ++ them )
-	dest << "  " << (*them) << endl;
+	dest << "  " << (*them) << std::endl;
     }
 	  
   if( count() > 1 )
@@ -1410,7 +1410,7 @@ Param::dumpInfo(
       
       Args::const_iterator them = argv.begin();
       for( ; them != argv.end(); ++ them )
-	dest << "  " << (*them) << endl;
+	dest << "  " << (*them) << std::endl;
     }
 
   dest << '\n';
@@ -1529,7 +1529,7 @@ Param::appendHelp(
 {
   Str argHelp;
 
-  argHelp.setf( ios::left, ios::adjustfield );
+  argHelp.setf( std::ios::left, std::ios::adjustfield );
 
   size_t    contLinePadSize(16); 
     
@@ -1624,7 +1624,7 @@ int Stlutils_Prama_Gen_NoDate( 0 );
 void
 Param::genArgFile( bool exitApp ) const
 {
-  ostream * out;
+  std::ostream * out;
 
   if( argFile.size() )
     {
@@ -1642,7 +1642,7 @@ Param::genArgFile( bool exitApp ) const
 	    {
 	      LLgError
 		<< "gen args file - " << fileOp.error()
-		<< endl;
+		<< std::endl;
 	      if( _LibLog )
 		(*_LibLog).close();
 	      
@@ -1653,11 +1653,11 @@ Param::genArgFile( bool exitApp ) const
 		exit( 1 );
 	    }
 	}
-      out = new ofstream( argFile );
+      out = new std::ofstream( argFile );
     }
   else
     {
-      out = &cout;
+      out = &std::cout;
     }
 
   if( (*out).good() )
@@ -1730,23 +1730,23 @@ Param::genArgFile( bool exitApp ) const
 
   bool status( (*out).good() ? true : false );
   
-  if( out != &cout )
+  if( out != &std::cout )
     delete out;
 
   if( helpFlag )
-    cerr << (*this) << "\n";
+    std::cerr << (*this) << "\n";
       
   if( status )
-    cerr << "\n Generated args file ";
+    std::cerr << "\n Generated args file ";
   else
-    cerr << "ERROR: Generate args file failed ";
+    std::cerr << "ERROR: Generate args file failed ";
     
   if( argFile.size() )
-    cerr << '\'' << argFile << "'.\n";
+    std::cerr << '\'' << argFile << "'.\n";
   else
-    cerr << "to cout.\n";
+    std::cerr << "to std::cout.\n";
 
-  cerr << endl;
+  std::cerr << std::endl;
 
   if( exitApp )
     exit( status ? 0 : 1 );
@@ -1759,6 +1759,9 @@ Param::genArgFile( bool exitApp ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/04/26 20:08:50  paul
+// *** empty log message ***
+//
 // Revision 6.3  2011/12/30 23:57:17  paul
 // First go at Mac gcc Port
 //
@@ -1913,7 +1916,7 @@ Param::genArgFile( bool exitApp ) const
 // Removed support for short file names to accomidate rpm.
 // Major re-work of most function to use 'string'
 // Major re-work to use vector<string> for managing argv.
-// Added readArgs to read arg from a istream.
+// Added readArgs to read arg from a std::istream.
 //
 // Revision 3.1  1996/11/14 01:23:53  houghton
 // Changed to Release 3

@@ -45,7 +45,7 @@ static const char * FileLock_TypeName[] =
   "read", "write", "unlock", "UNDEFINED", 0
 };
 
-FileLock::FileLock( const char * fileName, ios::openmode mode )
+FileLock::FileLock( const char * fileName, std::ios::openmode mode )
   : lockFn( fileName ),
     fd( -1 ),
     oserrno( ENOENT ),
@@ -94,8 +94,8 @@ FileLock::~FileLock( void )
 bool
 FileLock::lock(
   Type		type,
-  streamoff	offset,
-  ios::seek_dir	dir,
+  std::streamoff	offset,
+  std::ios::seek_dir	dir,
   size_t	amount,
   bool		block )
 {
@@ -214,9 +214,9 @@ FileLock::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 FileLock::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -264,6 +264,9 @@ FileLock::typeName( Type t )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:47  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:30  paul
 // First go at Mac gcc Port
 //

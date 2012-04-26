@@ -24,9 +24,9 @@
 #include <StlUtilsMisc.hh>
 #include <iomanip>
 
-ostream &
+std::ostream &
 CommaNumber(
-  ostream &	dest,
+  std::ostream &	dest,
   long		num,
   size_t	width,
   char		fillChar,
@@ -76,7 +76,7 @@ CommaNumber(
   if( width > 0 ) {
     char prevFill;
     prevFill = dest.fill( fillChar );
-    dest << setw( width ) << &(buf[pos + 1]);
+    dest << std::setw( width ) << &(buf[pos + 1]);
     dest.fill( prevFill );
   } else {
     dest << &(buf[pos + 1]);

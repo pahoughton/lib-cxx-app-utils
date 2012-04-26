@@ -100,7 +100,7 @@ FileBatchBase::error( void ) const
 }       
 
 bool
-FileBatchBase::setError( ErrorNum errNum, streampos errPos, int osErr )
+FileBatchBase::setError( ErrorNum errNum, std::streampos errPos, int osErr )
 {
   errorNum  = errNum;
   errorPos  = errPos;
@@ -115,6 +115,9 @@ FileBatchBase::setError( ErrorNum errNum, streampos errPos, int osErr )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:12  paul
 // First go at Mac gcc Port
 //

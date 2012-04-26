@@ -91,7 +91,7 @@ public:
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *  getVersion( bool withPrjVer = true ) const;
-  virtual ostream &     dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream &     dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *  prefix = "    ",
                                   bool          showVer = true ) const;
 
@@ -237,6 +237,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/04/26 20:08:47  paul
+// *** empty log message ***
+//
 // Revision 6.3  2012/04/02 10:12:46  paul
 // *** empty log message ***
 //

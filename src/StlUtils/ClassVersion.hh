@@ -233,9 +233,9 @@ const ClassVersion className_::version( #className_,			      \
 //  Associated Functions:
 //
 //	inline
-//  	ostream &
-//  	operator << ( ostream & dest, const ClassVersion & obj );
-//  	    Put the string returned by getVer( true ) on the ostream.
+//  	std::ostream &
+//  	operator << ( std::ostream & dest, const ClassVersion & obj );
+//  	    Put the string returned by getVer( true ) on the std::ostream.
 //
 //  Example:
 //
@@ -283,6 +283,9 @@ const ClassVersion className_::version( #className_,			      \
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/04/26 20:08:54  paul
+// *** empty log message ***
+//
 // Revision 6.3  2012/04/02 10:12:18  paul
 // *** empty log message ***
 //
@@ -328,7 +331,7 @@ const ClassVersion className_::version( #className_,			      \
 // Cleanup header comments.
 //
 // Revision 2.5  1996/10/28 11:55:23  houghton
-// Added: ostream & operator << ( ostream & dest, const ClassVersion & obj )
+// Added: std::ostream & operator << ( std::ostream & dest, const ClassVersion & obj )
 // Added: operator const char * ()
 // Edit and verify header docuementation for man page generation.
 //

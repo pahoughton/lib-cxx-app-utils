@@ -29,11 +29,11 @@ STLUTILS_FUNCT_VERSION(
 
 
 int
-Whence( ios::seek_dir dir )
+Whence( std::ios::seek_dir dir )
 {
-  return( dir == ios::beg ? SEEK_SET :
-	  dir == ios::cur ? SEEK_CUR :
-	  dir == ios::end ? SEEK_END : -1 );
+  return( dir == std::ios::beg ? SEEK_SET :
+	  dir == std::ios::cur ? SEEK_CUR :
+	  dir == std::ios::end ? SEEK_END : -1 );
 }
 
 
@@ -43,6 +43,9 @@ Whence( ios::seek_dir dir )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:44  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:35  paul
 // First go at Mac gcc Port
 //

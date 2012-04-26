@@ -126,7 +126,7 @@ inline
 bool
 Param::readArgs( const char * fileName )
 {
-  ifstream  in( fileName );
+  std::ifstream  in( fileName );
 
   if( in.good() )
     return( readArgs( in ) );
@@ -193,8 +193,8 @@ Param::dump( const char * prefix, bool showVer ) const
 }
 
 inline
-ostream &
-operator<<( ostream & dest, const Param & obj )
+std::ostream &
+operator<<( std::ostream & dest, const Param & obj )
 {
   return( obj.toStream( dest ) );
 }
@@ -244,6 +244,9 @@ Param::matchArg( const Str & arg, const char * id, Str::size_type endPos )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:50  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:18  paul
 // First go at Mac gcc Port
 //

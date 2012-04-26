@@ -70,9 +70,9 @@ include Make/make.cfg.$(make_cfg_ver)
 # if you want it re-gen'd, just delete the tags
 #
 
-VER_MAJOR	= 6
-VER_MINOR	= 02
-VER_RELEASE	= 01
+VER_MAJOR	= $(PROJECT_VER_MAJOR)
+VER_MINOR	= $(PROJECT_VER_MINOR)
+VER_RELEASE	= $(PROJECT_VER_RELEASE)
 VERSION		= $(VER_MAJOR).$(VER_MINOR).$(VER_RELEASE)
 
 LIBRARY_DEFAULT	= lib$(NAME)_s.a

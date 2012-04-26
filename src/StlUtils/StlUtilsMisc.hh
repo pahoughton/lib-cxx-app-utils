@@ -45,22 +45,22 @@ SC_TYPE::operator SC_OPERATOR ( const SC_TYPE & rhs ) const		      \
 // Functions
 int
 STLUTILS_FUNCT_T
-OpenFlags( ios::openmode openMode );
+OpenFlags( std::ios::openmode openMode );
 
 int
-Whence( ios::seek_dir dir );
+Whence( std::ios::seek_dir dir );
 
-ios::openmode
+std::ios::openmode
 IosOpenModeFromString( const char * modeString );
 
 const char * 
-IosOpenModeToString( ios::openmode mode );
+IosOpenModeToString( std::ios::openmode mode );
 
 const char * 
-IosSeekDirToString( ios::seek_dir dir );
+IosSeekDirToString( std::ios::seek_dir dir );
 
-ostream &
-CommaNumber( ostream &	dest,
+std::ostream &
+CommaNumber( std::ostream &	dest,
 	     long	num,
 	     size_t	width,
 	     char	fill,
@@ -83,11 +83,11 @@ CommaNumber( ostream &	dest,
 //  Functions:
 //
 //	int
-//	OpenFlags( ios::openmode openMode )
-//	    Returns the ios::openmode flags converted to
+//	OpenFlags( std::ios::openmode openMode )
+//	    Returns the std::ios::openmode flags converted to
 //	    open mode flags expected by the standard 'c' open
 //	    and create functions.
-//	    (i.e. OpenFlags( ios::out | ios::app ) == O_WRONLY | O_APPEND )
+//	    (i.e. OpenFlags( std::ios::out | std::ios::app ) == O_WRONLY | O_APPEND )
 //
 //	template< class NumberType > inline
 //	NumberType
@@ -216,6 +216,9 @@ CommaNumber( ostream &	dest,
 // %PL%
 // 
 // $Log$
+// Revision 6.6  2012/04/26 20:08:49  paul
+// *** empty log message ***
+//
 // Revision 6.5  2011/12/30 23:57:19  paul
 // First go at Mac gcc Port
 //

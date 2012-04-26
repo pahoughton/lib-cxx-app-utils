@@ -27,20 +27,20 @@ template< class Rec >
 inline
 FileBatch< Rec >::FileBatch(
   const char *	fileName,
-  ios::openmode    mode
+  std::ios::openmode    mode
   )
   : FileBatchBase( fileName, sizeof( Rec ) ),
     fileSize( 0 )
 {
-  batch = new fstream( name, mode );
+  batch = new std::fstream( name, mode );
 
-  streampos cur( 0 );
-  streampos endPos( 0 );
+  std::streampos cur( 0 );
+  std::streampos endPos( 0 );
   
   if( batch && (*batch).good() )
     {
       cur = (*batch).tellg();
-      (*batch).seekg( 0, ios::end );
+      (*batch).seekg( 0, std::ios::end );
       endPos = (*batch).tellg();
       
       if( endPos % sizeof( Rec ) )
@@ -49,7 +49,7 @@ FileBatch< Rec >::FileBatch(
 	  return;
 	}
       fileSize = endPos / sizeof( Rec );
-      (*batch).seekg( cur, ios::beg );
+      (*batch).seekg( cur, std::ios::beg );
     }
   else
     {
@@ -63,7 +63,7 @@ template< class Rec >
 inline
 FileBatch< Rec >::FileBatch(
   const char *	fileName,
-  ios::openmode    mode,
+  std::ios::openmode    mode,
   bool		    create
   )
   : FileBatchBase( fileName, sizeof( Rec ) ),
@@ -77,18 +77,18 @@ FileBatch< Rec >::FileBatch(
     }
   } else {
     // create is true, make sure the file exists
-    fstream tmp(name, ios::out );
+    std::fstream tmp(name, std::ios::out );
   }
   
-  batch = new fstream( name, mode );
+  batch = new std::fstream( name, mode );
 
-  streampos cur( 0 );
-  streampos endPos( 0 );
+  std::streampos cur( 0 );
+  std::streampos endPos( 0 );
   
   if( batch && (*batch).good() )
     {
       cur = (*batch).tellg();
-      (*batch).seekg( 0, ios::end );
+      (*batch).seekg( 0, std::ios::end );
       endPos = (*batch).tellg();
       
       if( endPos % sizeof( Rec ) )
@@ -97,7 +97,7 @@ FileBatch< Rec >::FileBatch(
 	  return;
 	}
       fileSize = endPos / sizeof( Rec );
-      (*batch).seekg( cur, ios::beg );
+      (*batch).seekg( cur, std::ios::beg );
     }
   else
     {
@@ -160,9 +160,9 @@ inline
 typename FileBatch< Rec >::iterator
 FileBatch< Rec >::append( void )
 {
-  (*batch).seekg( 0, ios::end );
+  (*batch).seekg( 0, std::ios::end );
 
-  streampos endPos( (*batch).tellg() );
+  std::streampos endPos( (*batch).tellg() );
 
   size_type endRecNum( endPos / sizeof( Rec ) );
 
@@ -185,7 +185,7 @@ inline
 bool
 FileBatch< Rec >::append( const Rec & r )
 {
-  (*batch).seekg( 0, ios::end );
+  (*batch).seekg( 0, std::ios::end );
 
   if( (*batch).write( (const char *)&r, sizeof( r ) ).good() )
     {
@@ -225,7 +225,7 @@ inline
 FileBatch< Rec > &
 FileBatch< Rec >::read( Rec & dest, size_type recNum )
 {
-  (*batch).seekg( recNum * sizeof( Rec ), ios::beg );
+  (*batch).seekg( recNum * sizeof( Rec ), std::ios::beg );
   return( read( dest ) );
 }
 
@@ -234,7 +234,7 @@ inline
 bool
 FileBatch< Rec >::read( Rec & dest, size_type recNum ) const
 {
-  (*batch).seekg( recNum * sizeof( Rec ), ios::beg );
+  (*batch).seekg( recNum * sizeof( Rec ), std::ios::beg );
   return( read( dest ) );
 }
 
@@ -256,7 +256,7 @@ inline
 FileBatch< Rec > &
 FileBatch< Rec >::write( iterator & it )
 {
-  (*batch).seekp( it.pos, ios::beg );
+  (*batch).seekp( it.pos, std::ios::beg );
   return( write( it.rec ) );
 }
 
@@ -304,9 +304,9 @@ FileBatch< Rec >::getClassName( void ) const
 
 template< class Rec >
 inline
-ostream &
+std::ostream &
 FileBatch< Rec >::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -337,7 +337,7 @@ FileBatch< Rec >::dump( const char * prefix, bool showVer ) const
 
 template< class Rec >
 inline
-fstream &
+std::fstream &
 FileBatch< Rec >::file( void ) const
 {
   return( *batch );
@@ -350,6 +350,9 @@ FileBatch< Rec >::file( void ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:13  paul
 // First go at Mac gcc Port
 //
@@ -366,7 +369,7 @@ FileBatch< Rec >::file( void ) const
 // *** empty log message ***
 //
 // Revision 5.2  2001/01/25 12:20:15  houghton
-// Port(Sun CC5): ios::in|ios:out will not create, so force a create
+// Port(Sun CC5): std::ios::in|ios:out will not create, so force a create
 // before the real open.
 //
 // Revision 5.1  2000/05/25 10:33:15  houghton

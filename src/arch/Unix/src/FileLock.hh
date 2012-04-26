@@ -49,28 +49,28 @@ public:
     T_Undefined
   };
   
-  FileLock( const char * fileName, ios::openmode mode = ios::in );
+  FileLock( const char * fileName, std::ios::openmode mode = std::ios::in );
   FileLock( int fd );
   
   virtual ~FileLock( void );
 
-  inline bool	lockread( streamoff	offset = 0,
-			  ios::seek_dir dir = ios::beg,
+  inline bool	lockread( std::streamoff	offset = 0,
+			  std::ios::seek_dir dir = std::ios::beg,
 			  size_t	amount = 0,
 			  bool		block = true );
 
-  inline bool	lockwrite( streamoff	    offset = 0,
-			   ios::seek_dir    dir = ios::beg,
+  inline bool	lockwrite( std::streamoff	    offset = 0,
+			   std::ios::seek_dir    dir = std::ios::beg,
 			   size_t	    amount = 0,
 			   bool		    block = true );
 
-  inline bool	unlock( streamoff	offset = 0,
-			ios::seek_dir	dir = ios::beg,
+  inline bool	unlock( std::streamoff	offset = 0,
+			std::ios::seek_dir	dir = std::ios::beg,
 			size_t		amount = 0 );
   
   bool	lock( Type  type,
-	      streamoff	    offset = 0,
-	      ios::seek_dir dir = ios::beg,
+	      std::streamoff	    offset = 0,
+	      std::ios::seek_dir dir = std::ios::beg,
 	      size_t	    amount = 0,
 	      bool	    block = true );
 
@@ -83,7 +83,7 @@ public:
   
   virtual const char *	getClassName( void ) const;
   virtual const char *  getVersion( bool withPrjVer = true ) const;
-  virtual ostream &     dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream &     dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *  prefix = "    ",
                                   bool          showVer = true ) const;
 
@@ -102,22 +102,22 @@ protected:
   struct Lock
   {
     Type	    type;
-    streamoff	    offset;
-    ios::seek_dir   dir;
+    std::streamoff	    offset;
+    std::ios::seek_dir   dir;
     size_t	    amount;
 
     Lock( void )
-      : type( T_Undefined ), offset( 0 ), dir( ios::beg ), amount( 0 ) {};
+      : type( T_Undefined ), offset( 0 ), dir( std::ios::beg ), amount( 0 ) {};
     
     Lock( Type		t,
-	  streamoff	o = 0,
-	  ios::seek_dir	d = ios::beg,
+	  std::streamoff	o = 0,
+	  std::ios::seek_dir	d = std::ios::beg,
 	  size_t	a = 0 )
       : type( t ), offset( o ), dir( d ), amount( a ) {};
     
   };
 
-  typedef vector< Lock >	LockList;
+  typedef std::vector< Lock >	LockList;
 
   LockList	locks;
   int		oserrno;
@@ -225,6 +225,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:47  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:31  paul
 // First go at Mac gcc Port
 //

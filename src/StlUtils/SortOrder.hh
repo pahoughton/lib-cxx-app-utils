@@ -61,7 +61,7 @@ public:
     LessBase * less;
   };
   
-  typedef vector< Less >	    Order;
+  typedef std::vector< Less >	    Order;
   
   inline SortOrder( const LessBase & lessBase ) {
     Less l( lessBase );
@@ -112,22 +112,22 @@ private:
 //
 //  Public Interface:
 //
-//	virtual ostream &
-//	write( ostream & dest ) const;
-//	    write the data for this class in binary form to the ostream.
+//	virtual std::ostream &
+//	write( std::ostream & dest ) const;
+//	    write the data for this class in binary form to the std::ostream.
 //
-//	virtual istream &
-//	read( istream & src );
-//	    read the data in binary form from the istream. It is
+//	virtual std::istream &
+//	read( std::istream & src );
+//	    read the data in binary form from the std::istream. It is
 //	    assumed it stream is correctly posistioned and the data
-//	    was written to the istream with 'write( ostream & )'
+//	    was written to the std::istream with 'write( std::ostream & )'
 //
-//	virtual ostream &
-//	toStream( ostream & dest ) const;
+//	virtual std::ostream &
+//	toStream( std::ostream & dest ) const;
 //	    output class as a string to dest (used by operator <<)
 //
-//	virtual istream &
-//	fromStream( istream & src );
+//	virtual std::istream &
+//	fromStream( std::istream & src );
 //	    Set this class be reading a string representation from
 //	    src. Returns src.
 //
@@ -148,8 +148,8 @@ private:
 //  	getVersion( bool withPrjVer = true ) const;
 //  	    Return the version string of this class.
 //
-//	virtual ostream &
-//	dumpInfo( ostream & dest, const char * prefix, bool showVer );
+//	virtual std::ostream &
+//	dumpInfo( std::ostream & dest, const char * prefix, bool showVer );
 //	    output detail info to dest. Includes instance variable
 //	    values, state info & version info.
 //
@@ -162,11 +162,11 @@ private:
 //
 //  Associated Functions:
 //
-//  	ostream &
-//  	operator <<( ostream & dest, const SortOrder & src );
+//  	std::ostream &
+//  	operator <<( std::ostream & dest, const SortOrder & src );
 //
-//	istream &
-//	operator >> ( istream & src, SortOrder & dest );
+//	std::istream &
+//	operator >> ( std::istream & src, SortOrder & dest );
 //
 // Example:
 //
@@ -184,6 +184,9 @@ private:
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:49  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:18  paul
 // First go at Mac gcc Port
 //

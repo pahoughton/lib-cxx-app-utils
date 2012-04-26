@@ -37,42 +37,42 @@
 
 inline
 Str::Str( const Str & src, size_type srcStart, size_type srcLen )
-  : iostream( new StrStreambuf )
+  : std::iostream( new StrStreambuf )
 {
   append( src, srcStart, srcLen );
 }
 
 inline
 Str::Str( const SubStr & src, size_type srcStart, size_type srcLen )
-  : iostream( new StrStreambuf )
+  : std::iostream( new StrStreambuf )
 {
   append( src, srcStart, srcLen );
 }
 
 inline
 Str::Str( const char * src, size_type srcLen )
-  : iostream( new StrStreambuf )
+  : std::iostream( new StrStreambuf )
 {
   append( src, srcLen );
 }
 
 inline
 Str::Str( size_type count, char src )
-  : iostream( new StrStreambuf )
+  : std::iostream( new StrStreambuf )
 {
   append( count, src );
 }
 
 inline
 Str::Str( InputIterator first, InputIterator last )
-  : iostream( new StrStreambuf )
+  : std::iostream( new StrStreambuf )
 {
   append( first, last );
 }
 
 inline
-Str::Str( istream & src, bool text, bool line )
-  : iostream( new StrStreambuf )
+Str::Str( std::istream & src, bool text, bool line )
+  : std::iostream( new StrStreambuf )
 {
   if( line )
     {
@@ -101,7 +101,7 @@ Str::append( const Str & src, size_type srcStart, size_type srcLen )
   STLUTILS_EXCPT_OUT_OF_RANGE( srcStart > src.size(), *this );
   
   return( append( src.strbase() + srcStart,
-		  min( (src.size() - srcStart ), srcLen ) ) );
+		  std::min( (src.size() - srcStart ), srcLen ) ) );
 }
 
 inline
@@ -111,7 +111,7 @@ Str::append( const SubStr & src, size_type srcStart, size_type srcLen )
   STLUTILS_EXCPT_OUT_OF_RANGE( srcStart > src.size(), *this );
   
   return( append( src.strbase() + srcStart,
-		  min( (src.size() - srcStart ), srcLen ) ) );
+		  std::min( (src.size() - srcStart ), srcLen ) ) );
 }
 
 inline
@@ -147,7 +147,7 @@ inline
 Str &
 Str::assign( const Str & src, size_type srcStart, size_type srcLen )
 {
-  seekp( 0, ios::beg );
+  seekp( 0, std::ios::beg );
 
   if( ! good() ) 
     clear();
@@ -159,7 +159,7 @@ inline
 Str &
 Str::assign( const SubStr & src, size_type srcStart, size_type srcLen )
 {
-  seekp( 0, ios::beg );
+  seekp( 0, std::ios::beg );
 
   if( ! good() ) 
     clear();
@@ -171,7 +171,7 @@ inline
 Str &
 Str::assign( const char * src, size_type srcLen )
 {
-  seekp( 0, ios::beg );
+  seekp( 0, std::ios::beg );
 
   if( ! good() ) 
     clear();
@@ -183,7 +183,7 @@ inline
 Str &
 Str::assign( size_type count, char src )
 {
-  seekp( 0, ios::beg );
+  seekp( 0, std::ios::beg );
 
   if( ! good() ) 
     clear();
@@ -195,7 +195,7 @@ inline
 Str &
 Str::assign( char src )
 {
-  seekp( 0, ios::beg );
+  seekp( 0, std::ios::beg );
 
   if( ! good() ) 
     clear();
@@ -207,7 +207,7 @@ inline
 Str &
 Str::assign( InputIterator first, InputIterator last )
 {
-  seekp( 0, ios::beg );
+  seekp( 0, std::ios::beg );
 
   if( ! good() ) 
     clear();
@@ -316,7 +316,7 @@ Str::replace(
   return( replace( start,
 		   len,
 		   src.strbase() + srcStart,
-		   min( srcLen, src.size() - srcStart ) ) );
+		   std::min( srcLen, src.size() - srcStart ) ) );
 }
 
 inline
@@ -333,7 +333,7 @@ Str::replace(
   return( replace( start,
 		   len, 
 		   src.strbase() + srcStart,
-		   min( srcLen, src.size() - srcStart ) ) );
+		   std::min( srcLen, src.size() - srcStart ) ) );
 }
 
 inline
@@ -361,7 +361,7 @@ Str::replace(
   return( replace( first - begin(),
 		   last - first,
 		   src.strbase() + srcStart,
-		   min( srcLen, src.size() - srcStart ) ) );
+		   std::min( srcLen, src.size() - srcStart ) ) );
 }
 
 inline
@@ -378,7 +378,7 @@ Str::replace(
   return( replace( first - begin(),
 		   last - first,
 		   src.strbase() + srcStart,
-		   min( srcLen, src.size() - srcStart ) ) );
+		   std::min( srcLen, src.size() - srcStart ) ) );
 }
 
 
@@ -488,7 +488,7 @@ Str::substr( size_type start, size_type len )
   
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
 
-  SubStr sub(  *this, start, min( size() - start, len ) );
+  SubStr sub(  *this, start, std::min( size() - start, len ) );
   
   return( sub );
 }
@@ -500,7 +500,7 @@ Str::substr( size_type start, size_type len ) const
 
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), SubStr( *this, npos, 0) );
   
-  const SubStr sub( *this, start, min( size() - start, len ) );
+  const SubStr sub( *this, start, std::min( size() - start, len ) );
   return( sub );
 }
 
@@ -676,7 +676,7 @@ inline
 Str::size_type
 Str::rfind( const Str & str, size_type end ) const
 {
-  const char * pos = StringReverseSearch( strbase(), min( end, size() ),
+  const char * pos = StringReverseSearch( strbase(), std::min( end, size() ),
 				   str.strbase(), str.size() );
 
   return( (pos == 0) ? npos : pos - strbase() );
@@ -686,7 +686,7 @@ inline
 Str::size_type
 Str::rfind( const SubStr & str, size_type end ) const
 {
-  const char * pos = StringReverseSearch( strbase(), min( end, size() ),
+  const char * pos = StringReverseSearch( strbase(), std::min( end, size() ),
 				   str.strbase(), str.size() );
 
   return( (pos == 0) ? npos : pos - strbase() );
@@ -696,7 +696,7 @@ inline
 Str::size_type
 Str::rfind( const char * str, size_type end, size_type strLen ) const
 {
-  const char * pos = StringReverseSearch( strbase(), min( end, size() ),
+  const char * pos = StringReverseSearch( strbase(), std::min( end, size() ),
 				   str, strLen );
 
   return( (pos == 0) ? npos : pos - strbase() );
@@ -709,7 +709,7 @@ Str::rfind( char c, size_type end ) const
   if( ! size() || end == 0 )
     return( npos );
   
-  size_type e = min( end, size() ) - 1;
+  size_type e = std::min( end, size() ) - 1;
   for( ; e > 0 && c != at( e ); e-- );
   return( (c == at(e)) ? e :
 	  (c == at((size_type)0)) ? 0 : npos );
@@ -768,7 +768,7 @@ inline
 Str::size_type
 Str::rffind( const Str & str, size_type end ) const
 {
-  const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
+  const char * pos = StringCaseReverseSearch( strbase(), std::min( end, size() ),
 				   str.strbase(), str.size() );
 
   return( (pos == 0) ? npos : pos - strbase() );
@@ -778,7 +778,7 @@ inline
 Str::size_type
 Str::rffind( const SubStr & str, size_type end ) const
 {
-  const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
+  const char * pos = StringCaseReverseSearch( strbase(), std::min( end, size() ),
 				   str.strbase(), str.size() );
 
   return( (pos == 0) ? npos : pos - strbase() );
@@ -788,7 +788,7 @@ inline
 Str::size_type
 Str::rffind( const char * str, size_type end, size_type strLen ) const
 {
-  const char * pos = StringCaseReverseSearch( strbase(), min( end, size() ),
+  const char * pos = StringCaseReverseSearch( strbase(), std::min( end, size() ),
 				   str, strLen );
 
   return( (pos == 0) ? npos : pos - strbase() );
@@ -798,7 +798,7 @@ inline
 Str::size_type
 Str::rffind( char c, size_type end ) const
 {
-  size_type e = min( end, size() ) - 1;
+  size_type e = std::min( end, size() ) - 1;
   for( ; e > 0 && tolower( c ) != tolower( at( e ) ); e-- );
   return( (tolower( c ) == tolower( at(e) )) ? e :
 	  (tolower( c ) == tolower( at((size_type)0) )) ? 0 : npos );
@@ -1422,8 +1422,8 @@ Str::scanMatchLength( size_type scanNum ) const
 // io helpers  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 inline
-istream &
-Str::getline( istream & src )
+std::istream &
+Str::getline( std::istream & src )
 {
   return( getDelim( src, '\n', true ) );
 }
@@ -1486,7 +1486,7 @@ Str::size_type
 Str::copy( char * dest, size_type destLen, size_type start ) const
 {
   size_type len = (destLen == npos ? size() - start :
-		   min( destLen, size() - start ) );
+		   std::min( destLen, size() - start ) );
   
   strncpy( dest, strbase() + start, len );
   if( destLen == npos || len < destLen )
@@ -1499,7 +1499,7 @@ StrStreambuf *
 Str::rdbuf( void ) const
 {
 #if defined( STLUTILS_HAS_CONST_IOSRDBUF )
-  return( (StrStreambuf *)ios::rdbuf() );
+  return( (StrStreambuf *)std::ios::rdbuf() );
 #else
   return( (StrStreambuf *)(bp) );
 #endif
@@ -1509,53 +1509,53 @@ inline
 StrStreambuf *
 Str::rdbuf( void )
 {
-  return( (StrStreambuf *)ios::rdbuf() );
+  return( (StrStreambuf *)std::ios::rdbuf() );
 }
 
 
 inline
-istream &
+std::istream &
 Str::getline( char * dest, int size, char delim )
 {
-  return( istream::getline( dest, size, delim ) );
+  return( std::istream::getline( dest, size, delim ) );
 }
 
 #if defined( STLUTILS_STR_UNSIGNED )
 inline
-istream &
+std::istream &
 Str::getline( unsigned char * dest, int size, char delim )
 {
-  return( istream::getline( dest, size, delim ) );
+  return( std::istream::getline( dest, size, delim ) );
 }
 #endif
 
 inline
-istream &
+std::istream &
 Str::get( char & dest )
 {
-  return( istream::get( dest ) );
+  return( std::istream::get( dest ) );
 }
 
 inline
-istream &
+std::istream &
 Str::get( char * dest, int size, char delim )
 {
-  return( istream::get( dest, size, delim ) );
+  return( std::istream::get( dest, size, delim ) );
 }
 
 #if defined( STLUTILS_STR_UNSIGNED )
 inline
-istream &
+std::istream &
 Str::get( unsigned char * dest, int size, char delim )
 {
-  return( istream::get( dest, size, delim ) );
+  return( std::istream::get( dest, size, delim ) );
 }
 
 inline
-istream &
+std::istream &
 Str::get( unsigned char & dest )
 {
-  return( istream::get( dest ) );
+  return( std::istream::get( dest ) );
 }
 #endif
 
@@ -1563,14 +1563,14 @@ inline
 int
 Str::get( void )
 {
-  return( istream::get() );
+  return( std::istream::get() );
 }
 
 inline
-istream &
-Str::get( streambuf & dest, char delim )
+std::istream &
+Str::get( std::streambuf & dest, char delim )
 {
-  return( istream::get( dest, delim ) );
+  return( std::istream::get( dest, delim ) );
 }
 
   
@@ -1796,15 +1796,15 @@ Str::operator >= ( const char * two ) const
 }
 
 inline
-ostream &
-operator << ( ostream & dest, const Str & str )
+std::ostream &
+operator << ( std::ostream & dest, const Str & str )
 {
   return( str.toStream( dest ) );
 }
 
 inline
-istream &
-operator >> ( istream & src, Str & dest )
+std::istream &
+operator >> ( std::istream & src, Str & dest )
 {
   return( dest.fromStream( src ) );
 }
@@ -1960,8 +1960,8 @@ operator >= ( const char * lhs, const Str & rhs )
 #endif
 
 inline
-istream &
-getline( istream & src, Str & dest, char delim STR_LINEDELIM )
+std::istream &
+getline( std::istream & src, Str & dest, char delim STR_LINEDELIM )
 {
   return( dest.getDelim( src, delim ) );
 }
@@ -2064,7 +2064,7 @@ inline
 Str &
 Str::assign( const string & src, size_type srcStart, size_type srcLen )
 {
-  seekp( 0, ios::beg );
+  seekp( 0, std::ios::beg );
   return( append( src, srcStart, srcLen ) );
 }
 
@@ -2139,6 +2139,9 @@ Str::dump( const char * prefix, bool showVer ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:49  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:20  paul
 // First go at Mac gcc Port
 //

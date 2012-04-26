@@ -33,10 +33,7 @@ STLUTILS_VERSION( LibTest,
 LibTest::DefaultResults LibTest::defaultResultsObj;
 
 
-// this should prevent accidental use of cout & cerr
-
-#define cerr
-#define cout
+// this should prevent accidental use of std::cout & std::cerr
 
 bool _LibTest_tf( 0 );
 
@@ -44,9 +41,9 @@ bool _LibTest_tf( 0 );
 LibTest::LibTest(
   const TestItem *  t,
   bool		    outputLineProgress,
-  ostream & 	    dumpStream,
-  ostream & 	    outputStream,
-  ostream & 	    errorStream
+  std::ostream & 	    dumpStream,
+  std::ostream & 	    outputStream,
+  std::ostream & 	    errorStream
   )
   : lineProgress( outputLineProgress ),
     dump( dumpStream ),
@@ -62,9 +59,9 @@ LibTest::LibTest(
   const TestItem *  t,
   bool		    outputLineProgress,
   Results &	    resultsProcObj,
-  ostream & 	    dumpStream,
-  ostream & 	    outputStream,
-  ostream & 	    errorStream
+  std::ostream & 	    dumpStream,
+  std::ostream & 	    outputStream,
+  std::ostream & 	    errorStream
   )
   : lineProgress( outputLineProgress ),
     dump( dumpStream ),
@@ -87,7 +84,7 @@ LibTest::run( int & argc, char * argv[] )
   size_t numTimes = 1;
   int     argsUsed = 1;
 
-  vector< char * >  arglist;
+  std::vector< char * >  arglist;
   
   for( int arg = 1; arg < argc; arg++ )
     {      
@@ -128,11 +125,11 @@ LibTest::run( int & argc, char * argv[] )
 	}
       else
 	{
-	  vector< char * >  missingList;
+	  std::vector< char * >  missingList;
 
 	  bool	tested;
 	  
-	  for( vector< char * >::iterator them = arglist.begin();
+	  for( std::vector< char * >::iterator them = arglist.begin();
 	       them != arglist.end();
 	       ++ them )
 	    {
@@ -151,7 +148,7 @@ LibTest::run( int & argc, char * argv[] )
 	      if( ! tested )
 		{
 		  err << "WARN: Test: '" << *them << "' Not found."
-		      << endl;
+		      << std::endl;
 		}
 	    }
 	}
@@ -167,7 +164,7 @@ LibTest::run( size_type numPasses, const Str & testListString )
   Str		tests( testListString );
   size_type	passes( numPasses > 0 ? numPasses : 1 );
   
-  vector< Str >	runTestList;
+  std::vector< Str >	runTestList;
 
   if( tests.size() )
     {
@@ -200,7 +197,7 @@ LibTest::run( size_type numPasses, const Str & testListString )
 	}
       else
 	{
-	  for( vector< Str >::iterator them = runTestList.begin();
+	  for( std::vector< Str >::iterator them = runTestList.begin();
 	       them != runTestList.end();
 	       ++ them )
 	    {
@@ -219,7 +216,7 @@ LibTest::run( size_type numPasses, const Str & testListString )
 	      if( ! tested )
 		{
 		  err << "WARN: Test: '" << *them << "' Not found."
-		      << endl;
+		      << std::endl;
 		}
 	    }
 	}
@@ -251,7 +248,7 @@ LibTest::test(
   )
 {
   if( lineProgress )
-    err << "Tested: " << srcFn << ':' << srcLine << endl;
+    err << "Tested: " << srcFn << ':' << srcLine << std::endl;
   
   if( pass )
     {
@@ -292,8 +289,8 @@ LibTest::file(
   Str reason;
   size_t  byte = 0;
   
-  ifstream testf( testFileName );
-  ifstream expf( expFileName );
+  std::ifstream testf( testFileName );
+  std::ifstream expf( expFileName );
 
   reason.reset();
   reason << "Test File: '" << testFileName << "' open error.";
@@ -340,7 +337,7 @@ LibTest::file(
     }
 
     if( memcmp( testBuf, expBuf, testf.gcount() ) != 0 ) {
-      for( streamsize bufByte = 0; bufByte < testf.gcount(); bufByte++ ) {
+      for( std::streamsize bufByte = 0; bufByte < testf.gcount(); bufByte++ ) {
 	if( testBuf[ bufByte ] != expBuf[ bufByte ] ) {
 	  reason.reset();
 	  reason << "Data mismatch at byte "
@@ -416,14 +413,14 @@ LibTest::operator () (
   return( test( srcFn, srcLine, pass ) );
 }
   
-ostream &
+std::ostream &
 LibTest::outputExpect( void )
 {
   out << "\n    Expect: ";
   return( out );
 }
 
-ostream &
+std::ostream &
 LibTest::outputIs( void )
 {
   out <<  "\n    is:     ";
@@ -436,19 +433,19 @@ LibTest::getVersion( bool withPrjVer ) const
   return( version.getVer( withPrjVer ) );
 }
 
-ostream &
+std::ostream &
 LibTest::getOutput( void )
 {
   return( out );
 }
 
-ostream &
+std::ostream &
 LibTest::getError( void )
 {
   return( err );
 }
 
-ostream &
+std::ostream &
 LibTest::getDump( void )
 {
   return( dump );
@@ -493,7 +490,7 @@ LibTest::DefaultResults::completed(
 {
   if( passed )
     {
-      tester.getOutput() << " passed." << endl;
+      tester.getOutput() << " passed." << std::endl;
       return( passed );
     }
 
@@ -512,9 +509,9 @@ LibTest::DefaultResults::failed(
   long		srcLine
   )
 {
-  tester.getOutput() << " FAILED " << reason << endl;
+  tester.getOutput() << " FAILED " << reason << std::endl;
   tester.getOutput() << srcFile << ':' << srcLine
-		  << ':' << " FAILED here." << endl;
+		     << ':' << " FAILED here." << std::endl;
   exit( 1 );
   return( false );
 }
@@ -544,6 +541,9 @@ LibTest::DefaultResults::passed(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:52  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:15  paul
 // First go at Mac gcc Port
 //

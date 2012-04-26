@@ -47,7 +47,7 @@ public:
   typedef Bitmask Level;
   typedef Bitmask::size_type	size_type;
   
-  typedef map< LogLevelBit, Level, less< LogLevelBit > >  CommonLevelMap;
+  typedef std::map< LogLevelBit, Level, std::less< LogLevelBit > >  CommonLevelMap;
   
   static const Level	None;
   static const Level	Error;
@@ -109,14 +109,14 @@ public:
     
   virtual size_t	getBinSize( void ) const;
   
-  virtual ostream &	write( ostream & dest ) const;
-  virtual istream &	read( istream & src );
+  virtual std::ostream &	write( std::ostream & dest ) const;
+  virtual std::istream &	read( std::istream & src );
 
-  virtual ostream &	toStream( ostream & dest = cout ) const;
+  virtual std::ostream &	toStream( std::ostream & dest = std::cout ) const;
   
   virtual const char *	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -152,8 +152,8 @@ private:
 #else
 #undef inline
 
-ostream &
-operator << ( ostream & dest, const LogLevel & obj );
+std::ostream &
+operator << ( std::ostream & dest, const LogLevel & obj );
 
 #endif
 
@@ -326,23 +326,23 @@ operator << ( ostream & dest, const LogLevel & obj );
 //	size_t
 //	getBinSize( void ) const
 //	    Return the number of bytes that would be written to
-//	    a ostream to store the data for this instance.
+//	    a std::ostream to store the data for this instance.
 //
 //	virtual
-//	ostream &
-//	write( ostream & dest ) const
-//	    Write the LogLevel in binary to an ostream.
+//	std::ostream &
+//	write( std::ostream & dest ) const
+//	    Write the LogLevel in binary to an std::ostream.
 //	    Format: BitMask BitMask
 //
 //	virtual
-//	istream &
-//	read( istream & src ) const
-//	    Set the LogLevel by reading the binary form from an istream.
+//	std::istream &
+//	read( std::istream & src ) const
+//	    Set the LogLevel by reading the binary form from an std::istream.
 //
 //	virtual
-//	ostream &
-//	toStream( ostream & dest = out )
-//	    Write the text of the current level to the ostream.
+//	std::ostream &
+//	toStream( std::ostream & dest = out )
+//	    Write the text of the current level to the std::ostream.
 //	    Uses getName( current ). Returns dest.
 //
 //  	const char *
@@ -357,8 +357,8 @@ operator << ( ostream & dest, const LogLevel & obj );
 //	    be returned.
 //
 //	virtual
-//	ostream &
-//	dumpInfo( ostream &	dest = cerr,
+//	std::ostream &
+//	dumpInfo( std::ostream &	dest = std::cerr,
 //		  const char *	prefix = "    ",
 //		  bool		showVer = true );
 //	    Output detailed information about the current
@@ -370,10 +370,10 @@ operator << ( ostream & dest, const LogLevel & obj );
 //  Accociated Functions:
 //
 //	inline
-//  	ostream &
-//  	operator <<( ostream & dest, const Bitmask & obj );
+//  	std::ostream &
+//  	operator <<( std::ostream & dest, const Bitmask & obj );
 //	    Uses LogLevel::toStream to write the LogLevel as a string
-//	    to the ostream.
+//	    to the std::ostream.
 //
 // See Also:
 //
@@ -392,6 +392,9 @@ operator << ( ostream & dest, const LogLevel & obj );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:51  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:16  paul
 // First go at Mac gcc Port
 //

@@ -39,14 +39,14 @@ class UserGroup
 
 public:
 
-  typedef set< Str, less<Str> >	    Members;
+  typedef std::set< Str, std::less<Str> >	    Members;
     
   inline UserGroup( bool findMembers = false );
   inline UserGroup( gid_t group, bool findMembers = false );
   inline UserGroup( const char * groupName, bool findMembers = false );
   inline UserGroup( const struct group * grpEnt, bool findMembers = false );
 
-  inline UserGroup( istream & src, bool text = false, bool findMemb = false );
+  inline UserGroup( std::istream & src, bool text = false, bool findMemb = false );
 
   virtual ~UserGroup( void );
   
@@ -90,17 +90,17 @@ public:
   
   virtual size_t	getBinSize( void ) const;
   
-  virtual ostream & 	write( ostream & dest ) const;
-  virtual istream & 	read( istream & src );
+  virtual std::ostream & 	write( std::ostream & dest ) const;
+  virtual std::istream & 	read( std::istream & src );
 
-  virtual ostream &	toStream( ostream & dest = cout ) const;
-  virtual istream &	fromStream( istream & src );
+  virtual std::ostream &	toStream( std::ostream & dest = std::cout ) const;
+  virtual std::istream &	fromStream( std::istream & src );
   
   virtual bool		good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -130,11 +130,11 @@ private:
 #else
 #undef inline
 
-ostream &
-operator << ( ostream & dest, const UserGroup & obj );
+std::ostream &
+operator << ( std::ostream & dest, const UserGroup & obj );
 
-istream &
-operator >> ( istream & src, UserGroup & obj );
+std::istream &
+operator >> ( std::istream & src, UserGroup & obj );
 
 int
 compare( const UserGroup & one, const UserGroup & two );
@@ -183,6 +183,9 @@ compare( const UserGroup & one, const UserGroup & two );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:44  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:35  paul
 // First go at Mac gcc Port
 //

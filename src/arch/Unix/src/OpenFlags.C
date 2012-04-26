@@ -28,29 +28,29 @@ STLUTILS_FUNCT_VERSION(
   "$Id$ " );
 
 int
-OpenFlags( ios::openmode openMode )
+OpenFlags( std::ios::openmode openMode )
 {
   int flags = 0;
   int mode = openMode;
   
-  if( mode & (ios::app) )
-    mode |= ios::out;
+  if( mode & (std::ios::app) )
+    mode |= std::ios::out;
 
-  if( (mode & (ios::in|ios::out)) == (ios::in|ios::out)) {
+  if( (mode & (std::ios::in|std::ios::out)) == (std::ios::in|std::ios::out)) {
     flags = O_RDWR;
     
-  } else if( (mode & (ios::in|ios::out)) == ios::in ) {
+  } else if( (mode & (std::ios::in|std::ios::out)) == std::ios::in ) {
     flags = O_RDONLY;
 
-  } else if( (mode & (ios::in|ios::out)) == ios::out ) {
+  } else if( (mode & (std::ios::in|std::ios::out)) == std::ios::out ) {
     flags = O_WRONLY;
 
   }
 
-  if( mode & ios::trunc)
+  if( mode & std::ios::trunc)
     flags |= O_TRUNC;
 
-  if( mode & ios::app )
+  if( mode & std::ios::app )
     flags |= O_APPEND;
 
   return( flags );
@@ -63,6 +63,9 @@ OpenFlags( ios::openmode openMode )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:46  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:33  paul
 // First go at Mac gcc Port
 //

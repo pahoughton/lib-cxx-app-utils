@@ -62,7 +62,7 @@ UserGroup::UserGroup( const struct group * groupEntry, bool findMemb )
   set( groupEntry, findMemb );
 }
 inline
-UserGroup::UserGroup( istream & src, bool text, bool findMemb )
+UserGroup::UserGroup( std::istream & src, bool text, bool findMemb )
 {
   if( text )
     {
@@ -229,8 +229,8 @@ compare( const UserGroup & one, const UserGroup & two )
 }
 	  
 inline
-ostream &
-operator <<( ostream & dest, const UserGroup & obj )
+std::ostream &
+operator <<( std::ostream & dest, const UserGroup & obj )
 {
   return( obj.toStream( dest ) );
 }
@@ -241,6 +241,9 @@ operator <<( ostream & dest, const UserGroup & obj )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:44  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:35  paul
 // First go at Mac gcc Port
 //

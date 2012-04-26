@@ -65,16 +65,16 @@ const Bitmask::bit  Bitmask::b31( allBits, 31 );
 static const Bitmask	    junk( allBits );
 #endif
 
-ostream &
-Bitmask::bit::toStream( ostream & dest ) const
+std::ostream &
+Bitmask::bit::toStream( std::ostream & dest ) const
 {
   dest << (bitmask.test(bitpos) ? "true" : "false" );
   return( dest );
 }
 
-ostream &
+std::ostream &
 Bitmask::bit::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -99,34 +99,34 @@ Bitmask::getBinSize( void ) const
   return( sizeof( value ) );
 }
 
-ostream &
-Bitmask::write( ostream & dest ) const
+std::ostream &
+Bitmask::write( std::ostream & dest ) const
 {
   dest.write( (const char *)&value, sizeof( value ) );
   return( dest );
 }
 
-istream &
-Bitmask::read( istream & src )
+std::istream &
+Bitmask::read( std::istream & src )
 {
   src.read( (char *)&value, sizeof( value ) );
   return( src );
 }
 
-ostream &
-Bitmask::toStream( ostream & dest ) const
+std::ostream &
+Bitmask::toStream( std::ostream & dest ) const
 {
   dest << to_string();
   return( dest );
 }
 
-istream &
-Bitmask::fromStream( istream & src )
+std::istream &
+Bitmask::fromStream( std::istream & src )
 {
   char tmp[64];
 
 #if defined( STLUTILS_HAS_IOSTREAM_SENTRY )
-  istream::sentry   ipfx( src, true );
+  std::istream::sentry   ipfx( src, true );
   if( ! ipfx )
     return( src );
 #else
@@ -161,7 +161,7 @@ Bitmask::fromStream( istream & src )
 
   if( in == tmp )
     {
-      src.clear( ios::failbit );
+      src.clear( std::ios::failbit );
       return ( src );
     }
 
@@ -172,10 +172,10 @@ Bitmask::fromStream( istream & src )
 
   // convert it to an unsigned long
   if( ! StringTo( value, tmp, 2 ) )
-    src.clear( ios::failbit );
+    src.clear( std::ios::failbit );
 
   if( wasEof )
-    src.clear( ios::eofbit );
+    src.clear( std::ios::eofbit );
 
   return( src );
 }
@@ -193,9 +193,9 @@ Bitmask::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 Bitmask::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -224,6 +224,9 @@ Bitmask::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:55  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:10  paul
 // First go at Mac gcc Port
 //
@@ -264,7 +267,7 @@ Bitmask::dumpInfo(
 // Restructure header comments layout.
 // Changed include lines to use "file" instead of <file> to accomidate
 //     rpm.
-// Changed to use ios::setstate (instead of clear) to be compilant
+// Changed to use std::ios::setstate (instead of clear) to be compilant
 //     with the ios class beheavior defined by the standard.
 //
 // Revision 2.6  1996/11/11 13:28:16  houghton

@@ -38,13 +38,13 @@ static LogLevel::CommonLevelMap *	    commonLevelMap = 0;
 const int	Log::openprot( 0666 );
 
 Log::Log(
-  ostream & 	    outstr,
+  std::ostream & 	    outstr,
   LogLevel::Level   outLvl,
   bool		    stampLevel,
   bool		    stampTime,
   bool		    stampLoc
   )
-  : ostream( new LogBuf( outLvl, outstr.rdbuf() ) ),
+  : std::ostream( new LogBuf( outLvl, outstr.rdbuf() ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
@@ -54,13 +54,13 @@ Log::Log(
 }
 
 Log::Log(
-  ostream & 	outstr,
+  std::ostream & 	outstr,
   const char *	outLvl,
   bool		stampLevel,
   bool		stampTime,
   bool		stampLoc
   )
-  : ostream( new LogBuf( outLvl, outstr.rdbuf() ) ),
+  : std::ostream( new LogBuf( outLvl, outstr.rdbuf() ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
@@ -72,41 +72,41 @@ Log::Log(
 Log::Log(
   const char *	    fileName,
   LogLevel::Level   outLvl,
-  ios::openmode	    mode,
+  std::ios::openmode	    mode,
   bool		    stampLevel,
   bool		    stampTime,
   bool		    stampLoc,
   size_t	    maxSize,
   size_t	    trimSize
   )
-  : ostream( new LogBuf(fileName, outLvl, mode, maxSize, trimSize ) ),
+  : std::ostream( new LogBuf(fileName, outLvl, mode, maxSize, trimSize ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
     localTimeStamp( true )
 {
   if( rdbuf() && ! rdbuf()->is_open() )
-    setstate( ios::badbit );
+    setstate( std::ios::badbit );
 }
 
 Log::Log(
   const char *	    fileName,
   const char *	    outLvl,
-  ios::openmode	    mode,
+  std::ios::openmode	    mode,
   bool		    stampLevel,
   bool		    stampTime,
   bool		    stampLoc,
   size_t	    maxSize,
   size_t	    trimSize
   )
-  : ostream( new LogBuf(fileName, outLvl, mode, maxSize, trimSize ) ),
+  : std::ostream( new LogBuf(fileName, outLvl, mode, maxSize, trimSize ) ),
     timeStamp( stampTime ),
     levelStamp( stampLevel ),
     locStamp( stampLoc ),
     localTimeStamp( true )
 {
   if( rdbuf() && ! rdbuf()->is_open() )
-    setstate( ios::badbit );
+    setstate( std::ios::badbit );
 }
 
 Log::~Log( void )
@@ -198,12 +198,12 @@ Log::appendFile(
 {
   level( current, srcFile, srcLine );
 
-  ifstream  infile( fileName );
+  std::ifstream  infile( fileName );
 
   if( ! infile.good() )
     {
       (*this) << "appending '" << fileName << "' open failed - "
-	      << strerror( errno ) << endl;
+	      << strerror( errno ) << std::endl;
     }
   else
     {
@@ -213,7 +213,7 @@ Log::appendFile(
 	{
 	  (*this) << "    " << line << '\n';
 	}
-      (*this) << "end of '" << fileName << '\'' << endl;
+      (*this) << "end of '" << fileName << '\'' << std::endl;
     }
   return( *this );
 }
@@ -227,7 +227,7 @@ Log::trim( size_t maxSize )
 void
 Log::setFileName(
   const char *	    outFn,
-  ios::openmode    mode,
+  std::ios::openmode    mode,
   int		    prot
   )
 {
@@ -237,7 +237,7 @@ Log::setFileName(
 void
 Log::open(
   const char *	    outFn,
-  ios::openmode    mode,
+  std::ios::openmode    mode,
   int		    prot
   )
 {
@@ -273,7 +273,7 @@ Log::filter( const char * regex )
 
 LogBuf::FilterId
 Log::addFilter(
-  streambuf *		    dest,
+  std::streambuf *		    dest,
   const LogLevel::Level &   outLevel,
   const char *		    regex
   )
@@ -281,7 +281,7 @@ Log::addFilter(
   return( rdbuf()->addFilter( dest, outLevel, regex ) );
 }
 
-streambuf *
+std::streambuf *
 Log::getFilterStream( LogBuf::FilterId filter )
 {
   return( rdbuf()->getFilterStream( filter ) );
@@ -299,7 +299,7 @@ Log::getFilterRegex( LogBuf::FilterId filter )
   return( rdbuf()->getFilterRegex( filter ) );
 }
 
-streambuf *
+std::streambuf *
 Log::delFilter( LogBuf::FilterId id )
 {
   return( rdbuf()->delFilter( id ) );
@@ -368,9 +368,9 @@ Log::good( void ) const
 {
   return( rdbuf() != 0 && rdbuf()->good() &&
 #if defined( STLUTILS_HAS_CONST_IOSGOOD )
-	  ios::good()
+	  std::ios::good()
 #else
-	  ios::state == 0
+	  std::ios::state == 0
 #endif
 	  );
 }
@@ -397,23 +397,23 @@ Log::error( void ) const
 	errStr << ": " << rdbuf()->error() ;
 
 #if defined( STLUTILS_HAS_CONST_IOSRDSTATE )
-      if( ! ios::good() )
+      if( ! std::ios::good() )
 	{
-	  if( ios::rdstate() & ios::eofbit )
+	  if( std::ios::rdstate() & std::ios::eofbit )
 	    errStr += ": EOF bit set";
-	  if( ios::rdstate() & ios::failbit )
+	  if( std::ios::rdstate() & std::ios::failbit )
 	    errStr += ": FAIL bit set";
-	  if( ios::rdstate() & ios::badbit )
+	  if( std::ios::rdstate() & std::ios::badbit )
 	    errStr += ": BAD bit set";
 	}
 #else
       if( state != 0 )
 	{
-	  if( ios::state & ios::eofbit )
+	  if( std::ios::state & std::ios::eofbit )
 	    errStr += ": EOF bit set";
-	  if( ios::state & ios::failbit )
+	  if( std::ios::state & std::ios::failbit )
 	    errStr += ": FAIL bit set";
-	  if( ios::state & ios::badbit )
+	  if( std::ios::state & std::ios::badbit )
 	    errStr += ": BAD bit set";
 	}
 #endif
@@ -442,9 +442,9 @@ Log::getVersion( bool withPrjVer ) const
 
 #define bool2str( _b_ ) ((_b_) == true ? "on" : "off" )
 
-ostream &
+std::ostream &
 Log::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -524,8 +524,8 @@ commonLog(
     
   if( ! self )
     {
-      cerr << "Log::commonLog - no self!\n"
-	   << logMesg << endl;
+      std::cerr << "Log::commonLog - no self!\n"
+		<< logMesg << std::endl;
     }
   else
     {
@@ -536,7 +536,7 @@ commonLog(
 		   srcLineNumber ) << logMesg;
       
       if( self->rdbuf()->sync() == EOF )
-	self->setstate( ios::failbit | ios::eofbit );
+	self->setstate( std::ios::failbit | std::ios::eofbit );
   
       self->rdbuf()->setCurrentLevel( curLvl );
     }

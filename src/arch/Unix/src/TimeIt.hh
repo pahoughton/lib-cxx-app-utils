@@ -60,7 +60,7 @@ public:
   inline time_t	    getRealStartTimeT( void ) const;
   inline time_t	    getRealStopTimeT( void ) const;
   
-  virtual ostream &	toStream( ostream & dest ) const;
+  virtual std::ostream &	toStream( std::ostream & dest ) const;
   // virtual istream &	fromStream( istream & src );
 
   // TimeIt &		operator = ( const TimeIt & from ); default ok
@@ -69,7 +69,7 @@ public:
   virtual const char * 	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *  getVersion( bool withPrjVer = true ) const;
-  virtual ostream &     dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream &     dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *  prefix = "    ",
                                   bool          showVer = true ) const;
 
@@ -101,8 +101,8 @@ private:
 #else
 #undef inline
 
-ostream &
-operator << ( ostream & dest, const TimeIt & src );
+std::ostream &
+operator << ( std::ostream & dest, const TimeIt & src );
 
 #if defined( DO_FROMSTREAM )
 istream &
@@ -375,6 +375,9 @@ TimeItWorstReal( TimeItIterator first, TimeItIterator last )
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:45  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:34  paul
 // First go at Mac gcc Port
 //

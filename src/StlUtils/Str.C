@@ -50,7 +50,7 @@ ios::operator = ( ios & )
 
 
 Str::Str( void )
-  : iostream( new StrStreambuf )
+  : std::iostream( new StrStreambuf )
 {
 }
 
@@ -135,7 +135,7 @@ Str::replace(
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
 
-  size_type    replaceLen = min( len, size() - start );
+  size_type    replaceLen = std::min( len, size() - start );
   
   size_type    keepSize = size() - ( start + replaceLen );
   char *    keepString = 0;
@@ -147,7 +147,7 @@ Str::replace(
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
-  seekp( start, ios::beg );
+  seekp( start, std::ios::beg );
 
   if( src )
     append( src, srcLen );
@@ -172,7 +172,7 @@ Str::replace(
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
 
-  size_type    replaceLen = min( len, size() - start );
+  size_type    replaceLen = std::min( len, size() - start );
   
   size_type    keepSize = size() - ( start + replaceLen );
   char *    keepString = 0;
@@ -184,7 +184,7 @@ Str::replace(
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
-  seekp( start, ios::beg );
+  seekp( start, std::ios::beg );
 
   if( count )
     append( count, src );
@@ -206,7 +206,7 @@ Str::replace(
   InputIterator	srcLast
   )
 {
-  size_type    start = (size_type)(min( 0L, (long)(first - begin())));
+  size_type    start = (size_type)(std::min( 0L, (long)(first - begin())));
   size_type    replaceLen = last - first;
   
   size_type    keepSize = size() - ( start + replaceLen );
@@ -219,7 +219,7 @@ Str::replace(
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
-  seekp( start, ios::beg );
+  seekp( start, std::ios::beg );
 
   append( srcFirst, srcLast  );
 
@@ -242,10 +242,10 @@ Str::compare( const Str & two, size_type start, size_type len ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( two.size(), len );
+  size_type oneLen = std::min( size() - start, len );
+  size_type twoLen = std::min( two.size(), len );
 
-  int diff = strncmp( strbase() + start, two.strbase(), min( oneLen, twoLen ) );
+  int diff = strncmp( strbase() + start, two.strbase(), std::min( oneLen, twoLen ) );
 
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }
@@ -255,10 +255,10 @@ Str::compare( const SubStr & two, size_type start, size_type len ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( two.size(), len );
+  size_type oneLen = std::min( size() - start, len );
+  size_type twoLen = std::min( two.size(), len );
 
-  int diff = strncmp( strbase() + start, two.strbase(), min( oneLen, twoLen ) );
+  int diff = strncmp( strbase() + start, two.strbase(), std::min( oneLen, twoLen ) );
 
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }  
@@ -273,10 +273,10 @@ Str::compare( const char * two, size_type start, size_type len ) const
   if( ! two )
     return( size() - start ? 1 : 0  );
   
-  size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( (size_type)strlen( two ), len );
+  size_type oneLen = std::min( size() - start, len );
+  size_type twoLen = std::min( (size_type)strlen( two ), len );
 
-  int diff = strncmp( strbase() + start, two, min( oneLen, twoLen ) );
+  int diff = strncmp( strbase() + start, two, std::min( oneLen, twoLen ) );
 
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }
@@ -290,10 +290,10 @@ compare( const SubStr & one, const Str & two, Str::size_type len )
 int
 compare( const char * one, const Str & two, Str::size_type len )
 {
-  Str::size_type oneLen = min( (Str::size_type)strlen( one ), len );
-  Str::size_type twoLen = min( two.size(), len );
+  Str::size_type oneLen = std::min( (Str::size_type)strlen( one ), len );
+  Str::size_type twoLen = std::min( two.size(), len );
 
-  int diff = strncmp( one, two.strbase(), min( oneLen, twoLen ) );
+  int diff = strncmp( one, two.strbase(), std::min( oneLen, twoLen ) );
 
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }
@@ -305,11 +305,11 @@ Str::fcompare( const Str & two, size_type start, size_type len ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( two.size(), len );
+  size_type oneLen = std::min( size() - start, len );
+  size_type twoLen = std::min( two.size(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
-				min( oneLen, twoLen ) );
+				std::min( oneLen, twoLen ) );
 
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }
@@ -319,11 +319,11 @@ Str::fcompare( const SubStr & two, size_type start, size_type len ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( two.size(), len );
+  size_type oneLen = std::min( size() - start, len );
+  size_type twoLen = std::min( two.size(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
-				min( oneLen, twoLen ) );
+				std::min( oneLen, twoLen ) );
 
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }  
@@ -331,11 +331,11 @@ Str::fcompare( const SubStr & two, size_type start, size_type len ) const
 int
 Str::fcompare( const char * two, size_type start, size_type len ) const
 {
-  size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( (size_type)strlen( two ), len );
+  size_type oneLen = std::min( size() - start, len );
+  size_type twoLen = std::min( (size_type)strlen( two ), len );
 
   int diff = StringCaseCompare( strbase() + start, two,
-				min( oneLen, twoLen ) );
+				std::min( oneLen, twoLen ) );
 
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }
@@ -349,11 +349,11 @@ fcompare( const SubStr & one, const Str & two, Str::size_type len )
 int
 fcompare( const char * one, const Str & two, Str::size_type len )
 {
-  Str::size_type oneLen = min( (Str::size_type)strlen( one ), len );
-  Str::size_type twoLen = min( two.size(), len );
+  Str::size_type oneLen = std::min( (Str::size_type)strlen( one ), len );
+  Str::size_type twoLen = std::min( two.size(), len );
 
   int diff = StringCaseCompare( one, two.strbase(),
-				min( oneLen, twoLen ) );
+				std::min( oneLen, twoLen ) );
 
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }  
@@ -978,8 +978,8 @@ Str::scanString(
 // io helpers  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
-istream &
-Str::getDelim( istream & src, char delim, bool discard  )
+std::istream &
+Str::getDelim( std::istream & src, char delim, bool discard  )
 {
   // get the first char before modifing this
   // if it is an EOF. dont modify
@@ -1005,8 +1005,8 @@ Str::getDelim( istream & src, char delim, bool discard  )
   return( src );
 }
 
-istream &
-Str::getDelim( istream & src, const char * delimChars, bool discard  )
+std::istream &
+Str::getDelim( std::istream & src, const char * delimChars, bool discard  )
 {
   // get the first char before modifing this
   // if it is an EOF. dont modify
@@ -1033,8 +1033,8 @@ Str::getDelim( istream & src, const char * delimChars, bool discard  )
   return( src );
 }
 
-istream &
-Str::get( istream & src, size_type size )
+std::istream &
+Str::get( std::istream & src, size_type size )
 {
   size_type len = size;
   reset();
@@ -1047,7 +1047,7 @@ Str::get( istream & src, size_type size )
       char buf[1024];
       while( len )
 	{
-	  src.read( buf, min( len, (size_type)sizeof(buf) ) );
+	  src.read( buf, std::min( len, (size_type)sizeof(buf) ) );
 	  if( ! src.gcount() )
 	    break;
 	  rdbuf()->sputn( buf, src.gcount() );
@@ -1067,7 +1067,7 @@ Str::get( istream & src, size_type size )
 
 	  rdbuf()->_IO_write_ptr += src.gcount();
 #else
-	  rdbuf()->seekoff( src.gcount(), ios::cur, ios::out );
+	  rdbuf()->seekoff( src.gcount(), std::ios::cur, std::ios::out );
 #endif
 	  len -= src.gcount();
 	}
@@ -1081,8 +1081,8 @@ Str::getBinSize( void ) const
   return( sizeof( size_type ) + size() );
 }
 
-istream &
-Str::read( istream & src )
+std::istream &
+Str::read( std::istream & src )
 {
   size_type len;
 
@@ -1091,24 +1091,24 @@ Str::read( istream & src )
   return( get( src, len ) );
 }
 
-istream &
+std::istream &
 Str::read( char * dest, int size )
 {
   rdbuf()->readPrep();
   
-  return( istream::read( dest, size ) );
+  return( std::istream::read( dest, size ) );
 }
 
 #if defined( STLUTILS_STR_UNSIGNED )
-istream &
+std::istream &
 Str::read( unsigned char * dest, int size )
 {
-  return( istream::read( dest, size ) );
+  return( std::istream::read( dest, size ) );
 }
 #endif
 
-ostream &
-Str::write( ostream & dest ) const
+std::ostream &
+Str::write( std::ostream & dest ) const
 {
   size_type len = length();
   dest.write( (const char *)&len, sizeof( len ) );
@@ -1116,45 +1116,45 @@ Str::write( ostream & dest ) const
   return( dest );
 }
 
-ostream &
+std::ostream &
 Str::write( const char * src, int size )
 {
-  return( ostream::write( src, size ) );
+  return( std::ostream::write( src, size ) );
 }
 
 #if defined( STLUTILS_STR_UNSIGNED )
-ostream &
+std::ostream &
 Str::write( const unsigned char * src, int size )
 {
-  return( ostream::write( src, size ) );
+  return( std::ostream::write( src, size ) );
 }
 #endif
 
 #if defined( STLUTILS_STR_WCHAR )
-ostream &
+std::ostream &
 Str::write( const wchar_t * src, int size )
 {
-  return( ostream::write( src, size ) );
+  return( std::ostream::write( src, size ) );
 }
 #endif
 
-ostream &
+std::ostream &
 Str::write( const void * src, size_type size )
 {
-  return( ostream::write( (const char *)src, size ) );
+  return( std::ostream::write( (const char *)src, size ) );
 }
 
   
 
-ostream &
-Str::toStream( ostream & dest ) const
+std::ostream &
+Str::toStream( std::ostream & dest ) const
 {
   dest << cstr();
   return( dest );
 }
 
-istream &
-Str::fromStream( istream & src )
+std::istream &
+Str::fromStream( std::istream & src )
 {
   return( getDelim( src, " \t\n\r\f" ) );
 }
@@ -1166,9 +1166,9 @@ Str::good( void ) const
 {
   return( rdbuf() != 0 &&
 #if defined( STLUTILS_HAS_CONST_IOSGOOD )
-	  ios::good()
+	  std::ios::good()
 #else
-	  ios::state == 0
+	  std::ios::state == 0
 #endif
 	  );
 }
@@ -1194,23 +1194,23 @@ Str::error( void ) const
 	errStr << ": no 'streambuf'";
       
 #if defined( STLUTILS_HAS_CONST_IOSRDSTATE )
-      if( ! ios::good() )
+      if( ! std::ios::good() )
 	{
-	  if( ios::rdstate() & ios::eofbit )
+	  if( std::ios::rdstate() & std::ios::eofbit )
 	    errStr += ": EOF bit set";
-	  if( ios::rdstate() & ios::failbit )
+	  if( std::ios::rdstate() & std::ios::failbit )
 	    errStr += ": FAIL bit set";
-	  if( ios::rdstate() & ios::badbit )
+	  if( std::ios::rdstate() & std::ios::badbit )
 	    errStr += ": BAD bit set";
 	}
 #else
       if( state != 0 )
 	{
-	  if( ios::state & ios::eofbit )
+	  if( std::ios::state & std::ios::eofbit )
 	    errStr += ": EOF bit set";
-	  if( ios::state & ios::failbit )
+	  if( std::ios::state & std::ios::failbit )
 	    errStr += ": FAIL bit set";
-	  if( ios::state & ios::badbit )
+	  if( std::ios::state & std::ios::badbit )
 	    errStr += ": BAD bit set";
 	}
 #endif
@@ -1239,9 +1239,9 @@ Str::getVersion( bool withPrjVer ) const
     return( version.getVer( withPrjVer ) );  
 }
 
-ostream &
+std::ostream &
 Str::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -1298,7 +1298,7 @@ Str::writeNum( NumType num, unsigned short base, bool neg )
   static const char lDigits[] = "0123456789abcdefghijklmnopqrstuvwxyz";
   static const char uDigits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-  const char * digits = ((flags() & ios::uppercase) ? uDigits : lDigits );
+  const char * digits = ((flags() & std::ios::uppercase) ? uDigits : lDigits );
   
   char buf[ ( 2 * ( sizeof( unsigned long ) * CHAR_BIT ) + 5 ) ];
   int  len = sizeof( buf ) - 2;
@@ -1319,11 +1319,11 @@ Str::writeNum( NumType num, unsigned short base, bool neg )
       pos --;
     }
 
-  if( flags() & ios::showbase )
+  if( flags() & std::ios::showbase )
     {
       if( base == 16 )
 	{
-	  if( flags() & ios::uppercase )
+	  if( flags() & std::ios::uppercase )
 	    buf[ pos ] = 'X';
 	  else
 	    buf[ pos ] = 'x';
@@ -1346,7 +1346,7 @@ Str::writeNum( NumType num, unsigned short base, bool neg )
     }
   else
     {
-      if( flags() & ios::showpos )
+      if( flags() & std::ios::showpos )
 	{
 	  buf[ pos ] = '+';
 	  pos--;
@@ -1355,7 +1355,7 @@ Str::writeNum( NumType num, unsigned short base, bool neg )
 
   if( width() )
     {
-      if( (flags() & ios::left) )
+      if( (flags() & std::ios::left) )
 	{
  	  rdbuf()->sputn( &(buf[pos+1]), len - pos );
 	  for( int w = 0; w < width() - ( len - pos ); w++ )
@@ -1383,10 +1383,10 @@ Str::compare( const string & two, size_type start, size_type len ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( two.size(), len );
+  size_type oneLen = std::min( size() - start, len );
+  size_type twoLen = std::min( two.size(), len );
 
-  int diff = strncmp( strbase() + start, two.c_str(), min( oneLen, twoLen ) );
+  int diff = strncmp( strbase() + start, two.c_str(), std::min( oneLen, twoLen ) );
 
   return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
 }
@@ -1398,8 +1398,8 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 {
   STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
   
-  size_type oneLen = min( size() - start, len );
-  size_type twoLen = min( two.size(), len );
+  size_type oneLen = std::min( size() - start, len );
+  size_type twoLen = std::min( two.size(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.c_str(),
 				min( oneLen, twoLen ) );
@@ -1414,6 +1414,9 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:49  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:19  paul
 // First go at Mac gcc Port
 //
@@ -1488,7 +1491,7 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 // Added to( RangeList )
 //
 // Revision 3.5  1997/07/18 19:15:52  houghton
-// Port(Sun5): had to define ios::operator = (). I was getting link
+// Port(Sun5): had to define std::ios::operator = (). I was getting link
 //     errors on this. This is a significant bug in Sun's compiler
 //     since it is declared as a 'private' member.
 // Port(Sun5): changed all locale variables named beg and end to

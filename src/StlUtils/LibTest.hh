@@ -108,16 +108,16 @@ public:
   
   LibTest( const TestItem * 	testList,
 	   bool			outputLineProgress,
- 	   ostream & 	    	dumpDest,
- 	   ostream & 	    	output,
-	   ostream & 	    	error );
+ 	   std::ostream & 	    	dumpDest,
+ 	   std::ostream & 	    	output,
+	   std::ostream & 	    	error );
 
   LibTest( const TestItem * 	testList,
 	   bool			outputLineProgress,
 	   Results &		resultsProcessor,
-	   ostream & 	    	dumpDest,
-	   ostream & 	    	output,
-	   ostream & 	    	error );
+	   std::ostream & 	    	dumpDest,
+	   std::ostream & 	    	output,
+	   std::ostream & 	    	error );
 
   ~LibTest( void );
 
@@ -167,12 +167,12 @@ public:
   bool	    operator () ( const char *  srcFn,
 			  long		srcLine,
 			  bool		pass );
-  ostream & outputExpect( void );
-  ostream & outputIs( void );
+  std::ostream & outputExpect( void );
+  std::ostream & outputIs( void );
 
-  ostream & getOutput( void );
-  ostream & getError( void );
-  ostream & getDump( void );
+  std::ostream & getOutput( void );
+  std::ostream & getError( void );
+  std::ostream & getDump( void );
   
   const char * getCurrentTestName( void ) const;
   
@@ -227,9 +227,9 @@ private:
   bool		    lineProgress;
   size_t    	    currentTest;
   size_t	    currentPass;
-  ostream &	    dump;
-  ostream &  	    out;
-  ostream & 	    err;
+  std::ostream &	    dump;
+  std::ostream &  	    out;
+  std::ostream & 	    err;
   Results &	    result;
   
 };
@@ -252,9 +252,9 @@ private:
   
     	LibTest( const TestItem *   testList,
   		 bool		    outputLineProgress,
-  		 ostream &	    dumpDest,
-  		 ostream &	    output,
-  		 ostream &	    error );
+  		 std::ostream &	    dumpDest,
+  		 std::ostream &	    output,
+  		 std::ostream &	    error );
   	    Construct a LibTest object where the testItem is an
   	    array of specific tests to be run that is terminated by
   	    a '{ 0, 0 }' entry. When outputLineProgress is true,
@@ -267,9 +267,9 @@ private:
   	LibTest( const TestItem *   testList,
   		 bool		    outputLineProgress,
   		 Results &	    resultsProcessor,
-  		 ostream &	    dumpDest,
-  		 ostream &	    output,
-  		 ostream &	    error );
+  		 std::ostream &	    dumpDest,
+  		 std::ostream &	    output,
+  		 std::ostream &	    error );
   	    Construct a LibTest object where the testItem is an
   	    array of specific tests to be run that is terminated by
   	    a '{ 0, 0 }' entry. When outputLineProgress is true,
@@ -372,23 +372,23 @@ private:
   	    This is a short cut that calls 'test' with the same arguments,
   	    but progress is set to false.
   
-  	ostream &
+  	std::ostream &
   	outputExpect( void )
   	    This method places '\n    Expect: ' on the output stream
   	    and returns the output stream.
   
-  	ostream &
+  	std::ostream &
   	outputIs( void )
   	    This method places '\n    is:     ' on the output stream
   	    and returns the ouptut stream.
   
-  	ostream &
+  	std::ostream &
   	getOutput( void )
-  	    Returns the ostream passed as 'output' to the constructor.
+  	    Returns the std::ostream passed as 'output' to the constructor.
   
-  	ostream &
+  	std::ostream &
   	getDump( void )
-  	    Returns the ostream passed as 'dumpDest' to the constructor.
+  	    Returns the std::ostream passed as 'dumpDest' to the constructor.
   
   	const char *
   	getCurrentTestName( void ) const
@@ -499,7 +499,7 @@ private:
   
   	int main( int argc, char * argv[] )
   	{
-  	    LibTest test( TestList, false, cerr, cout, cerr );
+  	    LibTest test( TestList, false, std::cerr, std::cout, std::cerr );
   
   	    return( test.run( argc, argv );
   	}

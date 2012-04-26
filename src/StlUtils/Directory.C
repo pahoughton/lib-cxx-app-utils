@@ -168,9 +168,9 @@ Directory::DirField::getClassName( void ) const
   return( "Directory::DirField" );
 }
 
-ostream &
+std::ostream &
 Directory::DirField::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -233,9 +233,9 @@ Directory::DirFieldName::getClassName( void ) const
   return( "Directory::DirFieldName" );
 }
 
-ostream &
+std::ostream &
 Directory::DirFieldName::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -305,9 +305,9 @@ Directory::DirFieldSize::getClassName( void ) const
   return( "Directory::DirFieldSize" );
 }
 
-ostream &
+std::ostream &
 Directory::DirFieldSize::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -373,9 +373,9 @@ Directory::DirFieldTime::getClassName( void ) const
   return( "Directory::DirFieldTime" );
 }
 
-ostream &
+std::ostream &
 Directory::DirFieldTime::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -414,9 +414,9 @@ Directory::Where::getClassName( void ) const
   return( "Directory::Where" );
 }
 
-ostream &
+std::ostream &
 Directory::Where::dumpInfo( 
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -585,18 +585,18 @@ Directory::set(
 bool
 Directory::sort( const DirOrder & dirOrder )
 {
-  ::sort( list.begin(), list.end(), dirOrder );
+  std::sort( list.begin(), list.end(), dirOrder );
   return( true );
 }
 
-ostream &
-Directory::toStream( ostream & dest ) const
+std::ostream &
+Directory::toStream( std::ostream & dest ) const
 {
   for( const_iterator them = begin();
        them != end();
        ++ them )
     {
-      dest << *them << endl;
+      dest << *them << std::endl;
     }
   return( dest );
 }
@@ -645,9 +645,9 @@ Directory::getVersion( bool withPrjVer ) const
 }
 
 
-ostream &
+std::ostream &
 Directory::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *	prefix,
   bool		showVer
   ) const
@@ -688,7 +688,7 @@ Directory::dumpInfo(
 	   them != end();
 	   ++ them )
 	{
-	  dest << pre << *them << endl;
+	  dest << pre << *them << std::endl;
 	}
     }
   else
@@ -913,6 +913,9 @@ Directory::readDir(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:53  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:12  paul
 // First go at Mac gcc Port
 //

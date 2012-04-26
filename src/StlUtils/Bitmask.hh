@@ -56,9 +56,9 @@ public:
     inline bool	    operator == ( bool rhs ) const;
     inline bool	    operator != ( bool rhs ) const;
     
-    ostream &	    toStream( ostream & dest = cout ) const;
+    std::ostream &	    toStream( std::ostream & dest = std::cout ) const;
     
-    ostream &	    dumpInfo( ostream &	    dest = cerr,
+    std::ostream &	    dumpInfo( std::ostream &	    dest = std::cerr,
 			      const char *  prefix = "    ",
 			      bool	    showVer = true ) const;
 
@@ -142,16 +142,16 @@ public:
     
   virtual size_type	getBinSize( void ) const;
   
-  virtual ostream &	write( ostream & dest ) const;
-  virtual istream &	read( istream & src );
+  virtual std::ostream &	write( std::ostream & dest ) const;
+  virtual std::istream &	read( std::istream & src );
 
   // use by iostream << and >> operators
-  virtual ostream &	toStream( ostream & dest = cout ) const;
-  virtual istream &	fromStream( istream & src );
+  virtual std::ostream &	toStream( std::ostream & dest = std::cout ) const;
+  virtual std::istream &	fromStream( std::istream & src );
   
   virtual const char *	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -207,14 +207,14 @@ private:
 #else
 #undef inline
 
-ostream &
-operator << ( ostream & dest, const Bitmask & obj );
+std::ostream &
+operator << ( std::ostream & dest, const Bitmask & obj );
 
-istream &
-operator >> ( istream & src, Bitmask & obj );
+std::istream &
+operator >> ( std::istream & src, Bitmask & obj );
   
-ostream &
-operator << ( ostream & dest, const Bitmask::bit & obj );
+std::ostream &
+operator << ( std::ostream & dest, const Bitmask::bit & obj );
 
 Bitmask
 operator & ( const Bitmask & lhs, const Bitmask & rhs );
@@ -539,29 +539,29 @@ operator >= ( Bitmask::value_type lhs, const Bitmask & rhs );
   	size_type
   	getBinSize( void ) const;
   	    Return the number of bytes that would be written to
-  	    a ostream to store the data for this
+  	    a std::ostream to store the data for this
   	    instance.
   
   	virtual
-  	ostream &
-  	write( ostream & dest ) const
-  	    Write the Bimask in binary to an ostream.
+  	std::ostream &
+  	write( std::ostream & dest ) const
+  	    Write the Bimask in binary to an std::ostream.
   	    Format: value_type
   
   	virtual
-  	istream &
-  	read( istream & src )
-  	    Set the Bitmask by reading the binary form from an istream.
+  	std::istream &
+  	read( std::istream & src )
+  	    Set the Bitmask by reading the binary form from an std::istream.
   
   	virtual
-  	ostream &
-  	toStream( ostream & dest = cout ) const
-  	    Convert the Bitmask to a string and write it to an ostream.
+  	std::ostream &
+  	toStream( std::ostream & dest = std::cout ) const
+  	    Convert the Bitmask to a string and write it to an std::ostream.
   
   	virtual
-  	istream &
-  	fromStream( istream & src )
-  	    Set the Bitmask by reading an istream. The format
+  	std::istream &
+  	fromStream( std::istream & src )
+  	    Set the Bitmask by reading an std::istream. The format
   	    expected is a sequence of '0' or '1' chars.
   
     	virtual const char *
@@ -576,8 +576,8 @@ operator >= ( Bitmask::value_type lhs, const Bitmask & rhs );
   	    be returned.
   
   	virtual
-  	ostream &
-  	dumpInfo( ostream &	dest = cerr,
+  	std::ostream &
+  	dumpInfo( std::ostream &	dest = std::cerr,
   		  const char *	prefix = "    ",
   		  bool		showVer = true ) const;
   	    Output detailed information about the current
@@ -613,8 +613,8 @@ operator >= ( Bitmask::value_type lhs, const Bitmask & rhs );
   	bit::operator bool ( void ) const;
   	    Return the bit's value converted to a bool.
   
-  	ostream &
-  	bit::dumpInfo( ostream &	dest = cerr,
+  	std::ostream &
+  	bit::dumpInfo( std::ostream &	dest = std::cerr,
   		       const char *	prefix = "    ",
   		       bool		showVer = true ) const;
   	    Output detailed information about the current
@@ -627,16 +627,16 @@ operator >= ( Bitmask::value_type lhs, const Bitmask & rhs );
     Associated Functions:
   
   	inline
-    	ostream &
-    	operator <<( ostream & dest, const Bitmask & obj );
+    	std::ostream &
+    	operator <<( std::ostream & dest, const Bitmask & obj );
   	    Uses Bitmask::toStream to write the Bitmask as a string
-  	    to the ostream.
+  	    to the std::ostream.
   
   	inline
-  	istream &
-  	operator >> ( istream & src, Bitmask & obj );
+  	std::istream &
+  	operator >> ( std::istream & src, Bitmask & obj );
   	    Uses Bitmask::fromStream to set the Bitmask by reading
-  	    the istream.
+  	    the std::istream.
   
   	inline
   	Bitmask
@@ -730,6 +730,9 @@ operator >= ( Bitmask::value_type lhs, const Bitmask & rhs );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:55  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:10  paul
 // First go at Mac gcc Port
 //
@@ -797,7 +800,7 @@ operator >= ( Bitmask::value_type lhs, const Bitmask & rhs );
 // Added Bitmask::operator = ( const Bitmask & rhs )
 // Added Bitmask::fromStream().
 // Removed static const bit b32 (no such thing).
-// Added ::operator >> ( istream, Bitmask )
+// Added ::operator >> ( std::istream, Bitmask )
 //
 // Revision 2.6  1996/05/11 11:01:06  houghton
 // Added operators <= and >=.

@@ -36,14 +36,14 @@ class User
 
 public:
 
-  typedef set< UserGroup, less<UserGroup> >	Groups;
+  typedef std::set< UserGroup, std::less<UserGroup> >	Groups;
   
   inline User( bool findGroups = false );
   inline User( uid_t user, bool findGroups = false );
   inline User( const char * userName, bool findGroups = false );
   inline User( const struct passwd * passwdEntry, bool findGroups = false );
 
-  inline User( istream & src, bool text = false, bool findGroups = false );
+  inline User( std::istream & src, bool text = false, bool findGroups = false );
   
   virtual ~User( void );
 
@@ -95,17 +95,17 @@ public:
   
   virtual size_t	getBinSize( void ) const;
   
-  virtual ostream & 	write( ostream & dest ) const;
-  virtual istream & 	read( istream & src );
+  virtual std::ostream & 	write( std::ostream & dest ) const;
+  virtual std::istream & 	read( std::istream & src );
 
-  virtual ostream &	toStream( ostream & dest = cout ) const;
-  virtual istream &	fromStream( istream & src );
+  virtual std::ostream &	toStream( std::ostream & dest = std::cout ) const;
+  virtual std::istream &	fromStream( std::istream & src );
   
   virtual bool		good( void ) const;
   virtual const char *	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -136,8 +136,8 @@ private:
 #else
 #undef inline
 
-ostream &
-operator << ( ostream & dest, const User & obj );
+std::ostream &
+operator << ( std::ostream & dest, const User & obj );
 
 int
 compare( const User & one, const User & two );
@@ -194,6 +194,9 @@ compare( const User & one, const User & two );
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:45  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:35  paul
 // First go at Mac gcc Port
 //

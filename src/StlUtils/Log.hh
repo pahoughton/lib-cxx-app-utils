@@ -5,7 +5,7 @@
    Project:	StlUtils ()
    Desc:        
   
-    Log is a specialized ostream. It provides control over
+    Log is a specialized std::ostream. It provides control over
     how and where the data placed in the log will be output.
   
     There are two types of control, Levels and Filters.
@@ -60,14 +60,14 @@
 #define inline
 #endif
 
-class Log : public ostream
+class Log : public std::ostream
 {
 
 public:
 
   static const int  openprot; // 0666
   
-  Log( ostream & 	outStream = cout,
+  Log( std::ostream & 	outStream = std::cout,
        LogLevel::Level 	outLevel = ( LogLevel::Error |
 				     LogLevel::Warn |
 				     LogLevel::Info ),
@@ -75,7 +75,7 @@ public:
        bool		stampTime = true,
        bool		stampLoc = true );
   
-  Log( ostream & 	outStream,
+  Log( std::ostream & 	outStream,
        const char *     outLevel,
        bool		stampLevel = true,
        bool		stampTime = true,
@@ -85,7 +85,7 @@ public:
        LogLevel::Level 	outLevel = ( LogLevel::Error |
 				     LogLevel::Warn |
 				     LogLevel::Info ),
-       ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
+       std::ios::openmode	mode = (std::ios::openmode)(std::ios::app|std::ios::out),
        bool		stampLevel = true,
        bool		stampTime = true,
        bool		stampLoc = true,
@@ -94,7 +94,7 @@ public:
   
   Log( const char * 	fileName,
        const char *	outLevel,
-       ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
+       std::ios::openmode	mode = (std::ios::openmode)(std::ios::app|std::ios::out),
        bool		stampLevel = true,
        bool		stampTime = true,
        bool		stampLoc = true,
@@ -168,7 +168,7 @@ public:
   inline void		    on( const LogLevel::Level & output );
   inline void		    off( const LogLevel::Level & output );
   
-  inline void 	    	    tee( ostream & teeStream = cerr );
+  inline void 	    	    tee( std::ostream & teeStream = std::cerr );
 
   inline size_t		    setTrimSize( size_t trimSize );
   inline size_t		    setMaxSize( size_t maxSize );
@@ -179,27 +179,27 @@ public:
   size_t	    trim( size_t maxSize = 0 );
   
   void	    open( const char *	    fileName,
-		  ios::openmode    mode = (ios::openmode)(ios::out|ios::app),
+		  std::ios::openmode    mode = (std::ios::openmode)(std::ios::out|std::ios::app),
 		  int		    prot = 0664 );
   
   void	    setFileName( const char *	    fileName,
-			 ios::openmode    mode =
-			   (ios::openmode)(ios::out|ios::app),
+			 std::ios::openmode    mode =
+			 (std::ios::openmode)(std::ios::out|std::ios::app),
 			 int		    prot = 0664 );
   
   void		    close( void );
 
   bool		    filter( const char * regex );
   
-  LogBuf::FilterId  addFilter( streambuf *		destBuf,
+  LogBuf::FilterId  addFilter( std::streambuf *		destBuf,
 			       const LogLevel::Level &	outputLevel,
 			       const char *		regex = 0 );
 
-  streambuf *	    getFilterStream( LogBuf::FilterId filter );
+  std::streambuf *	    getFilterStream( LogBuf::FilterId filter );
   LogLevel::Level   getFilterLogLevel( LogBuf::FilterId filter );
   const char *	    getFilterRegex( LogBuf::FilterId filter );
   
-  streambuf *	    delFilter( LogBuf::FilterId id );
+  std::streambuf *	    delFilter( LogBuf::FilterId id );
 
   
   inline LogBuf *	    rdbuf( void );
@@ -218,7 +218,7 @@ public:
   virtual const char *	error( void ) const;
   virtual const char *	getClassName( void ) const;
   virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual ostream & 	dumpInfo( ostream &	dest = cerr,
+  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
 				  const char *	prefix = "    ",
 				  bool		showVer = true ) const;
   
@@ -254,12 +254,12 @@ private:
   
    Types:
   
-    	class Log : public ostream
+    	class Log : public std::ostream
   
    Constructors:
   
   	inline
-    	Log( ostream &		outStream = cout,
+    	Log( std::ostream &		outStream = std::cout,
     	     LogLevel::Level	outLevel = ( LogLevel::Error |
   				             LogLevel::Warn |
   				             LogLevel::Info ),
@@ -277,7 +277,7 @@ private:
   	    to the destination before each log entry.
   
   	inline
-    	Log( ostream &		outStream,
+    	Log( std::ostream &		outStream,
     	     const char *	outLevel,
     	     bool		stampLevel = true,
     	     bool		stampTime = true,
@@ -298,7 +298,7 @@ private:
     	     LogLevel::Level	outLevel = ( LogLevel::Error |
   				             LogLevel::Warn |
   				             LogLevel::Info ),
-  	     ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
+  	     std::ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
     	     int		prot = openprot,
     	     bool		stampLevel = true,
     	     bool		stampTime = true,
@@ -309,7 +309,7 @@ private:
   	inline
     	Log( const char *	fileName,
     	     const char *	outLevel,
-  	     ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
+  	     std::ios::openmode	mode = (ios::openmode)(ios::app|ios::out),
     	     int		prot = openprot,
     	     bool		stampLevel = true,
     	     bool		stampTime = true,
@@ -474,7 +474,7 @@ private:
   
   	inline
     	void
-    	tee( ostream & teeStream = cerr );
+    	tee( std::ostream & teeStream = std::cerr );
   	    This will cause all output written to the primary
   	    destination to also be written to the stream specified
   	    by 'teeStream'. 
@@ -510,7 +510,7 @@ private:
   	inline
   	void
   	open( const char *	fileName,
-	      ios::openmode	mode = (ios::openmode)(ios::out|ios::app),
+	      std::ios::openmode	mode = (ios::openmode)(ios::out|ios::app),
 	      int		prot = 0664 );
   	    This will open 'fileName' using 'mode' and make it the
   	    primary destionation for output. use 'good()' to
@@ -519,7 +519,7 @@ private:
   	inline
   	void
   	setFileName( const char *	fileName,
-		     ios::openmode	mode
+		     std::ios::openmode	mode
 		       = (ios::openmode)(ios::out|ios::app),
 		     int		prot = 0664 );
   	    This is just another name for 'open'.
@@ -607,8 +607,8 @@ private:
   	    be returned.
   
   	virtual
-  	ostream &
-  	dumpInfo( ostream &	dest = cerr,
+  	std::ostream &
+  	dumpInfo( std::ostream &	dest = std::cerr,
   		  const char *	prefix = "    ",
   		  bool		showVer = true ) const;
   	    Output detailed information about the current
@@ -641,7 +641,7 @@ private:
   
   	    LogIf( log, LogLevel::Info ) << "This is an info entry." << endl;
   
-  	    log.tee( cerr );
+  	    log.tee( std::cerr );
   
   	    LogIf( log, LogLevel::Error )
   		<< "This is an error entry" << endl;
@@ -658,14 +658,14 @@ private:
   	11/11/96 12:10:59 ERROR tLog.C:15 This is an error entry
   	This is more of the same error entry
   
-  	And the following to cerr (stderr):
+  	And the following to std::cerr (stderr):
   
   	11/11/96 12:10:59 ERROR tLog.C:15 This is an error entry
   	This is more of the same error entry
   
    See Also:
   
-    LogLevel(3), LogBuf(3), RegexScan(3), ostream(3)
+    LogLevel(3), LogBuf(3), RegexScan(3), std::ostream(3)
   
    Files:
   
@@ -681,6 +681,9 @@ private:
    %PL%
    
    $Log$
+   Revision 6.3  2012/04/26 20:08:51  paul
+   *** empty log message ***
+
    Revision 6.2  2011/12/30 23:57:15  paul
    First go at Mac gcc Port
 
@@ -734,7 +737,7 @@ private:
    Changed: renamed library to StlUtils.
   
    Revision 3.9  1997/07/18 19:21:57  houghton
-   Port(Sun5): changed default ios::openmode it (ios::app|ios::out).
+   Port(Sun5): changed default std::ios::openmode it (ios::app|ios::out).
   
    Revision 3.8  1997/05/02 12:15:00  houghton
    Bug-Fix: changed commonLevelMap to a * to remove any posibilities of

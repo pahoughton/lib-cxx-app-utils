@@ -149,15 +149,15 @@ UserGroup::getBinSize( void ) const
   return( sizeof( gid ) );
 }
 
-ostream &
-UserGroup::write( ostream & dest ) const
+std::ostream &
+UserGroup::write( std::ostream & dest ) const
 {
   dest.write( (const char *)&gid, sizeof( gid ) );
   return( dest );
 }
 
-istream &
-UserGroup::read( istream & src )
+std::istream &
+UserGroup::read( std::istream & src )
 {
   gid_t	grp;
   src.read( (char *)&grp, sizeof( grp ) );
@@ -166,15 +166,15 @@ UserGroup::read( istream & src )
   return( src );
 }
 
-ostream &
-UserGroup::toStream( ostream & dest ) const
+std::ostream &
+UserGroup::toStream( std::ostream & dest ) const
 {
   dest << name;
   return( dest );
 }
 
-istream &
-UserGroup::fromStream( istream & src )
+std::istream &
+UserGroup::fromStream( std::istream & src )
 {
   Str inName;
 
@@ -231,9 +231,9 @@ UserGroup::getVersion( bool withPrjVer ) const
 }
   
 
-ostream &
+std::ostream &
 UserGroup::dumpInfo(
-  ostream &	dest,
+  std::ostream &	dest,
   const char *  prefix,
   bool		showVer
   ) const
@@ -264,7 +264,7 @@ UserGroup::dumpInfo(
 	   them != members.end();
 	   them++ )
 	{
-	  dest << prefix << *them << endl;
+	  dest << prefix << *them << std::endl;
 	}
     }
 
@@ -291,6 +291,9 @@ UserGroup::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.3  2012/04/26 20:08:44  paul
+// *** empty log message ***
+//
 // Revision 6.2  2011/12/30 23:57:35  paul
 // First go at Mac gcc Port
 //
