@@ -50,48 +50,5 @@ extern Log *	_LibLog;
 #define LLgTest  _LLg( LogLevel::Test )
 #define LLgInfo  _LLg( LogLevel::Info )
       
-// Revision Log:
-//
-// %PL%
-// 
-// $Log$
-// Revision 6.2  2011/12/30 23:57:15  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:41  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:15  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  1999/11/04 17:32:13  houghton
-// Bug-Fix: LogIf was not changing log levels.
-//
-// Revision 4.2  1999/03/02 12:47:19  houghton
-// Added LLgError
-// Added LLgWarn
-// Added LLgDebug
-// Added LLgTest
-// Added LLgInfo
-//
-// Revision 4.1  1997/09/17 15:12:29  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:25  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:23:43  houghton
-// Changed to Release 3
-//
-// Revision 2.1  1996/04/27 13:02:04  houghton
-// Initial Release.
-//
-//
 #endif // ! def _LibLog_hh_ 
 

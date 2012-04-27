@@ -1,0 +1,401 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		DAF37BB31548AAF700D3C817 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		DAF37BB41548AAF800D3C817 /* Setup.Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Setup.Makefile; sourceTree = "<group>"; };
+		DAF37BB61548AB0D00D3C817 /* Bit.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Bit.hh; path = src/StlUtils/Bit.hh; sourceTree = "<group>"; };
+		DAF37BB71548AB0D00D3C817 /* Bit.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Bit.ii; path = src/StlUtils/Bit.ii; sourceTree = "<group>"; };
+		DAF37BB81548AB0D00D3C817 /* Bitmask.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bitmask.C; path = src/StlUtils/Bitmask.C; sourceTree = "<group>"; };
+		DAF37BB91548AB0D00D3C817 /* Bitmask.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Bitmask.hh; path = src/StlUtils/Bitmask.hh; sourceTree = "<group>"; };
+		DAF37BBA1548AB0D00D3C817 /* Bitmask.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Bitmask.ii; path = src/StlUtils/Bitmask.ii; sourceTree = "<group>"; };
+		DAF37BBB1548AB0D00D3C817 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ChangeLog; path = src/StlUtils/ChangeLog; sourceTree = "<group>"; };
+		DAF37BBC1548AB0D00D3C817 /* ClassVersion.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ClassVersion.C; path = src/StlUtils/ClassVersion.C; sourceTree = "<group>"; };
+		DAF37BBD1548AB0D00D3C817 /* ClassVersion.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ClassVersion.hh; path = src/StlUtils/ClassVersion.hh; sourceTree = "<group>"; };
+		DAF37BBE1548AB0D00D3C817 /* ClassVersion.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = ClassVersion.ii; path = src/StlUtils/ClassVersion.ii; sourceTree = "<group>"; };
+		DAF37BBF1548AB0D00D3C817 /* CommaNum.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CommaNum.C; path = src/StlUtils/CommaNum.C; sourceTree = "<group>"; };
+		DAF37BC01548AB0D00D3C817 /* CommaNum.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CommaNum.hh; path = src/StlUtils/CommaNum.hh; sourceTree = "<group>"; };
+		DAF37BC11548AB0D00D3C817 /* Compare.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Compare.hh; path = src/StlUtils/Compare.hh; sourceTree = "<group>"; };
+		DAF37BC31548AB4000D3C817 /* DateRange.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DateRange.C; path = src/StlUtils/DateRange.C; sourceTree = "<group>"; };
+		DAF37BC41548AB4000D3C817 /* DateRange.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DateRange.hh; path = src/StlUtils/DateRange.hh; sourceTree = "<group>"; };
+		DAF37BC51548AB4000D3C817 /* DateRange.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = DateRange.ii; path = src/StlUtils/DateRange.ii; sourceTree = "<group>"; };
+		DAF37BC61548AB4000D3C817 /* DateRangeDaily.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DateRangeDaily.C; path = src/StlUtils/DateRangeDaily.C; sourceTree = "<group>"; };
+		DAF37BC71548AB4000D3C817 /* DateRangeDaily.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DateRangeDaily.hh; path = src/StlUtils/DateRangeDaily.hh; sourceTree = "<group>"; };
+		DAF37BC81548AB4000D3C817 /* DateRangeDaily.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = DateRangeDaily.ii; path = src/StlUtils/DateRangeDaily.ii; sourceTree = "<group>"; };
+		DAF37BC91548AB4000D3C817 /* DateRangeWeekly.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DateRangeWeekly.C; path = src/StlUtils/DateRangeWeekly.C; sourceTree = "<group>"; };
+		DAF37BCA1548AB4000D3C817 /* DateRangeWeekly.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DateRangeWeekly.hh; path = src/StlUtils/DateRangeWeekly.hh; sourceTree = "<group>"; };
+		DAF37BCB1548AB4000D3C817 /* DateRangeWeekly.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = DateRangeWeekly.ii; path = src/StlUtils/DateRangeWeekly.ii; sourceTree = "<group>"; };
+		DAF37BCC1548AB4000D3C817 /* DateTime.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DateTime.C; path = src/StlUtils/DateTime.C; sourceTree = "<group>"; };
+		DAF37BCD1548AB4000D3C817 /* DateTime.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DateTime.hh; path = src/StlUtils/DateTime.hh; sourceTree = "<group>"; };
+		DAF37BCE1548AB4000D3C817 /* DateTime.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = DateTime.ii; path = src/StlUtils/DateTime.ii; sourceTree = "<group>"; };
+		DAF37BCF1548AB4000D3C817 /* DateTimeUtils.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DateTimeUtils.C; path = src/StlUtils/DateTimeUtils.C; sourceTree = "<group>"; };
+		DAF37BD01548AB4000D3C817 /* DateTimeUtils.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DateTimeUtils.hh; path = src/StlUtils/DateTimeUtils.hh; sourceTree = "<group>"; };
+		DAF37BD11548AB4000D3C817 /* DateTimeUtils.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = DateTimeUtils.ii; path = src/StlUtils/DateTimeUtils.ii; sourceTree = "<group>"; };
+		DAF37BD21548AB4000D3C817 /* Directory.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Directory.C; path = src/StlUtils/Directory.C; sourceTree = "<group>"; };
+		DAF37BD31548AB4000D3C817 /* Directory.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Directory.hh; path = src/StlUtils/Directory.hh; sourceTree = "<group>"; };
+		DAF37BD41548AB4000D3C817 /* Directory.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Directory.ii; path = src/StlUtils/Directory.ii; sourceTree = "<group>"; };
+		DAF37BD51548AB4000D3C817 /* DumpInfo.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DumpInfo.hh; path = src/StlUtils/DumpInfo.hh; sourceTree = "<group>"; };
+		DAF37BD61548AB4000D3C817 /* FileBatch.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileBatch.C; path = src/StlUtils/FileBatch.C; sourceTree = "<group>"; };
+		DAF37BD71548AB4000D3C817 /* FileBatch.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FileBatch.hh; path = src/StlUtils/FileBatch.hh; sourceTree = "<group>"; };
+		DAF37BD81548AB4000D3C817 /* FileBatch.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = FileBatch.ii; path = src/StlUtils/FileBatch.ii; sourceTree = "<group>"; };
+		DAF37BD91548AB4000D3C817 /* FilePath.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FilePath.C; path = src/StlUtils/FilePath.C; sourceTree = "<group>"; };
+		DAF37BDA1548AB4000D3C817 /* FilePath.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FilePath.hh; path = src/StlUtils/FilePath.hh; sourceTree = "<group>"; };
+		DAF37BDB1548AB4000D3C817 /* FilePath.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = FilePath.ii; path = src/StlUtils/FilePath.ii; sourceTree = "<group>"; };
+		DAF37BDC1548AB4000D3C817 /* FileStat.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileStat.C; path = src/StlUtils/FileStat.C; sourceTree = "<group>"; };
+		DAF37BDD1548AB4000D3C817 /* FileStat.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FileStat.hh; path = src/StlUtils/FileStat.hh; sourceTree = "<group>"; };
+		DAF37BDE1548AB4000D3C817 /* FileStat.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = FileStat.ii; path = src/StlUtils/FileStat.ii; sourceTree = "<group>"; };
+		DAF37BDF1548AB4000D3C817 /* IosOpenModeFromString.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosOpenModeFromString.C; path = src/StlUtils/IosOpenModeFromString.C; sourceTree = "<group>"; };
+		DAF37BE01548AB4000D3C817 /* IosOpenModeToString.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosOpenModeToString.C; path = src/StlUtils/IosOpenModeToString.C; sourceTree = "<group>"; };
+		DAF37BE11548AB4000D3C817 /* IosSeekDirToString.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosSeekDirToString.C; path = src/StlUtils/IosSeekDirToString.C; sourceTree = "<group>"; };
+		DAF37BE21548AB4000D3C817 /* IsTimetDst.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IsTimetDst.C; path = src/StlUtils/IsTimetDst.C; sourceTree = "<group>"; };
+		DAF37BE31548AB4000D3C817 /* LibLog.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LibLog.hh; path = src/StlUtils/LibLog.hh; sourceTree = "<group>"; };
+		DAF37BE41548AB4000D3C817 /* LibTest.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LibTest.C; path = src/StlUtils/LibTest.C; sourceTree = "<group>"; };
+		DAF37BE51548AB4000D3C817 /* LibTest.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LibTest.hh; path = src/StlUtils/LibTest.hh; sourceTree = "<group>"; };
+		DAF37BE61548AB4000D3C817 /* Log.C */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Log.C; path = src/StlUtils/Log.C; sourceTree = "<group>"; };
+		DAF37BE71548AB4000D3C817 /* Log.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Log.hh; path = src/StlUtils/Log.hh; sourceTree = "<group>"; };
+		DAF37BE81548AB4000D3C817 /* Log.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Log.ii; path = src/StlUtils/Log.ii; sourceTree = "<group>"; };
+		DAF37BE91548AB4000D3C817 /* LogBuf.C */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = LogBuf.C; path = src/StlUtils/LogBuf.C; sourceTree = "<group>"; };
+		DAF37BEA1548AB4000D3C817 /* LogBuf.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogBuf.hh; path = src/StlUtils/LogBuf.hh; sourceTree = "<group>"; };
+		DAF37BEB1548AB4000D3C817 /* LogBuf.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = LogBuf.ii; path = src/StlUtils/LogBuf.ii; sourceTree = "<group>"; };
+		DAF37BEC1548AB4000D3C817 /* LogLevel.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LogLevel.C; path = src/StlUtils/LogLevel.C; sourceTree = "<group>"; };
+		DAF37BED1548AB4000D3C817 /* LogLevel.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogLevel.hh; path = src/StlUtils/LogLevel.hh; sourceTree = "<group>"; };
+		DAF37BEE1548AB4000D3C817 /* LogLevel.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = LogLevel.ii; path = src/StlUtils/LogLevel.ii; sourceTree = "<group>"; };
+		DAF37BEF1548AB4000D3C817 /* LruMap.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LruMap.hh; path = src/StlUtils/LruMap.hh; sourceTree = "<group>"; };
+		DAF37BF01548AB4000D3C817 /* LruMap.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = LruMap.ii; path = src/StlUtils/LruMap.ii; sourceTree = "<group>"; };
+		DAF37BF11548AB4000D3C817 /* LruSash.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LruSash.hh; path = src/StlUtils/LruSash.hh; sourceTree = "<group>"; };
+		DAF37BF21548AB4000D3C817 /* LruSash.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = LruSash.ii; path = src/StlUtils/LruSash.ii; sourceTree = "<group>"; };
+		DAF37BF31548AB4000D3C817 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = src/StlUtils/Makefile; sourceTree = "<group>"; };
+		DAF37BF41548AB4000D3C817 /* MfNumTo.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MfNumTo.C; path = src/StlUtils/MfNumTo.C; sourceTree = "<group>"; };
+		DAF37BF51548AB4000D3C817 /* MinMax.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MinMax.hh; path = src/StlUtils/MinMax.hh; sourceTree = "<group>"; };
+		DAF37BF61548AB4000D3C817 /* Mutex.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mutex.C; path = src/StlUtils/Mutex.C; sourceTree = "<group>"; };
+		DAF37BF71548AB4000D3C817 /* Mutex.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Mutex.hh; path = src/StlUtils/Mutex.hh; sourceTree = "<group>"; };
+		DAF37BF81548AB4000D3C817 /* Mutex.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Mutex.ii; path = src/StlUtils/Mutex.ii; sourceTree = "<group>"; };
+		DAF37BF91548AB4000D3C817 /* Net2Host.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Net2Host.hh; path = src/StlUtils/Net2Host.hh; sourceTree = "<group>"; };
+		DAF37BFA1548AB4000D3C817 /* Param.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Param.C; path = src/StlUtils/Param.C; sourceTree = "<group>"; };
+		DAF37BFB1548AB4000D3C817 /* Param.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Param.hh; path = src/StlUtils/Param.hh; sourceTree = "<group>"; };
+		DAF37BFC1548AB4000D3C817 /* Param.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Param.ii; path = src/StlUtils/Param.ii; sourceTree = "<group>"; };
+		DAF37BFD1548AB4000D3C817 /* RegexScan.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RegexScan.C; path = src/StlUtils/RegexScan.C; sourceTree = "<group>"; };
+		DAF37BFE1548AB4000D3C817 /* RegexScan.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RegexScan.hh; path = src/StlUtils/RegexScan.hh; sourceTree = "<group>"; };
+		DAF37BFF1548AB4000D3C817 /* shortnames.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = shortnames.pl; path = src/StlUtils/shortnames.pl; sourceTree = "<group>"; };
+		DAF37C001548AB4000D3C817 /* SizeIt.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SizeIt.C; path = src/StlUtils/SizeIt.C; sourceTree = "<group>"; };
+		DAF37C011548AB4000D3C817 /* SizeIt.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SizeIt.hh; path = src/StlUtils/SizeIt.hh; sourceTree = "<group>"; };
+		DAF37C021548AB4000D3C817 /* SizeIt.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = SizeIt.ii; path = src/StlUtils/SizeIt.ii; sourceTree = "<group>"; };
+		DAF37C031548AB4000D3C817 /* Sort.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Sort.hh; path = src/StlUtils/Sort.hh; sourceTree = "<group>"; };
+		DAF37C041548AB4000D3C817 /* SortOrder.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SortOrder.hh; path = src/StlUtils/SortOrder.hh; sourceTree = "<group>"; };
+		DAF37C051548AB4000D3C817 /* SortOrder.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = SortOrder.ii; path = src/StlUtils/SortOrder.ii; sourceTree = "<group>"; };
+		DAF37C061548AB4000D3C817 /* StlUtilsConfig.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StlUtilsConfig.hh; path = src/StlUtils/StlUtilsConfig.hh; sourceTree = "<group>"; };
+		DAF37C071548AB4000D3C817 /* StlUtilsException.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StlUtilsException.hh; path = src/StlUtils/StlUtilsException.hh; sourceTree = "<group>"; };
+		DAF37C081548AB4000D3C817 /* StlUtilsMisc.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StlUtilsMisc.hh; path = src/StlUtils/StlUtilsMisc.hh; sourceTree = "<group>"; };
+		DAF37C091548AB4000D3C817 /* StlUtilsMisc.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = StlUtilsMisc.ii; path = src/StlUtils/StlUtilsMisc.ii; sourceTree = "<group>"; };
+		DAF37C0A1548AB4000D3C817 /* StlUtilsVersion.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StlUtilsVersion.hh; path = src/StlUtils/StlUtilsVersion.hh; sourceTree = "<group>"; };
+		DAF37C0B1548AB4000D3C817 /* Str.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Str.C; path = src/StlUtils/Str.C; sourceTree = "<group>"; };
+		DAF37C0C1548AB4000D3C817 /* Str.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Str.hh; path = src/StlUtils/Str.hh; sourceTree = "<group>"; };
+		DAF37C0D1548AB4000D3C817 /* Str.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Str.ii; path = src/StlUtils/Str.ii; sourceTree = "<group>"; };
+		DAF37C0E1548AB4000D3C817 /* StringCapitalize.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringCapitalize.C; path = src/StlUtils/StringCapitalize.C; sourceTree = "<group>"; };
+		DAF37C0F1548AB4000D3C817 /* StringCaseCompare.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringCaseCompare.C; path = src/StlUtils/StringCaseCompare.C; sourceTree = "<group>"; };
+		DAF37C101548AB4000D3C817 /* StringCaseReverseSearch.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringCaseReverseSearch.C; path = src/StlUtils/StringCaseReverseSearch.C; sourceTree = "<group>"; };
+		DAF37C111548AB4000D3C817 /* StringCaseSearch.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringCaseSearch.C; path = src/StlUtils/StringCaseSearch.C; sourceTree = "<group>"; };
+		DAF37C121548AB4000D3C817 /* StringFirstNotOf.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringFirstNotOf.C; path = src/StlUtils/StringFirstNotOf.C; sourceTree = "<group>"; };
+		DAF37C131548AB4000D3C817 /* StringFrom.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringFrom.C; path = src/StlUtils/StringFrom.C; sourceTree = "<group>"; };
+		DAF37C141548AB4000D3C817 /* StringLower.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringLower.C; path = src/StlUtils/StringLower.C; sourceTree = "<group>"; };
+		DAF37C151548AB4000D3C817 /* StringReverseSearch.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringReverseSearch.C; path = src/StlUtils/StringReverseSearch.C; sourceTree = "<group>"; };
+		DAF37C161548AB4000D3C817 /* StringSearch.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringSearch.C; path = src/StlUtils/StringSearch.C; sourceTree = "<group>"; };
+		DAF37C171548AB4000D3C817 /* StringTo.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringTo.C; path = src/StlUtils/StringTo.C; sourceTree = "<group>"; };
+		DAF37C181548AB4000D3C817 /* StringUpper.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringUpper.C; path = src/StlUtils/StringUpper.C; sourceTree = "<group>"; };
+		DAF37C191548AB4000D3C817 /* StringUtils.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StringUtils.hh; path = src/StlUtils/StringUtils.hh; sourceTree = "<group>"; };
+		DAF37C1A1548AB4000D3C817 /* StringUtils.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = StringUtils.ii; path = src/StlUtils/StringUtils.ii; sourceTree = "<group>"; };
+		DAF37C1B1548AB4000D3C817 /* StripTrailing.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StripTrailing.C; path = src/StlUtils/StripTrailing.C; sourceTree = "<group>"; };
+		DAF37C1C1548AB4000D3C817 /* StripWhite.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StripWhite.C; path = src/StlUtils/StripWhite.C; sourceTree = "<group>"; };
+		DAF37C1D1548AB4000D3C817 /* StrStreambuf.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StrStreambuf.C; path = src/StlUtils/StrStreambuf.C; sourceTree = "<group>"; };
+		DAF37C1E1548AB4000D3C817 /* StrStreambuf.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StrStreambuf.hh; path = src/StlUtils/StrStreambuf.hh; sourceTree = "<group>"; };
+		DAF37C1F1548AB4000D3C817 /* StrStreambuf.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = StrStreambuf.ii; path = src/StlUtils/StrStreambuf.ii; sourceTree = "<group>"; };
+		DAF37C201548AB4000D3C817 /* SubStr.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SubStr.C; path = src/StlUtils/SubStr.C; sourceTree = "<group>"; };
+		DAF37C211548AB4000D3C817 /* SubStr.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SubStr.hh; path = src/StlUtils/SubStr.hh; sourceTree = "<group>"; };
+		DAF37C221548AB4000D3C817 /* SubStr.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = SubStr.ii; path = src/StlUtils/SubStr.ii; sourceTree = "<group>"; };
+		DAF37C231548AB4000D3C817 /* ThreadBase.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThreadBase.C; path = src/StlUtils/ThreadBase.C; sourceTree = "<group>"; };
+		DAF37C241548AB4000D3C817 /* ThreadBase.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ThreadBase.hh; path = src/StlUtils/ThreadBase.hh; sourceTree = "<group>"; };
+		DAF37C251548AB4000D3C817 /* ThreadBase.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = ThreadBase.ii; path = src/StlUtils/ThreadBase.ii; sourceTree = "<group>"; };
+		DAF37C261548AB4000D3C817 /* Timer.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Timer.C; path = src/StlUtils/Timer.C; sourceTree = "<group>"; };
+		DAF37C271548AB4000D3C817 /* Timer.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Timer.hh; path = src/StlUtils/Timer.hh; sourceTree = "<group>"; };
+		DAF37C281548AB4000D3C817 /* Timer.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Timer.ii; path = src/StlUtils/Timer.ii; sourceTree = "<group>"; };
+		DAF37C291548AB4000D3C817 /* VectorResync.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VectorResync.hh; path = src/StlUtils/VectorResync.hh; sourceTree = "<group>"; };
+		DAF37C2A1548AB4000D3C817 /* Void.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Void.C; path = src/StlUtils/Void.C; sourceTree = "<group>"; };
+		DAF37C2B1548AB4000D3C817 /* Void.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Void.hh; path = src/StlUtils/Void.hh; sourceTree = "<group>"; };
+		DAF37C2C1548AB4000D3C817 /* Void.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Void.ii; path = src/StlUtils/Void.ii; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		DAF37BA31548AA4900D3C817 = {
+			isa = PBXGroup;
+			children = (
+				DAF37BC31548AB4000D3C817 /* DateRange.C */,
+				DAF37BC41548AB4000D3C817 /* DateRange.hh */,
+				DAF37BC51548AB4000D3C817 /* DateRange.ii */,
+				DAF37BC61548AB4000D3C817 /* DateRangeDaily.C */,
+				DAF37BC71548AB4000D3C817 /* DateRangeDaily.hh */,
+				DAF37BC81548AB4000D3C817 /* DateRangeDaily.ii */,
+				DAF37BC91548AB4000D3C817 /* DateRangeWeekly.C */,
+				DAF37BCA1548AB4000D3C817 /* DateRangeWeekly.hh */,
+				DAF37BCB1548AB4000D3C817 /* DateRangeWeekly.ii */,
+				DAF37BCC1548AB4000D3C817 /* DateTime.C */,
+				DAF37BCD1548AB4000D3C817 /* DateTime.hh */,
+				DAF37BCE1548AB4000D3C817 /* DateTime.ii */,
+				DAF37BCF1548AB4000D3C817 /* DateTimeUtils.C */,
+				DAF37BD01548AB4000D3C817 /* DateTimeUtils.hh */,
+				DAF37BD11548AB4000D3C817 /* DateTimeUtils.ii */,
+				DAF37BD21548AB4000D3C817 /* Directory.C */,
+				DAF37BD31548AB4000D3C817 /* Directory.hh */,
+				DAF37BD41548AB4000D3C817 /* Directory.ii */,
+				DAF37BD51548AB4000D3C817 /* DumpInfo.hh */,
+				DAF37BD61548AB4000D3C817 /* FileBatch.C */,
+				DAF37BD71548AB4000D3C817 /* FileBatch.hh */,
+				DAF37BD81548AB4000D3C817 /* FileBatch.ii */,
+				DAF37BD91548AB4000D3C817 /* FilePath.C */,
+				DAF37BDA1548AB4000D3C817 /* FilePath.hh */,
+				DAF37BDB1548AB4000D3C817 /* FilePath.ii */,
+				DAF37BDC1548AB4000D3C817 /* FileStat.C */,
+				DAF37BDD1548AB4000D3C817 /* FileStat.hh */,
+				DAF37BDE1548AB4000D3C817 /* FileStat.ii */,
+				DAF37BDF1548AB4000D3C817 /* IosOpenModeFromString.C */,
+				DAF37BE01548AB4000D3C817 /* IosOpenModeToString.C */,
+				DAF37BE11548AB4000D3C817 /* IosSeekDirToString.C */,
+				DAF37BE21548AB4000D3C817 /* IsTimetDst.C */,
+				DAF37BE31548AB4000D3C817 /* LibLog.hh */,
+				DAF37BE41548AB4000D3C817 /* LibTest.C */,
+				DAF37BE51548AB4000D3C817 /* LibTest.hh */,
+				DAF37BE61548AB4000D3C817 /* Log.C */,
+				DAF37BE71548AB4000D3C817 /* Log.hh */,
+				DAF37BE81548AB4000D3C817 /* Log.ii */,
+				DAF37BE91548AB4000D3C817 /* LogBuf.C */,
+				DAF37BEA1548AB4000D3C817 /* LogBuf.hh */,
+				DAF37BEB1548AB4000D3C817 /* LogBuf.ii */,
+				DAF37BEC1548AB4000D3C817 /* LogLevel.C */,
+				DAF37BED1548AB4000D3C817 /* LogLevel.hh */,
+				DAF37BEE1548AB4000D3C817 /* LogLevel.ii */,
+				DAF37BEF1548AB4000D3C817 /* LruMap.hh */,
+				DAF37BF01548AB4000D3C817 /* LruMap.ii */,
+				DAF37BF11548AB4000D3C817 /* LruSash.hh */,
+				DAF37BF21548AB4000D3C817 /* LruSash.ii */,
+				DAF37BF31548AB4000D3C817 /* Makefile */,
+				DAF37BF41548AB4000D3C817 /* MfNumTo.C */,
+				DAF37BF51548AB4000D3C817 /* MinMax.hh */,
+				DAF37BF61548AB4000D3C817 /* Mutex.C */,
+				DAF37BF71548AB4000D3C817 /* Mutex.hh */,
+				DAF37BF81548AB4000D3C817 /* Mutex.ii */,
+				DAF37BF91548AB4000D3C817 /* Net2Host.hh */,
+				DAF37BFA1548AB4000D3C817 /* Param.C */,
+				DAF37BFB1548AB4000D3C817 /* Param.hh */,
+				DAF37BFC1548AB4000D3C817 /* Param.ii */,
+				DAF37BFD1548AB4000D3C817 /* RegexScan.C */,
+				DAF37BFE1548AB4000D3C817 /* RegexScan.hh */,
+				DAF37BFF1548AB4000D3C817 /* shortnames.pl */,
+				DAF37C001548AB4000D3C817 /* SizeIt.C */,
+				DAF37C011548AB4000D3C817 /* SizeIt.hh */,
+				DAF37C021548AB4000D3C817 /* SizeIt.ii */,
+				DAF37C031548AB4000D3C817 /* Sort.hh */,
+				DAF37C041548AB4000D3C817 /* SortOrder.hh */,
+				DAF37C051548AB4000D3C817 /* SortOrder.ii */,
+				DAF37C061548AB4000D3C817 /* StlUtilsConfig.hh */,
+				DAF37C071548AB4000D3C817 /* StlUtilsException.hh */,
+				DAF37C081548AB4000D3C817 /* StlUtilsMisc.hh */,
+				DAF37C091548AB4000D3C817 /* StlUtilsMisc.ii */,
+				DAF37C0A1548AB4000D3C817 /* StlUtilsVersion.hh */,
+				DAF37C0B1548AB4000D3C817 /* Str.C */,
+				DAF37C0C1548AB4000D3C817 /* Str.hh */,
+				DAF37C0D1548AB4000D3C817 /* Str.ii */,
+				DAF37C0E1548AB4000D3C817 /* StringCapitalize.C */,
+				DAF37C0F1548AB4000D3C817 /* StringCaseCompare.C */,
+				DAF37C101548AB4000D3C817 /* StringCaseReverseSearch.C */,
+				DAF37C111548AB4000D3C817 /* StringCaseSearch.C */,
+				DAF37C121548AB4000D3C817 /* StringFirstNotOf.C */,
+				DAF37C131548AB4000D3C817 /* StringFrom.C */,
+				DAF37C141548AB4000D3C817 /* StringLower.C */,
+				DAF37C151548AB4000D3C817 /* StringReverseSearch.C */,
+				DAF37C161548AB4000D3C817 /* StringSearch.C */,
+				DAF37C171548AB4000D3C817 /* StringTo.C */,
+				DAF37C181548AB4000D3C817 /* StringUpper.C */,
+				DAF37C191548AB4000D3C817 /* StringUtils.hh */,
+				DAF37C1A1548AB4000D3C817 /* StringUtils.ii */,
+				DAF37C1B1548AB4000D3C817 /* StripTrailing.C */,
+				DAF37C1C1548AB4000D3C817 /* StripWhite.C */,
+				DAF37C1D1548AB4000D3C817 /* StrStreambuf.C */,
+				DAF37C1E1548AB4000D3C817 /* StrStreambuf.hh */,
+				DAF37C1F1548AB4000D3C817 /* StrStreambuf.ii */,
+				DAF37C201548AB4000D3C817 /* SubStr.C */,
+				DAF37C211548AB4000D3C817 /* SubStr.hh */,
+				DAF37C221548AB4000D3C817 /* SubStr.ii */,
+				DAF37C231548AB4000D3C817 /* ThreadBase.C */,
+				DAF37C241548AB4000D3C817 /* ThreadBase.hh */,
+				DAF37C251548AB4000D3C817 /* ThreadBase.ii */,
+				DAF37C261548AB4000D3C817 /* Timer.C */,
+				DAF37C271548AB4000D3C817 /* Timer.hh */,
+				DAF37C281548AB4000D3C817 /* Timer.ii */,
+				DAF37C291548AB4000D3C817 /* VectorResync.hh */,
+				DAF37C2A1548AB4000D3C817 /* Void.C */,
+				DAF37C2B1548AB4000D3C817 /* Void.hh */,
+				DAF37C2C1548AB4000D3C817 /* Void.ii */,
+				DAF37BB61548AB0D00D3C817 /* Bit.hh */,
+				DAF37BB71548AB0D00D3C817 /* Bit.ii */,
+				DAF37BB81548AB0D00D3C817 /* Bitmask.C */,
+				DAF37BB91548AB0D00D3C817 /* Bitmask.hh */,
+				DAF37BBA1548AB0D00D3C817 /* Bitmask.ii */,
+				DAF37BBB1548AB0D00D3C817 /* ChangeLog */,
+				DAF37BBC1548AB0D00D3C817 /* ClassVersion.C */,
+				DAF37BBD1548AB0D00D3C817 /* ClassVersion.hh */,
+				DAF37BBE1548AB0D00D3C817 /* ClassVersion.ii */,
+				DAF37BBF1548AB0D00D3C817 /* CommaNum.C */,
+				DAF37BC01548AB0D00D3C817 /* CommaNum.hh */,
+				DAF37BC11548AB0D00D3C817 /* Compare.hh */,
+				DAF37BC21548AB1B00D3C817 /* TopLevel */,
+			);
+			sourceTree = "<group>";
+		};
+		DAF37BC21548AB1B00D3C817 /* TopLevel */ = {
+			isa = PBXGroup;
+			children = (
+				DAF37BB31548AAF700D3C817 /* Makefile */,
+				DAF37BB41548AAF800D3C817 /* Setup.Makefile */,
+			);
+			name = TopLevel;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		DAF37BAA1548AA4900D3C817 /* StlUtils */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = DAF37BAD1548AA4900D3C817 /* Build configuration list for PBXLegacyTarget "StlUtils" */;
+			buildPhases = (
+			);
+			buildToolPath = /Support/bin/make;
+			dependencies = (
+			);
+			name = StlUtils;
+			passBuildSettingsInEnvironment = 1;
+			productName = StlUtils;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		DAF37BA51548AA4900D3C817 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Paul Houghton";
+			};
+			buildConfigurationList = DAF37BA81548AA4900D3C817 /* Build configuration list for PBXProject "StlUtils" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DAF37BA31548AA4900D3C817;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DAF37BAA1548AA4900D3C817 /* StlUtils */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		DAF37BAB1548AA4900D3C817 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DAF37BAC1548AA4900D3C817 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DAF37BAE1548AA4900D3C817 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DAF37BAF1548AA4900D3C817 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DAF37BA81548AA4900D3C817 /* Build configuration list for PBXProject "StlUtils" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAF37BAB1548AA4900D3C817 /* Debug */,
+				DAF37BAC1548AA4900D3C817 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAF37BAD1548AA4900D3C817 /* Build configuration list for PBXLegacyTarget "StlUtils" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAF37BAE1548AA4900D3C817 /* Debug */,
+				DAF37BAF1548AA4900D3C817 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DAF37BA51548AA4900D3C817 /* Project object */;
+}

@@ -38,7 +38,7 @@ static LogLevel::CommonLevelMap *	    commonLevelMap = 0;
 const int	Log::openprot( 0666 );
 
 Log::Log(
-  std::ostream & 	    outstr,
+  std::ostream &    outstr,
   LogLevel::Level   outLvl,
   bool		    stampLevel,
   bool		    stampTime,
