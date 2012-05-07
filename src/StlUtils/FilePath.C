@@ -252,6 +252,16 @@ FilePath::changePath( const char * oldDirs, const char * newDirs )
   return( true );
 }
 
+void
+FilePath::cleanFn( void )
+{
+  if( length() ) {
+    if( *begin() == '.' ) {
+      *begin() = '_';
+    }
+    replaceAny( STL_CLEANFN_CHARS, '_' );
+  }
+}
 bool
 FilePath::setFileName( const char * name )
 {
@@ -545,6 +555,9 @@ FilePath::dumpInfo(
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/05/07 21:56:02  paul
+// *** empty log message ***
+//
 // Revision 6.3  2012/04/26 20:08:53  paul
 // *** empty log message ***
 //

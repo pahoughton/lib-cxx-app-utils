@@ -93,7 +93,7 @@
 		DAF37C081548AB4000D3C817 /* StlUtilsMisc.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StlUtilsMisc.hh; path = src/StlUtils/StlUtilsMisc.hh; sourceTree = "<group>"; };
 		DAF37C091548AB4000D3C817 /* StlUtilsMisc.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = StlUtilsMisc.ii; path = src/StlUtils/StlUtilsMisc.ii; sourceTree = "<group>"; };
 		DAF37C0A1548AB4000D3C817 /* StlUtilsVersion.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StlUtilsVersion.hh; path = src/StlUtils/StlUtilsVersion.hh; sourceTree = "<group>"; };
-		DAF37C0B1548AB4000D3C817 /* Str.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Str.C; path = src/StlUtils/Str.C; sourceTree = "<group>"; };
+		DAF37C0B1548AB4000D3C817 /* Str.C */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Str.C; path = src/StlUtils/Str.C; sourceTree = "<group>"; };
 		DAF37C0C1548AB4000D3C817 /* Str.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Str.hh; path = src/StlUtils/Str.hh; sourceTree = "<group>"; };
 		DAF37C0D1548AB4000D3C817 /* Str.ii */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp.preprocessed; name = Str.ii; path = src/StlUtils/Str.ii; sourceTree = "<group>"; };
 		DAF37C0E1548AB4000D3C817 /* StringCapitalize.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringCapitalize.C; path = src/StlUtils/StringCapitalize.C; sourceTree = "<group>"; };

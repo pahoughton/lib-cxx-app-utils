@@ -242,6 +242,9 @@ public:
 			 iterator	last,
 			 InputIterator	srcFirst,
 			 InputIterator	srcLast );
+  
+  Str &         replaceAny( const char * chars,
+                            char         val );
 
 
   // iterators
@@ -1812,6 +1815,9 @@ operator >> ( std::istream & src, Str & dest );
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/05/07 21:56:01  paul
+// *** empty log message ***
+//
 // Revision 6.3  2012/04/26 20:08:49  paul
 // *** empty log message ***
 //

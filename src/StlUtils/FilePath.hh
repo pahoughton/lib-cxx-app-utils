@@ -37,6 +37,8 @@
 #define inline
 #endif
 
+#define STL_CLEANFN_CHARS "/\\?*:;[]"
+
 class FilePath : public Str
 {
 
@@ -110,6 +112,8 @@ public:
   bool		    changePath( const Str & oldDirs,
 				const Str & newDirs );
 
+  void              cleanFn( void );
+  
   virtual std::ostream &	toStream( std::ostream & dest ) const;
   
   virtual size_type    	getBinSize( void ) const;
@@ -351,6 +355,9 @@ compare( const FilePath & one, const FilePath & two );
 // %PL%
 // 
 // $Log$
+// Revision 6.4  2012/05/07 21:56:02  paul
+// *** empty log message ***
+//
 // Revision 6.3  2012/04/26 20:08:52  paul
 // *** empty log message ***
 //

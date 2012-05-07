@@ -232,7 +232,20 @@ Str::replace(
   return( *this );
 }
   
-
+Str &
+Str::replaceAny( const char * chars, char val )
+{
+  for( iterator them = begin();
+      them != end();
+      ++ them ) {
+    for( const char * rval = chars; *rval; ++ rval ) {
+      if( *them == *rval ) {
+        *them = '_';
+      }
+    }
+  }
+  return(*this);
+}
 
 // compare * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -1408,133 +1421,3 @@ Str::fcompare( const string & two, size_type start, size_type len ) const
 }  
 #endif
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:49  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:19  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:43  houghton
-// Changed to version 6
-//
-// Revision 5.6  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.5  2003/07/19 09:17:12  houghton
-// Port to 64 bit.
-//
-// Revision 5.4  2003/06/25 08:51:35  houghton
-// Change: read() - added call to rdbuf() readPrep - still need to
-// improve this.
-//
-// Revision 5.3  2001/07/26 19:28:59  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:17  houghton
-// Changed Version Num to 5
-//
-// Revision 4.12  2000/04/19 10:14:05  houghton
-// Changed Range to use 'long long' vs unsigned long.
-// Changed to support - range value.
-//
-// Revision 4.11  1999/05/09 13:00:40  houghton
-// Added long long support.
-//
-// Revision 4.10  1999/05/01 12:53:33  houghton
-// Added scan( quotechars ) to support delimited files with quoted fields.
-//
-// Revision 4.9  1998/10/13 16:22:37  houghton
-// Changed #if def __linux__ to #if def STRSTREAM_HACK.
-//
-// Revision 4.8  1998/10/13 15:24:51  houghton
-// Port(AIX41): write( wchar_t *) not available.
-//
-// Revision 4.7  1998/07/20 11:26:47  houghton
-// Port(Hpux): wchar not supported.
-//
-// Revision 4.6  1998/03/23 10:45:23  houghton
-// Changed to eliminate Sun5 compiler warnings.
-//
-// Revision 4.5  1998/01/22 18:32:18  houghton
-// Bug-Fix: substitute() was using wrong value to starts looking for next
-//     'from' string.
-//
-// Revision 4.4  1997/12/29 14:00:32  houghton
-// Bug-Fix: strip() was not handling all cases correctly.
-//
-// Revision 4.3  1997/12/19 14:00:42  houghton
-// Port(Sun5): fixed for warning about hiding 'matches'.
-//
-// Revision 4.2  1997/09/19 11:22:21  houghton
-// Changed to use size_type.
-//
-// Revision 4.1  1997/09/17 15:12:51  houghton
-// Changed to Version 4
-//
-// Revision 3.8  1997/09/17 14:10:20  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.7  1997/09/17 11:08:44  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.6  1997/09/02 13:07:45  houghton
-// Added to( Range )
-// Added to( RangeList )
-//
-// Revision 3.5  1997/07/18 19:15:52  houghton
-// Port(Sun5): had to define std::ios::operator = (). I was getting link
-//     errors on this. This is a significant bug in Sun's compiler
-//     since it is declared as a 'private' member.
-// Port(Sun5): changed all locale variables named beg and end to
-//     eliminate compiler warnings.
-//
-// Revision 3.4  1997/03/15 18:05:04  houghton
-// Changed append - to prevent inserting nulls (0 char) into the Str even
-//     if the src len is specified.
-//
-// Revision 3.3  1997/03/02 13:20:17  houghton
-// Changed to use 'size_type'
-//
-// Revision 3.2  1996/11/20 12:12:05  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:24:08  houghton
-// Changed to Release 3
-//
-// Revision 2.6  1996/11/06 18:06:16  houghton
-// StlUtils.hh renamed to StlUtilsUtils.hh.
-//
-// Revision 2.5  1996/10/11 17:42:59  houghton
-// Changed: Added new 'multiDelim' arg to scan methods. This arg
-//   specifies if multiple consecutive instances of the delimiter are
-//   ignored or create separate matches.
-//      Example: 'this,is,,a,test'
-//               mutliDelim == true:  4 fields
-//               multiDelim == false: 5 fields (the third has a 0 length).
-//
-// Revision 2.4  1996/06/09 09:44:49  houghton
-// Bug-Fix: compare( const char * ) if both strings are empty, return 0.
-// Bug-Fix: read( BinStream & ) if len was 0, was not reseting string.
-//
-// Revision 2.3  1996/04/27 13:08:39  houghton
-// Cleanup.
-//
-// Revision 2.2  1995/12/04 11:18:26  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:03  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:46  houghton
-// Revised
-//
-//
