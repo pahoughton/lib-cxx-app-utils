@@ -1,36 +1,19 @@
-//
-// File:        tStringCapitalize.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test StringCapitalize function.
-//  
-// Source Header Version: StringUtils.hh 2.4
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/29/96 09:59
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-10-29 (cc) <paul4hough@gmail.com>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StringUtils.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StrUtil.hh>
-#endif
+#include <clue/StringUtils.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify>
+
+static valid::verify verify("clue::StringCapitalize");
+using namespace clue;
 
 bool
-tStringCapitalize( LibTest & tester )
+v_StringCapitalize( void )
 {
   {
     // StringCapialize( char * )
-    
+
     const char * sc =   "This-Is.A Test 12a34 Abc123 -Abc- Abc-Def? Good?";
 
     char su[] = "THIS-IS.A TEST 12A34 ABC123 -ABC- ABC-DEF? GOOD?";
@@ -41,15 +24,15 @@ tStringCapitalize( LibTest & tester )
     StringCapitalize( sm );
     StringCapitalize( sl );
 
-    TEST( strcmp( su, sc ) == 0 );
-    TEST( strcmp( sm, sc ) == 0 );
-    TEST( strcmp( sl, sc ) == 0 );
+    VVTRUE( strcmp( su, sc ) == 0 );
+    VVTRUE( strcmp( sm, sc ) == 0 );
+    VVTRUE( strcmp( sl, sc ) == 0 );
 
   }
 
   {
     // StringCapialize( char *, size_t )
-    
+
     const char * sc =   "This-Is.A test 12a34 abc123 -abc- abc-def? good?";
     //                  0123456789 1
     char su[] = "THIS-IS.A test 12a34 abc123 -abc- abc-def? good?";
@@ -60,36 +43,11 @@ tStringCapitalize( LibTest & tester )
     StringCapitalize( sm, 10 );
     StringCapitalize( sl, 10 );
 
-    TEST( strcmp( su, sc ) == 0 );
-    TEST( strcmp( sm, sc ) == 0 );
-    TEST( strcmp( sl, sc ) == 0 );
+    VVTRUE( strcmp( su, sc ) == 0 );
+    VVTRUE( strcmp( sm, sc ) == 0 );
+    VVTRUE( strcmp( sl, sc ) == 0 );
 
   }
 
-  return( true );
+  return( verify.is_valid() );
 }
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:47  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:52  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:31  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:43  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:10:07  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:27:10  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1996/11/04 14:51:24  houghton
-// Added header comments.
-//
-//

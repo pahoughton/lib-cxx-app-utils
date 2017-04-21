@@ -1,37 +1,20 @@
-//
-// File:        tStringSearch.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for StringSearch, StringReverseSearch, StringCaseSearch
-//  and StringCaseReverseSearch Functions.
-//  
-// Source Header Version: StringUtils.hh 2.4
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/29/96 05:30
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-10-29 (cc) <paul4hough@gmail.com>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StringUtils.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StrUtil.hh>
-#endif
+#include <clue/StringUtils.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::StringSearch");
+using namespace clue;
 
 #define HAY "this is the 123 haystack to search in 123 .,? aabbbcc 123"
 //           012345678901234567890123456789012345678901234567890123456
 //                     1         2         3         4         5
 
 bool
-tStringSearch( LibTest & tester )
+v_StringSearch( void )
 {
   {
     // StringSearch( const char *, size_t, const char *, size_t )
@@ -41,7 +24,7 @@ tStringSearch( LibTest & tester )
     TEST( (StringSearch( hay, NPOS, "123xx", 3 ) - hay) == 12 );
     TEST( (StringSearch( hay, NPOS, "123", NPOS ) - hay) == 12 );
 
-    TEST( (StringSearch( hay, 13, "123", 3 )) == 0);    
+    TEST( (StringSearch( hay, 13, "123", 3 )) == 0);
     TEST( (StringSearch( hay, 13, "123", NPOS )) == 0);
     TEST( (StringSearch( hay, NPOS, "1234", NPOS )) == 0 );
 
@@ -49,14 +32,14 @@ tStringSearch( LibTest & tester )
 
     TEST( (StringSearch( hay, NPOS, "haystack", NPOS ) - hay) == 16 );
     TEST( (StringSearch( hay, NPOS, "hayStack", NPOS )) == 0 );
-    
+
   }
 
   {
     // Just verifing I can keep finding the next instance
     const char * hay = "test,string,search,,function";
 //                      012345678901234567890123456789
-//                                1         2         
+//                                1         2
     const char * found = StringSearch( hay, strlen( hay ), ",", 1 );
 
     TEST( (found - hay) == 4 );
@@ -76,7 +59,7 @@ tStringSearch( LibTest & tester )
     found = StringSearch( found + 1, strlen( found + 1 ), ",", 1 );
 
     TEST( found == (const char *) 0 );
-    
+
   }
 
   {
@@ -101,7 +84,7 @@ tStringSearch( LibTest & tester )
 			needle, needleLen ) == 0 );
     TEST( StringSearch( shortHay, NPOS,
 			needle, NPOS ) == 0 );
-    
+
   }
 
   {
@@ -112,14 +95,14 @@ tStringSearch( LibTest & tester )
     TEST( (StringReverseSearch( hay, 53, "123xx", 3 ) - hay) == 38 );
     TEST( (StringReverseSearch( hay, NPOS, "123xx", 3 ) - hay) == 54 );
     TEST( (StringReverseSearch( hay, NPOS, "123", NPOS ) - hay) == 54 );
-    
-    
+
+
     TEST( (StringReverseSearch( hay, 13, "123", 3 )) == 0 );
     TEST( (StringReverseSearch( hay, 13, "123", NPOS )) == 0 );
     TEST( (StringReverseSearch( hay, NPOS, "123x", NPOS )) == 0 );
 
     // make sure case really matters
-    
+
     TEST( (StringReverseSearch( hay, NPOS, "haystack", NPOS ) - hay) == 16 );
     TEST( (StringReverseSearch( hay, NPOS, "hayStack", NPOS )) == 0 );
 
@@ -147,7 +130,7 @@ tStringSearch( LibTest & tester )
 			       needle, needleLen ) == 0 );
     TEST( StringReverseSearch( shortHay, NPOS,
 			       needle, NPOS ) == 0 );
-    
+
   }
 
 
@@ -164,7 +147,7 @@ tStringSearch( LibTest & tester )
     TEST( (StringCaseSearch( hay, 15, "HayStack", NPOS )) == 0 );
     TEST( (StringCaseSearch( hay, NPOS, "HayStackX", NPOS )) == 0 );
   }
- 
+
   {
     // Bad args
 
@@ -188,7 +171,7 @@ tStringSearch( LibTest & tester )
 			    needle, needleLen ) == 0 );
     TEST( StringCaseSearch( shortHay, NPOS,
 			    needle, NPOS ) == 0 );
-    
+
   }
 
   {
@@ -198,7 +181,7 @@ tStringSearch( LibTest & tester )
 
     TEST( (StringCaseReverseSearch( hay, 53, "IsXX", 2 ) - hay ) == 5 );
     TEST( (StringCaseReverseSearch( hay, 5, "IsXX", 2 ) - hay ) == 2 );
-    
+
     TEST( (StringCaseReverseSearch( hay, NPOS, "IsXX", 2 ) - hay ) == 5 );
     TEST( (StringCaseReverseSearch( hay, NPOS, "Is", NPOS ) - hay ) == 5 );
 
@@ -230,35 +213,8 @@ tStringSearch( LibTest & tester )
 				   needle, needleLen ) == 0 );
     TEST( StringCaseReverseSearch( shortHay, NPOS,
 				   needle, NPOS ) == 0 );
-    
+
   }
 
-  
-  return( true );
+  return( verify.is_valid() );
 }
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:47  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:52  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:31  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:45  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:10:09  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:27:12  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/11/04 14:52:46  houghton
-// Added header comments.
-// Changed test to verify new default len of NPOS (was 0).
-//
-//

@@ -1,47 +1,13 @@
-//
-// File:        StringCaseCompare.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  StringCaseCompare( const char * one, const char * two );
-//	Compare two strings ignoring case. return 0 if one == two,
-//	< 0 if one < two and > 0 if one > two.
-//
-//  StringCaseCompare( const char * one, const char * two, size_t len );
-//	Compare the first 'len' chars of two strings ignoring case.
-//	return 0 if one == two, < 0 if one < two and > 0 if one > two.
-//	
-//  StringCaseCompare( const char * one, size_t lenOne,
-//  		       const char * two, size_t lenTwo );
-//      Compare the two strings ignoring case. The first
-//      min( lenOne, lenTwo) char are check first if they are
-//      not the same, the difference is return. If they are the
-//      same, the differance of lenOne and lenTwo is returnd.
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     05/01/95 07:07 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-// $Id$ 
+// 1995-05-01 (cc) <paul4hough@gmail.com>
 
-#include "StringUtils.hh"
-#include "Compare.hh"
+#include "StringUtils.hpp"
+#include "compare"
 #include <functional>
 #include <algorithm>
 #include <cstddef>
 #include <cctype>
 
-STLUTILS_FUNCT_VERSION(
-  StringCaseCompare,
-  "$Id$ " );
-
+namespace clue {
 
 int
 StringCaseCompare( const char * one, const char * two )
@@ -49,7 +15,7 @@ StringCaseCompare( const char * one, const char * two )
   register int diff;
   register const char * s1 = one;
   register const char * s2 = two;
-  
+
   for( ; !( (diff = tolower( *s1 ) - tolower( *s2 ) ) ) ; s1++, s2++ )
     {
       if( !(*s1) )
@@ -58,7 +24,7 @@ StringCaseCompare( const char * one, const char * two )
 	}
     }
   return( diff );
-      
+
 }
 
 int
@@ -68,7 +34,7 @@ StringCaseCompare( const char * one, const char * two, size_t len )
   register size_t maxChars = len;
   register const char * s1 = one;
   register const char * s2 = two;
-  
+
   for( ; maxChars && !( (diff = tolower( *s1 ) - tolower( *s2 ) ) ) ;
 	 s1++, s2++, maxChars-- )
     {
@@ -92,54 +58,20 @@ StringCaseCompare(
   int diff = StringCaseCompare( one, two, std::min( lenOne, lenTwo ) );
   return( diff ? diff : compare( lenOne, lenTwo ) );
 }
-
+}
 //
-// Revision Log:
+//  StringCaseCompare( const char * one, const char * two );
+//	Compare two strings ignoring case. return 0 if one == two,
+//	< 0 if one < two and > 0 if one > two.
 //
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:48  paul
-// *** empty log message ***
+//  StringCaseCompare( const char * one, const char * two, size_t len );
+//	Compare the first 'len' chars of two strings ignoring case.
+//	return 0 if one == two, < 0 if one < two and > 0 if one > two.
 //
-// Revision 6.2  2011/12/30 23:57:20  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:43  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:28:58  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:17  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:13:00  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:08:50  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1996/11/24 19:05:16  houghton
-// Removed support for short filenames.
-//
-// Revision 3.1  1996/11/14 01:24:16  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/11/04 14:29:55  houghton
-// Restructure header comments layout.
-//
-// Revision 2.2  1995/12/04 11:18:29  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:09  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:47  houghton
-// Ports and Version ID changes
-//
+//  StringCaseCompare( const char * one, size_t lenOne,
+//  		       const char * two, size_t lenTwo );
+//      Compare the two strings ignoring case. The first
+//      min( lenOne, lenTwo) char are check first if they are
+//      not the same, the difference is return. If they are the
+//      same, the differance of lenOne and lenTwo is returnd.
 //

@@ -1,41 +1,16 @@
-//
-// File:        tStripWhite.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for StripWhite function
-//
-// Source Header Version: StringUtils.hh 2.4
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/29/96 05:04
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
+// 1996-10-29 (cc) <paul4hough@gmail.com>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StringUtils.hh>
+#include <clue/StringUtils.hpp>
+#include <clue/compare>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify>
+#define TEST VVTRUE
+
 #include <cstdio>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StrUtil.hh>
-#include <cstdio>
-#endif
 
-#if defined( Hpux10 )
-
-struct TestVals
-{
-  const char *  from;
-  const char *  to; //     	to[ 100 ];
-  const char *  stripChars;
-};
-
-#else
+static valid::verify verify("clue::StripWhite");
+using namespace clue;
 
 struct TestVals
 {
@@ -44,7 +19,6 @@ struct TestVals
   const char *  stripChars;
 };
 
-#endif
 static TestVals TestValues[] =
 {
   { { "no white in me" 	            }, { "no white in me"         }, 0 },
@@ -58,18 +32,18 @@ static TestVals TestValues[] =
 };
 
 bool
-tStripWhite( LibTest & tester )
+v_StripWhite( void )
 {
   // StripWhite( char *, const char * )
-  
+
   char * result;
   char reason[1024];
   char from[ 100 ];
-  
+
   for( int t = 0; TestValues[t].from[0]; t++ )
     {
       strcpy( from, TestValues[t].from );
-      
+
       if( TestValues[t].stripChars )
 	{
 	  result = StripWhite( from, TestValues[t].stripChars );
@@ -85,24 +59,22 @@ tStripWhite( LibTest & tester )
 	  sprintf( reason, "'%s' should be '%s'",
 		   from,
 		   TestValues[t].to );
-	  
-	  TESTR( reason, false );
-	  return( false );
+
+	  VVFAIL( reason );
 	}
     }
 
   {
     // StripWhite( char *, const char *, size_t )
-    
+
     static char SizeTest[50] = "   cleanup   this mess  ";
 
     result = StripWhite( SizeTest, " ", 11 );
-    
+
     if( result != SizeTest || strcmp( SizeTest, "cleanup" ) )
       {
 	sprintf( reason, "'%s' should be 'cleanup'", SizeTest );
-	TESTR( reason, false );
-	return( false );
+	VVFAIL( reason );
       }
   }
 
@@ -116,45 +88,6 @@ tStripWhite( LibTest & tester )
 
     TEST( strcmp( StripWhite( src, " ", 0 ), TEST_STRING ) == 0 );
   }
-    
 
-  return( true );
+  return( verify.is_valid() );
 }
-  
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:48  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:53  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:31  houghton
-// Changed Version Num to 5
-//
-// Revision 4.5  1998/10/23 13:09:46  houghton
-// Bug-Fix: check the first character of 'from'.
-//
-// Revision 4.4  1998/10/13 16:41:03  houghton
-// Cleanup.
-//
-// Revision 4.3  1998/10/13 15:21:28  houghton
-// Workaround for Hpux compiler.
-//
-// Revision 4.2  1998/07/20 11:33:40  houghton
-// Port(Hpux): had to change test struct vars from char [] to char *.
-//
-// Revision 4.1  1997/09/17 15:14:47  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:10:11  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:27:14  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1996/11/04 14:53:42  houghton
-// Added header comments.
-// Added more test to verify function.
-//
-//

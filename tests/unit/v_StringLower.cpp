@@ -1,36 +1,20 @@
-//
-// File:        tStringLower.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test StringLower function.
-//  
-// Source Header Version: StringUtils.hh 2.4
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/29/96 06:59
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-10-29 (cc) <paul4hough@gmail.com>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StringUtils.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StrUtil.hh>
-#endif
+#include <clue/StringUtils.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::StringLower");
+using namespace clue;
 
 bool
-tStringLower( LibTest & tester )
+v_StringLower( void )
 {
   {
     // StringLower( char * )
-    
+
     const char sl[] = "this is a 1234567890-=!@#$%^&*()_+[]{};':\",./<>? test";
 
     char sul[] = "THIS IS A 1234567890-=!@#$%^&*()_+[]{};':\",./<>? TEST";
@@ -48,10 +32,10 @@ tStringLower( LibTest & tester )
 
   {
     // StringLower( char *, size_t )
-    
+
     const char sl[] = "this is aSIZE 12345-=!@#$%^&*()_+[]{};':\",./<>? teST";
     //                01234567890
-    
+
     char sul[] = "THIS IS ASIZE 12345-=!@#$%^&*()_+[]{};':\",./<>? teST";
     char sml[] = "thIS is aSIZE 12345-=!@#$%^&*()_+[]{};':\",./<>? teST";
     char sll[] = "this is aSIZE 12345-=!@#$%^&*()_+[]{};':\",./<>? teST";
@@ -65,30 +49,5 @@ tStringLower( LibTest & tester )
     TEST( strcmp( sll, sl ) == 0 );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:47  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:52  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:31  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:45  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:10:08  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:27:11  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1996/11/04 14:52:11  houghton
-// Added header comments.
-//
-//

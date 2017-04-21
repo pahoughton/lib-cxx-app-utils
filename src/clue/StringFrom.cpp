@@ -1,53 +1,32 @@
+// 1996-11-15 (cc) <paul4hough@gmail.com>
 /**
-   File:        StringFrom.C
-   Project:	StlUtils ()
-   Desc:        
-  
+
     The StringFrom functions were developed out of my
     frustration in trying to find a good way to convert
     number into character strings and append them to
     a 'class string'.
-  
+
     The only standard text conversion for numbers are the
     '<<' operators for std::ostream. The number of code lines and
     perfomance expence in using a strstream (or the new sstream)
     just to get a number converted to text is WAY to high.
-    
-   Author:      Paul Houghton - (paul4hough@gmail.com)
-   Created:     11/15/96 14:56
-  
-   Revision History: (See end of file for Revision Log)
-  
-    $Author$ 
-    $Date$ 
-    $Name$ 
-    $Revision$ 
-    $State$ 
-  
- $Id$ 
+
 **/
 
-#if defined( STLUTILS_THREADS )
-#error Mutex needed
-#endif
 
-#include "StringUtils.hh"
-// #include "Mutex.hh"
-#include <Str.hh>
+#include "StringUtils.hpp"
+#include <mutex>
 #include <cstring>
 #include <cctype>
 
-STLUTILS_FUNCT_VERSION(
-  StringAppend,
-  "$Id$ " );
+namespace clue {
 
-static char	NumBuf[ 129 ];
-//static Mutex	NumBufMutex;
-
+static char	  NumBuf[ 8096 ];
+static std::mutex NumBufMutex;
 
 template< class NumT >
 inline
-char * 
+char *
 _StlUtilsStringUnsignedFrom(
   char *    end,
   size_t    size,
@@ -61,7 +40,7 @@ _StlUtilsStringUnsignedFrom(
   // We work from back to front!
   // and return front. So start by null terminating the string.
 
-  //  NumBufMutex.lock();
+  NumBufMutex.lock();
 
   if( nullTerm )
     {
@@ -80,7 +59,7 @@ _StlUtilsStringUnsignedFrom(
       else
 	{
 	  static const char * digits = "0123456789abcdefghijklmnopqrstuvwxyz";
-	  
+
 	  for( ; num != 0 && size; --end, --size, num /= base )
 	    *end = digits[ (num % base) ];
 	}
@@ -91,11 +70,11 @@ _StlUtilsStringUnsignedFrom(
       -- end;
       -- size;
     }
-  
+
   if( fill )
     {
       size_t prefixCount = 0;
-      
+
       if( size )
 	{
 	  if( prefix )
@@ -196,18 +175,18 @@ _StlUtilsStringUnsignedFrom(
 	}
       else
 	{
-	  // no room for '-' 
+	  // no room for '-'
 	  if( neg )
 	    return( NULL );
 	}
-      
+
       end -= size + prefixCount;
       ++ end;
     }
   else
     {
       // ! fill
-      
+
       if( prefix )
 	{
 	  if( base == 8 )
@@ -230,21 +209,21 @@ _StlUtilsStringUnsignedFrom(
 		}
 	    }
 	}
-      
+
       if( neg )
 	*end = '-';
       else
 	++end; // one to far;
     }
-  
-  // NumBufMutex.unlock();
-  
+
+  NumBufMutex.unlock();
+
   return( end ); // which is now the front.
 }
 
 template< class NumT >
 inline
-char * 
+char *
 _StlUtilsStringSignedFrom(
   char *    end,
   size_t    size,
@@ -335,7 +314,7 @@ StringFrom( NumType num, short base, bool prefix )			      \
 				       true ) );			      \
 }
 
-				     
+
 SIGNED_STR_FRM_FIXED_TYPE( short );
 SIGNED_STR_FRM_FIXED_TYPE( int );
 SIGNED_STR_FRM_FIXED_TYPE( long );
@@ -363,82 +342,21 @@ UNSIGNED_STR_FRM_TYPE( unsigned long long );
 const char *
 StringFrom( double num, short prec )
 {
-  Str tmp;
-  tmp.setf( std::ios::fixed, std::ios::floatfield );
-  tmp.precision( prec );
+  NumBufMutex.lock();
+  snprintf(NumBuf,sizeof(NumBuf),"%.*lf",prec,num);
+  NumBufMutex.unlock();
 
-  tmp << num << std::ends;
-  //  NumBufMutex.lock();
-  strcpy( NumBuf, tmp.c_str() );
-  //  NumBufMutex.unlock();
-  
   return( NumBuf );
 }
 
 const char *
 StringFrom( const struct tm & src, const char * fmt )
 {
-  // NumBufMutex.lock();
+  NumBufMutex.lock();
   NumBuf[0] = 0;
   strftime( NumBuf, sizeof( NumBuf ), fmt, &src );
-  // NumBufMutex.unlock();
+  NumBufMutex.unlock();
   return( NumBuf );
 }
 
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:48  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:20  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:43  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:28:58  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:18  houghton
-// Changed Version Num to 5
-//
-// Revision 4.5  1999/05/09 13:06:34  houghton
-// Added long long support.
-//
-// Revision 4.4  1999/05/09 11:32:27  houghton
-// Cleanup.
-//
-// Revision 4.3  1998/01/05 13:07:51  houghton
-// Port(Aix): had to cast fill 0 to a char.
-//
-// Revision 4.2  1997/12/23 12:06:30  houghton
-// Added StringFrom( char * dest ).
-//
-// Revision 4.1  1997/09/17 15:13:01  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:08:52  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/07/28 16:46:48  houghton
-// Bug-Fix: if num was 0, an empty string would be returned.
-//
-// Revision 3.1  1997/03/21 15:43:36  houghton
-// Changed base version to 3
-//
-// Revision 1.3  1996/11/25 10:12:48  houghton
-// Added StringFrom( const struct & tm, const char * fmt );
-//
-// Revision 1.2  1996/11/24 19:06:58  houghton
-// Commented out mutex support for rpm (temporary).
-//
-// Revision 1.1  1996/11/19 12:26:58  houghton
-// Initial Version.
-//
-//
+} // namespace clue

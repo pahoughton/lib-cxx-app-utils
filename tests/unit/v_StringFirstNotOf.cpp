@@ -1,32 +1,20 @@
-//
-// File:        tStringFirstNotOf.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for StringFirstNotOf function.
-//
-// Source Header Version: 
-//
-// Author:      Paul A. Houghton - (paul4hough@gmail.com)
-// Created:     08/12/97 03:57
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
-//
+// 1997-08-12 (cc) <paul4hough@gmail.com>
 
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StringUtils.hh>
+#include <clue/StringUtils.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::StringFirstNotOf");
+using namespace clue;
 
 #define HAY "this is the 123 haystack to search in 123 .,? aabbbcc 123"
 //           012345678901234567890123456789012345678901234567890123456
 //                     1         2         3         4         5
 
 bool
-tStringFirstNotOf( LibTest & tester )
+v_StringFirstNotOf( void )
 {
   {
     const char * hay = HAY;
@@ -48,35 +36,11 @@ tStringFirstNotOf( LibTest & tester )
     TEST( StringFirstNotOf( hay, 17, needle, NPOS ) == 16 );
 
     hay = "abcdefghijklmnopqrstuvwxyz";
-    
+
     TEST( StringFirstNotOf( hay, NPOS, needle, NPOS ) == NPOS );
     TEST( StringFirstNotOf( hay, NPOS, needle, 17 ) == 17 );
-      
-      
-  }
 
-  return( true );
+
+  }
+  return( verify.is_valid() );
 }
-    
-// Revision Log:
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:47  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:52  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:31  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:44  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:10:08  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1997/08/12 11:11:58  houghton
-// Initial Version.
-//
-//

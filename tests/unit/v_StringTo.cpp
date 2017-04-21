@@ -1,32 +1,23 @@
-//
-// File:        tStringTo.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test StringTo* functions
-//
-// Source Header Version: StringUtils.hh 2.4
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/29/96 10:29
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-10-29 (cc) <paul4hough@gmail.com>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "StringUtils.hh"
+#include <clue/StringUtils.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify>
+#define TEST VVTRUE
+
 #include <iomanip>
 #include <cstdio>
+
+static valid::verify verify("clue::StringTo");
+using namespace clue;
 
 #ifndef TRUE
 #define FALSE 0
 #define TRUE 1
 #endif
 
-#define DEBUG_TEST_STRINGTO
+// #define DEBUG_TEST_STRINGTO
 
 struct BoolTestVal
 {
@@ -37,7 +28,7 @@ struct BoolTestVal
   int	    	value;
 };
 
-static struct BoolTestVal BoolTestValues[] = 
+static struct BoolTestVal BoolTestValues[] =
 {
   { "true", 	FALSE,  0, TRUE,  TRUE },
   { "false",	FALSE,  0, TRUE,  FALSE },
@@ -79,7 +70,7 @@ static struct BoolTestVal BoolTestValues[] =
   { 0, FALSE, 0, FALSE, FALSE }
 };
 
-    
+
 struct IntTestVal
 {
   const char *      str;
@@ -103,7 +94,7 @@ static struct IntTestVal IntTestValues[] =
   { "\t-033abc",    FALSE, FALSE,  0,  0, FALSE,       0 },
   { "-0xabcd",	    FALSE, FALSE,  0,  0, TRUE,  -0xabcd },
   { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
-  
+
   { " 5",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
   { " 5 ",  	    TRUE,  FALSE, 10,  0, FALSE,       0 },
   { " 010",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
@@ -125,7 +116,7 @@ static struct IntTestVal IntTestValues[] =
   { "-0xabcd",      TRUE,  TRUE,   0,  5, TRUE,    -0xab },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
   { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0 },
-  
+
   { " 5 ",  	    TRUE,  TRUE,  10,  2, TRUE,        5 },
   { " 5 ",  	    TRUE,  TRUE,  10,  3, FALSE,       0 },
   { " 010 15",      TRUE,  TRUE,  10,  4, TRUE,       10 },
@@ -139,7 +130,7 @@ static struct IntTestVal IntTestValues[] =
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0 },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0 },
   { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0 },
-  
+
   {0, FALSE, FALSE, 0, 0, 0}
 };
 
@@ -166,7 +157,7 @@ static struct ShortTestVal ShortTestValues[] =
   { "\t-033abc",    FALSE, FALSE,  0,  0, FALSE,       0 },
   { "-0x4bcd",	    FALSE, FALSE,  0,  0, TRUE,  -0x4bcd },
   { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
-  
+
   { " 5 ",  	    TRUE,  FALSE, 10,  0, FALSE,       0 },
   { " 5",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
   { " 010 ",  	    TRUE,  FALSE,  8,  0, FALSE,       0 },
@@ -187,7 +178,7 @@ static struct ShortTestVal ShortTestValues[] =
   { "-0xabcd", 	    TRUE,  TRUE,   0,  5, TRUE,    -0xab },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
   { "       ",	    TRUE,  TRUE,   0,  4, TRUE,        0 },
-  
+
   { " 5 ",  	    TRUE,  TRUE,  10,  2, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,  10,  4, TRUE,       10 },
   { "-1500123",     TRUE,  TRUE,  16,  5, TRUE,    -5376 },
@@ -199,7 +190,7 @@ static struct ShortTestVal ShortTestValues[] =
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0 },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0 },
   { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0 },
-  
+
   {0, FALSE, FALSE, 0, 0, 0}
 };
 
@@ -255,7 +246,7 @@ static struct LongTestVal LongTestValues[] =
   { "-0xabcd", 	    TRUE,  TRUE,  16,  5, TRUE,    -0xabL },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,     0110L },
   { "       ",	    TRUE,  TRUE,   8,  5, TRUE,        0L },
-  
+
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0L },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0L },
   { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0L },
@@ -263,7 +254,7 @@ static struct LongTestVal LongTestValues[] =
   { "0x0fffffff",   FALSE, FALSE,  0,  0, TRUE,	0x0fffffffL },
   { "-99999999",    FALSE, FALSE,  0,  0, TRUE,	-99999999L },
   { "99999999",     FALSE, FALSE,  0,  0, TRUE,	 99999999L },
-  
+
   {0, FALSE, FALSE, 0, 0, 0L}
 };
 
@@ -295,7 +286,7 @@ static struct DoubleTestVal DoubleTestValues[] =
   { " 010.11",	    FALSE, FALSE,  0,  0, TRUE,       8.140625 },
   { "-15.44",  	    FALSE, FALSE,  0,  0, TRUE,     -15.44 },
   { "0x23.23", 	    FALSE, FALSE,  0,  0, TRUE,      35.13671875 },
-  
+
   { " 5",  	    TRUE,  FALSE, 10,  0, TRUE,        5.0 },
   { " 010",  	    TRUE,  FALSE,  8,  0, TRUE,        8.0 },
   { "-15", 	    TRUE,  FALSE, 10,  0, TRUE,      -15.0 },
@@ -312,7 +303,7 @@ static struct DoubleTestVal DoubleTestValues[] =
   { "-0xabcd",      TRUE,  TRUE,   0,  5, TRUE,     -171.0 },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110.0 },
   { "       ",	    TRUE,  TRUE,   0,  4, TRUE,        0.0 },
-  
+
   { " 5 ",  	    TRUE,  TRUE,  10,  2, TRUE,        5.0 },
   { " 010 15",      TRUE,  TRUE,  10,  4, TRUE,       10.0 },
   { "-1500123",     TRUE,  TRUE,  16,  5, TRUE,    -5376.0 },
@@ -320,11 +311,11 @@ static struct DoubleTestVal DoubleTestValues[] =
   { "-0xabcd", 	    TRUE,  TRUE,  16,  5, TRUE,     -171.0 },
   { "  11099",      TRUE,  TRUE,   8,  5, TRUE,       72.0 },
   { "       ",	    TRUE,  TRUE,  10,  4, TRUE,        0.0 },
-  
+
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0.0 },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0.0 },
   { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0.0 },
-  
+
   {0, FALSE, FALSE, 0, 0, 0}
 };
 
@@ -347,7 +338,7 @@ static struct UIntTestVal UIntTestValues[] =
   { " 010 ",   	    FALSE, FALSE,  0,  0, FALSE,       0 },
   { "0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
   { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
-  
+
   { " 5",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
   { " 010",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
   { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23 },
@@ -359,7 +350,7 @@ static struct UIntTestVal UIntTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23 },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
   { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0 },
-  
+
   { " 5 ",  	    TRUE,  TRUE,  10,  2, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,  10,  4, TRUE,       10 },
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23 },
@@ -369,7 +360,7 @@ static struct UIntTestVal UIntTestValues[] =
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      0 },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,      0 },
   { "099",  	    FALSE, FALSE,  0,  0, FALSE,      0 },
-  
+
   {0, FALSE, FALSE, 0, 0, 0}
 };
 
@@ -392,7 +383,7 @@ static struct UShortTestVal UShortTestValues[] =
   {" 010 ",    	    FALSE, FALSE,  0,  0, FALSE,       0 },
   {"0x23",  	    FALSE, FALSE,  0,  0, TRUE,     0x23 },
   { "       ",	    FALSE, FALSE,  0,  0, TRUE,        0 },
-  
+
   { " 5",  	    TRUE,  FALSE, 10,  0, TRUE,        5 },
   { " 010",  	    TRUE,  FALSE,  8,  0, TRUE,      010 },
   { "23", 	    TRUE,  FALSE, 16,  0, TRUE,     0x23 },
@@ -404,7 +395,7 @@ static struct UShortTestVal UShortTestValues[] =
   { "0x2399",  	    TRUE,  TRUE,   0,  4, TRUE,     0x23 },
   { "  11099",      TRUE,  TRUE,   0,  5, TRUE,      110 },
   { "       ",	    TRUE,  TRUE,   0,  5, TRUE,        0 },
-  
+
   { " 5 ",  	    TRUE,  TRUE,  10,  2, TRUE,        5 },
   { " 010 15",      TRUE,  TRUE,  10,  4, TRUE,       10 },
   { "0x2399",  	    TRUE,  TRUE,  16,  4, TRUE,     0x23 },
@@ -414,7 +405,7 @@ static struct UShortTestVal UShortTestValues[] =
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,      0 },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,      0 },
   { "099",  	    FALSE, FALSE,  0,  0, FALSE,      0 },
-  
+
   {0, FALSE, FALSE, 0, 0, 0}
 };
 
@@ -459,15 +450,15 @@ static struct ULongTestVal ULongTestValues[] =
   { "01012",	    TRUE,  FALSE,  2,  0, FALSE,       0L },
   { "test", 	    FALSE, FALSE,  0,  0, FALSE,       0L },
   { "099",  	    FALSE, FALSE,  0,  0, FALSE,       0L },
-  
+
   { "0xffffffff",   FALSE, FALSE,  0,  0, TRUE,	0xffffffffL },
   { "99999999",     FALSE, FALSE,  0,  0, TRUE,	 99999999L },
-  
+
   {0, FALSE, FALSE, 0, 0, 0}
 };
 
 bool
-tStringTo( LibTest & tester )
+v_StringTo( void )
 {
 
   {
@@ -476,29 +467,21 @@ tStringTo( LibTest & tester )
 
     for( size_t t = 0; BoolTestValues[t].str; t++ )
       {
-	char desc[50];
-	sprintf( desc,"'%s' %s %d %s %s",
-		 BoolTestValues[t].str,
-		 (BoolTestValues[t].useLen ? "true" : "false"),
-		 BoolTestValues[t].len,
-		 (BoolTestValues[t].good ? "true" : "false"),
-		 (BoolTestValues[t].value ? "true" : "false") );
-		 
 	if( ! BoolTestValues[t].useLen )
 	  {
 	    bool result = FALSE;
-	    TESTR( desc, StringTo( result, BoolTestValues[t].str ) ==
+	    TEST( StringTo( result, BoolTestValues[t].str ) ==
 		  (bool)(BoolTestValues[t].good) );
-	    TESTR( desc, result == (bool)BoolTestValues[t].value );
+	    TEST( result == (bool)BoolTestValues[t].value );
 	  }
 	else
 	  {
 	    bool result = FALSE;
-	    TESTR( desc, StringTo( result, BoolTestValues[t].str,
+	    TEST( StringTo( result, BoolTestValues[t].str,
 					BoolTestValues[t].len ) ==
 		  (bool)BoolTestValues[t].good );
-	    
-	    TESTR( desc, result == (bool)BoolTestValues[t].value );
+
+	    TEST( result == (bool)BoolTestValues[t].value );
 	  }
       }
   }
@@ -551,7 +534,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  
+
   {
     // StringTo( short &, const char * );
     // StringTo( short &, const char *, unsigned short );
@@ -600,7 +583,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  
+
   {
     // StringTo( long &, const char * );
     // StringTo( long &, const char *, unsigned short );
@@ -649,7 +632,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  
+
   {
     // StringTo( double &, const char * );
     // StringTo( double &, const char *, unsigned short );
@@ -698,7 +681,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  
+
   {
     // StringTo( unsigned int &, const char * );
     // StringTo( unsigned int &, const char *, unsigned short );
@@ -747,7 +730,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  
+
   {
     // StringTo( unsigned short &, const char * );
     // StringTo( unsigned short &, const char *, unsigned short );
@@ -796,7 +779,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  
+
   {
     // StringTo( unsigned long &, const char * );
     // StringTo( unsigned long &, const char *, unsigned short );
@@ -845,7 +828,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  
+
   {
     // StringToBool( const char * )
     // StringToBool( const char *, size_t )
@@ -865,7 +848,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  	    
+
   {
     // StringToInt( const char * );
     // StringToInt( const char *, unsigned short );
@@ -1015,7 +998,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  
+
   {
     // StringToUShort( const char * );
     // StringToUShort( const char *, unsigned short );
@@ -1045,7 +1028,7 @@ tStringTo( LibTest & tester )
 	  }
       }
   }
-  
+
   {
     // StringToULong( const char * );
     // StringToULong( const char *, unsigned short );
@@ -1076,45 +1059,5 @@ tStringTo( LibTest & tester )
       }
   }
 
-  
-  return( TRUE );
+  return( verify.is_valid() );
 }
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:47  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:52  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:31  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  1998/02/13 23:34:03  houghton
-// Change - converter does not allow trailing spaces.
-//
-// Revision 4.2  1998/01/22 18:35:06  houghton
-// Changed to work with latest version.
-//
-// Revision 4.1  1997/09/17 15:14:46  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:10:09  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1996/11/24 19:14:26  houghton
-// Changed for AIX because bool is not a real type.
-//
-// Revision 3.2  1996/11/19 12:37:24  houghton
-// Changed include lines to use " " instead of < > to accomidate rpm.
-// Removed support for short file names to accomidate rpm.
-//
-// Revision 3.1  1996/11/14 01:27:13  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/04 14:52:54  houghton
-// Added header comments.
-// Changed test to verify new default len of NPOS (was 0).
-//
-//

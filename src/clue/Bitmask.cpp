@@ -1,27 +1,9 @@
-//
-// File:        Bitmask.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled source code for Bitmask.
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     07/21/95 06:41
-//
-// Revision History: (See end of file for Revision Log)
-//
+// 1995-07-21 (cc) <paul4hough@gmai.com>
 
-#include "Bitmask.hh"
-#include "StringUtils.hh"
+#include "Bitmask.hpp"
+#include "StringUtils.hpp"
 
-#if defined( STLUTILS_DEBUG )
-#include "Bitmask.ii"
-#endif // def( STLUTILS_DEBUG )
-
-STLUTILS_VERSION(
-  Bitmask,
-  "$Id$ " );
-
+namespace clue {
 const Bitmask::size_type Bitmask::maxPos = CHAR_BIT * sizeof( Bitmask::value_type );
 
 static Bitmask	allBits( 0, true );
@@ -68,49 +50,23 @@ static const Bitmask	    junk( allBits );
 std::ostream &
 Bitmask::bit::toStream( std::ostream & dest ) const
 {
-  dest << (bitmask.test(bitpos) ? "true" : "false" );
+  dest << (Bitmask.test(bitpos) ? "true" : "false" );
   return( dest );
 }
 
 std::ostream &
-Bitmask::bit::dumpInfo( 
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+Bitmask::bit::dumpInfo(
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << "Bitmask::bit" << ":\n"
-	 << bitmask.getVersion() << '\n';
-
 
   dest << prefix << "pos:     " << bitpos << '\n'
-       << prefix << "value:   " << (bitmask.test( bitpos ) ?
+       << prefix << "value:   " << (Bitmask.test( bitpos ) ?
 				    "true" : "false" ) << '\n'
     ;
-    
+
   return( dest  );
-}
-
-
-Bitmask::size_type
-Bitmask::getBinSize( void ) const
-{
-  return( sizeof( value ) );
-}
-
-std::ostream &
-Bitmask::write( std::ostream & dest ) const
-{
-  dest.write( (const char *)&value, sizeof( value ) );
-  return( dest );
-}
-
-std::istream &
-Bitmask::read( std::istream & src )
-{
-  src.read( (char *)&value, sizeof( value ) );
-  return( src );
 }
 
 std::ostream &
@@ -125,22 +81,17 @@ Bitmask::fromStream( std::istream & src )
 {
   char tmp[64];
 
-#if defined( STLUTILS_HAS_IOSTREAM_SENTRY )
   std::istream::sentry   ipfx( src, true );
   if( ! ipfx )
     return( src );
-#else
-  if( ! src.ipfx() )
-    return( src );
-#endif
 
   int c;
-  
+
   // skip leading white space
   for( c = src.rdbuf()->sbumpc();
        c != EOF && ( c == ' ' || c == '\t' );
        c = src.rdbuf()->sbumpc() );
-    
+
   char * in = tmp;
 
   // read input into tmp until EOF or sizeof tmp exceeded
@@ -150,7 +101,7 @@ Bitmask::fromStream( std::istream & src )
        ++in, c = src.rdbuf()->sbumpc() )
     {
       *in = (char)c;
-      
+
       // if non-binary digit, put the char it back and break;
       if( *in != '0' && *in != '1' )
 	{
@@ -166,142 +117,39 @@ Bitmask::fromStream( std::istream & src )
     }
 
   bool wasEof = (c == EOF );
-  
+
   // null terminate the string
   *in = 0;
 
   // convert it to an unsigned long
-  if( ! StringTo( value, tmp, 2 ) )
+  unsigned int inval;
+  if( ! StringTo( inval, tmp, 2 ) )
     src.clear( std::ios::failbit );
-
+  value = inval;
   if( wasEof )
     src.clear( std::ios::eofbit );
 
   return( src );
 }
-  
-const char *
-Bitmask::getClassName( void ) const
-{
-  return( "Bitmask" );
-}
 
-const char *
-Bitmask::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
 
 
 std::ostream &
-Bitmask::dumpInfo( 
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+Bitmask::dumpInfo(
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Bitmask::getClassName() << ":\n"
-	 << Bitmask::getVersion() << '\n';
-
-
   dest << prefix << "bits:  " ;
-  
+
   for( size_type p = maxPos; p > 0; p-- )
     {
       if( p != maxPos && (p % 4) == 0 )
 	dest << ' ';
       dest <<  (test(p-1) ? '1' : '0');
     }
-  
+
   return( dest  );
 }
 
-//
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:55  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:10  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:40  houghton
-// Changed to version 6
-//
-// Revision 5.5  2003/08/09 11:20:57  houghton
-// Changed ver strings.
-//
-// Revision 5.4  2003/07/19 09:17:12  houghton
-// Port to 64 bit.
-//
-// Revision 5.3  2001/07/26 19:29:01  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:05:27  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:14  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/10/13 16:13:28  houghton
-// Port(Linux): added 'junk' to work around a compiler bug.
-//
-// Revision 4.1  1997/09/17 15:12:09  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:08:08  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/03/03 18:57:23  houghton
-// Changed calls from setstate to clear (setstate is protected on AIX).
-//
-// Revision 3.1  1996/11/14 01:23:26  houghton
-// Changed to Release 3
-//
-// Revision 2.7  1996/11/13 16:21:42  houghton
-// Restructure header comments layout.
-// Changed include lines to use "file" instead of <file> to accomidate
-//     rpm.
-// Changed to use std::ios::setstate (instead of clear) to be compilant
-//     with the ios class beheavior defined by the standard.
-//
-// Revision 2.6  1996/11/11 13:28:16  houghton
-// Rework fromStream because of a bug with AIX iostream.
-//
-// Revision 2.5  1996/11/04 13:20:09  houghton
-// Added Bitmask::bit::toStream
-// Added Bitmask::bit::dumpInfo
-// Removed BinObject/BinStream support.
-// Changed BinObject/BinString 'Sizeof' calls to 'sizeof'
-// Changed Bitmask::toStream to use to_string().
-// Added Bitmask::fromStream().
-// Changed Bitmask::dumpInfo to make output more readable.
-//
-// Revision 2.4  1996/04/27 12:50:22  houghton
-// Removed unneeded includes.
-//
-// Revision 2.3  1995/12/31 11:20:59  houghton
-// Bug fix - remove 'inline' statement.
-//
-// Revision 2.2  1995/12/04 11:16:21  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-// Bug Fix - Now there is a special type for all single 'bit' values.
-//
-// Revision 2.1  1995/11/10  12:40:16  houghton
-// Change to Version 2
-//
-// Revision 1.5  1995/11/10  00:30:24  houghton
-// Fixec Compile error
-//
-// Revision 1.4  1995/11/09  18:15:18  houghton
-// Fixed bug in toStream. was outputing all 0 on AIX
-//
-// Revision 1.3  1995/11/05  15:28:31  houghton
-// Revised
-//
-//
+}

@@ -1,26 +1,16 @@
-//
-// File:        tStripTrailing.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Compiled sources for tStripTrailing
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     12/20/97 08:20
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
-//
+// 1997-12-20 (cc) <paul4hough@gmail.com>
 
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StringUtils.hh>
+#include <clue/StringUtils.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::StripTrailing");
+using namespace clue;
 
 bool
-tStripTrailing( LibTest & tester )
+v_StripTrailing( void )
 {
   {
     char t[ 1024 ];
@@ -44,25 +34,5 @@ tStripTrailing( LibTest & tester )
     TEST( t[0] == 0 );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }
-
-
-    
-
-// Revision Log:
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:48  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:53  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:31  houghton
-// Changed Version Num to 5
-//
-// Revision 1.1  1997/12/20 16:13:47  houghton
-// Initial Version.
-//
-//

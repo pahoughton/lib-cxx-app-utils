@@ -1,20 +1,14 @@
-//
-// File:        tStringFrom.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Compiled sources for tStringFrom
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/15/96 15:15
-//
-// Revision History: (See end of file for Revision Log)
-//
+// 1996-11-15 (cc) <paul4hough@gmail.com>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "StringUtils.hh"
-#include "Compare.hh"
+#include <clue/StringUtils.hpp>
+#include <clue/compare>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::StringFrom");
+using namespace clue;
 
 #ifndef TRUE
 #define FALSE 0
@@ -164,9 +158,9 @@ static DoubleTestValue DoubleTests[] =
   { -3789.2344,	TRUE,	3,  "-3789.234" },
   { 0, 0, 0, 0 }
 };
-    
+
 bool
-tStringFrom( LibTest & tester )
+v_StringFrom( void )
 {
   {
     // StringFrom( int )
@@ -368,8 +362,7 @@ tStringFrom( LibTest & tester )
 	  }
 	else
 	  {
-	    TESTR( StringFrom( DoubleTests[t].value ),
-		   compare( StringFrom( DoubleTests[t].value ),
+	    TEST( compare( StringFrom( DoubleTests[t].value ),
 			    DoubleTests[t].string ) == 0 );
 	  }
       }
@@ -387,19 +380,19 @@ tStringFrom( LibTest & tester )
     memset( t, '*', sizeof( t ) - 1);
     t[sizeof(t) - 1] = 0;
 
-    TESTR( t, StringFrom( t + 1, 8, num ) == (t + 1) );
-    TESTR( t, strcmp( t, exp ) == 0 );
+    TEST( StringFrom( t + 1, 8, num ) == (t + 1) );
+    TEST( strcmp( t, exp ) == 0 );
 
     memset( t, '*', sizeof( t ) - 1 );
     num = -987;
     exp = "*-0000987*";
-    
-    TESTR( t, StringFrom( t + 1, 8, num ) == (t + 1) );
-    TESTR( t, strcmp( t, exp ) == 0 );
+
+    TEST( StringFrom( t + 1, 8, num ) == (t + 1) );
+    TEST( strcmp( t, exp ) == 0 );
 
   }
-    
-    
+
+
   {
     // StringFrom( char *   dest,
     //		   size_t   destSize,
@@ -414,60 +407,16 @@ tStringFrom( LibTest & tester )
     t[sizeof( t ) - 1] = 0;
 
     TEST( StringFrom( t + 1, 8, num, ' ' ) == t + 1 );
-    TESTR( t, strcmp( t, exp ) == 0 );
+    TEST( strcmp( t, exp ) == 0 );
 
     memset( t, '*', sizeof( t ) - 1 );
     num = -987;
     exp = "*    -987*";
-    
+
     TEST( StringFrom( t + 1, 8, num, ' ' ) == t + 1 );
-    TESTR( t, strcmp( t, exp ) == 0 );
+    TEST( strcmp( t, exp ) == 0 );
 
   }
-    
-    
-  
-  {
-    // just some output
 
-    int	value = 54321;
-    
-    tester.getDump() << "\n Example: StringFrom( " << value << " ) == "
-		       << StringFrom( value ) << endl;
-
-    tester.getDump() << '\n' << tester.getCurrentTestName();
-  }
-
-  return( true );
+  return( verify.is_valid() );
 }
-
-	    
-		
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:47  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:52  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:31  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1997/12/23 12:07:19  houghton
-// Added tests for StringFrom( char * dest ).
-//
-// Revision 4.1  1997/09/17 15:14:44  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:10:08  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1997/03/21 15:45:35  houghton
-// Changed base version to 3
-//
-// Revision 1.1  1996/11/19 12:36:51  houghton
-// Initial Version of test for StringFrom function.
-//
-//

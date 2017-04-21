@@ -1,74 +1,164 @@
-//
-// File:        tCompare02.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for Compare functions in Compare.hh
-//
-// Source Header Version: 2.3
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/27/96 04:15
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-10-27 (cc) <paul4hough@gmail.com>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Compare.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Compare.hh>
-#endif
+#include <clue/compare>
+#include <climits>
 
+#define VALID_VALIDATOR verify
+#include <valid/verify>
 
-extern int  	    	CompCount;
-extern char  	    	CompChar[];
-extern signed char   	CompSChar[];
-extern unsigned char  	CompUChar[];
-extern short  	    	CompShort[];
-extern unsigned short  	CompUShort[];
-extern int  	    	CompInt[];
-extern unsigned int  	CompUInt[];
-extern long  	    	CompLong[];
-extern unsigned long  	CompULong[];
-extern float  	    	CompFloat[];
-extern double  	    	CompDouble[];
+static valid::verify verify("clue::compare02");
 
+int  	    	CompCount = 7;
 
-#define CHECK_TYPE( t1 )						      \
-  for( two = 0; two < CompCount; two++ )				      \
-    {									      \
-									      \
-      if( t1[ one ] < t1[ two ] )					      \
-	{ TEST( compare( t1[ one ], t1[ two ] ) < 0 ); }		      \
-      else								      \
-	{ TEST( ! ( compare( t1[ one ], t1[ two ] ) < 0 ) ); }		      \
-      									      \
-      if( t1[ one ] == t1[ two ] )					      \
-	{ TEST( compare( t1[ one ], t1[ two ] ) == 0 ); }		      \
-      else								      \
-	{ TEST( ! ( compare( t1[ one ], t1[ two ] ) == 0 ) ); }		      \
-      									      \
-      if( t1[ one ] > t1[ two ] )					      \
-	{ TEST( compare( t1[ one ], t1[ two ] ) > 0 ); }		      \
-      else								      \
-	{ TEST( ! ( compare( t1[ one ], t1[ two ] ) > 0 ) ); }		      \
-      									      \
+char 	    	CompChar[] =
+{
+  CHAR_MIN,
+  0,
+  5,
+  10,
+  15,
+  20,
+  CHAR_MAX,
+};
+
+signed char 	CompSChar[] =
+{
+  SCHAR_MIN,
+  -10
+  -5,
+  0,
+  5,
+  10,
+  SCHAR_MAX,
+};
+
+unsigned char	CompUChar[] =
+{
+  0,
+  5,
+  10,
+  15,
+  20,
+  25,
+  UCHAR_MAX,
+};
+
+short	    	CompShort[] =
+{
+  SHRT_MIN,
+  -10
+  -5,
+  0,
+  5,
+  10,
+  SHRT_MAX,
+};
+
+unsigned short	CompUShort[] =
+{
+  0,
+  5,
+  10,
+  15,
+  20,
+  25,
+  USHRT_MAX,
+};
+
+int	    	CompInt[] =
+{
+  INT_MIN,
+  -10
+  -5,
+  0,
+  5,
+  10,
+  INT_MAX,
+};
+unsigned int	CompUInt[] =
+{
+  0,
+  5,
+  10,
+  15,
+  20,
+  25,
+  UINT_MAX,
+};
+
+long	    	CompLong[] =
+{
+  LONG_MIN,
+  -10
+  -5,
+  0,
+  5,
+  10,
+  LONG_MAX,
+};
+
+unsigned long	CompULong[] =
+{
+  0,
+  5,
+  10,
+  15,
+  20,
+  25,
+  ULONG_MAX,
+};
+
+float	    	CompFloat[] =
+{
+  -9999999999.99,
+  -5.5,
+  -0.5,
+  0.0,
+  0.5,
+  5.5,
+  9999999999.99,
+};
+
+double	    	CompDouble[] =
+{
+  -9999999999.99,
+  -5.5,
+  -0.5,
+  0.0,
+  0.5,
+  5.5,
+  9999999999.99,
+};
+
+#define CHECK_TYPE( t1 )						\
+  for( two = 0; two < CompCount; two++ )				\
+    {									\
+									\
+      if( t1[ one ] < t1[ two ] )					\
+	{ VVTRUE( clue::compare( t1[ one ], t1[ two ] ) < 0 ); }		\
+      else								\
+	{ VVTRUE( ! ( clue::compare( t1[ one ], t1[ two ] ) < 0 ) ); }	\
+									\
+      if( t1[ one ] == t1[ two ] )					\
+	{ VVTRUE( clue::compare( t1[ one ], t1[ two ] ) == 0 ); }		\
+      else								\
+	{ VVTRUE( ! ( clue::compare( t1[ one ], t1[ two ] ) == 0 ) ); }	\
+									\
+      if( t1[ one ] > t1[ two ] )					\
+	{ VVTRUE( clue::compare( t1[ one ], t1[ two ] ) > 0 ); }		\
+      else								\
+	{ VVTRUE( ! ( clue::compare( t1[ one ], t1[ two ] ) > 0 ) ); }	\
+									\
     }
 
 
 bool
-tCompare02( LibTest & tester )
+v_compare02( void )
 {
 
   {
     int two = 0;
-    
+
     for( int one = 0; one < CompCount; one++ )
       {
 	CHECK_TYPE( CompChar );
@@ -83,182 +173,155 @@ tCompare02( LibTest & tester )
 	CHECK_TYPE( CompFloat );
 	CHECK_TYPE( CompDouble );
       }
-    
+
   }
 
   char less[] = "a test";
   char more[] = "z test";
 
   {
-    // compare( const char *, const char * )
+    // clue::compare( const char *, const char * )
     const char * l = less;
     const char * m = more;
-    
-    TEST( compare( l, l ) == 0 );
-    TEST( compare( l, m ) < 0 );
-    TEST( compare( m, l ) > 0 );
+
+    VVTRUE( clue::compare( l, l ) == 0 );
+    VVTRUE( clue::compare( l, m ) < 0 );
+    VVTRUE( clue::compare( m, l ) > 0 );
   }
-  
+
   {
-    // compare( const char *, char * )
-    // compare( char *, const char * )
+    // clue::compare( const char *, char * )
+    // clue::compare( char *, const char * )
     char * l = less;
     char * m = more;
-    
+
     const char * cl = less;
     const char * cm = more;
-    
-    TEST( compare( cl, l ) == 0 );
-    TEST( compare( cl, m ) < 0 );
-    TEST( compare( cm, l ) > 0 );
 
-    TEST( compare( l, cl ) == 0 );
-    TEST( compare( l, cm ) < 0 );
-    TEST( compare( m, cl ) > 0 );
+    VVTRUE( clue::compare( cl, l ) == 0 );
+    VVTRUE( clue::compare( cl, m ) < 0 );
+    VVTRUE( clue::compare( cm, l ) > 0 );
+
+    VVTRUE( clue::compare( l, cl ) == 0 );
+    VVTRUE( clue::compare( l, cm ) < 0 );
+    VVTRUE( clue::compare( m, cl ) > 0 );
   }
-  
+
   {
-    // compare( char *, char * )
+    // clue::compare( char *, char * )
     char * l = less;
     char * m = more;
-    
-    TEST( compare( l, l ) == 0 );
-    TEST( compare( l, m ) < 0 );
-    TEST( compare( m, l ) > 0 );
+
+    VVTRUE( clue::compare( l, l ) == 0 );
+    VVTRUE( clue::compare( l, m ) < 0 );
+    VVTRUE( clue::compare( m, l ) > 0 );
   }
-  
+
   {
     char * l = less;
     char * m = more;
-    
+
     const char * cl = less;
     const char * cm = more;
 
     char ** pl = &l;
     char ** pm = &m;
-    
+
     const char ** cpl = &cl;
     const char ** cpm = &cm;
-    
+
     char * const * pcl = (char * const *) &cl;
     char * const * pcm = (char * const *) &cm;
 
     const char * const * cpcl = &cl;
     const char * const * cpcm = &cm;
 
-    // compare( const char * const *, const char * const * )
-    TEST( compare( cpcl, cpcl ) == 0 );
-    TEST( compare( cpcl, cpcm ) < 0 );
-    TEST( compare( cpcm, cpcl ) > 0 );
+    // clue::compare( const char * const *, const char * const * )
+    VVTRUE( clue::compare( cpcl, cpcl ) == 0 );
+    VVTRUE( clue::compare( cpcl, cpcm ) < 0 );
+    VVTRUE( clue::compare( cpcm, cpcl ) > 0 );
 
-    // compare( const char * const *, const char * * )
-    TEST( compare( cpcl, cpl ) == 0 );
-    TEST( compare( cpcl, cpm ) < 0 );
-    TEST( compare( cpcm, cpl ) > 0 );
+    // clue::compare( const char * const *, const char * * )
+    VVTRUE( clue::compare( cpcl, cpl ) == 0 );
+    VVTRUE( clue::compare( cpcl, cpm ) < 0 );
+    VVTRUE( clue::compare( cpcm, cpl ) > 0 );
 
-    // compare( const char * const *, char * const * )
-    TEST( compare( cpcl, pcl ) == 0 );
-    TEST( compare( cpcl, pcm ) < 0 );
-    TEST( compare( cpcm, pcl ) > 0 );
+    // clue::compare( const char * const *, char * const * )
+    VVTRUE( clue::compare( cpcl, pcl ) == 0 );
+    VVTRUE( clue::compare( cpcl, pcm ) < 0 );
+    VVTRUE( clue::compare( cpcm, pcl ) > 0 );
 
-    // compare( const char * const *, char * * )
-    TEST( compare( cpcl, pl ) == 0 );
-    TEST( compare( cpcl, pm ) < 0 );
-    TEST( compare( cpcm, pl ) > 0 );
-    
-
-    
-    // compare( const char * *, const char * const * )
-    TEST( compare( cpl, cpcl ) == 0 );
-    TEST( compare( cpl, cpcm ) < 0 );
-    TEST( compare( cpm, cpcl ) > 0 );
-
-    // compare( const char * *, const char * * )
-    TEST( compare( cpl, cpl ) == 0 );
-    TEST( compare( cpl, cpm ) < 0 );
-    TEST( compare( cpm, cpl ) > 0 );
-
-    // compare( const char * *, char * const * )
-    TEST( compare( cpl, pcl ) == 0 );
-    TEST( compare( cpl, pcm ) < 0 );
-    TEST( compare( cpm, pcl ) > 0 );
-
-    // compare( const char * *, char * * )
-    TEST( compare( cpl, pl ) == 0 );
-    TEST( compare( cpl, pm ) < 0 );
-    TEST( compare( cpm, pl ) > 0 );
-
-
-    
-    // compare( char * const *, const char * const * )
-    TEST( compare( pcl, cpcl ) == 0 );
-    TEST( compare( pcl, cpcm ) < 0 );
-    TEST( compare( pcm, cpcl ) > 0 );
-
-    // compare( char * const *, const char * * )
-    TEST( compare( pcl, cpl ) == 0 );
-    TEST( compare( pcl, cpm ) < 0 );
-    TEST( compare( pcm, cpl ) > 0 );
-
-    // compare( char * const *, char * const * )
-    TEST( compare( pcl, pcl ) == 0 );
-    TEST( compare( pcl, pcm ) < 0 );
-    TEST( compare( pcm, pcl ) > 0 );
-
-    // compare( char * const *, char * * )
-    TEST( compare( pcl, pl ) == 0 );
-    TEST( compare( pcl, pm ) < 0 );
-    TEST( compare( pcm, pl ) > 0 );
+    // clue::compare( const char * const *, char * * )
+    VVTRUE( clue::compare( cpcl, pl ) == 0 );
+    VVTRUE( clue::compare( cpcl, pm ) < 0 );
+    VVTRUE( clue::compare( cpcm, pl ) > 0 );
 
 
 
-    // compare( char * *, const char * const * )
-    TEST( compare( pl, cpcl ) == 0 );
-    TEST( compare( pl, cpcm ) < 0 );
-    TEST( compare( pm, cpcl ) > 0 );
-    
-    // compare( char * *, const char ** )
-    TEST( compare( pl, cpl ) == 0 );
-    TEST( compare( pl, cpm ) < 0 );
-    TEST( compare( pm, cpl ) > 0 );
+    // clue::compare( const char * *, const char * const * )
+    VVTRUE( clue::compare( cpl, cpcl ) == 0 );
+    VVTRUE( clue::compare( cpl, cpcm ) < 0 );
+    VVTRUE( clue::compare( cpm, cpcl ) > 0 );
 
-    // compare( char * *, char * const * )
-    TEST( compare( pl, pcl ) == 0 );
-    TEST( compare( pl, pcm ) < 0 );
-    TEST( compare( pm, pcl ) > 0 );
+    // clue::compare( const char * *, const char * * )
+    VVTRUE( clue::compare( cpl, cpl ) == 0 );
+    VVTRUE( clue::compare( cpl, cpm ) < 0 );
+    VVTRUE( clue::compare( cpm, cpl ) > 0 );
 
-    // compare( char * *, char * * )
-    TEST( compare( pl, pl ) == 0 );
-    TEST( compare( pl, pm ) < 0 );
-    TEST( compare( pm, pl ) > 0 );
+    // clue::compare( const char * *, char * const * )
+    VVTRUE( clue::compare( cpl, pcl ) == 0 );
+    VVTRUE( clue::compare( cpl, pcm ) < 0 );
+    VVTRUE( clue::compare( cpm, pcl ) > 0 );
 
-    
+    // clue::compare( const char * *, char * * )
+    VVTRUE( clue::compare( cpl, pl ) == 0 );
+    VVTRUE( clue::compare( cpl, pm ) < 0 );
+    VVTRUE( clue::compare( cpm, pl ) > 0 );
+
+
+
+    // clue::compare( char * const *, const char * const * )
+    VVTRUE( clue::compare( pcl, cpcl ) == 0 );
+    VVTRUE( clue::compare( pcl, cpcm ) < 0 );
+    VVTRUE( clue::compare( pcm, cpcl ) > 0 );
+
+    // clue::compare( char * const *, const char * * )
+    VVTRUE( clue::compare( pcl, cpl ) == 0 );
+    VVTRUE( clue::compare( pcl, cpm ) < 0 );
+    VVTRUE( clue::compare( pcm, cpl ) > 0 );
+
+    // clue::compare( char * const *, char * const * )
+    VVTRUE( clue::compare( pcl, pcl ) == 0 );
+    VVTRUE( clue::compare( pcl, pcm ) < 0 );
+    VVTRUE( clue::compare( pcm, pcl ) > 0 );
+
+    // clue::compare( char * const *, char * * )
+    VVTRUE( clue::compare( pcl, pl ) == 0 );
+    VVTRUE( clue::compare( pcl, pm ) < 0 );
+    VVTRUE( clue::compare( pcm, pl ) > 0 );
+
+
+
+    // clue::compare( char * *, const char * const * )
+    VVTRUE( clue::compare( pl, cpcl ) == 0 );
+    VVTRUE( clue::compare( pl, cpcm ) < 0 );
+    VVTRUE( clue::compare( pm, cpcl ) > 0 );
+
+    // clue::compare( char * *, const char ** )
+    VVTRUE( clue::compare( pl, cpl ) == 0 );
+    VVTRUE( clue::compare( pl, cpm ) < 0 );
+    VVTRUE( clue::compare( pm, cpl ) > 0 );
+
+    // clue::compare( char * *, char * const * )
+    VVTRUE( clue::compare( pl, pcl ) == 0 );
+    VVTRUE( clue::compare( pl, pcm ) < 0 );
+    VVTRUE( clue::compare( pm, pcl ) > 0 );
+
+    // clue::compare( char * *, char * * )
+    VVTRUE( clue::compare( pl, pl ) == 0 );
+    VVTRUE( clue::compare( pl, pm ) < 0 );
+    VVTRUE( clue::compare( pm, pl ) > 0 );
+
   }
-  return( true );
+  return( verify.is_valid() );
 }
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:43  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:50  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:27  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:07  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:09:39  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:26:27  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1996/11/04 14:47:35  houghton
-// Added header comments.
-// Reorder test to match header.
-//
-//

@@ -1,31 +1,13 @@
-//
-// File:        tStringCaseCompare.C
-// Project:     StlUtils
-// Desc:        
-//
-//  Test StringCaseCompare functions.
-//  
-// Source Header Version: StringUtils.hh 2.4
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/29/96 06:54
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-10-29 (cc) <paul4hough@gmail.com>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StringUtils.hh>
-#include <cstdio>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StrUtil.hh>
-#include <cstdio>
-#endif
+#include <clue/StringUtils.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::StringCaseCompare");
+using namespace clue;
 
 struct TestVal
 {
@@ -51,18 +33,18 @@ static struct TestVal TestValues[] =
 };
 
 bool
-tStringCaseCompare( LibTest & tester )
+v_StringCaseCompare( void )
 {
   // StringCaseCompare( const char *, const char * )
   // StringCaseCompare( const char *, const char *, size_t )
   // StringCaseCompare( const char *, size_t, const char *, size_t )
 
   char reason[1024];
-  
+
   for( int t = 0; TestValues[t].sone; t++ )
     {
       int result;
-      
+
       switch( TestValues[t].useLen )
 	{
 	case 0:
@@ -84,9 +66,10 @@ tStringCaseCompare( LibTest & tester )
 	  break;
 
 	default:
+	  VVFAIL("invalid useLen value");
 	  return( false );
 	}
-      
+
       switch( TestValues[t].diff )
 	{
 	case -1:
@@ -94,8 +77,8 @@ tStringCaseCompare( LibTest & tester )
 	    {
 	      sprintf( reason,
 		       "%d Expected < 0 - "
-		       "One: '%s' l: %d "
-		       "Two: '%s' l: %d "
+		       "One: '%s' l: %lu "
+		       "Two: '%s' l: %lu "
 		       "UseLen: %d",
 		       result,
 		       TestValues[t].sone,
@@ -103,18 +86,17 @@ tStringCaseCompare( LibTest & tester )
 		       TestValues[t].stwo,
 		       TestValues[t].ltwo,
 		       TestValues[t].useLen );
-	      TESTR( reason, false );
-	      return( false );
+	      VVFAIL( reason );
 	    }
 	  break;
-		
+
 	case 0:
 	  if( result != 0 )
 	    {
 	      sprintf( reason,
 		       "%d Expected < 0 - "
-		       "One: '%s' l: %d "
-		       "Two: '%s' l: %d "
+		       "One: '%s' l: %lu "
+		       "Two: '%s' l: %lu "
 		       "UseLen: %d",
 		       result,
 		       TestValues[t].sone,
@@ -122,35 +104,34 @@ tStringCaseCompare( LibTest & tester )
 		       TestValues[t].stwo,
 		       TestValues[t].ltwo,
 		       TestValues[t].useLen );
-	      TESTR( reason, false );
-	      return( false );
+	      VVFAIL( reason );
 	    }
 	  break;
-		
+
 	case 1:
 	  if( result <= 0 )
 	    {
 	      sprintf( reason,
 		       "%d Expected < 0 - "
-		       "One: '%s' l: %d "
-		       "Two: '%s' l: %d "
-		       "UseLen: %d",
+		       "One: '%s' l: %lu "
+		       "Two: '%s' l: %lu "
+		       "UseLen: %u",
 		       result,
 		       TestValues[t].sone,
 		       TestValues[t].lone,
 		       TestValues[t].stwo,
 		       TestValues[t].ltwo,
 		       TestValues[t].useLen );
-	      TESTR( reason, false );
-	      return( false );
+	      VVFAIL( reason );
 	    }
 	  break;
 	}
+      VVTRUE( "StringCaseCompare( TestValues[t].sone, TestValues[t].lone,TestValues[t].stwo,TestValues[t].ltwo" )
     }
-  return( true );
+  return( verify.is_valid() );
 }
-		
-    
+
+
 //
 // $Log$
 // Revision 6.2  2011/12/30 23:57:47  paul
