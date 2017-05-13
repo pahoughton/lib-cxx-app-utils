@@ -1,32 +1,18 @@
-/**
-  File:		tIsTimetDst.C
-  Project:	StlUtils 
-  Desc:
+// 2005-09-09 (cc) <paul4hough@gmail.com>
 
-    
-  
-  Notes:
-    
-  Author(s):	Paul Houghton <paul4hough@gmail.com>
-  Created:	09/09/2005 12:47
-  
-  Revision History: (See ChangeLog for details)
-  
-    $Author$
-    $Date$
-    $Name$
-    $Revision$
-    $State$
+#include <clue/Clue.hpp>
+#include <clue/DateTime.hpp>
+#include <clue/DateTimeUtils.hpp>
 
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
 
-**/
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
-#include <DateTimeUtils.hh>
+static valid::verify verify("clue::IsTimetDst");
+using namespace clue;
 
 bool
-tIsTimetDst( LibTest & tester )
+v_IsTimetDst( void )
 {
 
   {
@@ -39,9 +25,9 @@ tIsTimetDst( LibTest & tester )
       22 23 24 25 26 27 28
       29 30
     */
-    
+
     DateTime t( 2001, 4, 1, 0, 0, 0 );
-    
+
     TEST( IsTimetDst( t ) == false );
     t.addMin( 59 );
     TEST( IsTimetDst( t ) == false );
@@ -104,7 +90,7 @@ tIsTimetDst( LibTest & tester )
     */
 
     DateTime t( 2002, 4, 1, 0, 0, 0 );
-  
+
     TEST( IsTimetDst( t ) == false );
     t.addDay( 1 );
     TEST( IsTimetDst( t ) == false );
@@ -127,7 +113,7 @@ tIsTimetDst( LibTest & tester )
       t.set( 2001, m, 1, 0, 0, 0 );
       TEST( IsTimetDst( t ) == true );
     }
-    
+
     /*
       October 2002
        S  M Tu  W Th  F  S
@@ -160,8 +146,5 @@ tIsTimetDst( LibTest & tester )
     t.addDay( 1 );
     TEST( IsTimetDst( t ) == false );
   }
-
-  
-  return( true );
-  
+  return( verify.is_valid() );
 }

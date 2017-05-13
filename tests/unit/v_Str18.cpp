@@ -1,10 +1,19 @@
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
 
+static valid::verify verify("clue::Str18");
+using namespace clue;
+
+
 bool
-tStr18( LibTest & tester )
+v_Str18( void )
 {
   {
     // upcase( void )
@@ -77,7 +86,7 @@ tStr18( LibTest & tester )
       t.strip( ",.!" );
       TEST( t == to );
     }
-    
+
     {
       // strip all
 
@@ -88,7 +97,7 @@ tStr18( LibTest & tester )
       t.strip( ",.abc" );
       TEST( t == to );
     }
-    
+
     {
       // strip 1 from the back
 
@@ -99,7 +108,7 @@ tStr18( LibTest & tester )
       t.strip( ",.!" );
       TEST( t == to );
     }
-    
+
     {
       // strip a few from the back
 
@@ -110,7 +119,7 @@ tStr18( LibTest & tester )
       t.strip( ",.!" );
       TEST( t == to );
     }
-    
+
     {
       // strip an empty string
 
@@ -121,18 +130,18 @@ tStr18( LibTest & tester )
       t.strip( ",.!" );
       TEST( t == to );
     }
-    
+
     {
       // stuff in the middle
       const char * from = "str-ip. (all# pu%nct #$% from-+= me.";
       const char * to   = "strip all punct  from me";
-      
+
       t.assign( from );
       t.strip( "-.(#%$+=" );
       TEST( t == to );
     }
 
-    
+
   }
 
   {
@@ -153,7 +162,7 @@ tStr18( LibTest & tester )
     Str t;
 
 #define TRAIL_STR "123\t \n   "
-    
+
     const char * from = "123\t \n   " "strip only trailing stuff" TRAIL_STR;
     const char * to   = "123\t \n   " "strip only trailing stuff";
 
@@ -175,6 +184,6 @@ tStr18( LibTest & tester )
     TEST( t == to );
 
   }
-  
-  return( true );
+
+  return( verify.is_valid() );
 }

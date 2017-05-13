@@ -1,65 +1,50 @@
-//
-// File:        SigCatcher.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for SigCatcher
-//  
-// Author:      Paul A. Houghton - (paul4hough@gmail.com)
-// Created:     04/11/97 08:12
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1997-04-11 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "SigCatcher.hh"
-#include <Str.hh>
-#include <DateTime.hh>
-#include <StlUtilsMisc.hh>
-#include <LibLog.hh>
-#include <_StlUtilsSignal.h>
+#include "SigCatcher.hpp"
+#include "Str.hpp"
+#include "DateTime.hpp"
+#include "Clue.hpp"
+#include "LibLog.hpp"
+
 #include <algorithm>
 #include <errno.h>
+#include <signal.h>
 
-#include "StrSignal.h"
+static clue::SigCatcher *	self(0);
 
-#if defined( STLUTILS_DEBUG )
-#include "SigCatcher.ii"
-#endif
+namespace clue {
 
-STLUTILS_VERSION(
-  SigCatcher,
-  "$Id$ ");
-
-static SigCatcher *	self(0);
-  
 extern "C"
 {
   static void c_catchAction( int sig );
 };
-  
+
+static
+void
+c_catchAction( int sig )
+{
+  if( self )
+    {
+      clue::SigCatcher::Caught caught( sig, time(0) );
+      self->caught().push_back( caught );
+    }
+  else
+    {
+      LLgError << "SigCatcher::self not set!" << std::endl;
+    }
+}
+
+
+
+
 
 const SigCatcher::Flag	    SigCatcher::None;
 const SigCatcher::Flag	    SigCatcher::OnStack( SA_ONSTACK );
 const SigCatcher::Flag	    SigCatcher::NoDefer( SA_NODEFER );
 const SigCatcher::Flag	    SigCatcher::Restart( SA_RESTART );
 const SigCatcher::Flag	    SigCatcher::Siginfo( SA_SIGINFO );
-const SigCatcher::Flag	    SigCatcher::NoChildWait( SA_NOCLDWAIT );
-const SigCatcher::Flag	    SigCatcher::NoChildStop( SA_NOCLDSTOP );
-const SigCatcher::Flag	    SigCatcher::WaitSig( SA_WAITSIG );
 
 SigCatcher::CaughtQueue	    SigCatcher::caughtSigList;
-
-const char *
-SigCatcher::Caught::name( void ) const
-{
-  return( StrSignal( sigCaught ) );
-}
 
 SigCatcher::SigCatcher( void )
   : errorNum( E_OK ),
@@ -127,7 +112,7 @@ SigCatcher::SigCatcher(
 	catchSig( catchSigList[ s ] );
       }
   }
-  
+
   {
     for( size_type s = 0; s < ignoreCount; ++ s )
       {
@@ -135,7 +120,7 @@ SigCatcher::SigCatcher(
       }
   }
 }
-  
+
 SigCatcher::SigCatcher(
   const Signal *    catchSigList,
   size_type	    catchCount,
@@ -152,7 +137,7 @@ SigCatcher::SigCatcher(
 	catchSig( catchSigList[ s ], flags );
       }
   }
-  
+
   {
     for( size_type s = 0; s < ignoreCount; ++ s )
       {
@@ -160,7 +145,7 @@ SigCatcher::SigCatcher(
       }
   }
 }
-  
+
 SigCatcher::~SigCatcher( void )
 {
 }
@@ -173,7 +158,7 @@ SigCatcher::catchSig( Signal sig, const Flag & flags )
 
   if( self && self != this )
     return( setError( E_SELF, 0, 0 ) );
-  
+
   SigList::iterator found = find( catchList.begin(),
 				  catchList.end(),
 				  sig );
@@ -184,7 +169,7 @@ SigCatcher::catchSig( Signal sig, const Flag & flags )
 
   struct sigaction catchSigAction;
   struct sigaction oldAction;
-  
+
   catchSigAction.sa_handler = c_catchAction;
   catchSigAction.sa_flags = flags.to_ulong();
 #if defined( AIX41 )
@@ -206,7 +191,7 @@ SigCatcher::ignoreSig( Signal sig )
 
   if( self && self != this )
     return( setError( E_SELF, 0, 0 ) );
-  
+
   SigList::iterator found = find( ignoreList.begin(),
 				  ignoreList.end(),
 				  sig );
@@ -217,7 +202,7 @@ SigCatcher::ignoreSig( Signal sig )
 
   struct sigaction catchSigAction;
   struct sigaction oldAction;
-  
+
   catchSigAction.sa_handler = SIG_IGN;
   catchSigAction.sa_flags = SA_RESTART;
 #if defined( AIX41 )
@@ -230,9 +215,9 @@ SigCatcher::ignoreSig( Signal sig )
 
   return( true );
 }
-  
-  
-  
+
+
+
 bool
 SigCatcher::good( void ) const
 {
@@ -244,7 +229,7 @@ SigCatcher::error( void ) const
 {
   static Str errStr;
 
-  errStr = SigCatcher::getClassName();
+  errStr = "SigCatcher";
 
   if( good() )
     {
@@ -262,7 +247,7 @@ SigCatcher::error( void ) const
 
 	case E_CATCH:
 	case E_IGNORE:
-	  
+
 	  errStr << ( errorNum == E_CATCH ?
 		      ": setting handler to catch" :
 		      errorNum == E_IGNORE ?
@@ -274,7 +259,7 @@ SigCatcher::error( void ) const
 	default:
 	  break;
 	}
-      
+
       if( eSize == errStr.size() )
         errStr << ": unknown error";
     }
@@ -282,29 +267,13 @@ SigCatcher::error( void ) const
   return( errStr.c_str() );
 }
 
-const char *
-SigCatcher::getClassName( void ) const
-{
-  return( "SigCatcher" );
-}
-
-const char *
-SigCatcher::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
 
 std::ostream &
 SigCatcher::dumpInfo(
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << SigCatcher::getClassName() << ":\n"
-	 << SigCatcher::getVersion() << '\n';
 
   if( ! SigCatcher::good() )
     dest << prefix << "Error: " << SigCatcher::error() << '\n';
@@ -317,7 +286,7 @@ SigCatcher::dumpInfo(
 	 ++ them )
       dest << prefix << "ignore signal:      " << (*them) << '\n';
   }
-  
+
   {
     for( SigList::const_iterator them = catchList.begin();
 	 them != catchList.end();
@@ -335,89 +304,8 @@ SigCatcher::dumpInfo(
 	  ;
       }
   }
-  
-  
+
   return( dest );
 }
 
-static
-void
-c_catchAction( int sig )
-{
-  if( self )
-    {
-      SigCatcher::Caught caught( sig, time(0) );
-      self->caught().push_back( caught );
-    }
-  else
-    {
-      LLgError << "SigCatcher::self no set!" << std::endl;
-    }
-}
-
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:46  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:33  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:47  houghton
-// Changed to version 6
-//
-// Revision 5.5  2003/08/09 11:21:01  houghton
-// Changed ver strings.
-//
-// Revision 5.4  2001/07/26 19:28:57  houghton
-// *** empty log message ***
-//
-// Revision 5.3  2000/05/31 10:51:57  houghton
-// Bug-Fix: caughtSigList was not defined.
-//
-// Revision 5.2  2000/05/25 17:07:31  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:23  houghton
-// Changed Version Num to 5
-//
-// Revision 4.5  1999/03/02 12:52:36  houghton
-// Cleanup.
-//
-// Revision 4.4  1998/03/30 14:08:19  houghton
-// Renamed signal variable to sigCaught to avoid name clashes with the
-//     'signal' function.
-//
-// Revision 4.3  1998/02/13 01:24:57  houghton
-// Changed include _StlUtilsSignal.h (vs signal.h).
-//
-// Revision 4.2  1998/02/02 15:28:14  houghton
-// Changed to use StrSignal() (vs SignalStrings).
-// Added support for specifying singal flags.
-//
-// Revision 4.1  1997/09/17 15:13:36  houghton
-// Changed to Version 4
-//
-// Revision 3.6  1997/09/17 15:10:29  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.5  1997/09/17 11:09:24  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.4  1997/08/08 13:26:25  houghton
-// Added name() to return the name of the signal.
-//
-// Revision 3.3  1997/04/21 12:15:54  houghton
-// Bug-Fix: errorNum and osErrno initializers where missing from constructors.
-//
-// Revision 3.2  1997/04/21 09:57:51  houghton
-// Port: include errno.h.
-//
-// Revision 3.1  1997/04/19 09:53:04  houghton
-// Initial Version.
-//
-//
+}; // namespace clue

@@ -1,17 +1,17 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <RegexScan.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <RxScan.hh>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::Str19");
+using namespace clue;
+
 
 bool
-tStr19( LibTest & tester )
+v_Str19( void )
 {
   {
     // substitute( char, char )
@@ -22,7 +22,7 @@ tStr19( LibTest & tester )
     const char * to   = "xhis is xhe source sxring xo be changed";
     const char * tos  = "this is the source sxring xo be changed";
     const char * tosg = "this is the source sxring to be changed";
-    
+
     Str t( from );
 
     t.substitute( 't', 'x' );
@@ -66,43 +66,8 @@ tStr19( LibTest & tester )
     t = from2;
     t.substitute( "'", "'''" );
     TEST( t == to2 );
-    
-  }
-  
-  {
-    // substitute( const RegexScan &, const char * )
-    // substitute( const RegexScan &, const char *, size_t )
-    // substitute( const RegexScan &, const char *, size_t, bool )
 
-    const char * from = "A regex test 123 to test 5 subst 98";
-    const char * to   = "A regex test NUM to test NUM subst NUM";
-    const char * tos  = "A regex test 123 to test NUM subst NUM";
-    const char * tosg = "A regex test 123 to test NUM subst 98";
-
-    const char * tor = "A regex test 5 to test 123 subst 98";
-
-    RegexScan	pat( "[0-9]+" );
-
-    Str t( from );
-
-    t.substitute( pat, "NUM" );
-    TEST( t == to );
-    t = from;
-    t.substitute( pat, "NUM", 18 );
-    TEST( t == tos );
-
-    t = from;
-    t.substitute( pat, "NUM", 18, false );
-    TEST( t == tosg );
-
-    t = from;
-    pat = "test ([0-9]+) to test ([0-9]+)";
-    t.substitute( pat,"test \\2 to test \\1" );
-    TEST( t == tor );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }
-
-  
-    

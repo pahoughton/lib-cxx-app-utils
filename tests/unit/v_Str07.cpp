@@ -1,12 +1,14 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::Str07");
+using namespace clue;
+
 
 // Str::iterators
 
@@ -17,14 +19,14 @@
 #define T5 " fifth part"
 
 bool
-tStr07( LibTest & tester )
+v_Str07( void )
 {
   {
     // begin( void )
     // end( void )
-    
+
     const char str[] = "123456";
-    
+
     Str s( str );
 
     int i = 0;
@@ -45,15 +47,15 @@ tStr07( LibTest & tester )
     *t = 'a';
 
     TEST( s == "12a456" );
-    
+
   }
 
   {
     // begin( void ) const
     // end( void ) const
-    
+
     const char str[] = "123456";
-    
+
     Str s( str );
 
     int i = 0;
@@ -70,9 +72,9 @@ tStr07( LibTest & tester )
   {
     // rbegin( void )
     // rend( void )
-    
+
     const char str[] = "123456";
-    
+
     Str s( str );
 
     int i = 5;
@@ -85,7 +87,7 @@ tStr07( LibTest & tester )
 	  i--;
 	}
     }
-    
+
     TEST( i == -1 );
 
     Str::reverse_iterator t = s.rbegin();
@@ -95,13 +97,13 @@ tStr07( LibTest & tester )
 
     TEST( s == "123a56" );
   }
-    
+
   {
     // rbegin( void ) const
     // rend( void ) const
-    
+
     const char str[] = "123456";
-    
+
     const Str s( str );
 
     int i = 5;
@@ -112,13 +114,9 @@ tStr07( LibTest & tester )
 	TEST( *t == str[i] );
 	i--;
       }
-    
+
     TEST( i == -1 );
   }
-  
-  return( true );
-}
 
-    
-	
-      
+  return( verify.is_valid() );
+}

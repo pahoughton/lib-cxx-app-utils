@@ -1,17 +1,18 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/DateTime.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::DateTime05");
+using namespace clue;
 
 bool
-tDateTime05( LibTest & tester )
+v_DateTime05( void )
 {
-  
+
   {
     // add( const DateTime & )
 
@@ -19,8 +20,8 @@ tDateTime05( LibTest & tester )
 
     DateTime	value( 100 );
 
-    TEST( dt.add( value ).getTimeT() == 400 );
-    
+    TEST( dt.add( value ).timet() == 400 );
+
   }
 
   {
@@ -28,10 +29,10 @@ tDateTime05( LibTest & tester )
 
     DateTime	dt( "2/17/95 11:30:30" );
 
-    time_t  orig = dt.getTimeT();
-      
-    TEST( dt.add( 100 ).getTimeT() == orig + 100 );
-    
+    time_t  orig = dt.timet();
+
+    TEST( dt.add( 100 ).timet() == orig + 100 );
+
   }
 
   {
@@ -39,10 +40,10 @@ tDateTime05( LibTest & tester )
 
     DateTime	dt( "2/17/95 11:30:30" );
 
-    time_t  orig = dt.getTimeT();
-      
-    TEST( dt.addSec( 100 ).getTimeT() == orig + 100 );
-    
+    time_t  orig = dt.timet();
+
+    TEST( dt.addSec( 100 ).timet() == orig + 100 );
+
   }
 
   {
@@ -50,14 +51,14 @@ tDateTime05( LibTest & tester )
 
     DateTime	dt( "2/17/95 11:30:30" );
 
-    time_t  orig = dt.getTimeT();
-      
-    TEST( dt.addMin( 30 ).getTimeT() == orig + (30 * 60) );
+    time_t  orig = dt.timet();
 
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 0 );
-    TEST( dt.getSecond() == 30 );
-    
+    TEST( dt.addMin( 30 ).timet() == orig + (30 * 60) );
+
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 0 );
+    TEST( dt.second() == 30 );
+
   }
 
   {
@@ -65,15 +66,15 @@ tDateTime05( LibTest & tester )
 
     DateTime	dt( "2/17/95 11:30:30" );
 
-    time_t  orig = dt.getTimeT();
-      
-    TEST( dt.addHour( 30 ).getTimeT() == orig + (30 * 60 * 60) );
+    time_t  orig = dt.timet();
 
-    TEST( dt.getDayOfMonth() == 18 );
-    TEST( dt.getHour() == 17 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-    
+    TEST( dt.addHour( 30 ).timet() == orig + (30 * 60 * 60) );
+
+    TEST( dt.mday() == 18 );
+    TEST( dt.hour() == 17 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
+
   }
 
   {
@@ -81,16 +82,16 @@ tDateTime05( LibTest & tester )
 
     DateTime	dt( "2/17/95 11:30:30" );
 
-    time_t  orig = dt.getTimeT();
-      
-    TEST( dt.addDay( 30 ).getTimeT() == orig + (24 * 30 * 60 * 60) );
+    time_t  orig = dt.timet();
 
-    TEST( dt.getMonth() == 3 );
-    TEST( dt.getDayOfMonth() == 19 );
-    TEST( dt.getHour() == 11 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-    
+    TEST( dt.addDay( 30 ).timet() == orig + (24 * 30 * 60 * 60) );
+
+    TEST( dt.month() == 3 );
+    TEST( dt.mday() == 19 );
+    TEST( dt.hour() == 11 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
+
   }
-  return( true );
+  return( verify.is_valid() );
 }

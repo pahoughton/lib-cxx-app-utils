@@ -1,29 +1,9 @@
-//
-// File:        FileBatch.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for FileBatch
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     03/24/99 06:54
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1999-03-24 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "FileBatch.hh"
-#include <Str.hh>
+#include "FileBatch.hpp"
+#include "Str.hpp"
 
-#if defined( STLUTILS_DEBUG )
-#include "FileBatch.ii"
-#endif
-
+namespace clue {
 
 FileBatchBase::FileBatchBase( const char * fileName, size_type recordSize )
   : name( fileName ),
@@ -44,7 +24,7 @@ FileBatchBase::error( void ) const
 {
   static Str errStr;
 
-  errStr = getClassName();
+  errStr = "FileBatchBase";
 
   if( good() )
     {
@@ -53,7 +33,7 @@ FileBatchBase::error( void ) const
   else
     {
       errStr << ": '" << name << "' ";
-      
+
       if( ! batch )
 	{
 	  errStr << "no batch.";
@@ -66,7 +46,7 @@ FileBatchBase::error( void ) const
 	      errStr << "open failed - "
 		     << strerror( osErrno ) << '.';
 	      break;
-	      
+
 	    case E_SIZE:
 	      errStr << "invalid size '"
 		     << errorPos << "' expect multiple of '"
@@ -97,7 +77,7 @@ FileBatchBase::error( void ) const
 	}
     }
   return( errStr.c_str() );
-}       
+}
 
 bool
 FileBatchBase::setError( ErrorNum errNum, std::streampos errPos, int osErr )
@@ -105,35 +85,8 @@ FileBatchBase::setError( ErrorNum errNum, std::streampos errPos, int osErr )
   errorNum  = errNum;
   errorPos  = errPos;
   osErrno   = osErr;
-  
+
   return( good() );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:53  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:12  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:41  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:15  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1999/05/01 12:51:01  houghton
-// Initial Version.
-//
-//
+}; // namespace clue

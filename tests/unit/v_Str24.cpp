@@ -1,14 +1,14 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <cstring>
-#endif
+static valid::verify verify("clue::Str24");
+using namespace clue;
 
 #define T1 "first part"
 #define T2 " second part"
@@ -23,12 +23,12 @@
 #define T5u " FIFTH part"
 
 bool
-tStr24( LibTest & tester )
+v_Str24( void )
 {
   {
     // ::compare( const Str &, const Str & )
     // ::compare( const Str &, const Str &, size_t )
-    
+
     Str t( "abcdefg" );
     Str s( "abcdefg" );
 
@@ -36,7 +36,7 @@ tStr24( LibTest & tester )
 
     s += 'h';
     TEST( compare( t, s ) < 0 );
-    
+
     t += "hi";
 
     TEST( compare( t, s ) > 0 );
@@ -47,7 +47,7 @@ tStr24( LibTest & tester )
 
     s = "abcdef";
     t = "abcyyydef";
-    
+
     TEST( compare( t, s, 3 ) == 0 );
 
   }
@@ -80,7 +80,7 @@ tStr24( LibTest & tester )
 
     TEST( compare( t, T1 T3, strlen( T1 ) ) == 0 );
   }
-  
+
   {
     // ::fcompare( const Str &, const Str & )
     // ::fcompare( const Str &, const Str &, size_t )
@@ -92,7 +92,7 @@ tStr24( LibTest & tester )
 
     s += 'h';
     TEST( fcompare( t, s ) < 0 );
-    
+
     t += "hi";
 
     TEST( fcompare( t, s ) > 0 );
@@ -103,7 +103,7 @@ tStr24( LibTest & tester )
 
     s = "ABCDEF";
     t = "abcyyydef";
-    
+
     TEST( fcompare( t, s, 3 ) == 0 );
 
   }
@@ -111,7 +111,7 @@ tStr24( LibTest & tester )
   {
     // ::fcompare( t, const SubStr & )
     // ::fcompare( t, const SubStr &, size_t )
-    
+
     Str t( T2 T3 );
     Str s( T1u T2u T3u T4u );
 
@@ -123,7 +123,7 @@ tStr24( LibTest & tester )
   }
 
   {
-    // ::fcompare( t, const char * ) 
+    // ::fcompare( t, const char * )
     // ::fcompare( t, const char *, size_t )
 
     Str t( T1 T2 T3 );
@@ -137,5 +137,5 @@ tStr24( LibTest & tester )
     TEST( fcompare( t, T1u T3, strlen( T1 ) ) == 0 );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }

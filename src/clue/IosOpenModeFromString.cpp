@@ -1,33 +1,9 @@
-//
-// File:        IosOpenModeFromString.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for IosOpenModeFromString
-//  
-// Author:      Paul A. Houghton - (paul4hough@gmail.com)
-// Created:     04/04/97 08:24
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1997-04-04 (cc) Paul Houghton - (paul4hough@gmail.com)
 
-#include "StringUtils.hh"
+#include "StringUtils.hpp"
 #include <iostream>
 
-
-STLUTILS_FUNCT_VERSION(
-  IosOpenModeFromString,
-  "$Id$ " );
-
-
-std::ios::openmode
-IosOpenModeFromString( const char * modeString );
+namespace clue {
 
 std::ios::openmode
 IosOpenModeFromString( const char * modeString )
@@ -48,44 +24,8 @@ IosOpenModeFromString( const char * modeString )
 
   if( StringCaseSearch( modeString, NPOS, "trunc", NPOS ) )
     mode = (std::ios::openmode)( mode | std::ios::trunc);
-  
+
   return( mode );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:52  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:14  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:41  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:15  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:12:29  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:08:24  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/04/05 11:57:33  houghton
-// Changed AIX41 does not have std::ios::binary.
-//
-// Revision 3.1  1997/04/04 20:51:45  houghton
-// Initial Versionn.
-//
-//
+}; // namespace clue

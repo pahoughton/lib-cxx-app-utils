@@ -1,12 +1,14 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::Str15");
+using namespace clue;
+
 
 // Str::find_*
 
@@ -17,7 +19,7 @@ static const char * Hay =
 //            1         2         3         4         5         6         7
 
 bool
-tStr15( LibTest & tester )
+v_Str15( void )
 {
   {
     // find_first_of( const Str & ) const
@@ -32,7 +34,7 @@ tStr15( LibTest & tester )
     pat = ":123";
     TEST( t.find_first_of( pat, 28 ) == 41 );
   }
-  
+
   {
     // find_first_of( const SubStr & ) const
     // find_first_of( const SubStr &, size_t ) const
@@ -46,14 +48,14 @@ tStr15( LibTest & tester )
     pat = "###:123";
     TEST( t.find_first_of( pat.after( 3 ), 28 ) == 41 );
   }
-  
+
   {
     // find_first_of( const char * ) const
     // find_first_of( const char *, size_t ) const
     // find_first_of( const char *, size_t, size_t ) const
 
     const Str t( Hay );
-    
+
     TEST( t.find_first_of( ":w1234" ) == 26 );
     TEST( t.find_first_of( "!@#$:w1234" ) == 26 );
     TEST( t.find_first_of( "!@#$w:" ) == 26 );
@@ -67,7 +69,7 @@ tStr15( LibTest & tester )
   {
     // find_last_of( const Str & ) const
     // find_last_of( const Str &, size_t ) const
-    
+
     const Str t( Hay );
 
     Str pat;
@@ -83,7 +85,7 @@ tStr15( LibTest & tester )
   {
     // find_last_of( const SubStr & ) const
     // find_last_of( const SubStr &, size_t ) const
-    
+
     const Str t( Hay );
 
     Str pat;
@@ -100,9 +102,9 @@ tStr15( LibTest & tester )
     // find_last_of( const char * ) const
     // find_last_of( const char *, size_t ) const
     // find_last_of( const char *, size_t, size_t ) const
-    
-    const Str t( Hay );    
-  
+
+    const Str t( Hay );
+
     TEST( t.find_last_of( ":w1234" ) == 69 );
     TEST( t.find_last_of( "!@#$:w1234" ) == 69 );
     TEST( t.find_last_of( "!@#$w:" ) == 69 );
@@ -116,7 +118,7 @@ tStr15( LibTest & tester )
     // find_first_not_of( const Str & ) const
     // find_first_not_of( const Str &, size_t ) const
 
-    const Str t( Hay );    
+    const Str t( Hay );
 
     Str pat;
 
@@ -125,12 +127,12 @@ tStr15( LibTest & tester )
     pat = "the ay";
     TEST( t.find_first_not_of( pat, 10 ) == 17 );
   }
-  
+
   {
     // find_first_not_of( const SubStr & ) const
     // find_first_not_of( const SubStr &, size_t ) const
 
-    const Str t( Hay );    
+    const Str t( Hay );
 
     Str pat;
 
@@ -144,8 +146,8 @@ tStr15( LibTest & tester )
     // find_first_not_of( const char * ) const
     // find_first_not_of( const char *, size_t ) const
     // find_first_not_of( const char *, size_t, size_t ) const
-    
-    const Str t( Hay );    
+
+    const Str t( Hay );
 
     TEST( t.find_first_not_of( "This teay" ) == 17 );
     TEST( t.find_first_not_of( "the ay", 10 ) == 17 );
@@ -156,7 +158,7 @@ tStr15( LibTest & tester )
     // find_last_not_of( const Str & ) const
     // find_last_not_of( const Str &, size_t ) const
 
-    const Str t( Hay );    
+    const Str t( Hay );
 
     Str pat;
 
@@ -165,12 +167,12 @@ tStr15( LibTest & tester )
     pat = "to es";
     TEST( t.find_last_not_of( pat, 64 ) == 55 );
   }
-  
+
   {
     // find_last_not_of( const SubStr & ) const
     // find_last_not_of( const SubStr &, size_t ) const
 
-    const Str t( Hay );    
+    const Str t( Hay );
 
     Str pat;
 
@@ -184,13 +186,13 @@ tStr15( LibTest & tester )
     // find_last_not_of( const char * ) const
     // find_last_not_of( const char *, size_t ) const
     // find_last_not_of( const char *, size_t, size_t ) const
-    
-    const Str t( Hay );    
-    
+
+    const Str t( Hay );
+
     TEST( t.find_last_not_of( "_Str:find " ) == 62 );
     TEST( t.find_last_not_of( "to es", 64 ) == 55 );
     TEST( t.find_last_not_of( "to esd", 64, 5 ) == 55 );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }

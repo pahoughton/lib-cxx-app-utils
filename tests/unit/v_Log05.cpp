@@ -1,38 +1,32 @@
-//
-// File:        tLog05.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test the following Log methods
-//
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/12/96 09:32
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-11-12 (cc) <paul4hough@gmail.com>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "Log.hh"
-#include "FileStat.hh"
+#include <clue/Log.hpp>
+#include <clue/FileStat.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <sstream>
 #include <cstdio>
-#include <strstream.h>
+
+static valid::verify verify("clue::Log05");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/Log"
 
 bool
-tLog05( LibTest & tester )
+v_Log05( void )
 {
   {
     // setOutputLevel( LogLevel::Level )
     // setOutputLevel( const char * )
     // on( LogLevel::Level )
     // off( LogLevel::Level )
-    
+
     const char *    TestFn = TEST_DATA_DIR "/log.16";
     {
-      Log t( TestFn, LogLevel::All, ios::out, 0664, true, false, true );
+      Log t( TestFn, LogLevel::All, std::ios::out, true, false, true );
 
       t( LogLevel::Error, "Test", 1 )   << "test Error (good)" << '\n';
       t( LogLevel::Err, "Test", 2 )     << "test Err (good)" << '\n';
@@ -98,7 +92,7 @@ tLog05( LibTest & tester )
       t( LogLevel::Funct, "Test", 0 )   << "test Funct (BAD)" << '\n';
 
       TEST( t.setOutputLevel( "Funct | Lib1" ) == LogLevel::None );
-      
+
       t( LogLevel::Error, "Test", 0 )   << "test Error (BAD)" << '\n';
       t( LogLevel::Err, "Test", 0 )     << "test Err (BAD)" << '\n';
       t( LogLevel::Warning, "Test", 0 ) << "test Warning (BAD)" << '\n';
@@ -119,7 +113,7 @@ tLog05( LibTest & tester )
       t( LogLevel::Funct, "Test", 23 )  << "test Funct (good)" << '\n';
 
       t.on( LogLevel::Test );
-      
+
       t( LogLevel::Error, "Test", 0 )   << "test Error (BAD)" << '\n';
       t( LogLevel::Err, "Test", 0 )     << "test Err (BAD)" << '\n';
       t( LogLevel::Warning , "Test", 0) << "test Warning (BAD)" << '\n';
@@ -140,7 +134,7 @@ tLog05( LibTest & tester )
       t( LogLevel::Funct, "Test", 26 )  << "test Funct (good)" << '\n';
 
       t.on( LogLevel::Test | LogLevel::Err | LogLevel::App2 );
-      
+
       t( LogLevel::Error, "Test", 27 )  << "test Error (good)" << '\n';
       t( LogLevel::Err, "Test", 28 )    << "test Err (good)" << '\n';
       t( LogLevel::Warning, "Test", 0 ) << "test Warning (BAD)" << '\n';
@@ -161,7 +155,7 @@ tLog05( LibTest & tester )
       t( LogLevel::Funct, "Test", 32 )  << "test Funct (good)" << '\n';
 
       t.off( LogLevel::Funct );
-      
+
       t( LogLevel::Error, "Test", 33 )   << "test Error (good)" << '\n';
       t( LogLevel::Err, "Test", 34 )     << "test Err (good)" << '\n';
       t( LogLevel::Warning, "Test", 0 ) << "test Warning (BAD)" << '\n';
@@ -183,7 +177,7 @@ tLog05( LibTest & tester )
 
       t.off( LogLevel::Funct | LogLevel::Warn |
 	     LogLevel::App2 | LogLevel::Test );
-      
+
       t( LogLevel::Error, "Test", 38 )   << "test Error (good)" << '\n';
       t( LogLevel::Err, "Test", 39 )     << "test Err (good)" << '\n';
       t( LogLevel::Warning, "Test", 0 ) << "test Warning (BAD)" << '\n';
@@ -203,25 +197,22 @@ tLog05( LibTest & tester )
       t( LogLevel::Debug, "Test", 0 )   << "test Debug (BAD)" << '\n';
       t( LogLevel::Funct, "Test", 0 )   << "test Funct (BAD)" << '\n';
     }
-
-    if( ! tester.file( __FILE__, __LINE__, TestFn ) )
-      return( false );
-      
+    VVFILE( TestFn );
   }
-  
+
   {
     // tee( ostream & )
 
     const char *    TestFn = TEST_DATA_DIR "/log.17";
     const char *    TestTeeFn = TEST_DATA_DIR "/log.18";
-    
+
     {
-      ofstream teeDest( TestTeeFn );
-      
+      std::ofstream teeDest( TestTeeFn );
+
       Log   t( TestFn, LogLevel::Err | LogLevel::Debug,
-	       ios::out, 0664,
+	       std::ios::out,
 	       true, false, true );
-      
+
       t( LogLevel::Error, "Test", 1 ) << "Log error output.\n";
       t( LogLevel::Error, "Test", 2 ) << "Log error output.\n";
       t( LogLevel::Error, "Test", 3 ) << "Log error output.\n";
@@ -231,25 +222,21 @@ tLog05( LibTest & tester )
       t( LogLevel::Debug, "Test", 5 ) << "Log debug output.\n";
       t( LogLevel::Debug, "Test", 6 ) << "Log debug output.\n";
       t( LogLevel::Debug, "Test", 7 ) << "Log debug output.\n";
-      
-    }
 
-    if( ! tester.file( __FILE__, __LINE__, TestFn ) )
-      return( false );
-    
-    if( ! tester.file( __FILE__, __LINE__, TestTeeFn ) )
-      return( false );
+    }
+    VVFILE( TestFn );
+    VVFILE( TestTeeFn );
   }
 
   {
     // setMaxSize( void )
     // setTrimSize( void )
-    
+
     const char *    TestFn = TEST_DATA_DIR "/log.19";
 
     const FileStat::size_type	MaxSize = 40960;
     const FileStat::size_type	TrimSize = 1024;
-    
+
     const char *    EntryText =
       "good test checking maxSize.\n";
     const FileStat::size_type    EntrySize =
@@ -258,8 +245,8 @@ tLog05( LibTest & tester )
 
     size_t	    EntryNumber = 0;
     {
-      
-      Log t( TestFn, LogLevel::Info, ios::out );
+
+      Log t( TestFn, LogLevel::Info, std::ios::out );
 
       for( FileStat::size_type l = EntrySize;
 	   l < (MaxSize * 2);
@@ -276,7 +263,7 @@ tLog05( LibTest & tester )
     }
 
     {
-      Log t( TestFn, LogLevel::Info, (ios::openmode)(ios::app|ios::out) );
+      Log t( TestFn, LogLevel::Info, (std::ios::openmode)(std::ios::app|std::ios::out) );
 
       for( int l = 0; l < 50; ++l )
 	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
@@ -293,20 +280,20 @@ tLog05( LibTest & tester )
     }
 
     {
-       Log t( TestFn, LogLevel::Info, (ios::openmode)(ios::app|ios::out) );
+       Log t( TestFn, LogLevel::Info, (std::ios::openmode)(std::ios::app|std::ios::out) );
 
       TEST( t.setMaxSize( MaxSize ) == 0 );
-     
+
       for( int l = EntrySize; l < (MaxSize * 3); l += EntrySize )
 	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
 
       TEST( (FileStat::size_type)t.setMaxSize( 0 ) == MaxSize );
-      
+
       for( int e = EntrySize; e < (MaxSize * 2); e += EntrySize )
 	t( LogLevel::Info, "Test.C", ++EntryNumber ) << EntryText;
 
     }
-    
+
     {
       FileStat t( TestFn );
 
@@ -315,8 +302,8 @@ tLog05( LibTest & tester )
     }
 
     {
-      
-      Log t( TestFn, LogLevel::Info, (ios::openmode)(ios::app|ios::out) );
+
+      Log t( TestFn, LogLevel::Info, (std::ios::openmode)(std::ios::app|std::ios::out) );
 
       TEST( t.setMaxSize( MaxSize ) == 0 );
       TEST( t.setTrimSize( TrimSize ) == 0 );
@@ -333,60 +320,5 @@ tLog05( LibTest & tester )
       TEST( t.getSize() > (MaxSize - (TrimSize + EntrySize) ) );
     }
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-      
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:44  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:29  houghton
-// Changed Version Num to 5
-//
-// Revision 4.4  1998/10/13 16:39:44  houghton
-// Cleanup.
-//
-// Revision 4.3  1998/07/20 11:32:17  houghton
-// Port(Hpux10): Had to split tLog04.C, The compiler was running out of memory.
-//
-// Revision 4.2  1998/04/02 14:19:24  houghton
-// Cleanup and eliminate warnings.
-//
-// Revision 4.1  1997/09/17 15:14:24  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:09:51  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/07/18 21:44:53  houghton
-// Port(Sun5): Changed ios::app to (ios::openmode)(ios::app|ios::out).
-//
-// Revision 3.2  1996/11/19 12:35:29  houghton
-// Changed include strstream to include strstream.h because strstream
-//     is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:26:47  houghton
-// Changed to Release 3
-//
-// Revision 2.6  1996/11/13 17:20:02  houghton
-// Complete rework of all tests.
-// Verified test against Log.hh header comments.
-//
-//
-
-
-
-
-
-
-
-
-
-
-
-

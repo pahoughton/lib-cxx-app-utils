@@ -1,37 +1,13 @@
-//
-// File:        HotSwap.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for HotSwap
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     05/04/99 05:32
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1999-05-04 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "HotSwap.hh"
-
-#include <FileStat.hh>
+#include "HotSwap.hpp"
+#include <FileStat.hpp>
 
 #include <cstdio>
 
 #include <unistd.h>
 
-#if defined( STLUTILS_DEBUG )
-#include "HotSwap.ii"
-#endif
-
-STLUTILS_VERSION(
-  HotSwap,
-  "$Id$ ");
+namespace clue {
 
 const char * HotSwap::ErrorDesc[] =
 {
@@ -42,7 +18,7 @@ const char * HotSwap::ErrorDesc[] =
 
 
 HotSwap::HotSwap(
-  const FilePath & lockFileName,
+  const FilePath &	lockFileName,
   std::ios::openmode    lockMode
   )
   : lockFn( lockFileName ),
@@ -74,13 +50,13 @@ HotSwap::~HotSwap( void )
 bool
 HotSwap::lock( void )
 {
-  
+
   if( sem.islocked() )
-    {      
+    {
       if( ! sem.waitfor() )
 	return( false );
     }
-  
+
   if( ! filelock.lockread() )
     return( false );
 
@@ -109,13 +85,13 @@ HotSwap::swapLock( void )
 {
   if( ! sem.lock( false ) )
     return( false );
-  
+
   if( ! filelock.lockwrite() )
     {
       sem.unlock();
       return( false );
     }
-  
+
   return( true );
 }
 
@@ -129,11 +105,11 @@ HotSwap::swapUnLock( void )
 	  sem.unlock();
 	  return( false );
 	}
-      
+
       if( ! sem.unlock() )
 	return( false );
     }
-  
+
   return( true );
 }
 
@@ -149,25 +125,25 @@ HotSwap::swap(
   if( linkDest[0] != '/' )
     {
       char cwd[1024];
-      
+
       if( ! getcwd( cwd, sizeof( cwd ) ) )
 	return( setErrorDesc( errno, "getcwd" ) );
-      
+
       absLinkDest << cwd << linkDest.dirSep() << linkDest ;
     }
   else
     {
       absLinkDest = linkDest;
     }
-  
+
   FileStat  linkStat( linkName, true );
 
   bool	    linkExists;
-  
+
   if( linkStat.good() )
     {
       linkExists = true;
-      
+
       if( ! linkStat.isLink() )
 	return( setErrorFn( E_NOT_LINK, linkName ) );
     }
@@ -182,9 +158,9 @@ HotSwap::swap(
     {
       if( ! swapLock() )
 	return( false );
-      
+
       // ok, all locked up.
-      
+
       if( remove( linkName ) )
 	{
 	  setErrorFn( errno, linkName );
@@ -207,7 +183,7 @@ HotSwap::swap(
       if( ! swapUnLock() )
 	return( false );
     }
-  
+
   return( true );
 }
 
@@ -225,7 +201,7 @@ HotSwap::error( void ) const
 {
   static Str errStr;
 
-  errStr = HotSwap::getClassName();
+  errStr = "HotSwap";
 
   if( good() )
     {
@@ -254,13 +230,13 @@ HotSwap::error( void ) const
 	  else
 	    errStr << ": ";
 	}
-	      
+
       if( errorNum != E_OK )
 	errStr << " " << ErrorDesc[ errorNum ];
-      
+
       if( osErrno )
 	errStr << " " << strerror( osErrno );
-      
+
       if( eSize == errStr.size() )
         errStr << ": unknown error";
     }
@@ -268,29 +244,13 @@ HotSwap::error( void ) const
   return( errStr.c_str() );
 }
 
-const char *
-HotSwap::getClassName( void ) const
-{
-  return( "HotSwap" );
-}
-
-const char *
-HotSwap::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
 
 std::ostream &
 HotSwap::dumpInfo(
   std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << HotSwap::getClassName() << ":\n"
-	 << HotSwap::getVersion() << '\n';
 
   if( ! HotSwap::good() )
     dest << prefix << "Error: " << HotSwap::error() << '\n';
@@ -299,17 +259,17 @@ HotSwap::dumpInfo(
 
 
   dest << prefix << "lockFn:  '" << lockFn << "'\n";
-  
+
   Str pre;
-  
+
   pre = prefix;
   pre << "filelock: ";
-  filelock.dumpInfo( dest, pre, false );
+  filelock.dumpInfo( dest, pre );
 
   pre = prefix;
   pre << "sem:";
-  sem.dumpInfo( dest, pre, false );  
-  
+  sem.dumpInfo( dest, pre );
+
   return( dest );
 }
 
@@ -348,41 +308,4 @@ HotSwap::setErrorFnDesc( int osErr, const char * fn, const char * desc )
   return( good() );
 }
 
-
-  
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:47  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:31  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:46  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:21:01  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:28:57  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:22  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  2000/03/21 23:31:23  houghton
-// Added swapLock() and swapUnLock() methods.
-//
-// Revision 4.2  1999/10/24 12:11:16  houghton
-// Bug-Fix: was not initializing osErrno;
-// Bug-Fix: lock() was not calling lockread unless sem was locked. should
-//     always call it.
-//
-// Revision 4.1  1999/05/09 13:08:19  houghton
-// Initial Version.
-//
-//
+}; // namespace clue

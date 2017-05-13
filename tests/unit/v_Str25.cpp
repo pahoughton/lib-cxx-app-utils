@@ -1,18 +1,18 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <fstream>
 #include <cstring>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <fstream>
-#include <cstring>
-#endif
 
+static valid::verify verify("clue::Str25");
+using namespace clue;
 
+#define TEST_DATA_DIR "data/Str"
 
 #define T1 "first part"
 #define T2 " second part"
@@ -22,13 +22,13 @@
 
 
 bool
-tStr25( LibTest & tester )
+v_Str25( void )
 {
   {
     // operator + ( const Str &, const Str & )
     // operator + ( const Str &, const SubStr & )
     // operator + ( const Str &, const char * )
-    
+
     Str t;
 
     const Str l( T1 );
@@ -43,7 +43,7 @@ tStr25( LibTest & tester )
     TEST( t == T1 T2 );
 
     t = l + T2;
-    TEST( t == T1 T2 );    
+    TEST( t == T1 T2 );
   }
 
   {
@@ -52,7 +52,7 @@ tStr25( LibTest & tester )
     const Str r( T2 );
 
     Str t;
-    
+
     t = T1 + r;
     TEST( t == T1 T2 );
   }
@@ -97,11 +97,11 @@ tStr25( LibTest & tester )
     TEST( T2 < t );
     TEST( ! ( T2 T3 < t ) );
   }
-  
+
   {
     // operator >  ( const SubStr &, const Str & )
     // operator >  ( const char *, const Str & )
-    
+
     Str t( T2 T3 );
     Str s( T1 T2 T3 T4 );
 
@@ -146,28 +146,22 @@ tStr25( LibTest & tester )
 
   {
     // ::getline( istream &, Str &, char )
-    
-    Str t( T1 T2 );
-#if !defined( STLUTILS_SHORT_FN )
-    const char * fn = TEST_DATA_DIR "/getline.Str.input";
-#else
-    const char * fn = TEST_DATA_DIR "/glstr.in";
-#endif
 
-    ifstream in( fn );
+    const char * fn = TEST_DATA_DIR "/Str.getline.input";
+
+    Str t( T1 T2 );
+
+    std::ifstream in( fn );
 
     TEST( in.good() );
 
-    TEST( getline( in, t ).good() );
-    TEST( t == "first line of text" );
-    TEST( getline( in, t, '\n' ).good() );
-    TEST( t == "last line of text" );
-    TEST( ! getline( in, t ).good() );
+    TEST( t.getline( in ).good() );
+    TEST( t == "first input line" );
+    TEST( t.getline( in ).good() );
+    TEST( t == "last input line" );
+    TEST( ! t.getline( in ).good() );
+    TEST( t == "last input line" );
   }
-  
-  return( true );
+
+  return( verify.is_valid() );
 }
-
-    
-
-    

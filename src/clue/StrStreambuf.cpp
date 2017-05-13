@@ -1,42 +1,7 @@
-//
-// File:        StrStreambuf.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for StrStreambuf.
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     05/30/95 11:32 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1995-05-30 (cc) Paul Houghton - (paul4hough@gmail.com)
 
-#if !defined( STLUTILS_SHORT_FN )
-#include "StrStreambuf.hh"
-#else
-#include "StrSbuf.hh"
-#endif
-
-#if defined( STLUTILS_DEBUG )
-#if !defined( STLUTILS_SHORT_FN )
-#include "StrStreambuf.ii"
-#else
-#include "StrSbuf.ii"
-#endif
-#endif
-
-STLUTILS_VERSION(
-  StrStreambuf,
-  "$Id$ " );
-
-// FIXME - do this better
-
+#include "StrStreambuf.hpp"
+namespace clue {
 void
 StrStreambuf::readPrep( void )
 {
@@ -45,30 +10,13 @@ StrStreambuf::readPrep( void )
   }
 }
 
-const char *
-StrStreambuf::getClassName( void ) const
-{
-  return( "StrStreambuf" );
-}
-
 std::ostream &
 StrStreambuf::dumpInfo(
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+  std::ostream & dest,
+  const char *   prefix
   )
 {
-  if( showVer )
-    dest << StrStreambuf::getClassName() << ":\n"
-	 << StrStreambuf::getVersion() << '\n';
-
   dest << prefix << "length:  " << plen() << '\n'
-#if defined( STLUTILS_HAVE_STRBUF_BASE )
-       << prefix << "base():  " << (void *) base() << '\n'
-#endif
-#if defined( STLUTILS_HAVE_STRBUF_EBUF )
-       << prefix << "ebuf():  " << (void *) ebuf() << '\n'
-#endif
        << prefix << "pbase(): " << (void *) pbase() << '\n'
        << prefix << "pptr():  " << (void *) pptr() << '\n'
        << prefix << "epptr(): " << (void *) epptr() << '\n'
@@ -85,62 +33,4 @@ StrStreambuf::dumpInfo(
 
   return( dest );
 }
-
-const char *
-StrStreambuf::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:49  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:20  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:43  houghton
-// Changed to version 6
-//
-// Revision 5.5  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.4  2003/06/25 08:52:05  houghton
-// Added readPrep method - still need to improve this.
-//
-// Revision 5.3  2001/07/26 19:28:59  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:17  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/08/13 10:52:44  houghton
-// Port(Hpux10): expaded dumpInfo output.
-//
-// Revision 4.1  1997/09/17 15:12:58  houghton
-// Changed to Version 4
-//
-// Revision 3.2  1997/09/17 11:08:49  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:24:13  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1995/12/04 11:18:28  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:07  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  16:04:05  houghton
-// Revised
-//
-//
+}; // namespace clue

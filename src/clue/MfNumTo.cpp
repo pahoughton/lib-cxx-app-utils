@@ -1,15 +1,12 @@
-/*
-   File:        MfNumTo.C
-   Project:	StlUtils ()
-   Desc:        
-  
-    The mainframe uses the high nibble (4 bits) of the last char
-    to indicate + or - sign.
-  
-    This table show the conversion
-  
+/* 1997-11-18 (cc) <paul4hough@gmail.com>
+
+   The mainframe uses the high nibble (4 bits) of the last char
+   to indicate + or - sign.
+
+   This table show the conversion
+
   	Last Char   Value	pos/neg
-  
+
   	{	    0		pos
   	A	    1		pos
   	B	    2		pos
@@ -20,7 +17,7 @@
   	G	    7		pos
   	H	    8		pos
   	I	    9		pos
-  
+
   	}	    0		neg
   	J	    1		neg
   	K	    2		neg
@@ -31,22 +28,13 @@
   	P	    7		neg
   	Q	    8		neg
   	R	    9		neg
-  
-   Author:      Paul Houghton - (paul4hough@gmail.com)
-   Created:     11/18/97 06:25
-  
-   Revision History: (See end of file for Revision Log)
-  
-    $Author$ 
-    $Date$ 
-    $Name$ 
-    $Revision$ 
-    $State$ 
+
 */
 
-#include "StringUtils.hh"
+#include "StringUtils.hpp"
 #include <cctype>
 
+namespace clue {
 
 #define MF_NUM_TO_TYPE( type )							\
 bool										\
@@ -115,7 +103,7 @@ MfNumTo##typeName(								\
   MfNumTo( val, src, len );							\
   return( val );								\
 }
-  
+
 MF_NUM_TO_TYPE( short );
 MF_NUM_TO_TYPE( int );
 MF_NUM_TO_TYPE( long );
@@ -146,7 +134,7 @@ MfNumTo(
     {
       return( false );
     }
-  
+
   if( *src == ' ' && *srcEnd == ' ' )
     {
       memset( dest, '0', destSize );
@@ -202,21 +190,21 @@ MfNumTo(
 	    memcpy( dest + destSize - decimalPlaces,
 		    src + srcSize - decimalPlaces,
 		    decimalPlaces - 1 );
-	  
+
 	  dest[ destSize - decimalPlaces - 1 ] = '.';
 
 	  if( decimalPlaces < srcSize )
 	    {
 	      size_t destStartPos = destSize - srcSize - 1;
-	      
+
 	      memcpy( dest + destStartPos,
 		      src,
 		      srcSize - decimalPlaces );
-	      
+
 	    }
-	  
+
 	  memset( dest, '0', destSize - srcSize - 1 );
-	  
+
 	  if( isNeg )
 	    dest[0] = '-';
 	}
@@ -225,9 +213,9 @@ MfNumTo(
 	  memcpy( dest + destSize - srcSize,
 		  src,
 		  srcSize - 1 );
-	  
+
 	  memset( dest, '0', destSize - srcSize );
-	  
+
 	  if( isNeg )
 	    dest[0] = '-';
 	}
@@ -236,40 +224,4 @@ MfNumTo(
 }
 
 
-  
-
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.2  2011/12/30 23:57:17  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:42  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:20:59  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:28:59  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:16  houghton
-// Changed Version Num to 5
-//
-// Revision 4.4  1998/02/13 23:32:43  houghton
-// Bug-Fix: was not converting all spaces to '0'.
-//
-// Revision 4.3  1998/01/05 13:21:12  houghton
-// Changed: now test that all input chars are valid digits.
-//
-// Revision 4.2  1997/12/19 12:50:10  houghton
-// Bug-Fix: integral converter was off by 1.
-// Added string converter with decimal support.
-//
-// Revision 4.1  1997/11/18 15:07:42  houghton
-// Initial Version.
-//
-//
+}; // namespace clue

@@ -1,43 +1,18 @@
-//
-// File:        InboundProcessorBase.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for InboundProcessorBase
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     07/20/97 06:26
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1997-07-20 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "InboundProcessorBase.hh"
-
-#include <Str.hh>
-#include <Directory.hh>
-#include <FileOp.hh>
-#include <Semaphore.hh>
-#include <SigCatcher.hh>
-#include <LibLog.hh>
+#include "InboundProcessorBase.hpp"
+#include "Str.hpp"
+#include "Directory.hpp"
+#include "FileOp.hpp"
+#include "Semaphore.hpp"
+#include "SigCatcher.hpp"
+#include "LibLog.hpp"
 
 #include <cstdio>
 
 #include <unistd.h>
 
-#if defined( STLUTILS_DEBUG )
-#include "InboundProcessorBase.ii"
-#endif
-
-STLUTILS_VERSION(
-  InboundProcessorBase,
-  "$Id$ ");
-
+namespace clue {
 
 InboundProcessorBase::InboundProcessorBase(
   const char *		fileNamePattern,
@@ -76,7 +51,7 @@ InboundProcessorBase::InboundProcessorBase(
 	       << "  '" << inDir << "'\n"
 	       << "  '" << fnPattern << "'"
 	       << std::endl;
-      
+
     }
 }
 
@@ -92,17 +67,17 @@ InboundProcessorBase::run( bool tossDups )
 
   Directory	dirList;
   Semaphore	sem;
-  
+
   for( ;; )
     {
-      
+
       if( sigCatcher && sigCatcher->caught().size() )
 	return( true );
 
       // run prescanProc before we scan the dir
       if( ! prescanProc() )
 	return( true );	    // prescan wants to skip the scan
-      
+
       didit = false;
 
       for( FnPatList::const_iterator patThem = fnPatList.begin();
@@ -110,11 +85,11 @@ InboundProcessorBase::run( bool tossDups )
 	   ++ patThem )
 	{
 	  FilePath  inPath( inDir, *patThem );
-	  
+
 	  dirList.set( inPath, Directory::SortTime );
 
 	  ++ dirScanCounter;
-      
+
 	  if( ! dirList.good() )
 	    return( setError( dirList.error(), inPath ) );
 
@@ -123,7 +98,7 @@ InboundProcessorBase::run( bool tossDups )
 	       ++ them )
 	    {
 	      ++ fileFoundCounter;
-	  
+
 	      _LLg( LogLevel::Debug ) << "found: '"
 				      << (*them).getName() << '\'' << std::endl;
 
@@ -159,28 +134,28 @@ InboundProcessorBase::run( bool tossDups )
 		    break;
 		  }
 		}
-	      
+
 		if( reScan )
 		  break;
 	      }
-	      
-	      if( ! sem.good() ) 
+
+	      if( ! sem.good() )
 		return( setError( sem.error(), (*them).getName() ) );
 
 	      if( sem.lock( false ) )
 		{
 		  FileOp	fileOp;
-	      
+
 		  LLgDebug << "locked: '"
 			   << (*them).getName() << '\'' << std::endl;
-		  
+
 		  FilePath	destFn( procDir,
 					(*them).getName().getFileName() );
 		  FileStat	destStat( destFn );
-		  
+
 		  LLgDebug << "dup check:\n   '"
 			   << destStat.getName() << '\'' << std::endl;
-		    
+
 		  if( destStat.good() ) {
 		    if( tossDups ) {
 		      if( ! fileOp.remove( (*them).getName() ) ) {
@@ -196,7 +171,7 @@ InboundProcessorBase::run( bool tossDups )
 		      }
 		      if( ! sem.remove() )
 			return( setError( sem.error() ) );
-		      
+
 		      ++ fileProcCounter;
 		      didit = true;
 		      continue;
@@ -207,15 +182,15 @@ InboundProcessorBase::run( bool tossDups )
 					destFn ) );
 		    }
 		  }
-	      
+
 		  // this one is mine to process.
 		  if( ! fileOp.move( (*them).getName().c_str(),
 				     procDir.c_str() ) )
 		    {
 		      // rename failed.
-		  
+
 		      // is it because the file is nolonger there?
-		  
+
 		      FileStat  inStat( *them );
 		      if( inStat.good() )
 			{
@@ -235,7 +210,7 @@ InboundProcessorBase::run( bool tossDups )
 			return( setError( sem.error() ) );
 
 		      ++ fileProcCounter;
-	      
+
 		      if( ! processInbound( fileOp.getDest().getName() ) )
 			return( true );
 
@@ -245,7 +220,7 @@ InboundProcessorBase::run( bool tossDups )
 		      // we just processed something, so run prescan again.
 		      if( ! prescanProc() )
 			return( true );
-		  
+
 		      didit = true;
 		    }
 		}
@@ -280,7 +255,7 @@ InboundProcessorBase::error( void ) const
 {
   static Str errStr;
 
-  errStr = InboundProcessorBase::getClassName();
+  errStr = "InboundProcessorBase";
 
   if( good() )
     {
@@ -294,7 +269,7 @@ InboundProcessorBase::error( void ) const
 	errStr << ": '" << errName << "' - " << errDesc;
       else
 	errStr << ": " << errDesc;
-      
+
       if( eSize == errStr.size() )
         errStr << ": unknown error";
     }
@@ -302,29 +277,13 @@ InboundProcessorBase::error( void ) const
   return( errStr.c_str() );
 }
 
-const char *
-InboundProcessorBase::getClassName( void ) const
-{
-  return( "InboundProcessorBase" );
-}
-
-const char *
-InboundProcessorBase::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
 
 std::ostream &
 InboundProcessorBase::dumpInfo(
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << InboundProcessorBase::getClassName() << ":\n"
-	 << InboundProcessorBase::getVersion() << '\n';
 
   if( ! InboundProcessorBase::good() )
     dest << prefix << "Error: " << InboundProcessorBase::error() << '\n';
@@ -345,9 +304,9 @@ InboundProcessorBase::dumpInfo(
       Str pre;
       pre = prefix;
       pre << "sigCatcher:";
-      sigCatcher->dumpInfo( dest, pre, false );
+      sigCatcher->dumpInfo( dest, pre );
     }
-  
+
   return( dest );
 }
 
@@ -376,76 +335,4 @@ InboundProcessorBase::setError(
   return( good() );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.5  2012/04/26 20:08:46  paul
-// *** empty log message ***
-//
-// Revision 6.4  2011/12/30 23:57:32  paul
-// First go at Mac gcc Port
-//
-// Revision 6.3  2006/05/11 19:37:16  houghton
-// Changed to create exclusive semaphores with retry loop.
-//
-// Revision 6.2  2005/03/01 21:45:32  ptpogue
-// change to deal with duplicate batches
-//
-// Revision 6.1  2003/08/09 11:22:46  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:21:01  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2001/07/26 19:28:57  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/12/28 01:47:40  houghton
-// Added some debug output.
-//
-// Revision 5.1  2000/05/25 10:33:22  houghton
-// Changed Version Num to 5
-//
-// Revision 4.6  2000/03/10 11:40:04  houghton
-// Bug-Fix: strip white space from multi filename patterns.
-//
-// Revision 4.5  1999/10/28 14:19:44  houghton
-// Added support for multiple file name patterns.
-//
-// Revision 4.4  1999/05/14 11:34:24  houghton
-// Port(Linux): port for Gnu Libc 2
-//
-// Revision 4.3  1998/11/02 19:21:33  houghton
-// Changed: the File class was renamed to FileOp().
-//
-// Revision 4.2  1998/03/11 16:09:44  houghton
-// Changed to use new File class.
-//
-// Revision 4.1  1997/09/17 15:13:32  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:09:21  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/09/16 11:27:04  houghton
-// Added prescan support (ie do 'prescan' before scanning dir and after
-//     processing each file.
-// Bug-Fix: changed so it does not go to sleep when the sem. was bad.
-//
-// Revision 3.2  1997/07/25 13:54:13  houghton
-// Added caughtSignal.
-//
-// Revision 3.1  1997/07/25 12:26:55  houghton
-// Changed version number to 3.
-//
-// Revision 1.2  1997/07/25 12:18:22  houghton
-// Added SigCatcher support to detect signals.
-// Added counters for directory scans, files found and files processed.
-//
-// Revision 1.1  1997/07/20 18:52:02  houghton
-// Initial Version.
-//
-//
+}; // namespace clue

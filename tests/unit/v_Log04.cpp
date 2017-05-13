@@ -1,42 +1,36 @@
-//
-// File:        tLog04.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test the following Log methods:
-//
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/12/96 06:12
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-11-11 (cc) <paul4hough@gmail.com>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "Log.hh"
-#include "FileStat.hh"
+#include <clue/Log.hpp>
+#include <clue/FileStat.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <fstream>
 #include <cstdio>
 
+static valid::verify verify("clue::Log04");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/Log"
+
 
 bool
-tLog04( LibTest & tester )
+v_Log04( void )
 {
-  
+
   {
     // level( const char *, const char *, long )
     const char * TestFn = TEST_DATA_DIR "/log.12";
     remove( TestFn );
-    
+
     {
       Log	t( TestFn,
 		   "App1 | Warn | Error | Info | Debug",
-		   (ios::openmode)(ios::app|ios::out), 0644,
+		   (std::ios::openmode)(std::ios::app|std::ios::out),
 		   true, false, true  );
-      
+
       t.level( "Error",   "Src",  1 ) << "test Error" << '\n';
       t.level( "Err",     "Src",  2 ) << "test Err" << '\n';
       t.level( "Warning", "Src",  3 ) << "test Warning" << '\n';
@@ -56,8 +50,7 @@ tLog04( LibTest & tester )
       t.level( "Debug",   "Src", 17 ) << "test Debug" << '\n';
       t.level( "Funct",   "Src", 18 ) << "test Funct (bad)" << '\n';
     }
-    
-    tester.file( __FILE__, __LINE__, TestFn );
+    VVFILE( TestFn );
   }
 
   {
@@ -65,11 +58,11 @@ tLog04( LibTest & tester )
 
     const char * TestFn = TEST_DATA_DIR "/log.13";
     remove( TestFn );
-    
+
     {
-      Log	t( TestFn, LogLevel::All, (ios::openmode)(ios::app|ios::out), 0644,
+      Log	t( TestFn, LogLevel::All, (std::ios::openmode)(std::ios::app|std::ios::out),
 		   true, false, false  );
-      
+
       t( "Error" )   << "test Error" << '\n';
       t( "Err" )     << "test Err" << '\n';
       t( "Warning" ) << "test Warning" << '\n';
@@ -89,21 +82,20 @@ tLog04( LibTest & tester )
       t( "Debug" )   << "test Debug" << '\n';
       t( "Funct" )   << "test Funct" << '\n';
     }
-    
-    tester.file( __FILE__, __LINE__, TestFn );
+    VVFILE( TestFn );
   }
 
   {
     // operator () ( const char *, const char *, long )
     const char * TestFn = TEST_DATA_DIR "/log.14";
     remove( TestFn );
-    
+
     {
       Log	t( TestFn,
 		   "App1 | Warn | Error | Info | Debug",
-		   (ios::openmode)(ios::app|ios::out), 0644,
+		   (std::ios::openmode)(std::ios::app|std::ios::out),
 		   true, false, true  );
-      
+
       t( "Error",   "Src",  1 ) << "test Error" << '\n';
       t( "Err",     "Src",  2 ) << "test Err" << '\n';
       t( "Warning", "Src",  3 ) << "test Warning" << '\n';
@@ -123,8 +115,7 @@ tLog04( LibTest & tester )
       t( "Debug",   "Src", 17 ) << "test Debug" << '\n';
       t( "Funct",   "Src", 18 ) << "test Funct (bad)" << '\n';
     }
-    
-    tester.file( __FILE__, __LINE__, TestFn );
+    VVFILE( TestFn );
   }
 
   {
@@ -135,10 +126,10 @@ tLog04( LibTest & tester )
     const char *    TestFn = TEST_DATA_DIR "/log.15";
     size_t	    LogSize = 0;
     {
-      
+
       Log t( TestFn,
 	     LogLevel::Error | LogLevel::Warn | LogLevel::Info,
-	     ios::out );
+	     std::ios::out );
 
       t( LogLevel::Error, "Src", 1 ) << "error good\n";
       LogSize += strlen( "mm/dd/yy hh:mm:ss ERROR Src:1 error good\n");
@@ -156,7 +147,7 @@ tLog04( LibTest & tester )
       LogSize += strlen( "Src:3 info good\n" );
 
       TEST( t.setLocStamp( false ) );
-      
+
       t( LogLevel::Error, "Src", 5 ) << "error good\n";
       LogSize += strlen( "error good\n");
 
@@ -183,42 +174,5 @@ tLog04( LibTest & tester )
     }
 
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:44  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:28  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  1998/07/20 11:32:14  houghton
-// Port(Hpux10): Had to split tLog04.C, The compiler was running out of memory.
-//
-// Revision 4.2  1998/04/02 14:19:24  houghton
-// Cleanup and eliminate warnings.
-//
-// Revision 4.1  1997/09/17 15:14:23  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:09:51  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/07/18 21:43:32  houghton
-// Port(Sun5): Changed ios::app to (ios::openmode)(ios::app|ios::out).
-//
-// Revision 3.1  1996/11/14 01:26:47  houghton
-// Changed to Release 3
-//
-// Revision 2.5  1996/11/13 17:20:01  houghton
-// Complete rework of all tests.
-// Verified test against Log.hh header comments.
-//
-//

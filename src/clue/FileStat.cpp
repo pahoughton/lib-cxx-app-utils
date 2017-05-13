@@ -1,47 +1,19 @@
-//
-// File:        FileStat.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled source for the FileStat class
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     05/17/95 08:38 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-// $Id$ 
-//
+// 1995-06-15 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "FileStat.hh"
+#include "FileStat.hpp"
 
-#if defined( STLUTILS_HAS_USER )
-#include <UserGroup.hh>
-#include <User.hh>
-#endif
+#include "UserGroup.hpp"
+#include "User.hpp"
+#include "DateTime.hpp"
+#include "bit"
 
-#include <DateTime.hh>
-
-#include <Bit.hh>
 #include <iomanip>
 #include <sstream>
 #include <cstring>
 
 #include <utime.h>
 
-#if defined( STLUTILS_DEBUG )
-#include "FileStat.ii"
-#endif
-
-STLUTILS_VERSION(
-  FileStat,
-  "$Id$ ");
+namespace clue {
 
 const int FileStat::badFd = -1;
 
@@ -81,7 +53,7 @@ FileStat::setTimes(
 bool
 FileStat::setMode( mode_t mode )
 {
-  if( ! good() || name.length() == 0 )    
+  if( ! good() || name.length() == 0 )
     return( false );
 
   if( chmod( name, mode ) )
@@ -96,7 +68,7 @@ FileStat::setMode( mode_t mode )
   return( true );
 }
 
-      
+
 bool
 FileStat::setMode( Who who, What what, bool on )
 {
@@ -109,14 +81,14 @@ FileStat::setMode( Who who, What what, bool on )
       if( (what & WRITE) == true )  change |= S_IWOTH;
       if( (what & EXEC) == true )   change |= S_IXOTH;
     }
-  
+
   if( (who & GROUP) == true )
     {
       if( (what & READ) == true )   change |= S_IRGRP;
       if( (what & WRITE) == true )  change |= S_IWGRP;
       if( (what & EXEC) == true )   change |= S_IXGRP;
     }
-  
+
   if( (who & USER) == true )
     {
       if( (what & READ) == true )   change |= S_IRUSR;
@@ -197,16 +169,16 @@ FileStat::toStream( std::ostream & dest ) const
   else
     {
       dest.setf( std::ios::left );
-      
+
       dest << getModeString() << ' '
 	   << std::setw( 8 ) << getUserName() << ' '
 	   << std::setw( 8 ) << getGroupName() << ' '
 	;
-      
+
       dest.unsetf( std::ios::left );
 
       DateTime mdt( getModificationTime(), true );
-      
+
       dest << std::setw( 10 ) << getSize() << ' '
 	   << mdt << ' '
 	   << getName()
@@ -235,8 +207,8 @@ const char *
 FileStat::error( void ) const
 {
   static Str errStr;
-  
-  errStr = FileStat::getClassName();
+
+  errStr = "FileStat";
 
   if( good() )
     {
@@ -254,31 +226,13 @@ FileStat::error( void ) const
   return( errStr.c_str() );
 }
 
-// getClassName - return the name of this class
-const char *
-FileStat::getClassName( void ) const
-{
-  return( "FileStat" );
-}
-
-const char *
-FileStat::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
 std::ostream &
 FileStat::dumpInfo(
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+  std::ostream & dest,
+  const char *   prefix
   ) const
 {
-  if( showVer )
-    dest << FileStat::getClassName() << ":\n"
-	 << FileStat::getVersion() << '\n';
-  
-  
+
   if( ! FileStat::good() )
     dest << prefix << "Error: " << FileStat::error() << '\n';
   else
@@ -287,7 +241,7 @@ FileStat::dumpInfo(
   dest << prefix;
   toStream( dest );
   dest << '\n';
-  
+
   dest << prefix << "name:       '" << name << "'\n"
        << prefix << "fd:         " << fd << '\n'
        << prefix << "user:       " << userName << '\n'
@@ -312,12 +266,11 @@ FileStat::dumpInfo(
 
   return( dest );
 }
-  
+
 
 bool
 FileStat::canDo( mode_t uMode, mode_t gMode, mode_t oMode ) const
 {
-#if defined( STLUTILS_HAS_USER )
   User	me;
 
   if( me.getUID() == getUID() || me.effective().getUID() == getUID() )
@@ -327,8 +280,7 @@ FileStat::canDo( mode_t uMode, mode_t gMode, mode_t oMode ) const
 
   if( grp.isMember( me ) )
     return( ( getMode() & gMode ) ? true : false );
-#endif
-  
+
   return( ( getMode() & oMode ) ? true : false );
 }
 
@@ -347,7 +299,7 @@ void
 FileStat::setStrings( const char * fileName )
 {
   name = fileName;
-  
+
   setUserString();
   setGroupString();
   setModeString();
@@ -356,34 +308,25 @@ FileStat::setStrings( const char * fileName )
 void
 FileStat::setUserString( void )
 {
-#if defined( STLUTILS_HAS_USER )
   User	u( getUID() );
 
   userName = u.getName();
-#else
-  userName = "nobody";
-#endif
 }
 
 void
 FileStat::setGroupString( void )
 {
-#if defined( STLUTILS_HAS_USER )
   UserGroup g( getGID() );
 
   groupName = g.getName();
-#else
-  groupName = "none";
-#endif
 }
 
 void
 FileStat::setModeString( void )
 {
   modeString = "";
-  
-#if defined( STRINGS_ARE_STREAMS )
-  modeString 
+
+  modeString
     << ( isReg()   ? '-' :
 	 isDir()   ? 'd' :
 	 isBlock() ? 'b' :
@@ -399,108 +342,6 @@ FileStat::setModeString( void )
     << ( canWrite( OTHER ) ? 'w' : '-' )
     << ( canExec( OTHER )  ? 'x' : '-' )
     ;
-#else
-  modeString += ( isReg()   ? '-' :
-		  isDir()   ? 'd' :
-		  isBlock() ? 'b' :
-		  isChar()  ? 'c' :
-		  isFifo()  ? 'p' : '?' );
-  modeString += ( canRead( USER )   ? 'r' : '-' );
-  modeString += ( canWrite( USER )  ? 'w' : '-' );
-  modeString += ( canExec( USER )   ?
-		  isSetUID() ? 's' : 'x' : isSetUID() ? 'S' : '-' );
-  modeString += ( canRead( GROUP )  ? 'r' : '-' );
-  modeString += ( canWrite( GROUP ) ? 'w' : '-' );
-  modeString += ( canExec( GROUP )  ?
-		  isSetGID() ? 's' : 'x' : isSetGID() ? 'S' : '-' );
-  modeString += ( canRead( OTHER )  ? 'r' : '-' );
-  modeString += ( canWrite( OTHER ) ? 'w' : '-' );
-  modeString += ( canExec( OTHER )  ? 'x' : '-' );
-    
-#endif
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:52  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:14  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:41  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:15  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/03/08 18:05:43  houghton
-// Added setTimes() to set the access and modification times.
-//
-// Revision 4.1  1997/09/17 15:12:26  houghton
-// Changed to Version 4
-//
-// Revision 3.7  1997/09/17 11:08:22  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.6  1997/09/16 11:22:55  houghton
-// Added error num to error output.
-//
-// Revision 3.5  1997/07/18 19:17:05  houghton
-// Cleanup.
-//
-// Revision 3.4  1997/03/03 18:59:16  houghton
-// Removed support for RW Tools++.
-//
-// Revision 3.3  1997/03/02 13:19:10  houghton
-// Bug-Fix changed if def for DateTime.
-//
-// Revision 3.2  1996/11/19 12:30:58  houghton
-// Started work on support for Platforms that do not have users.
-//
-// Revision 3.1  1996/11/14 01:25:22  houghton
-// Changed to Release 3
-//
-// Revision 2.7  1996/11/08 11:46:36  houghton
-// Changed to use RWTime instead of DateTime.
-//     (as required by Mike Alexander)
-//
-// Revision 2.6  1996/11/06 18:13:34  houghton
-// Changed use of Str to RWCString.
-//     (as required per Mike Alexander)
-//
-// Revision 2.5  1996/11/04 14:37:09  houghton
-// Restructure header comments layout.
-//
-// Revision 2.4  1996/05/01 11:02:23  houghton
-// Bug-Fix: updated to reflect changes in Bitmask constructors.
-//
-// Revision 2.3  1995/12/31 11:25:31  houghton
-// Bug Fix - change the order of includes.
-//
-// Revision 2.2  1995/12/04 11:20:33  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:47:11  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  15:49:26  houghton
-// Revised
-//
-//
-    
-
-
+}; // namespace clue

@@ -1,16 +1,15 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <RegexScan.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <RxScan.hh>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::Str10");
+using namespace clue;
 
 
 
@@ -29,7 +28,7 @@
 #define T5u " FIFTH part"
 
 bool
-tStr10( LibTest & tester )
+v_Str10( void )
 {
   {
     // substr( void )
@@ -39,7 +38,7 @@ tStr10( LibTest & tester )
     // SubStr::length( void ) const
     // SubStr::size( void ) const
     // SubStr::empty( void ) const
-    
+
     Str t( T1 T2 T3 );
 
     TEST( t.substr() == T1 T2 T3 );
@@ -58,7 +57,7 @@ tStr10( LibTest & tester )
     TEST( t.substr( 0, 0 ).empty() );
 
   }
-  
+
   {
     // substr( void ) const
     // substr( size_t ) const
@@ -67,7 +66,7 @@ tStr10( LibTest & tester )
     // SubStr::length( void ) const
     // SubStr::size( void ) const
     // SubStr::empty( void ) const
-    
+
     const Str t( T1 T2 T3 );
 
     TEST( t.substr() == T1 T2 T3 );
@@ -105,7 +104,7 @@ tStr10( LibTest & tester )
     t.at( T1, strlen( T1 T2 ) ) = T3;
     TEST( t == T1 T2 T3 T3 T4 );
   }
-  
+
   {
     // at( const char * ) const
     // at( const char *, size_t ) const
@@ -123,38 +122,6 @@ tStr10( LibTest & tester )
   }
 
   {
-    // at( const RegexScan & )
-    // at( const RegexScan &, size_t )
-    
-    RegexScan exp( T2 );
-    Str t( T1 T2 T3 );
-
-    TEST( t.at( exp ) == T2 );
-
-    t = T1 T2 T1 T3;
-    exp = T1;
-    TEST( t.at( exp, strlen( T1 T2 ) ) == T1 );
-
-    exp = T2;
-    t.at( exp ) = T4;
-    TEST( t == T1 T4 T1 T3 );
-  }
-
-  {
-    // at( const RegexScan & ) const
-    // at( const RegexScan &, size_t ) const
-    
-    RegexScan exp( T2 );
-    Str t( T1 T2 T3 );
-
-    TEST( t.at( exp ) == T2 );
-
-    t = T1 T2 T1 T3;
-    exp = T1;
-    TEST( t.at( exp, strlen( T1 T2 ) ) == T1 );
-  }
-
-  {
     // at( const Str & )
     // at( const Str &, size_t )
 
@@ -164,13 +131,13 @@ tStr10( LibTest & tester )
     pat = T1;
     TEST( t.at( pat ) == T1 );
 
-    t = T1 T2 T3 T1 T4;    
+    t = T1 T2 T3 T1 T4;
     TEST( t.at( pat, strlen( T1 T2 ) ) == T1 );
 
     t.at( pat, strlen( T1 T2 ) ) = T3;
     TEST( t == T1 T2 T3 T3 T4 );
   }
-  
+
   {
     // at( const Str & )
     // at( const Str &, size_t )
@@ -181,7 +148,7 @@ tStr10( LibTest & tester )
     pat = T1;
     TEST( t.at( pat ) == T1 );
 
-    t = T1 T2 T3 T1 T4;    
+    t = T1 T2 T3 T1 T4;
     TEST( t.at( pat, strlen( T1 T2 ) ) == T1 );
   }
 
@@ -195,13 +162,13 @@ tStr10( LibTest & tester )
     pat = T1 T2;
     TEST( t.at( pat.substr( 0, strlen( T1 ) ) ) == T1 );
 
-    t = T1 T2 T3 T1 T4;    
+    t = T1 T2 T3 T1 T4;
     TEST( t.at( pat.substr( 0, strlen( T1 ) ), strlen( T1 T2 ) ) == T1 );
 
     t.at( pat.substr( 0, strlen( T1 ) ), strlen( T1 T2 ) ) = T3;
     TEST( t == T1 T2 T3 T3 T4 );
   }
-  
+
   {
     // at( const SubStr & ) const
     // at( const SubStr &, size_t ) const
@@ -212,10 +179,10 @@ tStr10( LibTest & tester )
     pat = T1 T2;
     TEST( t.at( pat.substr( 0, strlen( T1 ) ) ) == T1 );
 
-    t = T1 T2 T3 T1 T4;    
+    t = T1 T2 T3 T1 T4;
     TEST( t.at( pat.substr( 0, strlen( T1 ) ), strlen( T1 T2 ) ) == T1 );
   }
-  
+
   {
     // before( size_t )
     Str t( T1 T2 T3 );
@@ -236,16 +203,13 @@ tStr10( LibTest & tester )
 
     TEST( t.after( strlen( T1 ) ) == T2 T3 );
   }
-  
+
   {
     // after( size_t ) const
     const Str t( T1 T2 T3 );
 
     TEST( t.after( strlen( T1 ) ) == T2 T3 );
   }
-  
-  return( true );
-}
 
-      
-    
+  return( verify.is_valid() );
+}

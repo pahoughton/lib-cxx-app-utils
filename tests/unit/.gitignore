@@ -1,3 +1,5 @@
 validator
 .deps
 .libs
+.gdb_history
+unit

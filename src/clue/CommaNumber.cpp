@@ -1,28 +1,10 @@
-/**
-  File:		CommaNum.C
-  Project:	StlUtils 
-  Desc:
+// 2004-04-02 (cc) Paul Houghton - (paul4hough@gmail.com)
 
-    
-  
-  Notes:
-    
-  Author(s):	Paul Houghton <paul4hough@gmail.com>
-  Created:	04/02/2004 06:23
-  
-  Revision History: (See ChangeLog for details)
-  
-    $Author$
-    $Date$
-    $Name$
-    $Revision$
-    $State$
-
-
-**/
-
-#include <StlUtilsMisc.hh>
+#include "Clue.hpp"
+#include "bit"
 #include <iomanip>
+
+namespace clue {
 
 std::ostream &
 CommaNumber(
@@ -55,13 +37,13 @@ CommaNumber(
     buf[ pos -- ] = '.';
     ++ digits;
     digits %= 3;
-    
+
   }
 
   if( value == 0 ) {
     buf[ pos -- ] = '0';
   } else {
-    
+
     for( ; value > 0;
 	 value /= 10, ++ digits, -- pos ) {
       if( digits == 3 ) {
@@ -72,7 +54,6 @@ CommaNumber(
     }
   }
 
-
   if( width > 0 ) {
     char prevFill;
     prevFill = dest.fill( fillChar );
@@ -81,6 +62,8 @@ CommaNumber(
   } else {
     dest << &(buf[pos + 1]);
   }
-  
+
   return( dest );
+}
+
 }

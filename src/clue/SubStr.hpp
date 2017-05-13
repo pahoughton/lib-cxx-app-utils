@@ -1,36 +1,19 @@
-#ifndef _SubStr_hh_
-#define _SubStr_hh_
-//
-// File:        SubStr.hh
-// Project:	StlUtils ()
-// Desc:        
-//
-//  A 'SubStr' is a section of a 'Str'. Any modifications to
-//  the 'SubStr' modify the 'Str' it is a section of.
-//
-// Author:      Paul A. Houghton - (paul4hough@gmail.com)
-// Created:     05/30/95 14:59
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-//  $Id$ 
-//
+#ifndef _clue_SubStr_hh_
+#define _clue_SubStr_hh_
+/* 1995-05-30 (cc) Paul Houghton - (paul4hough@gmail.com)
 
-#include "StlUtilsConfig.hh"
+  A 'SubStr' is a section of a 'Str'. Any modifications to
+  the 'SubStr' modify the 'Str' it is a section of.
+*/
+
 #include <cstddef>
 #include <iostream>
 
-
-#if defined( STLUTILS_DEBUG )
-#define inline
+#if !defined(NPOS)
+#define NPOS static_cast<size_t>(-1)
 #endif
 
+namespace clue {
 class Str;
 
 class SubStr
@@ -39,15 +22,15 @@ class SubStr
 public:
 
   typedef size_t	size_type;
-  
+
   static const size_type npos;
-  
+
   inline SubStr( Str & src, size_type pos = 0, size_type len = NPOS);
   inline SubStr( const Str & src, size_type pos = 0, size_type len = NPOS);
 
-  inline size_type    	size( void ) const; 
-  inline size_type    	length( void ) const; 
-  inline bool	    	empty( void ) const; 
+  inline size_type    	size( void ) const;
+  inline size_type    	length( void ) const;
+  inline bool	    	empty( void ) const;
 
   inline Str &		of( void );
   inline const Str &	of( void ) const;
@@ -82,136 +65,149 @@ public:
 		    unsigned short	base = 0,
 		    bool		stopAtNonDigit = false ) const;
 
-#if defined( STLUTILS_HAVE_LONG_LONG )
   inline bool	to( long long  &	dest,
 		    unsigned short	base = 0,
 		    bool		stopAtNonDigit = false ) const;
-  
+
   inline bool	to( unsigned long long  &   dest,
 		    unsigned short	    base = 0,
 		    bool		    stopAtNonDigit = false ) const;
-#endif
-  
+
   inline bool	    	toBool( void ) const;
-  
+
   inline int	    	toInt( unsigned short base = 0,
 			       bool	      stopAtNonDigit = false ) const;
-  
+
   inline long	    	toLong( unsigned short base = 0,
 				bool	       stopAtNonDigit = false ) const;
-  
+
   inline double    	toDouble( unsigned short base = 0,
 				  bool	         stopAtNonDigit = false ) const;
-  
+
   inline unsigned int	toUInt( unsigned short base = 0,
 				bool	       stopAtNonDigit = false ) const;
-  
+
   inline unsigned long	toULong( unsigned short base = 0,
 				 bool	        stopAtNonDigit = false ) const;
 
 
-#if defined( STLUTILS_HAVE_LONG_LONG )
   inline long long	toLongLong( unsigned short base = 0,
 				    bool stopAtNonDigit = false ) const;
 
   inline unsigned long long toULongLong( unsigned short base = 0,
 					 bool stopAtNonDigit = false ) const;
-#endif
 
   int 	    compare( const Str &    two,
 		     size_type      start = 0,
-		     size_type      len = npos ) const; 
+		     size_type      len = npos ) const;
   int	    compare( const SubStr & two,
 		     size_type      start = 0,
-		     size_type      len = npos ) const; 
+		     size_type      len = npos ) const;
+  int	    compare( const std::string & two,
+		     size_type		 start = 0,
+		     size_type		 len = npos ) const;
   int	    compare( const char *   two,
 		     size_type      start = 0,
-		     size_type      len = npos ) const; 
-  
+		     size_type      len = npos ) const;
+
+  friend int	compare( const std::string & one,
+			 const SubStr &	     two,
+			 size_type	     len = SubStr::npos );
+
   friend int	compare( const char * 	one,
 			 const SubStr & two,
-			 size_type      len = SubStr::npos ); 
-  
+			 size_type      len = SubStr::npos );
+
   int	    fcompare( const Str &    two,
 		      size_type      start = 0,
-		      size_type      len = npos ) const; 
+		      size_type      len = npos ) const;
   int	    fcompare( const SubStr & two,
 		      size_type      start = 0,
-		      size_type      len = npos ) const; 
+		      size_type      len = npos ) const;
+  int	    fcompare( const std::string & two,
+		      size_type		  start = 0,
+		      size_type		  len = npos ) const;
   int	    fcompare( const char *   two,
 		      size_type      start = 0,
-		      size_type      len = npos ) const; 
-  
+		      size_type      len = npos ) const;
+
+  friend int	fcompare( const std::string & one,
+			  const SubStr &      two,
+			  size_type	      len = SubStr::npos );
+
   friend int	fcompare( const char *    one,
 			  const SubStr &  two,
-			  size_type       len = SubStr::npos ); 
+			  size_type       len = SubStr::npos );
 
-  inline char &     operator [] ( size_type index ); 
+  inline char &     operator [] ( size_type index );
   inline char       operator [] ( size_type index ) const;
-  
-  inline SubStr &   operator =  ( const SubStr & rhs ); 
-  inline SubStr &   operator =  ( const Str & rhs ); 
-  inline SubStr &   operator =  ( const char * rhs ); 
-  inline SubStr &   operator =  ( char rhs ); 
-  
-  inline SubStr &   operator += ( const Str & rhs ); 
-  inline SubStr &   operator += ( const SubStr & rhs ); 
-  inline SubStr &   operator += ( const char * rhs ); 
-  inline SubStr &   operator += ( char rhs ); 
 
-  inline bool       operator == ( const SubStr & rhs ) const; 
-  inline bool       operator == ( const Str & rhs ) const; 
-  inline bool       operator == ( const char * rhs ) const; 
-  
-  inline bool       operator <  ( const SubStr & rhs ) const; 
-  inline bool       operator <  ( const Str & rhs ) const; 
-  inline bool       operator <  ( const char * rhs ) const; 
+  inline SubStr &   operator =  ( const SubStr & rhs );
+  inline SubStr &   operator =  ( const Str & rhs );
+  inline SubStr &   operator =  ( const std::string & rhs );
+  inline SubStr &   operator =  ( const char * rhs );
+  inline SubStr &   operator =  ( char rhs );
 
-  inline bool       operator != ( const SubStr & rhs ) const; 
-  inline bool       operator != ( const Str & rhs ) const; 
-  inline bool       operator != ( const char * rhs ) const; 
-  
-  inline bool       operator >  ( const SubStr & rhs ) const; 
+  inline SubStr &   operator += ( const SubStr & rhs );
+  inline SubStr &   operator += ( const Str & rhs );
+  inline SubStr &   operator += ( const std::string & rhs );
+  inline SubStr &   operator += ( const char * rhs );
+  inline SubStr &   operator += ( char rhs );
+
+  inline bool       operator == ( const SubStr & rhs ) const;
+  inline bool       operator == ( const Str & rhs ) const;
+  inline bool       operator == ( const std::string & rhs ) const;
+  inline bool       operator == ( const char * rhs ) const;
+
+  inline bool       operator <  ( const SubStr & rhs ) const;
+  inline bool       operator <  ( const Str & rhs ) const;
+  inline bool       operator <  ( const std::string & rhs ) const;
+  inline bool       operator <  ( const char * rhs ) const;
+
+  inline bool       operator != ( const SubStr & rhs ) const;
+  inline bool       operator != ( const Str & rhs ) const;
+  inline bool       operator != ( const std::string & rhs ) const;
+  inline bool       operator != ( const char * rhs ) const;
+
+  inline bool       operator >  ( const SubStr & rhs ) const;
   inline bool       operator >  ( const Str & rhs ) const;
+  inline bool       operator >  ( const std::string & rhs ) const;
   inline bool       operator >  ( const char * rhs ) const;
 
-  inline bool       operator <= ( const SubStr & rhs ) const; 
+  inline bool       operator <= ( const SubStr & rhs ) const;
   inline bool       operator <= ( const Str & rhs ) const;
+  inline bool       operator <= ( const std::string & rhs ) const;
   inline bool       operator <= ( const char * rhs ) const;
 
-  inline bool       operator >= ( const SubStr & rhs ) const; 
+  inline bool       operator >= ( const SubStr & rhs ) const;
   inline bool       operator >= ( const Str & rhs ) const;
+  inline bool       operator >= ( const std::string & rhs ) const;
   inline bool       operator >= ( const char * rhs ) const;
-  
+
   // libStlUtils Common Class Methods
 
   size_type	    getBinSize( void ) const;
 
   std::ostream &	    write( std::ostream & dest ) const;
   std::istream &	    read( std::istream & src );
-  
+
   virtual std::ostream & toStream( std::ostream & dest = std::cout ) const;
 
-  friend inline std::ostream &  operator << ( std::ostream & dest, const SubStr & src ); 
-  friend inline std::istream &  operator >> ( std::istream & src, SubStr & dest ); 
-  
+  friend inline std::ostream &  operator << ( std::ostream & dest, const SubStr & src );
+  friend inline std::istream &  operator >> ( std::istream & src, SubStr & dest );
+
   inline bool	    good( void ) const;
   const char *	    error( void ) const;
-  const char *	    getClassName( void ) const;
-  const char *	    getVersion( bool withPrjVer = true ) const;
-  std::ostream &	    dumpInfo( std::ostream &	    dest = std::cerr,
-			      const char *  prefix = "    ",
-			      bool	    showVer = true ) const;
-  
-  static const ClassVersion version;
+  std::ostream &    dumpInfo( std::ostream &	dest = std::cerr,
+			      const char *	prefix = "    " ) const;
 
 private:
-  
+
   friend class 	Str;
-  
+
   inline const char * 	strbase( void ) const;
   static Str dummyStr;
-  
+
   Str &	    	str;
   const Str &   constStr;
   size_type    	pos;
@@ -219,359 +215,650 @@ private:
 
 };
 
-#if !defined( inline )
-#include <SubStr.ii>
-#else
-#undef inline
+}; // namespace clue
 
-// These are the global functions that are defined in the .ii
-// file. They are declared here so their prototypes will
-// be available when STLUTILS_DEBUG is defined.
+#include <clue/Str.hpp>
 
+namespace clue {
+inline
+SubStr::SubStr( Str & src, size_type start, size_type length )
+  : str( src ),
+    constStr( src ),
+    pos( start ),
+    len( std::min( src.size() - start, length ) )
+{
+}
+
+inline
+SubStr::SubStr( const Str & src, size_type start, size_type length )
+  : str(dummyStr),
+    constStr( src ),
+    pos( start ),
+    len( std::min( src.size() - start, length ) )
+{
+  ;
+}
+
+inline
+SubStr::size_type
+SubStr::size( void ) const
+{
+  return( len );
+}
+
+inline
+SubStr::size_type
+SubStr::length( void ) const
+{
+  return( size() );
+}
+
+inline
+bool
+SubStr::empty( void ) const
+{
+  return( size() == 0 );
+}
+
+inline
+Str &
+SubStr::of( void )
+{
+  return( str );
+}
+
+inline
+const Str &
+SubStr::of( void ) const
+{
+  return( str );
+}
+
+inline
+SubStr::size_type
+SubStr::copy( char * dest, size_type destLen, size_type start ) const
+{
+  size_type copyLen = (destLen == npos ? size() - start :
+		       std::min( destLen, size() - start ) );
+
+  strncpy( dest, strbase() + start, copyLen );
+  if( destLen == npos || copyLen < destLen )
+    dest[ copyLen ] = 0;
+  return( copyLen );
+}
+
+inline
+bool
+SubStr::to( bool & dest ) const
+{
+  return( size() ? StringTo( dest, strbase(), length() ) : false );
+}
+
+inline
+bool
+SubStr::to( int & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( short & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( long & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( long long & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( float & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( double & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( unsigned int & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( unsigned short & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( unsigned long & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::to( unsigned long long & dest, unsigned short base, bool sand ) const
+{
+  return( size() ? StringTo( dest, strbase(), base, length(), sand ) : false );
+}
+
+inline
+bool
+SubStr::toBool( void ) const
+{
+  bool dest = false;
+  StringTo( dest, strbase(), length());
+  return( dest );
+}
+
+inline
 int
-compare( const SubStr &	    one,
-	 const char *	    two,
-	 SubStr::size_type  len = SubStr::npos ); 
-  
+SubStr::toInt( unsigned short base, bool sand ) const
+{
+  int dest = 0;
+  to( dest, base, sand );
+  return( dest );
+}
+
+inline
+long
+SubStr::toLong( unsigned short base, bool sand ) const
+{
+  long dest = 0;
+  to( dest, base, sand );
+  return( dest );
+}
+
+inline
+double
+SubStr::toDouble( unsigned short base, bool sand ) const
+{
+  double dest = 0;
+  to( dest, base, sand );
+  return( dest );
+}
+
+inline
+unsigned int
+SubStr::toUInt( unsigned short base, bool sand ) const
+{
+  unsigned int dest = 0;
+  to( dest, base, sand );
+  return( dest );
+}
+
+inline
+unsigned long
+SubStr::toULong( unsigned short base, bool sand ) const
+{
+  unsigned long dest = 0;
+  to( dest, base, sand );
+  return( dest );
+}
+
+inline
+long long
+SubStr::toLongLong( unsigned short base, bool sand ) const
+{
+  long long dest = 0;
+  to( dest, base, sand );
+  return( dest );
+}
+
+inline
+unsigned long long
+SubStr::toULongLong( unsigned short base, bool sand ) const
+{
+  unsigned long long dest = 0;
+  to( dest, base, sand );
+  return( dest );
+}
+
+inline
+char &
+SubStr::operator [] ( size_type index )
+{
+  static char bad = 0;
+  return( str[ pos + index ] );
+}
+
+inline
+char
+SubStr::operator [] ( size_type index ) const
+{
+  return( constStr[ pos + index ] );
+}
+
+inline
+SubStr &
+SubStr::operator =  ( const SubStr & src )
+{
+  str.replace( pos, len, src );
+  len = src.size();
+  return( *this );
+}
+
+inline
+SubStr &
+SubStr::operator =  ( const Str & src )
+{
+  str.replace( pos, len, src );
+  len = src.size();
+  return( *this );
+}
+
+inline
+SubStr &
+SubStr::operator =  ( const char * src )
+{
+  str.replace( pos, len, src );
+  len = strlen( src );
+  return( *this );
+}
+
+inline
+SubStr &
+SubStr::operator =  ( char src )
+{
+  str.replace( pos, len, src );
+  len = 1;
+  return( *this );
+}
+
+
+inline
+SubStr &
+SubStr::operator += ( const SubStr & src )
+{
+  str.replace( pos + len, 0, src );
+  len += src.size();
+  return( *this );
+}
+
+inline
+SubStr &
+SubStr::operator += ( const Str & src )
+{
+  str.replace( pos + len, 0, src );
+  len += src.size();
+  return( *this );
+}
+
+inline
+SubStr &
+SubStr::operator += ( const char * src )
+{
+  str.replace( pos + len, 0, src );
+  len += strlen( src );
+  return( *this );
+}
+
+inline
+SubStr &
+SubStr::operator += ( char src )
+{
+  str.replace( pos + len, 0, src );
+  len += 1;
+  return( *this );
+}
+
+inline
+bool
+SubStr::operator == ( const SubStr & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+SubStr::operator == ( const Str & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+bool
+SubStr::operator == ( const char * two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+
+inline
+bool
+SubStr::operator <  ( const SubStr & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+bool
+SubStr::operator <  ( const Str & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+bool
+SubStr::operator <  ( const char * two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+bool
+SubStr::operator != ( const SubStr & two ) const
+{
+  return( ! ( *this == two ) );
+}
+
+inline
+bool
+SubStr::operator != ( const Str & two ) const
+{
+  return( ! ( *this == two ) );
+}
+
+inline
+bool
+SubStr::operator != ( const char * two ) const
+{
+  return( ! ( *this == two ) );
+}
+
+inline
+bool
+SubStr::operator >  ( const SubStr & two ) const
+{
+  return( compare( two ) > 0 );
+}
+
+inline
+bool
+SubStr::operator >  ( const Str & two ) const
+{
+  return( compare( two ) > 0 );
+}
+
+inline
+bool
+SubStr::operator >  ( const char * two ) const
+{
+  return( compare( two ) > 0 );
+}
+
+inline
+bool
+SubStr::operator <=  ( const SubStr & two ) const
+{
+  return( compare( two ) <= 0 );
+}
+
+inline
+bool
+SubStr::operator <=  ( const Str & two ) const
+{
+  return( compare( two ) <= 0 );
+}
+
+inline
+bool
+SubStr::operator <=  ( const char * two ) const
+{
+  return( compare( two ) <= 0 );
+}
+
+inline
+bool
+SubStr::operator >=  ( const SubStr & two ) const
+{
+  return( compare( two ) >= 0 );
+}
+
+inline
+bool
+SubStr::operator >=  ( const Str & two ) const
+{
+  return( compare( two ) >= 0 );
+}
+
+inline
+bool
+SubStr::operator >=  ( const char * two ) const
+{
+  return( compare( two ) >= 0 );
+}
+
+
+inline
+bool
+SubStr::good( void ) const
+{
+  return( constStr.good() && str.good() );
+}
+
+inline
+std::ostream &
+operator << ( std::ostream & dest, const SubStr & src )
+{
+  return( src.toStream( dest ) );
+}
+
+inline
+std::istream &
+operator >> ( std::istream & src, SubStr & dest )
+{
+  Str tmp( src );
+  if( src.good() )
+    dest = tmp;
+  return( src );
+}
+
+inline
+const char *
+SubStr::strbase( void ) const
+{
+  return( constStr.strbase() + pos );
+}
+
+
+inline
 int
-fcompare( const SubStr &    one,
-	  const char *	    two,
-	  SubStr::size_type len = SubStr::npos ); 
+compare(
+  const SubStr &    one,
+  const char *	    two,
+  SubStr::size_type len = NPOS )
+{
+  return( one.compare( two, 0, len ) );
+}
 
+inline
+int
+fcompare(
+  const SubStr &    one,
+  const char *	    two,
+  SubStr::size_type len = NPOS )
+{
+  return( one.fcompare( two, 0, len ) );
+}
+
+inline
 Str
-operator + ( const SubStr & lhs, const Str & rhs );
+operator + ( const SubStr & lhs, const Str & rhs )
+{
+  Str s( lhs );
+  s += rhs;
+  return( s );
+}
 
+inline
 Str
-operator + ( const SubStr & lhs, const SubStr & rhs );
+operator + ( const SubStr & lhs, const SubStr & rhs )
+{
+  Str s( lhs );
+  s += rhs;
+  return( s );
+}
 
+inline
 Str
-operator + ( const SubStr & lhs, const char * rhs );
+operator + ( const SubStr & lhs, const char * rhs )
+{
+  Str s( lhs );
+  s += rhs;
+  return( s );
+}
 
+inline
 Str
-operator + ( const char * lhs, const SubStr & rhs );
+operator + ( const char * lhs, const SubStr & rhs )
+{
+  Str s( lhs );
+  s += rhs;
+  return( s );
+}
 
+inline
 bool
-operator == ( const char * lhs, const SubStr & rhs );
+operator == ( const char * lhs, const SubStr & rhs )
+{
+  return( compare( lhs, rhs ) == 0 );
+}
 
+inline
 bool
-operator <  ( const char * lhs, const SubStr & rhs );
+operator <  ( const char * lhs, const SubStr & rhs )
+{
+  return( compare( lhs, rhs ) < 0 );
+}
 
+inline
 bool
-operator != ( const char * lhs, const SubStr & rhs );
+operator != ( const char * lhs, const SubStr & rhs )
+{
+  return( compare( lhs, rhs ) != 0 );
+}
 
+
+inline
 bool
-operator >  ( const char * lhs, const SubStr & rhs );
+operator >  ( const char * lhs, const SubStr & rhs )
+{
+  return( compare( lhs, rhs ) >  0 );
+}
 
+inline
 bool
-operator <= ( const char * lhs, const SubStr & rhs );
+operator <= ( const char * lhs, const SubStr & rhs )
+{
+  return( compare( lhs, rhs ) <= 0 );
+}
 
+inline
 bool
-operator >= ( const char * lhs, const SubStr & rhs );
+operator >= ( const char * lhs, const SubStr & rhs )
+{
+  return( compare( lhs, rhs ) >= 0 );
+}
 
 
-bool	    	StringToBool( const SubStr & str );
-int 	    	StringToInt( const SubStr & str, unsigned short base = 0 );
-long	    	StringToLong( const SubStr & str, unsigned short base = 0 );
-double	    	StringToDouble( const SubStr & str, unsigned short base = 0 );
-unsigned int 	StringToUInt( const SubStr & str, unsigned short base = 0 );
-unsigned long	StringToULong( const SubStr & str, unsigned short base = 0 );
+inline
+bool
+StringToBool( const SubStr & str )
+{
+  return( str.toBool() );
+}
 
-#endif  
+inline
+int
+StringToInt( const SubStr & str, unsigned short base = 0 )
+{
+  return( str.toInt( base ) );
+}
 
-//  Quick Start: - short example of class usage
-//
-//  Data Types: - data types defined by this header
-//
-//  	SubStr	class
-//
-//  Constructors:
-//
-//  	SubStr( );
-//
-//  Destructors:
-//
-//  Public Interface:
-//
-//  	size_type
-//  	size( void ) const;
-//
-//  	size_type
-//  	length( void ) const;
-//
-//  	bool
-//  	empty( void ) const;
-//
-//  	bool
-//  	to( int & dest, unsigned short base = 0 ) const;
-//
-//  	bool
-//  	to( short & dest, unsigned short base = 0 ) const;
-//
-//  	bool
-//  	to( long & dest, unsigned short base = 0 ) const;
-//
-//  	bool
-//  	to( double & dest, unsigned short base = 0 ) const;
-//
-//  	bool
-//  	to( unsigned int & dest, unsigned short base = 0 ) const;
-//
-//  	bool
-//  	to( unsigned short & dest, unsigned short base = 0 ) const;
-//
-//  	bool
-//  	to( unsigned long & dest, unsigned short base = 0 ) const;
-//
-//  	bool
-//  	toBool( void ) const;
-//
-//  	bool
-//  	toInt( unsigned short base = 0 )const;
-//
-//  	bool
-//  	tShort( unsigned short base = 0 )const;
-//
-//  	bool
-//  	toLong( unsigned short base = 0 )const;
-//
-//  	bool
-//  	toDouble( unsigned short base = 0 )const;
-//
-//  	bool
-//  	toUInt( unsigned short base = 0 )const;
-//
-//  	bool
-//  	toUShort( unsigned short base = 0 )const;
-//
-//  	bool
-//  	toULong( unsigned short base = 0 )const;
-//
-//  	int
-//  	compare( const Str & two,
-//  	    	 size_type start = 0,
-//  	    	 size_type len = NPOS ) const;
-//
-//  	int
-//  	compare( const SubStr & two,
-//  	    	 size_type start = 0,
-//  	    	 size_type len = NPOS ) const;
-//
-//  	int
-//  	compare( const char * two,
-//  	    	 size_type start = 0,
-//    	    	 size_type len = NPOS ) const;
-//
-//  	friend int
-//  	compare( const char * one,
-//  	    	 size_type start = 0,
-//  	    	 size_type len = NPOS ) const;
-//
-//  	int
-// 	fcompare( const Str & two,
-//  	    	  size_type start = 0,
-//  	    	  size_type len = NPOS ) const;
-//
-//  	int
-//  	fcompare( const SubStr & two,
-//  	    	  size_type start = 0,
-//  	    	  size_type len = NPOS ) const;
-//
-//  	int
-//  	fcompare( const char * two,
-//  	    	  size_type start = 0,
-//  	    	  size_type len = NPOS ) const;
-//
-//  	friend int
-//  	fcompare( const char * one,
-//  	    	  size_type start = 0,
-//  	    	  size_type len = NPOS ) const;
-//
-//  	char &
-//  	operator [] ( size_type index );
-//
-//  	char
-//  	operator [] ( size_type index ) const;
-//
-//  	SubStr &
-//  	operator = ( const SubStr & src );
-//
-//  	SubStr &
-//  	operator = ( const Str & src );
-//
-//  	SubStr &
-//  	operator = ( const char * src );
-//
-//  	SubStr &
-//  	operator = ( const char src );
-//
-//  	bool
-//  	operator == ( const SubStr & two ) const;
-//
-//  	bool
-//  	operator == ( const Str & two ) const;
-//
-//  	bool
-//  	operator == ( const char * two ) const;
-//
-//  	bool
-//  	operator < ( const SubStr & two ) const;
-//
-//  	bool
-//  	operator < ( const Str & two ) const;
-//
-//  	bool
-//  	operator < ( const char * two ) const;
-//
-//  	bool
-//  	operator != ( const Str & two ) const;
-//
-//  	bool
-//  	operator != ( const char * two ) const;
-//
-//  	bool
-//  	operator > ( const Str & two ) const;
-//
-//  	bool
-//  	operator > ( const char * two ) const;
-//
-//  	bool
-//  	operator <= ( const Str & two ) const;
-//
-//  	bool
-//  	operator <= ( const char * two ) const;
-//
-//  	bool
-//  	operator >= ( const Str & two ) const;
-//
-//  	bool
-//  	operator >= ( const char * two ) const;
-//
-//
-//  	virtual const char *
-//  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. SubStr )
-//
-//  	virtual Bool
-//  	good( void ) const;
-//  	    Returns true if there are no detected errors associated
-//  	    with this class, otherwise FALSE.
-//
-//  	virtual const char *
-//  	error( void ) const
-//  	    Returns as string description of the state of the class.
-//
-//  Protected Interface:
-//
-//  Private Methods:
-//
-//  Other Associated Functions:
-//
-//  	std::ostream &
-//  	operator <<( std::ostream & dest, const SubStr & obj );
-//
-// Example:
-//
-// See Also:
-//
-// Files:
-//
-// Documented Ver:
-//
-// Tested Ver:
-//
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:48  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:22  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:43  houghton
-// Changed to version 6
-//
-// Revision 5.6  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.5  2003/07/19 09:17:12  houghton
-// Port to 64 bit.
-//
-// Revision 5.4  2001/07/26 19:28:58  houghton
-// *** empty log message ***
-//
-// Revision 5.3  2000/06/04 17:58:05  houghton
-// Updated documentation.
-//
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:18  houghton
-// Changed Version Num to 5
-//
-// Revision 4.6  1999/05/09 13:07:00  houghton
-// Added long long support.
-//
-// Revision 4.5  1998/10/13 16:26:19  houghton
-// Changed to use new standard includes.
-// Cleanup #if def Linux.
-//
-// Revision 4.4  1998/04/02 14:18:39  houghton
-// Port(Linux): functional.h implements != operator.
-//
-// Revision 4.3  1998/02/18 13:22:53  houghton
-// Added stopAtNonDigit flag to to() methods.
-//
-// Revision 4.2  1997/09/19 11:21:16  houghton
-// Changed to use new portable types (STLUTILS*_T).
-//
-// Revision 4.1  1997/09/17 15:13:06  houghton
-// Changed to Version 4
-//
-// Revision 3.6  1997/09/17 11:08:56  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.5  1997/08/28 16:33:07  houghton
-// Bug-Fix: changed toStream to virtual (was inline) and added support
-//     for setw(n) (the width was being ignored).
-//
-// Revision 3.4  1997/08/17 22:35:46  houghton
-// Added size_type.
-// Added copy( const char * ... ).
-//
-// Revision 3.3  1997/04/03 23:23:22  houghton
-// Changed include stddef to stddef.h
-//
-// Revision 3.2  1996/11/20 12:13:10  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:24:23  houghton
-// Changed to Release 3
-//
-// Revision 2.6  1996/05/25 12:36:22  houghton
-// Added of method. returns owning Str.
-//
-// Revision 2.5  1996/05/03 16:13:49  houghton
-// AIX Port cleanup.
-//
-// Revision 2.4  1996/02/29 19:07:29  houghton
-// Added some ifndefs for GNU
-//
-// Revision 2.3  1995/11/10 18:47:27  houghton
-// Fixed error in comments
-//
-// Revision 2.2  1995/11/10  14:08:41  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:41:17  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:54  houghton
-// Ports and Version ID changes
-//
+inline
+long
+StringToLong( const SubStr & str, unsigned short base = 0 )
+{
+  return( str.toLong( base ) );
+}
 
-#endif // ! def _SubStr_hh_ 
+inline
+double
+StringToDouble( const SubStr & str, unsigned short base = 0 )
+{
+  return( str.toDouble( base ) );
+}
 
+inline
+unsigned int
+StringToUInt( const SubStr & str, unsigned short base = 0 )
+{
+  return( str.toUInt( base ) );
+}
+
+inline
+unsigned long
+StringToULong( const SubStr & str, unsigned short base = 0 )
+{
+  return( str.toULong( base ) );
+}
+
+
+inline
+bool
+SubStr::operator <  ( const std::string & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+bool
+SubStr::operator == ( const std::string & two ) const
+{
+  return( compare( two ) == 0 );
+}
+
+inline
+SubStr &
+SubStr::operator += ( const std::string & src )
+{
+  str.replace( pos + len, 0, src );
+  len += src.size();
+  return( *this );
+}
+
+inline
+SubStr &
+SubStr::operator =  ( const std::string & src )
+{
+  str.replace( pos, len, src );
+  len = src.size();
+  return( *this );
+}
+
+} // namespace clue
+
+#endif // ! def _SubStr_hh_

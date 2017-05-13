@@ -1,28 +1,9 @@
-//
-// File:        DateTimeUtils.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for DateTimeUtils
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     05/02/95 06:57 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1995-05-02 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "DateTimeUtils.hh"
+#include "DateTimeUtils.hpp"
 #include <climits>
 
-STLUTILS_FUNCT_VERSION(
-  DateTimeUtils,
-  "$Id$ " );
+namespace clue {
 
 const time_t  SecPerMin	    = 60;
 const time_t  SecPerHour    = 60 * 60;
@@ -108,52 +89,4 @@ const char * AbbrWeekDays[] =
   0
 };
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.2  2011/12/30 23:57:12  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:41  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:15  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1999/03/02 12:45:04  houghton
-// Added DaysInMonthLeap
-// Added MonthDayOfYearLeap
-//
-// Revision 4.1  1997/09/17 15:12:21  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:08:18  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/08/24 23:07:51  houghton
-// Cleanup comments.
-// Changed type of global const values to time_t.
-// Added MinTimeT, MaxTimeT, MinYear & MaxYear.
-//
-// Revision 3.1  1996/11/14 01:23:38  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1996/04/27 12:59:31  houghton
-// Cleanup
-//
-// Revision 2.1  1995/11/10 12:40:33  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:32  houghton
-// Ports and Version ID changes
-//
-//
+}; // namespace clue

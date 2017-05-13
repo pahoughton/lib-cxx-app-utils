@@ -1,14 +1,16 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::Str02");
+using namespace clue;
+
 
 // Str::append( ... )
 
@@ -18,7 +20,7 @@
 #define T4 " forth part"
 
 bool
-tStr02( LibTest & tester )
+v_Str02( void )
 {
   {
     // append( const Str & )
@@ -27,7 +29,7 @@ tStr02( LibTest & tester )
 
     {
       Str src( T1 );
-    
+
       t.append( src );
 
       TEST( t == src );
@@ -35,7 +37,7 @@ tStr02( LibTest & tester )
 
     {
       Str src( T2 );
-    
+
       t.append( src );
 
       TEST( t == T1 T2 );
@@ -45,7 +47,7 @@ tStr02( LibTest & tester )
 
     t.append( t );
 
-    TEST( t == T1 T2 T1 T2 );    
+    TEST( t == T1 T2 T1 T2 );
   }
 
   {
@@ -56,7 +58,7 @@ tStr02( LibTest & tester )
     Str src( "123" T1 );
 
     t.append( src, 3 );
-    
+
     TEST( t == T1 );
 
   }
@@ -65,7 +67,7 @@ tStr02( LibTest & tester )
     // append( const Str &, size_t, size_t )
 
     Str t;
-    
+
     Str src( "123" T1 "12345" );
 
     t.append( src, 3, strlen( T1 ) );
@@ -100,7 +102,7 @@ tStr02( LibTest & tester )
 
     TEST( t == T1 T2 T3 T4 T2 );
   }
-  
+
   {
     // append( const char * )
 
@@ -113,7 +115,7 @@ tStr02( LibTest & tester )
     t.append( T2 ).append( T3 ).append( T4 );
 
     TEST( t == T1 T2 T3 T4 );
-    
+
   }
 
   {
@@ -159,8 +161,8 @@ tStr02( LibTest & tester )
     // operator += ( const SubStr & )
     // operator += ( const char * )
     // operator += ( char )
-    
-    
+
+
     Str t;
 
     Str str( T1 );
@@ -186,7 +188,6 @@ tStr02( LibTest & tester )
 
     TEST( t == T1 T2 T3 "x" T2 T3 );
   }
-  
-  return( true );
+
+  return( verify.is_valid() );
 }
-  

@@ -1,35 +1,25 @@
-//
-// File:        tParam03.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Compiled sources for tParam03
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/07/99 08:10
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
-//
+// 1999-11-07 (cc) Paul Houghton - (paul4hough@gmail.com)
 
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Param.hh>
-#include <Compare.hh>
-#include <StlUtilsMisc.hh>
-#include <cstdio>
+#include "clue/Param.hpp"
+#include "clue/Clue.hpp"
+#include "clue/compare"
 
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#define TEST_DATA_DIR "data/Param"
+
+static valid::verify verify("clue::Param");
+using namespace clue;
 
 #define TEST_ARGFILE TEST_DATA_DIR "/param-03.args"
 #define TEST_LOGFILE TEST_DATA_DIR "/param-03.log"
 
-const char * argv01[] =
+static const char * argv01[] =
 {
   "test/test",
-  "-argfile="	TEST_ARGFILE,	
+  "-argfile="	TEST_ARGFILE,
   "-log-file",	TEST_LOGFILE,
   "-gen-argfile",
   "-log-level",	"TEST | INFO",
@@ -53,48 +43,37 @@ const char * argv01[] =
 };
 
 bool
-tParam03( LibTest & tester )
+v_Param03( void )
 {
   remove( TEST_LOGFILE );
   errno = 0;
-  
+
   {
 #if defined( STLUTILS_TEST )
     extern int Stlutils_Prama_Gen_NoDate;
 
     Stlutils_Prama_Gen_NoDate = 1;
 #endif
-    
+
     remove( TEST_ARGFILE );
-    
+
     int argc = ArraySize( argv01 ) - 1;
-    
+
     Param   t( argc, argv01, "ParamTest 03" );
     Param * App = &t;
 
-    if( ! t.parseArgs() )
-      {
-	tester.getError() << '\n' << t << endl;
-	TESTR( "parseArgs", false );
-      }
-
+    TEST( t.parseArgs() );
+    TEST( t.good() );
     // tester.getDump() << t;
-    
-    if( ! t.good() )
-      {
-	TESTR( "Param error", false );
-	tester.getError() << '\n' << t << endl;
-      }
-    
+
     t.log().setTimeStamp( false );
     t.log().setLevelStamp( false );
 
-    TESTR( LogLevel::getLevelNames( t.log().getOutput() ),
-	   t.log().getOutput() == ( LogLevel::Test | LogLevel::Info ) );
+    TEST( t.log().getOutput() == ( LogLevel::Test | LogLevel::Info ) );
 
     TEST( t.log().getMaxSize() == 10240 );
     TEST( t.log().getTrimSize() == 1024 );
-    
+
     ALog( LogLevel::Test ) << t;
 
     {
@@ -202,15 +181,13 @@ tParam03( LibTest & tester )
 
     time_t tt = 0;
     DateTime tval( "7/15/95 08:15:15" );
-    TESTR( t.error(),
-	   t.argDateTime( tt,
-			  "DATETIME",
-			  "argDateTime time_t test args",
-			  "long desc",
-			  true,
-			  "timet" ) );
-    TESTR( ctime(&tt),
-	   tt == tval.getTimeT() );
+    TEST( t.argDateTime( tt,
+			 "DATETIME",
+			 "argDateTime time_t test args",
+			 "long desc",
+			 true,
+			 "timet" ) );
+    TEST( tt == tval.timet() );
 
     DateTime dt( "9/1/95 06:00:10" );
     DateTime dtval( "8/1/95 06:00:10" );
@@ -224,56 +201,11 @@ tParam03( LibTest & tester )
 
     ALog( LogLevel::Test ) << t;
 
-    tester.getDump() << '\n' << t << endl;
-    
     TEST( t.count() == 0 );
 
     TEST( ! t.help( false ) );
-
-    if( ! t.good() ) {
-      tester.getDump() << '\n' << t.error() << endl;
-      TEST( false );
-    }
+    TEST( t.good() );
   }
 
-  {
-#if defined( STLUTILS_TEST )
-    // This test doesn't work because when the exp file
-    // is check in the Keywords get expanded.
-    //
-    // tester.file( __FILE__, __LINE__, TEST_ARGFILE );
-#endif
-    tester.file( __FILE__, __LINE__, TEST_LOGFILE );
-  }
-  
   return( true );
 }
-
-// Revision Log:
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:46  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.4  2001/07/26 19:28:56  houghton
-// *** empty log message ***
-//
-// Revision 5.3  2000/05/30 15:12:49  houghton
-// Changed: remove TEST_LOGFILE before running test.
-//
-// Revision 5.2  2000/05/25 17:11:50  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:29  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1999/11/09 22:10:40  houghton
-// Bug-Fix: can't test gen args file.
-//
-// Revision 4.1  1999/11/09 11:11:33  houghton
-// Initial Version.
-//
-//

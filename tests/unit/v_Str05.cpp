@@ -1,14 +1,15 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::Str05");
+using namespace clue;
 
 // Str::remove( ... )
 
@@ -19,7 +20,7 @@
 #define T5 " fifth part"
 
 bool
-tStr05( LibTest & tester )
+v_Str05( void )
 {
 
   {
@@ -58,18 +59,18 @@ tStr05( LibTest & tester )
 
   {
     // remove( iterator, iterator )
-    
+
     Str t( "12345" );
 
     Str::iterator f = t.begin();
     Str::iterator l = f;
     l++;
     l++;
-    
+
     t.remove( f, l );
 
     TEST( t == "345" );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }

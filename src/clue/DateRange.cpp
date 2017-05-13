@@ -1,80 +1,33 @@
-//
-// File:        DateRange.cc
-// Project:	StlUtils ()
-// Desc:        
-//              
-//  Compiled sources for DateRange class.
-//
-// Author:      Paul Houghton - (houghton@cworld)
-// Created:     02/20/94 08:57 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-//  $Id$ 
-//
+// 1994-02-20 (cc) Paul Houghton <paul4hough@gmail.com>
 
 
-#if !defined( STLUTILS_SHORT_FN )
-#include "DateRange.hh"
-#include "StlUtilsMisc.hh"
-#include "Str.hh"
-#include "DateTimeUtils.hh"
+#include "DateRange.hpp"
+#include "Clue.hpp"
+#include "Str.hpp"
+#include "DateTimeUtils.hpp"
+
 #include <iomanip>
-#else
-#include "DateRg.hh"
-#include "StlUtils.hh"
-#include "Str.hh"
-#include "DateTimeUtils.hh"
-#include <iomanip>
-#endif
 
-
-
-#if defined( STLUTILS_DEBUG )
-#if !defined( STLUTILS_SHORT_FN )
-#include "DateRange.ii"
-#else
-#include "DateRg.ii"
-#endif
-#endif // def( STLUTILS_DEBUG )
-
-STLUTILS_VERSION(
-  DateRange,
-  "$Id$ ");
-
+namespace clue {
 
 time_t
-DateRange::getDur( void ) const
+DateRange::dur( void ) const
 {
-  return( dur );
+  return( m_dur );
 }
 
-time_t
-DateRange::getSecOfDay( void ) const
+DateRange &
+DateRange::dur( time_t val )
 {
-  return( DateTime::getSecOfDay() );
-}
-
-time_t
-DateRange::setDur( time_t newDur )
-{
-  time_t oldDur = dur;
-  dur = newDur;
-  
-  return( oldDur );
+  m_dur = val;
+  return( *this );
 }
 
 bool
 DateRange::isIn( const DateTime & dateTwo ) const
 {
-  return( getTimeT() <= dateTwo.getTimeT()
-	  && dateTwo.getTimeT() <= (getTimeT() + getDur() ) );
+  return( timet() <= dateTwo.timet()
+	  && dateTwo.timet() <= (timet() + dur() ) );
 }
 
 time_t
@@ -82,9 +35,9 @@ DateRange::secIn( const DateRange & dateTwo ) const
 {
   time_t   secs = 0;
 
-  return( UnionOfDur( getTimeT(), dur,
-		      dateTwo.getTimeT(), dateTwo.getDur() ) );
-  
+  return( UnionOfDur( timet(), dur(),
+		      dateTwo.timet(), dateTwo.dur() ) );
+
   return( secs );
 }
 
@@ -94,8 +47,8 @@ DateRange::startsIn( const DateRange & dateTwo ) const
 {
   time_t  secs = 0;
 
-  if( dateTwo.getTimeT() >= getTimeT() &&
-      dateTwo.getTimeT() <= (getTimeT() + dur ) )
+  if( dateTwo.timet() >= timet() &&
+      dateTwo.timet() <= (timet() + dur() ) )
     {
       secs = secIn( dateTwo );
     }
@@ -110,7 +63,7 @@ DateRange::compare( const DateRange & two ) const
   if( diff )
     return( diff );
   else
-    return( ::compare( dur, two.dur ) );
+    return( clue::compare( dur(), two.dur() ) );
 }
 
 int
@@ -126,7 +79,7 @@ DateRange::compare( const DateTime & two ) const
 size_t
 DateRange::getBinSize( void ) const
 {
-  return( DateTime::getBinSize() + sizeof( dur ) );
+  return( DateTime::getBinSize() + sizeof( m_dur ) );
 }
 
 
@@ -134,7 +87,7 @@ std::ostream &
 DateRange::write( std::ostream & dest ) const
 {
   DateTime::write( dest );
-  dest.write( (const char *)&dur, sizeof( dur ) );
+  dest.write( (const char *)&m_dur, sizeof( m_dur ) );
   return( dest );
 }
 
@@ -145,34 +98,34 @@ DateRange::read( std::istream & src )
 
   time_t    rDur;
   src.read( (char *)&rDur, sizeof( rDur ) );
-  setDur( rDur );
+  dur( rDur );
   return( src );
 }
 
 std::ostream &
 DateRange::toStream( std::ostream & dest ) const
 {
-  
+
   dest << "Start: "
     ;
 
   DateTime::toStream( dest );
-  
+
   dest << " Dur: "
        << std::setfill('0')
-       << std::setw(2) << HoursInTimeT( getDur() ) << ':'
-       << std::setw(2) << MinInTimeT( getDur() ) << ':'
-       << std::setw(2) << SecInTimeT( getDur() )
+       << std::setw(2) << HoursInTimeT( dur() ) << ':'
+       << std::setw(2) << MinInTimeT( dur() ) << ':'
+       << std::setw(2) << SecInTimeT( dur() )
        << std::setfill(' ')
        ;
-  
+
   return( dest );
 }
 
 bool
 DateRange::good( void ) const
 {
-  return( DateTime::good() && dur > 0 );
+  return( DateTime::good() && dur() > 0 );
 }
 
 const char *
@@ -181,7 +134,7 @@ DateRange::error( void ) const
   static Str errStr;
   errStr.reset();
 
-  errStr << getClassName() << ':';
+  errStr << "DateRange:";
 
   if( good() )
     {
@@ -191,32 +144,22 @@ DateRange::error( void ) const
     {
       if( ! (DateTime::good() ) )
 	{
-	  errStr << " " << DateTime::error();
+	  errStr << " 0 Start DateTime";
 	}
-      if( ! (dur > 0) )
+      if( ! (dur() > 0) )
 	{
 	  errStr << " Stop time <= StartTime";
 	}
     }
-  return( errStr.cstr() );  
-}
-
-const char *
-DateRange::getClassName( void ) const
-{
-  return( "DateRange" );
+  return( errStr.cstr() );
 }
 
 std::ostream &
-DateRange::dumpInfo( 
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+DateRange::dumpInfo(
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << DateRange::getClassName() << ":\n"
-	 << DateRange::getVersion() << '\n';
 
   if( ! DateRange::good() )
     dest << prefix << "Error: " << DateRange::error() << '\n';
@@ -228,81 +171,14 @@ DateRange::dumpInfo(
   dest << '\n';
 
   Str pre;
-  pre << prefix << DateTime::getClassName() << "::";
-  
-  DateTime::dumpInfo( dest, pre, false );
+  pre << prefix << "DateTime::";
 
-  dest << prefix << "dur:     " << dur << '\n';
+  DateTime::dumpInfo( dest, pre );
+
+  dest << prefix << "dur:     " << dur() << '\n';
   dest << '\n';
 
   return( dest  );
 }
-  
-const char *
-DateRange::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer, DateTime::getVersion( false ) ) );
-}
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.2  2012/04/26 20:08:54  paul
-// *** empty log message ***
-//
-// Revision 6.1  2003/08/09 11:22:40  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2003/06/25 08:48:25  houghton
-// Added isIn method.
-//
-// Revision 5.2  2001/07/26 19:29:01  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:14  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:12:14  houghton
-// Changed to Version 4
-//
-// Revision 3.5  1997/09/17 14:10:14  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.4  1997/09/17 11:08:12  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/07/18 19:10:23  houghton
-// Added compare( const DateTime & two ) const to eliminate compiler warnings.
-//
-// Revision 3.2  1996/11/20 12:11:31  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:23:31  houghton
-// Changed to Release 3
-//
-// Revision 2.5  1996/11/06 18:03:45  houghton
-// StlUtils.hh renamed to StlUtilsUtils.hh
-//
-// Revision 2.4  1996/04/27 12:54:34  houghton
-// Cleanup.
-//
-// Revision 2.3  1995/12/31 11:21:52  houghton
-// Bug fix - Removed 'inline' statement.
-//
-// Revision 2.2  1995/12/04 11:17:04  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:23  houghton
-// Change to Version 2
-//
-// Revision 1.6  1995/11/05  14:44:25  houghton
-// Ports and Version ID changes
-//
-//
-//
+}; // namespace clue

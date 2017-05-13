@@ -1,14 +1,15 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-31 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::SubStr04");
+using namespace clue;
 
 #define T1 "first part"
 #define T2 " second part"
@@ -23,13 +24,13 @@
 #define T5u " FIFTH part"
 
 bool
-tSubStr04( LibTest & tester )
+v_SubStr04( void )
 {
   {
-    // operator [] ( size_t ) 
+    // operator [] ( size_t )
 
     Str t( "1234567890" );
-    
+
     TEST( t.substr( 2, 4 )[2] == '5' );
 
     t.substr( 3, 5 )[1] = 'a';
@@ -41,7 +42,7 @@ tSubStr04( LibTest & tester )
   {
     // operator [] ( size_t ) const
     const Str t( "1234567890" );
-    
+
     TEST( t.substr( 2, 4 )[2] == '5' );
   }
 
@@ -58,7 +59,7 @@ tSubStr04( LibTest & tester )
 
   {
     // operator = ( const Str & )
-    
+
     Str t( T1 T2 T3 );
     Str s( T4 T5 );
 
@@ -69,7 +70,7 @@ tSubStr04( LibTest & tester )
 
   {
     // operator = ( const char * )
-    
+
     Str t( T1 T2 T3 );
 
     t.substr( strlen( T1 ), strlen( T2 ) ) = T4 T5;
@@ -100,7 +101,7 @@ tSubStr04( LibTest & tester )
 
   {
     // operator += ( const SubStr & )
-    
+
     Str t( T1 T2 T3 );
     Str s( T3 T4 T5 );
 
@@ -131,13 +132,13 @@ tSubStr04( LibTest & tester )
 
   {
     // operator == ( const SubStr & ) const
-    
+
     const Str t( T1 T2 T3 T4 );
     const Str s( T1 T2 T3 T4 );
 
     TEST( t.substr( strlen( T1 ), strlen( T2 T3 ) ) ==
 	  s.substr( strlen( T1 ), strlen( T2 T3 ) ) );
-    
+
     TEST( ! ( t.substr( strlen( T1 ), strlen( T2 T3 ) ) ==
 	      s.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) ) );
   }
@@ -151,7 +152,7 @@ tSubStr04( LibTest & tester )
     TEST( t.substr( strlen(T1), strlen(T2 T3) ) == s );
     TEST( ! ( t.substr( strlen( T1 ), strlen(T2 T3) + 1 ) == s ) );
   }
-  
+
   {
     // operator == ( const char * ) const
 
@@ -194,13 +195,13 @@ tSubStr04( LibTest & tester )
 
   {
     // operator != ( const SubStr & ) const
-    
+
     Str t( T1 T2 T3 T4 );
     Str s( T1 T2 T3 T4 );
 
     TEST( ! (t.substr( strlen( T1 ), strlen( T2 T3 ) ) !=
 	     s.substr( strlen( T1 ), strlen( T2 T3 ) ) ) );
-    
+
     TEST( t.substr( strlen( T1 ), strlen( T2 T3 ) ) !=
 	  s.substr( strlen( T1 ), strlen( T2 T3 ) + 1 ) );
   }
@@ -214,7 +215,7 @@ tSubStr04( LibTest & tester )
     TEST( ! ( t.substr( strlen(T1), strlen(T2 T3) ) != s ) );
     TEST( t.substr( strlen( T1 ), strlen(T2 T3) + 1 ) != s );
   }
-  
+
   {
     // operator != ( const char * ) const
 
@@ -319,10 +320,5 @@ tSubStr04( LibTest & tester )
     TEST( t.substr( 0, strlen( T1 T2 ) ) >= T1 T2 );
     TEST( ! ( t.substr( 0, strlen( T1 T2 ) - 1 ) >= T1 T2 ) );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-
-
-
-

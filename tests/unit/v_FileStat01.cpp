@@ -1,24 +1,23 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FileStat.hh>
-#include <User.hh>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <fcntl.h>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <FileStat.hh>
-#include <User.hh>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <fcntl.h>
-#endif
+// 1995-06-15 (cc) Paul Houghton <paul4hough@gmail.com>
 
+#include <clue/FileStat.hpp>
+#include <clue/User.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+static valid::verify verify("clue::FileStat01");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/FileStat"
 
 bool
-tFileStat01( LibTest & tester )
+v_FileStat01( void )
 {
   {
     // FileStat( void )
@@ -41,7 +40,7 @@ tFileStat01( LibTest & tester )
 
     FileStat t( TEST_DATA_DIR "/FileStat.l1", true );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
   }
 
   {
@@ -73,7 +72,7 @@ tFileStat01( LibTest & tester )
 
     FileStat t( TEST_DATA_DIR "/FileStat.01" );
     User     h( TEST_USER );
-    
+
     struct stat fstat;
 
     TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
@@ -85,7 +84,7 @@ tFileStat01( LibTest & tester )
 
     TEST( t.getMode() == fstat.st_mode );
     TEST( (t.getMode() & 0777) == 0664 );
-    
+
     TEST( t.getSize() == fstat.st_size );
     TEST( t.getSize() == 10240 );
 
@@ -107,7 +106,7 @@ tFileStat01( LibTest & tester )
   {
     FileStat t( TEST_DATA_DIR "/FileStat.l1", true );
     User     h( TEST_USER );
-    
+
     struct stat fstat;
 
     TEST( ! lstat( TEST_DATA_DIR "/FileStat.l1", &fstat ) );
@@ -118,7 +117,7 @@ tFileStat01( LibTest & tester )
     TEST( t.getGID() == fstat.st_gid );
 
     TEST( t.getMode() == fstat.st_mode );
-    
+
     TEST( t.getSize() == fstat.st_size );
 
     TEST( t.getDevice() == fstat.st_dev );
@@ -135,12 +134,12 @@ tFileStat01( LibTest & tester )
     TEST( t.getModificationTime() == fstat.st_mtime );
     TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
-  
+
   {
- 
+
     FileStat t( TEST_DATA_DIR "/FileStat.l1" );
     User     h( TEST_USER );
-    
+
     struct stat fstat;
 
     TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
@@ -152,7 +151,7 @@ tFileStat01( LibTest & tester )
 
     TEST( t.getMode() == fstat.st_mode );
     TEST( (t.getMode() & 0777) == 0664 );
-    
+
     TEST( t.getSize() == fstat.st_size );
     TEST( t.getSize() == 10240 );
 
@@ -170,9 +169,5 @@ tFileStat01( LibTest & tester )
     TEST( t.getModificationTime() == fstat.st_mtime );
     TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-
-    
-    

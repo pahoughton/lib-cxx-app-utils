@@ -1,12 +1,13 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#endif
+// 1996-10-31 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::SubStr02");
+using namespace clue;
 
 static const char * BaseStrings[] =
 {
@@ -28,15 +29,15 @@ static const char * BaseStrings[] =
 };
 
 bool
-tSubStr02( LibTest & tester )
-{    
+v_SubStr02( void )
+{
   {
     // to( int &, unsigned short ) const
 
     Str	s( "Just a string to get a SubStr of" );
     SubStr t( s, 5, 3 );
     int n;
-    
+
     t = "100";
 
     TEST( t.to( n ) && n == 100 );
@@ -52,7 +53,7 @@ tSubStr02( LibTest & tester )
     for( int b = 2; b < 17; b++ )
       {
 	t = BaseStrings[b-2];
-	
+
 	TEST( t.to( n, b ) && n == 0xfff );
       }
 
@@ -68,7 +69,7 @@ tSubStr02( LibTest & tester )
     t = "0";
     TEST( t.to(n) && n == 0 );
   }
-    
+
   {
     // to( short & ) const
     // to( short &, unsigned short ) const
@@ -82,7 +83,7 @@ tSubStr02( LibTest & tester )
     t = "10";
     TEST( t.to( n, 8 ) && n == 010 );
   }
-  
+
   {
     // to( long & ) const
     // to( long &, unsigned short ) const
@@ -97,7 +98,7 @@ tSubStr02( LibTest & tester )
     t = "123";
     TEST( t.to( n, 16 ) && n == 0x123 );
   }
-  
+
   {
     // to( double & ) const
     // to( double &, unsinged short ) const
@@ -120,7 +121,7 @@ tSubStr02( LibTest & tester )
     t = "25.1";
     TEST( t.to( n, 8 ) && n == 21.125 );
   }
-  
+
   {
     // to( unsigned int & ) const
     // to( unsigned int &, unsigned short ) const
@@ -174,7 +175,7 @@ tSubStr02( LibTest & tester )
 
     t = "0";
     TEST( ! t.toBool() );
-    
+
     t =  "01" ;
     TEST( t.toBool() );
 
@@ -261,7 +262,7 @@ tSubStr02( LibTest & tester )
     t = "123";
     TEST( t.toInt( 16 ) == 0x123 );
   }
-  
+
   {
     // toLong( void ) const
     // toLong( unsigned short ) const
@@ -321,6 +322,5 @@ tSubStr02( LibTest & tester )
     t = "123";
     TEST( t.toULong( 16 ) == 0x123 );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }

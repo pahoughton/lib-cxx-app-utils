@@ -4,7 +4,7 @@
 #include <clue/compare>
 
 #define VALID_VALIDATOR verify
-#include <valid/verify>
+#include <valid/verify.hpp>
 #define TEST VVTRUE
 
 static valid::verify verify("clue::StringFrom");

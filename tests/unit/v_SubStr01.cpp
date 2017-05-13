@@ -1,14 +1,16 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::SubStr01");
+using namespace clue;
+
 
 #define T1 "first part"
 #define T2 " second part"
@@ -17,7 +19,7 @@
 #define T5 " fifth part"
 
 bool
-tSubStr01( LibTest & tester )
+v_SubStr01( void )
 {
   {
     // Str::substr( size_t, size_t )
@@ -43,7 +45,7 @@ tSubStr01( LibTest & tester )
     TEST( s != t.substr( 4, strlen( T1 ) ) );
     TEST( s != t.substr( 3, strlen( T1 ) - 1 ) );
   }
-    
+
   {
     // SubStr( Str & src )
 
@@ -52,7 +54,7 @@ tSubStr01( LibTest & tester )
 
     TEST( t == T1 T2 T3 );
   }
-  
+
   {
     // SubStr( Str & src, size_t )
 
@@ -70,7 +72,7 @@ tSubStr01( LibTest & tester )
 
     TEST( t == T2 );
   }
-  
+
   {
     // SubStr( const Str & src )
 
@@ -79,7 +81,7 @@ tSubStr01( LibTest & tester )
 
     TEST( t == T1 T2 T3 );
   }
-  
+
   {
     // SubStr( const Str & src, size_t )
 
@@ -97,7 +99,7 @@ tSubStr01( LibTest & tester )
 
     TEST( t == T2 );
   }
-  
+
   {
     // size( void ) const
     // length( void ) const
@@ -114,10 +116,10 @@ tSubStr01( LibTest & tester )
   // test operator = ( const char * ) so it can
   // be used in the other test
 
-  
+
   {
     // operator =  (const char *)
-    
+
     Str t( T1 T2 T3 T4 );
 
     t.substr( 0, strlen( T1 ) ) = T5;
@@ -133,6 +135,5 @@ tSubStr01( LibTest & tester )
     TEST( t == T5 T4 T1 T3 T1 T4 T1 );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }
-

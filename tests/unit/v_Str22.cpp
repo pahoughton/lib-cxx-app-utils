@@ -1,17 +1,19 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <fstream>
+#include <sstream>
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <HBinStrm.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <fstream>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::Str22");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/Str"
 
 #define T1 "first part"
 #define T2 "second part"
@@ -20,18 +22,14 @@
 #define T5 "fifth part"
 
 bool
-tStr22( LibTest & tester )
+v_Str22( void )
 {
   {
     // getline( istream & )
-    
-#if !defined( STLUTILS_SHORT_FN )
-    const char * fn = TEST_DATA_DIR "/Str.getline.input";
-#else
-    const char * fn = TEST_DATA_DIR "/strgl.in";
-#endif
 
-    ifstream in( fn );
+    const char * fn = TEST_DATA_DIR "/Str.getline.input";
+
+    std::ifstream in( fn );
 
     TEST( in.good() );
 
@@ -48,18 +46,14 @@ tStr22( LibTest & tester )
   {
     // getDelim( istream &, const char * )
 
-#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.getDelim.input";
-#else
-    const char * fn = TEST_DATA_DIR "/strgd.in";
-#endif
 
-    ifstream in( fn );
+    std::ifstream in( fn );
 
     TEST( in.good() );
 
     Str	t;
-    
+
     TEST( t.getDelim( in, " \t\n" ).good() );
     TEST( t == "this" );
     TEST( t.getDelim( in, " \t\n" ).good() );
@@ -78,18 +72,14 @@ tStr22( LibTest & tester )
     TEST( t == "line" );
     TEST( ! t.getDelim( in, " \t\n" ).good() );
   }
-      
+
   {
     // getDelim( istream &, const char *, bool )
 
-#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.getDelim.input";
-#else
-    const char * fn = TEST_DATA_DIR "/strgd.in";
-#endif
 
-    ifstream in( fn );
-    
+    std::ifstream in( fn );
+
     TEST( in.good() );
 
     Str t;
@@ -115,14 +105,10 @@ tStr22( LibTest & tester )
 
   {
     // getDelim( istream &, char )
-    
-#if !defined( STLUTILS_SHORT_FN )
-    const char * fn = TEST_DATA_DIR "/Str.getDelim.char.input";
-#else
-    const char * fn = TEST_DATA_DIR "/strgdch.in";
-#endif
 
-    ifstream in( fn );
+    const char * fn = TEST_DATA_DIR "/Str.getDelim.char.input";
+
+    std::ifstream in( fn );
 
     TEST( in.good() );
 
@@ -136,17 +122,13 @@ tStr22( LibTest & tester )
     TEST( t == "delim\n" );
     TEST( ! t.getDelim( in, " " ).good() );
   }
-  
+
   {
     // getDelim( istream &, char, bool )
-    
-#if !defined( STLUTILS_SHORT_FN )
-    const char * fn = TEST_DATA_DIR "/Str.getDelim.char.input";
-#else
-    const char * fn = TEST_DATA_DIR "/strgdch.in";
-#endif
 
-    ifstream in( fn );
+    const char * fn = TEST_DATA_DIR "/Str.getDelim.char.input";
+
+    std::ifstream in( fn );
 
     TEST( in.good() );
 
@@ -171,17 +153,13 @@ tStr22( LibTest & tester )
     t = T;
     TEST( t.getBinSize() == strlen( T ) + sizeof( unsigned long ) );
   }
-  
+
   {
     // write( ostream & )
 
-#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.bin.data";
-#else
-    const char * fn = TEST_DATA_DIR "/strbin.dat";
-#endif
 
-    ofstream out( fn );
+    std::ofstream out( fn );
 
     TEST( out.good() );
 
@@ -202,13 +180,9 @@ tStr22( LibTest & tester )
   {
     // read( istream & )
 
-#if !defined( STLUTILS_SHORT_FN )
     const char * fn = TEST_DATA_DIR "/Str.bin.data";
-#else
-    const char * fn = TEST_DATA_DIR "/strbin.dat";
-#endif
 
-    ifstream in( fn );
+    std::ifstream in( fn );
 
     TEST( in.good() );
 
@@ -228,52 +202,31 @@ tStr22( LibTest & tester )
 
   {
     // toStream( ostream & ) const
-    
-#if !defined( STLUTILS_SHORT_FN )
-    const char * fn = TEST_DATA_DIR "/Str.operator.output";
-#else
-    const char * fn = TEST_DATA_DIR "/stropout";
-#endif
 
-    ofstream out( fn );
 
-    TEST( out.good() );
+    std::stringstream out;
 
     const Str t("This is an output test from Str\n" );
     t.toStream( out );
-    out.close();
-    tester.file( __FILE__, __LINE__, fn );
+    TEST( out.str() == t.c_str() );
   }
 
   {
     // operator << ( ostream &, const Str & )
-    
-#if !defined( STLUTILS_SHORT_FN )
-    const char * fn = TEST_DATA_DIR "/Str.operator.output";
-#else
-    const char * fn = TEST_DATA_DIR "/stropout";
-#endif
 
-    ofstream out( fn );
+    std::stringstream out;
 
-    TEST( out.good() );
-
-    Str t("This is an output test from Str\n" );
-    out << t;
-    out.close();
-    tester.file( __FILE__, __LINE__, fn );
+    const Str t("This is an output test from Str\n" );
+    out <<  t;
+    TEST( out.str() == t.c_str() );
   }
 
   {
     // operator >> ( istream &, Str & )
-    
-#if !defined( STLUTILS_SHORT_FN )
-    const char * fn = TEST_DATA_DIR "/Str.operator.input";
-#else
-    const char * fn = TEST_DATA_DIR "/strop.in";
-#endif
 
-    ifstream in( fn );
+    const char * fn = TEST_DATA_DIR "/Str.operator.input";
+
+    std::ifstream in( fn );
 
     TEST( in.good() );
 
@@ -288,33 +241,12 @@ tStr22( LibTest & tester )
   {
     // good( void ) const
     // error( void ) const
-    // getClassName( void  ) const
-    
+
     const Str t( "simple test string" );
 
     TEST( t.good() );
     TEST( t.error() != 0 );
-    TEST( t.getClassName() != 0 );
-    TEST( t.getVersion() != 0 );
   }
 
-  {
-    // dumpInfo( ostream &, const char *, bool ) const
-    // version
-    
-    const Str t("This is an output test from Str\n" );
-
-    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
-    t.toStream( tester.getDump() );
-    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
-    t.dumpInfo( tester.getDump(), " -> ", true );
-    tester.getDump() << '\n' << t.getClassName() << " version:\n";
-    tester.getDump() << t.version;
-    
-    tester.getDump() << '\n' << tester.getCurrentTestName();
-    
-  }
-  
-  return( true );
+  return( verify.is_valid() );
 }
-

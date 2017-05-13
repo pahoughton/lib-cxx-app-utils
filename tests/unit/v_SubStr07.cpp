@@ -1,15 +1,16 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#endif
+// 1996-10-31 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::SubStr07");
+using namespace clue;
 
 bool
-tSubStr07( LibTest & tester )
+v_SubStr07( void )
 {
   {
     // StringToBool( const SubStr & )
@@ -19,7 +20,7 @@ tSubStr07( LibTest & tester )
 
     t = "0";
     TEST( ! StringToBool( t ) );
-    
+
     t = "01" ;
     TEST( StringToBool( t ) );
 
@@ -106,7 +107,7 @@ tSubStr07( LibTest & tester )
     t = "123";
     TEST( StringToInt( t, 16 ) == 0x123 );
   }
-  
+
   {
     // StringToLong( const SubStr & )
     // StringToLong( const SubStr &, unsigned short )
@@ -166,7 +167,5 @@ tSubStr07( LibTest & tester )
     t = "123";
     TEST( StringToULong( t, 16 ) == 0x123 );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-    

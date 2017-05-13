@@ -1,6 +1,16 @@
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <climits>
+
+static valid::verify verify("clue::Str17");
+using namespace clue;
+
 
 static const char * BaseStrings[] =
 {
@@ -23,7 +33,7 @@ static const char * BaseStrings[] =
 
 
 bool
-tStr17( LibTest & tester )
+v_Str17( void )
 {
   {
     // to( int & ) const
@@ -31,7 +41,7 @@ tStr17( LibTest & tester )
 
     Str	t;
     int n;
-    
+
     t << "100";
 
     TEST( t.to( n ) && n == 100 );
@@ -50,7 +60,7 @@ tStr17( LibTest & tester )
       {
 	t.reset();
 	t << BaseStrings[b-2];
-	
+
 	TEST( t.to( n, b ) && n == 0xfff );
       }
 
@@ -71,7 +81,7 @@ tStr17( LibTest & tester )
     t.reset();
     t << "0";
     TEST( t.to(n) && n == 0 );
-    
+
   }
 
   {
@@ -100,7 +110,7 @@ tStr17( LibTest & tester )
     t = "123";
     TEST( t.to( n, 16 ) && n == 0x123 );
   }
-  
+
   {
     // to( double & ) const
     // to( double &, unsinged short ) const
@@ -124,7 +134,7 @@ tStr17( LibTest & tester )
     t = "25.1";
     TEST( t.to( n, 8 ) && n == 21.125 );
   }
-  
+
   {
     // to( unsigned int & ) const
     // to( unsigned int &, unsigned short ) const
@@ -174,7 +184,7 @@ tStr17( LibTest & tester )
 
     t << "0";
     TEST( ! t.toBool() );
-    
+
     t.assign( "01" );
     TEST( t.toBool() );
 
@@ -260,7 +270,7 @@ tStr17( LibTest & tester )
     t = "123";
     TEST( t.toInt( 16 ) == 0x123 );
   }
-  
+
   {
     // toLong( void ) const
     // toLong( unsigned short ) const
@@ -336,7 +346,7 @@ tStr17( LibTest & tester )
 
     {
       TEST( t.size() == 1 );
-      
+
       Str::RangeList::iterator them = t.begin();
 
       TEST( them != t.end() );
@@ -346,16 +356,16 @@ tStr17( LibTest & tester )
 
     r = "4,8";
     TEST( r.to( t ) == 2 );
-    
+
     {
       TEST( t.size() == 2 );
-      
+
       Str::RangeList::iterator them = t.begin();
 
       TEST( them != t.end() );
       TEST( (*them).first == 4 );
       TEST( (*them).second == 0 );
-      
+
       ++ them;
       TEST( them != t.end() );
       TEST( (*them).first == 8);
@@ -364,62 +374,56 @@ tStr17( LibTest & tester )
 
     r = "3:200";
     TEST( r.to( t ) == 1 );
-    
+
     {
       TEST( t.size() == 1 );
-      
+
       Str::RangeList::iterator them = t.begin();
 
       TEST( them != t.end() );
       TEST( (*them).first == 3 );
       TEST( (*them).second == 200 );
-      
+
     }
 
     r = "4:8,10:20,23  30..35\t50;1025:";
     TEST( r.to( t ) == 6 );
-    
+
     {
       TEST( t.size() == 6 );
-      
+
       Str::RangeList::iterator them = t.begin();
 
       TEST( them != t.end() );
       TEST( (*them).first == 4 );
       TEST( (*them).second == 8 );
-      
+
       ++ them;
       TEST( them != t.end() );
       TEST( (*them).first == 10 );
       TEST( (*them).second == 20 );
-      
+
       ++ them;
       TEST( them != t.end() );
       TEST( (*them).first == 23 );
       TEST( (*them).second == 0 );
-      
+
       ++ them;
       TEST( them != t.end() );
       TEST( (*them).first == 30 );
       TEST( (*them).second == 35  );
-      
+
       ++ them;
       TEST( them != t.end() );
       TEST( (*them).first == 50 );
       TEST( (*them).second == 0 );
-      
+
       ++ them;
       TEST( them != t.end() );
       TEST( (*them).first == 1025 );
-#if defined( STLUTILS_HAVE_LONG_LONG )
       TEST( (*them).second == LLONG_MAX );
-#else
-      TEST( (*them).second == LONG_MAX );
-#endif
     }
 
   }
-	
-      
-  return( true );
+  return( verify.is_valid() );
 }

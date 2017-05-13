@@ -1,15 +1,13 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <RegexScan.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <RxScan.hh>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
 
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::Str11");
+using namespace clue;
 
 // Str::find
 
@@ -18,7 +16,7 @@
 //                     1         2         3         4         5
 
 bool
-tStr11( LibTest & tester )
+v_Str11( void )
 {
   {
     // find( const Str & ) const
@@ -56,17 +54,6 @@ tStr11( LibTest & tester )
   }
 
   {
-    // find( const RegexScan & ) const
-    // find( const RegexScan &, size_t ) const
-    Str t( HAY );
-
-    RegexScan e( "((is)|(was)) the [1-3]+ ..[a-z]+ to" );
-
-    TEST( t.find( e ) == 5 );
-    TEST( t.find( e, 6 ) == Str::npos );
-  }
-
-  {
     // find( const char * ) const
     // find( const char *, size_t ) const
     // find( const char *, size_t, size_t ) const
@@ -77,7 +64,7 @@ tStr11( LibTest & tester )
     TEST( t.find( "no" ) == Str::npos );
     TEST( t.find( "is", 3 ) == 5 );
     TEST( t.find( "isnot", 3, 2 ) == 5 );
-    
+
   }
 
   {
@@ -90,9 +77,6 @@ tStr11( LibTest & tester )
     TEST( t.find( 'a', 18 ) == 21 );
     TEST( t.find( 'x' ) == Str::npos );
   }
-    
-  return( true );
+
+  return( verify.is_valid() );
 }
-
-
-      

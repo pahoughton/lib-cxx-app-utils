@@ -1,36 +1,23 @@
-#ifndef _UserGroup_hh_
-#define _UserGroup_hh_
-//
-// File:        UserGroup.hh
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Provide a Unix user's Group information.
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     05/09/95 06:06
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-// $Id$ 
+#ifndef _clue_UserGroup_hpp_
+#define _clue_UserGroup_hpp_
+/* 1995-05-09 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include <StlUtilsConfig.hh>
-#include <Str.hh>
+   Provide a Unix user's Group information.
+*/
+
+#include <clue/Str.hpp>
+#include <clue/compare>
 #include <set>
 #include <functional>
+#include <climits>
 #include <cstddef>
+#include <cerrno>
 #include <unistd.h>
 #include <grp.h>
+#include <pwd.h>
 
-#if defined( STLUTILS_DEBUG )
-#define inline
-#endif
+
+namespace clue {
 
 class User;
 
@@ -40,7 +27,7 @@ class UserGroup
 public:
 
   typedef std::set< Str, std::less<Str> >	    Members;
-    
+
   inline UserGroup( bool findMembers = false );
   inline UserGroup( gid_t group, bool findMembers = false );
   inline UserGroup( const char * groupName, bool findMembers = false );
@@ -49,14 +36,14 @@ public:
   inline UserGroup( std::istream & src, bool text = false, bool findMemb = false );
 
   virtual ~UserGroup( void );
-  
+
   inline gid_t	    	    getGID( void ) const;
   inline const char *	    getName( void ) const;
 
   static const UserGroup &  effective( void );
-  
+
   size_t		    findMembers( void );
-  
+
   inline const Members &    getMembers( void ) const;
 
   bool		isMember( const User & user );
@@ -71,43 +58,32 @@ public:
   bool	    	set( const struct group * grpEnt, bool findMemb = false );
 
   inline int	    compare( const UserGroup & two ) const;
-  
+
   inline bool	    operator == ( const UserGroup & two ) const;
   inline bool	    operator <  ( const UserGroup & two ) const;
+  inline bool	    operator != ( const UserGroup & rhs ) const;
+  inline bool	    operator >  ( const UserGroup & rhs ) const;
+  inline bool	    operator <= ( const UserGroup & rhs ) const;
+  inline bool	    operator >= ( const UserGroup & rhs ) const;
 
-#if defined( STLUTILS_RELOPS_BROKEN )
-  inline bool		operator != ( const UserGroup & rhs ) const;
-  inline bool		operator >  ( const UserGroup & rhs ) const;
-  inline bool		operator <= ( const UserGroup & rhs ) const;
-  inline bool		operator >= ( const UserGroup & rhs ) const;
-#endif
-  
   inline   	    operator const char * ( void ) const;
   inline   	    operator gid_t ( void ) const;
 
-  // libStlUtils Common Class Methods
-  // note: write/read only stores the GID
-  
-  virtual size_t	getBinSize( void ) const;
-  
-  virtual std::ostream & 	write( std::ostream & dest ) const;
-  virtual std::istream & 	read( std::istream & src );
+  virtual size_t	    getBinSize( void ) const;
 
-  virtual std::ostream &	toStream( std::ostream & dest = std::cout ) const;
-  virtual std::istream &	fromStream( std::istream & src );
-  
-  virtual bool		good( void ) const;
-  virtual const char *	error( void ) const;
-  virtual const char *	getClassName( void ) const;
-  virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
-				  const char *	prefix = "    ",
-				  bool		showVer = true ) const;
-  
-  static const ClassVersion version;
-  
+  virtual std::ostream &    write( std::ostream & dest ) const;
+  virtual std::istream &    read( std::istream & src );
+
+  virtual std::ostream &    toStream( std::ostream & dest = std::cout ) const;
+  virtual std::istream &    fromStream( std::istream & src );
+
+  virtual bool		    good( void ) const;
+  virtual const char *	    error( void ) const;
+  virtual std::ostream &    dumpInfo( std::ostream &	dest = std::cerr,
+				      const char *	prefix = "    " ) const;
+
   static const gid_t	bad;
-  
+
 protected:
 
 private:
@@ -118,125 +94,212 @@ private:
   Members   	members;
 
   int	    	osError;
-  
+
 };
 
-#if !defined( inline )
-#if !defined( STLUTILS_SHORT_FN )
-#include <UserGroup.ii>
-#else
-#include <UserGrp.ii>
-#endif
-#else
-#undef inline
 
-std::ostream &
-operator << ( std::ostream & dest, const UserGroup & obj );
+inline
+UserGroup::UserGroup( bool findMemb )
+{
+  gid = bad;
+  osError = 0;
+  set( getgid(), findMemb );
+}
 
-std::istream &
-operator >> ( std::istream & src, UserGroup & obj );
+inline
+UserGroup::UserGroup( gid_t group, bool findMemb )
+{
+  gid = bad;
+  osError = 0;
+  set( group, findMemb );
+}
 
+inline
+UserGroup::UserGroup( const char * groupName, bool findMemb )
+{
+  gid = bad;
+  osError = 0;
+  set( groupName, findMemb );
+}
+
+inline
+UserGroup::UserGroup( const struct group * groupEntry, bool findMemb )
+{
+  gid = bad;
+  osError = 0;
+  set( groupEntry, findMemb );
+}
+inline
+UserGroup::UserGroup( std::istream & src, bool text, bool findMemb )
+{
+  if( text )
+    {
+      char gname[ 50 ];
+      src >> gname;
+      set( gname, findMemb );
+    }
+  else
+    {
+      read( src );
+      if( findMemb )
+	findMembers();
+    }
+}
+
+inline
+gid_t
+UserGroup::getGID( void ) const
+{
+  return( gid );
+}
+
+inline
+const char *
+UserGroup::getName( void ) const
+{
+  return( name );
+}
+
+inline
+const UserGroup::Members &
+UserGroup::getMembers( void ) const
+{
+  return( members );
+}
+
+inline
+bool
+UserGroup::isMember( uid_t  user )
+{
+  struct passwd * pw = getpwuid( user );
+
+  if( members.size() == 0 )
+    findMembers();
+
+  return( pw ? members.find( pw->pw_name ) != members.end() : false );
+}
+
+inline
+bool
+UserGroup::isMember( uid_t  user ) const
+{
+  struct passwd * pw = getpwuid( user );
+
+  if( members.size() == 0 )
+    return( false );
+
+  // STUPID - end() first or sun cc 5.0 wines
+  return( pw ? members.end() != members.find( pw->pw_name ) : false );
+}
+
+inline
+bool
+UserGroup::isMember( const char * user )
+{
+  if( members.size() == 0 )
+    findMembers();
+
+  return( members.find( user ) != members.end() );
+}
+
+inline
+bool
+UserGroup::isMember( const char * user ) const
+{
+  if( members.size() == 0 )
+    return( false );
+
+  return( members.end() != members.find( user ) );
+}
+
+inline
+bool
+UserGroup::set( gid_t group, bool findMemb )
+{
+  return( set( getgrgid( group ), findMemb ) );
+}
+
+inline
+bool
+UserGroup::set( const char * groupName, bool findMemb )
+{
+  return( set( getgrnam( groupName ), findMemb ) );
+}
+
+inline
 int
-compare( const UserGroup & one, const UserGroup & two );
+UserGroup::compare( const UserGroup & two ) const
+{
+  return( clue::compare( name, two.name ) );
+}
 
-#endif // ! def inline
+inline
+bool
+UserGroup::operator == ( const UserGroup & two ) const
+{
+  return( compare( two ) == 0 );
+}
 
-//  Quick Start: - short example of class usage
-//
-//  Data Types: - data types defined by this header
-//
-//  	UserGroup	class
-//
-//  Constructors:
-//
-//  	UserGroup( );
-//
-//  Destructors:
-//
-//  Public Interface:
-//
-//  	virtual const char *
-//  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. UserGroup )
-//
-//  	virtual Bool
-//  	good( void ) const;
-//  	    Returns true if there are no detected errors associated
-//  	    with this class, otherwise FALSE.
-//
-//  	virtual const char *
-//  	error( void ) const
-//  	    Returns as string description of the state of the class.
-//
-//  Protected Interface:
-//
-//  Private Methods:
-//
-//  Other Associated Functions:
-//
-//  	ostream &
-//  	operator <<( ostream & dest, const UserGroup & obj );
-//
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:44  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:35  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:47  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:21:01  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2001/07/26 19:28:57  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:07:31  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:23  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/10/13 16:34:48  houghton
-// Added destructor '~UserGroup()'.
-//
-// Revision 4.1  1997/09/17 15:13:41  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:09:29  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/03/03 14:38:22  houghton
-// Removed support for RW Tools++.
-//
-// Revision 3.1  1996/11/14 01:25:12  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/06 18:13:00  houghton
-// Removed BinStream support.
-// Changed how effective is handled.
-// Changed use of Str to RWCString.
-//     (as required per Mike Alexander)
-//
-// Revision 2.3  1996/05/01 11:01:46  houghton
-// Bug-Fix: static const UserGroup eff was causing segv.
-//   change so the effective() method just returns a new 'UserGroup'
-//
-// Revision 2.2  1995/12/04 11:20:22  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:46:58  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:49:19  houghton
-// Revised
-//
-//
-#endif // ! def _UserGroup_hh_ 
+inline
+bool
+UserGroup::operator <  ( const UserGroup & two ) const
+{
+  return( compare( two ) < 0 );
+}
+
+inline
+bool
+UserGroup::operator != ( const UserGroup & rhs ) const
+{
+  return( ! (*this == rhs) );
+}
+
+inline
+bool
+UserGroup::operator > ( const UserGroup & rhs ) const
+{
+  return( rhs < *this );
+}
+
+inline
+bool
+UserGroup::operator <= ( const UserGroup & rhs ) const
+{
+  return( ! (rhs < *this) );
+}
+
+inline
+bool
+UserGroup::operator >= ( const UserGroup & rhs ) const
+{
+  return( ! (*this < rhs) );
+}
+
+inline
+UserGroup::operator const char * ( void ) const
+{
+  return( name );
+}
+
+inline
+UserGroup::operator gid_t ( void ) const
+{
+  return( gid );
+}
+
+inline
+int
+compare( const UserGroup & one, const UserGroup & two )
+{
+  return( one.compare( two ) );
+}
+
+inline
+std::ostream &
+operator <<( std::ostream & dest, const UserGroup & obj )
+{
+  return( obj.toStream( dest ) );
+}
+}; // namespace clue
+
+#endif // ! def _clue_UserGroup_hpp_

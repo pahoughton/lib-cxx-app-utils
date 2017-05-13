@@ -1,59 +1,17 @@
-//
-// File:        Str.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for Str
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     05/30/95 15:08 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-//
+// 1995-05-30 (cc) Paul Houghton - (paul4hough@gmail.com)
 
-#include "Str.hh"
-#include "StlUtilsMisc.hh"
-#include "Compare.hh"
+#include "Str.hpp"
+#include "Clue.hpp"
+#include "compare"
+#include <climits>
 
-
-#if defined( STLUTILS_DEBUG )
-#include <Str.ii>
-#else
-
-#endif
-
-STLUTILS_VERSION(
-  Str,
-  "$Id$ " );
-
+namespace clue {
 const Str::size_type Str::npos = NPOS;
-
-#if defined( Sun5 ) && defined( WS_42 ) && defined( BROKEN )
-// This is UNBELIEVABLE but ...
-void
-unsafe_ios::operator = ( unsafe_ios & )
-{
-}
-
-void
-ios::operator = ( ios & )
-{
-}
-#endif
-
 
 Str::Str( void )
   : std::iostream( new StrStreambuf )
 {
 }
-
 
 inline
 Str::size_type
@@ -68,9 +26,6 @@ Str::pos( const char * at )
 {
   return( at - strbase() );
 }
-  
-
-
 
 Str::~Str( void )
 {
@@ -87,7 +42,7 @@ Str::append( const char * src, size_type srcLen )
 
   if( ! src )
     return( *this );
-      
+
   size_type  appLen;
 
   if( srcLen != npos )
@@ -103,14 +58,13 @@ Str::append( const char * src, size_type srcLen )
     {
       appLen = strlen( src );
     }
-  
+
   if( ! appLen )
     return( *this );
-      
-  if( MemOverlap( src, appLen, strbase(), size() ) )
+
+  if( strbase() && MemOverlap( src, appLen, strbase(), size() ) )
     {
       char * tmp = new char[ appLen + 1 ];
-      STLUTILS_EXCPT_BAD_ALLOC( tmp == 0, *this );
       memcpy( tmp, src, appLen );
       rdbuf()->sputn( tmp, appLen );
       delete tmp;
@@ -133,17 +87,14 @@ Str::replace(
   size_type    	srcLen
   )
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
-
   size_type    replaceLen = std::min( len, size() - start );
-  
+
   size_type    keepSize = size() - ( start + replaceLen );
   char *    keepString = 0;
 
   if( keepSize )
     {
       keepString = new char[ keepSize + 1];
-      STLUTILS_EXCPT_BAD_ALLOC( keepString == 0, *this );
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
@@ -161,7 +112,7 @@ Str::replace(
   return( *this );
 }
 
-  
+
 Str &
 Str::replace(
   size_type    start,
@@ -170,17 +121,14 @@ Str::replace(
   char 	    src
   )
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
-
   size_type    replaceLen = std::min( len, size() - start );
-  
+
   size_type    keepSize = size() - ( start + replaceLen );
   char *    keepString = 0;
 
   if( keepSize )
     {
       keepString = new char[ keepSize + 1];
-      STLUTILS_EXCPT_BAD_ALLOC( keepString == 0, *this );
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
@@ -208,14 +156,13 @@ Str::replace(
 {
   size_type    start = (size_type)(std::min( 0L, (long)(first - begin())));
   size_type    replaceLen = last - first;
-  
+
   size_type    keepSize = size() - ( start + replaceLen );
   char *    keepString = 0;
 
   if( keepSize )
     {
       keepString = new char[ keepSize + 1];
-      STLUTILS_EXCPT_BAD_ALLOC( keepString == 0, *this );
       memcpy( keepString, strbase() + ( start + replaceLen ), keepSize );
     }
 
@@ -231,7 +178,7 @@ Str::replace(
 
   return( *this );
 }
-  
+
 Str &
 Str::replaceAny( const char * chars, char val )
 {
@@ -253,45 +200,39 @@ Str::replaceAny( const char * chars, char val )
 int
 Str::compare( const Str & two, size_type start, size_type len ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, len );
   size_type twoLen = std::min( two.size(), len );
 
   int diff = strncmp( strbase() + start, two.strbase(), std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
 Str::compare( const SubStr & two, size_type start, size_type len ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, len );
   size_type twoLen = std::min( two.size(), len );
 
   int diff = strncmp( strbase() + start, two.strbase(), std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
-}  
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
+}
 
 int
 Str::compare( const char * two, size_type start, size_type len ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-
   // no string I have 1 or more chars from start, return 1 (I'm bigger)
   //  I have no chars (we are both empty, return 0
   if( ! two )
     return( size() - start ? 1 : 0  );
-  
+
   size_type oneLen = std::min( size() - start, len );
   size_type twoLen = std::min( (size_type)strlen( two ), len );
 
   int diff = strncmp( strbase() + start, two, std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
@@ -308,38 +249,34 @@ compare( const char * one, const Str & two, Str::size_type len )
 
   int diff = strncmp( one, two.strbase(), std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 
-	 
+
 int
 Str::fcompare( const Str & two, size_type start, size_type len ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, len );
   size_type twoLen = std::min( two.size(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
 Str::fcompare( const SubStr & two, size_type start, size_type len ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, len );
   size_type twoLen = std::min( two.size(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
-}  
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
+}
 
 int
 Str::fcompare( const char * two, size_type start, size_type len ) const
@@ -350,7 +287,7 @@ Str::fcompare( const char * two, size_type start, size_type len ) const
   int diff = StringCaseCompare( strbase() + start, two,
 				std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
@@ -368,24 +305,24 @@ fcompare( const char * one, const Str & two, Str::size_type len )
   int diff = StringCaseCompare( one, two.strbase(),
 				std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
-}  
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
+}
 
 bool
 Str::to( Range & r, unsigned short base ) const
 {
   size_type rangeInd = find_first_of( ":." );
-  
+
   if( rangeInd != npos )
     {
       size_type lastPos = rangeInd + 1;
-      
+
       if( at( lastPos ) == '.' )
 	++ lastPos;
-      
+
       if( lastPos < size() )
 	{
-	  if( ! substr( lastPos, Str::npos).to( r.second, base ) ) 
+	  if( ! substr( lastPos, Str::npos).to( r.second, base ) )
 	    return( false );
 	}
       else
@@ -396,44 +333,44 @@ Str::to( Range & r, unsigned short base ) const
 	  r.second = LONG_MAX;
 #endif
 	}
-		  
+
       if( ! substr(0, rangeInd).to( r.first, base ) )
 	return( false );
     }
   else
     {
-	      
+
       if( ! to( r.first, base ) )
 	return( false );
-      
+
       r.second = 0;
     }
-  
+
   return( true );
 }
-  
+
 Str::RangeList::size_type
 Str::to( RangeList & range, unsigned short base ) const
 {
   if( ! size() )
     return( 0 );
-  
+
   range.erase( range.begin(), range.end() );
-  
+
   // scan is non const, so we need a temp
   Str	tmp( *this );
 
   size_type matcheCount = tmp.scan( " \t,;" );
 
   Range r;
-  
+
   if( matcheCount > 1 )
     {
-      
+
       for( size_type m = 1; m < matcheCount; ++ m )
 	{
 	  Str   numseq =  tmp.scanMatch( m );
-	  
+
 	  if( numseq.to( r, base ) )
 	    {
 	      range.push_back( r );
@@ -450,12 +387,12 @@ Str::to( RangeList & range, unsigned short base ) const
       if( tmp.to( r ) )
 	range.push_back( r );
     }
-  
+
   return( range.size() );
 }
-      
-        
-	
+
+
+
 // modifications * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
@@ -473,7 +410,7 @@ Str::strip( const char * stripChars )
       reset();
       return( size() );
     }
-  
+
   char * srcStart =  destStart + firstNonStrip;
   char * srcEnd   = strpbrk( srcStart, stripChars );
 
@@ -491,7 +428,7 @@ Str::strip( const char * stripChars )
 	  return( size() );
 	}
     }
-  
+
   if( destStart != srcEnd )
     {
       if( destStart != srcStart )
@@ -500,7 +437,7 @@ Str::strip( const char * stripChars )
       srcEnd += strspn( srcEnd, stripChars );
       srcStart = srcEnd;
     }
-  
+
   for( srcEnd = strpbrk( srcStart, stripChars );
       srcEnd;
       srcEnd = strpbrk( srcStart, stripChars ) )
@@ -512,7 +449,7 @@ Str::strip( const char * stripChars )
     }
 
   size_type count = length() - (srcStart - bufStart);
-  
+
   memmove( destStart, srcStart, count );
   seekp( (destStart + count) - bufStart );
   return( length() );
@@ -524,8 +461,6 @@ Str::strip( const char * stripChars )
 Str &
 Str::substitute( char from, char to, size_type start, bool global )
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
-  
   if( ! global )
     {
       char * chg = (char *)memchr( (void *)(rdbuf()->pbase() + start),
@@ -544,7 +479,7 @@ Str::substitute( char from, char to, size_type start, bool global )
 	  *chg = to;
 	}
     }
-  
+
   return( *this );
 }
 
@@ -552,10 +487,8 @@ Str::substitute( char from, char to, size_type start, bool global )
 Str &
 Str::substitute( const char * from, const char * to, size_type start, bool global )
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), *this );
-  
   size_type fromLen = strlen( from );
-  
+
   if( ! global )
     {
       size_type fromBeg = find( from, start, fromLen );
@@ -568,7 +501,7 @@ Str::substitute( const char * from, const char * to, size_type start, bool globa
   else
     {
       size_type toLen = strlen( to );
-      
+
       for( size_type fromBeg = find( from, start, fromLen );
 	  fromBeg != npos;
 	  fromBeg = find( from, fromBeg + toLen, fromLen ) )
@@ -580,71 +513,16 @@ Str::substitute( const char * from, const char * to, size_type start, bool globa
   return( *this );
 }
 
-Str &
-Str::substitute(
-  const RegexScan & exp,
-  const char *	    to,
-  size_type    	    start,
-  bool	    	    global
-  )
-{
-  const char * base = strbase() + start;
-  size_type       bLen = size() - start;
-  
-  Str repl;
-  
-  for( size_type expBeg = 0;
-      exp.search( base, expBeg, bLen );
-      expBeg = exp.matchStart() + repl.size(),
-	base = strbase() + start,
-	bLen = size() - start )
-    {
-      repl.reset();
-      for( const char * t = to; *t; t++ )
-	{
-	  if( *t == '\\' )
-	    {
-	      t++;
-	      if( isdigit( *t ) )
-		{
-		  if( (size_type)(CharToInt( *t )) <= exp.matchCount() )
-		    {
-		      repl += at( start + exp.matchStart( CharToInt( *t ) ),
-				  exp.matchLength( CharToInt( *t ) ) );
-		    }
-		}
-	      if( *t == '&' )
-		{
-		  repl += at( start + exp.matchStart( 0 ),
-			      exp.matchLength( 0 ) );
-		}
-	    }
-	  else
-	    {
-	      repl += *t;
-	    }
-	  
-	}
-      
-      replace( start + exp.matchStart(0),
-	       exp.matchLength(0),
-	       repl );
-
-      if( ! global ) break;
-    }
-  return( *this );
-}
-
 Str::size_type
 Str::wrap( size_type w, long pad, long firstPad )
 {
 
   stripLeading( " \t\n\r\f" );
-  
+
   Str tmp;
 
   int fp = 0;
-  
+
   if( firstPad > 0 || (firstPad == -1 && pad > 0) )
     {
       fp = ( firstPad > 0 ) ? firstPad : pad;
@@ -656,7 +534,7 @@ Str::wrap( size_type w, long pad, long firstPad )
   substitute( '\n', ' ' );
   substitute( '\t', ' ' );
   substitute( '\f', ' ' );
-  
+
   if( ! scan( ' ' ) > 0 )
     return( 1 );
 
@@ -665,7 +543,7 @@ Str::wrap( size_type w, long pad, long firstPad )
 
   tmp += scanMatch(1);
   col += scanMatchLength(1);
-  
+
   for( size_type m = 2;
       m < scanMatchCount();
       m++ )
@@ -691,42 +569,18 @@ Str::wrap( size_type w, long pad, long firstPad )
 	}
 
       tmp += scanMatch( m );
-      col += scanMatchLength(m);      
+      col += scanMatchLength(m);
     }
 
   tmp += '\n';
-  
+
   assign( tmp );
-  
+
   return( lines + 1 );
 }
-  
+
 
 // scan  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-
-Str::size_type
-Str::scan( const RegexScan & exp, size_type start )
-{
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), 0 );
-  
-  matches.erase( matches.begin(), matches.end() );
-
-  if( exp.search( strbase(), start, length() ) )
-    {
-      for( size_type r = 0; r <= exp.matchCount(); r++ )
-	{
-	  ssize_t mBeg = 0;
-	  ssize_t mLen = 0;
-
-	  exp.matchInfo( mBeg, mLen, r );
-
-	  matches.push_back( ScanMatch( mBeg, mLen ) );
-	}
-    }
-  return( matches.size() );
-}
-      
 
 Str::size_type
 Str::scan(
@@ -739,9 +593,9 @@ Str::scan(
   matches.erase( matches.begin(), matches.end() );
 
   matches.push_back( ScanMatch( start, size() - start ) );
-  
+
   size_type delimLen = (dLen == npos) ? strlen( delim ) : dLen;
-  
+
   size_type matchBeg = find_first_not_of( delim, start, delimLen );
 
   if( matchBeg == npos )
@@ -758,7 +612,7 @@ Str::scan(
 	  matchBeg = find_first_not_of( delim, matchEnd, delimLen );
 	  if( matchBeg == npos )
 	    break;
-	}	  
+	}
       else
 	{
 	  matchBeg = matchEnd + 1;
@@ -774,19 +628,19 @@ Str::scan(
 
   return( matches.size() );
 }
-	  
+
 Str::size_type
 Str::scan( char delim, bool multiDelim, size_type start )
 {
   matches.erase( matches.begin(), matches.end() );
 
   size_type matchBeg = start;
-  
+
   for( ; at( matchBeg ) == delim && matchBeg < size(); matchBeg ++ );
 
   if( matchBeg >= size() )
     return( 0 );
-  
+
   matches.push_back( ScanMatch( start, size() - start ) );
 
   for( size_type matchEnd = find( delim, matchBeg );
@@ -805,11 +659,11 @@ Str::scan( char delim, bool multiDelim, size_type start )
 	{
 	  matchBeg = matchEnd + 1;
 	}
-      
+
       if( matchBeg >= size() )
 	break;
     }
-  
+
   if( matchBeg != start )
     {
       matches.push_back( ScanMatch( matchBeg , size() - matchBeg) );
@@ -831,11 +685,11 @@ Str::scan(
 
   if( start >= size() )
     return( 0 );
-  
+
   matches.push_back( ScanMatch( start, size() - start ) );
 
   size_type	pos( start );
-  
+
   size_type	matchBeg( start );
 
   for( ; pos < size(); )
@@ -844,7 +698,7 @@ Str::scan(
 	{
 	  ++ pos;
 	  matchBeg = pos;
-	      
+
 	  for( ; pos < size(); ++ pos )
 	    {
 	      if( at( pos ) == escChar )
@@ -882,14 +736,14 @@ Str::scan(
 	}
       else
 	{
-      
+
 	  if( at( pos ) == escChar )
 	    {
 	      remove( pos, 1 );
 	    }
-      
+
 	  matchBeg = pos;
-	  
+
 	  for( ; pos < size(); ++ pos )
 	    {
 	      if( at( pos ) == escChar )
@@ -907,7 +761,7 @@ Str::scan(
 		    }
 		}
 	    }
-	  
+
 	  if( pos >= size() )
 	    {
 	      // did not find another delim;
@@ -917,39 +771,8 @@ Str::scan(
 	    }
 	}
     }
-  
+
   return( matches.size() );
-}
-
-Str::size_type
-Str::scanPattern( const RegexScan & exp, size_type start )
-{
-  matches.erase( matches.begin(), matches.end() );
-
-  const char *  str = strbase() + start;
-  size_type    	len = size() - start;
-
-  matches.push_back( ScanMatch( start, length( str ) ) );
-  
-  for( ; exp.search( str, 0, len );
-      str += (exp.matchStart(0) + exp.matchLength(0) ),
-      len -= (exp.matchStart(0) + exp.matchLength(0) ) )
-	 
-    {
-      matches.push_back( ScanMatch( pos( str ), exp.matchStart(0) ) );
-    }
-  
-  
-  if( matches.size() == 1 )
-    {
-      matches.erase( matches.begin(), matches.end() );
-      return( 0 );
-    }
-  else
-    {
-      matches.push_back( ScanMatch( pos( str ), length(str) ) );
-      return( matches.size() );
-    }
 }
 
 Str::size_type
@@ -960,7 +783,7 @@ Str::scanString(
   )
 {
   if( ! delimStr || delimStr[0] == 0 ) return( 0 );
-  
+
   const char * 	str = strbase() + scanStart;
   size_type    	dLen = (delimLength == npos) ? strlen( delimStr ) : delimLength;
 
@@ -996,13 +819,13 @@ Str::getDelim( std::istream & src, char delim, bool discard  )
 {
   // get the first char before modifing this
   // if it is an EOF. dont modify
-  
+
   char ch;
-  
+
   if( ! src.get( ch ).good() ) return( src );
 
   seekp(0);
-  
+
   for( ; src.good(); src.get( ch ) )
     {
       if( ch == delim )
@@ -1011,7 +834,7 @@ Str::getDelim( std::istream & src, char delim, bool discard  )
 	    append( ch );
 	  return( src );
 	}
-      
+
       append( ch );
     }
 
@@ -1023,16 +846,16 @@ Str::getDelim( std::istream & src, const char * delimChars, bool discard  )
 {
   // get the first char before modifing this
   // if it is an EOF. dont modify
-  
+
   char ch;
-  
+
   if( ! src.get( ch ).good() ) return( src );
 
   seekp(0);
-  
+
   for( ; src.good(); src.get( ch ) )
     {
-      
+
       if( strchr( delimChars, ch ) )
 	{
 	  if( ! discard )
@@ -1051,13 +874,13 @@ Str::get( std::istream & src, size_type size )
 {
   size_type len = size;
   reset();
-  
+
   // if the put buffer is not big enough read
   // the string the hard way
 
   if( rdbuf()->psize() < len )
     {
-      char buf[1024];
+      char buf[4096];
       while( len )
 	{
 	  src.read( buf, std::min( len, (size_type)sizeof(buf) ) );
@@ -1074,20 +897,13 @@ Str::get( std::istream & src, size_type size )
 	  src.read( rdbuf()->pptr(), len );
 	  if( ! src.gcount() )
 	    break;
-#if defined( STLUTILS_STRSTREAM_HACK )
-	  // This is a major hack to get around a problem with
-	  // GNU's libg++ strstream implementation.
-
-	  rdbuf()->_IO_write_ptr += src.gcount();
-#else
-	  rdbuf()->seekoff( src.gcount(), std::ios::cur, std::ios::out );
-#endif
+	  rdbuf()->pbump( src.gcount() );
 	  len -= src.gcount();
 	}
     }
   return( src );
 }
-  
+
 Str::size_type
 Str::getBinSize( void ) const
 {
@@ -1108,17 +924,15 @@ std::istream &
 Str::read( char * dest, int size )
 {
   rdbuf()->readPrep();
-  
+
   return( std::istream::read( dest, size ) );
 }
 
-#if defined( STLUTILS_STR_UNSIGNED )
 std::istream &
 Str::read( unsigned char * dest, int size )
 {
-  return( std::istream::read( dest, size ) );
+  return( std::istream::read( (char *)dest, size ) );
 }
-#endif
 
 std::ostream &
 Str::write( std::ostream & dest ) const
@@ -1135,21 +949,11 @@ Str::write( const char * src, int size )
   return( std::ostream::write( src, size ) );
 }
 
-#if defined( STLUTILS_STR_UNSIGNED )
 std::ostream &
 Str::write( const unsigned char * src, int size )
 {
-  return( std::ostream::write( src, size ) );
+  return( std::ostream::write( (const char *)src, size ) );
 }
-#endif
-
-#if defined( STLUTILS_STR_WCHAR )
-std::ostream &
-Str::write( const wchar_t * src, int size )
-{
-  return( std::ostream::write( src, size ) );
-}
-#endif
 
 std::ostream &
 Str::write( const void * src, size_type size )
@@ -1157,7 +961,7 @@ Str::write( const void * src, size_type size )
   return( std::ostream::write( (const char *)src, size ) );
 }
 
-  
+
 
 std::ostream &
 Str::toStream( std::ostream & dest ) const
@@ -1177,13 +981,7 @@ Str::fromStream( std::istream & src )
 bool
 Str::good( void ) const
 {
-  return( rdbuf() != 0 &&
-#if defined( STLUTILS_HAS_CONST_IOSGOOD )
-	  std::ios::good()
-#else
-	  std::ios::state == 0
-#endif
-	  );
+  return( rdbuf() != 0 && std::ios::good() );
 }
 
 // error - return a string describing the current state
@@ -1193,7 +991,7 @@ Str::error( void ) const
   static Str errStr;
   errStr.reset();
 
-  errStr << getClassName();
+  errStr << "Str";
 
   if( good() )
     {
@@ -1205,8 +1003,7 @@ Str::error( void ) const
 
       if( rdbuf() == 0 )
 	errStr << ": no 'streambuf'";
-      
-#if defined( STLUTILS_HAS_CONST_IOSRDSTATE )
+
       if( ! std::ios::good() )
 	{
 	  if( std::ios::rdstate() & std::ios::eofbit )
@@ -1216,54 +1013,21 @@ Str::error( void ) const
 	  if( std::ios::rdstate() & std::ios::badbit )
 	    errStr += ": BAD bit set";
 	}
-#else
-      if( state != 0 )
-	{
-	  if( std::ios::state & std::ios::eofbit )
-	    errStr += ": EOF bit set";
-	  if( std::ios::state & std::ios::failbit )
-	    errStr += ": FAIL bit set";
-	  if( std::ios::state & std::ios::badbit )
-	    errStr += ": BAD bit set";
-	}
-#endif
-      
+
       if( eSize == errStr.size() )
 	errStr << ": unknown error";
-      
+
     }
 
   return( errStr.cstr() );
 }
 
-// getClassName - return the name of this class
-const char *
-Str::getClassName( void ) const
-{
-  return( "Str" );
-}
-
-const char *
-Str::getVersion( bool withPrjVer ) const
-{
-  if( rdbuf() )
-    return( version.getVer( withPrjVer, rdbuf()->getVersion( false ) ) );
-  else
-    return( version.getVer( withPrjVer ) );  
-}
-
 std::ostream &
-Str::dumpInfo( 
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+Str::dumpInfo(
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Str::getClassName() << ":\n"
-	 << Str::getVersion() << '\n';
-
-  
   if( ! Str::good() )
     dest << prefix << "Error: " << Str::error() << '\n';
   else
@@ -1272,7 +1036,7 @@ Str::dumpInfo(
   if( matches.size() )
     {
       Str matchStr;
-      
+
       dest << prefix << "matches.size(): " << matches.size() << '\n';
 
       for( size_type m = 0; m < matches.size(); m++ )
@@ -1291,28 +1055,23 @@ Str::dumpInfo(
     {
       Str pre;
       pre = prefix;
-      pre << "rdbuf: " << rdbuf()->getClassName() << "::";
+      pre << "rdbuf:";
 
-      rdbuf()->dumpInfo( dest, pre, false );
+      rdbuf()->dumpInfo( dest, pre );
     }
-  
-  return( dest  );
-}  
 
-#if defined( STLUTILS_HAVE_LONG_LONG )
-#define NumType unsigned long long
-#else
-#define NumType unsigned long
-#endif
+  return( dest  );
+}
+
 
 bool
-Str::writeNum( NumType num, unsigned short base, bool neg )
+Str::writeNum( unsigned long long num, unsigned short base, bool neg )
 {
   static const char lDigits[] = "0123456789abcdefghijklmnopqrstuvwxyz";
   static const char uDigits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   const char * digits = ((flags() & std::ios::uppercase) ? uDigits : lDigits );
-  
+
   char buf[ ( 2 * ( sizeof( unsigned long ) * CHAR_BIT ) + 5 ) ];
   int  len = sizeof( buf ) - 2;
   int  pos = len;
@@ -1325,7 +1084,7 @@ Str::writeNum( NumType num, unsigned short base, bool neg )
       buf[ pos ] = digits[ (value % base) ];
       pos--;
     }
-  
+
   if( value || pos == len )
     {
       buf[ pos ] = digits[ value ];
@@ -1390,34 +1149,27 @@ Str::writeNum( NumType num, unsigned short base, bool neg )
 }
 
 
-#ifdef STD_STRING
 int
-Str::compare( const string & two, size_type start, size_type len ) const
+Str::compare( const std::string & two, size_type start, size_type len ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, len );
   size_type twoLen = std::min( two.size(), len );
 
   int diff = strncmp( strbase() + start, two.c_str(), std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
-#endif
 
-#ifdef STD_STRING
 int
-Str::fcompare( const string & two, size_type start, size_type len ) const
+Str::fcompare( const std::string & two, size_type start, size_type len ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, len );
   size_type twoLen = std::min( two.size(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.c_str(),
-				min( oneLen, twoLen ) );
+				std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
-}  
-#endif
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
+}
 
+}; // namespace clue

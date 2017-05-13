@@ -1,27 +1,17 @@
-//
-// File:        tParam01.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for the follwing Param methods.
-//
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/17/96 06:52
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
+// 1996-11-17 (cc) Paul Houghton - (paul4hough@gmail.com)
 
+#include "clue/Param.hpp"
+#include "clue/Clue.hpp"
+#include "clue/compare"
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "Param.hh"
-#include "Compare.hh"
-#include "StlUtilsMisc.hh"
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::Param");
+using namespace clue;
 
 #define APP_VER		"Test Param Ver: 01.01.01"
-
 #define APP_NAME_01	"TestParam_01"
 #define APP_FULLNAME_01	"test/src/Base/" APP_NAME_01
 
@@ -65,42 +55,42 @@ static const char * Argv_03[] =
 
 
 bool
-tParam01( LibTest & tester )
+v_Param01( void )
 {
   int	argc_01( ArraySize( Argv_01 ) );
   int	argc_02( ArraySize( Argv_02 ) );
   int	argc_03( ArraySize( Argv_03 ) );
-  
+
   const char ** argv_01( new const char * [ argc_01 ] );
   const char ** argv_02( new const char * [ argc_02 ] );
   const char ** argv_03( new const char * [ argc_03 ] );
-  
-  
+
+
   {
     for( size_t a = 0; a < ArraySize( Argv_01 ); ++ a )
       argv_01[a] = strdup( Argv_01[a] );
   }
-	
+
   {
     for( size_t a = 0; a < ArraySize( Argv_02 ); ++ a )
       argv_02[a] = strdup( Argv_02[a] );
   }
-	
+
   {
     for( size_t a = 0; a < ArraySize( Argv_03 ); ++ a )
       argv_03[a] = strdup( Argv_03[a] );
   }
-	
+
   {
     // Param( int, char * [] )
     // appName( void ) const;
     // appFullName( void ) const;
-    
+
     Param t( argc_01, argv_01 );
 
     t.parseArgs();
-    
-    TESTR( t.appName(), compare( t.appName(), APP_NAME_01 ) == 0 );
+
+    TEST( compare( t.appName(), APP_NAME_01 ) == 0 );
     TEST( compare( t.appFullName(), APP_FULLNAME_01 ) == 0 );
   }
 
@@ -112,14 +102,14 @@ tParam01( LibTest & tester )
     // end( void ) const;
     // beginAll( void ) const
     // endAll( void ) const;
-    
+
     Param t( argc_02, argv_02, APP_VER );
 
     t.parseArgs();
-    
+
     TEST( compare( t.appVersion(), APP_VER ) == 0 );
     TEST( (int)t.count() == argc_02  -1  );
-    
+
     size_t  count = 1;
 
     {
@@ -127,21 +117,21 @@ tParam01( LibTest & tester )
 	   them != t.end();
 	   ++them, ++count )
 	{
-	  TESTR( (*them), (*them) == argv_02[count] );
+	  TEST( (*them) == argv_02[count] );
 	}
-      
+
       TEST( (int)count == argc_02 );
     }
-    
+
     count = 0;
     {
       for( Param::Args::const_iterator them = t.beginAll();
 	   them != t.endAll();
 	   ++them, ++count )
 	{
-	  TESTR( (*them), (*them) == argv_02[count] );
+	  TEST( (*them) == argv_02[count] );
 	}
-      
+
       TEST( (int)count == argc_02 );
     }
   }
@@ -152,13 +142,13 @@ tParam01( LibTest & tester )
     // arg( size_t );
     // argLong( size_t );
     // argDouble( size_t );
-    
+
     Param t( argc_02, argv_02, APP_VER );
 
     t.parseArgs();
-    
-    TESTR( t.arg(), compare( t.arg(), argv_02[1] ) == 0 );
-    TESTR( t.arg(2), compare( t.arg(1), argv_02[2] ) == 0 );
+
+    TEST( compare( t.arg(), argv_02[1] ) == 0 );
+    TEST( compare( t.arg(1), argv_02[2] ) == 0 );
 
     TEST( t.argLong( 3 )   == 1234 );
     TEST( t.argDouble( 4 ) == 10.10 );
@@ -169,65 +159,6 @@ tParam01( LibTest & tester )
 
     t.parseArgs();
   }
-    
-    
-  return( true );
-}
-	 
 
-    
-    
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:46  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.3  2001/07/28 01:15:00  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2001/07/26 19:28:56  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:29  houghton
-// Changed Version Num to 5
-//
-// Revision 4.4  1998/10/13 16:40:32  houghton
-// Bug-Fix: was putting the wrong args in argv_01.
-//
-// Revision 4.3  1998/04/02 14:19:26  houghton
-// Cleanup and eliminate warnings.
-//
-// Revision 4.2  1997/12/20 16:13:30  houghton
-// Changed test to match lastest version.
-//
-// Revision 4.1  1997/09/17 15:14:28  houghton
-// Changed to Version 4
-//
-// Revision 3.8  1997/09/17 15:11:08  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.7  1997/09/17 11:09:55  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.6  1997/07/18 21:49:33  houghton
-// Port(Sun5): the linker had problems with this. FIXME (need a better
-//     solution to the problem)
-//
-// Revision 3.5  1997/03/21 15:41:46  houghton
-// Changed new style Param requires a call to parse.
-//
-// Revision 3.4  1997/03/03 19:10:52  houghton
-// Changed for port to AIX41.
-//
-// Revision 3.3  1997/03/03 14:39:38  houghton
-// Removed support for RW Tools++ & rpm.
-// Bug had to add and ifdef for linux - gcc has a bug in const Class *
-//     operator ++ handling.
-//
-// Revision 3.2  1996/11/19 12:36:10  houghton
-// Major-rework.
-//
-//
+  return( verify.is_valid() );
+}

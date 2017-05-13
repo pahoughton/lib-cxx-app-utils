@@ -1,42 +1,33 @@
-//
-// File:        tFileOp02.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Compiled sources for tFileOp02
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     03/08/98 11:24
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
-//
+// 1998-03-08 (cc) Paul Houghton <paul4hough@gmail.com>
 
+#include <clue/FileOp.hpp>
 
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FileOp.hh>
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstdio>
 
+static valid::verify verify("clue::FileOp02");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/FileOp"
+
 bool
-tFileOp02( LibTest & tester )
+v_FileOp02( void )
 {
   static const char * ExpFn = TEST_DATA_DIR "/FileOp.01.01.exp";
-  
+
   {
     static const char * TestFn = TEST_DATA_DIR "/FileOp.02.01";
 
     FileOp    t( ExpFn );
 
-    TESTR( t.error(), t.good() );
+    TEST(  t.good() );
 
-    TESTR( t.error(), t.copy( TestFn ) );
-       
-    if( ! tester.file( __FILE__, __LINE__, TestFn, ExpFn ) )
-      return( false );
+    TEST(  t.copy( TestFn ) );
+
+    VVEXPFILE( TestFn, ExpFn );
   }
 
   {
@@ -45,88 +36,62 @@ tFileOp02( LibTest & tester )
 
     FileOp t( SrcFn );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
 
-    TESTR( t.error(), t.move( TestFn ) );
+    TEST( t.move( TestFn ) );
 
     FileStat destStat( TestFn );
 
     TEST( destStat.good() && destStat.isReg() );
-    
-    if( ! tester.file( __FILE__, __LINE__, TestFn, ExpFn ) )
-      return( false );
+
+    VVEXPFILE( TestFn, ExpFn );
 
     FileStat srcStat( SrcFn );
-    
-    TESTR( "should not exist", ! srcStat.good() );
+
+    TEST( ! srcStat.good() );
   }
 
   {
     static const char * SrcFn = TEST_DATA_DIR "/FileOp.02.01.01";
     static const char * TestFn = "/tmp/FileOp.02.01.01";
     static const char * TestDir = "/tmp";
-      
+
     FileOp t( SrcFn );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
 
-    TESTR( t.error(), t.move( TestDir ) );
+    TEST( t.move( TestDir ) );
 
     FileStat destStat( TestFn );
 
     TEST( destStat.good() && destStat.isReg() );
-    
-    if( ! tester.file( __FILE__, __LINE__, TestFn, ExpFn ) )
-      return( false );
+
+    VVEXPFILE( TestFn, ExpFn );
 
     FileStat srcStat( SrcFn );
-    
-    TESTR( "should not exist", ! srcStat.good() );
+
+    TEST( ! srcStat.good() );
   }
 
   {
     static const char * SrcFn = "/tmp/FileOp.02.01.01";
     static const char * TestFn = TEST_DATA_DIR "/FileOp.02.01.01";
-      
+
     FileOp t( SrcFn );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
 
-    TESTR( t.error(), t.move( TestFn ) );
+    TEST( t.move( TestFn ) );
 
     FileStat destStat( TestFn );
 
     TEST( destStat.good() && destStat.isReg() );
-    
-    if( ! tester.file( __FILE__, __LINE__, TestFn, ExpFn ) )
-      return( false );
+
+    VVEXPFILE( TestFn, ExpFn );
 
     FileStat srcStat( SrcFn );
-    
-    TESTR( "should not exist", ! srcStat.good() );
+
+    TEST( ! srcStat.good() );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-    
-
-
-// Revision Log:
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:43  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:50  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:28  houghton
-// Changed Version Num to 5
-//
-// Revision 1.2  1998/11/02 19:36:39  houghton
-// Changed: the File class was renamed to FileOp.
-//
-// Revision 1.1  1998/03/21 13:57:29  houghton
-// Initial Version.
-//
-//

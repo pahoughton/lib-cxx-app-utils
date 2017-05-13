@@ -1,17 +1,27 @@
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "FileStat.hh"
-#include <strstream.h>
+// 1995-06-15 (cc) Paul Houghton <paul4hough@gmail.com>
+
+#include <clue/FileStat.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <sstream>
+
+static valid::verify verify("clue::FileStat03");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/FileStat"
 
 bool
-tFileStat06( LibTest & tester )
+v_FileStat06( void )
 {
   {
     // compare( const FileStat & ) const
     // operator == ( const FileStat & ) const
     // operator <  ( const FileStat & ) const
     // operator >  ( const FileStat & ) const
-    
+
     const FileStat tl( TEST_DATA_DIR "/FileStat.01" );
     const FileStat tm( TEST_DATA_DIR "/FileStat.l1" );
 
@@ -27,13 +37,13 @@ tFileStat06( LibTest & tester )
     // toStream( ostream & ) const
     // operator << ( ostream &, const FilePath & )
 
-    strstream tStrm;
+    std::stringstream tStrm;
     const FileStat t( TEST_DATA_DIR "/FileStat.01" );
 
     t.toStream( tStrm );
     tStrm << t;
   }
-    
+
   {
     // good( void ) const
     // error( void ) const
@@ -43,34 +53,13 @@ tFileStat06( LibTest & tester )
 
     const FileStat t( TEST_DATA_DIR "/FileStat.01" );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
     TEST( t.error() != 0 );
-    TEST( t.getClassName() != 0 );
-    TEST( t.getVersion() != 0 );
-    TEST( t.getVersion( false ) != 0 );
-    
   }
 
   {
-    // dumpInfo( ostream & ) const
-    // version
+    // ::compare( const FileStat &, const FileStat & )
 
-    const FileStat t( TEST_DATA_DIR "/FileStat.01" );
-
-    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
-    t.toStream( tester.getDump() );
-    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
-    t.dumpInfo( tester.getDump(), " -> ", true );
-    tester.getDump() << '\n' << t.getClassName() << " version:\n";
-    tester.getDump() << t.version;
-    
-    tester.getDump() << '\n' << tester.getCurrentTestName();
-    
-  }
-    
-  {
-    // ::compare( const FileStat &, const FileStat & ) 
-      
     const FileStat tl( TEST_DATA_DIR "/FileStat.01" );
     const FileStat tm( TEST_DATA_DIR "/FileStat.l1" );
 
@@ -78,6 +67,5 @@ tFileStat06( LibTest & tester )
     TEST( compare( tl, tm ) <  0 );
     TEST( compare( tm, tl ) >  0 );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }

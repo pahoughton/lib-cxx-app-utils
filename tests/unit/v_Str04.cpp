@@ -1,14 +1,15 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::Str04");
+using namespace clue;
 
 // Str::insert( ... )
 
@@ -19,7 +20,7 @@
 #define T5 " fifth part"
 
 bool
-tStr04( LibTest & tester )
+v_Str04( void )
 {
 
   {
@@ -40,7 +41,7 @@ tStr04( LibTest & tester )
     t.insert( strlen( T1 T3 ), src, strlen( T1 ), strlen( T2 ) );
 
     TEST( t == T1 T3 T2 T2 T3 );
-    
+
     t.insert( 0, src );
 
     TEST( t == T1 T2 T3 T1 T3 T2 T2 T3 );
@@ -88,7 +89,7 @@ tStr04( LibTest & tester )
     t.insert( t.size(), T2 T3 T4, strlen( T2 T3 ) );
 
     TEST( t == T1 T2 T4 T3 T2 T3 );
-    
+
   }
 
   {
@@ -111,6 +112,6 @@ tStr04( LibTest & tester )
 
     TEST( t == "x" T1 T2 );
   }
-    
-  return( true );
+
+  return( verify.is_valid() );
 }

@@ -1,52 +1,23 @@
-//
-// File:        FilePath.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for FilePath
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     06/15/95 07:48 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1995-06-15 (cc) Paul Houghton <paul4hough@gmail.com>
 
+#include "FilePath.hpp"
 
-
-#include "FilePath.hh"
-
-#if defined( UNIX )
-#include <User.hh>
-#endif
-
-#include <RegexScan.hh>
+#include "User.hpp"
 
 #include <fnmatch.h>
 
 #include <cstdio>
 #include <cstring>
 
-#if defined( STLUTILS_DEBUG )
-#include <FilePath.ii>
-#endif
+namespace clue {
 
-STLUTILS_VERSION(
-  FilePath,
-  "$Id$ " );
-
-const char FilePath::DirDelim = STLUTILS_DIR_DELIM;
+const char FilePath::DirDelim = '/';
 
 Str
 FilePath::getName( void ) const
 {
   Str name;
-  
+
   size_type nameBeg = rfind( dirDelim );
   size_type nameEnd = rfind( extDelim );
 
@@ -62,13 +33,13 @@ FilePath::getName( void ) const
 	  return( name );
 	}
     }
-      
+
   if( nameEnd == npos )
     name = substr( nameBeg + 1 );
   else
     name = substr( nameBeg + 1, nameEnd  - (nameBeg + 1) );
 
-  return( name );  
+  return( name );
 }
 
 bool
@@ -81,63 +52,45 @@ bool
 FilePath::expand( void )
 {
   bool changed = false;
-  
-  Str::size_type pos = find( '$' );
 
-  if( pos != npos )
-    {
-      // expand env vars
-      static const RegexScan  EnvVarChars( "[A-Za-z0-9_]+" );
-      Str   eVar;
-      
-      Str::size_type endpos;
-      for( ; pos != Str::npos ; pos = find( '$', endpos  ) )
-	{
-	  if( at( pos + 1 ) == '{' )
-	    {
-	      endpos = find( '}', pos + 2 );
-	      if( endpos == npos )
-		return( false );
+  for( Str::size_type pos = find( '$' );
+       pos != npos;
+       pos = find( '$', pos ) ) {
 
-	      eVar.assign( *this, pos + 2, endpos - pos - 2 );
-	    }
-	  else
-	    {
-	      if( EnvVarChars.match( c_str(), pos + 1) )
-		{		  
-		  endpos = pos + EnvVarChars.matchLength();
-		}
-	      else
-		{
-		  // not a valid env var, try again staring with
-		  // the next char
-		  endpos = pos + 1;
-		  continue;
-		}
-	      eVar.assign( *this, pos + 1, endpos - pos );
-	      
-	    }
-	  
-	  const char * eValue = getenv( eVar );
-	  
-	  if( eValue && strlen( eValue ) )
-	    {
-	      long oldSize = size();
-	      replace( pos, endpos + 1 - pos, eValue );
-	      long newSize = size();
-	      endpos = pos + (endpos + 1 - pos ) + newSize - oldSize;
-	    }
-	  else
-	    {
-	      remove( pos, endpos + 1 - pos );
-	      endpos = pos;
-	    }
-	  
-	  changed = true;
-	}
+    Str            evar;
+    Str::size_type epos = npos;
+
+    if( at( pos + 1 ) == '{' ) {
+
+      epos = find( '}', pos + 2 );
+      if( epos == npos )
+	return( false );
+
+      evar.assign( *this, pos + 2, epos - (pos + 2) );
+      ++ epos;
+    } else {
+      for( epos = pos + 1;
+	   epos < size()
+	     && ( ( 'A' <= at( epos ) && at( epos ) <= 'Z')
+		  || ( 'a' <= at( epos ) && at( epos ) <= 'z')
+		  || ( '0' <= at( epos ) && at( epos ) <= '9')
+		  || '_' == at( epos ));
+	   ++ epos );
+      evar.assign( *this, pos + 1, epos - (pos + 1));
     }
+    const char * eval    = getenv( evar );
+    size_t       elen = eval ? strlen( eval ) : 0;
 
-#if defined( UNIX )
+    if( elen ) {
+      replace( pos, epos - pos, eval );
+      pos += elen;
+
+    } else {
+      remove( pos, epos - pos );
+    }
+    changed = true;
+  }
+
   if( size() && at((size_type)0) == '~' )
     {
       if( size() == 1 || at(1) == '/' )
@@ -169,19 +122,18 @@ FilePath::expand( void )
 	    }
 	}
     }
-#endif // def UNIX
-  
+
   return( changed );
 }
-	  
-	      
-      
+
+
+
 bool
 FilePath::setPrefix( const char * prefix )
 {
   if( prefix[0] == 0 )
     return( true );
-  
+
   if( at((size_type)0) == dirDelim )
     {
       if( prefix[ strlen( prefix ) - 1 ] == dirDelim )
@@ -248,7 +200,7 @@ FilePath::changePath( const char * oldDirs, const char * newDirs )
     return( false );
 
   replace( pathBeg, strlen( oldDirs ), newDirs );
-  
+
   return( true );
 }
 
@@ -259,7 +211,7 @@ FilePath::cleanFn( void )
     if( *begin() == '.' ) {
       *begin() = '_';
     }
-    replaceAny( STL_CLEANFN_CHARS, '_' );
+    replaceAny( CLUE_CLEANFN_CHARS, '_' );
   }
 }
 bool
@@ -294,7 +246,7 @@ FilePath::setName( const char * name, char ext )
     nameBeg = 0;
   else
     nameBeg++;
-  
+
   if( nameEnd == npos )
     nameEnd = size();
 
@@ -313,12 +265,12 @@ FilePath::setName( const char * name, const char * ext )
     nameBeg = 0;
   else
     nameBeg++;
-  
+
   if( nameEnd == npos )
     nameEnd = size();
 
   replace( nameBeg, nameEnd - nameBeg, name );
-  
+
   return( true );
 }
 
@@ -367,7 +319,7 @@ bool
 FilePath::setTempName( const char * path, const char * prefix )
 {
   Str fnPrefix;
-  
+
   if( prefix != 0 )
     fnPrefix = prefix;
   else
@@ -384,7 +336,7 @@ FilePath::setTempName( const char * path, const char * prefix )
     assign( tempFileName );
     free( tempFileName );
   }
-    
+
   return( size() != 0 );
 }
 
@@ -403,8 +355,8 @@ FilePath::getBinSize( void ) const
 	  sizeof( extDelim ) );
 }
 
-	    
-std::ostream & 
+
+std::ostream &
 FilePath::write( std::ostream & dest ) const
 {
   size_type  len = size();
@@ -421,13 +373,11 @@ FilePath::write( const char * src, int size )
   return( Str::write( src, size ) );
 }
 
-#if defined( STLUTILS_STR_UNSIGNED )
 std::ostream &
 FilePath::write( const unsigned char * src, int size )
 {
   return( Str::write( src, size ) );
 }
-#endif
 
 std::ostream &
 FilePath::write( const wchar_t * src, int size )
@@ -441,7 +391,7 @@ FilePath::write( const void * src, size_type size )
   return( Str::write( src, size ) );
 }
 
-  
+
 
 std::istream &
 FilePath::read( std::istream & src )
@@ -469,14 +419,12 @@ FilePath::read( char * dest, int size )
   return( Str::read( dest, size ) );
 }
 
-#if defined( STLUTILS_STR_UNSIGNED )
 std::istream &
 FilePath::read( unsigned char * dest, int size )
 {
   return( Str::read( dest, size ) );
 }
-#endif
-  
+
 
 bool
 FilePath::good( void ) const
@@ -489,8 +437,8 @@ const char *
 FilePath::error( void ) const
 {
   static Str errStr;
-  
-  errStr = getClassName();
+
+  errStr = "FilePath";
 
   if( good() )
     {
@@ -502,7 +450,7 @@ FilePath::error( void ) const
 
       if( ! Str::good() )
 	errStr << Str::error();
-      
+
       if( eSize == errStr.size() )
 	errStr += ": unknown error.";
     }
@@ -510,30 +458,13 @@ FilePath::error( void ) const
   return( errStr.c_str() );
 }
 
-// getClassName - return the name of this class
-const char *
-FilePath::getClassName( void ) const
-{
-  return( "FilePath" );
-}
-
-const char *
-FilePath::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
 std::ostream &
-FilePath::dumpInfo( 
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+FilePath::dumpInfo(
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << FilePath::getClassName() << ":\n"
-	 << FilePath::getVersion() << '\n';
-  
+
   if( ! FilePath::good() )
     dest << prefix << "Error: " << FilePath::error() << '\n';
   else
@@ -543,93 +474,10 @@ FilePath::dumpInfo(
        << prefix << "dirDelim:   " << dirDelim << '\n'
        << prefix << "extDelim:   " << extDelim << '\n'
     ;
-  
+
   dest << '\n';
-  
+
   return( dest  );
-}  
+}
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.4  2012/05/07 21:56:02  paul
-// *** empty log message ***
-//
-// Revision 6.3  2012/04/26 20:08:53  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:13  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:41  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:15  houghton
-// Changed Version Num to 5
-//
-// Revision 4.4  1998/03/23 10:44:57  houghton
-// Changed to eliminate Sun5 compiler warnings.
-//
-// Revision 4.3  1997/09/20 14:27:59  houghton
-// Bug-Fix: setTempName had a memory leak. tempnam returns a malloc'ed
-//     string and it was not being free'ed.
-//
-// Revision 4.2  1997/09/19 11:20:59  houghton
-// Changed to use size_type (vs size_t).
-//
-// Revision 4.1  1997/09/17 15:12:25  houghton
-// Changed to Version 4
-//
-// Revision 3.8  1997/09/17 11:08:21  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.7  1997/08/08 12:37:29  houghton
-// Added expand() method.
-//
-// Revision 3.6  1997/07/18 19:13:04  houghton
-// Port(Sun5): changed all locale variables named beg and end to
-//     eliminate compiler warnings.
-//
-// Revision 3.5  1997/06/09 12:01:18  houghton
-// Changed 'match' to be a const method.
-//
-// Revision 3.4  1997/03/03 18:58:47  houghton
-// Changed arg to write calls to const char * (AIX workaround)
-// Changed arg to write class to char * (AIX workaround)
-//
-// Revision 3.3  1997/03/03 14:35:53  houghton
-// Changed base class from string back to Str (Massive improvement of
-//     functionallity )
-//
-// Revision 3.2  1996/11/20 12:06:10  houghton
-// Changed: Major rework to change base class from Str to string.
-//
-// Revision 3.1  1996/11/14 01:23:41  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/11/04 13:35:19  houghton
-// Bug-Fix: changeDirs - if oldDirs not found in path, return false.
-//
-// Revision 2.2  1995/12/04 11:17:22  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:34  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:33  houghton
-// Revised
-//
-//
-
+}; // namespace clue;

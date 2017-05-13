@@ -1,111 +1,99 @@
-//
-// File:        tBitmask02.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test the following Bitmask methods.
-//
-// bit operator [] ( size_t );
-// bit operator () ( size_t );
-// bool operator [] ( size_t ) const;
-// bool operator () ( size_t ) const;
-// operator = ( unsigned long )
-// operator =  ( const bit & )
-// operator &= ( const bit & )
-// operator |= ( const bit & )
-// operator |= ( const bit & )
-// operator ^= ( const bit & )
-// operator &= ( const Bitmask & )
-// operator |= ( const Bitmask & )
-// operator ^= ( const Bitmask & )
-// operator == ( const Bitmask & ) const
-// operator <  ( const Bitmask & ) const
-// operator <= ( const Bitmask & ) const
-// operator >  ( const Bitmask & ) const
-// operator >= ( const Bitmask & ) const
-// operator == ( unsigned long ) const
-// operator != ( unsigned long ) const
-// operator <  ( unsigned long ) const
-// operator <= ( unsigned long ) const
-// operator >  ( unsigned long ) const
-// operator >= ( unsigned long ) const
-// operator bool ( void ) const
-// operator unsigned long ( void ) const
-// getBinSize( void ) const
-// write( ostream & ) const
-// read( istream & )
-// toStream( ostream & ) const
-// fromStream( istream & );
-// getClassName( void ) const
-// getVersion( void ) const
-// getVersion( bool ) const
-// dumpInfo( ostream & ) const
-// bit::operator bool () const;
-// bit::pos( void ) const;
-//
-// static const bit b00;
-// static const bit b01;
-// static const bit b02;
-// static const bit b03;
-// static const bit b04;
-// static const bit b05;
-// static const bit b06;
-// static const bit b07;
-// static const bit b08;
-// static const bit b09;
-// static const bit b10;
-// static const bit b11;
-// static const bit b12;
-// static const bit b13;
-// static const bit b14;
-// static const bit b15;
-// static const bit b16;
-// static const bit b17;
-// static const bit b18;
-// static const bit b19;
-// static const bit b20;
-// static const bit b21;
-// static const bit b22;
-// static const bit b23;
-// static const bit b24;
-// static const bit b25;
-// static const bit b26;
-// static const bit b27;
-// static const bit b28;
-// static const bit b29;
-// static const bit b30;
-// static const bit b31;
-// static const Bitmask all;
-// static const size_t maxPos;
-// static const ClassVersion version
-//
-//
-//  Also uses the following methods.
-//
-//	bit::pos( void ) const;
-//	bit::operator =  ( bool rhs )
-//	bit::operator bool () const
-//
-// Source Header Version: 2.7
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/30/96 08:14
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+/* 1996-10-30 (cc) <paul4hough@gmail.com>
+  Test the following Bitmask methods.
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "Bitmask.hh"
-#include <Str.hh>
-#include <cstring>
+    bit operator [] ( size_t );
+    bit operator () ( size_t );
+    bool operator [] ( size_t ) const;
+    bool operator () ( size_t ) const;
+    operator = ( unsigned long )
+    operator =  ( const bit & )
+    operator &= ( const bit & )
+    operator |= ( const bit & )
+    operator |= ( const bit & )
+    operator ^= ( const bit & )
+    operator &= ( const Bitmask & )
+    operator |= ( const Bitmask & )
+    operator ^= ( const Bitmask & )
+    operator == ( const Bitmask & ) const
+    operator <  ( const Bitmask & ) const
+    operator <= ( const Bitmask & ) const
+    operator >  ( const Bitmask & ) const
+    operator >= ( const Bitmask & ) const
+    operator == ( unsigned long ) const
+    operator != ( unsigned long ) const
+    operator <  ( unsigned long ) const
+    operator <= ( unsigned long ) const
+    operator >  ( unsigned long ) const
+    operator >= ( unsigned long ) const
+    operator bool ( void ) const
+    operator unsigned long ( void ) const
+    toStream( ostream & ) const
+    fromStream( istream & );
+    dumpInfo( ostream & ) const
+    bit::operator bool () const;
+    bit::pos( void ) const;
+    bit::toStream( ostream & ) const
+    bit::dumpinfo( ostream &, const char *, bool )
 
-#define T_CLASS_NAME	"Bitmask"
+    static const bit b00;
+    static const bit b01;
+    static const bit b02;
+    static const bit b03;
+    static const bit b04;
+    static const bit b05;
+    static const bit b06;
+    static const bit b07;
+    static const bit b08;
+    static const bit b09;
+    static const bit b10;
+    static const bit b11;
+    static const bit b12;
+    static const bit b13;
+    static const bit b14;
+    static const bit b15;
+    static const bit b16;
+    static const bit b17;
+    static const bit b18;
+    static const bit b19;
+    static const bit b20;
+    static const bit b21;
+    static const bit b22;
+    static const bit b23;
+    static const bit b24;
+    static const bit b25;
+    static const bit b26;
+    static const bit b27;
+    static const bit b28;
+    static const bit b29;
+    static const bit b30;
+    static const bit b31;
+    static const Bitmask all;
+    static const size_t maxPos;
+
+    ::operator << ( ostream &, const Bitmask & );
+    ::operator >> ( istream &, Bitmask & );
+    ::operator << ( ostream &, const Bitmask::bit & )
+
+  Also uses the following methods.
+
+    bit::pos( void ) const;
+    bit::operator =  ( bool rhs )
+    bit::operator bool () const
+*/
+
+#include <clue/bitmask>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <sstream>
+
+static valid::verify verify("clue::bitmask02");
+using namespace clue;
 
 bool
-tBitmask02( LibTest & tester )
+v_bitmask02( void )
 {
   {
     // bit operator [] ( size_t );
@@ -122,20 +110,20 @@ tBitmask02( LibTest & tester )
 	TEST( t( p ).pos() == p );
 	TEST( ! t[ p ] );
 	TEST( ! t( p ) );
-	
+
 	t.set( p );
 
 	TEST( t[ p ] );
 	TEST( t( p ) );
 
 	t[p] = false;
-	
+
 	TEST( ! t[ p ] );
 	TEST( ! t( p ) );
 	TEST( ! t.test( p ) );
 
 	t( p ) = true;
-	
+
 	TEST( t[ p ] );
 	TEST( t( p ) );
       }
@@ -144,7 +132,7 @@ tBitmask02( LibTest & tester )
   {
     // bool operator [] ( size_t ) const;
     // bool operator () ( size_t ) const;
-    
+
     const Bitmask t( 0x1824 );
 
     TEST( ! t[1] );
@@ -160,13 +148,13 @@ tBitmask02( LibTest & tester )
     TEST( ! t[13] );
     TEST( ! t(13) );
   }
-      
-	
+
+
   {
     // operator = ( unsigned long )
 
     Bitmask t;
-    
+
     t = 0x1080;
     TEST( t.to_ulong() == 0x1080 );
   }
@@ -190,7 +178,7 @@ tBitmask02( LibTest & tester )
     TEST( t.to_ulong() == 0x1000 );
 
     // operator &= ( const bit & )
-    
+
     t &= s(12);
     TEST( t.to_ulong() == 0x1000 );
 
@@ -200,7 +188,7 @@ tBitmask02( LibTest & tester )
     t.set( 2 );
     t &= s(2);
     TEST( t.to_ulong() == 0x1004 );
-    
+
     // operator |= ( const bit & )
 
     t |= s(6);
@@ -231,7 +219,7 @@ tBitmask02( LibTest & tester )
     t ^= s(4);
     TEST( t.to_ulong() == 0x11042 );
   }
-  
+
   {
     // operator &= ( const Bitmask & )
     // operator |= ( const Bitmask & )
@@ -239,22 +227,22 @@ tBitmask02( LibTest & tester )
 
     Bitmask t(0x1f9f);
     Bitmask rhs;
-    
+
     rhs.set( 7 );
     t &= rhs;
-    
+
     TEST( t.to_ulong() == 0x80 );
 
     rhs.set( 0 );
     t |= rhs;
 
     TEST( t.to_ulong() == 0x81 );
-    
+
     rhs.reset();
     rhs.set( 7 );
     rhs.set( 15 );
     t ^= rhs;
-    
+
     TEST( t.to_ulong() == 0x8001 );
   }
 
@@ -313,38 +301,6 @@ tBitmask02( LibTest & tester )
     TEST( (unsigned)t2 == 0x08U );
   }
 
-  {
-    // getBinSize( void ) const
-    // write( ostream & ) const
-    // read( istream & )
-
-    const Bitmask   tw(9);
-    Bitmask	    tr(5);
-
-    TEST( tw.getBinSize() );
-
-    Str tStrm;
-
-    streampos gpos = tStrm.tellg();
-    streampos ppos = tStrm.tellp();
-
-#ifdef AIX
-    ppos = 0;
-    gpos = 0;
-#endif
-    
-    TEST( ppos == 0 );
-    TEST( gpos == 0 );
-    
-    tw.write( tStrm );
-    ppos += (streampos)tw.getBinSize();
-    TEST( ppos == tStrm.tellp() );
-      
-    tr.read( tStrm );
-    gpos += (streampos)tr.getBinSize();
-    TEST( gpos == tStrm.tellg() );
-    TEST( tr == tw );
-  }
 
   {
     // toStream( ostream & ) const
@@ -353,76 +309,53 @@ tBitmask02( LibTest & tester )
     Bitmask	    tr(0xffffffff);
 
     {
-      Str tStrm;
+      std::stringstream tStrm;
 
       TEST( tw != tr );
       TEST( tw.toStream( tStrm ).good() );
       TEST( ! tr.fromStream( tStrm ).good() );
-      TEST( tStrm.rdstate() == ( ios::eofbit ) );
+      TEST( tStrm.rdstate() == ( std::ios::eofbit ) );
       TEST( tw == tr );
     }
 
     {
-      Str tStrm;
+      std::stringstream tStrm;
 
       TEST( tw.toStream( tStrm ).good() );
 
-      TESTR( tStrm.cstr(),
-	     ! strncmp( tw.to_string(), tStrm.cstr(), 32 ) );
+      TEST( ! strncmp( tw.to_string(), tStrm.str().c_str(), 32 ) );
 
     }
 
     {
-      Str tStrm;
+      std::stringstream tStrm;
 
       tStrm << "0101    1111";
 
       TEST( tr.fromStream( tStrm ).good() );
       TEST( tr.to_ulong() == 0x05 );
 
-      
+
       TEST( ! tr.fromStream( tStrm ).good() );
-      cerr << "\nWHAT? : '" << tStrm.rdstate()
+      /*
+	cerr << "\nWHAT? : '" << tStrm.rdstate()
 	   << "' eof(" << ios::eofbit
-	   << ") tr '" << tr 
+	   << ") tr '" << tr
 	   << "'."
 	   << endl;
-      TEST( tStrm.rdstate() == ( ios::eofbit ) );      
+      */
+      TEST( tStrm.rdstate() == ( std::ios::eofbit ) );
       TEST( tr.to_ulong() == 0x0f );
     }
 
     {
-      Str tStrm;
+      std::stringstream tStrm;
 
       tStrm << "2222";
       TEST( ! tr.fromStream( tStrm ).good() );
       TEST( tStrm.fail() );
       TEST( ! tStrm.eof() );
     }
-    
-  }
-    
-  {
-    // getClassName( void ) const
-    // getVersion( void ) const
-    // getVersion( bool ) const
-
-    
-    const Bitmask t(2);
-
-    TEST( ! strcmp( t.getClassName(), T_CLASS_NAME ) );
-
-    TEST( strstr( t.getVersion(), "@(#) libStlUtils - " ) != 0 );
-    TEST( strstr( t.getVersion(), T_CLASS_NAME ) != 0 );
-    TEST( strstr( t.getVersion(), "Compiled: " ) != 0 );
-    
-    TEST( strstr( t.getVersion(true), "@(#) libStlUtils - " )!= 0 );
-    TEST( strstr( t.getVersion(true), T_CLASS_NAME ) != 0 );
-    TEST( strstr( t.getVersion(true), "Compiled: " ) != 0 );
-    
-    TEST( strstr( t.getVersion(false), "@(#) libStlUtils - " ) == 0 );
-    TEST( strstr( t.getVersion(false), T_CLASS_NAME ) != 0 );
-    TEST( strstr( t.getVersion(false), "Compiled: " ) != 0 );
 
   }
 
@@ -430,17 +363,16 @@ tBitmask02( LibTest & tester )
     // dumpInfo( ostream & ) const
 
     const Bitmask t(0x1248cdef );
+    std::stringstream tStrm;
 
-    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
-    t.dumpInfo( tester.getDump(), " -> ", true );
-    
-    tester.getDump() << '\n' << tester.getCurrentTestName();    
+    t.dumpInfo( tStrm );
+    TEST( tStrm.good() );
   }
-    
+
   {
     // bit::operator bool () const;
     // bit::pos( void ) const;
-    
+
     // static const bit b00;
     // static const bit b01;
     // static const bit b02;
@@ -473,100 +405,100 @@ tBitmask02( LibTest & tester )
     // static const bit b29;
     // static const bit b30;
     // static const bit b31;
-    
+
     TEST( Bitmask::b00 == true );
     TEST( Bitmask::b00.pos() == 0 );
-    
+
     TEST( Bitmask::b01 == true );
     TEST( Bitmask::b01.pos() == 1 );
-    
+
     TEST( Bitmask::b02 == true );
     TEST( Bitmask::b02.pos() == 2 );
-    
+
     TEST( Bitmask::b03 == true );
     TEST( Bitmask::b03.pos() == 3 );
-    
+
     TEST( Bitmask::b04 == true );
     TEST( Bitmask::b04.pos() == 4 );
-    
+
     TEST( Bitmask::b05 == true );
     TEST( Bitmask::b05.pos() == 5 );
-    
+
     TEST( Bitmask::b06 == true );
     TEST( Bitmask::b06.pos() == 6 );
-    
+
     TEST( Bitmask::b07 == true );
     TEST( Bitmask::b07.pos() == 7 );
-    
+
     TEST( Bitmask::b08 == true );
     TEST( Bitmask::b08.pos() == 8 );
-    
+
     TEST( Bitmask::b09 == true );
     TEST( Bitmask::b09.pos() == 9 );
-    
+
     TEST( Bitmask::b10 == true );
     TEST( Bitmask::b10.pos() == 10 );
-    
+
     TEST( Bitmask::b11 == true );
     TEST( Bitmask::b11.pos() == 11 );
-    
+
     TEST( Bitmask::b12 == true );
     TEST( Bitmask::b12.pos() == 12 );
-    
+
     TEST( Bitmask::b13 == true );
     TEST( Bitmask::b13.pos() == 13 );
-    
+
     TEST( Bitmask::b14 == true );
     TEST( Bitmask::b14.pos() == 14 );
-    
+
     TEST( Bitmask::b15 == true );
     TEST( Bitmask::b15.pos() == 15 );
-    
+
     TEST( Bitmask::b16 == true );
     TEST( Bitmask::b16.pos() == 16 );
-    
+
     TEST( Bitmask::b17 == true );
     TEST( Bitmask::b17.pos() == 17 );
-    
+
     TEST( Bitmask::b18 == true );
     TEST( Bitmask::b18.pos() == 18 );
-    
+
     TEST( Bitmask::b19 == true );
     TEST( Bitmask::b19.pos() == 19 );
-    
+
     TEST( Bitmask::b20 == true );
     TEST( Bitmask::b20.pos() == 20 );
-    
+
     TEST( Bitmask::b21 == true );
     TEST( Bitmask::b21.pos() == 21 );
-    
+
     TEST( Bitmask::b22 == true );
     TEST( Bitmask::b22.pos() == 22 );
-    
+
     TEST( Bitmask::b23 == true );
     TEST( Bitmask::b23.pos() == 23 );
-    
+
     TEST( Bitmask::b24 == true );
     TEST( Bitmask::b24.pos() == 24 );
-    
+
     TEST( Bitmask::b25 == true );
     TEST( Bitmask::b25.pos() == 25 );
-    
+
     TEST( Bitmask::b26 == true );
     TEST( Bitmask::b26.pos() == 26 );
-    
+
     TEST( Bitmask::b27 == true );
     TEST( Bitmask::b27.pos() == 27 );
-    
+
     TEST( Bitmask::b28 == true );
     TEST( Bitmask::b28.pos() == 28 );
-    
+
     TEST( Bitmask::b29 == true );
     TEST( Bitmask::b29.pos() == 29 );
-    
+
     TEST( Bitmask::b30 == true );
     TEST( Bitmask::b30.pos() == 30 );
-    
+
     TEST( Bitmask::b31 == true );
     TEST( Bitmask::b31.pos() == 31 );
 
@@ -593,60 +525,65 @@ tBitmask02( LibTest & tester )
   }
 
   {
-    // static const ClassVersion version
+    // bit::toStream( ostream & ) const
 
-    TEST( strstr( Bitmask::version.getVer(true), "@(#) libStlUtils - " ) != 0 );
-    TEST( strstr( Bitmask::version.getVer(true), T_CLASS_NAME ) != 0 );
-    TEST( strstr( Bitmask::version.getVer(true), "Compiled: " ) != 0 );
-    
-    TEST( strstr( Bitmask::version.getVer(true), "@(#) libStlUtils - " )!= 0 );
-    TEST( strstr( Bitmask::version.getVer(true), T_CLASS_NAME ) != 0 );
-    TEST( strstr( Bitmask::version.getVer(true), "Compiled: " ) != 0 );
-    
-    TEST( strstr( Bitmask::version.getVer(false), "@(#) libStlUtils - " ) == 0);
-    TEST( strstr( Bitmask::version.getVer(false), T_CLASS_NAME ) != 0 );
-    TEST( strstr( Bitmask::version.getVer(false), "Compiled: " ) != 0 );
-    
+    Bitmask t(0x8421);
+
+    std::stringstream tStrm;
+
+    Bitmask::b00.toStream( tStrm ) << " ";
+    t(1).toStream( tStrm ) << " ";
+    t(0).toStream( tStrm ) << std::ends;
+
+    TEST( ! strcmp( tStrm.str().c_str(),
+		     "true false true" ) );
   }
-  return( true );
-}
 
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:42  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:50  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/07/19 09:17:28  houghton
-// Port to 64 bit.
-//
-// Revision 5.2  2000/05/25 17:11:50  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:27  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:04  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:09:36  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/03/03 19:09:05  houghton
-// Changed to use Str (vs strstream).
-// Changed for port to AIX.
-//
-// Revision 3.2  1996/11/19 12:33:58  houghton
-// Changed include lines to use " " instead of < > to accomidate rpm.
-// Removed support for short file names to accomidate rpm.
-//
-// Revision 3.1  1996/11/14 01:26:23  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/04 14:46:02  houghton
-// Added header comments.
-// Changed so that everything in Bitmask.hh is tested.
-//
-//
+  {
+    // bit::dumpinfo( ostream &, const char *, bool )
+    std::stringstream tStrm;
+
+    Bitmask::b16.dumpInfo( tStrm, " -> ");
+  }
+
+  {
+    // ::operator << ( ostream &, const Bitmask & );
+    // ::operator >> ( istream &, Bitmask & );
+
+    const Bitmask   tw( 0x8421fedc );
+    Bitmask	    tr(0xffffffff);
+
+    {
+      std::stringstream tStrm;
+
+      TEST( tw != tr );
+      tStrm << tw;
+      tStrm >> tr;
+      TEST( tw == tr );
+    }
+
+    {
+      std::stringstream tStrm;
+
+      tStrm << tw << std::ends;
+
+      TEST( ! strcmp( tw.to_string(), tStrm.str().c_str() ) );
+    }
+  }
+  {
+    // ::operator << ( ostream &, const Bitmask::bit & )
+
+    Bitmask t(0x8421);
+
+    std::stringstream tStrm;
+
+    tStrm << Bitmask::b00 << ' '
+	  << t(1) << ' '
+	  << t(0) << std::ends;
+
+    TEST( ! strcmp( tStrm.str().c_str(),
+		     "true false true" ) );
+  }
+
+  return( verify.is_valid() );
+}

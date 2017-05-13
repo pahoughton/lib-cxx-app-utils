@@ -1,18 +1,19 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FilePath.hh>
-#include <strstream.h>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FilePath.hh>
-#include <HBinStrm.hh>
-#include <strstream>
-#endif
+// 1995-06-15 (cc) Paul Houghton <paul4hough@gmail.com>
+
+#include <clue/FilePath.hpp>
+#include <clue/compare>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <sstream>
+
+static valid::verify verify("clue::FilePath04");
+using namespace clue;
 
 bool
-tFilePath04( LibTest & tester )
+v_FilePath04( void )
 {
   {
     // getBinSize( void ) const
@@ -22,26 +23,21 @@ tFilePath04( LibTest & tester )
     const FilePath  tw( ":usr:src","libStlUtils.a", '/','.' );
     FilePath	    tr;
 
-    strstream tStrm;
+    std::stringstream tStrm;
 
-    streampos gpos = tStrm.tellg();
-    streampos ppos = tStrm.tellp();
+    std::streampos gpos = tStrm.tellg();
+    std::streampos ppos = tStrm.tellp();
 
-#ifdef AIX
-    ppos = 0;
-    gpos = 0;
-#endif
-    
+
     TEST( ppos == 0 );
     TEST( gpos == 0 );
-    
+
     tw.write( tStrm );
-    ppos += (streampos) tw.getBinSize();
+    ppos += (std::streampos) tw.getBinSize();
     TEST( ppos == tStrm.tellp() );
-      
+
     tr.read( tStrm );
-    gpos += (streampos) tr.getBinSize();
-    tester.getOutput() << "gpos: " << gpos << " tellg: " << tStrm.tellg() << endl;
+    gpos += (std::streampos) tr.getBinSize();
     TEST( gpos == tStrm.tellg() );
     TEST( tr == tw );
   }
@@ -50,50 +46,26 @@ tFilePath04( LibTest & tester )
     // toStream( ostream & ) const
     // operator << ( ostream &, const FilePath & )
 
-    strstream tStrm;
+    std::stringstream tStrm;
     const FilePath  t( ":usr:src","libStlUtils.a", '/','.' );
 
     t.toStream( tStrm );
     tStrm << t;
   }
-    
+
   {
     // good( void ) const
     // error( void ) const
-    // getClassName( void ) const
-    // getVersion( void ) const
-    // getVersion( bool ) const
 
     const FilePath	t( ":usr:src", "test.c", ':' );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
     TEST( t.error() != 0 );
-    TEST( t.getClassName() != 0 );
-    TEST( t.getVersion() != 0 );
-    TEST( t.getVersion( false ) != 0 );
-    
   }
 
-  {
-    // dumpInfo( ostream & ) const
-    // version
-
-    const FilePath t( "/usr/local/lib", "libStlUtils.a" );
-
-    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
-    t.toStream( tester.getDump() );
-    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
-    t.dumpInfo( tester.getDump(), " -> ", true );
-    tester.getDump() << '\n' << t.getClassName() << " version:\n";
-    tester.getDump() << t.version;
-    
-    tester.getDump() << '\n' << tester.getCurrentTestName();
-    
-  }
-    
   {
     // ::compare( const FilePath &, const FilePath & );
-    
+
     const FilePath l( "dir/test.oper" );
     const FilePath re( "dir/test.oper" );
     const FilePath rl( "c/test.oper" );
@@ -103,6 +75,6 @@ tFilePath04( LibTest & tester )
     TEST( compare( l, rm ) < 0 );
     TEST( compare( l, rl ) > 0 );
   }
-  
-  return( true );
+
+  return( verify.is_valid() );
 }

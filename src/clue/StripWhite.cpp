@@ -34,13 +34,7 @@ StripWhite( char * buffer, const char * white, size_t bufSize )
       len = bufSize - 1;
     }
 
-  for( ; len; len-- )
-    {
-      if( ! strchr( white, buffer[len] ) )
-	{
-	  break;
-	}
-    }
+  for( ; len && strchr( white, buffer[len] ); --len );
 
   memmove( buffer, beg, (len - (beg - buffer)) + 1);
 

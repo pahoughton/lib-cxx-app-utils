@@ -1,41 +1,15 @@
-/**
-   File:        Log.C
-   Project:	StlUtils ()
-   Desc:        
-                
-    Compiled source for Log class.
-  
-   Author:      Paul Houghton - (houghton@shoe)
-   Created:     03/14/94 12:22 
-  
-   Revision History: (See end of file for Revision Log)
-  
-    $Author$ 
-    $Date$ 
-    $Name$ 
-    $Revision$ 
-    $State$ 
-**/
+// 1994-03-14 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "Log.hh"
-#include "DateTime.hh"
-#include "StringUtils.hh"
+#include "Log.hpp"
+#include "DateTime.hpp"
+#include "StringUtils.hpp"
 #include <cstdio>
 
-#if defined( STLUTILS_DEBUG )
-#include "Log.ii"
-#endif
+namespace clue {
 
-STLUTILS_VERSION(
-  Log,
-  "$Id$ " );
-
-
-Log * _LibLog = 0;
+Log * _clueLibLog = 0;
 
 static LogLevel::CommonLevelMap *	    commonLevelMap = 0;
-
-const int	Log::openprot( 0666 );
 
 Log::Log(
   std::ostream &    outstr,
@@ -127,7 +101,7 @@ Log::level(
       setstate(failbit|eofbit);
       return( *this );
     }
-  
+
   rdbuf()->setCurrentLevel( current );
 
   if( timeStamp )
@@ -144,14 +118,14 @@ Log::level(
 
   if( locStamp && srcFile )
     {
-      
+
       *this << basename( srcFile ) << ':' << srcLine << ' ';
     }
-  
+
   return( *this );
 }
 
-	  
+
 Log &
 Log::level(
   const char *	lvl,
@@ -165,7 +139,7 @@ Log::level(
       setstate( failbit | eofbit );
       return( *this );
     }
-  
+
   rdbuf()->setCurrentLevel( lvl );
 
   if( timeStamp )
@@ -179,12 +153,12 @@ Log::level(
     {
       *this << rdbuf()->getLogLevel() << ' ';
     }
-  
+
   if( locStamp && srcFile )
     {
       *this << basename( srcFile ) << ':' << srcLine << ' ';
     }
-  
+
   return( *this );
 }
 
@@ -193,7 +167,7 @@ Log::appendFile(
   const LogLevel::Level &   current,
   const char *		    srcFile,
   long			    srcLine,
-  const char *		    fileName 
+  const char *		    fileName
   )
 {
   level( current, srcFile, srcLine );
@@ -242,7 +216,7 @@ Log::open(
   )
 {
   rdbuf()->close();
-  
+
   if( rdbuf()->open( outFn, mode ) != 0 )
     clear();
   else
@@ -256,12 +230,12 @@ Log::close( void )
     {
       setstate( eofbit | failbit );
     }
-  
+
   rdbuf()->close();
 
   if( rdbuf() && rdbuf()->is_file() )
     setstate( badbit );
-  
+
 }
 
 
@@ -293,85 +267,18 @@ Log::getFilterLogLevel( LogBuf::FilterId filter )
   return( rdbuf()->getFilterLogLevel( filter ) );
 }
 
-const char *
-Log::getFilterRegex( LogBuf::FilterId filter )
-{
-  return( rdbuf()->getFilterRegex( filter ) );
-}
-
 std::streambuf *
 Log::delFilter( LogBuf::FilterId id )
 {
   return( rdbuf()->delFilter( id ) );
 }
 
-extern "C"  {
-  static void	commonLog( void *	closure,
-			   const char * srcFileName,
-			   long		srcLineNumber,
-			   LogLevelBit	level,
-			   const char * mesgFmt,
-			   va_list	mesgArgs );
-};
-  
-const LogLevel::CommonLevelMap &
-Log::getCommonLevelMap( void )
-{
-  if( ! commonLevelMap )
-    initCommonLevelMap();
-  
-  return( *commonLevelMap );
-}
-
-
-bool
-Log::tieCommonLogger( bool setStrings )
-{
-  if( ! commonLevelMap )
-    {
-      initCommonLevelMap();
-    }
-  
-  if( setStrings )
-    {
-      LogLevel::setName( LogLevel::Error, LogLevelString( LOG_ERROR ) );
-      LogLevel::setName( LogLevel::Warn,  LogLevelString( LOG_WARN ) );
-      
-      LogLevel::setName( LogLevel::App1,  LogLevelString( LOG_APP1 ) );
-      LogLevel::setName( LogLevel::App2,  LogLevelString( LOG_APP2 ) );
-      LogLevel::setName( LogLevel::App3,  LogLevelString( LOG_APP3 ) );
-      LogLevel::setName( LogLevel::App4,  LogLevelString( LOG_APP4 ) );
-      LogLevel::setName( LogLevel::App5,  LogLevelString( LOG_APP5 ) );
-      LogLevel::setName( LogLevel::App6,  LogLevelString( LOG_APP6 ) );
-      
-      LogLevel::setName( LogLevel::Lib1, LogLevelString( LOG_LIB1 ) );
-      LogLevel::setName( LogLevel::Lib2, LogLevelString( LOG_LIB2 ) );
-      LogLevel::setName( LogLevel::Lib3, LogLevelString( LOG_LIB3 ) );
-      LogLevel::setName( LogLevel::Lib4, LogLevelString( LOG_LIB4 ) );
-  
-      LogLevel::setName( LogLevel::Info,  LogLevelString( LOG_INFO ) );
-      LogLevel::setName( LogLevel::Test,  LogLevelString( LOG_TEST ) );
-      LogLevel::setName( LogLevel::Debug, LogLevelString( LOG_DEBUG ) );
-      LogLevel::setName( LogLevel::Funct, LogLevelString( LOG_FUNCT ) );
-    }
-
-  LoggerSetOutputLevel( LOG_SET, LOG_ALL );
-  LoggerSetFunct( commonLog, this );
-
-  return( true );
-}
-  
-      
-      
 bool
 Log::good( void ) const
 {
-  return( rdbuf() != 0 && rdbuf()->good() &&
-#if defined( STLUTILS_HAS_CONST_IOSGOOD )
-	  std::ios::good()
-#else
-	  std::ios::state == 0
-#endif
+  return( rdbuf() != 0
+	  && rdbuf()->good()
+	  && std::ios::good()
 	  );
 }
 
@@ -380,7 +287,7 @@ Log::error( void ) const
 {
   static Str errStr;
 
-  errStr = getClassName();
+  errStr = "Log";
 
   if( good() )
     {
@@ -396,7 +303,6 @@ Log::error( void ) const
       if( rdbuf() && ! rdbuf()->good() )
 	errStr << ": " << rdbuf()->error() ;
 
-#if defined( STLUTILS_HAS_CONST_IOSRDSTATE )
       if( ! std::ios::good() )
 	{
 	  if( std::ios::rdstate() & std::ios::eofbit )
@@ -406,53 +312,23 @@ Log::error( void ) const
 	  if( std::ios::rdstate() & std::ios::badbit )
 	    errStr += ": BAD bit set";
 	}
-#else
-      if( state != 0 )
-	{
-	  if( std::ios::state & std::ios::eofbit )
-	    errStr += ": EOF bit set";
-	  if( std::ios::state & std::ios::failbit )
-	    errStr += ": FAIL bit set";
-	  if( std::ios::state & std::ios::badbit )
-	    errStr += ": BAD bit set";
-	}
-#endif
-      
+
       if( eSize == errStr.length() )
-	errStr += ": unknown error";      
+	errStr += ": unknown error";
     }
 
   return( errStr );
-}
-  
-const char *
-Log::getClassName( void ) const
-{
-  return( "Log" );
-}
-
-const char *
-Log::getVersion( bool withPrjVer ) const
-{
-  if( rdbuf() )
-    return( version.getVer( withPrjVer, rdbuf()->getVersion( false ) ) );
-  else
-    return( version.getVer( withPrjVer ) );
 }
 
 #define bool2str( _b_ ) ((_b_) == true ? "on" : "off" )
 
 std::ostream &
 Log::dumpInfo(
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Log::getClassName() << ":\n"
-	 << Log::getVersion() << '\n';
-  
+
   if( ! Log::good() )
     dest << prefix << "Error: " << Log::error() << '\n';
   else
@@ -462,83 +338,20 @@ Log::dumpInfo(
        << prefix << "levelStamp:   " << bool2str( levelStamp ) << '\n'
        << prefix << "locStamp:     " << bool2str( locStamp ) << '\n'
     ;
-  
+
   if( rdbuf() )
     {
       Str pre;
       pre = prefix;
-      pre += "rdbuf: " ;
-      pre += rdbuf()->getClassName() ;
-      pre += "::";
-      
-      rdbuf()->dumpInfo( dest, pre, false );
+      pre += "rdbuf:" ;
+
+      rdbuf()->dumpInfo( dest, pre );
     }
-  
+
   dest << '\n';
-  
+
   return( dest  );
 }
 
-void
-Log::initCommonLevelMap()
-{
-  if( ! commonLevelMap )
-    {
-      commonLevelMap = new LogLevel::CommonLevelMap;
-      
-      (*commonLevelMap)[ LOG_ERROR ] = LogLevel::Error;
-      (*commonLevelMap)[ LOG_WARN  ] = LogLevel::Warn;
-      (*commonLevelMap)[ LOG_APP1  ] = LogLevel::App1;
-      (*commonLevelMap)[ LOG_APP2  ] = LogLevel::App2;
-      (*commonLevelMap)[ LOG_APP3  ] = LogLevel::App3;
-      (*commonLevelMap)[ LOG_APP4  ] = LogLevel::App4;
-      (*commonLevelMap)[ LOG_APP5  ] = LogLevel::App5;
-      (*commonLevelMap)[ LOG_APP6  ] = LogLevel::App6;
-      (*commonLevelMap)[ LOG_LIB1  ] = LogLevel::Lib1;
-      (*commonLevelMap)[ LOG_LIB2  ] = LogLevel::Lib2;
-      (*commonLevelMap)[ LOG_LIB3  ] = LogLevel::Lib3;
-      (*commonLevelMap)[ LOG_LIB4  ] = LogLevel::Lib4;
-      (*commonLevelMap)[ LOG_INFO  ] = LogLevel::Info;
-      (*commonLevelMap)[ LOG_TEST  ] = LogLevel::Test;
-      (*commonLevelMap)[ LOG_DEBUG ] = LogLevel::Debug;
-      (*commonLevelMap)[ LOG_FUNCT ] = LogLevel::Funct;
-    }
-}
 
-static
-void
-commonLog(
-   void *	    closure,
-   const char *     srcFileName,
-   long		    srcLineNumber,
-   LogLevelBit	    level,
-   const char *     mesgFmt,
-   va_list	    mesgArgs
-   )
-{
-  Log *	    self = (Log *)closure;
-
-  static char logMesg[ 4096 ];
-      
-  vsprintf( logMesg, mesgFmt, mesgArgs );
-    
-  if( ! self )
-    {
-      std::cerr << "Log::commonLog - no self!\n"
-		<< logMesg << std::endl;
-    }
-  else
-    {
-      LogLevel::Level curLvl( self->getCurrent() );
-      
-      self->level( (*commonLevelMap)[ level ],
-		   srcFileName,
-		   srcLineNumber ) << logMesg;
-      
-      if( self->rdbuf()->sync() == EOF )
-	self->setstate( std::ios::failbit | std::ios::eofbit );
-  
-      self->rdbuf()->setCurrentLevel( curLvl );
-    }
-}
-
+}; // namespace clue

@@ -1,45 +1,33 @@
-//
-// File:        tFileOp01.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Compiled sources for tFile01
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     03/08/98 09:03
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
-//
+// 1998-03-08 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FileOp.hh>
+#include <clue/FileOp.hpp>
 
-#include <iomanip>
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
 
-#include <cstdio>
+static valid::verify verify("clue::FileOp01");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/FileOp"
 
 #if !defined( TEST_TEMP_DIR )
 #define TEST_TEMP_DIR	"/tmp"
 #endif
 
 bool
-tFileOp01( LibTest & tester )
+v_FileOp01( void )
 {
   {
     // FileOp( const char * )
-    
+
     static const char * TestFn = TEST_DATA_DIR "/FileOp.01.01.exp";
 
     FileOp  t( TestFn );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
   }
-  
+
   {
     // copy( const char * dest )
     //	same dir different name
@@ -47,12 +35,10 @@ tFileOp01( LibTest & tester )
 
     FileOp    t( TEST_DATA_DIR "/FileOp.01.01.exp" );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
 
-    TESTR( t.error(), t.copy( TestFn ) );
-       
-    if( ! tester.file( __FILE__, __LINE__, TestFn ) )
-      return( false );
+    TEST( t.copy( TestFn ) );
+    VVFILE( TestFn );
   }
 
   {
@@ -65,24 +51,18 @@ tFileOp01( LibTest & tester )
     FileStat	srcDir( TEST_DATA_DIR );
     FileStat	destDir( TEST_TEMP_DIR );
 
-    TESTR( srcDir.error(), srcDir.good() );
-    TESTR( destDir.error(), destDir.good() );
+    TEST(  srcDir.good() );
+    TEST( destDir.good() );
 
-#if !defined( Linux )
-    TESTR( "same device", srcDir.getDevice() != destDir.getDevice() );
-#endif
-    
     FileOp    t( ExpFn  );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
+    TEST( t.copy( TestFn ) );
 
-    TESTR( t.error(), t.copy( TestFn ) );
-
-    if( ! tester.file( __FILE__, __LINE__, TestFn, ExpFn ) )
-      return( false );
+    VVEXPFILE( TestFn, ExpFn );
 
     remove( TestFn );
-    
+
   }
 
   {
@@ -90,59 +70,54 @@ tFileOp01( LibTest & tester )
     //	copy to directory
     static const char * ExpFn = TEST_DATA_DIR "/FileOp.01.01.exp";
     static const char * TestFn = TEST_TEMP_DIR "/FileOp.01.01.exp";
-    
+
     FileOp    t( ExpFn  );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
 
-    TESTR( t.error(), t.copy( TEST_TEMP_DIR ) );
+    TEST( t.copy( TEST_TEMP_DIR ) );
 
-    if( ! tester.file( __FILE__, __LINE__, TestFn, ExpFn ) )
-      return( false );
-
+    VVEXPFILE( TestFn, ExpFn );
     remove( TestFn );
   }
 
   {
     // copy( const char * src, const char * dest )
-    
+
     static const char * ExpFn = TEST_DATA_DIR "/FileOp.01.01.exp";
     static const char * TestFn = TEST_DATA_DIR "/FileOp.01.01";
-    
+
     FileOp t;
 
-    TESTR( t.error(), t.copy( ExpFn, TestFn ) );
+    TEST( t.copy( ExpFn, TestFn ) );
 
-    if( ! tester.file( __FILE__, __LINE__, TestFn, ExpFn ) )
-      return( false );
-    
+    VVEXPFILE( TestFn, ExpFn );
+
     remove( TestFn );
   }
 
   {
     // copy()
     //	write only dest dir
-#define TEST_RONLY_DIR	TEST_DATA_DIR "/FileOpDir"
+#define TEST_RONLY_DIR	TEST_DATA_DIR "/ro-dir"
 
     FileStat	destDir( TEST_RONLY_DIR );
 
     if( destDir.good() )
       {
-	TESTR( TEST_RONLY_DIR " permissions wrong",
-	       destDir.getMode() == 042555 );
+	TEST( destDir.getMode() == 040555 );
       }
     else
       {
-	TESTR( "making dir " TEST_RONLY_DIR,
-	       mkdir( TEST_RONLY_DIR, 0555 ) == 0 );
+	TEST( mkdir( TEST_RONLY_DIR, 0555 ) == 0 );
       }
-    
+
     static const char * ExpFn = TEST_DATA_DIR "/FileOp.01.01.exp";
-    static const char * TestFn = TEST_RONLY_DIR; 
-    
+    static const char * TestFn = TEST_RONLY_DIR;
+
     FileOp t( ExpFn );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
 
     TEST( ! t.copy( TestFn ) );
   }
@@ -150,13 +125,13 @@ tFileOp01( LibTest & tester )
   {
     // copy()
     //	write only dest dir
-    
+
     static const char * ExpFn = TEST_DATA_DIR "/FileOp.01.01.exp";
-    static const char * TestFn = TEST_RONLY_DIR "/FileOp.01.01"; 
-    
+    static const char * TestFn = TEST_RONLY_DIR "/FileOp.01.01";
+
     FileOp t( ExpFn );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
 
     TEST( ! t.copy( TestFn ) );
   }
@@ -165,50 +140,26 @@ tFileOp01( LibTest & tester )
     // copy( const char * dest, overwrite )
 
     static const char * ExpFn = TEST_DATA_DIR "/FileOp.01.01.exp";
-    
+
     static const char * Test01Fn = TEST_DATA_DIR "/FileOp.01.01";
 
     static const char * Test02Dir = TEST_TEMP_DIR;
     static const char * Test02Fn = TEST_TEMP_DIR "/FileOp.01.01";
-    
+
     FileOp t( ExpFn );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
 
-    TESTR( t.error(), t.copy( Test01Fn, true ) );
+    TEST( t.copy( Test01Fn, true ) );
 
-    TESTR( t.error(), t.copy( Test01Fn, true ) );
+    TEST( t.copy( Test01Fn, true ) );
 
     TEST( ! t.copy( Test01Fn, false ) );
-    
-    TESTR( t.error(), t.copy( Test01Fn, Test02Fn, true ) );
+
+    TEST( t.copy( Test01Fn, Test02Fn, true ) );
     TEST( ! t.copy( Test02Dir, false ) );
-          
+
   }
-  
-  return( true );
+
+  return( verify.is_valid() );
 }
-
-
-// Revision Log:
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:43  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:50  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:28  houghton
-// Changed Version Num to 5
-//
-// Revision 1.3  1999/03/02 12:54:44  houghton
-// Expanded tests.
-//
-// Revision 1.2  1998/11/02 19:36:34  houghton
-// Changed: the File class was renamed to FileOp.
-//
-// Revision 1.1  1998/03/21 13:57:29  houghton
-// Initial Version.
-//
-//

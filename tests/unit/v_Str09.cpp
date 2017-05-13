@@ -1,12 +1,13 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::Str09");
+using namespace clue;
 
 // Str::misc
 
@@ -17,7 +18,7 @@
 #define T5 " fifth part"
 
 bool
-tStr09( LibTest & tester )
+v_Str09( void )
 {
   {
     // at( size_t )
@@ -66,10 +67,5 @@ tStr09( LibTest & tester )
     TEST( t[4UL] == '4' );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }
-
-  
-    
-    
-

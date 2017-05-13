@@ -1,37 +1,15 @@
-//
-// File:        FileLock.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for FileLock
-//  
-// Author:      Paul A. Houghton - (paul4hough@gmail.com)
-// Created:     09/12/97 11:35
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1997-09-12 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "FileLock.hh"
-#include <Str.hh>
-#include <StlUtilsMisc.hh>
+#include "FileLock.hpp"
+#include "Str.hpp"
+#include "Clue.hpp"
+
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <cstring>
 
-#if defined( STLUTILS_DEBUG )
-#include "FileLock.ii"
-#endif
-
-STLUTILS_VERSION(
-  FileLock,
-  "$Id$ ");
+namespace clue {
 
 // NOTE these expects the 'Type' enum values to be correct
 //   if you change one, you need to change the other
@@ -51,10 +29,10 @@ FileLock::FileLock( const char * fileName, std::ios::openmode mode )
     oserrno( ENOENT ),
     closefd( false )
 {
-  // do not allow create 
+  // do not allow create
   fd = ::open( fileName,
 	       OpenFlags( mode ) & ~O_CREAT );
-  
+
   if( fd < 0 )
     oserrno = errno;
   else
@@ -86,23 +64,25 @@ FileLock::~FileLock( void )
 	      locks.erase( them );
 	}
     }
-  
+
   if( closefd )
     ::close( fd );
 }
 
 bool
 FileLock::lock(
-  Type		type,
+  Type			type,
   std::streamoff	offset,
   std::ios::seek_dir	dir,
-  size_t	amount,
-  bool		block )
+  size_t		amount,
+  bool			block )
 {
   struct flock lock;
 
   lock.l_type	= FileLock_FcntlLockTypes[ type ];
-  lock.l_whence	= Whence( dir );
+  lock.l_whence	= ( dir == std::ios::beg ? SEEK_SET :
+		    dir == std::ios::cur ? SEEK_CUR :
+		    dir == std::ios::end ? SEEK_END : -1 );
   lock.l_start	= offset;
   lock.l_len	= amount;
 
@@ -119,7 +99,7 @@ FileLock::lock(
 
 	  for( ;; )
 	    {
-	      
+
 	      for( them = locks.begin();
 		   them != locks.end();
 		   ++ them )
@@ -146,7 +126,7 @@ FileLock::lock(
     }
 }
 
-  
+
 bool
 FileLock::good( void ) const
 {
@@ -158,7 +138,7 @@ FileLock::error( void ) const
 {
   static Str errStr;
 
-  errStr = FileLock::getClassName();
+  errStr = "FileLock";
 
   if( good() )
     {
@@ -168,13 +148,13 @@ FileLock::error( void ) const
     {
       size_t eSize = errStr.size();
 
-      
+
       if( oserrno != 0 )
 	errStr << ": os error(" << oserrno << ") '"
 	       << ( lockFn.empty() ?  "(unknown)" : lockFn.c_str() )
 	       << "' - "
 	       << strerror( oserrno );
-      
+
       if( eSize == errStr.size() )
         errStr << ": unknown error";
     }
@@ -201,30 +181,12 @@ FileLock::clear( void )
   return( good() );
 }
 
-const char *
-FileLock::getClassName( void ) const
-{
-  return( "FileLock" );
-}
-
-const char *
-FileLock::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
-
 std::ostream &
 FileLock::dumpInfo(
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << FileLock::getClassName() << ":\n"
-	 << FileLock::getVersion() << '\n';
-
   if( ! FileLock::good() )
     dest << prefix << "Error: " << FileLock::error() << '\n';
   else
@@ -233,7 +195,7 @@ FileLock::dumpInfo(
   dest << prefix << "fd:        " << fd << '\n'
        << prefix << "locks:     " << locks.size() << '\n'
     ;
-  
+
   if( locks.size() )
     {
       for( LockList::const_iterator them = locks.begin();
@@ -248,7 +210,7 @@ FileLock::dumpInfo(
 	    ;
 	}
     }
-  
+
   return( dest );
 }
 
@@ -258,52 +220,4 @@ FileLock::typeName( Type t )
   return( t >= Read && t <= T_Undefined ? FileLock_TypeName[ t ] : "BAD TYPE" );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:47  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:30  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:46  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2001/07/26 19:28:58  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/07/31 13:38:37  houghton
-// Bug-Fix: was not removing locks correctly.
-//
-// Revision 5.1  2000/05/25 10:33:22  houghton
-// Changed Version Num to 5
-//
-// Revision 4.4  1997/10/22 16:03:10  houghton
-// Added file name so it could be placed in the error string.
-//
-// Revision 4.3  1997/09/21 21:20:42  houghton
-// Port(Sun5): added include <cstring>
-//
-// Revision 4.2  1997/09/21 13:18:13  houghton
-// Port(Aix41): needed to add include errno.h
-//
-// Revision 4.1  1997/09/17 15:13:30  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 15:10:28  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.2  1997/09/17 11:09:18  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1997/09/16 11:21:12  houghton
-// Initial Version.
-//
-//
+}; // namespace clue

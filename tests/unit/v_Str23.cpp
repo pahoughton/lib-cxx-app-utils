@@ -1,17 +1,15 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <functional>
-#include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <functional>
-#include <cstring>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
 
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <functional>
+#include <cstring>
+static valid::verify verify("clue::Str23");
+using namespace clue;
 
 //           0123456789 123456789 123456789 12345
 #define T1  "T1 Test string to test the Str Class"
@@ -19,7 +17,7 @@
 #define L1  "compare string k"
 
 bool
-tStr23( LibTest & tester )
+v_Str23( void )
 {
   {
     // operator const char * ( void ) const
@@ -34,7 +32,7 @@ tStr23( LibTest & tester )
 
     Str t( "operator [] test." );
     //      0123456789 123456
-    
+
     TEST( t[0UL] == 'o' );
     TEST( t[5UL] == 't' );
     TEST( t[16UL] == '.' );
@@ -43,7 +41,7 @@ tStr23( LibTest & tester )
     t[5UL] = 'T';
     t[16UL] = '!';
     TEST( t == "OperaTor [] test!" );
-    
+
   }
 
   {
@@ -56,7 +54,7 @@ tStr23( LibTest & tester )
     TEST( t[16UL] == '.' );
 
   }
-    
+
   {
     // operator () ( size_t, size_t )
 
@@ -120,7 +118,7 @@ tStr23( LibTest & tester )
     // operator >  ( const SubStr & ) const
     // operator >  ( const char * ) const
 
-    
+
     const Str l( L1 );
     const Str m( M1 );
     const Str ls( "123" L1 "321" );
@@ -167,7 +165,7 @@ tStr23( LibTest & tester )
     // operator >= ( const SubStr & ) const
     // operator >= ( const char * ) const
 
-    
+
     Str l( L1 );
     Str m( M1 );
     Str ls( "123" L1 "321" );
@@ -186,10 +184,5 @@ tStr23( LibTest & tester )
     TEST( ! ( l > M1 ) );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }
-
-
-
-
-  

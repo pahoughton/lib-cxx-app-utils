@@ -1,44 +1,29 @@
-//
-// File:        tLog02.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for the following Log methods:
-//
-//	getCurrent( void ) const;
-//	getOutput( void ) const;
-//	willOutput( void ) const;
-//	level( void );
-//	level( LogLevel::Level );
-//	level( LogLevel::Level, const char * );
-//	level( LogLevel::Level, conts char *, long );
-//	operator () ( void );
-//	operator () ( LogLevel::Level );
-//	operator () ( LogLevel::Level, const char *, long );
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/11/96 17:36
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-11-11 (cc) <paul4hough@gmail.com>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "Log.hh"
-#include <strstream.h>
+#include <clue/Log.hpp>
+#include <clue/FileStat.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <sstream>
 #include <cstdio>
 #include <cerrno>
 
+static valid::verify verify("clue::Log02");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/Log"
+
 bool
-tLog02( LibTest & tester )
+v_Log02( void )
 {
   {
     // getCurrent( void ) const;
     // getOutput( void ) const;
 
-    const Log t( cout, LogLevel::Test | LogLevel::Warn );
+    const Log t( std::cout, LogLevel::Test | LogLevel::Warn );
 
     TEST( t.getCurrent() == LogLevel::Error );
     TEST( t.getOutput() == (LogLevel::Test | LogLevel::Warn ) );
@@ -48,7 +33,7 @@ tLog02( LibTest & tester )
     // willOutput( LogLevel::Level ) const;
 
     {
-      const Log t( cerr, LogLevel::All );
+      const Log t( std::cerr, LogLevel::All );
 
       TEST( t.willOutput( LogLevel::Error ) );
       TEST( t.willOutput( LogLevel::Err ) );
@@ -71,7 +56,7 @@ tLog02( LibTest & tester )
     }
 
     {
-      const Log t( cerr, LogLevel::Debug | LogLevel::Warn );
+      const Log t( std::cerr, LogLevel::Debug | LogLevel::Warn );
 
       TEST( ! t.willOutput( LogLevel::Error ) );
       TEST( ! t.willOutput( LogLevel::Err ) );
@@ -94,47 +79,16 @@ tLog02( LibTest & tester )
     }
   }
 
-#if !defined( AIX41 ) || defined( FIXME )
-  // strange prob with aix setting 'bad' bit
-  {
-    // level();
-
-    strstream	logDest;
-    {
-      Log t( logDest, LogLevel::Error, true, false, false );
-
-      t.level() << "test 1" ;
-      TESTR( t.error(), t.good() );
-
-      t << endl;
-      TESTR( t.error(), t.good() );
-
-      t.level() << "test 2";
-      TESTR( t.error(), t.good() );
-      
-      t << endl;
-      TESTR( t.error(), t.good() );
-    }
-
-    const char * expect = "ERROR test 1\nERROR test 2\n";
-    
-    logDest << ends;
-    TESTR( logDest.str(), strcmp( expect, logDest.str() ) == 0 );
-    logDest.rdbuf()->freeze(0);
-    
-  }
-#endif
-  
   {
     // level( LogLevel::Level )
 
     const char * TestFn = TEST_DATA_DIR "/log.01";
     remove( TestFn );
-    
+
     {
-      Log	t( TestFn, LogLevel::All, (ios::openmode)(ios::app|ios::out), 0644,
+      Log	t( TestFn, LogLevel::All, (std::ios::openmode)(std::ios::app|std::ios::out),
 		   true, false, false  );
-      
+
       t.level( LogLevel::Error )   << "test Error" << '\n';
       t.level( LogLevel::Err )     << "test Err" << '\n';
       t.level( LogLevel::Warning ) << "test Warning" << '\n';
@@ -154,21 +108,21 @@ tLog02( LibTest & tester )
       t.level( LogLevel::Debug )   << "test Debug" << '\n';
       t.level( LogLevel::Funct )   << "test Funct" << '\n';
     }
-    
-    tester.file( __FILE__, __LINE__, TestFn );
+
+    VVFILE( TestFn );
   }
 
   {
     // level( LogLevel::Level, const char * )
     const char * TestFn = TEST_DATA_DIR "/log.02";
     remove( TestFn );
-    
+
     {
       Log	t( TestFn,
 		   LogLevel::Warn | LogLevel::Info | LogLevel::Debug,
-		   (ios::openmode)(ios::app|ios::out), 0644,
+		   (std::ios::openmode)(std::ios::app|std::ios::out),
 		   true, false, true  );
-      
+
       t.level( LogLevel::Error,   "Src" ) << "test Error (bad)" << '\n';
       t.level( LogLevel::Err,     "Src" ) << "test Err (bad)" << '\n';
       t.level( LogLevel::Warning, "Src" ) << "test Warning" << '\n';
@@ -188,21 +142,21 @@ tLog02( LibTest & tester )
       t.level( LogLevel::Debug,   "Src" ) << "test Debug" << '\n';
       t.level( LogLevel::Funct,   "Src" ) << "test Funct (bad)" << '\n';
     }
-    
-    tester.file( __FILE__, __LINE__, TestFn );
+
+    VVFILE( TestFn );
   }
 
   {
     // level( LogLevel::Level, const char *, long )
     const char * TestFn = TEST_DATA_DIR "/log.03";
     remove( TestFn );
-    
+
     {
       Log	t( TestFn,
 		   "App1 | Warn | Error | Info | Debug",
-		   (ios::openmode)(ios::app|ios::out), 0644,
+		   (std::ios::openmode)(std::ios::app|std::ios::out),
 		   true, false, true  );
-      
+
       t.level( LogLevel::Error,   "Src",  1 ) << "test Error" << '\n';
       t.level( LogLevel::Err,     "Src",  2 ) << "test Err" << '\n';
       t.level( LogLevel::Warning, "Src",  3 ) << "test Warning" << '\n';
@@ -222,26 +176,24 @@ tLog02( LibTest & tester )
       t.level( LogLevel::Debug,   "Src", 17 ) << "test Debug" << '\n';
       t.level( LogLevel::Funct,   "Src", 18 ) << "test Funct (bad)" << '\n';
     }
-    
-    tester.file( __FILE__, __LINE__, TestFn );
+
+    VVFILE( TestFn );
   }
 
   {
     // operator () ( void );
 
-    strstream	logDest;
+    std::stringstream	logDest;
     {
       Log t( logDest, LogLevel::Error, true, false, false );
 
-      t() << "test 1" << endl;
+      t() << "test 1" << std::endl;
     }
 
     const char * expect = "ERROR test 1\n";
-    
-    logDest << ends;
-    TESTR( logDest.str(), strcmp( expect, logDest.str() ) == 0 );
-    logDest.rdbuf()->freeze(0);
-    
+
+    logDest << std::ends;
+    TEST( strcmp( expect, logDest.str().c_str() ) == 0 );
   }
 
   {
@@ -249,11 +201,12 @@ tLog02( LibTest & tester )
 
     const char * TestFn = TEST_DATA_DIR "/log.04";
     remove( TestFn );
-    
+
     {
-      Log	t( TestFn, LogLevel::All, (ios::openmode)(ios::app|ios::out), 0644,
+      Log	t( TestFn, LogLevel::All,
+		   (std::ios::openmode)(std::ios::app|std::ios::out),
 		   true, false, false  );
-      
+
       t( LogLevel::Error )   << "test Error" << '\n';
       t( LogLevel::Err )     << "test Err" << '\n';
       t( LogLevel::Warning ) << "test Warning" << '\n';
@@ -273,21 +226,20 @@ tLog02( LibTest & tester )
       t( LogLevel::Debug )   << "test Debug" << '\n';
       t( LogLevel::Funct )   << "test Funct" << '\n';
     }
-    
-    tester.file( __FILE__, __LINE__, TestFn );
+    VVFILE( TestFn );
   }
 
   {
     // operator () ( LogLevel::Level, const char *, long )
     const char * TestFn = TEST_DATA_DIR "/log.05";
     remove( TestFn );
-    
+
     {
       Log	t( TestFn,
 		   "App1 | Warn | Error | Info | Debug",
-		   (ios::openmode)(ios::app|ios::out), 0644,
+		   (std::ios::openmode)(std::ios::app|std::ios::out),
 		   true, false, true  );
-      
+
       t( LogLevel::Error,   "Src",  1 ) << "test Error" << '\n';
       t( LogLevel::Err,     "Src",  2 ) << "test Err" << '\n';
       t( LogLevel::Warning, "Src",  3 ) << "test Warning" << '\n';
@@ -307,52 +259,9 @@ tLog02( LibTest & tester )
       t( LogLevel::Debug,   "Src", 17 ) << "test Debug" << '\n';
       t( LogLevel::Funct,   "Src", 18 ) << "test Funct (bad)" << '\n';
     }
-    
-    tester.file( __FILE__, __LINE__, TestFn );
+
+    VVFILE( TestFn );
+
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:44  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:28  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:21  houghton
-// Changed to Version 4
-//
-// Revision 3.5  1997/09/17 11:09:49  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.4  1997/07/18 21:42:22  houghton
-// Port(Sun5): Changed ios::app to (ios::openmode)(ios::app|ios::out).
-//
-// Revision 3.3  1997/03/03 19:10:02  houghton
-// Changed for port to AIX. There appears to be a bug in AIX's strstream.
-//
-// Revision 3.2  1996/11/19 12:35:23  houghton
-// Changed include strstream to include strstream.h because strstream
-//     is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:26:46  houghton
-// Changed to Release 3
-//
-// Revision 2.5  1996/11/13 17:20:00  houghton
-// Complete rework of all tests.
-// Verified test against Log.hh header comments.
-//
-//
-
-
-
-
-
-
-

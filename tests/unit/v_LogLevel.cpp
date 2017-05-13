@@ -1,30 +1,17 @@
-//
-// File:        tLogLevel.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for the LogLevel class.
-//
-// Source Header Version: 2.5
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/31/96 12:28
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-10-31 (cc) <paul4hough@gmail.com>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "LogLevel.hh"
-#include "Compare.hh"
-#include <strstream.h>
+#include <clue/LogLevel.hpp>
+#include <sstream>
 
-#define T_CLASS_NAME	"LogLevel"
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::LogLevel");
+using namespace clue;
 
 bool
-tLogLevel( LibTest & tester )
+v_LogLevel( void )
 {
   {
     // static const Level	None;
@@ -70,7 +57,7 @@ tLogLevel( LibTest & tester )
     TEST( LogLevel::All.any() );
 
   }
-  
+
   {
     // LogLevel( void )
     // getOutput( void ) const
@@ -91,15 +78,15 @@ tLogLevel( LibTest & tester )
       TEST( t.getOutput() == LogLevel::Error );
     }
 
-    
+
     {
       LogLevel t( LogLevel::Info | LogLevel::Test);
-      
+
       TEST( t.getCurrent() == LogLevel::Error );
       TEST( t.getOutput() == ( LogLevel::Info | LogLevel::Test ) );
     }
   }
-  
+
   {
     // LogLevel( const Level, const Level )
 
@@ -108,14 +95,14 @@ tLogLevel( LibTest & tester )
     TEST( t.getOutput() == LogLevel::All );
     TEST( t.getCurrent() == LogLevel::Debug );
   }
-  
+
   {
     // LogLevel( const char * )
     {
       // upper case
-    
+
       LogLevel t( "ERROR | WARNING " );
-      
+
       TEST( t.getCurrent() == LogLevel::Error );
       TEST( t.getOutput() == ( LogLevel::Error | LogLevel::Warning ) );
 
@@ -123,18 +110,18 @@ tLogLevel( LibTest & tester )
 
     {
       // lower/Mixed case
-    
+
       LogLevel t( "error | Warning " );
-    
+
       TEST( t.getCurrent() == LogLevel::Error );
       TEST( t.getOutput() == ( LogLevel::Error | LogLevel::Warning ) );
     }
 
     {
       // err, warn abbrev
-    
+
       LogLevel t( "err|WARN " );
-    
+
       TEST( t.getCurrent() == LogLevel::Error );
       TEST( t.getOutput() == ( LogLevel::Error | LogLevel::Warning ) );
     }
@@ -149,15 +136,15 @@ tLogLevel( LibTest & tester )
     TEST( t.getCurrent() == LogLevel::Info );
     TEST( t.getOutput() == LogLevel::Info );
   }
-  
+
   {
     // setOutput( const Level )
 
     LogLevel t( LogLevel::Debug );
-    
+
     t.setOutput( LogLevel::Test | LogLevel::Info );
     TEST( t.getOutput() == (LogLevel::Test | LogLevel::Info ) );
-    
+
     t.setOutput( LogLevel::All );
     TEST( t.getOutput() == LogLevel::All );
   }
@@ -167,19 +154,19 @@ tLogLevel( LibTest & tester )
 
     {
       LogLevel t;
-      
+
       t.setOutput( "TEST | INFO" );
       TEST( t.getOutput() == (LogLevel::Test | LogLevel::Info ) );
-      
+
       t.setOutput( "ALL" );
       TEST( t.getOutput() == LogLevel::All );
-      
+
       t.setOutput( "err" );
       TEST( t.getOutput() == LogLevel::Error );
-      
+
       t.setOutput( "warn" );
       TEST( t.getOutput() == LogLevel::Warning );
-      
+
       t.setOutput( "err| Info | Debug|test|Warning" );
       TEST( t.getOutput() == (LogLevel::Error |
 			      LogLevel::Info |
@@ -190,16 +177,15 @@ tLogLevel( LibTest & tester )
 
     {
       LogLevel	t;
-      
+
       t.setOutput( "TEST | INFO" );
       TEST( t.getOutput() == (LogLevel::Test | LogLevel::Info ) );
 
       t.setOutput( "+debug | err | -INFO" );
-      TESTR( t.getLevelNames( t.getOutput() ),
-	     t.getOutput() == (LogLevel::Test |
+      TEST( t.getOutput() == (LogLevel::Test |
 			       LogLevel::Err |
 			       LogLevel::Debug ) );
-      
+
       t.setOutput( "+info" );
       TEST( t.getOutput() == (LogLevel::Test |
 			      LogLevel::Err |
@@ -214,22 +200,22 @@ tLogLevel( LibTest & tester )
       t.setOutput( "funct" );
       TEST( t.getOutput() == (LogLevel::Funct ) );
     }
-    
+
   }
 
-  
+
   {
     // setCurrent( const Level );
 
     LogLevel t( LogLevel::Debug );
-    
+
     t.setCurrent( LogLevel::Test | LogLevel::Info );
     TEST( t.getCurrent() == (LogLevel::Test | LogLevel::Info ) );
-    
+
     t.setCurrent( LogLevel::All );
     TEST( t.getCurrent() == LogLevel::All );
   }
-  
+
   {
     // setCurrent( const char * out )
 
@@ -243,10 +229,10 @@ tLogLevel( LibTest & tester )
 
     t.setCurrent( "err" );
     TEST( t.getCurrent() == LogLevel::Error );
-    
+
     t.setCurrent( "warn" );
     TEST( t.getCurrent() == LogLevel::Warning );
-    
+
     t.setCurrent( "err| App1 | Lib1|test|Warning" );
     TEST( t.getCurrent() == (LogLevel::Error |
 			     LogLevel::App1 |
@@ -264,7 +250,7 @@ tLogLevel( LibTest & tester )
     TEST( t.getOutput() == LogLevel::None );
     TEST( t.getCurrent() == LogLevel::Error );
   }
-  
+
   {
     // getName( const Level )
 
@@ -296,15 +282,15 @@ tLogLevel( LibTest & tester )
       TEST( compare( t.getName( LogLevel::App1 ), "APP1" ) == 0 );
       TEST( compare( t.getName( LogLevel::App2 ), "U2 Name" ) == 0 );
       TEST( compare( t.getName( LogLevel::App3 ), "APP3" ) == 0 );
-      
+
       t.setOutput( "Warn | U2 Name | Debug" );
       TEST( t.getOutput() ==
 	    ( LogLevel::Warn | LogLevel::App2 | LogLevel::Debug ) );
-      
+
       t.setCurrent( "U2 Name" );
       TEST( t.getCurrent() == LogLevel::App2 );
     }
-    
+
     {
       LogLevel t("u2 name | Debug");
 
@@ -324,10 +310,10 @@ tLogLevel( LibTest & tester )
       TEST( compare( t.getName( LogLevel::App2 ), "APP2" ) == 0 );
     }
   }
-  
+
   {
     // shouldOutput( void ) const;
-    
+
     LogLevel t( LogLevel::Debug | LogLevel::Warn );
 
     t.setCurrent( LogLevel::Error );
@@ -374,10 +360,10 @@ tLogLevel( LibTest & tester )
 
     t.setCurrent( LogLevel::Info );
     TEST( ! t.shouldOutput() );
-    
+
     t.setCurrent( LogLevel::Test );
     TEST( ! t.shouldOutput() );
-    
+
     t.setCurrent( LogLevel::Debug );
     TEST( t.shouldOutput() );
 
@@ -389,7 +375,7 @@ tLogLevel( LibTest & tester )
     // willOutput( const Level curLevel ) const
 
     LogLevel t( LogLevel::None );
-    
+
     TEST( ! t.willOutput( LogLevel::Error ) );
     TEST( ! t.willOutput( LogLevel::Err ) );
     TEST( ! t.willOutput( LogLevel::Warning ) );
@@ -410,7 +396,7 @@ tLogLevel( LibTest & tester )
     TEST( ! t.willOutput( LogLevel::Funct ) );
 
     t.setOutput( LogLevel::Warn | LogLevel::Lib1 | LogLevel::Test );
-    
+
     TEST( ! t.willOutput( LogLevel::Error ) );
     TEST( ! t.willOutput( LogLevel::Err ) );
     TEST( t.willOutput( LogLevel::Warning ) );
@@ -431,7 +417,7 @@ tLogLevel( LibTest & tester )
     TEST( ! t.willOutput( LogLevel::Funct ) );
 
     t.setOutput( LogLevel::All );
-    
+
     TEST( t.willOutput( LogLevel::Error ) );
     TEST( t.willOutput( LogLevel::Err ) );
     TEST( t.willOutput( LogLevel::Warning ) );
@@ -470,7 +456,7 @@ tLogLevel( LibTest & tester )
       TEST( t.compare( tl ) >  0 );
       TEST( t.compare( tm ) <  0 );
     }
-    
+
     {
       const LogLevel tl( LogLevel::Test,
 			 LogLevel::Lib1 );
@@ -502,7 +488,7 @@ tLogLevel( LibTest & tester )
     // operator <= ( const LogLevel & ) const
     // operator >  ( const LogLevel & ) const
     // operator >= ( const LogLevel & ) const
-    
+
     const LogLevel  t( LogLevel::Warn | LogLevel::Test,
 		       LogLevel::Lib1 );
 
@@ -522,163 +508,32 @@ tLogLevel( LibTest & tester )
     TEST( t >= te );
   }
 
-    
-  {
-    // getBinSize( void ) const
-    // write( ostream & ) const
-    // read( istream & )
 
-    const LogLevel  tw( LogLevel::Debug | LogLevel::Warn,
-			LogLevel::Info );
-    LogLevel	    tr;
-
-    strstream tStrm;
-
-    streampos gpos = tStrm.tellg();
-    streampos ppos = tStrm.tellp();
-
-#ifdef AIX
-    ppos = 0;
-    gpos = 0;
-#endif
-    
-    TEST( ppos == 0 );
-    TEST( gpos == 0 );
-    
-    tw.write( tStrm );
-    ppos += (streampos)tw.getBinSize();
-    TEST( ppos == tStrm.tellp() );
-      
-    tr.read( tStrm );
-    gpos += (streampos)tr.getBinSize();
-    TEST( gpos == tStrm.tellg() );
-    TEST( tr == tw );
-  }
 
   {
     // toStream( ostream & ) const
 
     const LogLevel  t( LogLevel::Debug | LogLevel::Warn,
 		       LogLevel::Test );
-    strstream tStrm;
+    std::stringstream tStrm;
 
-    t.toStream( tStrm ) << ends;
+    t.toStream( tStrm ) << std::ends;
 
-    TEST( compare( tStrm.str(), "TEST" ) == 0 );
-
-    tStrm.rdbuf()->freeze(0);
-  }
-    
-  {
-    // getClassName( void ) const
-    // getVersion( void ) const
-    // getVersion( bool ) const
-
-    
-    const LogLevel t(2);
-
-    TEST( strcmp( t.getClassName(), T_CLASS_NAME ) == 0 );
-
-    TEST( strstr( t.getVersion(), "@(#) libStlUtils - " ) != 0 );
-    TEST( strstr( t.getVersion(), T_CLASS_NAME ) != 0 );
-    TEST( strstr( t.getVersion(), "Compiled: " ) != 0 );
-    
-    TEST( strstr( t.getVersion(true), "@(#) libStlUtils - " ) != 0 );
-    TEST( strstr( t.getVersion(true), T_CLASS_NAME ) != 0 );
-    TEST( strstr( t.getVersion(true), "Compiled: " ) != 0 );
-    
-    TEST( strstr( t.getVersion(false), "@(#) libStlUtils - " ) == 0 );
-    TEST( strstr( t.getVersion(false), T_CLASS_NAME ) != 0 );
-    TEST( strstr( t.getVersion(false), "Compiled: " ) != 0 );
-
-  }
-  
-  {
-    // dumpInfo( ostream & ) const
-
-    const LogLevel  t( LogLevel::Debug | LogLevel::Warn,
-		       LogLevel::Test );
-    
-    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
-    t.dumpInfo( tester.getDump(), " -> ", true );
-    
-    tester.getDump() << '\n' << tester.getCurrentTestName();    
-  }
-    
-  {
-    // static const ClassVersion version
-
-    TEST( strstr( LogLevel::version.getVer(true), "@(#) libStlUtils - " ) != 0 );
-    TEST( strstr( LogLevel::version.getVer(true), T_CLASS_NAME ) != 0 );
-    TEST( strstr( LogLevel::version.getVer(true), "Compiled: " ) != 0 );
-    
-    TEST( strstr( LogLevel::version.getVer(true), "@(#) libStlUtils - " ) != 0 );
-    TEST( strstr( LogLevel::version.getVer(true), T_CLASS_NAME ) != 0 );
-    TEST( strstr( LogLevel::version.getVer(true), "Compiled: " ) != 0 );
-    
-    TEST( strstr( LogLevel::version.getVer(false), "@(#) libStlUtils - " ) == 0 );
-    TEST( strstr( LogLevel::version.getVer(false), T_CLASS_NAME ) != 0 );
-    TEST( strstr( LogLevel::version.getVer(false), "Compiled: " ) != 0 );
-    
+    TEST( compare( tStrm.str().c_str(), "TEST" ) == 0 );
   }
 
   {
     // ::operator << ( ostream & dest, const LogLevel obj )
-    
+
     const LogLevel  t( LogLevel::Error | LogLevel::Warn,
 		       LogLevel::Warn );
-    strstream tStrm;
+    std::stringstream tStrm;
 
-    tStrm << t << ends;
+    tStrm << t << std::ends;
 
-    TEST( compare( tStrm.str(), "WARNING" ) == 0 );
+    TEST( compare( tStrm.str().c_str(), "WARNING" ) == 0 );
 
-    tStrm.rdbuf()->freeze(0);
   }
-  
-  return( true );
+
+  return( verify.is_valid() );
 }
- 
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:45  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.2  2000/05/25 17:11:50  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:29  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/04/02 14:19:25  houghton
-// Cleanup and eliminate warnings.
-//
-// Revision 4.1  1997/09/17 15:14:27  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:09:53  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/03/21 15:41:24  houghton
-// Added test for string conversion +/- flags.
-//
-// Revision 3.2  1997/03/03 19:10:36  houghton
-// Changed for port to AIX41.
-//
-// Revision 3.1  1996/11/14 01:26:51  houghton
-// Changed to Release 3
-//
-// Revision 2.5  1996/11/13 17:23:00  houghton
-// Chagned include "file" to include <file> to
-//     accomidate rpm.
-// Removed support for short file names.
-// Change the name for App2 back so it does not effect other test.
-//
-// Revision 2.4  1996/11/04 14:49:59  houghton
-// Added header comments.
-// Chagned to test everything in LogLevel.hh
-//
-//

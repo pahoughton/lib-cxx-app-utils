@@ -3,7 +3,7 @@
 // 1995-05-18 (cc) paul4hough@gmail.com
 
 #include <clue/compare>
-#include <bit>
+#include <clue/bit>
 #include <iostream>
 #include <cstdint>
 // #include <functional>

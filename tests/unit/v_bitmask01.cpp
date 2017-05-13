@@ -1,54 +1,43 @@
-//
-// File:        tBitmask01.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test the following Bitmask methods.
-//
-//	Bitmask( void )
-// 	Bitmask( unsigned long val )
-// 	Bitmask( const bit & val );
-// 	Bitmask( const Bitmask & from )
-// 	set( void )
-// 	set( size_t )
-// 	set( size_t, bool )
-// 	reset( void )
-// 	reset( size_t )
-// 	flip( void )
-// 	flip( size_t )
-// 	bool test( size_t ) const;
-// 	any( void ) const
-// 	none( void ) const
-// 	count( void ) const;
-// 	size( void ) const;
-// 	to_ulong( void ) const
-// 	to_string( void ) const
-// 	compare( const Bitmask & two ) const
-// 	compare( unsigned long ) const
-//  
-// Source Header Version: 2.7
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/30/96 06:05
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+/* 1996-10-30 (cc) <paul4hough@gmail.com>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "Bit.hh"
-#include "Bitmask.hh"
-#include <strstream.h>
-#include <cstring>
+   Test the following Bitmask methods.
+
+	Bitmask( void )
+	Bitmask( unsigned long val )
+	Bitmask( const bit & val );
+	Bitmask( const Bitmask & from )
+	set( void )
+	set( size_t )
+	set( size_t, bool )
+	reset( void )
+	reset( size_t )
+	flip( void )
+	flip( size_t )
+	bool test( size_t ) const;
+	any( void ) const
+	none( void ) const
+	count( void ) const;
+	size( void ) const;
+	to_ulong( void ) const
+	to_string( void ) const
+	compare( const Bitmask & two ) const
+	compare( unsigned long ) const
+*/
+#include <clue/bitmask>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::bitmask01");
+using namespace clue;
 
 bool
-tBitmask01( LibTest & tester )
+v_bitmask01( void )
 {
   {
     // Bitmask( void )
-    
+
     Bitmask  t;
 
     TEST( t.to_ulong() == 0 );
@@ -64,7 +53,7 @@ tBitmask01( LibTest & tester )
 
   {
     // Bitmask( const bit & val );
-    
+
     Bitmask s( 0x24 ); // 0010 0100
 
     for( size_t pos = 0; pos < 8; pos++ )
@@ -104,7 +93,7 @@ tBitmask01( LibTest & tester )
 
     TEST( t.set( 6 ).to_ulong() == 0x48 );
     TEST( t.to_ulong() == 0x48 );
-    
+
     TEST( t.set( 3 ).to_ulong() == 0x48 );
     TEST( t.to_ulong() == 0x48 );
 
@@ -120,7 +109,7 @@ tBitmask01( LibTest & tester )
 
     TEST( t.set( 6, true ).to_ulong() == 0x48 );
     TEST( t.to_ulong() == 0x48 );
-    
+
     TEST( t.set( 3, true ).to_ulong() == 0x48 );
     TEST( t.to_ulong() == 0x48 );
 
@@ -180,14 +169,14 @@ tBitmask01( LibTest & tester )
     TEST( t.flip( 1 ).to_ulong() == 0x0c );
     TEST( t.flip( 2 ).to_ulong() == 0x08 );
     TEST( t.flip( 3 ).to_ulong() == 0x00 );
-    
+
   }
 
   {
     // bool test( size_t ) const;
     {
       const Bitmask t( 0x24 );
-      
+
       for( size_t p = 0; p < 32; p++ )
 	{
 	  TEST( t.test( p ) == (( 0x24 & (1 << p)) ? true : false ) );
@@ -243,7 +232,7 @@ tBitmask01( LibTest & tester )
 
       TEST( t.any() == true );
     }
-    
+
     {
       Bitmask	t;
 
@@ -258,7 +247,7 @@ tBitmask01( LibTest & tester )
       TEST( t.any() == false );
     }
   }
-      
+
   {
     // none( void ) const
     {
@@ -290,7 +279,7 @@ tBitmask01( LibTest & tester )
 
       TEST( t.none() == false );
     }
-    
+
     {
       Bitmask	t;
 
@@ -380,15 +369,15 @@ tBitmask01( LibTest & tester )
 
       TEST( t.to_ulong() == 0x182 );
     }
-    
+
     {
-      
+
       Bitmask t;
-      
+
       t.set( 1 );
       t.set( 8 );
       t.set( 7 );
-      
+
       TEST( t.to_ulong() == 0x182 );
     }
 
@@ -400,44 +389,38 @@ tBitmask01( LibTest & tester )
     {
       const Bitmask t;
 
-      TESTR( t.to_string(),
-	     ! strcmp( t.to_string(), "00000000000000000000000000000000" ) );
+      TEST( ! strcmp( t.to_string(), "00000000000000000000000000000000" ) );
     }
 
     {
       const Bitmask t( 0x24 );
-	
-      TESTR( t.to_string(),
-	     ! strcmp( t.to_string(), "00000000000000000000000000100100" ) );
+
+      TEST( ! strcmp( t.to_string(), "00000000000000000000000000100100" ) );
     }
 
     {
       Bitmask t;
 
       t.set( 31 );
-      TESTR( t.to_string(),
-	     ! strcmp( t.to_string(), "10000000000000000000000000000000" ) );
+      TEST( ! strcmp( t.to_string(), "10000000000000000000000000000000" ) );
 
       t.set( 0 );
-      TESTR( t.to_string(),
-	     ! strcmp( t.to_string(), "10000000000000000000000000000001" ) );
+      TEST( ! strcmp( t.to_string(), "10000000000000000000000000000001" ) );
 
       t.reset( 31 );
-      TESTR( t.to_string(),
-	     ! strcmp( t.to_string(), "00000000000000000000000000000001" ) );
+      TEST( ! strcmp( t.to_string(), "00000000000000000000000000000001" ) );
 
       t.reset( 0 );
-      TESTR( t.to_string(),
-	     ! strcmp( t.to_string(), "00000000000000000000000000000000" ) );
+      TEST( ! strcmp( t.to_string(), "00000000000000000000000000000000" ) );
 
     }
   }
 
   {
     // compare( const Bitmask & two ) const
-    
+
     const Bitmask t( 0x24 );
-    
+
     const Bitmask tl( 0x23 );
     const Bitmask te( 0x24 );
     const Bitmask tm( 0x25 );
@@ -460,46 +443,6 @@ tBitmask01( LibTest & tester )
     TEST( t.compare( te ) == 0 );
     TEST( t.compare( tm ) <  0 );
   }
-  
- 
-  return( true );
-}
 
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:42  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:50  houghton
-// Changed to version 6
-//
-// Revision 5.2  2003/07/19 09:17:28  houghton
-// Port to 64 bit.
-//
-// Revision 5.1  2000/05/25 10:33:27  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/04/02 14:19:22  houghton
-// Cleanup and eliminate warnings.
-//
-// Revision 4.1  1997/09/17 15:14:04  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:09:36  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/07/18 21:33:58  houghton
-// Port(Sun5): added include <cstring>
-//
-// Revision 3.2  1996/11/19 12:33:48  houghton
-// Changed include lines to use " " instead of < > to accomidate rpm.
-// Removed support for short file names to accomidate rpm.
-//
-// Revision 3.1  1996/11/14 01:26:22  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/11/04 14:45:59  houghton
-// Added header comments.
-// Changed so that everything in Bitmask.hh is tested.
-//
-//
+  return( verify.is_valid() );
+}

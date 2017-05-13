@@ -1,11 +1,21 @@
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTimeUtils.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/DateTimeUtils.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <ctime>
 #include <cstring>
+#include <cstdio>
+
+static valid::verify verify("clue::DateTimeUtils");
+using namespace clue;
+
 
 bool
-tDateTimeUtils( LibTest & tester )
+v_DateTimeUtils( void )
 {
   {
     // SecIntTimeT( time_t )
@@ -16,7 +26,7 @@ tDateTimeUtils( LibTest & tester )
     // DaysInTimeT( time_t )
     // DateInTimeT( time_t )
     // IsLeapYear( int )
-    
+
     time_t  	now = time(0);
     struct tm	gmt;
 
@@ -50,38 +60,38 @@ tDateTimeUtils( LibTest & tester )
     char t[10];
     memset( t, 'x', sizeof( t ) );
     t[9] = 0;
-    
+
     const char * s1 = "500101";
     const char * e1 = "19500101x";
 
     YYMMDDtoYYYYMMDD( t, s1 );
-    TESTR( t, strcmp( t, e1 ) == 0 );
+    TEST( strcmp( t, e1 ) == 0 );
 
     const char * s2 = "991231";
     const char * e2 = "19991231x";
 
     YYMMDDtoYYYYMMDD( t, s2 );
-    TESTR( t, strcmp( t, e2 ) == 0 );
+    TEST( strcmp( t, e2 ) == 0 );
 
     const char * s3 = "000101";
     const char * e3 = "20000101x";
 
     YYMMDDtoYYYYMMDD( t, s3 );
-    TESTR( t, strcmp( t, e3 ) == 0 );
+    TEST( strcmp( t, e3 ) == 0 );
 
     const char * s4 = "491231";
     const char * e4 = "20491231x";
 
     YYMMDDtoYYYYMMDD( t, s4 );
-    TESTR( t, strcmp( t, e4 ) == 0 );
+    TEST( strcmp( t, e4 ) == 0 );
 
     const char * s5 = "      ";
     const char * e5 = "        x";
 
     YYMMDDtoYYYYMMDD( t, s5 );
-    TESTR( t, strcmp( t, e5 ) == 0 );
+    TEST( strcmp( t, e5 ) == 0 );
 
   }
-    
-  return( true );
+
+  return( verify.is_valid() );
 }

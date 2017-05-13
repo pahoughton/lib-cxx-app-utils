@@ -1,72 +1,44 @@
-#ifndef _Log_hh_
-#define _Log_hh_
-/**
-   File:        Log.hh
-   Project:	StlUtils ()
-   Desc:        
-  
-    Log is a specialized std::ostream. It provides control over
-    how and where the data placed in the log will be output.
-  
-    There are two types of control, Levels and Filters.
-  
-    Levels are used to indicate the type of log entry,
-    (i.e. Debug, Error, Warning) that is placed in the log.
-  
-    Filters provide for control over the content of the entry.
-  
-    An application can specify what type of entries it
-    wants output (i.e. Error | Warning ). It can then
-    create any number of log entries and specify the level
-    for each one. Only those entries specified for output
-    will actually be written to the log.
-  
-    Filters can be used to write log entries with a specific
-    level and content to any 'streambuf' destination.
-  
-   Author:      Paul Houghton - (houghton@shoe)
-   Created:     03/14/94 10:49
-  
-   Revision History: (See end of file for Revision Log)
-  
-    $Author$ 
-    $Date$ 
-    $Name$ 
-    $Revision$ 
-    $State$ 
-  
-   $Id$ 
+#ifndef _clue_Log_hpp_
+#define _clue_Log_hpp_
+/* 1994-03-14 (cc) Paul Houghton <paul4hough@gmail.com>
+
+   Log is a specialized std::ostream. It provides control over
+   how and where the data placed in the log will be output.
+
+   There are two types of control, Levels and Filters.
+
+   Levels are used to indicate the type of log entry,
+   (i.e. Debug, Error, Warning) that is placed in the log.
+
+   Filters provide for control over the content of the entry.
+
+   An application can specify what type of entries it
+   wants output (i.e. Error | Warning ). It can then
+   create any number of log entries and specify the level
+   for each one. Only those entries specified for output
+   will actually be written to the log.
+
+   Filters can be used to write log entries with a specific
+   level and content to any 'streambuf' destination.
+
 **/
 
-#include "StlUtilsConfig.hh"
-#include "Mutex.hh"
-#include "LogBuf.hh"
+#include "LogBuf.hpp"
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <mutex>
 
-
-
-#if defined( STLUTILS_LOG_WHERE )
 #define LogIf( lg, lvl ) \
   if( (lg)(lvl, __FILE__, __LINE__ ).changeCheckOutput( lvl ) ) (lg)
-#else
-#define LogIf( lg, lvl ) \
-  if( (lg)(lvl, 0, 0 ).willOutput( lvl ) ) (lg)
-#endif
 
-    
-#if defined( STLUTILS_DEBUG )
-#define inline
-#endif
+namespace clue {
 
 class Log : public std::ostream
 {
 
 public:
 
-  static const int  openprot; // 0666
-  
   Log( std::ostream & 	outStream = std::cout,
        LogLevel::Level 	outLevel = ( LogLevel::Error |
 				     LogLevel::Warn |
@@ -74,27 +46,29 @@ public:
        bool		stampLevel = true,
        bool		stampTime = true,
        bool		stampLoc = true );
-  
+
   Log( std::ostream & 	outStream,
        const char *     outLevel,
        bool		stampLevel = true,
        bool		stampTime = true,
-       bool		stampLoc = true ); 
-  
+       bool		stampLoc = true );
+
   Log( const char * 	fileName,
        LogLevel::Level 	outLevel = ( LogLevel::Error |
 				     LogLevel::Warn |
 				     LogLevel::Info ),
-       std::ios::openmode	mode = (std::ios::openmode)(std::ios::app|std::ios::out),
+       std::ios::openmode mode = (std::ios::openmode)(std::ios::app|
+						      std::ios::out),
        bool		stampLevel = true,
        bool		stampTime = true,
        bool		stampLoc = true,
        size_t		maxSize = 0,
        size_t		trimSize = 0 );
-  
+
   Log( const char * 	fileName,
        const char *	outLevel,
-       std::ios::openmode	mode = (std::ios::openmode)(std::ios::app|std::ios::out),
+       std::ios::openmode mode = (std::ios::openmode)(std::ios::app|
+						      std::ios::out),
        bool		stampLevel = true,
        bool		stampTime = true,
        bool		stampLoc = true,
@@ -109,7 +83,7 @@ public:
   inline bool	    willOutput( const LogLevel::Level & outLevel ) const;
   inline bool	    changeCheckOutput( const LogLevel::Level & outLevel );
 
-  
+
   Log &		level( const LogLevel::Level &  current = LogLevel::Error,
 		       const char *		srcFile = 0,
 		       long			srcLine = 0 );
@@ -132,12 +106,12 @@ public:
   Log &		    level( const char *	    current,
 			   const char *	    srcFile = 0,
 			   long		    srcLine = 0 );
-  
+
   virtual Log &	    level( const char *	    current,
 			   const char *	    srcFile,
 			   long		    srcLine,
 			   time_t	    when );
-  
+
   inline Log &      operator () ( const char *	    current );
   inline Log &      operator () ( const char *	    current,
 				  const char *	    srcFile,
@@ -146,7 +120,7 @@ public:
 				  const char *	    srcFile,
 				  long		    srcLine,
 				  time_t	    when );
-    
+
   Log &	    appendFile( const LogLevel::Level &	current,
 			const char *		srcFile,
 			long			srcLine,
@@ -161,13 +135,13 @@ public:
   inline bool		    getLocStamp( void ) const;
 
   inline const FilePath &   getLogFileName() const;
-  
+
   inline LogLevel::Level    setOutputLevel( const LogLevel::Level & output );
   inline LogLevel::Level    setOutputLevel( const char * output );
-  
+
   inline void		    on( const LogLevel::Level & output );
   inline void		    off( const LogLevel::Level & output );
-  
+
   inline void 	    	    tee( std::ostream & teeStream = std::cerr );
 
   inline size_t		    setTrimSize( size_t trimSize );
@@ -175,59 +149,46 @@ public:
 
   inline size_t		    getTrimSize( void ) const;
   inline size_t		    getMaxSize( void ) const;
-  
+
   size_t	    trim( size_t maxSize = 0 );
-  
-  void	    open( const char *	    fileName,
-		  std::ios::openmode    mode = (std::ios::openmode)(std::ios::out|std::ios::app),
-		  int		    prot = 0664 );
-  
+
+  void	    open( const char *	     fileName,
+		  std::ios::openmode mode = (std::ios::openmode)(std::ios::out|
+								 std::ios::app),
+		  int		     prot = 0664 );
+
   void	    setFileName( const char *	    fileName,
-			 std::ios::openmode    mode =
-			 (std::ios::openmode)(std::ios::out|std::ios::app),
+			 std::ios::openmode mode = (std::ios::openmode)(std::ios::out|
+									std::ios::app),
 			 int		    prot = 0664 );
-  
+
   void		    close( void );
 
   bool		    filter( const char * regex );
-  
+
   LogBuf::FilterId  addFilter( std::streambuf *		destBuf,
 			       const LogLevel::Level &	outputLevel,
 			       const char *		regex = 0 );
 
-  std::streambuf *	    getFilterStream( LogBuf::FilterId filter );
+  std::streambuf *  getFilterStream( LogBuf::FilterId filter );
   LogLevel::Level   getFilterLogLevel( LogBuf::FilterId filter );
-  const char *	    getFilterRegex( LogBuf::FilterId filter );
-  
+
   std::streambuf *	    delFilter( LogBuf::FilterId id );
 
-  
+
   inline LogBuf *	    rdbuf( void );
   inline const LogBuf *	    rdbuf( void ) const;
 
-  bool				tieCommonLogger( bool setStrings = false );
-  
-  static const LogLevel::CommonLevelMap & getCommonLevelMap( void );
-  
   // mutex locking
 
-  inline bool		    lock( void );
-  inline bool		    unlock( void );
-  
-  virtual bool 		good( void ) const;
-  virtual const char *	error( void ) const;
-  virtual const char *	getClassName( void ) const;
-  virtual const char *	getVersion( bool withPrjVer = true ) const;
-  virtual std::ostream & 	dumpInfo( std::ostream &	dest = std::cerr,
-				  const char *	prefix = "    ",
-				  bool		showVer = true ) const;
-  
-  static const ClassVersion version;
-  
-protected:
+  inline void		 lock( void );
+  inline void		 unlock( void );
 
-  static void	initCommonLevelMap( void );
-  
+  virtual bool 		 good( void ) const;
+  virtual const char *	 error( void ) const;
+  virtual std::ostream & dumpInfo( std::ostream &   dest = std::cerr,
+				   const char *	    prefix = "    " ) const;
+
 private:
 
   Log( const Log & copyFrom );
@@ -238,26 +199,286 @@ private:
   bool		locStamp;
   bool		localTimeStamp;
 
-  
-  Mutex		mutex;
-  
+  std::mutex	mutex;
+
 };
 
-#ifndef inline
-#include <Log.ii>
-#else
-#undef inline
-#endif
+inline
+void
+Log::tee( std::ostream & teeStream )
+{
+  rdbuf()->tee( teeStream.rdbuf() );
+}
+
+inline
+size_t
+Log::setMaxSize( size_t max )
+{
+  return( rdbuf()->setMaxSize( max ) );
+}
+
+inline
+size_t
+Log::setTrimSize( size_t size )
+{
+  return( rdbuf()->setTrimSize( size ) );
+}
+
+inline
+size_t
+Log::getMaxSize( void ) const
+{
+  return( rdbuf()->getMaxSize() );
+}
+
+inline
+size_t
+Log::getTrimSize( void ) const
+{
+  return( rdbuf()->getTrimSize() );
+}
+
+
+inline Log &
+Log::level(
+  const LogLevel::Level &   current,
+  const char *		    srcFile,
+  long			    srcLine
+  )
+{
+  return( level( current, srcFile, srcLine, time(0) ) );
+}
+
+inline Log &
+Log::level(
+  const char *	lvl,
+  const char *	srcFile,
+  long		srcLine
+  )
+{
+  return( level( lvl, srcFile, srcLine, time(0) ) );
+}
+
+inline
+Log &
+Log::operator () ( void )
+{
+  return( level( LogLevel::Error ) );
+}
+
+inline
+Log &
+Log::operator () ( const LogLevel::Level & lvl )
+{
+  return( level( lvl ) );
+}
+
+inline
+Log &
+Log::operator () (
+  const LogLevel::Level &   lvl,
+  const char *		    srcFile,
+  long			    srcLine
+  )
+{
+  return( level( lvl, srcFile, srcLine ) );
+}
+
+inline
+Log &
+Log::operator () (
+  const LogLevel::Level &   lvl,
+  const char *		    srcFile,
+  long			    srcLine,
+  time_t		    when
+  )
+{
+  return( level( lvl, srcFile, srcLine, when ) );
+}
+
+inline
+Log &
+Log::operator () ( const char * lvl )
+{
+  return( level( lvl ) );
+}
+
+inline
+Log &
+Log::operator () ( const char * lvl, const char * srcFile, long srcLine )
+{
+  return( level( lvl, srcFile, srcLine ) );
+}
+
+inline
+Log &
+Log::operator () (
+  const char *	lvl,
+  const char *	srcFile,
+  long		srcLine,
+  time_t	when
+  )
+{
+  return( level( lvl, srcFile, srcLine, when ) );
+}
+
+inline
+void
+Log::on( const LogLevel::Level & outLvl )
+{
+  rdbuf()->sync();
+  rdbuf()->setOutputLevel( getOutput() | outLvl );
+}
+
+inline
+void
+Log::off( const LogLevel::Level & outLvl )
+{
+  rdbuf()->sync();
+  rdbuf()->setOutputLevel( getOutput() & ~outLvl );
+}
+
+inline
+LogLevel::Level
+Log::getCurrent( void ) const
+{
+  return( rdbuf()->getLogLevel().getCurrent() );
+}
+
+inline
+LogLevel::Level
+Log::getOutput( void  ) const
+{
+  return( rdbuf()->getLogLevel().getOutput() );
+}
+
+inline
+bool
+Log::willOutput( const LogLevel::Level & outLevel ) const
+{
+  return( rdbuf()->willOutput( outLevel ) );
+}
+
+inline
+bool
+Log::changeCheckOutput( const LogLevel::Level & newLevel )
+{
+  if( rdbuf()->sync() == EOF )
+    {
+      setstate(failbit|eofbit);
+    }
+  else
+    {
+      rdbuf()->setCurrentLevel( newLevel );
+    }
+
+  return( willOutput( newLevel ) );
+}
+
+inline
+LogLevel::Level
+Log::setOutputLevel( const char * level )
+{
+  rdbuf()->sync();
+  return( rdbuf()->setOutputLevel( level ) );
+}
+
+inline
+LogLevel::Level
+Log::setOutputLevel( const LogLevel::Level & level )
+{
+  rdbuf()->sync();
+  return( rdbuf()->setOutputLevel( level ) );
+}
+
+inline
+bool
+Log::setLevelStamp( bool stamp )
+{
+  bool old = levelStamp;
+  levelStamp = stamp;
+  return( old );
+}
+
+inline
+bool
+Log::setTimeStamp( bool stamp )
+{
+  bool old = timeStamp;
+  timeStamp = stamp;
+  return( old );
+}
+
+inline
+bool
+Log::setLocStamp( bool stamp )
+{
+  bool old = locStamp;
+  locStamp = stamp;
+  return( old );
+}
+
+inline
+bool
+Log::getLevelStamp( void ) const
+{
+  return( levelStamp );
+}
+
+inline
+bool
+Log::getTimeStamp( void ) const
+{
+  return( timeStamp );
+}
+
+inline
+bool
+Log::getLocStamp( void ) const
+{
+  return( locStamp );
+}
+
+inline
+const FilePath &
+Log::getLogFileName( void ) const
+{
+  return( (*rdbuf()).getLogFileName() );
+}
+
+inline
+LogBuf *
+Log::rdbuf( void )
+{
+  return( (LogBuf *)(std::ios::rdbuf()) );
+}
+
+inline
+const LogBuf *
+Log::rdbuf( void ) const
+{
+  return( (const LogBuf *)(std::ios::rdbuf()) );
+}
+
+inline
+void
+Log::lock( void )
+{
+  mutex.lock();
+}
+
+inline
+void
+Log::unlock( void )
+{
+  mutex.unlock();
+}
+
+
+}; // namespace clue
 
 /**
-   Detail Documentation:
-  
-   Types:
-  
-    	class Log : public std::ostream
-  
-   Constructors:
-  
+
   	inline
     	Log( std::ostream &		outStream = std::cout,
     	     LogLevel::Level	outLevel = ( LogLevel::Error |
@@ -275,7 +496,7 @@ private:
   	    the destination before each log entry. 'stampLoc' controls
   	    whether or not the source file and line number will be written
   	    to the destination before each log entry.
-  
+
   	inline
     	Log( std::ostream &		outStream,
     	     const char *	outLevel,
@@ -292,7 +513,7 @@ private:
             befor each log entry. 'stampLoc' controls whether or not the
             source file and line number will be written to the destination
             before each log entry.
-  
+
   	inline
     	Log( const char *	fileName,
     	     LogLevel::Level	outLevel = ( LogLevel::Error |
@@ -305,7 +526,7 @@ private:
   	     bool		stampLoc = true,
   	     size_t		maxSize = 0,
   	     size_t		trimSize = 0 );
-  
+
   	inline
     	Log( const char *	fileName,
     	     const char *	outLevel,
@@ -336,25 +557,25 @@ private:
   	    file, when it reaches 'maxSize'. A trimSize value of 0 means
   	    25% of maxSize will be trimmed. Any other value is the number
   	    of bytes to trim.
-  
+
     Public Interface:
-  
+
   	inline
   	LogLevel::Level
   	getCurrent( void ) const
   	    Returns the level for the current log entry.
-  
+
   	inline
   	LogLevel::Level
   	getOutput( void ) const
   	    Returns the level(s) that will be output to the primary log.
-  
+
   	inline
   	bool
   	willOutput( const LogLevel::Level & outLevel ) const
   	    Returns true if 'outLevel' would be written to the destination.
             else return false.
-  
+
   	Log &
   	level( const LogLevel::Level &	current = LogLevel::Error,
   	       const char *		srcFile = 0,
@@ -370,7 +591,7 @@ private:
   	    writing the entry
   	    (i.e. log.level( LogLevel::Error, __FILE__, __LINE__ )
   	    << "text" << endl; ).
-  
+
   	inline
   	Log &
   	operator () ( void )
@@ -379,7 +600,7 @@ private:
   	    and log.level( LogLevel::Error, 0, 0 ).The Log is returned
   	    (i.e. *this) so you can immediately start writing the entry
   	    (i.e. log() << "text" << endl; ).
-  
+
   	inline
   	Log &
   	operator () ( const LogLevel::Level & current )
@@ -389,7 +610,7 @@ private:
   	    log.level( LogLevel::Debug, 0, 0 ).The Log is returned
   	    (i.e. *this) so you can immediately start writing the entry
   	    (i.e. log( LogLevel::Debug ) << "text" << endl; ).
-  
+
   	inline
   	Log &
   	operator () ( const LogLevel::Level &	current,
@@ -402,7 +623,7 @@ private:
   	    writing the entry
   	    (i.e. log( LogLevel::Debug, __FILE__, __LINE__  ) << "text"
   	    << endl; ).
-  
+
   	Log &
   	level( const char * current,
   	       const char * srcFile = 0,
@@ -411,14 +632,14 @@ private:
   	    only the current level can be a text string (see LogLevel(3)
   	    for conversion behavior). (i.e. log.Level( "WARN" ) is the
   	    same as log.level( LogLevel::Warning ) ).
-  
+
   	inline
   	Log &
   	operator () ( const char * current,
   		      const char * srcFile,
   		      long	   srcLine );
   	    These are just short cut calls to level( const char * ... ).
-  
+
   	inline
   	bool
   	setLevelStamp( bool stamp )
@@ -426,7 +647,7 @@ private:
   	    log entry. If 'stamp' is true, the level will be prepended to
   	    the entry, else it will not be output. The previous state
   	    of the level stamp is returned.
-  
+
   	inline
   	bool
   	setTimeStamp( bool stamp )
@@ -435,7 +656,7 @@ private:
   	    is true, the date and time will be output, else
   	    it will not be output. The previous state of the time stamp
   	    is returned.
-  
+
   	inline
   	bool
   	setLocStamp( bool stamp )
@@ -444,11 +665,11 @@ private:
   	    and line was provided, it will be output. Otherwise it will
   	    not be output. The previous state of the location stamp is
   	    returned.
-  
+
   	inline
   	LogLevel::Level
   	setOutputLevel( const LogLevel::Level & output )
-  
+
   	inline
   	LogLevel::Level
   	setOutputLevel( const char * output )
@@ -459,26 +680,26 @@ private:
   	    ). Or it can be a text string containing the levels to be
   	    written (i.e. "Error | Warning" ). The previous value
   	    for the output level is returned.
-  
+
   	inline
   	void
   	on( const LogLevel::Level & output )
   	    Turn on outputing for the level(s) specifed by 'output'. The
   	    state of other existing output levels is not changed.
-  
+
   	inline
   	void
   	off( const LogLevel::Level & output )
   	    Turn off outputing for the level(s) specified by 'output'.
   	    The output state for other levels is not changed.
-  
+
   	inline
     	void
     	tee( std::ostream & teeStream = std::cerr );
   	    This will cause all output written to the primary
   	    destination to also be written to the stream specified
-  	    by 'teeStream'. 
-  
+  	    by 'teeStream'.
+
   	inline
   	size_t
   	setTrimSize( size_t trimSize )
@@ -487,7 +708,7 @@ private:
   	    time it reaches max size (see setMaxSize). A value of
   	    0 means to remove the first 25% of the file. Returns
   	    the previous value of trimSize.
-  
+
   	inline
   	size_t
   	setMaxSize( size_t maxSize )
@@ -497,7 +718,7 @@ private:
   	    trim size (see setTrimSize). A maxSize of 0 removes
   	    the limit so that the file can grow indefinately.
   	    Returns the previous value of maxSize.
-  
+
   	inline
   	size_t
   	trim( size_t maxSize = 0 )
@@ -506,7 +727,7 @@ private:
   	    maxSize - trimSize (set setTrimSize). If maxSize is '0',
   	    the current maxSize (see setMaxSize) will be used. Returns
   	    the number of bytes trimmed from the file.
-  
+
   	inline
   	void
   	open( const char *	fileName,
@@ -515,7 +736,7 @@ private:
   	    This will open 'fileName' using 'mode' and make it the
   	    primary destionation for output. use 'good()' to
   	    ensure the call was successfull.
-  
+
   	inline
   	void
   	setFileName( const char *	fileName,
@@ -523,14 +744,14 @@ private:
 		       = (ios::openmode)(ios::out|ios::app),
 		     int		prot = 0664 );
   	    This is just another name for 'open'.
-  
+
   	inline
   	void
   	close( void )
   	    If the primary destination is a file, close it.
   	    There will not be a primary destination until a file is
   	    'open'ed.
-  
+
   	bool
   	filter( const char * regex )
   	    Create a filter using the pattern in 'regex' for the
@@ -541,7 +762,7 @@ private:
   	    See RegexScan(3) for the syntax of the pattern. If 'regex'
   	    is 0, any existing filter will be removed. Returns true
   	    if a valid filter is being used.
-  
+
   	LogBuf::FilterId
   	addFilter( streambuf *		    destBuf,
   		   const LogLevel::Level &  outputLevel,
@@ -553,134 +774,125 @@ private:
   	    to filter the log entries through (see filter()). Returns
   	    a 'FilterId' that can be used to delete the destination
   	    at some later time (see delFilter).
-  
+
   	streambuf *
   	delFilter( LogBuf::FilterId id )
   	    Remove a filtered destination that was created with
-  	    'addFilter'. Returns the streambuf that was the 
+  	    'addFilter'. Returns the streambuf that was the
   	    destination for the filter or 0 if the filter Id was
   	    not valid.
-  
+
   	inline
   	LogBuf *
   	rdbuf( void )
   	    Returns the logBuf used by this log (see LogBuf(3)).
-  
+
   	inline
   	const LogBuf *
   	rdbuf( void ) const
   	    Returns the logBuf use by this log (see LogBuf(3)).
-  
+
   	inline
   	bool
   	lock( void )
   	    If threads are supported, this locks the log
   	    to make it thread safe.
-  
+
   	inline
   	bool
   	unlock( void )
   	    If threads are supported, this will unlock the log after
   	    it has been locked.
-  
+
   	virtual
   	bool
   	good( void ) const
   	    Return true if there are no errors associated with
   	    the log, otherwise return false.
-  
+
   	virtual
   	const char *
   	error( void ) const
   	    Return a text description of the current state of the log.
-  
+
     	virtual
   	const char *
     	getClassName( void ) const;
     	    Returns the name of this class ( i.e. Log )
-  
+
   	virtual
   	const char *
   	getVersion( bool withPrjVer = true ) const
   	    Return the version string for the Log. If
   	    withPrjVer == true, the project version info will also
   	    be returned.
-  
+
   	virtual
   	std::ostream &
   	dumpInfo( std::ostream &	dest = std::cerr,
   		  const char *	prefix = "    ",
   		  bool		showVer = true ) const;
   	    Output detailed information about the current
-  	    state of the Log. 
-  
+  	    state of the Log.
+
   	static const ClassVersion version;
   	    This contains the version information for the Log class.
-  
-  	
+
+
     Associated Macros:
-  
+
   	LogIf( log, level )
   	    This improves performance by testing if the entry
   	    would be output before processing it. It also set
   	    the source file (__FILE__) and line (__LINE__) for
   	    the log entry.
   	    (i.e. LogIf( log, LogLevel::Debug ) << entry << endl; )
-  
+
     Example:
-  
+
   	Source file name - tLog.C
-  
+
   	#include <Log.hh>  // includes LogBuf.hh & LogLevel.hh for you
-  
+
   	int
   	main( int argc, char * argv[] )
   	{
-  
+
   	    Log log( "App.log", LogLevel::All );
-  
+
   	    LogIf( log, LogLevel::Info ) << "This is an info entry." << endl;
-  
+
   	    log.tee( std::cerr );
-  
+
   	    LogIf( log, LogLevel::Error )
   		<< "This is an error entry" << endl;
-  
+
   	    log << "This is more of the same error entry" << endl;
-  
+
   	    return( 0 );
-  
+
   	}
-  
+
   	Will write the following to 'App.log':
-  
+
   	11/11/96 12:10:59 INFO tLog.C:11 This is an info entry.
   	11/11/96 12:10:59 ERROR tLog.C:15 This is an error entry
   	This is more of the same error entry
-  
+
   	And the following to std::cerr (stderr):
-  
+
   	11/11/96 12:10:59 ERROR tLog.C:15 This is an error entry
   	This is more of the same error entry
-  
+
    See Also:
-  
+
     LogLevel(3), LogBuf(3), RegexScan(3), std::ostream(3)
-  
+
    Files:
-  
+
   	Log.hh, Log.ii, LogBuf.hh, LogBuf.ii, LogLevel.hh, LogLevel.ii,
   	libStlUtils.a
-  
-    Documented Ver: 2.8
-    Tested Ver: 2.8
-  
+
 **/
 
-#endif // ! def _Log_hh_ 
-
-
-
-
-
-
+#endif // ! def _clue_Log_hpp_

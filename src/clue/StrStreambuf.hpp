@@ -1,184 +1,79 @@
-#ifndef _StrStreambuf_hh_
-#define _StrStreambuf_hh_
-//
-// File:        StrStreambuf.hh
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Defines the streambuf used by Str.
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     05/30/95 11:09
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-// $Id$ 
+#ifndef _clue_StrStreambuf_hpp_
+#define _clue_StrStreambuf_hpp_
+// 1995-05-30 (cc) Paul Houghton - (paul4hough@gmail.com)
 
-#include "StlUtilsConfig.hh"
-#include <cstddef>
+#include <iostream>
 #include <sstream>
+#include <cstddef>
 
+namespace clue {
 
-#if defined( STLUTILS_DEBUG )
-#define inline
-#endif
+class Str;
+class SubStr;
 
-class STLUTILS_CLASS_T Str;
-class STLUTILS_CLASS_T SubStr;
-
-class STLUTILS_CLASS_T StrStreambuf : public std::stringbuf
+class StrStreambuf : public std::stringbuf
 {
 
 public:
-  
-  inline size_t	    	plen(void) STLUTILS_STRBUF_CONST_RDBUF;
-  inline size_t	    	psize(void) STLUTILS_STRBUF_CONST_RDBUF;
-  inline const char * 	cstr(void);  
+
+  inline size_t	    	plen(void) {
+    return( pptr() - pbase() );
+  }
+
+  inline size_t	    	psize(void) {
+    return( epptr() - pbase() );
+  }
+
+  inline const char * 	cstr(void) {
+    sputc(0);
+    seekoff( -1, std::ios::cur, std::ios::out );
+
+    return( pbase() );
+  }
 
   void			readPrep( void );
-  
-  const char *		getClassName( void ) const;
-  const char *		getVersion( bool withPrjVer = true ) const;
-  
-  std::ostream &		dumpInfo( std::ostream &	dest = std::cerr,
-				  const char *	prefix = "    ",
-				  bool		showVer = true );
 
+  std::ostream &	dumpInfo( std::ostream & dest = std::cerr,
+				  const char *	 prefix = "    " );
 
-  static const ClassVersion version;
-  
 private:
 
-#if defined( STLUTILS_STRBUF_PBASE )
-  char * pbase( void ) { return( base() ); }
-#endif
-  
-  inline const char * 	strbase( void ) STLUTILS_STRBUF_CONST_RDBUF;
-  
+  //char * pbase( void ) { return( base() ); }
+
+  inline const char * 	strbase( void ) const {
+    return( pbase() );
+  };
+
   friend class Str;
   friend class SubStr;
 
 };
 
-#if !defined( inline )
-#include <StrStreambuf.ii>
-#else
-#undef inline
-#endif
+}; // namespace clue
+/*
+  	size_t
+  	plen(void) STR_CONST_RDBUF;
 
-//  Quick Start: - short example of class usage
-//
-//  Data Types: - data types defined by this header
-//
-//  	StrStreambuf	class
-//
-//  Constructors:
-//
-//  	StrStreambuf( );
-//
-//  Destructors:
-//
-//  Public Interface:
-//
-//  	size_t
-//  	plen(void) STR_CONST_RDBUF;
-//
-//  	size_t
-//  	psize(void) STR_CONST_RDBUF;
-//
-//  	const char *
-//  	cstr(void);  
-//
-//  	virtual const char *
-//  	getClassName( void ) const;
-//  	    Return the name of this class (i.e. StrStreambuf )
-//
-//  	virtual Bool
-//  	good( void ) const;
-//  	    Returns true if there are no detected errors associated
-//  	    with this class, otherwise FALSE.
-//
-//  	virtual const char *
-//  	error( void ) const
-//  	    Returns as string description of the state of the class.
-//
-//  Protected Interface:
-//
-//  Private Methods:
-//
-//  Other Associated Functions:
-//
-//  	std::ostream &
-//  	operator <<( std::ostream & dest, const StrStreambuf & obj );
-//
-// Revision History:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:49  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:20  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:43  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2003/06/25 08:52:08  houghton
-// Added readPrep method - still need to improve this.
-//
-// Revision 5.2  2001/07/26 19:28:59  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:17  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  1998/10/13 16:25:10  houghton
-// Changed to use new standard includes.
-//
-// Revision 4.2  1998/07/20 11:27:16  houghton
-// Bug-Fix: no need for default constructor declaration.
-//
-// Revision 4.1  1997/09/17 15:12:59  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:08:50  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/04/03 23:23:22  houghton
-// Changed include stddef to stddef.h
-//
-// Revision 3.2  1996/11/20 12:12:50  houghton
-// Changed strstream to strstream.h because it is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:24:14  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/04 14:28:24  houghton
-// Added include stddef.
-//
-// Revision 2.3  1996/04/27 13:09:15  houghton
-// Cleanup includes.
-//
-// Revision 2.2  1995/11/10 14:08:41  houghton
-// Updated documentation comments
-//
-// Revision 2.1  1995/11/10  12:41:07  houghton
-// Change to Version 2
-//
-// Revision 1.2  1995/11/05  14:44:46  houghton
-// Ports and Version ID changes
-//
-//
-#endif // ! def _StrStreambuf_hh_ 
+  	size_t
+  	psize(void) STR_CONST_RDBUF;
+
+  	const char *
+  	cstr(void);
+
+  	virtual const char *
+  	getClassName( void ) const;
+  	    Return the name of this class (i.e. StrStreambuf )
+
+  	virtual Bool
+  	good( void ) const;
+  	    Returns true if there are no detected errors associated
+  	    with this class, otherwise FALSE.
+
+  	virtual const char *
+  	error( void ) const
+  	    Returns as string description of the state of the class.
+
+  	std::ostream &
+  	operator <<( std::ostream & dest, const StrStreambuf & obj );
+*/
+#endif // ! def _clue_StrStreambuf_hpp_

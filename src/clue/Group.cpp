@@ -1,22 +1,6 @@
-//
-// File:        Group.C
-// Desc:        
-//              
-//
-// Author:      Paul Houghton - (houghton@cworld.wiltel.com)
-// Created:     12/23/94 13:56 
-//
-// Revision History:
-//
-// $Log$
-// Revision 1.1  1995/02/13 16:08:44  houghton
-// New Style Avl an memory management. Many New Classes
-//
-//
-static const char * RcsId =
-"$Id$";
+// 1994-12-23 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "Group.hh"
+#include "Group.hpp"
 
 #include <pwd.h>
 
@@ -60,12 +44,12 @@ Group::group( const struct group * gr )
       gid = gr->gr_gid;
 
       freeGrData();
-      
+
       name = strdup( gr->gr_name );
 
       int len = 0;
       int g;
-      
+
       for( g = 0; gr->gr_mem[g] != 0; g++ )
 	{
 	  len += strlen( gr->gr_mem[g] ) + 3;
@@ -74,7 +58,7 @@ Group::group( const struct group * gr )
       members = new char[len];
 
       strcpy( members, gr->gr_mem[0] );
-      
+
       for( g = 1; gr->gr_mem[g] != 0 ; g++ )
 	{
 	  strcat( members,", " );
@@ -124,7 +108,7 @@ Bool
 Group::isIn( gid_t grp, uid_t uid )
 {
   uid_t	    euid;
-  
+
   if( uid == ULONG_MAX )
     {
       uid = getuid();
@@ -138,7 +122,7 @@ Group::isIn( gid_t grp, uid_t uid )
   struct passwd * pw = getpwuid( uid );
   char * uname = 0;
   char * euname = 0;
-  
+
   if( pw != 0 )
     {
       if( pw->pw_gid == grp )
@@ -154,7 +138,7 @@ Group::isIn( gid_t grp, uid_t uid )
   if( euid != uid )
     {
       pw = getpwuid( euid );
-      
+
       if( pw != 0 )
 	{
 	  if( pw->pw_gid == grp )
@@ -261,20 +245,3 @@ Group::initialize( void )
       errorNum = errno;
     }
 }
-
-
-    
-	
-
-
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//

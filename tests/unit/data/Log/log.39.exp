@@ -1,7 +1,7 @@
-ERROR tLog09.C:43 LogIf test entry.
-ERROR tLog09.C:44 LogIf test entry.
-TEST tLog09.C:57 LogIf test entry.
-ERROR tLog09.C:61 Chunk Test:     1) This is a large multi-line entry into the log that
+ERROR v_Log09.cpp:30 LogIf test entry.
+ERROR v_Log09.cpp:31 LogIf test entry.
+TEST v_Log09.cpp:44 LogIf test entry.
+ERROR v_Log09.cpp:48 Chunk Test:     1) This is a large multi-line entry into the log that
     sould force an overflow becuse there are no sync
     calls.
 
@@ -141,5 +141,5 @@ ERROR tLog09.C:61 Chunk Test:     1) This is a large multi-line entry into the l
     sould force an overflow becuse there are no sync
     calls.
 
-TEST tLog09.C:79 End of Chnunk good!
-TEST tLog09.C:98 End of Test
+TEST v_Log09.cpp:66 End of Chnunk good!
+TEST v_Log09.cpp:85 End of Test

@@ -1,14 +1,15 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-31 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::SubStr06");
+using namespace clue;
 
 #define T1 "first part"
 #define T2 " second part"
@@ -24,14 +25,14 @@
 
 
 bool
-tSubStr06( LibTest & tester )
+v_SubStr06( void )
 {
   {
     // ::compare( const SubStr &, const char * )
     // ::compare( const SubStr &, const char *, size_t )
 
     Str t( T1 T2 T3 T4 );
-    
+
     TEST( compare( t.substr( strlen(T1), strlen( T2 T3 ) ), T2 T3 ) == 0 );
     TEST( compare( t.substr( strlen(T1), strlen( T2 T3 ) + 1), T2 T3 ) > 0 );
     TEST( compare( t.substr( strlen(T1), strlen( T2 T3 ) - 1 ), T2 T3 ) < 0 );
@@ -50,13 +51,13 @@ tSubStr06( LibTest & tester )
 		    T1 T4,
 		    strlen( T1 ) ) < 0 );
   }
-      
+
   {
     // ::fcompare( const SubStr &, const char * )
     // ::fcompare( const SubStr &, const char *, size_t )
 
     Str t( T1 T2 T3 T4 );
-    
+
     TEST( fcompare( t.substr( strlen(T1), strlen( T2 T3 ) ), T2u T3 ) == 0 );
     TEST( fcompare( t.substr( strlen(T1), strlen( T2 T3 ) + 1), T2u T3u ) > 0 );
     TEST( fcompare( t.substr( strlen(T1), strlen( T2 T3 ) - 1 ), T2 T3u ) < 0 );
@@ -79,7 +80,7 @@ tSubStr06( LibTest & tester )
   {
     // operator + ( const SubStr &, const Str & )
     // operator + ( const SubStr &, const SubStr & )
-    
+
     Str t;
 
     const Str	 ls( T1 T2 T3 );
@@ -102,7 +103,7 @@ tSubStr06( LibTest & tester )
     const Str r( T2 T3 );
 
     Str t;
-    
+
     t = T1 + r( 0, strlen(T2) );
     TEST( t == T1 T2 );
   }
@@ -113,7 +114,7 @@ tSubStr06( LibTest & tester )
 
     const Str rs( T2 );
     const SubStr r( rs );
-    
+
     TEST( T2 == r );
     TEST( ! ( T2 "a" == r ) );
 
@@ -125,19 +126,19 @@ tSubStr06( LibTest & tester )
     // operator <  ( const char *, const SubStr & )
 
     const Str ts( T1 T2 T3 );
-    
+
     const SubStr t( ts, strlen( T1 ) );
 
     TEST( T2 < t );
     TEST( ! ( T2 T3 < t ) );
   }
-  
+
   {
     // operator >  ( const char *, const SubStr & )
-    
+
     const Str	 ts( T2 T3 T4);
     const SubStr t( ts, 0, strlen( T2 T3 ) );
-    
+
     TEST( T2 T3 T4 > t );
     TEST( ! ( T2 T3 > t ) );
   }
@@ -147,7 +148,7 @@ tSubStr06( LibTest & tester )
 
     const Str	    ts( T1 T2 T3 T4);
     const SubStr    t( ts, strlen( T1 ), strlen( T2 T3 ) );
-    
+
     TEST( T2 <= t );
     TEST( T2 T3 <= t );
     TEST( ! ( T2 T3 T4 <= t ) );
@@ -158,16 +159,10 @@ tSubStr06( LibTest & tester )
 
     const Str ts( T2 T3 );
     const SubStr t( ts );
-    
+
     TEST( T2 T3 T4 >= t );
     TEST( T2 T3 >= t );
     TEST( ! ( T2 >= t ) );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-
-    
-
-    
-    

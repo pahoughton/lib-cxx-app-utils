@@ -1,32 +1,16 @@
-//
-// File:        tUnionOf.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for UnionOf & UnionOfDur functions.
-//
-// Source Header Version: 2.4
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/31/96 07:19
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-10-31 (cc) <paul4hough@gmail.com>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StlUtilsMisc.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StlUtils.hh>
-#endif
+#include <clue/Clue.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::AbsLong");
+using namespace clue;
 
 bool
-tUnionOf( LibTest & tester )
+v_UnionOf( void )
 {
   {
     // UnionOf( long, long, long, long )
@@ -55,7 +39,7 @@ tUnionOf( LibTest & tester )
     //   (    )
     end1 = 60;
     TEST( UnionOf( start1, end1, start2, end2 ) == 10 );
-    
+
     // (     )
     //   (    )
     end1 = 74;
@@ -137,7 +121,7 @@ tUnionOf( LibTest & tester )
     //   (    )
     dur1 = 35;
     TEST( UnionOfDur( start1, dur1, start2, dur2 ) == 10 );
-    
+
     // (     )
     //   (    )
     dur1 = 49;
@@ -189,7 +173,7 @@ tUnionOf( LibTest & tester )
     TEST( UnionOfDur( start1, dur1, start2, dur2 ) == 15 );
 
     TEST( UnionOfDur( 15, 20, 10, 10 ) == 5 ); // doc example
-    
+
   }
 
   {
@@ -212,42 +196,6 @@ tUnionOf( LibTest & tester )
     TEST( UnionOfDur( sOne, dOne, sTwo, dTwo, freq ) == 100 );
     TEST( UnionOfDur( 10, 5, 5, 100, 10 ) == 50 );
   }
-    
-  return( true );
-}
 
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:48  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:53  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:32  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:52  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 15:11:09  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.2  1997/09/17 11:10:14  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:27:20  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/11/04 18:22:54  houghton
-// Chaged include because StlUtils.hh renamed to StlUtilsUtils.hh.
-//
-// Revision 2.2  1996/11/04 14:53:50  houghton
-// Added header comments.
-// Added more test to verify function.
-//
-//
-    
-    
-    
-    
+  return( verify.is_valid() );
+}

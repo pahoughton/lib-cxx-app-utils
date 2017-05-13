@@ -1,6 +1,6 @@
-#ifndef _StringUtils_hpp_
+#ifndef _clue_StringUtils_hpp_
+#define _clue_StringUtils_hpp_
 // 1995-05-02 (cc) paul4hough@gmail.com
-#define _StringUtils_hpp_
 #include <cstring>
 #include <ctime>
 #include <cctype>
@@ -274,8 +274,7 @@ StringTo(
   const char *	src,
   const char *  fmt = "%m/%d/%y %H:%M:%S" )
 {
-  strptime( src, fmt, &dest );
-  return( true );
+  return( strptime( src, fmt, &dest ) );
 }
 
 
@@ -443,12 +442,6 @@ StringFrom( char *		dest,
 	    char		fill = '0',
 	    short		base = 10,
 	    bool		prefix = false );
-
-char *
-basename( char * fn );
-
-const char *
-basename( const char * fn );
 
 }; // namespace clue
 
@@ -816,16 +809,6 @@ return > 0 if one > two.
       The Return value is an internal static buffer
       used by all the StringFrom functions.
 
-  const char *
-  basename( const char * fn );
-      Returns a pointer to the filename from part of 'fn'
-      without the directory part.
-
-  char *
-  basename( char * fn );
-      Returns a pointer to the filename from part of 'fn'
-      without the directory part.
-
   inline
   char *
   SafeStrcpy( char * dest, const char * src, size_t size )
@@ -846,4 +829,4 @@ return > 0 if one > two.
 
 **/
 
-#endif // ! def _StringUtils_hpp_
+#endif // ! def _clue_StringUtils_hpp_

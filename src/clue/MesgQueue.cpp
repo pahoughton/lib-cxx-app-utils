@@ -1,43 +1,20 @@
-//
-// File:        MesgQueue.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for MesgQueue
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/06/98 06:23
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1998-11-06 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "MesgQueue.hh"
+#include "MesgQueue.hpp"
 
-#include <StlUtilsMisc.hh>
-#include <User.hh>
-#include <UserGroup.hh>
-#include <DateTime.hh>
-#include <FileStat.hh>
-#include <Str.hh>
-
-#include <Common.h>
+#include "User.hpp"
+#include "UserGroup.hpp"
+#include "DateTime.hpp"
+#include "FileStat.hpp"
+#include "Str.hpp"
+#include "Clue.hpp"
 
 #include <iomanip>
 
-#if defined( STLUTILS_DEBUG )
-#include "MesgQueue.ii"
-#endif
+#include <sys/msg.h>
+#include <errno.h>
 
-STLUTILS_VERSION(
-  MesgQueue,
-  "$Id$ ");
-
+namespace clue {
 
 MesgQueue::MesgQueue(
   const char *	    keyFn,
@@ -69,10 +46,10 @@ MesgQueue::MesgQueue(
 
   // use the key file's permissions
   queueFlags = keyFnStat.getMode() & 0666;
-  
+
   if( create ) {
     queueFlags |= IPC_CREAT;
-    
+
   }
 
   if( (queueId = msgget( key, queueFlags )) < 0 )
@@ -108,7 +85,7 @@ MesgQueue::size_type
 MesgQueue::getNumMesgsInQueue( void )
 {
   struct msqid_ds   qData;
-  
+
   if( msgctl( queueId, IPC_STAT, &qData ) < 0 )
     return( 0 );
   else
@@ -119,7 +96,7 @@ bool
 MesgQueue::remove( void )
 {
   struct msqid_ds   qData;
-  
+
   if( msgctl( queueId, IPC_RMID, &qData ) < 0 )
     {
       return( setError( E_REMOVE, errno ) );
@@ -158,7 +135,7 @@ MesgQueue::error( void ) const
 {
   static Str errStr;
 
-  errStr = MesgQueue::getClassName();
+  errStr = "MesgQueue";
 
   if( good() )
     {
@@ -177,7 +154,7 @@ MesgQueue::error( void ) const
 	case E_KEY_STAT:
 	  errStr << ": key file '" << keyFileName << "' stat failed -";
 	  break;
-	  
+
 	case E_MSGGET:
 	  errStr << ": msgget failed - ";
 	  break;
@@ -193,14 +170,14 @@ MesgQueue::error( void ) const
 	case E_REMOVE:
 	  errStr << ": remove failed - ";
 	  break;
-	  
+
 	default:
 	  break;
 	}
 
       if( osErrno )
 	errStr << strerror( osErrno );
-	  
+
       if( eSize == errStr.size() )
         errStr << ": unknown error";
     }
@@ -208,29 +185,13 @@ MesgQueue::error( void ) const
   return( errStr.c_str() );
 }
 
-const char *
-MesgQueue::getClassName( void ) const
-{
-  return( "MesgQueue" );
-}
-
-const char *
-MesgQueue::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
 
 std::ostream &
 MesgQueue::dumpInfo(
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << MesgQueue::getClassName() << ":\n"
-	 << MesgQueue::getVersion() << '\n';
 
   if( ! MesgQueue::good() )
     dest << prefix << "Error: " << MesgQueue::error() << '\n';
@@ -246,18 +207,18 @@ MesgQueue::dumpInfo(
     ;
 
   struct msqid_ds   qData;
-  
+
   if( msgctl( queueId, IPC_STAT, &qData ) >= 0 )
     {
       User	creator( (uid_t) qData.msg_perm.cuid );
       UserGroup	creatorGroup( (gid_t) qData.msg_perm.cgid );
-      
+
       User	user( (uid_t) qData.msg_perm.uid );
       UserGroup group( (gid_t) qData.msg_perm.gid );
 
       DateTime	lastSend( qData.msg_stime );
       DateTime  lastRecv( qData.msg_rtime );
-      
+
       dest << prefix << "q.bytes    " << qData.msg_cbytes << '\n'
 	   << prefix << "q.count    " << qData.msg_qnum << '\n'
 	   << prefix << "q.max bytes: " << qData.msg_qbytes << '\n'
@@ -274,7 +235,7 @@ MesgQueue::dumpInfo(
 	   << prefix << "q.group:          " << group.getName()
 	   << '(' << group.getGID() << ")\n"
 	   << prefix << "permissions:      "
-	   << FileModeString( qData.msg_perm.mode, 0 ) << '\n'
+	   << FileModeString( qData.msg_perm.mode ) << '\n'
 	;
     }
   else
@@ -282,7 +243,7 @@ MesgQueue::dumpInfo(
       dest << prefix << "msgctl failed - "
 	   << strerror( errno ) << " - NO mesg queue data available.\n";
     }
-  
+
   return( dest );
 }
 
@@ -295,40 +256,4 @@ MesgQueue::setError( ErrorNum errNum, int osErr )
   return( good() );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.4  2012/04/26 20:08:46  paul
-// *** empty log message ***
-//
-// Revision 6.3  2011/12/30 23:57:32  paul
-// First go at Mac gcc Port
-//
-// Revision 6.2  2005/09/12 19:54:41  houghton
-// *** empty log message ***
-//
-// Revision 6.1  2003/08/09 11:22:46  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:21:01  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:28:57  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:22  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  2000/03/10 11:42:09  houghton
-// Added: clearError(), getOsErrno() and interupted().
-//
-// Revision 4.2  1999/05/14 11:34:41  houghton
-// Port(Linux): port for Gnu Libc 2
-//
-// Revision 4.1  1999/03/02 12:51:49  houghton
-// Initial Version.
-//
-//
+}; // namespace clue

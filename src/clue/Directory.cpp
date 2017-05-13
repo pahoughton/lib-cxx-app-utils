@@ -1,52 +1,28 @@
-//
-// File:        Directory.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for Directory
-//  
-// Author:      Paul A. Houghton - (paul4hough@gmail.com)
-// Created:     09/19/95 08:18
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1995-09-19 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "Directory.hh"
-#include "DateTime.hh"
-#include "User.hh"
-#include "UserGroup.hh"
-#include "Compare.hh"
-#include "Bit.hh"
+#include "Directory.hpp"
+#include "DateTime.hpp"
+#include "User.hpp"
+#include "UserGroup.hpp"
+#include "compare"
+#include "bit"
+
 #include <algorithm>
 #include <glob.h>
 #include <unistd.h>
 #include <errno.h>
 #include <cstring>
 
-#if defined( STLUTILS_DEBUG )
-#include "Directory.ii"
-#endif
 
-STLUTILS_VERSION(
-  Directory,
-  "$Id$ ");
+using namespace std::rel_ops;
 
+namespace clue {
 
 //
 // * * * Sort Orders * * *
 //
 
-#if defined( Linux )
 #define DIRORDER    SortOrder< FileStat >
-#else
-#define DIRORDER    Directory::DirOrder
-#endif
 
 class DirSortName : public DIRORDER::LessBase
 {
@@ -54,48 +30,48 @@ public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
     return( one.getName() < two.getName() );
   };
-  
+
   DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortName( *this ) );
   };
 };
-    
+
 class DirSortExt : public DIRORDER::LessBase
 {
 public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
     return( one.getName().getExt() < two.getName().getExt() );
   };
-  
+
   DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortExt( *this ) );
   };
 };
-    
+
 class DirSortSize : public DIRORDER::LessBase
 {
 public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
     return( one.getSize() < two.getSize() );
   };
-  
+
   DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortSize( *this ) );
   };
 };
-    
+
 class DirSortTime : public DIRORDER::LessBase
 {
 public:
   bool	operator() ( const FileStat & one, const FileStat & two ) const {
     return( one.getModificationTime() < two.getModificationTime() );
   };
-  
+
   DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortTime( *this ) );
   };
 };
-    
+
 class DirSortUser : public DIRORDER::LessBase
 {
 public:
@@ -103,12 +79,12 @@ public:
     User uOne( one.getUID() ); User uTwo( two.getUID() );
     return( uOne < uTwo );
   };
-  
+
   DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortUser( *this ) );
   };
 };
-    
+
 class DirSortUserGroup : public DIRORDER::LessBase
 {
 public:
@@ -116,12 +92,12 @@ public:
     UserGroup ugOne( one.getUID() ); UserGroup ugTwo( two.getUID() );
     return( ugOne < ugTwo );
   };
-  
+
   DIRORDER::LessBase *   dup( void ) const {
     return( new DirSortUserGroup( *this ) );
   };
 };
-    
+
 const char *	Directory::DirField::CompTypeString[] =
 {
   "==",
@@ -162,27 +138,16 @@ Directory::DirField::~DirField( void )
 {
 }
 
-const char *
-Directory::DirField::getClassName( void ) const
-{
-  return( "Directory::DirField" );
-}
-
 std::ostream &
 Directory::DirField::dumpInfo(
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Directory::DirField::getClassName() << ":\n"
-      ;
-  
   dest << prefix << "comp:       " << CompTypeString[ comp ] << '\n'
        << prefix << "refCount:   " << refCount << '\n'
     ;
-  
+
   return( dest );
 }
 
@@ -208,7 +173,7 @@ Directory::DirFieldName::match( const FileStat & stat ) const
 
     case More:
       return( stat.getName() > value  );
-      
+
     case LessEqual:
       return( stat.getName() < value ||
 	      value.match( stat.getName() ) );
@@ -217,7 +182,7 @@ Directory::DirFieldName::match( const FileStat & stat ) const
       return( stat.getName() > value ||
 	      value.match( stat.getName() ) );
     }
-  
+
   return( false );
 }
 
@@ -227,32 +192,22 @@ Directory::DirFieldName::dup( void ) const
   return( new DirFieldName( *this ) );
 }
 
-const char *
-Directory::DirFieldName::getClassName( void ) const
-{
-  return( "Directory::DirFieldName" );
-}
-
 std::ostream &
-Directory::DirFieldName::dumpInfo( 
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+Directory::DirFieldName::dumpInfo(
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Directory::DirFieldName::getClassName() << ":\n"
-      ;
 
   Str pre;
   pre = prefix;
-  pre << DirField::getClassName() << "::";
+  pre << "DirField::";
 
-  DirField::dumpInfo( dest, pre, false );
-  
+  DirField::dumpInfo( dest, pre );
+
   dest << prefix << "value:       " << value << '\n'
     ;
-  
+
   return( dest );
 }
 
@@ -268,7 +223,7 @@ Directory::DirFieldSize::match( const FileStat & stat ) const
   // Special case for directories, always match size
   if( stat.isDir() )
     return( true );
-  
+
   switch( comp )
     {
     case Equal:
@@ -299,32 +254,22 @@ Directory::DirFieldSize::dup( void ) const
   return( new DirFieldSize( *this ) );
 }
 
-const char *
-Directory::DirFieldSize::getClassName( void ) const
-{
-  return( "Directory::DirFieldSize" );
-}
-
 std::ostream &
 Directory::DirFieldSize::dumpInfo(
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Directory::DirFieldSize::getClassName() << ":\n"
-      ;
 
   Str pre;
   pre = prefix;
-  pre << DirField::getClassName() << "::";
+  pre << "DirField::";
 
-  DirField::dumpInfo( dest, pre, false );
-  
+  DirField::dumpInfo( dest, pre );
+
   dest << prefix << "value:       " << value << '\n'
     ;
-  
+
   return( dest );
 }
 
@@ -367,32 +312,22 @@ Directory::DirFieldTime::dup( void ) const
   return( new DirFieldTime( *this ) );
 }
 
-const char *
-Directory::DirFieldTime::getClassName( void ) const
-{
-  return( "Directory::DirFieldTime" );
-}
-
 std::ostream &
 Directory::DirFieldTime::dumpInfo(
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Directory::DirFieldTime::getClassName() << ":\n"
-      ;
 
   Str pre;
   pre = prefix;
-  pre << DirField::getClassName() << "::";
+  pre << "DirFieldd::";
 
-  DirField::dumpInfo( dest, pre, false );
-  
+  DirField::dumpInfo( dest, pre );
+
   dest << prefix << "value:       " << DateTime( value, true ) << '\n'
     ;
-  
+
   return( dest );
 }
 
@@ -408,22 +343,12 @@ Directory::Where::~Where( void )
     delete right;
 }
 
-const char *
-Directory::Where::getClassName( void ) const
-{
-  return( "Directory::Where" );
-}
-
 std::ostream &
-Directory::Where::dumpInfo( 
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+Directory::Where::dumpInfo(
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Directory::Where::getClassName() << ":\n"
-      ;
 
   dest << prefix << "["
        << refCount << ","
@@ -436,26 +361,26 @@ Directory::Where::dumpInfo(
     {
       pre = prefix;
       pre << "fld:";
-      fld->dumpInfo( dest, pre, false );
+      fld->dumpInfo( dest, pre );
     }
-	
+
 
   if( left )
     {
       pre = prefix;
       pre << "l:";
-      left->dumpInfo( dest, pre, false );
+      left->dumpInfo( dest, pre );
       dest << prefix << (andLR ? "and" : "or" ) << '\n';
     }
-  
+
 
   if( right )
     {
       pre = prefix;
       pre << "r:";
-      right->dumpInfo( dest, pre, false );
+      right->dumpInfo( dest, pre );
     }
-  
+
   return( dest );
 }
 
@@ -612,7 +537,7 @@ Directory::error( void ) const
 {
   static Str errStr;
 
-  errStr = Directory::getClassName();
+  errStr = "Directory";
 
   if( good() )
     {
@@ -624,7 +549,7 @@ Directory::error( void ) const
 
       if( osErrno != 0 )
 	errStr << ": '" << errorPath << "' - " << strerror( osErrno );
-	  
+
       if( eSize == errStr.size() )
         errStr << ": unknown error";
     }
@@ -632,29 +557,13 @@ Directory::error( void ) const
   return( errStr.c_str() );
 }
 
-const char *
-Directory::getClassName( void ) const
-{
-  return( "Directory" );
-}
-
-const char *
-Directory::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
 
 std::ostream &
 Directory::dumpInfo(
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Directory::getClassName() << ":\n"
-	 << Directory::getVersion() << '\n';
 
   if( ! Directory::good() )
     dest << prefix << "Error: " << Directory::error() << '\n';
@@ -664,7 +573,7 @@ Directory::dumpInfo(
   dest << prefix << "pattern:    '" << pattern << "'\n";
 
   dest << prefix << "options:    ";
-      
+
   if( options == true )
     {
       if( (options & Default) == true )
@@ -695,7 +604,7 @@ Directory::dumpInfo(
     {
       dest << prefix << "files:      (empty)";
     }
-  
+
   return( dest );
 }
 
@@ -712,19 +621,19 @@ Directory::set(
   options = opts;
   where = whereClause;
   order = dirOrder;
-  
+
   return( buildDirList() );
 }
 
 bool
 Directory::buildDirList( void )
 {
-  
+
   osErrno = 0;
   errorPath = "";
-  
+
   list.erase( list.begin(), list.end() );
-  
+
   Str::size_type wild = pattern.find_first_of( "*?[" );
 
   if( wild != Str::npos )
@@ -735,12 +644,12 @@ Directory::buildDirList( void )
       // ( options & All ) ? GLOB_PERIOD : 0,
       // 0,
       // &files );
-      
+
       if( ! ret )
 	{
 	  FileStat	fStat;
 	  bool		status = true;
-	  
+
 	  for( unsigned int g = 0; g < files.gl_pathc; ++ g )
 	    {
 	      fStat.stat( files.gl_pathv[g] );
@@ -748,7 +657,7 @@ Directory::buildDirList( void )
 	      if( ! where || where->match( fStat ) )
 		{
 		  list.push_back( fStat );
-	      
+
 		  if( (options & Recurs) == true && fStat.isDir() )
 		    {
 		      DIR * dir = opendir( fStat.getName() );
@@ -771,9 +680,9 @@ Directory::buildDirList( void )
 		    }
 		}
 	    }
-	  
+
 	  globfree( &files );
-	  
+
 	  if( ! status )
 	    return( status );
 	}
@@ -820,7 +729,7 @@ Directory::buildDirList( void )
 	  if( errno == ENOTDIR )
 	    {
 	      FileStat	stat( pattern );
-	      
+
 	      if( ! stat.good() )
 		{
 		  return( setError( stat.getSysError(), pattern ) );
@@ -831,7 +740,7 @@ Directory::buildDirList( void )
 	  else
 	    {
 	      return( setError( errno, pattern ) );
-	    }  
+	    }
 	}
       else
 	{
@@ -844,7 +753,7 @@ Directory::buildDirList( void )
 
   if( order )
     sort( *order );
-  
+
   return( true );
 }
 
@@ -870,28 +779,28 @@ Directory::readDir(
     {
       if( bool(opts & All) == false  && (dEnt->d_name[0] == '.') )
 	continue;
-      
+
       FilePath name( dEnt->d_name );
-      
+
       name.setPrefix( dirPath );
-      
+
       FileStat fs( name );
 
       if( ! whereClause || whereClause->match( fs ) )
 	{
-      
+
 	  list.push_back( fs );
-      
+
 	  if( fs.good() && fs.isDir() &&
 	      strcmp( dEnt->d_name, "." ) && strcmp( dEnt->d_name, ".." ) &&
 	      ( opts & Recurs ) == true )
 	    {
 	      FilePath subDirPath;
-	      
+
 	      subDirPath = name;
-	      
+
 	      DIR * subDir = opendir( subDirPath );
-	      
+
 	      if( ! subDir )
 		return( setError( errno, subDirPath ) );
 	      else
@@ -907,85 +816,4 @@ Directory::readDir(
   return( true );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:53  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:12  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:41  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:05:45  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:15  houghton
-// Changed Version Num to 5
-//
-// Revision 4.8  2000/03/10 11:33:49  houghton
-// Change: cleanup dumpInfo output.
-// Change: added '[' to wild card characters.
-//
-// Revision 4.7  1999/10/28 14:20:09  houghton
-// Bug-Fixes
-//
-// Revision 4.6  1999/10/06 12:47:54  houghton
-// Changed: now if a valid single file name is pass that is not
-//     a direcotry it will be put in the dir list. (before it would fail
-//     because the file was not a directory).
-//
-// Revision 4.5  1998/10/13 16:19:38  houghton
-// Port(Linux): work around compiler problem using SortOrder<> typedef'ed
-//     in the class.
-//
-// Revision 4.4  1998/10/13 15:17:33  houghton
-// Bug-Fix: was missing a call to globfree().
-//
-// Revision 4.3  1998/07/20 11:20:18  houghton
-// Port(Hpux10): Changed 'and' to 'andLR'. 'and' is now a keyword.
-//
-// Revision 4.2  1998/04/02 14:16:01  houghton
-// Bug-Fix: was calling globfree multiple multiple times.
-//
-// Revision 4.1  1997/09/17 15:12:22  houghton
-// Changed to Version 4
-//
-// Revision 3.6  1997/09/17 11:08:19  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.5  1997/07/20 18:50:30  houghton
-// Changed so that no matching files found is not an error.
-//
-// Revision 3.4  1997/07/11 15:55:53  houghton
-// Bug-Fix: set() was not emptying list before adding new entries.
-// Bug-Fix: convert (opts & All) to a bool.
-//
-// Revision 3.3  1997/06/09 14:31:16  houghton
-// Removed 'include dirent.h' now include StlUtilsDirent.hh is in .hh file.
-// Changed AIX41 had to instanciate the sort objects before I could pass
-//     them to the DirOrder objects.
-//
-// Revision 3.2  1997/06/09 12:04:03  houghton
-// Completed initial coding.
-//
-// Revision 3.1  1996/11/14 01:25:18  houghton
-// Changed to Release 3
-//
-// Revision 2.1  1995/11/10 12:47:06  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  13:48:11  houghton
-// New implementation
-//
+}; // namespace clue

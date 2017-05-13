@@ -1,31 +1,35 @@
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateRangeWeekly.hh>
-#include <DateTimeUtils.hh>
+// 1994-02-20 (cc) Paul Houghton <paul4hough@gmail.com>
+
+#include <clue/DateRangeWeekly.hpp>
+
+#include <clue/DateTimeUtils.hpp>
 #include <functional>
-#if defined( Hpux10 )
-#include <utility>
-#endif
-#include <strstream.h>
+#include <sstream>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::DateRangeWeekly");
+using namespace clue;
 
 
 bool
-tDateRangeWeekly( LibTest & tester )
+v_DateRangeWeekly( void )
 {
   {
     // DateRangeWeekly( short, time_t, time_t )
     // getSecOfDay( void ) const
     // getDayOfWeek( void ) const
-    // getStart( void ) const
-    // getDur( void ) const
+    // start( void ) const
+    // dur( void ) const
 
     const DateRangeWeekly t( Friday, 6 * SecPerHour, 30 );
 
-    TEST( t.getSecOfDay() == (6 * SecPerHour) );
-    TEST( t.getDayOfWeek() == Friday );
-    TEST( t.getStart() == ( (Friday * SecPerDay) + (6 * SecPerHour ) ) );
-    TEST( t.getDur() == 30 );
-    
+    TEST( t.secOfDay() == (6 * SecPerHour) );
+    TEST( t.dayOfWeek() == Friday );
+    TEST( t.dur() == 30 );
+
   }
 
   {
@@ -34,63 +38,63 @@ tDateRangeWeekly( LibTest & tester )
 
     {
       DateTime	dt( 2003, 5, 11, 12, 00, 00 );
-      TESTR( dt.getString(), ! t.isIn( dt ) );
+      TEST(  ! t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 11, 17, 00, 01 );
-      TESTR( dt.getString(), ! t.isIn( dt ) );
+      TEST( ! t.isIn( dt ) );
     }
-    
+
     {
       DateTime	dt( 2003, 5, 12, 6, 00, 00 );
-      TESTR( dt.getString(), ! t.isIn( dt ) );
+      TEST( ! t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 7, 59, 59 );
-      TESTR( dt.getString(), ! t.isIn( dt ) );
+      TEST( ! t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 8, 00, 00 );
-      TESTR( dt.getString(), t.isIn( dt ) );
+      TEST( t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 8, 00, 01 );
-      TESTR( dt.getString(), t.isIn( dt ) );
+      TEST( t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 12, 00, 00 );
-      TESTR( dt.getString(), t.isIn( dt ) );
+      TEST( t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 16, 59, 59 );
-      TESTR( dt.getString(), t.isIn( dt ) );
+      TEST( t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 17, 00, 00 );
-      TESTR( dt.getString(), t.isIn( dt ) );
+      TEST( t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 17, 00, 01 );
-      TESTR( dt.getString(), ! t.isIn( dt ) );
+      TEST( ! t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 12, 20, 00, 00 );
-      TESTR( dt.getString(), ! t.isIn( dt ) );
+      TEST( ! t.isIn( dt ) );
     }
 
     {
       DateTime	dt( 2003, 5, 13, 12, 00, 00 );
-      TESTR( dt.getString(), ! t.isIn( dt ) );
+      TEST( ! t.isIn( dt ) );
     }
     {
       DateTime	dt( 2003, 5, 13, 17, 00, 01 );
-      TESTR( dt.getString(), ! t.isIn( dt ) );
+      TEST( ! t.isIn( dt ) );
     }
   }
-    
+
   {
     // secIn( const DateRange & ) const;
-    
+
     const DateRangeWeekly t( Friday, 6 * SecPerHour, 30 );
 
     time_t  when = 699321600;	    // is 2/29/92 00:00:00 (gmt) (Sat)
@@ -99,65 +103,64 @@ tDateRangeWeekly( LibTest & tester )
 
     TEST( t.secIn( r ) == 0 );
 
-    r.setDur( SecPerDay );
+    r.dur( SecPerDay );
     TEST( t.secIn( r ) == 0 );
-    
-    r.set( when + (SecPerDay * 6) );
-    r.setDur( (6 * SecPerHour) + 15 );
+
+    r.timet( when + (SecPerDay * 6) );
+    r.dur( (6 * SecPerHour) + 15 );
     TEST( t.secIn( r ) == 15 );
 
-    r.set( when + (SecPerDay * 6) + (6 * SecPerHour) + 15 );
-    r.setDur( 120 );
+    r.timet( when + (SecPerDay * 6) + (6 * SecPerHour) + 15 );
+    r.dur( 120 );
     TEST( t.secIn( r ) == 15 );
 
-    r.set( when + (SecPerDay * 6 ) + ( 7 * SecPerHour ) );
+    r.timet( when + (SecPerDay * 6 ) + ( 7 * SecPerHour ) );
     TEST( t.secIn( r ) == 0 );
 
-    r.setDur( SecPerDay );
+    r.dur( SecPerDay );
     TEST( t.secIn( r ) == 0 );
 
-    r.set( when );
-    r.setDur( (SecPerDay * 6) + ( 8 * SecPerHour ) );
+    r.timet( when );
+    r.dur( (SecPerDay * 6) + ( 8 * SecPerHour ) );
     TEST( t.secIn( r ) == 30 );
 
-    r.setDur( 14 * SecPerDay );
+    r.dur( 14 * SecPerDay );
     TEST( t.secIn( r ) == 60 );
   }
 
   {
     // startsIn( const DateRange & ) const
-    
+
     DateRangeWeekly  t( Friday, 6 * SecPerHour, 30 );
 
-    TEST( t.getDur() == 30 );
-    
+    TEST( t.dur() == 30 );
+
     time_t  when = 699321600;	    // is 2/29/92 00:00:00 (gmt) (sat)
 
     DateRange	r( when, SecPerDay );
 
     TEST( t.startsIn( r ) == 0 );
 
-    r.set( when + (SecPerDay * 6) + ( 6 * SecPerHour ) );
-    r.setDur( 10 );
+    r.timet( when + (SecPerDay * 6) + ( 6 * SecPerHour ) );
+    r.dur( 10 );
 
     TEST( t.startsIn( r ) == 10 );
 
-    r.set( when + (SecPerDay * 6 ) + ( 6 * SecPerHour ) + 15 );
-    r.setDur( ( 15 * SecPerDay ) + 60 );
+    r.timet( when + (SecPerDay * 6 ) + ( 6 * SecPerHour ) + 15 );
+    r.dur( ( 15 * SecPerDay ) + 60 );
 
     TEST( t.startsIn( r ) == 75 );
   }
 
   {
-    // setStart( void )
+    // start( void )
 
     time_t  startTime = (6 * SecPerHour);
     time_t  duration  = 30;
-    
+
     DateRangeWeekly  t( Wednesday, startTime, duration );
 
-    TEST( t.setStart( 5 * SecPerHour ) == (Wednesday * SecPerDay) + startTime );
-    TEST( t.getStart() == ( 5 * SecPerHour ) );
+    TEST( t.start( 5 * SecPerHour ).start() == ( 5 * SecPerHour ) );
   }
 
   {
@@ -168,150 +171,114 @@ tDateRangeWeekly( LibTest & tester )
 
     time_t  startTime = (6 * SecPerHour);
     time_t  duration  = 30;
-        
+
     const DateRangeWeekly    t1( Friday, startTime, duration );
     DateRangeWeekly	     t2( Friday, startTime, duration );
 
     TEST( t1.compare( t2 ) == 0 );
     TEST( t1 == t2 );
-    
-    t2.setDur( duration - 1 );
+
+    t2.dur( duration - 1 );
 
     TEST( t1.compare( t2 ) >  0 );
     TEST( t1 > t2 );
-    
+
     TEST( t2.compare( t1 ) <  0 );
     TEST( t2 < t1 );
-    
-    t2.setDur( duration );
-    t2.setStart( (Friday * SecPerDay) + startTime - 1 );
+
+    t2.dur( duration );
+    t2.start( (Friday * SecPerDay) + startTime - 1 );
     TEST( t1.compare( t2 ) > 0 );
     TEST( t1 > t2 );
-    
+
     TEST( t2.compare( t1 ) < 0 );
     TEST( t2 < t1 );
   }
 
   {
     // getBinSize( void ) const
-    
+
     const DateRangeWeekly   tw( Friday, 6 * SecPerHour, 30 );
 
-    TEST( tw.getBinSize() == (sizeof( time_t ) * 2 ) );        
+    TEST( tw.getBinSize() == (sizeof( time_t ) * 2 ) );
   }
-  
+
   {
     // write( ostream & ) const
     // read( istream & )
-    
+
     const DateRangeWeekly   tout( Friday, 6 * SecPerHour, 30 );
     DateRangeWeekly	    tin( Sunday, 0, 0 );
-    
-    strstream testStream;
 
-    streampos gpos = testStream.tellg();
-    streampos ppos = testStream.tellp();
+    std::stringstream testStream;
 
-#ifdef AIX
-    ppos = 0;
-    gpos = 0;
-#endif
-    
+    std::streampos gpos = testStream.tellg();
+    std::streampos ppos = testStream.tellp();
+
     TEST( ppos == 0 );
     TEST( gpos == 0 );
-    
+
     tout.write( testStream );
-    ppos += (streampos) tout.getBinSize();
+    ppos += (std::streampos) tout.getBinSize();
     TEST( ppos == testStream.tellp() );
-      
+
     tin.read( testStream );
-    gpos += (streampos) tin.getBinSize();
+    gpos += (std::streampos) tin.getBinSize();
     TEST( gpos == testStream.tellg() );
-    TEST( tin.getTimeT() == tout.getTimeT() );
-    TEST( tin.getStart() == tout.getStart() );
-    TEST( tin.getDur() == tout.getDur() );
+    TEST( tin.timet() == tout.timet() );
+    TEST( tin.start() == tout.start() );
+    TEST( tin.dur() == tout.dur() );
   }
-    
+
   {
     // toStream( ostream & ) const
     // operator << ( ostream &, const DateRangeDaily & )
 
     const DateRangeDaily  t( 6 * SecPerHour, 30 );
 
-    strstream tStream;
+    std::stringstream tStream;
 
     t.toStream( tStream );
     tStream << t;
   }
-  
+
   {
     // good( void ) const
     // error( void ) const
-    // getClassName( void ) const
-    // getVersion( void ) const
-    // getVersion( bool ) const
-    
+
     const DateRangeWeekly  t( Friday, 6 * SecPerHour, 30 );
 
     TEST( t.good() );
     TEST( t.error() != 0 );
-    TEST( t.getClassName() != 0 );
-    TEST( t.getVersion() != 0 );
-    TEST( t.getVersion( false ) != 0 );
-
   }
 
   {
-    // dumpInfo( ostream &, const char *, bool ) const
-    // version
-
-    const DateRangeWeekly  t( Friday, 6 * SecPerHour, 30 );
-
-    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
-    t.toStream( tester.getDump() );
-    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
-    t.dumpInfo( tester.getDump(), " -> ", true );
-    tester.getDump() << '\n' << t.getClassName() << " version:\n";
-    tester.getDump() << t.version;
-    
-    tester.getDump() << '\n' << tester.getCurrentTestName();
-    
-  }  
-  
-  {
     // ::compare( const DateRangeDaily &, const DateRangeDaily & )
-    
+
     time_t  startTime = (6 * SecPerHour);
     time_t  duration  = 30;
-        
+
     const DateRangeDaily    t1( startTime, duration );
     DateRangeDaily	    t2( startTime, duration );
 
     TEST( compare( t1, t2 ) == 0 );
     TEST( t1 == t2 );
-    
-    t2.setDur( duration - 1 );
+
+    t2.dur( duration - 1 );
 
     TEST( compare( t1, t2 ) >  0 );
     TEST( t1 > t2 );
-    
+
     TEST( compare( t2, t1 ) <  0 );
     TEST( t2 < t1 );
-    
-    t2.setDur( duration );
-    t2.setStart( startTime - 1 );
+
+    t2.dur( duration );
+    t2.start( startTime - 1 );
     TEST( compare( t1, t2 ) > 0 );
     TEST( t1 > t2 );
-    
+
     TEST( compare( t2, t1 ) < 0 );
     TEST( t2 < t1 );
   }
-  
-  return( true );
+  return( verify.is_valid() );
 }
-
-    
-    
-    
-    
-    

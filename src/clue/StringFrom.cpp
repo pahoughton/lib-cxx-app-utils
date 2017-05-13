@@ -331,12 +331,10 @@ UNSIGNED_STR_FRM_TYPE( unsigned short );
 UNSIGNED_STR_FRM_TYPE( unsigned int );
 UNSIGNED_STR_FRM_TYPE( unsigned long );
 
-#if defined( STLUTILS_HAVE_LONG_LONG )
 SIGNED_STR_FRM_FIXED_TYPE( long long );
 UNSIGNED_STR_FRM_FIXED_TYPE( unsigned long long );
 SIGNED_STR_FRM_TYPE( long long );
 UNSIGNED_STR_FRM_TYPE( unsigned long long );
-#endif
 
 
 const char *

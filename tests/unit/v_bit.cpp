@@ -3,7 +3,7 @@
 #include <clue/bit>
 
 #define VALID_VALIDATOR verify
-#include <valid/verify>
+#include <valid/verify.hpp>
 
 static valid::verify verify("clue::bit");
 

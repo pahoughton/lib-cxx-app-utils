@@ -1,14 +1,15 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::Str08");
+using namespace clue;
 
 // Str::comprare
 
@@ -25,7 +26,7 @@
 #define T5u " FIFTH part"
 
 bool
-tStr08( LibTest & tester )
+v_Str08( void )
 {
   {
     // compare( const Str & ) const
@@ -39,7 +40,7 @@ tStr08( LibTest & tester )
 
     s += 'h';
     TEST( t.compare( s ) < 0 );
-    
+
     t += "hi";
 
     TEST( t.compare( s ) > 0 );
@@ -50,7 +51,7 @@ tStr08( LibTest & tester )
 
     s = "abcdef";
     t = "yyyabcdef";
-    
+
     TEST( t.compare( s, 3 ) == 0 );
 
     t += "yyy";
@@ -108,7 +109,7 @@ tStr08( LibTest & tester )
     TEST( compare( s.substr( strlen(T1), strlen(T2) ), t, strlen( T2 ) )
 	  == 0 );
   }
-  
+
   {
     // ::compare( const char *, const Str & ) const
     // ::compare( const char *, const Str & t, size_t ) const
@@ -136,7 +137,7 @@ tStr08( LibTest & tester )
 
     s += 'h';
     TEST( t.fcompare( s ) < 0 );
-    
+
     t += "hi";
 
     TEST( t.fcompare( s ) > 0 );
@@ -147,7 +148,7 @@ tStr08( LibTest & tester )
 
     s = "ABCDEF";
     t = "yyyabcdef";
-    
+
     TEST( t.fcompare( s, 3 ) == 0 );
 
     t += "yyy";
@@ -219,7 +220,6 @@ tStr08( LibTest & tester )
 
     TEST( fcompare( T1u T3u, t, strlen(T1) ) == 0 );
   }
-  
-  return( true );
-}
 
+  return( verify.is_valid() );
+}

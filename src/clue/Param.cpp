@@ -1,51 +1,23 @@
-//
-// File:        Param.C
-// Project:	StlUtils ()
-// Desc:        
-//              
-//  Compiled sources for the Param class
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     01/26/95 14:43 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-// $Id$ 
+// 1995-01-26 (cc) Paul Houghton <paul4hough@gmail.com>
 
-
-#include "Param.hh"
-#include "StringUtils.hh"
-#include "StlUtilsMisc.hh"
-#include "Str.hh"
-#include "FileStat.hh"
-#include "DateTime.hh"
-
-#if defined( STLUTILS_HAS_USER )
-#include "User.hh"
-#endif
-
-#include "FileOp.hh"
+#include "Param.hpp"
+#include "StringUtils.hpp"
+#include "Clue.hpp"
+#include "Str.hpp"
+#include "FileStat.hpp"
+#include "DateTime.hpp"
+#include "User.hpp"
+#include "FileOp.hpp"
 
 #include <unistd.h>
 
-STLUTILS_VERSION(
-  Param,
-  "$Id$ " );
-
-#if defined( STLUTILS_DEBUG )
-#include <Param.ii>
-#endif
 
 #define ARG_ID_ARGFILE	    "argfile"
 #define ARG_ID_HELP	    "help"
 #define ARG_ID_VERSION	    "version"
 #define ARG_ID_GEN_ARGFILE  "gen-argfile"
+
+namespace clue {
 
 const char * Param::ErrorStrings[] =
 {
@@ -127,59 +99,46 @@ Param::init(
   bool		    useDefaultArgFn,
   bool		    useDefaultLogFn )
 {
-  if( _LibLog  == 0 )
-    _LibLog = &appLog;
+  if( _clueLibLog  == 0 )
+    _clueLibLog = &appLog;
 
   if( logOutputLevel.size() )
     appLog.setOutputLevel( logOutputLevel.c_str() );
 
-  if( mainArgv ) {
-    for( int a = 0; a < mainArgc; ++a )
-      {
-	Str tmp = mainArgv[a];
-	
-	if( tmp.size() > 1
-	    && tmp[0UL] == '-'
-	    && tmp[1UL] == '-' )
-	  haveStopFlag = true;
-      
-	allArgv.push_back( tmp );
-      }
-  } else if( constMainArgv ) {
-    for( int a = 0; a < mainArgc; ++a )
-      {
-	Str tmp = constMainArgv[a];
-	
-	if( tmp.size() > 1
-	    && tmp[0UL] == '-'
-	    && tmp[1UL] == '-' )
-	  haveStopFlag = true;
-      
-	allArgv.push_back( tmp );
-      }
+  {
+    const char ** tArgv = mainArgv ? (const char **)mainArgv : constMainArgv;
+
+    for( size_t a = 0; a < mainArgc; ++a ) {
+
+      Str tmp(tArgv[a]);
+      // stop @ --
+      if( (! haveStopFlag)
+	  && tmp.size() == 2
+	  && tmp[0] == '-' && tmp[1] == '-' )
+	haveStopFlag = true;
+
+      allArgv.push_back( tmp );
+    }
   }
-    
+
   argv = allArgv;
 
   // remove first arg (i.e appName).
   argv.erase( argv.begin() );
-  
+
   if( useDefaultArgFn )
     argFile << appName() << ".args" ;
-    
+
   if( useDefaultLogFn )
     logFile << appName() << ".log" ;
 
-  // setup the tm struct so we don't have to recalc
-  appStartTime.setTm();
-  
 }
 
 Param::~Param( void )
 {
-  if( _LibLog == &appLog )
-    _LibLog = 0;
-  
+  if( _clueLibLog == &appLog )
+    _clueLibLog = 0;
+
   if( errorLogFile )
     delete errorLogFile;
 }
@@ -248,7 +207,7 @@ Param::logExitInfo( int exitCode )
     appLog << " at " << DateTime( time(0), true );
 
   appLog << '.' << std::endl;
-  
+
   return( appLog );
 }
 
@@ -259,12 +218,12 @@ Param::parseArgs( void )
 
   // remove first arg (i.e. appName )
   argv.erase( argv.begin() );
-  
+
   Str argFileEnvVar( appName() );
 
   argFileEnvVar.upcase();
   argFileEnvVar << "_ARGFILE";
-  
+
   argStr( argFile,
 	  "FILENAME",
 	  "Name of file to read args from.",
@@ -278,7 +237,7 @@ Param::parseArgs( void )
       readArgs( argFile.cstr() );
       fileArgs = allFileArgs;
     }
-  
+
   argFlag( helpFlag,
 	   "show usage help.",
 	   0,
@@ -308,7 +267,7 @@ Param::parseArgs( void )
 	   "generate an args file.",
 	   0,
 	   ARG_ID_GEN_ARGFILE );
-  
+
   argStr( logFile,
 	  "FILENAME",
 	  "log file name.",
@@ -318,7 +277,7 @@ Param::parseArgs( void )
 	  "LOG_FILE" );
 
   Str	  logModeStr = IosOpenModeToString( logMode );
-  
+
   argStr( logModeStr,
 	  "MODE STRING",
 	  "log open mode.",
@@ -328,7 +287,7 @@ Param::parseArgs( void )
 	  "LOG_MODE" );
 
   logMode = IosOpenModeFromString( logModeStr );
-  
+
   argStr( logOutputLevel,
 	  "LOG LEVEL",
 	  "log output level.",
@@ -344,7 +303,7 @@ Param::parseArgs( void )
 	  false,
 	  "log-filter",
 	  "LOG_FILTER" );
-  
+
   argFlag( logTee,
 	   "Tee log output to std::cerr.",
 	   0,
@@ -374,7 +333,7 @@ Param::parseArgs( void )
 	   false,
 	   "log-show-loc",
 	   "LOG_SHOWLOC" );
-  
+
   argULong( logMaxSize,
 	    "SIZE",
 	    "log file max size.",
@@ -390,7 +349,7 @@ Param::parseArgs( void )
 	    false,
 	   "log-trim",
 	   "LOG_TRIM" );
-  
+
   argStr( errorLogName,
 	  "FILENAME",
 	  "error log file name.",
@@ -409,23 +368,23 @@ Param::parseArgs( void )
 
   if( logFilter.size() )
     appLog.filter( logFilter.c_str() );
-  
+
   if( logTee )
     appLog.tee( std::cerr );
-  
+
   appLog.setTimeStamp( logTimeStamp );
   appLog.setLevelStamp( logLevelStamp );
   appLog.setLocStamp( logLocStamp );
-  
+
   if( logOutputLevel.size() )
     appLog.setOutputLevel( logOutputLevel.c_str() );
-  
+
   if( logTrimSize )
     appLog.setTrimSize( logTrimSize );
-  
+
   if( logMaxSize )
     appLog.setMaxSize( logMaxSize );
-  
+
   if( ! helpFlag )
     {
       if( logFile.size() )
@@ -440,7 +399,7 @@ Param::parseArgs( void )
 	    {
 	      errorLogFile = new std::ofstream( errorLogName,
 					   std::ios::out | std::ios::app );
-      
+
 	      if( errorLogFile )
 		{
 		  if( (*errorLogFile).good() )
@@ -463,7 +422,7 @@ Param::parseArgs( void )
 			      << errorLogName
 			      << "' - "
 			      << strerror( errno );
-		  
+
 		      setError( E_ERRLOG_OPEN,
 				"error-log",
 				"ERROR_LOG",
@@ -482,7 +441,7 @@ Param::parseArgs( void )
 	    {
 	      Str errDesc;
 	      errDesc << "(" << errorLogLevels << ')';
-	  
+
 	      setError( E_ERRLOG_LEVEL,
 			"error-log-level",
 			"ERROR_LOG_LEVEL",
@@ -490,37 +449,37 @@ Param::parseArgs( void )
 	    }
 	}
     }
-  
+
   return( good() );
-}  
+}
 
 bool
 Param::parseArgs( int argCount, char * argValue[] )
 {
   allArgv.erase( allArgv.begin(), allArgv.end() );
-  
+
   for( int a = 0; a < argCount; ++a )
     {
       Str	tmp = argValue[a];
-      
+
       allArgv.push_back( tmp );
     }
 
   return( parseArgs() );
 }
 
-  
-  
+
+
 bool
 Param::readArgs( std::istream & src )
 {
   Str    line;
 
   allFileArgs.erase( allFileArgs.begin(), allFileArgs.end() );
-  
+
   while( getline( src, line ).good() )
     {
-      // look for the first non white space char 
+      // look for the first non white space char
       Str::size_type	pos = line.find_first_not_of( " \t" );
 
       // comment or blank line
@@ -532,10 +491,10 @@ Param::readArgs( std::istream & src )
       if( delimPos != Str::npos )
 	{
 	  allFileArgs.push_back( line.substr( pos, delimPos - pos ) );
-	  
+
 	  Str::size_type valuePos = line.find_first_not_of( " \t",
 							    delimPos );
-							   
+
 	  if( valuePos != Str::npos )
 	    {
 	      Str::size_type valueEnd = line.find_last_not_of( "# \t" );
@@ -615,12 +574,12 @@ Param::argChar(
   } else if( isprint( dest ) ) {
     arg << dest;
   }
-  
+
   if( arg.size() > 1 )
     {
       Str tmpErrDesc;
       tmpErrDesc << ": '" << arg << "' not a single character.";
-      
+
       setError( E_RANGE, argId, envVar, tmpErrDesc.c_str() );
     }
 
@@ -660,7 +619,7 @@ _StlUtilsParamArgNum(
 	  errDesc += "'.";
 	}
     }
-  
+
   return( conv );
 }
 
@@ -738,12 +697,10 @@ PARAM_ARG_NUM( argShort, short, true )
 PARAM_ARG_NUM( argUShort, unsigned short, false )
 PARAM_ARG_NUM( argLong, long, true )
 PARAM_ARG_NUM( argULong, unsigned long, false )
-
-#if defined( STLUTILS_HAVE_LONG_LONG )
 PARAM_ARG_NUM( argLongLong, long long, true )
 PARAM_ARG_NUM( argULongLong, unsigned long long, false )
-#endif  
-  ;
+
+;
 
 bool
 Param::argDouble(
@@ -779,7 +736,7 @@ Param::argDouble(
 
 	  setError( E_CONVERT, argId, envVar, tmpErrDesc.c_str() );
 	}
-      
+
     }
 
   appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar, StringFrom( dest ) );
@@ -870,7 +827,7 @@ Param::argDateTime(
 
   if( conv )
     {
-      dest = tmp.getTimeT();
+      dest = tmp.timet();
     }
 
   return( conv );
@@ -888,14 +845,14 @@ Param::argDateTime(
   )
 {
   bool	    conv = false;
-  
+
   Str    arg	 = getArgValue( argId, envVar );
 
   if( arg.size() )
     {
-      DateTime	dt;
+      DateTime	dt(0,true);
       dt.setValid( arg.c_str() );
-      
+
       if( dt.good() )
 	{
 	  dest = dt;
@@ -913,7 +870,10 @@ Param::argDateTime(
 	}
     }
 
-  appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar, dest );
+  appendArgInfo( argId, valueName,
+		 shortDesc, longDesc,
+		 required, envVar,
+		 dest.str().c_str() );
 
   return( conv );
 }
@@ -931,14 +891,14 @@ Param::argDate(
   )
 {
   bool	    conv = false;
-  
+
   Str    arg	 = getArgValue( argId, envVar );
 
   if( arg.size() )
     {
       DateTime	dt;
       dt.setValid( arg.c_str() );
-      
+
       if( dt.good() )
 	{
 	  dest = dt;
@@ -955,7 +915,10 @@ Param::argDate(
 	}
     }
 
-  appendArgInfo( argId, valueName, shortDesc, longDesc, required, envVar, dest );
+  appendArgInfo( argId, valueName,
+		 shortDesc, longDesc,
+		 required, envVar,
+		 dest.str().c_str() );
 
   return( conv );
 }
@@ -982,8 +945,8 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
 
   if( ! argId || ! argId[0] )
     return( value );
-  
-  // first look for file args 
+
+  // first look for file args
   {
     bool foundArg = false;
 
@@ -999,7 +962,7 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
 	    for( ++ them; them != fileArgs.end(); ++ them )
 	      {
 		if( (*them).size()
-		    && ( (*them)[0UL] != '-' 
+		    && ( (*them)[0UL] != '-'
 			 || ( sNum
 			      && (*them).size() > 1
 			      && isdigit( (*them)[1UL] ) ) ) )
@@ -1015,7 +978,7 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
 	    break;
 	  }
       }
-    
+
     if( foundArg )
       {
 	for( Args::iterator them = fileArgs.begin();
@@ -1043,7 +1006,7 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
   // now look for it in command line args
   {
     bool foundArg = false ;
-	   
+
     Args::iterator	them = argv.begin();
     for( ; them != argv.end(); ++ them )
       {
@@ -1052,17 +1015,17 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
 	    && (*them)[0UL] == '-'
 	    && (*them)[1UL] == '-' )
 	  break;
-	
+
 	// look for -arg value
 	if( matchArg( *them, argId ) )
 	  {
-	    
+
 	    // found it now get the value.
 	    // and erase it from the vector.
 	    for( them++; them != argv.end(); ++ them )
 	      {
-		if( (*them).size() 
-		    && ( (*them)[0UL] != '-' 
+		if( (*them).size()
+		    && ( (*them)[0UL] != '-'
 			 || ( sNum
 			      && (*them).size() > 1
 			      && isdigit( (*them)[1UL] ) ) ) )
@@ -1073,17 +1036,17 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
 		    break;
 		  }
 	      }
-	    
+
 	    // no value for argId
 	    if( ! value.size() )
 	      setError( E_NO_VALUE, argId, envVar, 0 );
-	    
+
 	    break;
-	    
+
 	  }
 	// look for -arg=value
 	Str::size_type eqpos( (*them).find( '=' ) );
-	
+
 	if( eqpos != Str::npos
 	    && matchArg( *them, argId, eqpos - 1 ) )
 	  {
@@ -1097,7 +1060,7 @@ Param::getArgValue( const char * argId, const char * envVar, bool sNum )
     //
     // I have to do this becuase once I call argv.erase
     // above, the iterator is no longer valid and I must
-    // get a new iterator from the vector to erase 
+    // get a new iterator from the vector to erase
     // the id.
     //
     if( foundArg )
@@ -1170,7 +1133,7 @@ Param::getArgFlag( const char * argId, const char * envVar )
 	    }
 	}
     }
-  
+
   return( value );
 }
 
@@ -1195,7 +1158,7 @@ Param::abort(
     mesgDest << "Aborted(" << exitStatus << ")";
   else
     mesgDest << "Exited";
-  
+
   if( srcFile )
     mesgDest << ": " << srcFile << ':' << srcLine << ' ';
 
@@ -1204,7 +1167,7 @@ Param::abort(
 	     << ") for more info." << std::endl;
   else
     mesgDest << '.' << std::endl;
-  
+
   exit( exitStatus );
 }
 
@@ -1217,11 +1180,11 @@ Param::good( void ) const
 
   // If we are going to generate an args file, the logs man not
   // be good, but that doesn't matter for args generation.
-  
+
   if( generateArgFile )
     return( true );
 
-  
+
   return( appLog.good() && errors.size() == 0 );
 }
 
@@ -1230,8 +1193,8 @@ Param::error( void ) const
 {
   static Str errStr;
 
-  errStr = getClassName();
-  
+  errStr = "Param";
+
   if( good() )
     {
       errStr += ": ok";
@@ -1239,16 +1202,16 @@ Param::error( void ) const
   else
     {
       Str::size_type	errorSize = errStr.size();
-      
+
       if( ! appLog.good() )
 	errStr << ": " << appLog.error() << std::endl;
-      
+
       for( ErrorList::const_iterator them = errors.begin();
 	   them != errors.end();
 	   ++them )
 	{
 	  errStr += "  ";
-	  
+
 	  if( (*them).argId.size() )
 	    {
 	      errStr += '-';
@@ -1270,30 +1233,17 @@ Param::error( void ) const
 	      errStr += ' ';
 	      errStr += (*them).desc;
 	    }
-	  
+
 	  errStr += '\n';
 	}
 
       if( errStr.size() == errorSize )
 	errStr += ": unknown error";
-      
+
     }
 
   return( errStr.c_str() );
 }
-
-const char *
-Param::getClassName( void ) const
-{
-  return "Param";
-}
-
-const char *
-Param::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer, appLog.getVersion( false ) ) );
-}
-
 
 std::ostream &
 Param::toStream( std::ostream & dest ) const
@@ -1313,7 +1263,7 @@ Param::toStream( std::ostream & dest ) const
 
   if( helpText.size() )
     dest << helpText << "\n\n";
-	
+
   dest << helpString;
 
   if( fileArgs.size() )
@@ -1325,11 +1275,11 @@ Param::toStream( std::ostream & dest ) const
 	   ++ them )
 	dest << "  " << (*them) << std::endl;
     }
-	  
+
   if( count() )
     {
       dest << "\nUnprocessed command line args:\n";
-      
+
       Args::const_iterator them = argv.begin();
       for( ; them != argv.end(); ++ them )
 	dest << "  " << (*them) << std::endl;
@@ -1337,21 +1287,17 @@ Param::toStream( std::ostream & dest ) const
 
   if( ! good() )
     dest << '\n' << error() << '\n';
-  
+
   return( dest );
 }
 
 std::ostream &
 Param::dumpInfo(
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << Param::getClassName() << ":\n"
-	 << Param::getVersion() << '\n';
-    
+
   if( ! Param::good() )
     dest << prefix << "Error: " << Param::error() << '\n';
   else
@@ -1360,10 +1306,8 @@ Param::dumpInfo(
   Str pre;
   pre = prefix;
   pre += "appLog:";
-  pre += appLog.getClassName();
-  pre += "::";
-  appLog.dumpInfo( dest, pre.c_str(), false );
-  
+  appLog.dumpInfo( dest, pre.c_str() );
+
   for( Args::size_type i = 0; i < allArgv.size(); i++ )
     {
       dest << prefix << "argv[" << i << "]:";
@@ -1383,7 +1327,7 @@ Param::dumpInfo(
 	dest << "   '";
       dest << allFileArgs[f] << "'\n";
     }
-  
+
   dest << '\n';
 
   dest << prefix << "helpFlag:       " << (int)helpFlag << '\n'
@@ -1391,7 +1335,7 @@ Param::dumpInfo(
        << prefix << "logOutputLevel: " << logOutputLevel << '\n'
        << prefix << "logTee:         " << (int)logTee << '\n'
     ;
-  
+
   dest << prefix << "helpString: \n" << helpString << '\n';
 
   if( fileArgs.size() )
@@ -1403,18 +1347,18 @@ Param::dumpInfo(
 	   ++ them )
 	dest << "  " << (*them) << std::endl;
     }
-	  
+
   if( count() > 1 )
     {
       dest << "\nUnprocessed command line args:\n";
-      
+
       Args::const_iterator them = argv.begin();
       for( ; them != argv.end(); ++ them )
 	dest << "  " << (*them) << std::endl;
     }
 
   dest << '\n';
-    
+
   return( dest  );
 }
 
@@ -1427,11 +1371,11 @@ Param::appendArgInfo(
   bool	       required,
   const char * envVar,
   const char * value,
-  bool	       isflag 
+  bool	       isflag
   )
 {
   size_t    argIdLen( strlen( argId ) );
-  
+
   appendArgFile( argId,
 		 argIdLen,
 		 valueName,
@@ -1471,7 +1415,7 @@ Param::appendArgFile(
   //	-version
   //	-gen-argfile
   //
-  
+
   if( strcmp( argId, ARG_ID_ARGFILE )
       && strcmp( argId, ARG_ID_HELP )
       && strcmp( argId, ARG_ID_VERSION )
@@ -1487,7 +1431,7 @@ Param::appendArgFile(
       else
 	{
 	  size_t prefixWidth;
-	  
+
 	  if( value && strlen( value ) )
 	    {
 	      prefixWidth = 1;
@@ -1498,25 +1442,25 @@ Param::appendArgFile(
 	      prefixWidth = 3;
 	      argFileString << "# -" << argId << '\t';
 	    }
-      
+
 	  for( size_t width = argIdLen + prefixWidth + 8;
 	       width < (8 * 3);
 	       width += 8 )
 	    argFileString << '\t';
-      
+
 	  if( value && strlen( value ) )
 	    argFileString << value;
-      
+
 	  argFileString << '\n';
 	}
     }
-  
+
   return( argFileString.size() );
 }
-  
+
 
 size_t
-Param::appendHelp( 
+Param::appendHelp(
   const char *	argId,
   size_t	argIdLen,
   const char *  valueName,
@@ -1531,8 +1475,8 @@ Param::appendHelp(
 
   argHelp.setf( std::ios::left, std::ios::adjustfield );
 
-  size_t    contLinePadSize(16); 
-    
+  size_t    contLinePadSize(16);
+
   argHelp << shortDesc ;
 
   if( envVar )
@@ -1552,44 +1496,9 @@ Param::appendHelp(
       argHelp[2UL] = '-';
       argHelp.replace( 3, argIdLen, argId );
     }
-      
+
   helpString += argHelp;
-  
-#if defined( OLD_WAY )
-  Str::size_type len = helpString.size();
-  
-  size_t    argIdSize = strlen( argId );
-  
-  helpString += "  -";
-  helpString += argId;
-  if( argIdSize < 8 )
-    helpString.append( 8 - argIdSize, ' ' );
 
-  helpString += ' ';
-  helpString += desc;
-
-  if( envVar )
-    {
-      helpString += " (";
-      helpString += envVar;
-      helpString += ')';
-    }
-
-  if( value && strlen( value ) )
-    {
-      if( (strlen( value ) + ( helpString.size() - len) ) < 80 )
-	helpString += " '";
-      else
-	helpString += "\n            '";
-
-      helpString += value;
-      helpString += "'\n";
-    }
-  else
-    {
-      helpString += " ''\n";
-    }
-#endif
   return( helpString.size() );
 }
 
@@ -1602,9 +1511,9 @@ Param::setError(
   )
 {
   Error	e;
-  
+
   e.errorNum	= err;
-  
+
   if( argId )   e.argId	    = argId;
   if( envVar )	e.envVar    = envVar;
   if( desc )    e.desc	    = desc;
@@ -1643,12 +1552,12 @@ Param::genArgFile( bool exitApp ) const
 	      LLgError
 		<< "gen args file - " << fileOp.error()
 		<< std::endl;
-	      if( _LibLog )
-		(*_LibLog).close();
-	      
+	      if( _clueLibLog )
+		(*_clueLibLog).close();
+
 	      if( errorLogFile )
 		delete errorLogFile;
-	      
+
 	      if( exitApp )
 		exit( 1 );
 	    }
@@ -1665,56 +1574,32 @@ Param::genArgFile( bool exitApp ) const
       (*out) <<
 	"#\n"
 	;
-      
+
       if( argFile.size() )
 	(*out) << "# Title:        " << argFile.getFileName() << '\n';
       else
 	(*out) << "# Title:        " << appName() << ".args\n";
 
       (*out) <<
-	"# Project:      \n" <<
-	"# Desc:         \n" <<
-	"#\n" << 
-	"#   See Args Descriptions following args definitions.\n" <<
-	"#\n" << 
-	"# Notes:\n"
-	"#   \n" <<
-	"# Author:       Generated by "
+	"# See Args Descriptions following args definitions.\n" <<
+	"#\n" <<
+	"# Generated by "
 	;
-#if defined( STLUTILS_HAS_USER )
-      {
-	User  user;
-	(*out) << user.getRealName();
-      }
-#else
-      (*out) << "unknown";
-#endif
-      (*out) << '\n' <<
-	"# Generated:    "
-	;
-#if defined( STLUTILS_TEST )
+
+      User  user;
+      (*out) << user.getRealName();
+
+      (*out) << " on ";
+
+#if defined( CLUE_TEST )
       if( Stlutils_Prama_Gen_NoDate == 0 )
 #endif
-	(*out) << DateTime(time(0),true);
-      
-      (*out) << '\n' <<
-	"#\n" 
-	"# Revision History: (See end of file for Revision Log)\n" 
-	"#\n"
-	"#   $Author$ \n"
-	"#   $Date$ \n"
-	"#   $Name$ \n"
-	"#   $Revision$ \n"
-	"#   $State$ \n"
-	"#\n" 
-	"#   $Id$ \n" 
-	"#\n\n" 
-	;
+	(*out) << DateTime(time(0),true) << '\n';
 
       (*out) << argFileString << "\n\n" <<
 	"#\n" <<
 	"# Args Descriptioins:\n"
-	"#\n" 
+	"#\n"
 	;
       {
 	Str comment( helpString );
@@ -1724,23 +1609,23 @@ Param::genArgFile( bool exitApp ) const
 	(*out) << '#' << comment;
       }
 
-      (*out) << '\n' 
+      (*out) << '\n'
 	;
     }
 
   bool status( (*out).good() ? true : false );
-  
+
   if( out != &std::cout )
     delete out;
 
   if( helpFlag )
     std::cerr << (*this) << "\n";
-      
+
   if( status )
     std::cerr << "\n Generated args file ";
   else
     std::cerr << "ERROR: Generate args file failed ";
-    
+
   if( argFile.size() )
     std::cerr << '\'' << argFile << "'.\n";
   else
@@ -1751,202 +1636,5 @@ Param::genArgFile( bool exitApp ) const
   if( exitApp )
     exit( status ? 0 : 1 );
 }
-	
-//
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.4  2012/04/26 20:08:50  paul
-// *** empty log message ***
-//
-// Revision 6.3  2011/12/30 23:57:17  paul
-// First go at Mac gcc Port
-//
-// Revision 6.2  2005/08/11 18:57:15  houghton
-// Bug-Fix: help for argChar was not showing default value.
-//
-// Revision 6.1  2003/08/09 11:22:42  houghton
-// Changed to version 6
-//
-// Revision 5.7  2003/08/09 11:20:59  houghton
-// Changed ver strings.
-//
-// Revision 5.6  2001/08/06 17:19:33  houghton
-// *** empty log message ***
-//
-// Revision 5.5  2001/08/05 23:00:46  houghton
-// *** empty log message ***
-//
-// Revision 5.4  2001/07/28 01:15:00  houghton
-// *** empty log message ***
-//
-// Revision 5.3  2001/07/26 19:28:59  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/07/31 13:38:09  houghton
-// Added long long arg support.
-//
-// Revision 5.1  2000/05/25 10:33:16  houghton
-// Changed Version Num to 5
-//
-// Revision 4.11  2000/01/03 14:21:17  houghton
-// Bug-Fix: was using single quotes (chg to ").
-//
-// Revision 4.10  1999/11/09 14:06:33  houghton
-// Bug-Fix: changed to prevent genArgsFile() log entry output from
-//     getting Param.C's log entries.
-//
-// Revision 4.9  1999/11/09 14:00:37  houghton
-// The Log line for generateArgFile output got the log entry for Param.
-//
-// Revision 4.8  1999/11/09 11:05:34  houghton
-// Added generate arg file support.
-// Reworked logStartInfo().
-// Added logExitInfo()
-// Changed to not try and open logs if -help.
-// Bug-Fix: was using wrong args to call of allFileArgs.erase().
-// Added argChar().
-// Bug-Fix: signed num args -123 was not working.
-// Added support for -arg=value.
-//
-// Revision 4.7  1999/11/04 17:33:06  houghton
-// Changed help output format (much cleaner now i think:).
-//
-// Revision 4.6  1999/10/28 14:21:07  houghton
-// Added errorlog support.
-// Changed arg names.
-//
-// Revision 4.5  1998/07/20 11:24:16  houghton
-// Port(Hpux): had to case const numbers used for array subscripts to
-//     unsigned long.
-//
-// Revision 4.4  1998/02/13 01:21:04  houghton
-// Cleanup.
-//
-// Revision 4.3  1997/09/21 13:17:37  houghton
-// Bug-Fix: file arg values were overriding env var values.
-//
-// Revision 4.2  1997/09/20 10:46:43  houghton
-// Bug-Fix: arg file was overriding env values.
-//
-// Revision 4.1  1997/09/17 15:12:43  houghton
-// Changed to Version 4
-//
-// Revision 3.20  1997/09/17 14:10:18  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.19  1997/09/17 11:08:36  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.18  1997/09/16 11:24:49  houghton
-// Added startTime method().
-// Added logStartInfo method().
-//
-// Revision 3.17  1997/09/02 13:06:44  houghton
-// Reworked so begin() does not include argv[0] (i.e. appName ).
-//
-// Revision 3.16  1997/08/08 13:23:58  houghton
-// Added appendHelp().
-// Added -version support.
-// Rewored help output.
-// Changed readArgs to support comment to end of line.
-//
-// Revision 3.15  1997/07/28 16:46:07  houghton
-// Added default log file support.
-//
-// Revision 3.14  1997/07/25 12:17:09  houghton
-// Changed help for flag type args to output 'flag' instead of false
-//     when the flag is not set.
-//
-// Revision 3.13  1997/07/18 19:25:17  houghton
-// Cleanup.
-// Port(Sun5): changed local variable names to eliminate compiler warnings.
-//
-// Revision 3.12  1997/04/26 16:47:28  houghton
-// Added env var for argfile.
-//
-// Revision 3.11  1997/04/04 20:54:26  houghton
-// Changed constructor.
-// Added logmode & logprot args.
-// Added log error checking.
-//
-// Revision 3.10  1997/03/26 12:30:23  houghton
-// Added constructor.
-//
-// Revision 3.9  1997/03/21 15:39:41  houghton
-// Added argfile arg.
-// Bug-Fix: readargs was not working correctly.
-// Changed readargs is now a protected member.
-//
-// Revision 3.8  1997/03/21 12:26:01  houghton
-// Changed file arg processing. Now file args will be overridden by
-//     command line values
-// Changed log level processing.
-//
-// Revision 3.7  1997/03/15 17:59:01  houghton
-// Bug-Fix: would not find arg value 1 char wide.
-//
-// Revision 3.6  1997/03/03 19:02:57  houghton
-// Bug-Fix: was returning 'good' changed to 'good()'.
-//
-// Revision 3.5  1997/03/03 14:37:17  houghton
-// Removed support for RW Tools++.
-//
-// Revision 3.4  1997/03/02 13:19:49  houghton
-// Cleanup.
-//
-// Revision 3.3  1996/11/19 22:07:08  houghton
-// Bug-Fix: remove parse flag from constructor - calling a virtual
-//     from the constructor does NOT call the sub class's method.
-//     so parseArgs has to be call from the app or sub class.
-// Bug-Fix: argStr( string ) - string::data did not give expected
-//     results so change to string::c_str
-// Bug-Fix: getArgValue - It may be ok that we reached the end
-//     of the args. The proper check is if value has anything in it.
-// Bug-Fix: appendHelp - cleanup helpString apperance.
-// Bug-Fix: setError - core dumps where assigning to a string from
-//     a 'const char * 0' changed to check first.
-//
-// Revision 3.2  1996/11/19 12:24:30  houghton
-// Restructure header comments.
-// Changed include lines to use " " instead of < > to accomidate rpm.
-// Removed support for short file names to accomidate rpm.
-// Major re-work of most function to use 'string'
-// Major re-work to use vector<string> for managing argv.
-// Added readArgs to read arg from a std::istream.
-//
-// Revision 3.1  1996/11/14 01:23:53  houghton
-// Changed to Release 3
-//
-// Revision 2.7  1996/11/11 13:35:39  houghton
-// Change to call rdbuf()-freeze beause AIX strstream does NOT have
-//     a freeze method in its strstream.
-//
-// Revision 2.6  1996/11/08 11:46:04  houghton
-// Removed Support for Str and DateTime.
-//     (as required by Mike Alexander)
-//
-// Revision 2.5  1996/10/22 22:07:00  houghton
-// Change: Added locStamp to turn on/off output of src file & line.
-// Change: Added Support for Rogue Tools++ RWCString, RWDate & RWTime.
-// Change: Rename arg methods for unsigned types.
-//
-// Revision 2.4  1996/04/27 13:07:54  houghton
-// Added support for LibLog.
-//
-// Revision 2.3  1996/02/29 19:06:34  houghton
-// *** empty log message ***
-//
-// Revision 2.2  1995/12/04 11:18:23  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:53  houghton
-// Change to Version 2
-//
-// Revision 1.5  1995/11/05  15:28:43  houghton
-// Revised
-//
-//
+
+}; // namespace clue

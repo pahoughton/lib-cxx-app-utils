@@ -1,64 +1,61 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
-#include <DateTimeUtils.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/DateTime.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <vector>
 #include <set>
 #include <functional>
 #include <cstring>
 #include <cstdio>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
-#include <vector>
-#include <set>
-#include <functional>
-#include <cstring>
-#include <cstdio>
-#endif
+
+static valid::verify verify("clue::DateTime01");
+using namespace clue;
+
 
 bool
-tDateTime01( LibTest & tester )
+v_DateTime01( void )
 {
-  
+
   {
     // DateTime( void )
-    // getTimeT( void ) const
-    
+    // timeT( void ) const
+
     time_t	gtime = time(0);
 
     const DateTime dt;
 
-    time_t	dtime = dt.getTimeT();
-    
+    time_t	dtime = dt.timet();
+
     struct tm ltm;
 
     memcpy( &ltm, localtime( &gtime ), sizeof( ltm ) );
 
     TEST( gtime == dtime || (gtime + 1) == dtime );
-    TEST( dt.getMonth()  == ltm.tm_mon + 1 );
-    TEST( dt.getDayOfMonth() == ltm.tm_mday );
-    TEST( dt.getYearOfCentury() == (ltm.tm_year % 100));
-    TEST( dt.getHour() == ltm.tm_hour );
-    TEST( dt.getMinute()  == ltm.tm_min );
+    TEST( dt.month()  == ltm.tm_mon + 1 );
+    TEST( dt.mday() == ltm.tm_mday );
+    TEST( dt.yearOfCentury() == (ltm.tm_year % 100));
+    TEST( dt.hour() == ltm.tm_hour );
+    TEST( dt.minute()  == ltm.tm_min );
     // might be off by 1 second max
-    TEST( dt.getSecond()  == ltm.tm_sec ||
-	  dt.getSecond()  == (ltm.tm_sec + 1) );
+    TEST( dt.second()  == ltm.tm_sec ||
+	  dt.second()  == (ltm.tm_sec + 1) );
 
   }
 
   {
     // DateTime( time_t )
     // DateTime( time_t, bool )
-    // getString( void ) const
-    
+    // str( void ) const
+
     time_t  when = 699342350;	    // is 2/29/92 05:45:50 (gmt)
 
     DateTime dtOneArg( when );
-    DateTime dtGmt( when, false );
-    DateTime dtLocal( when, true );
+    DateTime dtGmt( when, true );
+    DateTime dtLocal( when, false );
 
     struct tm check = *gmtime( &when );
 
@@ -73,11 +70,11 @@ tDateTime01( LibTest & tester )
 	     check.tm_sec );
 
 
-    TEST( ! strcmp( checkStr, dtGmt.getString() ) );
+    TEST( dtGmt.str("%m/%d/%y %H:%M:%S") == checkStr );
     TEST( dtGmt == dtOneArg );
-      
+
     check = *localtime( &when );
-    
+
     sprintf( checkStr, "%02d/%02d/%02d %02d:%02d:%02d",
 	     check.tm_mon + 1,
 	     check.tm_mday,
@@ -85,114 +82,49 @@ tDateTime01( LibTest & tester )
 	     check.tm_hour,
 	     check.tm_min,
 	     check.tm_sec );
-    
-    TEST( ! strcmp( checkStr, dtLocal.getString() ) );
 
-    {
-      // DateTime class used to return 4-digit year for dates
-      // < 1950 or > 2000.  Now it only returns 4-digit years
-      // for dates < 1950 and 2-digit years otherwise.
-      strcpy( checkStr, "04/28/1945 13:04:40" );
-      TEST( strptime( checkStr, "%m/%d/%Y %H:%M:%S", &check ) != 0 );
+    TEST( dtLocal.str("%m/%d/%y %H:%M:%S") == checkStr );
 
-      DateTime dt( check );
-
-      TESTR( dt.getString(), ! strcmp( dt.getString(), checkStr ) );
-
-      strcpy( checkStr, "04/28/25 13:04:40" );
-      TEST( strptime( checkStr, "%m/%d/%y %H:%M:%S", &check ) != 0 );
-
-      dt.set( check );
-      TESTR( dt.getString(), ! strcmp( dt.getString(), checkStr ) );
-    }
   }
-  
-  {
-    // DateTime( time_t, time_t )
-    // getYear( void ) const
-    // getMonth( void ) const
-    // getDayOfMonth( void ) const
-    // getHour( void ) const
-    // getMinute( void ) const
-    // getSecond( void ) const
 
-    const char * dateStr = "2/1/95";
-    
-    struct tm   tmDate;
-    memset( &tmDate, 0, sizeof( tmDate ) );
-    
-    strptime( (char *)dateStr, "%m/%d/%y", &tmDate );
-    
-    time_t datePart = DateInTimeT( mktime( &tmDate ) );
-    time_t timePart = (5 * 60 * 60) + (45 * 60) + 50;
-    
-    const DateTime	dt(datePart, timePart);
-
-    TEST( dt.getTimeT() == (datePart + timePart) );
-
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 5 );
-    TEST( dt.getMinute() == 45 );
-    TEST( dt.getSecond() == 50 );
-  }
-	  
-  {
-    // DateTime( yymmdd, hhmmss )
-    
-    const char *    yymmdd = "950205junk";
-    const char *    hhmmss = "150550junk";
-    
-    DateTime	dt( yymmdd, hhmmss );
-
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 15 );
-    TEST( dt.getMinute() == 5 );
-    TEST( dt.getSecond() == 50 );
-    
-  }
-  
   {
     // DateTime( int, int, int, int, int, int )
-    // getYearOfCentury( void )
-    // getMonth( void )
-    // getDayOfMonth( void )
-    // getHour( void )
-    // getMinute( void )
-    // getSecond( void )
-    // getString( void )
-    
+    // yearOfCentury( void )
+    // month( void )
+    // mday( void )
+    // hour( void )
+    // minute( void )
+    // second( void )
+    // str( void )
+
     int	    year = 95;
     int     month = 2;
     int     day = 5;
     int	    hour = 18;
     int	    min = 15;
     int	    sec = 30;
-      
+
     DateTime	dt( year, month, day, hour, min, sec );
 
-    TEST( dt.getYearOfCentury() == year );
-    TEST( dt.getMonth() == month );
-    TEST( dt.getDayOfMonth() == day );
-    TEST( dt.getHour() == hour );
-    TEST( dt.getMinute() == min );
-    TEST( dt.getSecond() == sec );
+    TEST( dt.yearOfCentury() == year );
+    TEST( dt.month() == month );
+    TEST( dt.mday() == day );
+    TEST( dt.hour() == hour );
+    TEST( dt.minute() == min );
+    TEST( dt.second() == sec );
 
     char check[50];
     sprintf( check, "%02d/%02d/%02d %02d:%02d:%02d",
 	     month, day, year, hour, min, sec );
 
-    TEST( ! strcmp( check, dt.getString() ) );
-    
+    TEST( dt.str("%m/%d/%y %H:%M:%S") == check );
+
   }
 
   {
     // DateTime( struct tm )
-    // getYearOfCentury( void ) const
-    
+    // yearOfCentury( void ) const
+
     int	    year = 92;
     int     month = 3;
     int     day = 1;
@@ -211,31 +143,31 @@ tDateTime01( LibTest & tester )
 
     const DateTime	dt( tm );
 
-    TEST( dt.getYearOfCentury() == year );
-    TEST( dt.getMonth() == month );
-    TEST( dt.getDayOfMonth() == day );
-    TEST( dt.getHour() == hour );
-    TEST( dt.getMinute() == min );
-    TEST( dt.getSecond() == sec );
+    TEST( dt.yearOfCentury() == year );
+    TEST( dt.month() == month );
+    TEST( dt.mday() == day );
+    TEST( dt.hour() == hour );
+    TEST( dt.minute() == min );
+    TEST( dt.second() == sec );
   }
 
   {
     // DateTime( const char * )
-    
+
     const char * dateString = "02/29/92 05:45:50";
 
-    DateTime dt( dateString );
+    DateTime dt( dateString, "%m/%d/%y %H:%M:%S" );
 
-    TEST( ! strcmp( dateString, dt.getString() ) );
+    TEST( dt.str("%m/%d/%y %H:%M:%S") ==  dateString );
   }
 
   {
     // verify support for stl vector<> & set<>
 
-    vector< DateTime > tV;
-    set< DateTime, less< DateTime > >	tS;
+    std::vector< DateTime > tV;
+    std::set< DateTime, std::less< DateTime > >	tS;
 
   }
-  
-  return( true );
+
+  return( verify.is_valid() );
 }

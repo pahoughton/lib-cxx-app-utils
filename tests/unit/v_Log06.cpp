@@ -1,29 +1,22 @@
+// 1996-11-12 (cc) <paul4hough@gmail.com>
 
-//
-// File:        tLog05.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test the following Log methods
-//
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/12/96 09:32
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+#include <clue/Log.hpp>
+#include <clue/FileStat.hpp>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "Log.hh"
-#include "FileStat.hh"
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <sstream>
 #include <cstdio>
-#include <strstream.h>
+
+static valid::verify verify("clue::Log06");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/Log"
 
 bool
-tLog06( LibTest & tester )
+v_Log06( void )
 {
   {
     // trim( void );
@@ -33,7 +26,7 @@ tLog06( LibTest & tester )
 
     const FileStat::size_type    MaxSize = 40960;
     const FileStat::size_type    TrimSize = 1024;
-    
+
     const char *    EntryText =
       "good test checking trim( void ).\n";
     const FileStat::size_type    EntrySize =
@@ -43,7 +36,7 @@ tLog06( LibTest & tester )
     {
       Log t( TestFn,
 	     LogLevel::Info,
-	     ios::out );
+	     std::ios::out );
 
       for( FileStat::size_type e = EntrySize;
 	   e < (MaxSize - (EntrySize * 2));
@@ -61,8 +54,7 @@ tLog06( LibTest & tester )
     {
       Log t( TestFn,
 	     LogLevel::Info,
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     true,
 	     true,
 	     true,
@@ -85,8 +77,7 @@ tLog06( LibTest & tester )
     {
       Log t( TestFn,
 	     LogLevel::Info,
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     true,
 	     true,
 	     true,
@@ -104,95 +95,93 @@ tLog06( LibTest & tester )
       TEST( t.getSize() < 10240 );
       TEST( t.getSize() > (10240 - ((10240/4) + EntrySize)) );
     }
-  }      
-      
-  {
-    // open( const char * )
-    
-    const char *    TestFn = TEST_DATA_DIR "/log.21";
-    remove( TestFn );
-    {
-      
-      strstream tStream;
-    
-      Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
-
-      t() << "BAD\n";
-
-      t.open( TestFn );
-
-      t() << "error good\n";
-      t( LogLevel::Info ) << "info good\n";
-
-    }
-
-    {
-      strstream tStream;
-    
-      Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
-
-      t() << "BAD\n";
-
-      t.open( TestFn );
-
-      t() << "error good\n";
-      t( LogLevel::Info ) << "info good\n";
-    }
-      
-    tester.file( __FILE__, __LINE__, TestFn );
   }
 
   {
-    // open( const char *, ios::openmode )
+    // open( const char * )
+
+    const char *    TestFn = TEST_DATA_DIR "/log.21";
+    remove( TestFn );
+    {
+
+      std::stringstream tStream;
+
+      Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
+
+      t() << "BAD\n";
+
+      t.open( TestFn );
+
+      t() << "error good\n";
+      t( LogLevel::Info ) << "info good\n";
+
+    }
+
+    {
+      std::stringstream tStream;
+
+      Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
+
+      t() << "BAD\n";
+
+      t.open( TestFn );
+
+      t() << "error good\n";
+      t( LogLevel::Info ) << "info good\n";
+    }
+    VVFILE( TestFn );
+  }
+
+  {
+    // open( const char *, std::ios::openmode )
 
     const char * TestFn = TEST_DATA_DIR "/log.22";
 
     {
       // put some stuff in the file first
-      ofstream t( TestFn );
+      std::ofstream t( TestFn );
 
-      t << "Junk text BAD." << endl;
+      t << "Junk text BAD." << std::endl;
     }
-    
+
     {
-      
-      strstream tStream;
-    
+
+      std::stringstream tStream;
+
       Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
 
       t() << "BAD\n";
 
-      t.open( TestFn, ios::out );
+      t.open( TestFn, std::ios::out );
 
       t() << "error Good\n";
-      t( "info" ) << "Info good" << endl;
+      t( "info" ) << "Info good" << std::endl;
     }
 
     {
-      strstream tStream;
-    
+      std::stringstream tStream;
+
       Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
 
       t() << "BAD\n";
 
-      t.open( TestFn, (ios::openmode)(ios::app|ios::out) );
+      t.open( TestFn, (std::ios::openmode)(std::ios::app|std::ios::out) );
 
       t() << "error Good\n";
-      t( "info" ) << "Info good" << endl;
+      t( "info" ) << "Info good" << std::endl;
     }
-
-    tester.file( __FILE__, __LINE__, TestFn );
+    VVFILE( TestFn );
   }
-  
+
   {
     // setFileName( const char * )
-    
+
     const char *    TestFn = TEST_DATA_DIR "/log.23";
     remove( TestFn );
     {
-      
-      strstream tStream;
-    
+
+      std::stringstream tStream;
+
       Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
 
       t() << "BAD\n";
@@ -205,8 +194,8 @@ tLog06( LibTest & tester )
     }
 
     {
-      strstream tStream;
-    
+      std::stringstream tStream;
+
       Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
 
       t() << "BAD\n";
@@ -216,133 +205,90 @@ tLog06( LibTest & tester )
       t() << "error good\n";
       t( LogLevel::Info ) << "info good\n";
     }
-      
-    tester.file( __FILE__, __LINE__, TestFn );
+
+    VVFILE( TestFn );
   }
 
   {
-    // setFileName( const char *, ios::openmode )
+    // setFileName( const char *, std::ios::openmode )
 
     const char * TestFn = TEST_DATA_DIR "/log.24";
 
     {
       // put some stuff in the file first
-      ofstream t( TestFn );
+      std::ofstream t( TestFn );
 
-      t << "Junk text BAD." << endl;
+      t << "Junk text BAD." << std::endl;
     }
-    
+
     {
-      
-      strstream tStream;
-    
+
+      std::stringstream tStream;
+
       Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
 
       t() << "BAD\n";
 
-      t.setFileName( TestFn, ios::out );
+      t.setFileName( TestFn, std::ios::out );
 
       t() << "error Good\n";
-      t( "info" ) << "Info good" << endl;
+      t( "info" ) << "Info good" << std::endl;
     }
 
     {
-      strstream tStream;
-    
+      std::stringstream tStream;
+
       Log t( tStream, LogLevel::Error | LogLevel::Info, true, false ) ;
 
       t() << "BAD\n";
 
-      t.setFileName( TestFn, (ios::openmode)(ios::app|ios::out) );
+      t.setFileName( TestFn, (std::ios::openmode)(std::ios::app|std::ios::out) );
 
       t() << "error Good\n";
-      t( "info" ) << "Info good" << endl;
+      t( "info" ) << "Info good" << std::endl;
     }
-
-    tester.file( __FILE__, __LINE__, TestFn );
+    VVFILE( TestFn );
   }
 
   {
     // close( void )
-    
+
     const char * TestFn = TEST_DATA_DIR "/log.25";
     const char * TestOpenFn = TEST_DATA_DIR "/log.26";
 
     {
       Log t( TestFn, LogLevel::Error | LogLevel::Debug,
-	     ios::out, 0664,
+	     std::ios::out,
 	     true, false );
 
       t() << "error good\n";
-      t( "DEBUG" ) << "debug good" << endl;
+      t( "DEBUG" ) << "debug good" << std::endl;
 
       {
 	t.close();
 
-	t() << "BAD" << endl;
+	t() << "BAD" << std::endl;
 
 	TEST( ! t.good() );
-    
+
 	for( size_t l = 0; l < 50; l++ )
 	  t() << "BAD " << l << "\n";
-      
-	tester.file( __FILE__, __LINE__, TestFn );
+	VVFILE( TestFn );
       }
 
       {
-	t.open( TestOpenFn, ios::out );
+	t.open( TestOpenFn, std::ios::out );
 
-	TESTR( t.error(), t.good() );
+	TEST( t.good() );
 
 	t() << "error good\n";
-	t( "DEBUG" ) << "debug good" << endl;
+	t( "DEBUG" ) << "debug good" << std::endl;
 
 	TEST( t.good() );
       }
 
     }
-
-    tester.file( __FILE__, __LINE__, TestOpenFn );
+    VVFILE( TestOpenFn );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:45  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:29  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  1998/10/13 16:40:02  houghton
-// Cleanup.
-//
-// Revision 4.2  1998/04/02 14:19:25  houghton
-// Cleanup and eliminate warnings.
-//
-// Revision 4.1  1997/09/17 15:14:25  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 11:09:52  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.3  1997/07/18 21:46:09  houghton
-// Port(Sun5): Changed ios::app to (ios::openmode)(ios::app|ios::out).
-//
-// Revision 3.2  1996/11/19 12:35:39  houghton
-// Changed include strstream to include strstream.h because strstream
-//     is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:26:48  houghton
-// Changed to Release 3
-//
-// Revision 2.1  1996/11/13 17:21:23  houghton
-// Initial Version.
-//
-//
-

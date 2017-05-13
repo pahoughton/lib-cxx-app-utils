@@ -1,12 +1,15 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <climits>
+
+static valid::verify verify("clue::Str16");
+using namespace clue;
 
 // Str::from( number)
 
@@ -30,11 +33,11 @@ static const char * BaseStrings[] =
 };
 
 bool
-tStr16( LibTest & tester )
+v_Str16( void )
 {
   {
     // from( int )
-    
+
     Str t;
 
     int num = 0;
@@ -73,11 +76,11 @@ tStr16( LibTest & tester )
 
     t.reset();
     num = 50;
-    long was = t.setf( ios::showpos );
+    std::ios::fmtflags was = t.setf( std::ios::showpos );
     t.from( num );
 
     TEST( t == "+50" );
-    
+
     t.reset();
     t.width( 5 );
     num = 15;
@@ -87,7 +90,7 @@ tStr16( LibTest & tester )
 
     t.reset();
     t.flags( was );
-    was = t.setf( ios::left );
+    was = t.setf( std::ios::left );
     num = 15;
     t.width( 5 );
     t.from( num );
@@ -96,8 +99,8 @@ tStr16( LibTest & tester )
 
     t.reset();
     t.flags( was );
-    was = t.setf( ios::showpos );
-    t.setf( ios::left );
+    was = t.setf( std::ios::showpos );
+    t.setf( std::ios::left );
     num = 100;
     t.width( 8 );
     t.from( num );
@@ -119,7 +122,7 @@ tStr16( LibTest & tester )
     num = 0x0ff0;
     t.reset();
     t.from( num );
-    
+
     TEST( t == "4080" );
 
     num = 0xfff;
@@ -130,47 +133,47 @@ tStr16( LibTest & tester )
 	t.from( num, b );
 	TEST( t == BaseStrings[b-2] );
       }
-    
+
     num = -3981;
 
     t.reset();
-    t.setf( ios::showbase );
-    t.setf( ios::showpos );
+    t.setf( std::ios::showbase );
+    t.setf( std::ios::showpos );
     t.width( 10 );
     t.from( num, 8 );
-    
+
     TEST( t == "    -07615" );
 
     t.reset();
     t.from( num, 16 );
-    
+
     TEST( t == "-0xf8d" );
 
     t.reset();
-    t.setf( ios::uppercase );
+    t.setf( std::ios::uppercase );
     t.from( num, 16 );
-    
+
     TEST( t == "-0XF8D" );
 
     t.reset();
     num = -num;
     t.width( 10 );
     t.from( num, 8 );
-    
+
     TEST( t == "    +07615" );
 
     t.reset();
     t.width( 10 );
     t.from( num, 16 );
-    
+
     TEST( t == "    +0XF8D" );
 
 
     t.reset();
-    t.setf( ios::left );
+    t.setf( std::ios::left );
     t.width( 10 );
     t.from( num, 16 );
-    
+
     TEST( t == "+0XF8D    " );
 
   }
@@ -178,32 +181,32 @@ tStr16( LibTest & tester )
   {
     // from( short )
     Str t;
-    
+
     short num = -550;
     t.from( num );
 
     TEST( t == "-550" );
   }
-    
+
   {
     // from( short, unsigned short )
     Str t;
-    
+
     short num = 0xfff;
-    
+
     for( int b = 2; b < 17; b++ )
       {
 	t.reset();
 	t.from( num, b );
 	TEST( t == BaseStrings[b-2] );
-      }    
+      }
   }
 
   {
     // from( long )
-    
+
     Str t;
-    
+
     long num = -550;
     t.from( num );
 
@@ -213,26 +216,26 @@ tStr16( LibTest & tester )
     num = 999999999L;
     t.from( num );
     TEST( t == "999999999" );
-    
+
     t.reset();
     num = 111111111L;
     t.from( num );
     TEST( t == "111111111" );
-    
+
   }
 
   {
     // from( long, unsigned short )
     Str t;
-    
+
     long num = 0xfff;
-    
+
     for( int b = 2; b < 17; b++ )
       {
 	t.reset();
 	t.from( num, b );
 	TEST( t == BaseStrings[b-2] );
-      }    
+      }
   }
 
   {
@@ -242,7 +245,7 @@ tStr16( LibTest & tester )
     unsigned int num = UINT_MAX;
 
     t.from( num, 16 );
-    
+
     if( sizeof( int ) == 4 ) {
       TEST( t == "ffffffff" );
     } else if( sizeof( int ) == 2 ) {
@@ -251,19 +254,19 @@ tStr16( LibTest & tester )
       TEST( false );
     }
   }
-    
+
   {
     // from( unsigned int, unsigned short )
     Str t;
-    
+
     unsigned int num = 0xfff;
-    
+
     for( int b = 2; b < 17; b++ )
       {
 	t.reset();
 	t.from( num, b );
 	TEST( t == BaseStrings[b-2] );
-      }    
+      }
   }
 
   {
@@ -275,38 +278,38 @@ tStr16( LibTest & tester )
 
     t.from( num );
     TEST( t == "1234" );
-    
+
     t.reset();
     num = USHRT_MAX;
-    
+
     t.from( num, 16 );
-    
-    TEST( t == "ffff" );    
+
+    TEST( t == "ffff" );
   }
-    
+
   {
     // from( unsigned long )
     // from( unsigned long, unsigned short )
-    
+
     Str t;
 
     unsigned long num = 1234;
 
     t.from( num );
     TEST( t == "1234" );
-    
+
     num = ULONG_MAX;
     t.reset();
     t.from( num, 16 );
 
     if( sizeof( num ) == 8 ) {
-      TEST( t == "ffffffffffffffff" );    
+      TEST( t == "ffffffffffffffff" );
     } else if( sizeof( num ) == 4 ) {
       TEST( t == "ffffffff" );
     } else {
       TEST( false );
     }
   }
-    
-  return( true );
+
+  return( verify.is_valid() );
 }

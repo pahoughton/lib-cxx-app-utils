@@ -1,14 +1,14 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FilePath.hh>
-#include <Compare.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FilePath.hh>
-#include <Compare.hh>
-#endif
+// 1995-06-15 (cc) Paul Houghton <paul4hough@gmail.com>
+
+#include <clue/FilePath.hpp>
+#include <clue/compare>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::FilePath01");
+using namespace clue;
 
 #define D   "dir"
 #define F   "filename"
@@ -17,13 +17,13 @@
 #define DE  "."
 
 bool
-tFilePath01( LibTest & tester )
+v_FilePath01( void )
 {
   {
     // FilePath( void )
     FilePath	t;
 
-    TESTR( t.error(), t.good() );    
+    TEST( t.good() );
   }
 
   {
@@ -34,8 +34,8 @@ tFilePath01( LibTest & tester )
 
   {
     // FilePath( char, char )
-    
-    FilePath	t(':', '.' );		  
+
+    FilePath	t(':', '.' );
   }
 
   {
@@ -54,8 +54,8 @@ tFilePath01( LibTest & tester )
 
     TEST( compare( t.getFullName().c_str(), D ":" F DE E ) == 0 );
   }
-  
-  {  
+
+  {
     // FilePath( const char *, char, char )
     FilePath	t( D ":" F "-" E,':','-' );
 
@@ -86,5 +86,5 @@ tFilePath01( LibTest & tester )
     TEST( compare( t.getFullName().c_str(), D ":" F "-" E ) == 0 );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }

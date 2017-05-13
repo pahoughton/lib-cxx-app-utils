@@ -1,56 +1,9 @@
-//
-// File:        UserGroup.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled source for UserGroup
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     05/09/95 06:30 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1995-05-09 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include "UserGroup.hh"
-#include "User.hh"
-#include "Compare.hh"
-#include <climits>
-#include <cerrno>
-#include <pwd.h>
-#else
-#include "UserGrp.hh"
-#include "User.hh"
-#include "Compare.hh"
-#include <climits>
-#include <cerrno>
-#include <pwd.h>
-#endif
+#include "UserGroup.hpp"
+#include "User.hpp"
 
-#if defined( STLUTILS_DEBUG )
-#if !defined( STLUTILS_SHORT_FN )
-#include <UserGroup.ii>
-#else
-#include <UserGrp.ii>
-#endif
-#endif
-
-STLUTILS_VERSION(
-  UserGroup,
-  "$Id$ " );
-  
-
-#if defined( AIX )
-extern "C" { void endpwent( void ); };
-#endif
-
-// UserGroup   UserGroup::eff( getegid() );
+namespace clue {
 
 const gid_t    UserGroup::bad = (gid_t) ULONG_MAX;
 
@@ -76,9 +29,9 @@ UserGroup::findMembers( void )
 
   if( gid == bad )
     return( 0 );
-  
+
   struct group * gr = getgrgid( gid );
-  
+
   for( int m = 0; gr->gr_mem[m]; m++ )
     {
       members.insert( gr->gr_mem[m] );
@@ -97,7 +50,7 @@ UserGroup::findMembers( void )
   endpwent();
 
   return( members.size() );
-  
+
 }
 
 bool
@@ -123,7 +76,7 @@ bool
 UserGroup::set( const struct group * gr, bool findMemb )
 {
   members.erase( members.begin(), members.end() );
-  
+
   if( gr )
     {
       gid = gr->gr_gid;
@@ -131,14 +84,14 @@ UserGroup::set( const struct group * gr, bool findMemb )
 
       if( findMemb )
 	findMembers();
-      
+
       return( true );
     }
   else
     {
       name = "";
       gid = bad;
-      osError = errno;      
+      osError = errno;
       return( false );
     }
 }
@@ -182,7 +135,7 @@ UserGroup::fromStream( std::istream & src )
   set( inName );
   return( src );
 }
-  
+
 // good - return TRUE if no detected errors
 bool
 UserGroup::good( void ) const
@@ -196,7 +149,7 @@ UserGroup::error( void ) const
 {
   static Str errStr;
 
-  errStr = UserGroup::getClassName();
+  errStr = "UserGroup";
 
   if( good() )
     {
@@ -217,32 +170,12 @@ UserGroup::error( void ) const
   return( errStr.cstr() );
 }
 
-// getClassName - return the name of this class
-const char *
-UserGroup::getClassName( void ) const
-{
-  return( "UserGroup" );
-}
-
-const char *
-UserGroup::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-  
-
 std::ostream &
 UserGroup::dumpInfo(
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << UserGroup::getClassName() << ":\n"
-	 << UserGroup::getVersion() << '\n';
-  
-  
   if( ! UserGroup::good() )
     dest << prefix << "Error: " << UserGroup::error() << '\n';
   else
@@ -259,7 +192,7 @@ UserGroup::dumpInfo(
   else
     {
       dest << prefix << "Members:\n";
-	  
+
       for( Members::const_iterator them = members.begin();
 	   them != members.end();
 	   them++ )
@@ -282,80 +215,7 @@ UserGroup::dumpInfo(
   dest << '\n';
 
   return( dest );
-  
+
 }
-  
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:44  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:35  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:47  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:21:01  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2001/07/26 19:28:57  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:07:31  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:23  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  1998/10/13 16:34:43  houghton
-// Added destructor '~UserGroup()'.
-//
-// Revision 4.2  1997/12/19 12:52:08  houghton
-// Bug-Fix: members is const, so i need to use a const iterator.
-//
-// Revision 4.1  1997/09/17 15:13:41  houghton
-// Changed to Version 4
-//
-// Revision 3.5  1997/09/17 11:09:28  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.4  1997/03/03 19:12:26  houghton
-// Changed from useing strstream to Str.
-//
-// Revision 3.3  1997/03/03 14:38:22  houghton
-// Removed support for RW Tools++.
-//
-// Revision 3.2  1996/11/19 12:30:04  houghton
-// Changed include from strstream to strstream.h because strstream
-//     is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:25:11  houghton
-// Changed to Release 3
-//
-// Revision 2.5  1996/11/06 18:12:27  houghton
-// Removed BinStream support.
-// Changed use of Str to RWCString.
-//     (as required per Mike Alexander)
-//
-// Revision 2.4  1996/05/01 11:01:41  houghton
-// Bug-Fix: static const UserGroup eff was causing segv.
-//   change so the effective() method just returns a new 'UserGroup'
-//
-// Revision 2.3  1995/12/31 11:24:28  houghton
-// Bug Fix - Removed 'inline' statement.
-//
-// Revision 2.2  1995/12/04 11:20:22  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:46:58  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:49:18  houghton
-// Revised
-//
-//
+
+}; // namespace clue

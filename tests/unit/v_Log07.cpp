@@ -1,27 +1,22 @@
-//
-// File:        tLog07.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test the following Log methods
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/12/96 09:31
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-11-12 (cc) <paul4hough@gmail.com>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "Log.hh"
-#include "FileStat.hh"
+#include <clue/Log.hpp>
+#include <clue/FileStat.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <sstream>
 #include <cstdio>
-#include <strstream.h>
+
+static valid::verify verify("clue::Log07");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/Log"
 
 bool
-tLog07( LibTest & tester )
+v_Log07( void )
 {
 
   {
@@ -29,44 +24,41 @@ tLog07( LibTest & tester )
     const char *    TestFn = TEST_DATA_DIR "/log.27";
     const char *    Src = "Test.C";
     size_t	    Line = 0;
-    
+
     {
-      Log t( TestFn, LogLevel::All, ios::out, 0664, true, false, true );
+      Log t( TestFn, LogLevel::All, std::ios::out, true, false, true );
 
       t( LogLevel::Test, Src, ++Line )
-	<< "any old text before filter" << endl;
+	<< "any old text before filter" << std::endl;
 
       TEST( t.filter( "good|pass" ) );
 
       t( LogLevel::Test, Src, ++Line )
-	<< "any old text after filter" << endl;
-      
+	<< "any old text after filter" << std::endl;
+
       t( LogLevel::Test, Src, ++Line )
-	<< "This line is good and should filter" << endl;
-      
+	<< "This line is good and should filter" << std::endl;
+
       t( LogLevel::Test, Src, ++Line )
-	<< "This line is bad and should NOT filter" << endl;
-      
+	<< "This line is bad and should NOT filter" << std::endl;
+
       t( LogLevel::Test, Src, ++Line )
-	<< "This line should pass through the filter" << endl;
+	<< "This line should pass through the filter" << std::endl;
 
       TEST( ! t.filter( 0 ) );
 
       t( LogLevel::Test, Src, ++Line )
-	<< "any old text after filter removed" << endl;
-      
+	<< "any old text after filter removed" << std::endl;
+
     }
 
-    {
-      if( ! tester.file( __FILE__, __LINE__, TestFn ) )
-	return( false );
-    }
+    VVFILE( TestFn );
   }
 
   {
     // addFilter( streambuf *, LogLevel::Level )
     // delFilter( LogBuf::FilterId )
-    
+
     const char *    TestFn = TEST_DATA_DIR "/log.28";
     const char *    TestF1 = TEST_DATA_DIR "/log.29";
     const char *    TestF2 = TEST_DATA_DIR "/log.30";
@@ -76,12 +68,12 @@ tLog07( LibTest & tester )
     size_t	    Line = 0;
 
     {
-      ofstream	f1( TestF1 );
-      ofstream	f2( TestF2 );
-      ofstream	f3( TestF3 );
-      
+      std::ofstream	f1( TestF1 );
+      std::ofstream	f2( TestF2 );
+      std::ofstream	f3( TestF3 );
+
       Log t( TestFn, LogLevel::Err | LogLevel::Warn,
-	     ios::out, 0664,
+	     std::ios::out,
 	     true, false, true );
 
       t( LogLevel::Error,   "Src", ++Line ) << "test Error" << '\n';
@@ -104,7 +96,7 @@ tLog07( LibTest & tester )
       t( LogLevel::Funct,   "Src", ++Line ) << "test Funct" << '\n';
 
       LogBuf::FilterId fid1 = t.addFilter( f1.rdbuf(), LogLevel::Test );
-      
+
       t( LogLevel::Error,   "Src", ++Line ) << "test Error" << '\n';
       t( LogLevel::Err,     "Src", ++Line ) << "test Err" << '\n';
       t( LogLevel::Warning, "Src", ++Line ) << "test Warning" << '\n';
@@ -125,7 +117,7 @@ tLog07( LibTest & tester )
       t( LogLevel::Funct,   "Src", ++Line ) << "test Funct" << '\n';
 
       LogBuf::FilterId fid2 = t.addFilter( f2.rdbuf(), LogLevel::All );
-      
+
       t( LogLevel::Error,   "Src", ++Line ) << "test Error" << '\n';
       t( LogLevel::Err,     "Src", ++Line ) << "test Err" << '\n';
       t( LogLevel::Warning, "Src", ++Line ) << "test Warning" << '\n';
@@ -150,7 +142,7 @@ tLog07( LibTest & tester )
 					   LogLevel::Info |
 					   LogLevel::Debug |
 					   LogLevel::Test  );
-      
+
       t( LogLevel::Error,   "Src", ++Line ) << "test Error" << '\n';
       t( LogLevel::Err,     "Src", ++Line ) << "test Err" << '\n';
       t( LogLevel::Warning, "Src", ++Line ) << "test Warning" << '\n';
@@ -171,7 +163,7 @@ tLog07( LibTest & tester )
       t( LogLevel::Funct,   "Src", ++Line ) << "test Funct" << '\n';
 
       TEST( t.delFilter( fid2 ) == f2.rdbuf() );
-      
+
       t( LogLevel::Error,   "Src", ++Line ) << "test Error" << '\n';
       t( LogLevel::Err,     "Src", ++Line ) << "test Err" << '\n';
       t( LogLevel::Warning, "Src", ++Line ) << "test Warning" << '\n';
@@ -216,34 +208,32 @@ tLog07( LibTest & tester )
 
     }
 
-    {
-      tester.file( __FILE__, __LINE__, TestFn );
-      tester.file( __FILE__, __LINE__, TestF1 );
-      tester.file( __FILE__, __LINE__, TestF2 );
-      tester.file( __FILE__, __LINE__, TestF3 );
-    }
+    VVFILE( TestFn );
+    VVFILE( TestF1 );
+    VVFILE( TestF2 );
+    VVFILE( TestF3 );
   }
-      
+
   {
     // addFilter( streambuf *, LogLevel::Level, const char * )
     // delFilter( LogBuf::FilterId )
-    
+
     const char *    TestFn = TEST_DATA_DIR "/log.32";
     const char *    TestF1 = TEST_DATA_DIR "/log.33";
     const char *    TestF2 = TEST_DATA_DIR "/log.34";
     const char *    TestF3 = TEST_DATA_DIR "/log.35";
     {
 
-      ofstream f1( TestF1 );
-      ofstream f2( TestF2 );
-      ofstream f3( TestF3 );
+      std::ofstream f1( TestF1 );
+      std::ofstream f2( TestF2 );
+      std::ofstream f3( TestF3 );
 
       Log t( TestFn, LogLevel::Test,
-	     ios::out, 0664,
+	     std::ios::out,
 	     true, false, true );
 
       t( LogLevel::Test ) << "Chunk entry: \n";
-      
+
       {
 	const char * Entry =
 	  " This is a large multi-line entry into the log that\n"
@@ -282,7 +272,7 @@ tLog07( LibTest & tester )
       // that should make it into f2
 
       t << "xxxxx\n";
-      
+
       {
 	// this test serves two purposes. It will verify
 	// both the filting and syncing / overflow of large
@@ -320,68 +310,15 @@ tLog07( LibTest & tester )
 	<< "This will be in both main and f3. all is well\n";
       t( LogLevel::Debug )
 	<< "This should be in both f2 & f3 because of this 'x' and 'all'.\n";
-      
+
       TEST( t.delFilter( fid2 ) == f2.rdbuf() );
 
     }
 
-    {
-      tester.file( __FILE__, __LINE__, TestFn );
-      tester.file( __FILE__, __LINE__, TestF1 );
-      tester.file( __FILE__, __LINE__, TestF2 );
-      tester.file( __FILE__, __LINE__, TestF3 );
-    }
+    VVFILE( TestFn );
+    VVFILE( TestF1 );
+    VVFILE( TestF2 );
+    VVFILE( TestF3 );
   }
-  
-  return( true );
+  return( verify.is_valid() );
 }
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:45  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:29  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/04/02 14:19:25  houghton
-// Cleanup and eliminate warnings.
-//
-// Revision 4.1  1997/09/17 15:14:25  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:09:52  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1996/11/19 12:35:50  houghton
-// Changed include strstream to include strstream.h because strstream
-//     is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:26:48  houghton
-// Changed to Release 3
-//
-// Revision 2.1  1996/11/13 17:21:24  houghton
-// Initial Version.
-//
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,46 +1,11 @@
-//
-// File:        SubStr.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled source for SubStr
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     06/04/95 07:32 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1995-06-04 (cc) Paul Houghton - (paul4hough@gmail.com)
 
-#if !defined( STLUTILS_SHORT_FN )
-#include "SubStr.hh"
-#include "StlUtilsExceptions.hh"
-#include "Str.hh"
-#include "Compare.hh"
-#include "StringUtils.hh"
+#include "SubStr.hpp"
+#include "Str.hpp"
+#include "clue/compare"
+
 #include <algorithm>
-#else
-#include "SubStr.hh"
-#include "StlUtilsExcp.hh"
-#include "Str.hh"
-#include "Compare.hh"
-#include "StrUtil.hh"
-#include <algorithm>
-#endif
-
-#if defined( STLUTILS_DEBUG )
-#include <SubStr.ii>
-#endif
-
-STLUTILS_VERSION(
-  SubStr,
-  "$Id$ " );
-
+namespace clue {
 
 const SubStr::size_type SubStr::npos = NPOS;
 
@@ -52,70 +17,60 @@ Str SubStr::dummyStr("dummy");
 int
 SubStr::compare( const Str & two, size_type start, size_type compLen ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_t oneLen = std::min( size() - start, compLen );
   size_t twoLen = std::min( two.size(), compLen );
 
   int diff = strncmp( strbase() + start, two.strbase(), std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
 SubStr::compare( const SubStr & two, size_type start, size_type compLen ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, compLen );
   size_type twoLen = std::min( two.size(), compLen );
 
   int diff = strncmp( strbase() + start, two.strbase(), std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
-}  
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
+}
 
 
 int
 SubStr::compare( const char * two, size_type start, size_type compLen ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, compLen );
   size_type twoLen = std::min( (size_type)strlen( two ), compLen );
 
   int diff = strncmp( strbase() + start, two, std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
 SubStr::fcompare( const Str & two, size_type start, size_type compLen ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, compLen );
   size_type twoLen = std::min( two.size(), compLen );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
 SubStr::fcompare( const SubStr & two, size_type start, size_type compLen ) const
 {
-  STLUTILS_EXCPT_OUT_OF_RANGE( start > size(), false );
-  
   size_type oneLen = std::min( size() - start, compLen );
   size_type twoLen = std::min( two.size(), compLen );
 
   int diff = StringCaseCompare( strbase() + start, two.strbase(),
 				std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
-}  
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
+}
 
 int
 SubStr::fcompare( const char * two, size_type start, size_type compLen ) const
@@ -126,7 +81,7 @@ SubStr::fcompare( const char * two, size_type start, size_type compLen ) const
   int diff = StringCaseCompare( strbase() + start, two,
 				std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 
@@ -137,8 +92,8 @@ compare( const char * one, const SubStr & two, SubStr::size_type len )
   SubStr::size_type twoLen = std::min( two.size(), len );
 
   int diff = strncmp( one, two.strbase(), std::min( oneLen, twoLen ) );
-  
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
@@ -148,8 +103,8 @@ fcompare( const char * one, const SubStr & two, SubStr::size_type len )
   SubStr::size_type twoLen = std::min( two.size(), len );
 
   int diff = StringCaseCompare( one, two.strbase(), std::min( oneLen, twoLen ) );
-  
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 SubStr::size_type
@@ -181,15 +136,10 @@ SubStr::read( std::istream & src )
 std::ostream &
 SubStr::toStream( std::ostream & dest ) const
 {
-#if defined( STLUTILS_HAS_IOSTREAM_SENTRY )
   std::ostream::sentry   opfx( dest );
   if( ! opfx )
     return( dest );
-#else
-  if( ! dest.opfx() )
-    return( dest );
-#endif
-  
+
   if( dest.width()
       && (dest.flags() & (std::ios::right | std::ios::internal ))
       || ! (dest.flags() & std::ios::adjustfield) )
@@ -200,7 +150,7 @@ SubStr::toStream( std::ostream & dest ) const
 	      return( dest );
 	}
     }
-  
+
   if( dest.write( strbase(), size() ).good() )
     {
       if( dest.width() && ( dest.flags() & std::ios::left) )
@@ -213,20 +163,17 @@ SubStr::toStream( std::ostream & dest ) const
 	}
     }
   dest.width(0);
-#if ! defined( STLUTILS_HAS_IOSTREAM_SENTRY )
-  dest.osfx();
-#endif
-  
+
   return( dest );
 }
-    
+
 const char *
 SubStr::error( void ) const
 {
   static Str errStr;
   errStr.reset();
 
-  errStr << getClassName();
+  errStr << "SubStr";
 
   if( good() )
     {
@@ -240,162 +187,74 @@ SubStr::error( void ) const
   return( errStr.cstr() );
 }
 
-const char *
-SubStr::getClassName( void ) const
-{
-  return( "SubStr" );
-}
-
 std::ostream &
 SubStr::dumpInfo(
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+  std::ostream & dest,
+  const char *   prefix
   ) const
 {
-  if( showVer )
-    dest << SubStr::getClassName() << ":\n"
-	 << SubStr::getVersion() << '\n';
-
   if( ! SubStr::good() )
     dest << prefix << "Error: " << SubStr::error() << '\n';
   else
     dest << prefix << "Good!" << '\n';
 
   Str pre;
-  pre << prefix << "str: " << constStr.getClassName() << "::";
-  
-  constStr.dumpInfo( dest, pre, false );
-  
+  pre << prefix << "str:";
+
+  constStr.dumpInfo( dest, pre );
+
   dest << prefix << "pos:        " << pos << "'\n";
   dest << prefix << "len:        " << len << "\n";
   dest << prefix << "SubString:  '" << *this << "'\n";
-  
+
   dest << '\n';
 
   return( dest  );
-}  
-
-const char *
-SubStr::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer, constStr.getVersion( false ) ) );
 }
 
-
-
-
-#ifdef STD_STRING
 int
-SubStr::fcompare( const string & two, size_t start, size_t len ) const
+SubStr::fcompare( const std::string & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
-  
   size_t oneLen = std::min( size() - start, len );
   size_t twoLen = std::min( two.length(), len );
 
   int diff = StringCaseCompare( strbase() + start, two.c_str(),
-				min( oneLen, twoLen ) );
+				std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
-}  
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
+}
 
 int
-compare( const string & one, const SubStr & two, size_t len )
+compare( const std::string & one, const SubStr & two, size_t len )
 {
   size_t oneLen = std::min( one.length(), len );
   size_t twoLen = std::min( two.size(), len );
 
   int diff = strncmp( one.c_str(), two.strbase(), std::min( oneLen, twoLen ) );
-  
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
-fcompare( const string & one, const SubStr & two, size_t len )
+fcompare( const std::string & one, const SubStr & two, size_t len )
 {
   size_t oneLen = std::min( one.length(), len );
   size_t twoLen = std::min( two.size(), len );
 
   int diff = StringCaseCompare( one.c_str(), two.strbase(), std::min( oneLen, twoLen ) );
-  
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
 
 int
-SubStr::compare( const string & two, size_t start, size_t len ) const
+SubStr::compare( const std::string & two, size_t start, size_t len ) const
 {
-  OUT_OF_RANGE( start > size(), false );
-  
   size_t oneLen = std::min( size() - start, len );
   size_t twoLen = std::min( two.length(), len );
 
   int diff = strncmp( strbase() + start, two.c_str(), std::min( oneLen, twoLen ) );
 
-  return( (diff == 0) ? ::compare( oneLen, twoLen ) : diff );
+  return( (diff == 0) ? clue::compare( oneLen, twoLen ) : diff );
 }
-#endif
 
-
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:48  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:22  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:43  houghton
-// Changed to version 6
-//
-// Revision 5.4  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.3  2001/07/26 19:28:58  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:18  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1997/09/19 11:22:26  houghton
-// Changed to use size_type.
-//
-// Revision 4.1  1997/09/17 15:13:05  houghton
-// Changed to Version 4
-//
-// Revision 3.6  1997/09/17 11:08:55  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.5  1997/08/28 16:35:01  houghton
-// Bug-Fix: added toStream (was inline) and added support
-//     for setw(n) (the width was being ignored).
-//
-// Revision 3.4  1997/08/17 22:35:33  houghton
-// Added size_type.
-//
-// Revision 3.3  1997/07/18 19:30:08  houghton
-// Port(Sun5): changed local variable names to eliminate compiler warnings.
-//
-// Revision 3.2  1996/11/20 12:13:02  houghton
-// Removed support for BinStream.
-//
-// Revision 3.1  1996/11/14 01:24:23  houghton
-// Changed to Release 3
-//
-// Revision 2.2  1995/12/04 11:18:29  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:41:16  houghton
-// Change to Version 2
-//
-// Revision 1.3  1995/11/05  15:28:49  houghton
-// Revised
-//
-//
+}; // namespace clue

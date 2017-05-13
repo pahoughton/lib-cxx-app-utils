@@ -1,14 +1,14 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <RegexScan.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <RxScan.hh>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::Str14");
+using namespace clue;
+
 
 // Str::rfind
 
@@ -17,7 +17,7 @@
 //                     1         2         3         4         5
 
 bool
-tStr14( LibTest & tester )
+v_Str14( void )
 {
   {
     // rffind( const Str & ) const
@@ -80,9 +80,6 @@ tStr14( LibTest & tester )
     TEST( t.rffind( 'x' ) == Str::npos );
     TEST( t.rffind( 't', 7 ) == 0 );
   }
-    
-  return( true );
+
+  return( verify.is_valid() );
 }
-
-
-      

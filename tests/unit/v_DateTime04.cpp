@@ -1,945 +1,653 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
-#endif
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/DateTime.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::DateTime04");
+using namespace clue;
 
 bool
-tDateTime04( LibTest & tester )
+v_DateTime04( void )
 {
+
+  char tz[64] = {"TZ=MST"};
+  int  tzhrs  = -7;
+
+  putenv( tz );
+
   {
-    // setYYYYMMDD( const char * ) 
-    
-    DateTime 	dt( "6/28/95 18:30" );
+    // yyyymmdd( const char * )
 
-    dt.setTimeZone();
+    DateTime 	dt( "6/28/95 18:30", "%m/%d/%y %H:%M");
 
-    TEST( dt.getHour() == 13 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 0 );
+    dt.setTz();
 
-    dt.setYYYYMMDD( "19920730junk" );
-    
-    TEST( dt.getOffset() != 0 );
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
+    TEST( dt.hour() == 18 + tzhrs );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 0 );
 
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 7 );
-    TEST( dt.getDayOfMonth() == 30 );
-    TEST( dt.getHour() == 13 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 0 );
+    dt.yyyymmdd( "19920730junk" );
 
-    dt.setYYYYMMDD( "19920221junk" );
-    
-    TEST( dt.getOffset() != 0 );
+    TEST( dt.tzOffset() == tzhrs * SecPerHour );
     TEST( dt.isLocal() );
     TEST( ! dt.isDST() );
 
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 21 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 0 );
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 7 );
+    TEST( dt.mday() == 30 );
+    TEST( dt.hour() == 18 + tzhrs );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 0 );
 
-  }
+    dt.yyyymmdd( "19920221junk" );
 
-  {
-    // setYYMMDD( const char * )
-
-    DateTime 	dt( "2/28/95 18:30" );
-  
-    dt.setTimeZone();
-
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 0 );
-
-    dt.setYYMMDD( "920330junk" );
-
-    TEST( dt.getOffset() != 0 );
+    TEST( dt.tzOffset() != 0 );
     TEST( dt.isLocal() );
     TEST( ! dt.isDST() );
 
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 3 );
-    TEST( dt.getDayOfMonth() == 30 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 0 );
-    
-    dt.setYYMMDD( "920730junk" );
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 21 );
+    TEST( dt.hour() == 18 + tzhrs );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 0 );
 
-    TEST( dt.getOffset() != 0 );
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 7 );
-    TEST( dt.getDayOfMonth() == 30 );
-    TEST( dt.getHour() == 13 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 0 );
-    
-  }
-  
-  {
-    // setHHMMSS( const char * )
-
-    DateTime 	dt( "6/28/95 18:30" );
-
-    dt.setTimeZone();
-
-    dt.setHHMMSS( "120203" );
-    
-    TEST( dt.getOffset() != 0 );
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 6 );
-    TEST( dt.getDayOfMonth() == 28 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 2 );
-    TEST( dt.getSecond() == 3 );
-    
   }
 
   {
-    // setHHMMSS( const char * )
+    // yymmdd( const char * )
+
+    DateTime 	dt( "2/28/95 18:30", "%m/%d/%y %H:%M" );
+
+
+    TEST( dt.hour() == 18 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 0 );
+
+    dt.yymmdd( "920330junk" );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 3 );
+    TEST( dt.mday() == 30 );
+    TEST( dt.hour() == 18 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 0 );
+
+    dt.yymmdd( "920730junk" );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 7 );
+    TEST( dt.mday() == 30 );
+    TEST( dt.hour() == 18 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 0 );
+
+  }
+
+  {
+    // hhmmss( const char * )
+
+    DateTime 	dt( "6/28/95 18:30:00" );
+
+    dt.hhmmss( "120203" );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 6 );
+    TEST( dt.mday() == 28 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 2 );
+    TEST( dt.second() == 3 );
+
+  }
+
+  {
+    // hhmmss( const char * )
     DateTime dt((time_t)0);
 
-    dt.setYYYYMMDD( "19971003" );
-    dt.setHHMMSS( "175817" );
+    dt.yyyymmdd( "19971003" );
+    dt.hhmmss( "175817" );
 
-    TEST( dt.getYear() == 1997 );
-    TEST( dt.getMonth() == 10 );
-    TEST( dt.getDayOfMonth() == 3 );
-    TEST( dt.getHour() == 17 );
-    TEST( dt.getMinute() == 58 );
-    TEST( dt.getSecond() == 17 );
+    TEST( dt.year() == 1997 );
+    TEST( dt.month() == 10 );
+    TEST( dt.mday() == 3 );
+    TEST( dt.hour() == 17 );
+    TEST( dt.minute() == 58 );
+    TEST( dt.second() == 17 );
   }
-  
+
   {
     // setYear( short )
 
     DateTime	dt( "2/29/92 06:30:30" );
 
     // 2/29 leap -> non-leap
-    dt.setYear( 95 );
+    dt.year( 95 );
 
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 3 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 3 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     dt.set( "2/29/92 06:30:30" );
 
     // 2/29 leap -> leap
-    dt.setYear( 96 );
-    
-    TEST( dt.getYear() == 1996 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 29 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 96 );
+
+    TEST( dt.year() == 1996 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 29 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 2/1 leap -> non leap
-    
+
     dt.set( "2/1/92 06:30:30" );
 
-    dt.setYear( 95 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 95 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 2/1 leap -> leap
-    
+
     dt.set( "2/1/92 06:30:30" );
 
-    dt.setYear( 96 );
-    
-    TEST( dt.getYear() == 1996 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 96 );
+
+    TEST( dt.year() == 1996 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 2/1 non leap -> leap
-    
+
     dt.set( "2/1/93 06:30:30" );
 
-    dt.setYear( 96 );
-    
-    TEST( dt.getYear() == 1996 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 96 );
+
+    TEST( dt.year() == 1996 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 1/1 leap -> non leap
-    
+
     dt.set( "1/1/92 06:30:30" );
 
-    dt.setYear( 95 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 1 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 95 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 1 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 1/1 leap -> leap
-    
+
     dt.set( "1/1/92 06:30:30" );
 
-    dt.setYear( 96 );
-    
-    TEST( dt.getYear() == 1996 );
-    TEST( dt.getMonth() == 1 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 96 );
+
+    TEST( dt.year() == 1996 );
+    TEST( dt.month() == 1 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 1/1 non leap -> leap
-    
+
     dt.set( "1/1/93 06:30:30" );
 
-    dt.setYear( 96 );
-    
-    TEST( dt.getYear() == 1996 );
-    TEST( dt.getMonth() == 1 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 96 );
+
+    TEST( dt.year() == 1996 );
+    TEST( dt.month() == 1 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 3/1 leap -> non leap
-    
+
     dt.set( "3/1/92 06:30:30" );
 
-    dt.setYear( 95 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 3 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 95 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 3 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 3/1 leap -> leap
-    
+
     dt.set( "3/1/92 06:30:30" );
 
-    dt.setYear( 96 );
-    
-    TEST( dt.getYear() == 1996 );
-    TEST( dt.getMonth() == 3 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 96 );
+
+    TEST( dt.year() == 1996 );
+    TEST( dt.month() == 3 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 3/1 non leap -> leap
-    
+
     dt.set( "3/1/93 06:30:30" );
 
-    dt.setYear( 96 );
-    
-    TEST( dt.getYear() == 1996 );
-    TEST( dt.getMonth() == 3 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.year( 96 );
+
+    TEST( dt.year() == 1996 );
+    TEST( dt.month() == 3 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 10 -> 2010
-    
+
     dt.set( "2/10/95 06:30:30" );
 
-    dt.setYear( 10 );
+    dt.year( 10 );
 
-    TEST( dt.getYear() == 2010 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 2010 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 80 -> 1980
     dt.set( "2/10/95 06:30:30" );
 
-    dt.setYear( 80 );
+    dt.year( 80 );
 
-    TEST( dt.getYear() == 1980 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 1980 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
 
     // 2010 -> 2010
-    
+
     dt.set( "2/10/95 06:30:30" );
 
-    dt.setYear( 2010 );
+    dt.year( 2010 );
 
-    TEST( dt.getYear() == 2010 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 2010 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 1980 -> 1980
     dt.set( "2/10/95 06:30:30" );
 
-    dt.setYear( 1980 );
+    dt.year( 1980 );
 
-    TEST( dt.getYear() == 1980 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 06 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 1980 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 06 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // timeZone test
-    
+
     dt.set( "2/10/95 12:30:30" );
 
-    dt.setTimeZone();
+    dt.setTz();
 
-    TEST( dt.getHour() == 6 );
-    
-    dt.setYear( 1980 );
 
-    TEST( dt.getOffset() != 0 );
+    dt.year( 1980 );
+
+    TEST( dt.tzOffset() == tzhrs * SecPerHour );
     TEST( dt.isLocal() );
     TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-
-    // dst test
-    
-    dt.set( "6/10/95 12:30:30" );
-
-    dt.setTimeZone();
-
-    TEST( dt.getHour() == 7 );
-    TEST( dt.isDST() );
-    
-    dt.setYear( 1980 );
-
-    TEST( dt.getOffset() != 0 );
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-    TEST( dt.getHour() == 7 );
+    TEST( dt.hour() == 12 + tzhrs );
 
   }
 
   {
-    // setMonth( short )
+    // month( short )
 
     DateTime	    dt( "1/5/92 12:30:30" );
 
     // leap 1 -> 2
 
-    dt.setMonth( 2 );
-    
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 2 );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // leap 2 -> 1
     dt.set( "2/5/92 12:30:30" );
 
-    dt.setMonth( 1 );
-    
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 1 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 1 );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 1 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // leap 1 -> 6
     dt.set( "1/5/92 12:30:30" );
 
-    dt.setMonth( 6 );
-    
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 6 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 6 );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 6 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // leap 6 -> 1
     dt.set( "6/5/92 12:30:30" );
 
-    dt.setMonth( 1 );
-    
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 1 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 1 );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 1 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // leap 2 -> 6
     dt.set( "2/5/92 12:30:30" );
 
-    dt.setMonth( 6 );
-    
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 6 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 6 );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 6 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // leap 6 -> 2
     dt.set( "6/5/92 12:30:30" );
 
-    dt.setMonth( 2 );
-    
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 2 );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     dt.set( "1/5/95 12:30:30" );
 
     // non-leap 1 -> 2
 
-    dt.setMonth( 2 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 2 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // non-leap 2 -> 1
     dt.set( "2/5/95 12:30:30" );
 
-    dt.setMonth( 1 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 1 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 1 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 1 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // non-leap 1 -> 6
     dt.set( "1/5/95 12:30:30" );
 
-    dt.setMonth( 6 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 6 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 6 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 6 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // non-leap 6 -> 1
     dt.set( "6/5/95 12:30:30" );
 
-    dt.setMonth( 1 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 1 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 1 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 1 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // non-leap 2 -> 6
     dt.set( "2/5/95 12:30:30" );
 
-    dt.setMonth( 6 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 6 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 6 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 6 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // non-leap 6 -> 2
     dt.set( "6/5/95 12:30:30" );
 
-    dt.setMonth( 2 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 2 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // 1 -> 12
     dt.set( "1/5/95 12:30:30" );
 
-    dt.setMonth( 12 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 12 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 12 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 12 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // Day 31 -> set to month with 30 days
     dt.set( "1/31/95 12:30:30" );
 
-    dt.setMonth( 6 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 7 );
-    TEST( dt.getDayOfMonth() == 1 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 6 );
+
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 7 );
+    TEST( dt.mday() == 1 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // Day 29 -> set to month with 29 days
     dt.set( "1/29/92 12:30:30" );
 
-    dt.setMonth( 2 );
-    
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 29 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 2 );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 29 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // Day 31 -> set to month with 31 days
     dt.set( "1/31/92 12:30:30" );
 
-    dt.setMonth( 7 );
-    
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 7 );
-    TEST( dt.getDayOfMonth() == 31 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 7 );
+
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 7 );
+    TEST( dt.mday() == 31 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
     // Day 30 -> set to month with 30 days
     dt.set( "4/30/92 12:30:30" );
 
-    dt.setMonth( 6 );
-    
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 6 );
-    TEST( dt.getDayOfMonth() == 30 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    dt.month( 6 );
 
-    // TimeZone
-    
-    // non-dst -> non-dst
-    dt.set( "3/5/92 12:30:30" );
-    
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-    
-    dt.setMonth( 1 );
-    
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-    
-    // non-dst -> dst
-    dt.set( "3/5/92 12:30:30" );
-    
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-    
-    dt.setMonth( 6 );
-    
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-    TEST( dt.getHour() == 7 );
-    
-    // dst -> non-dst
-    dt.set( "6/5/92 12:30:30" );
-    
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-    TEST( dt.getHour() == 7 );
-    
-    dt.setMonth( 11 );
-    
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-    
-    // dst -> dst
-    dt.set( "6/5/92 12:30:30" );
-    
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-    TEST( dt.getHour() == 7 );
-    
-    dt.setMonth( 7 );
-    
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-    TEST( dt.getHour() == 7 );
-    
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 6 );
+    TEST( dt.mday() == 30 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
   }
 
   {
-    // setDayOfYear( short )
-
-    DateTime 	dt( "1/25/95 12:30:30" );
-
-    TEST( dt.getDayOfYear() == 25 );
-
-    dt.setDayOfYear( 166 );
-
-    TEST( dt.getDayOfYear() == 166 );
-
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 6 );
-    TEST( dt.getDayOfMonth() == 15 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-
-    dt.setDayOfYear( 20 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 1 );
-    TEST( dt.getDayOfMonth() == 20 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-
-    dt.setDayOfYear( 166 );
-
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-   
-    TEST( dt.getDayOfYear() == 166 );
-
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 6 );
-    TEST( dt.getDayOfMonth() == 15 );
-    TEST( dt.getHour() == 7 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-
-     dt.setDayOfYear( 20 );
-    
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 1 );
-    TEST( dt.getDayOfMonth() == 20 );
-    TEST( dt.getHour() == 6 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-
-  }
-
-  {
-    // setDayOfMonth( short )
+    // mday( short )
 
     DateTime	dt( "2/1/92 12:30:30" );
 
-    dt.setDayOfMonth( 29 );
+    dt.mday( 29 );
 
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 29 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 29 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
-    dt.setDayOfMonth( 5 );
+    dt.mday( 5 );
 
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 5 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 1992 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 5 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-    
-    dt.setDayOfMonth( 15 );
-
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-
-    TEST( dt.getYear() == 1992 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 15 );
-    TEST( dt.getHour() == 6 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-
-    dt.set( "4/1/95 12:30:30" );
-
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-
-    dt.setDayOfMonth( 30 );
-    
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 4 );
-    TEST( dt.getDayOfMonth() == 30 );
-    TEST( dt.getHour() == 7 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-    
   }
 
   {
-    // setHour( short )
+    // hour( short )
 
     DateTime	dt( "2/10/95 12:30:30" );
 
-    dt.setHour( 0 );
+    dt.hour( 0 );
 
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 0 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-    
-    dt.setHour( 23 );
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 0 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 23 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-    
-    dt.setHour( 14 );
+    dt.hour( 23 );
 
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 14 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 23 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
-    dt.setTimeZone();
-    
-    TEST( dt.isLocal() );
-    TEST( dt.getHour() == 8 );
+    dt.hour( 14 );
 
-    dt.setHour(20);
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 14 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 30 );
 
-    TEST( dt.isLocal() );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 20 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-    
   }
 
   {
-    // setMinute( short )
+    // minute( short )
 
     DateTime	dt( "2/10/95 12:30:30" );
 
-    dt.setMinute( 0 );
+    dt.minute( 0 );
 
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 0 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 0 );
+    TEST( dt.second() == 30 );
 
-    dt.setMinute( 59 );
+    dt.minute( 59 );
 
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 59 );
-    TEST( dt.getSecond() == 30 );
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 59 );
+    TEST( dt.second() == 30 );
 
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-    TEST( dt.getMinute() == 59 );
-    
-    dt.setMinute( 30 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 6 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-
-    
   }
 
   {
-    // setSecond( short )
+    // second( short )
 
     DateTime	dt( "2/10/95 12:30:30" );
 
-    dt.setSecond( 0 );
+    dt.second( 0 );
 
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 0 );
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 0 );
 
-    dt.setSecond( 59 );
+    dt.second( 59 );
 
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 12 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 59 );
+    TEST( dt.year() == 1995 );
+    TEST( dt.month() == 2 );
+    TEST( dt.mday() == 10 );
+    TEST( dt.hour() == 12 );
+    TEST( dt.minute() == 30 );
+    TEST( dt.second() == 59 );
 
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-    TEST( dt.getSecond() == 59 );
-    
-    dt.setSecond( 30 );
-    
-    TEST( dt.getYear() == 1995 );
-    TEST( dt.getMonth() == 2 );
-    TEST( dt.getDayOfMonth() == 10 );
-    TEST( dt.getHour() == 6 );
-    TEST( dt.getMinute() == 30 );
-    TEST( dt.getSecond() == 30 );
-    
   }
 
-  {
-    // setTimeZone( void )
-    // setTimeZone( const char * )
-
-    DateTime	dt( "2/1/95 12:30:30" );
-
-    TEST( ! dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 12 );
-
-    dt.setTimeZone();
-
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-
-    dt.setTimeZone( "MST7MDT" );
-    
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 5 );
-
-    dt.setTimeZone( "CST6CDT" );
-    
-    TEST( dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 6 );
-
-    dt.set( "6/1/95 12:30:30" );
-
-    dt.setTimeZone();
-    
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-    TEST( dt.getHour() == 7 );
-
-    dt.setTimeZone( "MST7MDT" );
-    
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-    TEST( dt.getHour() == 6 );
-
-    dt.setTimeZone( "CST6CDT" );
-    
-    TEST( dt.isLocal() );
-    TEST( dt.isDST() );
-    TEST( dt.getHour() == 7 );
-
-    dt.setTimeZone( "GMT0" );
-
-    TEST( ! dt.isLocal() );
-    TEST( ! dt.isDST() );
-    TEST( dt.getHour() == 12 );
-
-  }    
-  return( true );
+  return( verify.is_valid() );
 }
-

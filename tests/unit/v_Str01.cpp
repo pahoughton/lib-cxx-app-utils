@@ -1,26 +1,26 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <vector>
 #include <set>
+#include <string>
 #include <functional>
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <vector>
-#include <set>
-#include <functional>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::Str01");
+using namespace clue;
+
 
 static const char * Tstr = "This is a test it is only at test ...";
 static const char * TstrJunk = "This is a test it is only at test ... with Junk";
 
 bool
-tStr01( LibTest & tester )
+v_Str01( void )
 {
   {
     // Str( void ) const
@@ -33,19 +33,19 @@ tStr01( LibTest & tester )
     // cstr( void ) const
     // operator == ( const char * )
     // operator != ( const char * )
-    
+
     Str t;
-    
+
     TEST( t.good() );
     t.reset();
     TEST( t.good() );
-    
+
     TEST( t.size() == 0 );
     TEST( t.length() == t.size() );
     TEST( t.empty() );
     TEST( t.max_size() > 0 );
     TEST( t.good() );
-    
+
     t << Tstr;
 
     TEST( t.good() );
@@ -55,13 +55,13 @@ tStr01( LibTest & tester )
     TEST( t.length() == t.size() );
     TEST( ! t.empty() );
     TEST( t.good() );
-    
+
     // Test operator == next so I can use it for the rest of the tests
 
     TEST( t == Tstr );
     TEST( ! (t == "diff string" ) );
     TEST( ! ( t != Tstr ) );
-    TEST( t != "diff string" );    
+    TEST( t != "diff string" );
     TEST( t.good() );
   }
 
@@ -69,11 +69,11 @@ tStr01( LibTest & tester )
     // Str( const Str & )
     // operator == ( const Str & ) const
     // operator != ( const Str & ) const
-    
+
     Str s;
 
     s << Tstr;
-    
+
     Str t( s );
 
     TEST( s == Tstr );
@@ -117,11 +117,11 @@ tStr01( LibTest & tester )
     TEST( ! (t == s) );
   }
 
-  // 
+  //
   // need to test substr now so it can be used by the
   // other test.
   //
-  
+
   {
     // substr( size_t, size_t )
     // SubStr::operator == ( const char * ) const
@@ -145,10 +145,10 @@ tStr01( LibTest & tester )
     TEST( s != t.substr( 3, strlen( Tstr ) + 1 ) );
     TEST( s != t.substr( 4, strlen( Tstr ) ) );
     TEST( s != t.substr( 3, strlen( Tstr ) - 1 ) );
-    
+
 
   }
-  
+
   {
     // Str( const SubStr & )
 
@@ -162,7 +162,17 @@ tStr01( LibTest & tester )
     TEST( ! (t == s) );
 
   }
-  
+
+  {
+    // Str( const std::string & )
+
+    std::string s("test std::string");
+
+    Str t(s);
+    TEST( t == s );
+    TEST( strcmp( t.c_str(), s.c_str() ) == 0 );
+  }
+
   {
     // Str( const SubStr &, size_t )
 
@@ -176,7 +186,7 @@ tStr01( LibTest & tester )
     TEST( ! (t == s) );
 
   }
-  
+
   {
     // Str( const SubStr &, size_t, size_t )
 
@@ -193,7 +203,7 @@ tStr01( LibTest & tester )
 
   {
     // Str( const char * )
-    
+
     Str t( Tstr );
 
     TEST( t == Tstr );
@@ -201,7 +211,7 @@ tStr01( LibTest & tester )
 
   {
     // Str( const char *, size_t )
-    
+
     Str t( TstrJunk, strlen( Tstr ) );
 
     TEST( t == Tstr );
@@ -209,7 +219,7 @@ tStr01( LibTest & tester )
 
   {
     // Str( size_t, char )
-    
+
     Str t( 5, 'x' );
 
     TEST( t == "xxxxx" );
@@ -226,7 +236,7 @@ tStr01( LibTest & tester )
   {
     // verify working vector support
 
-    typedef vector< Str > StrVect;
+    typedef std::vector< Str > StrVect;
 
     StrVect tvect;
 
@@ -255,54 +265,7 @@ tStr01( LibTest & tester )
 	  TEST( (*them) == data[count] );
 	}
     }
-
-#if !defined( Linux )
-    {
-      const StrVect & t( tvect );
-
-      int count = 0;
-
-      Str *       tp = tvect.begin();
-      const Str * tcp  = tvect.begin();
-
-#if defined( Linux )
-      // FIXME !! Warning Linux/gcc 2.7.2 has a bug dealing with
-      // const pointer incrementing
-      
-      cerr << endl;
-
-      cerr << "tp: " << tp << endl;
-      cerr << "++tp: " << ++tp << endl;
-
-      cerr << "tcp: " << tcp << endl;
-      cerr << "++tcp: " << ++tcp << endl;
-
-      cerr << "size: " << sizeof( Str ) << endl;
-      cerr << "const size: " << sizeof( const Str ) << endl;
-#endif
-      
-      for( StrVect::const_iterator them = t.begin();
-	   them != t.end();
-	   ++ them, ++ count )
-	{
-	  TEST( (*them) == data[count] );
-	}
-    }
-#endif
-    
-  }
-  
-  {
-    // verify support for stl vector<> & set<>
-
-    // vector< Str >
-    // less< Str >
-    // set< Str >
-    
-    //    vector< Str > tV;
-    //    set< Str, less< Str > > tS;
-
   }
 
-  return( true );
+  return( verify.is_valid() );
 }

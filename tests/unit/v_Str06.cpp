@@ -1,14 +1,15 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/Str.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <cstring>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Str.hh>
-#include <cstring>
-#endif
+
+static valid::verify verify("clue::Str06");
+using namespace clue;
 
 // Str::replace( ... )
 
@@ -19,7 +20,7 @@
 #define T5 " fifth part"
 
 bool
-tStr06( LibTest & tester )
+v_Str06( void )
 {
   {
     // replace( size_t, size_t, const char * )
@@ -70,7 +71,7 @@ tStr06( LibTest & tester )
   {
     // replace( size_t, size_t, const SubStr & )
     // replace( size_t, size_t, const SubStr &, size_t, size_t )
-    
+
     Str t( T3 T4 T5 );
 
     Str s( T1 T2 T3 );
@@ -78,7 +79,7 @@ tStr06( LibTest & tester )
     t.replace( strlen( T3 ), strlen( T4 ), s.substr( strlen( T1 ), strlen( T2 ) ) );
 
     TEST( t == T3 T2 T5 );
-    
+
     t.replace( strlen( T3 ), strlen( T2 ),
 	       s.substr( strlen( T1 ), strlen( T2 T3 ) ), strlen( T2 ) );
 
@@ -104,10 +105,10 @@ tStr06( LibTest & tester )
     // replace( iterator, iterator, const Str & )
     // replace( iterator, iterator, const Str &, size_t )
     // replace( iterator, iterator, const Str &, size_t, size_t )
-    
+
     Str t( "123456" );
     Str s( "abcdef" );
-    
+
     Str::iterator f = t.begin();
     Str::iterator l = f;
 
@@ -127,5 +128,5 @@ tStr06( LibTest & tester )
     TEST( t == "12abfcdef56" );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }

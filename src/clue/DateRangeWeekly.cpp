@@ -1,92 +1,44 @@
-//
-// File:        DateRangeWeekly.cc
-// Project:	StlUtils ()
-// Desc:        
-//              
-//	Compiled source for DateRangeWeekly.
-//
-// Author:      Paul Houghton - (houghton@cworld)
-// Created:     02/20/94 09:30 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-// $Id$ 
-//
+// 1994-02-20 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include "DateRangeWeekly.hh"
-#include "DateTimeUtils.hh"
-#include "StlUtilsMisc.hh"
-#include "Str.hh"
+#include "DateRangeWeekly.hpp"
+#include "DateTimeUtils.hpp"
+#include "Clue.hpp"
+#include "Str.hpp"
+
 #include <iomanip>
-#else
-#include "DateRgWk.hh"
-#include "DtTmUtil.hh"
-#include "StlUtils.hh"
-#include "Str.hh"
-#include <iomanip>
-#endif
 
-#if defined( STLUTILS_DEBUG )
-#if !defined( STLUTILS_SHORT_FN )
-#include "DateRangeWeekly.ii"
-#else
-#include "DateRgWk.ii"
-#endif
-#endif // def( STLUTILS_DEBUG )
+namespace clue {
 
-STLUTILS_VERSION(
-  DateRangeWeekly,
-  "$Id$ " );
+const time_t DateRangeWeekly::M_freq = (24 * 60 * 60 * 7);
 
-
-const time_t DateRangeWeekly::freq = (24 * 60 * 60 * 7);
-
-DayOfWeek
-DateRangeWeekly::getDayOfWeek( void ) const
-{
-  return( (DayOfWeek)(getStart() / SecPerDay ) );
-}
-
-time_t
-DateRangeWeekly::getFrequency( void ) const
-{
-  return( freq );
-}
 
 bool
 DateRangeWeekly::isIn( const DateTime & dateTwo ) const
 {
-  return( getDayOfWeek() == dateTwo.getDayOfWeek()
+  return( dayOfWeek() == dateTwo.dayOfWeek()
 	  && DateRangeDaily::isIn( dateTwo ) );
 }
 
 time_t
 DateRangeWeekly::secIn( const DateRange & dateTwo ) const
 {
-  time_t   secOfWeek = ( (dateTwo.getDayOfWeek() * SecPerDay) +
-       	 	         dateTwo.getSecOfDay() );
+  time_t   secOfWeek = ( (dateTwo.dayOfWeek() * SecPerDay) +
+       	 	         dateTwo.secOfDay() );
 
-  return( UnionOfDur( getStart(), getDur(),
-		      secOfWeek, dateTwo.getDur(),
-		      getFrequency() ) );
+  return( UnionOfDur( start(), dur(),
+		      secOfWeek, dateTwo.dur(),
+		      freq() ) );
 }
 
 time_t
 DateRangeWeekly::startsIn( const DateRange & dateTwo ) const
 {
   time_t  secs = 0;
-  time_t  secOfWeek = ( (dateTwo.getDayOfWeek() * SecPerDay) +
-    		      	dateTwo.getSecOfDay() );
-  
-  if( secOfWeek >= getStart() &&
-      secOfWeek <= getStart() + dur )
+  time_t  secOfWeek = ( (dateTwo.dayOfWeek() * SecPerDay) +
+    		      	dateTwo.secOfDay() );
+
+  if( secOfWeek >= start() &&
+      secOfWeek <= start() + dur() )
     {
       secs = secIn( dateTwo );
     }
@@ -97,15 +49,15 @@ std::ostream &
 DateRangeWeekly::toStream( std::ostream & dest ) const
 {
   dest << "Start: "
-       << AbbrWeekDays[ DaysInTimeT( getStart() ) ] << ' '
+       << AbbrWeekDays[ dayOfWeek() ] << ' '
        << std::setfill('0')
-       << std::setw(2) << HourInTimeT( getStart() ) << ':'
-       << std::setw(2) << MinInTimeT( getStart() ) << ':'
-       << std::setw(2) << SecInTimeT( getStart() ) << ' '
+       << std::setw(2) << HourInTimeT( start() ) << ':'
+       << std::setw(2) << MinInTimeT( start() ) << ':'
+       << std::setw(2) << SecInTimeT( start() ) << ' '
        << "Dur: "
-       << std::setw(2) << HourInTimeT( getDur() ) << ':'
-       << std::setw(2) << MinInTimeT( getDur() ) << ':'
-       << std::setw(2) << SecInTimeT( getDur() )
+       << std::setw(2) << HourInTimeT( dur() ) << ':'
+       << std::setw(2) << MinInTimeT( dur() ) << ':'
+       << std::setw(2) << SecInTimeT( dur() )
        << std::setfill(' ')
        ;
   return( dest );
@@ -114,8 +66,7 @@ DateRangeWeekly::toStream( std::ostream & dest ) const
 bool
 DateRangeWeekly::good( void ) const
 {
-  return( DateRange::good() &&
-	  getStart() >= 0 && getStart() < (SecPerDay * 7) );
+  return( start() >= 0 );
 }
 
 const char *
@@ -124,9 +75,9 @@ DateRangeWeekly::error( void ) const
   static Str errStr;
   errStr.reset();
 
-  errStr << getClassName() << ":";
+  errStr << "DateRangeWeekly:";
 
-  
+
   if( good() )
     {
       errStr << "Ok";
@@ -138,12 +89,12 @@ DateRangeWeekly::error( void ) const
 	  errStr << ' ' << DateRange::error();
 	}
 
-      if( ! (getStart() >= 0 ) )
+      if( ! (start() >= 0 ) )
 	{
 	  errStr << " getStart < 0";
 	}
 
-      if( ! (getStart() < (SecPerDay * 7) ) )
+      if( ! (start() < (SecPerDay * 7) ) )
 	{
 	  errStr << " start >= 7 days";
 	}
@@ -152,28 +103,12 @@ DateRangeWeekly::error( void ) const
 }
 
 
-const char *
-DateRangeWeekly::getClassName( void ) const
-{
-  return( "DateRangeWeekly" );
-}
-
-const char *
-DateRangeWeekly::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer , DateRangeDaily::getVersion( false ) ) );
-}
-
 std::ostream &
-DateRangeWeekly::dumpInfo( 
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+DateRangeWeekly::dumpInfo(
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << DateRangeWeekly::getClassName() << ":\n"
-	 << DateRangeWeekly::getVersion() << '\n';
 
   if( ! DateRangeWeekly::good() )
     dest << prefix << "Error: " << DateRangeWeekly::error() << '\n';
@@ -185,72 +120,15 @@ DateRangeWeekly::dumpInfo(
   dest << '\n';
 
   Str pre;
-  pre << prefix << DateRangeDaily::getClassName() << "::";
-  
-  DateRangeDaily::dumpInfo( dest, pre, false );
+  pre << prefix << "DateRangeDaily::";
 
-  dest << prefix << "freq:     " << freq << '\n';
-  
+  DateRangeDaily::dumpInfo( dest, pre );
+  dest << prefix << "dow:     " << dayOfWeek() << '\n'
+       << prefix << "freq:    " << freq() << '\n';
+
   dest << '\n';
 
   return( dest  );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.2  2012/04/26 20:08:54  paul
-// *** empty log message ***
-//
-// Revision 6.1  2003/08/09 11:22:40  houghton
-// Changed to version 6
-//
-// Revision 5.5  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.4  2003/06/25 08:49:15  houghton
-// Change: rename in method it isIn.
-//
-// Revision 5.3  2003/05/12 15:51:25  houghton
-// Added in( const DateTime & dateTwo ) const.
-//
-// Revision 5.2  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:14  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:12:16  houghton
-// Changed to Version 4
-//
-// Revision 3.4  1997/09/17 14:10:15  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.3  1997/09/17 11:08:14  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/08/24 21:55:11  houghton
-// Changed getDayOfWeek to return a 'DayOfWeek' (was int).
-//
-// Revision 3.1  1996/11/14 01:23:34  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/06 18:04:09  houghton
-// StlUtils.hh renamed to StlUtilsUtils.hh
-//
-// Revision 2.3  1996/04/27 12:57:24  houghton
-// Removed unneeded includes.
-//
-// Revision 2.2  1995/12/04 11:17:19  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.1  1995/11/10  12:40:28  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  14:44:28  houghton
-// Ports and Version ID changes
-//
-//
+}; // namespace clue

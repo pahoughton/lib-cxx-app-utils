@@ -1,26 +1,17 @@
-//
-// File:        tBetween.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Compiled sources for tBetween
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/04/98 10:00
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
-//
+// 1998-11-04 (cc) <paul4hough@gmail.com>
 
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StlUtilsMisc.hh>
+#include <clue/Clue.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::Between");
+using namespace clue;
+
 
 bool
-tBetween( LibTest & tester )
+v_Between( void )
 {
   {
     long    a( 1023 );
@@ -35,36 +26,19 @@ tBetween( LibTest & tester )
     }
     TEST( ! Between( a, b, a * -1 ) );
     TEST( ! Between( b, a, a * -1 ) );
-    
+
     TEST( ! Between( a, b, 0 ) );
     TEST( ! Between( b, a, 0 ) );
-    
+
     TEST( ! Between( a, b, a - 1 ) );
     TEST( ! Between( b, a, a - 1 ) );
-    
+
     TEST( ! Between( a, b, b + 1 ) );
     TEST( ! Between( b, a, b + 1 ) );
-    
+
     TEST( ! Between( a, b, b + a ) );
     TEST( ! Between( b, a, b + a ) );
   }
 
-  return( true );
+  return( verify.is_valid() );
 }
-
-// Revision Log:
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:41  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:50  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:27  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1999/03/02 12:54:21  houghton
-// Initial Version.
-//
-//

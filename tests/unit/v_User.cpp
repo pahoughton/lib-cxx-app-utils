@@ -1,9 +1,17 @@
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "User.hh"
-#include "Compare.hh"
+// 1996-10-31 (cc) <paul4hough@gmail.com>
+
+#include <clue/User.hpp>
+#include <clue/compare>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <fstream>
-#include <strstream.h>
+#include <sstream>
+
+static valid::verify verify("clue::User");
+using namespace clue;
 
 
 extern "C"
@@ -20,7 +28,7 @@ compareGid( const gid_t * one, const gid_t * two )
 }
 
 bool
-tUser( LibTest & tester )
+v_User( void )
 {
   uid_t	    uid = getuid();
   uid_t	    euid = geteuid();
@@ -34,7 +42,7 @@ tUser( LibTest & tester )
   char gecos[50];
   char dir[50];
   char shell[50];
-  
+
   char e_name[50];
   char e_password[50];
   char e_gecos[50];
@@ -47,14 +55,14 @@ tUser( LibTest & tester )
   strcpy( gecos, tpw->pw_gecos );
   strcpy( dir, tpw->pw_dir );
   strcpy( shell, tpw->pw_shell );
-  
+
   memcpy( &pw, tpw, sizeof( struct passwd ) );
   pw.pw_name = name;
   pw.pw_passwd = password;
   pw.pw_gecos = gecos;
   pw.pw_dir = dir;
   pw.pw_shell = shell;
- 
+
   tpw = getpwuid( euid );
 
   strcpy( e_name, tpw->pw_name );
@@ -62,14 +70,14 @@ tUser( LibTest & tester )
   strcpy( e_gecos, tpw->pw_gecos );
   strcpy( e_dir, tpw->pw_dir );
   strcpy( e_shell, tpw->pw_shell );
-  
+
   memcpy( &epw, tpw, sizeof( struct passwd ) );
   epw.pw_name = e_name;
   epw.pw_passwd = e_password;
   epw.pw_gecos = e_gecos;
   epw.pw_dir = e_dir;
   epw.pw_shell = e_shell;
-  
+
   {
     // User( void )
     // getUID( void ) const
@@ -81,7 +89,7 @@ tUser( LibTest & tester )
     // getShell( void ) const
     // getPrimaryGroup( void ) const
     // getGroups( void ) const
-    
+
     User t;
 
     TEST( t.getUID() == uid );
@@ -95,14 +103,14 @@ tUser( LibTest & tester )
     // FIXME - need to define this in the TestConfig for other platforms.
 #if defined( STLUTILS_TEST_MULTI_GROUPS )
     TEST( t.getGroups().size() != 0 );
-#endif    
+#endif
   }
 
   {
     // User( bool )
 
     User t( true );
-    
+
     TEST( t.getUID() == uid );
     TEST( compare( t.getName(), pw.pw_name ) == 0 );
     TEST( compare( t.getPassword(), pw.pw_passwd ) == 0 );
@@ -118,7 +126,7 @@ tUser( LibTest & tester )
 
   {
     // User( uid_t )
-    
+
     User t( (uid_t)0 );
 
     TEST( t.getUID() == 0 );
@@ -130,7 +138,7 @@ tUser( LibTest & tester )
     // User( uid_t, bool )
 
     User t( (uid_t)0, true );
-    
+
     TEST( t.getUID() == 0 );
     TEST( compare( t.getName(), "root" ) == 0 );
     TEST( t.getGroups().size() != 0 );
@@ -156,7 +164,7 @@ tUser( LibTest & tester )
 
   {
     // User( const char *, bool )
-    
+
     User t( pw.pw_name, true );
 
     TEST( t.getUID() == uid );
@@ -192,7 +200,7 @@ tUser( LibTest & tester )
 
   {
     // User( const struct passwd *, bool )
-    
+
     User t( &pw, true );
 
     TEST( t.getUID() == uid );
@@ -211,7 +219,7 @@ tUser( LibTest & tester )
   {
     // User( istream & src )
 
-    strstream tStream;
+    std::stringstream tStream;
 
     User uout( uid );
 
@@ -234,7 +242,7 @@ tUser( LibTest & tester )
 
   {
     // User( istream &, bool )
-    strstream tStream;
+    std::stringstream tStream;
 
     User uout( uid );
 
@@ -257,8 +265,8 @@ tUser( LibTest & tester )
 
   {
     // User( istream &, bool, bool )
-    
-    strstream tStream;
+
+    std::stringstream tStream;
 
     User uout( uid );
 
@@ -307,11 +315,11 @@ tUser( LibTest & tester )
 
   ::qsort( groups, gCount, sizeof( groups[0] ),
 	   (CompFunct)compareGid );
-  
+
   {
     // findGroups( void )
     // getGroups( void ) const
-    
+
     User t( uid );
 
     t.findGroups();
@@ -331,7 +339,7 @@ tUser( LibTest & tester )
 				gCount,
 				sizeof( groups[0] ),
 				(CompFunct)compareGid );
-	
+
 	if( found == 0 )
 	  {
 	    TEST( key == t.getPrimaryGroup().getGID() );
@@ -352,7 +360,7 @@ tUser( LibTest & tester )
       TEST( t.isMember( groups[g] ) );
 
   }
-  
+
   {
     // isMember( gid_t ) const
 
@@ -362,7 +370,7 @@ tUser( LibTest & tester )
       TEST( ! t.isMember( groups[g] ) );
 
   }
-    
+
   {
     // isMember( gid_t ) const
 
@@ -381,11 +389,11 @@ tUser( LibTest & tester )
     for( size_t g = 0; g < gCount; g++ )
       {
 	Str grName( getgrgid( groups[g] )->gr_name ); ;
-	
-	TESTR( grName, t.isMember( grName ) );
+
+	TEST( t.isMember( grName ) );
       }
   }
-  
+
   {
     // isMember( const char * ) const
 
@@ -394,7 +402,7 @@ tUser( LibTest & tester )
     for( size_t g = 0; g < gCount; g++ )
       TEST( ! t.isMember( getgrgid( groups[g] )->gr_name ) );
   }
-  
+
   {
     // isMember( const char * ) const
 
@@ -403,8 +411,8 @@ tUser( LibTest & tester )
     for( size_t g = 0; g < gCount; g++ )
       {
 	Str grName( getgrgid( groups[g] )->gr_name ); ;
-	
-	TESTR( grName, t.isMember( grName ) );
+
+	TEST( t.isMember( grName ) );
       }
   }
 
@@ -442,7 +450,7 @@ tUser( LibTest & tester )
     TEST( compare( t.getName(), "root" ) == 0 );
     TEST( t.getGroups().size() != 0 );
   }
-  
+
   {
     // set( const char *, bool )
     User t( uid );
@@ -453,10 +461,10 @@ tUser( LibTest & tester )
     TEST( compare( t.getName(), "root" ) == 0 );
     TEST( t.getGroups().size() != 0 );
   }
-    
+
   {
     // set( const struct passwd * )
-    
+
     User t( (uid_t)0 );
 
     t.set( &pw );
@@ -473,10 +481,10 @@ tUser( LibTest & tester )
     TEST( t.getGroups().size() != 0 );
 #endif
   }
-    
+
   {
     // set( const struct passwd * )
-    
+
     User t( (uid_t)0 );
 
     t.set( &pw, true );
@@ -499,7 +507,7 @@ tUser( LibTest & tester )
     // operator == ( const User & two ) const
     // operator <  ( const User & two ) const
     // operator >  ( const User & two ) const
-    
+
     const User  tr( (uid_t) 0 );
     const User  tu( uid );
 
@@ -554,14 +562,14 @@ tUser( LibTest & tester )
 
     tr = 0;
     TEST( tw != tr );
-    
+
     tStrm.write( tw );
     tStrm.read( tr );
 
     TEST( tr == tw );
   }
 #endif
-  
+
   {
     // write( ostream & ) const
     // read( istream & )
@@ -569,25 +577,25 @@ tUser( LibTest & tester )
     const User  tw( uid );
     User	tr;
 
-    strstream tStrm;
+    std::stringstream tStrm;
 
-    streampos gpos = tStrm.tellg();
-    streampos ppos = tStrm.tellp();
+    std::streampos gpos = tStrm.tellg();
+    std::streampos ppos = tStrm.tellp();
 
 #ifdef AIX
     ppos = 0;
     gpos = 0;
 #endif
-    
+
     TEST( ppos == 0 );
     TEST( gpos == 0 );
-    
+
     tw.write( tStrm );
-    ppos += (streampos) tw.getBinSize();
+    ppos += (std::streampos) tw.getBinSize();
     TEST( ppos == tStrm.tellp() );
-      
+
     tr.read( tStrm );
-    gpos += (streampos) tr.getBinSize();
+    gpos += (std::streampos) tr.getBinSize();
     TEST( gpos == tStrm.tellg() );
     TEST( tr == tw );
   }
@@ -596,13 +604,13 @@ tUser( LibTest & tester )
     // toStream( ostream & ) const
     // operator << ( ostream &, const FilePath & )
 
-    strstream tStrm;
+    std::stringstream tStrm;
     const User t( uid );
 
     t.toStream( tStrm );
     tStrm << t;
   }
-    
+
   {
     // good( void ) const
     // error( void ) const
@@ -612,34 +620,13 @@ tUser( LibTest & tester )
 
     const User t( uid );
 
-    TESTR( t.error(), t.good() );
+    TEST( t.good() );
     TEST( t.error() != 0 );
-    TEST( t.getClassName() != 0 );
-    TEST( t.getVersion() != 0 );
-    TEST( t.getVersion( false ) != 0 );
-    
   }
 
-  {
-    // dumpInfo( ostream & ) const
-    // version
-
-    const User t( uid );
-
-    tester.getDump() << '\n' << t.getClassName() << " toStream:\n";
-    t.toStream( tester.getDump() );
-    tester.getDump() << '\n' << t.getClassName() << " dumpInfo:\n";
-    t.dumpInfo( tester.getDump(), " -> ", true );
-    tester.getDump() << '\n' << t.getClassName() << " version:\n";
-    tester.getDump() << t.version;
-    
-    tester.getDump() << '\n' << tester.getCurrentTestName();
-    
-  }
-    
   {
     // ::compare( const User &, const User & );
-    
+
     const User  tr( (uid_t) 0 );
     const User  tu( uid );
 
@@ -648,6 +635,5 @@ tUser( LibTest & tester )
     TEST( compare( tr, tu ) > 0 );
     TEST( compare( tu, tr ) < 0 );
   }
-  
-  return( true );
+  return( verify.is_valid() );
 }

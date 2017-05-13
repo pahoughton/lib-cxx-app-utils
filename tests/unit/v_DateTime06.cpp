@@ -1,19 +1,24 @@
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <DateTime.hh>
+// 1996-10-29 (cc) <paul4hough@gmail.com>
+
+#include <clue/DateTime.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <functional>
-#if defined( Hpux10 )
-#include <utility>
-#endif
 #include <cstring>
 
+static valid::verify verify("clue::DateTime06");
+using namespace clue;
+
 bool
-tDateTime06( LibTest & tester )
+v_DateTime06( void )
 {
     // void setTm( void ) - NO TEST (tested by other test)
 
-  {   
-    // compare( const DateTime & ) 
+  {
+    // compare( const DateTime & )
 
     DateTime	d1( "2/17/95 11:30:30" );
     DateTime	d2( d1 );
@@ -22,13 +27,9 @@ tDateTime06( LibTest & tester )
     TEST( ! d1.compare( d2 ) );
     TEST( ! compare( d1, d2 ) );
 
-    d1.setTimeZone();
-
     TEST( d1 == d2 );
     TEST( ! d1.compare( d2 ) );
     TEST( ! compare( d1, d2 ) );
-
-    d2.setTimeZone();
 
     TEST( d1 == d2 );
     TEST( ! d1.compare( d2 ) );
@@ -39,32 +40,19 @@ tDateTime06( LibTest & tester )
     TEST( d1.compare( d2 ) > 0 );
     TEST( d1 > d2 );
     TEST( compare( d1, d2 ) > 0 );
-    
+
   }
 
-  {   
+  {
     // operator time_t ( void ) const
 
     DateTime	dt( "2/17/95 11:30:30" );
 
-    TEST( (time_t)dt == dt.getTimeT() );
+    TEST( (time_t)dt == dt.timet() );
 
   }
 
-  {   
-    // operator const char * ( void ) const
-
-    DateTime	dt( "2/17/95 11:30:30" );
-
-    char    dtBuf[50];
-
-    dt.getString( dtBuf );
-
-    TEST( ! strcmp( (const char *)dt, dtBuf ) );
-    
-  }
-
-  {   
+  {
     // operator == ( const DateTime & ) const
 
     DateTime	d1( "2/17/95 11:30:30" );
@@ -73,56 +61,34 @@ tDateTime06( LibTest & tester )
     TEST( d1 == d2 );
     d2.addSec();
     TEST( d1 != d2 );
-    
+
   }
 
-  {   
+  {
     // operator !=( const DateTime & ) const
-    
+
     DateTime	d1( "2/17/95 11:30:30" );
     DateTime	d2( "2/17/95 11:30:30" );
 
     TEST( d1 == d2 );
     d2.addSec();
     TEST( d1 != d2 );
-    
+
   }
 
-  {   
+  {
     // const char * getClassName(void) - NO TEST NEEDED
 
   }
 
-  {   
+  {
     // Bool 	     good( void ) - NO TEST (tested by setValid());
 
   }
 
-  {   
+  {
     // const char * error( void ) - NO TEST NEEDED
-    
+
   }
-  return( true );
+  return( verify.is_valid() );
 }
-
-
-//
-//              This software is the sole property of
-// 
-//                 The Williams Companies, Inc.
-//                        1 Williams Center
-//                          P.O. Box 2400
-//        Copyright (c) 1994 by The Williams Companies, Inc.
-// 
-//                      All Rights Reserved.  
-// 
-//
-
-
-
-
-
-
-
-
-

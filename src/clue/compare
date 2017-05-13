@@ -1,6 +1,6 @@
 #ifndef _clue_compare_ // -*- c++ -*-
 // 1995-05-01 <paul4hough@gmail.com>
-#define _compare_
+#define _clue_compare_
 
 #include <cstring>	// needed for strcmp calls
 

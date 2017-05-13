@@ -1,36 +1,13 @@
-/*
-   File:        TimeIt.C
-   Project:	StlUtils ()
-   Desc:        
-  
-    Compiled sources for TimeIt
-    
-   Author:      Paul A. Houghton - (paul4hough@gmail.com)
-   Created:     01/17/97 07:59
-  
-   Revision History: (See end of file for Revision Log)
-  
-    $Author$ 
-    $Date$ 
-    $Name$ 
-    $Revision$ 
-    $State$ 
-*/
+// 1997-01-17 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "TimeIt.hh"
-#include <StlUtilsMisc.hh>
-#include <Str.hh>
+#include "TimeIt.hpp"
+#include "Str.hpp"
+#include "Clue.hpp"
+
 #include <iomanip>
 #include <cstring>
 
-#if defined( STLUTILS_DEBUG )
-#include "TimeIt.ii"
-#endif
-
-STLUTILS_VERSION(
-  TimeIt,
-  "$Id$ ");
-
+namespace clue {
 
 TimeIt::TimeIt( bool startTimer )
   : osErrnum(0)
@@ -39,7 +16,7 @@ TimeIt::TimeIt( bool startTimer )
   memset( &realStop,   0, sizeof( realStop ) );
   memset( &usageStart, 0, sizeof( usageStart ) );
   memset( &usageStop,  0, sizeof( usageStop ) );
-	  
+
   if( startTimer )
     start();
 }
@@ -49,12 +26,12 @@ TimeIt::TimeIt( const timeval & stopReal, const rusage & stopUsage )
 {
   memset( &realStart,  0, sizeof( realStart ) );
   memset( &usageStart, 0, sizeof( usageStart ) );
-	  
+
   memcpy( &realStop,   &stopReal, sizeof( realStop ) );
-  memcpy( &usageStop,  &stopUsage, sizeof( usageStop ) );  
+  memcpy( &usageStop,  &stopUsage, sizeof( usageStop ) );
 }
 
-  
+
 TimeIt::~TimeIt( void )
 {
 }
@@ -69,9 +46,9 @@ TimeIt::toStream( std::ostream & dest ) const
 					 usageStart.ru_utime ) );
       struct timeval sDiff( diffTimeVal( usageStop.ru_stime,
 					 usageStart.ru_stime ) );
-      
+
       char ofill = dest.fill('0');
-      
+
       dest << "Times: "
 	   << " real: " << rDiff.tv_sec << '.' << std::setw(6) << rDiff.tv_usec
 	   << " user: " << uDiff.tv_sec << '.' << std::setw(6) << uDiff.tv_usec
@@ -84,7 +61,7 @@ TimeIt::toStream( std::ostream & dest ) const
       dest << error();
     }
 
-  
+
   return( dest );
 }
 
@@ -111,8 +88,8 @@ TimeIt::diffTimeVal( const timeval & t1, const timeval & t2 ) const
     }
   return( dif );
 }
-	
-  
+
+
 bool
 TimeIt::good( void ) const
 {
@@ -124,7 +101,7 @@ TimeIt::error( void ) const
 {
   static Str errStr;
 
-  errStr = TimeIt::getClassName();
+  errStr = "TimeIt::";
 
   if( good() )
     {
@@ -136,7 +113,7 @@ TimeIt::error( void ) const
 
       if( osErrnum )
 	errStr << ": " << strerror( osErrnum );
-      
+
       if( eSize == errStr.size() )
         errStr += ": unknown error";
     }
@@ -144,29 +121,12 @@ TimeIt::error( void ) const
   return( errStr.c_str() );
 }
 
-const char *
-TimeIt::getClassName( void ) const
-{
-  return( "TimeIt" );
-}
-
-const char *
-TimeIt::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
-
 std::ostream &
 TimeIt::dumpInfo(
-  std::ostream &	dest,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    dest,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    dest << TimeIt::getClassName() << ":\n"
-	 << TimeIt::getVersion() << '\n';
 
   if( ! TimeIt::good() )
     dest << prefix << "Error: " << TimeIt::error() << '\n';
@@ -178,13 +138,13 @@ TimeIt::dumpInfo(
 				     usageStart.ru_utime ) );
   struct timeval sDiff( diffTimeVal( usageStop.ru_stime,
 				     usageStart.ru_stime ) );
-      
+
   char ofill;
-  
+
   dest << prefix << "real time diff:       "
        << std::setw(8) << rDiff.tv_sec << '.'
     ;
-  
+
   ofill = dest.fill('0');
   dest << std::setw(6) << rDiff.tv_usec << '\n';
   dest.fill(ofill);
@@ -196,11 +156,11 @@ TimeIt::dumpInfo(
   ofill = dest.fill('0');
   dest << std::setw(6) << uDiff.tv_usec << '\n';
   dest.fill(ofill);
-  
+
   dest << prefix << "sys time diff:        "
        << std::setw(8) << sDiff.tv_sec << '.'
     ;
-  
+
   ofill = dest.fill('0');
   dest << std::setw(6) << sDiff.tv_usec << '\n';
   dest.fill(ofill);
@@ -234,56 +194,8 @@ TimeIt::dumpInfo(
        << prefix << "invol ctx swt diff:   "
        << std::setw(8) << usageStop.ru_nivcsw - usageStart.ru_nivcsw << '\n'
     ;
-  
+
   return( dest );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:46  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:34  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:47  houghton
-// Changed to version 6
-//
-// Revision 5.3  2003/08/09 11:21:01  houghton
-// Changed ver strings.
-//
-// Revision 5.2  2001/07/26 19:28:57  houghton
-// *** empty log message ***
-//
-// Revision 5.1  2000/05/25 10:33:23  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:13:38  houghton
-// Changed to Version 4
-//
-// Revision 3.6  1997/09/17 15:10:29  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.5  1997/09/17 11:09:26  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.4  1997/03/21 12:28:52  houghton
-// Cleanup toStream output.
-//
-// Revision 3.3  1997/03/19 16:25:43  houghton
-// Added constructor.
-//
-// Revision 3.2  1997/03/03 19:05:20  houghton
-// Changed from using 'string' to 'Str'
-//
-// Revision 3.1  1997/03/03 14:37:41  houghton
-// Initial Version.
-//
-// Revision 1.1  1997/02/26 17:17:25  houghton
-// Initial revision
-//
-//
+}; // namespace clue

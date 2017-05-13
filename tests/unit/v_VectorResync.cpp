@@ -1,27 +1,17 @@
-//
-// File:        tVectorResync.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Compiled sources for tVectorResync
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/04/97 08:30
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
-//
+// 1997-11-04 (cc) <paul4hough@gmail.com>
 
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <VectorResync.hh>
-#include <Compare.hh>
+#include <clue/VectorResync.hpp>
+#include <clue/compare>
 #include <vector>
 
-typedef vector< long >	    TestVector;
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::AbsLong");
+using namespace clue;
+
+typedef std::vector< long >	    TestVector;
 
 class TestCompare
 {
@@ -31,22 +21,24 @@ public:
 		    TestVector::size_type aRec,
 		    const TestVector & b,
 		    TestVector::size_type bRec ) const {
-    cout << "checking " << aRec << " to " << bRec
-	 << "  (" << a[aRec] << ") (" << b[bRec] << ")" << endl;
+#if defined( DEBUG )
+    std::cout << "checking " << aRec << " to " << bRec
+	      << "  (" << a[aRec] << ") (" << b[bRec] << ")" << endl;
+#endif
     return( ::compare( a[aRec], b[bRec] ) );
   };
 };
-  
-    
+
+
 bool
-tVectorResync( LibTest & tester )
+v_VectorResync( void )
 {
   {
     TestVector a;
     TestVector b;
 
     long num;
-    
+
     for( num = 0;
 	 num < 10;
 	 ++ num )
@@ -69,12 +61,12 @@ tVectorResync( LibTest & tester )
     {
       TestVector::size_type ar = 0;
       TestVector::size_type br = 0;
-      
+
       TestVector::size_type asr = 0;
       TestVector::size_type bsr = 0;
 
       TestCompare   comp;
-      
+
       for( ; ar <  a.size(); ++ ar, ++ br )
 	{
 	  asr = ar;
@@ -84,7 +76,9 @@ tVectorResync( LibTest & tester )
 
 	  if( asr != ar || bsr != br )
 	    {
-	      cout << "resynced: " << asr <<  ',' << bsr << endl;
+#if defined( DEBUG )
+	      std::cout << "resynced: " << asr <<  ',' << bsr << endl;
+#endif
 	      ar = asr;
 	      br = bsr;
 	    }
@@ -92,27 +86,5 @@ tVectorResync( LibTest & tester )
     }
 
   }
-	  
-  return( true );
-
+  return( verify.is_valid() );
 }
-
-// Revision Log:
-//
-// $Log$
-// Revision 6.3  2011/12/30 23:57:48  paul
-// First go at Mac gcc Port
-//
-// Revision 6.2  2005/07/13 17:16:35  houghton
-// added output.
-//
-// Revision 6.1  2003/08/09 11:22:53  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:32  houghton
-// Changed Version Num to 5
-//
-// Revision 1.1  1998/01/05 13:09:46  houghton
-// Initial Version.
-//
-//

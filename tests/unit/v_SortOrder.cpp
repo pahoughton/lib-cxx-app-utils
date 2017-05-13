@@ -1,28 +1,17 @@
-//
-// File:        tSortOrder.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for SortOrder template class.
-//
-// Source Header Version: 3.2
-//
-// Author:      Paul A. Houghton - (paul4hough@gmail.com)
-// Created:     11/05/95 13:44
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  Last Mod By:    $Author$
-//  Last Mod:	    $Date$
-//  Version:	    $Revision$
-//
+// 1995-11-05 (cc) <paul4hough@gmail.com>
 
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <SortOrder.hh>
-#include <Compare.hh>
+#include <clue/SortOrder.hpp>
+#include <clue/compare>
+
 #include <algorithm>
 #include <vector>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::AbsLong");
+using namespace clue;
 
 class Data
 {
@@ -49,10 +38,10 @@ public:
   bool	operator () ( const Data & one, const Data & two ) const {
     return( one.a < two.a );
   };
-  
+
   DataSort::LessBase *	dup( void ) const {
     return( duplicate( *this ) );
-  };  
+  };
 };
 
 class DataCompB : public DataSort::LessBase
@@ -61,11 +50,11 @@ public:
   bool	operator () ( const Data & one, const Data & two ) const {
     return( one.b < two.b );
   };
-  
+
   DataSort::LessBase *	dup( void ) const {
     return( duplicate( *this ) );
-  };  
-  
+  };
+
 };
 
 class DataCompC : public DataSort::LessBase
@@ -74,11 +63,11 @@ public:
   bool	operator () ( const Data & one, const Data & two ) const {
     return( one.c < two.c );
   };
-  
+
   DataSort::LessBase *	dup( void ) const {
     return( duplicate( *this ) );
-  };  
-  
+  };
+
 };
 
 DataCompA   CompA;
@@ -87,15 +76,15 @@ DataCompC   CompC;
 
 
 bool
-tSortOrder( LibTest & tester )
+v_SortOrder( void )
 {
   SortOrder< Data >	orderA( CompA );
   SortOrder< Data >	orderB( CompB );
   SortOrder< Data >     orderC( CompC );
 
   SortOrder< Data >     orderBA( orderB + orderA );
-  
-  vector< Data >  list;
+
+  std::vector< Data >  list;
 
   list.insert( list.end(), Data( 40, 100, 20 ) );
   list.insert( list.end(), Data( 50, 100, 20 ) );
@@ -109,15 +98,15 @@ tSortOrder( LibTest & tester )
     sort( list.begin(), list.end(), orderA );
 
     int prev = 0;
-    
-    for( vector<Data>::iterator them = list.begin();
+
+    for( std::vector<Data>::iterator them = list.begin();
 	 them != list.end();
 	 them++ )
       {
 	TEST( prev <= (*them).a );
 	prev = (*them).a;
       }
-    
+
   }
 
   {
@@ -125,8 +114,8 @@ tSortOrder( LibTest & tester )
 
     int prevB = 0;
     int prevA = 0;
-    
-    for( vector<Data>::iterator them = list.begin();
+
+    for( std::vector<Data>::iterator them = list.begin();
 	 them != list.end();
 	 them++ )
       {
@@ -134,31 +123,8 @@ tSortOrder( LibTest & tester )
 	      (prevB < (*them).b ) );
 	prevB = (*them).b;
 	prevA = (*them).a;
-	
+
       }
   }
-  return( true );
+  return( verify.is_valid() );
 }
-
-// Revision Log:
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:46  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:52  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:29  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:31  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 11:09:57  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.2  1997/06/09 12:04:21  houghton
-// Changed to match latest modifications.
-//
-//

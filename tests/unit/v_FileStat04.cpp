@@ -1,25 +1,24 @@
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FileStat.hh>
-#include <Compare.hh>
-#include <User.hh>
+// 1995-06-15 (cc) Paul Houghton <paul4hough@gmail.com>
+
+#include <clue/FileStat.hpp>
+#include <clue/User.hpp>
+#include <clue/compare>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <FileStat.hh>
-#include <Compare.hh>
-#include <User.hh>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <fcntl.h>
-#endif
+
+static valid::verify verify("clue::FileStat03");
+using namespace clue;
+
+#define TEST_DATA_DIR "data/FileStat"
 
 bool
-tFileStat04( LibTest & tester )
+v_FileStat04( void )
 {
   {
     // getName( void ) const
@@ -35,7 +34,7 @@ tFileStat04( LibTest & tester )
     TEST( compare( t.getUserName(), TEST_USER ) == 0 );
     TEST( compare( t.getGroupName(), TEST_GROUP ) == 0 );
   }
-  
+
   {
     // stat( const char * )
 
@@ -43,9 +42,9 @@ tFileStat04( LibTest & tester )
     User     h( TEST_USER );
 
     t.stat( TEST_DATA_DIR "/FileStat.01" );
-    
+
     struct stat fstat;
-    
+
     TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
@@ -55,7 +54,7 @@ tFileStat04( LibTest & tester )
 
     TEST( t.getMode() == fstat.st_mode );
     TEST( (t.getMode() & 0777) == 0664 );
-    
+
     TEST( t.getSize() == fstat.st_size );
     TEST( t.getSize() == 10240 );
 
@@ -85,9 +84,9 @@ tFileStat04( LibTest & tester )
     User     h( TEST_USER );
 
     t.stat( fd );
-    
+
     struct stat fstat;
-    
+
     TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
@@ -97,7 +96,7 @@ tFileStat04( LibTest & tester )
 
     TEST( t.getMode() == fstat.st_mode );
     TEST( (t.getMode() & 0777) == 0664 );
-    
+
     TEST( t.getSize() == fstat.st_size );
     TEST( t.getSize() == 10240 );
 
@@ -119,14 +118,14 @@ tFileStat04( LibTest & tester )
   {
     // lstat( const char * )
 
-    
+
     FileStat t( "data" );
     User     h( TEST_USER );
 
-    
+
     t.lstat( TEST_DATA_DIR "/FileStat.l1" );
     struct stat fstat;
-    
+
     TEST( ! lstat( TEST_DATA_DIR "/FileStat.l1", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
@@ -135,7 +134,7 @@ tFileStat04( LibTest & tester )
     TEST( t.getGID() == fstat.st_gid );
 
     TEST( t.getMode() == fstat.st_mode );
-    
+
     TEST( t.getSize() == fstat.st_size );
 
     TEST( t.getDevice() == fstat.st_dev );
@@ -152,7 +151,7 @@ tFileStat04( LibTest & tester )
     TEST( t.getModificationTime() == fstat.st_mtime );
     TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
-    
+
   {
     // operator () ( const char * )
 
@@ -160,9 +159,9 @@ tFileStat04( LibTest & tester )
     User     h( TEST_USER );
 
     t( TEST_DATA_DIR "/FileStat.01" );
-    
+
     struct stat fstat;
-    
+
     TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
@@ -172,7 +171,7 @@ tFileStat04( LibTest & tester )
 
     TEST( t.getMode() == fstat.st_mode );
     TEST( (t.getMode() & 0777) == 0664 );
-    
+
     TEST( t.getSize() == fstat.st_size );
     TEST( t.getSize() == 10240 );
 
@@ -190,7 +189,7 @@ tFileStat04( LibTest & tester )
     TEST( t.getModificationTime() == fstat.st_mtime );
     TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
-  
+
   {
     // operator () ( int )
 
@@ -202,9 +201,9 @@ tFileStat04( LibTest & tester )
     static const User     h( TEST_USER );
 
     t( fd );
-    
+
     struct stat fstat;
-    
+
     TEST( ! stat( TEST_DATA_DIR "/FileStat.01", &fstat ) );
 
     TEST( t.getUID() == fstat.st_uid );
@@ -214,7 +213,7 @@ tFileStat04( LibTest & tester )
 
     TEST( t.getMode() == fstat.st_mode );
     TEST( (t.getMode() & 0777) == 0664 );
-    
+
     TEST( t.getSize() == fstat.st_size );
     TEST( t.getSize() == 10240 );
 
@@ -232,7 +231,5 @@ tFileStat04( LibTest & tester )
     TEST( t.getModificationTime() == fstat.st_mtime );
     TEST( t.getStatusChangeTime() == fstat.st_ctime );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-  

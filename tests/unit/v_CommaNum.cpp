@@ -1,31 +1,14 @@
-/**
-  File:		tCommaNum.C
-  Project:	StlUtils 
-  Desc:
+// 2004-04-02 (cc) <paul4hough@gmail.com>
 
-    
-  
-  Notes:
-    
-  Author(s):	Paul Houghton <paul4hough@gmail.com>
-  Created:	04/02/2004 07:30
-  
-  Revision History: (See ChangeLog for details)
-  
-    $Author$
-    $Date$
-    $Name$
-    $Revision$
-    $State$
+#include <clue/CommaNum.hpp>
+#include <clue/Str.hpp>
 
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
 
-**/
-
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "StlUtilsMisc.hh"
-#include "Compare.hh"
-#include "Str.hh"
+static valid::verify verify("clue::CommaNum");
+using namespace clue;
 
 struct TestData
 {
@@ -43,13 +26,13 @@ TestData    TestValues[] =
     { 0, 0, 0, 0, 0 },
   };
 
-      
-    
+
+
 bool
-tCommaNum( LibTest & tester )
+v_CommaNum( void )
 {
   Str	test;
-  
+
   for( int i = 0; TestValues[i].expString != 0; ++ i ) {
     test.reset();
     CommaNumber( test,
@@ -57,9 +40,7 @@ tCommaNum( LibTest & tester )
 		 TestValues[i].width,
 		 TestValues[i].fill,
 		 TestValues[i].decimalPlaces );
-    TESTR( test.c_str(),
-	   test.compare( TestValues[i].expString ) == 0 );
+    TEST( test.compare( TestValues[i].expString ) == 0 );
   }
-
-  return( true );
+  return( verify.is_valid() );
 }

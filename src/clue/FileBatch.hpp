@@ -1,35 +1,17 @@
-#ifndef _FileBatch_hh_
-#define _FileBatch_hh_
-//
-// File:        FileBatch.hh
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Provides an iterator interface to a file containing fixed length records.
-//
-// Quick Start: - short example of class usage
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/10/98 10:47
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
-//  $Id$ 
-//
+#ifndef _clue_FileBatch_hpp_
+#define _clue_FileBatch_hpp_
+/* 1999-03-24 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include <StlUtilsConfig.hh>
-#include <DumpInfo.hh>
-#include <FilePath.hh>
+   Provides an iterator interface to a file containing fixed length records.
+*/
+#include <clue/FileStat.hpp>
+#include <clue/DumpInfo.hpp>
 
 #include <iterator>
 #include <fstream>
 #include <cerrno>
+
+namespace clue {
 
 class FileBatchBase
 {
@@ -37,16 +19,15 @@ public:
   inline const char *	getFileName( void ) const {
     return( name );
   };
-  
+
 protected:
-  
-  typedef STLUTILS_U64_SIZE_T	size_type;
-  
+
+  typedef uint64_t	size_type;
+
   FileBatchBase( const char * fileName, size_type recordSize );
-  
+
   virtual bool		    good( void ) const;
   virtual const char *	    error( void ) const;
-  virtual const char *	    getClassName( void ) const = 0;
 
   enum ErrorNum
   {
@@ -57,16 +38,16 @@ protected:
     E_WRITE,
     E_UNDEFINED
   };
-  
+
   bool		setError( ErrorNum errNum, std::streampos pos, int osErr );
-  
-  FilePath	name;
-  std::fstream *	batch;
-  size_type	recSize;
-  
-  ErrorNum	errorNum;
-  std::streampos	errorPos;
-  int		osErrno;
+
+  FilePath	    name;
+  std::fstream *    batch;
+  size_type	    recSize;
+
+  ErrorNum	    errorNum;
+  std::streampos    errorPos;
+  int		    osErrno;
 };
 
 template< class T >
@@ -78,12 +59,12 @@ public:
   typedef FileBatch< T >	self;
 
   typedef T			Rec;
-  
-  typedef STLUTILS_U64_SIZE_T	size_type;
-  typedef ptrdiff_t		difference_type;
-  typedef Rec &			reference;
-  typedef const Rec &		const_reference;
-  
+
+  typedef uint64_t	size_type;
+  typedef ptrdiff_t	difference_type;
+  typedef Rec &		reference;
+  typedef const Rec &	const_reference;
+
   class const_iterator;
 
   // * iterator *
@@ -128,7 +109,7 @@ public:
       -- *this;
       return( it );
     };
-    
+
     inline reference	operator *  ( void ) {
       if( readPos != pos )
 	{
@@ -148,7 +129,7 @@ public:
       readPos	= rhs.readPos;
       return( *this );
     };
-      
+
     inline bool	    operator == ( const iterator & rhs ) const {
       return( owner == rhs.owner && pos == rhs.pos );
     };
@@ -229,7 +210,7 @@ public:
       -- *this;
       return( it );
     };
-    
+
     inline const reference	operator *  ( void ) {
       if( readPos != pos )
 	{
@@ -249,7 +230,7 @@ public:
       readPos	= rhs.readPos;
       return( *this );
     };
-      
+
     inline const_iterator &	operator = (
       const typename self::iterator & rhs
       ) {
@@ -259,7 +240,7 @@ public:
       readPos	= rhs.readPos;
       return( *this );
     };
-      
+
     inline bool	    operator == ( const const_iterator & rhs ) const {
       return( owner == rhs.owner && pos == rhs.pos );
     };
@@ -275,7 +256,7 @@ public:
     inline bool	    operator != ( const typename self::iterator & rhs ) const {
       return( !(*this == rhs));
     };
-    
+
   protected:
 
     friend class iterator;
@@ -302,7 +283,7 @@ public:
     std::streampos			pos;
     std::streampos			readPos;
   };
-    
+
   FileBatch( const char *   fileName,
 	     std::ios::openmode  mode = std::ios::in );
 
@@ -322,13 +303,13 @@ public:
 
   Rec			    front( void ) const;
   Rec			    back( void ) const;
-  
+
   iterator		    append( void );
   bool			    append( const Rec & src );
-  
+
   FileBatch< T > &	    read( Rec & dest );
   bool			    read( Rec & dest ) const;
-  
+
   FileBatch< T > &	    read( Rec & dest, size_type recNum );
   bool			    read( Rec & dest, size_type recNum ) const;
 
@@ -338,24 +319,26 @@ public:
   size_type		    size( void ) const;
 
   Rec			    operator [] ( size_type rec ) const;
-  
+
   virtual bool	    	good( void ) const;
   virtual const char * 	error( void ) const;
-  virtual const char *	getClassName( void ) const;
   virtual std::ostream &     dumpInfo( std::ostream &	dest = std::cerr,
-				  const char *  prefix = "    ",
-                                  bool          showVer = true ) const;
+				       const char *	prefix = "    " ) const;
 
   inline DumpInfo< FileBatch >
-  dump( const char * preifx = "    ", bool showVer = true ) const;
+  dump( const char * prefix = "    " ) const {
+    return( DumpInfo< FileBatch >( *this, prefix ) );
+  }
+
+
 
 protected:
 
   friend class const_iterator;
   friend class iterator;
-  
+
   std::fstream &	file( void ) const;
-  
+
   size_type	fileSize;
 
 private:
@@ -365,95 +348,306 @@ private:
 
 };
 
-#include <FileBatch.ii>
+template< class Rec >
+inline
+FileBatch< Rec >::FileBatch(
+  const char *	fileName,
+  std::ios::openmode    mode
+  )
+  : FileBatchBase( fileName, sizeof( Rec ) ),
+    fileSize( 0 )
+{
+  batch = new std::fstream( name, mode );
+
+  std::streampos cur( 0 );
+  std::streampos endPos( 0 );
+
+  if( batch && (*batch).good() )
+    {
+      cur = (*batch).tellg();
+      (*batch).seekg( 0, std::ios::end );
+      endPos = (*batch).tellg();
+
+      if( endPos % sizeof( Rec ) )
+	{
+	  setError( E_SIZE, endPos, 0 );
+	  return;
+	}
+      fileSize = endPos / sizeof( Rec );
+      (*batch).seekg( cur, std::ios::beg );
+    }
+  else
+    {
+      setError( E_OPEN, 0, errno );
+    }
+
+  return;
+}
+
+template< class Rec >
+inline
+FileBatch< Rec >::FileBatch(
+  const char *	fileName,
+  std::ios::openmode    mode,
+  bool		    create
+  )
+  : FileBatchBase( fileName, sizeof( Rec ) ),
+    fileSize( 0 )
+{
+  if( ! create ) {
+    FileStat fStat( fileName );
+    if( ! fStat.good() ) {
+      setError( E_OPEN, 0, ENOENT );
+      return;
+    }
+  } else {
+    // create is true, make sure the file exists
+    std::fstream tmp(name, std::ios::out );
+  }
+
+  batch = new std::fstream( name, mode );
+
+  std::streampos cur( 0 );
+  std::streampos endPos( 0 );
+
+  if( batch && (*batch).good() )
+    {
+      cur = (*batch).tellg();
+      (*batch).seekg( 0, std::ios::end );
+      endPos = (*batch).tellg();
+
+      if( endPos % sizeof( Rec ) )
+	{
+	  setError( E_SIZE, endPos, 0 );
+	  return;
+	}
+      fileSize = endPos / sizeof( Rec );
+      (*batch).seekg( cur, std::ios::beg );
+    }
+  else
+    {
+      setError( E_OPEN, 0, errno );
+    }
+
+  return;
+}
+
+template< class Rec >
+inline
+typename FileBatch< Rec >::const_iterator
+FileBatch< Rec >::begin( void ) const
+{
+  return( const_iterator( this, 0 ) );
+}
+
+template< class Rec >
+inline
+typename FileBatch< Rec >::const_iterator
+FileBatch< Rec >::end( void ) const
+{
+  return( const_iterator( this, NPOS ) );
+}
+
+template< class Rec >
+inline
+typename FileBatch< Rec >::iterator
+FileBatch< Rec >::begin( void )
+{
+  return( iterator( this, 0 ) );
+}
+
+template< class Rec >
+inline
+typename FileBatch< Rec >::iterator
+FileBatch< Rec >::end( void )
+{
+  return( iterator( this, NPOS ) );
+}
+
+template< class Rec >
+inline
+Rec
+FileBatch< Rec >::front( void ) const
+{
+  return( (*this)[0] );
+}
+
+template< class Rec >
+inline
+Rec
+FileBatch< Rec >::back( void ) const
+{
+  return( (*this)[ size() - 1 ] );
+}
+
+template< class Rec >
+inline
+typename FileBatch< Rec >::iterator
+FileBatch< Rec >::append( void )
+{
+  (*batch).seekg( 0, std::ios::end );
+
+  std::streampos endPos( (*batch).tellg() );
+
+  size_type endRecNum( endPos / sizeof( Rec ) );
+
+  Rec r;
+
+  if( (*batch).write( (const char *)&r, sizeof( r ) ).good() )
+    {
+      ++ fileSize;
+      return( iterator( this, endRecNum ) );
+    }
+  else
+    {
+      setError( E_WRITE, (*batch).tellp(), errno );
+      return( end() );
+    }
+}
+
+template< class Rec >
+inline
+bool
+FileBatch< Rec >::append( const Rec & r )
+{
+  (*batch).seekg( 0, std::ios::end );
+
+  if( (*batch).write( (const char *)&r, sizeof( r ) ).good() )
+    {
+      ++ fileSize;
+      return( true );
+    }
+  else
+    {
+      setError( E_WRITE, (*batch).tellp(), errno );
+      return( false );
+    }
+}
+
+template< class Rec >
+inline
+FileBatch< Rec > &
+FileBatch< Rec >::read( Rec & dest )
+{
+  if( ! (*batch).read( (char *)&dest, sizeof( dest ) ).good() )
+    {
+      setError( E_READ, (*batch).tellg(), errno );
+    }
+
+  return( *this );
+}
+
+template< class Rec >
+inline
+bool
+FileBatch< Rec >::read( Rec & dest ) const
+{
+  return( (*batch).read( (char *)&dest, sizeof( dest ) ).good() );
+}
+
+template< class Rec >
+inline
+FileBatch< Rec > &
+FileBatch< Rec >::read( Rec & dest, size_type recNum )
+{
+  (*batch).seekg( recNum * sizeof( Rec ), std::ios::beg );
+  return( read( dest ) );
+}
+
+template< class Rec >
+inline
+bool
+FileBatch< Rec >::read( Rec & dest, size_type recNum ) const
+{
+  (*batch).seekg( recNum * sizeof( Rec ), std::ios::beg );
+  return( read( dest ) );
+}
+
+template< class Rec >
+inline
+FileBatch< Rec > &
+FileBatch< Rec >::write( const Rec & src )
+{
+  if( ! (*batch).write( (const char *)&src, sizeof( src ) ).good() )
+    {
+      setError( E_WRITE, (*batch).tellp(), errno );
+    }
+
+  return( *this );
+}
+
+template< class Rec >
+inline
+FileBatch< Rec > &
+FileBatch< Rec >::write( iterator & it )
+{
+  (*batch).seekp( it.pos, std::ios::beg );
+  return( write( it.rec ) );
+}
+
+template< class Rec >
+inline
+typename FileBatch< Rec >::size_type
+FileBatch< Rec >::size( void ) const
+{
+  return( fileSize );
+}
+
+template< class Rec >
+inline
+Rec
+FileBatch< Rec >::operator [] ( size_type rec ) const
+{
+  Rec r;
+  read( r, rec );
+  return( r );
+}
+
+template< class Rec >
+inline
+bool
+FileBatch< Rec >::good( void ) const
+{
+  return( FileBatchBase::good() );
+}
+
+template< class Rec >
+inline
+const char *
+FileBatch< Rec >::error( void ) const
+{
+  return( FileBatchBase::error() );
+}
+
+template< class Rec >
+inline
+std::ostream &
+FileBatch< Rec >::dumpInfo(
+  std::ostream &    dest,
+  const char *	    prefix
+  ) const
+{
+
+  if( ! FileBatch< Rec >::good() )
+    dest << prefix << "Error: " << FileBatch< Rec >::error() << '\n';
+  else
+    dest << prefix << "Good!\n";
+
+  dest << prefix << "name:     " << name << '\n'
+       << prefix << "size:     " << fileSize << '\n'
+    ;
+
+  return( dest );
+}
+
+template< class Rec >
+inline
+std::fstream &
+FileBatch< Rec >::file( void ) const
+{
+  return( *batch );
+}
 
 
-//
-// Detail Documentation
-//
-//  Data Types: - data types defined by this header
-//
-//  	FileBatch	class
-//
-//  Constructors:
-//
-//  	FileBatch( );
-//
-//  Destructors:
-//
-//  Public Interface:
-//
-//  Protected Interface:
-//
-//  Private Methods:
-//
-//  Associated Functions:
-//
-// Example:
-//
-// See Also:
-//
-// Files:
-//
-// Documented Ver:
-//
-// Tested Ver:
-//
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:53  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:13  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:41  houghton
-// Changed to version 6
-//
-// Revision 5.9  2003/08/09 11:20:58  houghton
-// Changed ver strings.
-//
-// Revision 5.8  2003/07/19 09:17:12  houghton
-// Port to 64 bit.
-//
-// Revision 5.7  2003/06/07 16:48:23  houghton
-// Added typedef Rec.
-//
-// Revision 5.6  2002/03/25 11:27:00  houghton
-// Added typename delcarations.
-//
-// Revision 5.5  2001/07/29 19:56:38  houghton
-// *** empty log message ***
-//
-// Revision 5.4  2001/07/26 19:29:00  houghton
-// *** empty log message ***
-//
-// Revision 5.3  2001/01/11 13:47:44  houghton
-// Port to Sun CC 5.0.
-//
-// Revision 5.2  2000/06/27 10:46:05  houghton
-// Port Sun C++ 5.0 - change to use 'std' iterator classes.
-//
-// Revision 5.1  2000/05/25 10:33:15  houghton
-// Changed Version Num to 5
-//
-// Revision 4.3  1999/06/24 10:25:55  houghton
-// Added getFileName().
-//
-// Revision 4.2  1999/05/01 12:52:10  houghton
-// Rework to get around compile problems.
-// Added front()
-// Added back()
-// Added operator []
-// Improved error output.
-//
-// Revision 4.1  1999/03/02 12:46:26  houghton
-// Initial Version.
-//
-//
-#endif // ! def _FileBatch_hh_ 
-
+};
+#endif // ! def _clue_FileBatch_hpp_

@@ -1,40 +1,35 @@
+// 1996-11-17 (cc) Paul Houghton - (paul4hough@gmail.com)
 
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <Param.hh>
-#include <Compare.hh>
-#include <StlUtilsUtils.hh>
-#include <cstdio>
-#else
-#include <TestCfg.hh>
-#include <LibTest.hh>
-#include <Param.hh>
-#include <Compare.hh>
-#include <StlUtils.hh>
-#include <cstdio>
-#endif
+#include "clue/Param.hpp"
+#include "clue/Clue.hpp"
+#include "clue/compare"
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#define TEST_DATA_DIR "data/Param"
+
+static valid::verify verify("clue::Param");
+using namespace clue;
 
 
-
-char * argv01[] =
+static const char * argv01[] =
 {
   "test/test",
   0
 };
 
-char * argv02[] =
+static const char * argv02[] =
 {
   "test/test",
-  "-log",	TEST_DATA_DIR "/param.log.01",
+  "-log-file",	TEST_DATA_DIR "/param.log.01",
   "-help",
-  "-loglevel",	"TEST | INFO",
-  "-logmax",	"10240",
-  "-logtrim",	"1024",
+  "-log-level",	"TEST | INFO",
+  "-log-max",	"10240",
+  "-log-trim",	"1024",
   "-string",	"test string",
-#if defined( STLUTILS_USE_STR )
   "-str",	"test str",
-#endif
   "-int",	"-123",
   "-uint",	"123",
   "-short",	"-456",
@@ -44,18 +39,16 @@ char * argv02[] =
   "-double",	"10.10",
   "-bool",	"yes",
   "-flag",
-#if defined( STLUTILS_USE_DATETIME )
   "-timet",	"7/15/95 08:15:15",
   "-datetime",	"8/1/95 06:00:10",
-#endif
   0
 };
 
 bool
-tParam01( LibTest & tester )
+v_Param02( void )
 {
   remove( TEST_DATA_DIR "/param.log.01" );
-  
+
   {
     // Param( int &, char * [], const char * )
     // appName( void ) const
@@ -65,21 +58,23 @@ tParam01( LibTest & tester )
     // env( const char * ) const
     // log( void )
     // log( LogLevel::Level )
-    
+
     int argc = ArraySize( argv01 ) - 1;
-    
+
     Param   t( argc, argv01, "ParamTest 01" );
+    t.parseArgs();
+
+    std::cout << t.appName() << ":" << t.appFullName() << std::endl;
 
     TEST( compare( t.appName(), "test" ) == 0 );
     TEST( compare( t.appFullName(), "test/test" ) == 0 );
-    TEST( compare( t.arg(0), "test/test" ) == 0 );
-    TEST( t.arg(1) == 0 );
-    TEST( t.count() == 1 );
+    TEST( t.arg(0) == 0 );
+    TEST( t.count() == 0 );
     TEST( compare( t.env( "USER" ), TEST_USER ) == 0 );
-    
+
     t.log().setTimeStamp( false );
     t.log().setLevelStamp( false );
-    
+
     TEST( t.log().getCurrent() == LogLevel::Error );
     TEST( t.log( LogLevel::Test ).getCurrent() == LogLevel::Test );
   }
@@ -100,89 +95,85 @@ tParam01( LibTest & tester )
     // argFlag( flag &, const char *, const char * )
     // argDateTime( time_t &, const char *, const char * )
     // argDateTime( DateTime &, const char *, const char * )
-    
+
     int argc = ArraySize( argv02 ) - 1;
-    
+
     Param   t( argc, argv02, "ParamTest 02" );
     Param * App = &t;
-    
+    t.parseArgs();
+
     t.log().setTimeStamp( false );
     t.log().setLevelStamp( false );
 
-    TEST( t.help() );
+    TEST( t.help(false) );
     TEST( t.log().getOutput() == ( LogLevel::Test | LogLevel::Info ) );
 
-    ALog( LogLevel::Test ) << t;
+    // ALog( LogLevel::Test ) << t;
 
-    {
+    if( false ) {
       for( int l = 0; l < 500; l++ )
 	ALog( LogLevel::Info ) << "info message: " << l
 			       << " to test log trimming\n";
     }
 
-    char * string = "init";
-    TEST( t.argStr( string, "argString test args", "string" ) );
+    char  * string = 0;
+    TEST( t.argStr( string, "TVAL", "sdesc", "ldesc", false, "string" ) );
     TEST( compare( string, "test string" ) == 0 );
 
-#if defined( STLUTILS_STR )
     Str str( "init" );
-    TEST( t.argStr( str, "argStr test args", "str" ) );
+    TEST( t.argStr( str, "TVAL", "sdesc", "ldesc", false,  "str" ) );
     TEST( compare( str, "test str" ) == 0 );
-#endif
+
     int i = 0;
-    TEST( t.argInt( i, "argInt test args", "int" ) );
+    TEST( t.argInt( i, "TVAL", "sdesc", "ldesc", false,  "int" ) );
     TEST( i == -123 );
 
     unsigned int ui = 0;
-    TEST( t.argUInt( ui, "argInt unsigned test args", "uint" ) );
+    TEST( t.argUInt( ui, "TVAL", "sdesc", "ldesc", false,  "uint" ) );
     TEST( ui == 123 );
 
     short s = 0;
-    TEST( t.argShort( s, "argShort test args", "short" ) );
+    TEST( t.argShort( s, "TVAL", "sdesc", "ldesc", false,  "short" ) );
     TEST( s == -456 );
 
     unsigned short us = 0;
-    TEST( t.argUShort( us, "argShort unsigned test args", "ushort" ) );
+    TEST( t.argUShort( us,  "TVAL", "sdesc", "ldesc", false,  "ushort" ) );
     TEST( us == 456 );
 
     long l = 0;
-    TEST( t.argLong( l, "argLong test args", "long" ) );
+    TEST( t.argLong( l, "TVAL", "sdesc", "ldesc", false,  "long" ) );
     TEST( l == -789 );
 
     unsigned long ul = 0;
-    TEST( t.argULong( ul, "argLong unsigned test args", "ulong" ) );
+    TEST( t.argULong( ul, "TVAL", "sdesc", "ldesc", false,  "ulong" ) );
     TEST( ul == 789 );
 
     double d = 0;
-    TEST( t.argDouble( d, "argDouble test args", "double" ) );
+    TEST( t.argDouble( d, "TVAL", "sdesc", "ldesc", false,  "double" ) );
     TEST( d == 10.10 );
 
     bool b = false;
-    TEST( t.argBool( b, "argBool test args", "bool" ) );
+    TEST( t.argBool( b, "TVAL", "sdesc", "ldesc", false,  "bool" ) );
     TEST( b == true );
 
     bool f = false;
-    TEST( t.argFlag( f, "argFlag test args", "flag" ) );
+    TEST( t.argFlag( f, "sdesc", "ldesc",  "flag" ) );
     TEST( f == true );
 
-#if defined( STLUTILS_HAS_DATETIME )
     time_t tt = 0;
     DateTime tval( "7/15/95 08:15:15" );
-    TEST( t.argDateTime( tt, "argDateTime time_t test args", "timet" ) );
-    TEST( tt == tval.getTimeT() );
+    TEST( t.argDateTime( tt, "TVAL", "sdesc", "ldesc", false, "timet" ) );
+    TEST( tt == tval.timet() );
 
     DateTime dt( "9/1/95 06:00:10" );
     DateTime dtval( "8/1/95 06:00:10" );
-    TEST( t.argDateTime( dt, "argDateTime DateTime test args", "datetime" ) );
+    TEST( t.argDateTime( dt, "TVAL", "sdesc", "ldesc", false, "datetime" ) );
     TEST( dt == dtval );
-#endif
-    ALog( LogLevel::Test ) << t;
 
-    TEST( t.count() == 1 );
+    // ALog( LogLevel::Test ) << t;
+
+    TEST( t.count() == 0 );
   }
-  
-      
-  return( true );
-}
 
-    
+  return( verify.is_valid() );
+}

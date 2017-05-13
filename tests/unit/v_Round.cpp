@@ -1,31 +1,17 @@
-//
-// File:        tRound.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test for Round functions
-//
-// Source Header Version: 2.4
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     10/31/96 07:30
-//
-// Revision History: (See end of file for Revision Log)
-//
+// 1996-10-31 (cc) <paul4hough@gmail.com>
 
+#include <clue/Clue.hpp>
 
-#if !defined( STLUTILS_SHORT_FN )
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StlUtilsMisc.hh>
-#else
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <StlUtils.hh>
-#endif
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+static valid::verify verify("clue::Round");
+using namespace clue;
+
 
 bool
-tRound( LibTest & tester )
+v_Round( void )
 {
   {
     // Round( int, number )
@@ -50,14 +36,15 @@ tRound( LibTest & tester )
     TEST( Round( t, 5 ) == 15 );
     t = 14;
     TEST( Round( t, 5 ) == 15 );
-    
+
+
     t = -32;
     TEST( Round( t, 5 ) == -30 );
     t = -33;
     TEST( Round( t, 5 ) == -35 );
     t = -34;
     TEST( Round( t, 5 ) == -35 );
-    
+
     t = -33;
     TEST( Round( t, 10 ) == -30 );
     t = -34;
@@ -66,13 +53,13 @@ tRound( LibTest & tester )
     TEST( Round( t, 10 ) == -40 );
     t = -36;
     TEST( Round( t, 10 ) == -40 );
-    
+
     TEST( Round( 23, 5 ) == 25 ); // doc example
   }
 
   {
     long t = 50;
-   
+
     TEST( Round( t, 10 ) == 50 );
     t = 51;
     TEST( Round( t, 10 ) == 50 );
@@ -125,10 +112,10 @@ tRound( LibTest & tester )
     TEST( RoundUp( t, 10 ) == -30 );
     t = -39;
     TEST( RoundUp( t, 10 ) == -30 );
-    
+
     TEST( RoundUp( 22, 5 ) == 25 ); // doc example
   }
-  
+
   {
     // RoundDown( int, number )
 
@@ -161,44 +148,9 @@ tRound( LibTest & tester )
     TEST( RoundDown( t, 10 ) == -40 );
     t = -40;
     TEST( RoundDown( t, 10 ) == -40 );
-    
+
     TEST( RoundDown( 23, 5 ) == 20 ); // doc example
   }
 
-  return( true );
+  return( verify.is_valid() );
 }
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:46  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:29  houghton
-// Changed Version Num to 5
-//
-// Revision 4.2  1998/10/23 13:09:13  houghton
-// Added tests for negative values.
-//
-// Revision 4.1  1997/09/17 15:14:30  houghton
-// Changed to Version 4
-//
-// Revision 3.3  1997/09/17 15:11:08  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.2  1997/09/17 11:09:56  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.1  1996/11/14 01:26:55  houghton
-// Changed to Release 3
-//
-// Revision 2.3  1996/11/04 18:22:54  houghton
-// Chaged include because StlUtils.hh renamed to StlUtilsUtils.hh.
-//
-// Revision 2.2  1996/11/04 14:50:49  houghton
-// Added header comments.
-// Chagned to test everything in RegexScan.hh.
-//
-//

@@ -1,36 +1,13 @@
-//
-// File:        LogLevel.C
-// Project:	StlUtils ()
-// Desc:        
-//              
-//  Source code for LogLevel methods.
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     01/29/95 12:45 
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1995-01-29 (cc) <paul4hough@gmail.com>
 
-#include "LogLevel.hh"
-#include "StlUtilsMisc.hh"
-#include "Bit.hh"
-#include "StringUtils.hh"
-#include "Str.hh"
+#include "LogLevel.hpp"
+#include "Clue.hpp"
+#include "bit"
+#include "StringUtils.hpp"
 #include <cstring>
+#include <string>
 
-#if defined( STLUTILS_DEBUG )
-#include "LogLevel.ii"
-#endif
-
-STLUTILS_VERSION(
-  LogLevel,
-  "$Id$ " );
+namespace clue {
 
 const LogLevel::Level	LogLevel::None;
 const LogLevel::Level	LogLevel::Error( Bit(0) );
@@ -111,35 +88,35 @@ LogLevel::getName( const Level & level )
   // NONE is always first
   if( level == None )
     return( LevelNames[0] );
-  
+
   // all is always the last name
   if( level == All )
-    return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
-    
+    return( LevelNames[ ArraySize( LevelNames ) - 2 ] );
+
   for( size_type l = 0; l < (ArraySize( LevelNames )  - 3); l++ )
     {
       if( level( l ) )
 	return( LevelNames[ l + 1 ] );
     }
-  
+
   return( 0 );
 }
 
-const char * 
+const char *
 LogLevel::getLevelNames( const Level & level )
 {
   static char  names[512];
   names[0] = 0;
-  
+
   // NONE is always first
   if( level == None ) return( LevelNames[0] );
-  
+
   // all is always the last name
-  if( level == All ) return( LevelNames[ ArraySize( LevelNames ) - 2 ] );      
+  if( level == All ) return( LevelNames[ ArraySize( LevelNames ) - 2 ] );
 
 
   names[0] = 0;
-  
+
   for( size_t l = 0; l < (ArraySize( LevelNames )  - 3); l++ )
     {
       if( level.test( l ) )
@@ -150,9 +127,9 @@ LogLevel::getLevelNames( const Level & level )
     }
 
   names[ strlen( names ) - 3 ] = 0;
-    
+
   return( names );
-}    
+}
 
 
 bool
@@ -164,14 +141,14 @@ LogLevel::setName( const Level & level, const char * name )
       LevelNames[0] = name;
       return( true );
     }
-  
+
   // all is always the last name
   if( level == All )
     {
       LevelNames[ ArraySize( LevelNames ) - 2 ] = name;
       return( true );
     }
-    
+
   for( size_t pos = 0; pos < (ArraySize( LevelNames ) - 3) ; pos++ )
     {
       if( level( pos ) )
@@ -182,28 +159,6 @@ LogLevel::setName( const Level & level, const char * name )
     }
 
   return( false );
-}
-
-size_t
-LogLevel::getBinSize( void ) const
-{
-  return( output.getBinSize() + current.getBinSize() );
-}
-
-std::ostream &
-LogLevel::write( std::ostream & dest ) const
-{
-  output.write( dest );
-  current.write( dest );
-  return( dest );
-}
-
-std::istream &
-LogLevel::read( std::istream & src )
-{
-  output.read( src );
-  current.read( src );
-  return( src );
 }
 
 std::ostream &
@@ -219,47 +174,34 @@ LogLevel::getClassName( void ) const
   return( "LogLevel" );
 }
 
-const char *
-LogLevel::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer, output.getVersion( false ) ) );
-}
-  
 
 std::ostream &
 LogLevel::dumpInfo(
-  std::ostream &	dest,
-  const char *  prefix,
-  bool		showVer
+  std::ostream & dest,
+  const char *   prefix
   ) const
 {
-  if( showVer )
-    dest << LogLevel::getClassName() << ":\n"
-	 << LogLevel::getVersion() << '\n';
-
   {
-    Str pre;
+    std::string pre;
     pre = prefix;
     pre += "output:  " ;
-    pre += output.getClassName() ;
-    pre += "::";
-    
-    output.dumpInfo( dest, pre, false ) << '\n';
+    pre += "LogLevel::";
+
+    output.dumpInfo( dest, pre.c_str() ) << '\n';
   }
 
   {
-    Str pre;
+    std::string pre;
     pre =  prefix;
     pre += "current: ";
-    pre += current.getClassName();
-    pre += "::" ;
-    current.dumpInfo( dest, pre, false ) << '\n';
+    pre += "LogLevel::" ;
+    current.dumpInfo( dest, pre.c_str() ) << '\n';
   }
-  
+
   dest << prefix << "output:    " << getLevelNames( output ) << '\n';
   dest << prefix << "current:   " << getLevelNames( current ) << '\n';
-    
-  
+
+
   dest << '\n';
 
   return( dest  );
@@ -277,7 +219,7 @@ LogLevel::levelFromString( const char * level, Level curLevel )
   Level	    tmp = None;
   Level	    offBits;
   Level	    onBits;
-  
+
   for( size_t l = 0; l < (ArraySize( Name2LevelList ) - 2 ); l++ )
     {
       const char * pos;
@@ -315,121 +257,8 @@ LogLevel::levelFromString( const char * level, Level curLevel )
 
   if( offBits == true )
     tmp = (tmp | curLevel) & ~(offBits);
-  
+
   return( tmp );
 }
 
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.3  2012/04/26 20:08:51  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:16  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:42  houghton
-// Changed to version 6
-//
-// Revision 5.5  2003/08/09 11:20:59  houghton
-// Changed ver strings.
-//
-// Revision 5.4  2003/07/19 09:17:12  houghton
-// Port to 64 bit.
-//
-// Revision 5.3  2001/07/26 19:28:59  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/05/25 17:05:46  houghton
-// Port: Sun CC 5.0.
-//
-// Revision 5.1  2000/05/25 10:33:16  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:12:37  houghton
-// Changed to Version 4
-//
-// Revision 3.8  1997/09/17 14:10:16  houghton
-// Renamed StlUtilsUtils.hh to StlUtilsMisc.hh
-//
-// Revision 3.7  1997/09/17 11:08:31  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.6  1997/05/02 12:17:06  houghton
-// Changed all LogLevel::Level args to const & to avoid copy constructor calls.
-//
-// Revision 3.5  1997/03/21 15:38:45  houghton
-// Bug-Fix: + and - flags in logLevelfromString were not working.
-//
-// Revision 3.4  1997/03/21 12:24:04  houghton
-// Changed string to log level converter to support +level and
-//     -level. These will turn the level on or off respectivly without
-//     changeing the state of other levels.
-//
-// Revision 3.3  1997/03/19 16:25:23  houghton
-// Bug-Fix: getName* would return all even if not all bits were set.
-// Changed getName now returns 0 if name not found.
-//
-// Revision 3.2  1997/03/03 14:36:41  houghton
-// Removed support for RW Tools++
-//
-// Revision 3.1  1996/11/14 01:23:48  houghton
-// Changed to Release 3
-//
-// Revision 2.11  1996/11/13 16:58:15  houghton
-// Changed include lines from "file" to <file"
-//     to accomidate rpm.
-// Removed support for short file names.
-// Bug-Fix: fixed some compile error associated with the change to
-//     RWCString.
-//
-// Revision 2.10  1996/11/11 13:34:53  houghton
-// Changed to use RWCString instead of strstream where possible because
-//     of an inconsitancy in the public member of strstream.
-//
-// Revision 2.9  1996/11/04 18:21:40  houghton
-// Chaged include becuase StlUtils.hh was renamed to StlUtilsUtils.hh.
-//
-// Revision 2.8  1996/11/04 14:14:16  houghton
-// Restructure header comments layout.
-// Added static Name2Level[] to improve name translation support. Now
-//     "Err" and "Warn" can be translated.
-// Changed getLevelNames to be a const
-// Removed BinStream support.
-// Changed dumpInfo to use strstream instead of Str.
-//     (as required by Mike Alexandar).
-// Added private levelFromString method to convert a string
-//     representation of the level to a Level mask.
-//
-// Revision 2.7  1996/06/11 09:52:35  houghton
-// Bug-Fix: setOutput now understands any case.
-//
-// Revision 2.6  1996/05/03 16:13:21  houghton
-// Bug-Fix: remove inline statement.
-//
-// Revision 2.5  1996/02/29 19:05:36  houghton
-// Bug Fix: Cant use static class object to construct other static objects
-//
-// Revision 2.4  1995/12/04 11:17:24  houghton
-// Bug Fix - Can now compile with out '-DSTLUTILS_DEBUG'.
-//
-// Revision 2.3  1995/11/12  22:08:05  houghton
-// Bug fix - setName() - junk code from copy (cut out).
-//
-// Revision 2.2  1995/11/12  18:04:21  houghton
-// Change LogLevel::XXXX to LogLevel::Xxxxx.
-// Bug fix - setOutput( const char * ) was not detecting 'ALL' correctly.
-//
-// Revision 2.1  1995/11/10  12:40:46  houghton
-// Change to Version 2
-//
-// Revision 1.4  1995/11/05  15:28:40  houghton
-// Revised
-//
-// Revision 1.1  1995/02/13  16:08:46  houghton
-// New Style Avl an memory management. Many New Classes
-//
-//
+} // namespace clue

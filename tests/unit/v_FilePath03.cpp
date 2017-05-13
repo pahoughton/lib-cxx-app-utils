@@ -1,8 +1,16 @@
-#include <TestConfig.hh>
-#include <LibTest.hh>
-#include <FilePath.hh>
-#include <Compare.hh>
+// 1995-06-15 (cc) Paul Houghton <paul4hough@gmail.com>
+
+#include <clue/FilePath.hpp>
+#include <clue/compare>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
 #include <functional>
+
+static valid::verify verify("clue::FilePath03");
+using namespace clue;
 
 #define P   "dir"
 #define F   "filename"
@@ -11,7 +19,7 @@
 #define DE  "."
 
 bool
-tFilePath03( LibTest & tester )
+v_FilePath03( void )
 {
   {
     // setFileName( const char * )
@@ -22,8 +30,8 @@ tFilePath03( LibTest & tester )
     // setExt( const char * )
     // setExt( const char *, char )
     // setExt( const char *, const char * )
-    
-    
+
+
     FilePath t('/','-');
 
     t.setFileName( F "-" E );
@@ -40,7 +48,7 @@ tFilePath03( LibTest & tester )
 
     t.setName( "FN", '.' );
     TEST( compare( t.getFullName().c_str(), "dir" "/" "FN" "." "a" "-" "b" ) == 0 );
-	  
+
     t.setName( "file", ".a-b" );
     TEST( compare( t.getFullName().c_str(), "dir" "/" "file" "." "a" "-" "b" ) == 0 );
 
@@ -56,7 +64,7 @@ tFilePath03( LibTest & tester )
     t.setExt( "ak.o", "rown" );
     TEST( compare( t.getFullName().c_str(), "dir" "/" "file" "-" "brown" ) == 0 );
   }
-  
+
   {
     // compare( const FilePath & ) const
     // operator == ( const FilePath & ) const
@@ -79,7 +87,7 @@ tFilePath03( LibTest & tester )
     TEST( l.compare( rl ) > 0 );
     TEST( l > rl );
     TEST( ! ( l > rm ) );
-    
+
   }
 
   {
@@ -89,9 +97,5 @@ tFilePath03( LibTest & tester )
 
     TEST( strcmp( ":usr:src:test.c", t.c_str() ) == 0 );
   }
-
-    
-  return( true );
+  return( verify.is_valid() );
 }
-
-    

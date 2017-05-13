@@ -1,71 +1,31 @@
-//
-// File:        tLog01.C
-// Project:	StlUtils
-// Desc:        
-//
-//  Test the following Log methods:
-//	
-//	  inline Log( ostream & 	outStream = cout,
-//		      LogLevel::Level 	outLevel = LogLevel::Error,
-//		      bool		stampLevel = true,
-//		      bool		stampTime = true,
-//		      bool		stampLoc = true );
-//	
-//	  inline Log( ostream & 	outStream,
-//		      const char *      outLevel,
-//		      bool		stampLevel = true,
-//		      bool		stampTime = true,
-//		      bool		stampLoc = true ); 
-//	  
-//	  inline Log( const char * 	fileName,
-//		      LogLevel::Level 	outLevel = LogLevel::Error,
-//		      ios::openmode	mode = ios::app,
-//		      int		prot = filebuf::openprot,
-//		      bool		stampLevel = true,
-//		      bool		stampTime = true,
-//		      bool		stampLoc = true,
-//		      size_t		maxSize = 0,
-//		      size_t		trimSize = 0 );
-//		      
-//	  inline Log( const char * 	fileName,
-//		      const char *	outLevel,
-//		      ios::openmode	mode = ios::app,
-//		      int		prot = filebuf::openprot,
-//		      bool		stampLevel = true,
-//		      bool		stampTime = true,
-//		      bool		stampLoc = true,
-//		      size_t		maxSize = 0,
-//		      size_t		trimSize = 0 );
-//
-//
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     11/11/96 16:31
-//
-// Revision History: (See end of file for Revision Log)
-//
-// $Id$
-//
+// 1996-11-11 (cc) <paul4hough@gmail.com>
 
-#include "TestConfig.hh"
-#include "LibTest.hh"
-#include "Log.hh"
-#include "FileStat.hh"
-#include <strstream.h>
+#include <clue/Log.hpp>
+#include <clue/FileStat.hpp>
+
+#define VALID_VALIDATOR verify
+#include <valid/verify.hpp>
+#define TEST VVTRUE
+
+#include <sstream>
 #include <cstdlib>
 #include <cstdio>
 #include <cerrno>
 
+static valid::verify verify("clue::Log01");
+using namespace clue;
 
+#define TEST_DATA_DIR "data/Log"
 
 static const char * LogFileName = TEST_DATA_DIR "/log.file.test";
 
 bool
-tLog01( LibTest & tester )
+v_Log01( void )
 {
 
   {
     // Log();
-    
+
     Log	    t;
 
     TEST( t.getOutput() == ( LogLevel::Error |
@@ -77,12 +37,12 @@ tLog01( LibTest & tester )
     TEST( t.setLevelStamp( false ) );
     TEST( t.setTimeStamp( false ) );
     TEST( t.setLocStamp( false ) );
-    
+
   }
 
   {
     // Log( ostream & );
-    strstream logDest;
+    std::stringstream logDest;
 
     Log	t(logDest);
 
@@ -98,9 +58,9 @@ tLog01( LibTest & tester )
   {
     // Log( ostream &, LogLevel::Level )
 
-    Log t( cerr, LogLevel::Error | LogLevel::Warn | LogLevel::Info );
-    
-    
+    Log t( std::cerr, LogLevel::Error | LogLevel::Warn | LogLevel::Info );
+
+
     TEST( t.getOutput() == (LogLevel::Error |
 			    LogLevel::Warn |
 			    LogLevel::Info) );
@@ -108,69 +68,69 @@ tLog01( LibTest & tester )
     TEST( t.setTimeStamp( false ) );
     TEST( t.setLocStamp( false ) );
   }
-  
+
   {
     // Log( ostream &, LogLevel::Level, bool )
 
     {
-      Log t( cerr, LogLevel::Info, true );
-    
-    
+      Log t( std::cerr, LogLevel::Info, true );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
     {
-      Log t( cerr, LogLevel::Info, false );
-    
-    
+      Log t( std::cerr, LogLevel::Info, false );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( ! t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
   }
-  
+
   {
     // Log( ostream &, LogLevel::Level, bool, bool )
 
     {
-      Log t( cerr, LogLevel::Info, true, true );
-    
-    
+      Log t( std::cerr, LogLevel::Info, true, true );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
     {
-      Log t( cerr, LogLevel::Info, true, false );
-    
-    
+      Log t( std::cerr, LogLevel::Info, true, false );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( ! t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
   }
-  
+
   {
     // Log( ostream &, LogLevel::Level, bool, bool, bool )
 
     {
-      Log t( cerr, LogLevel::Info, true, true, true );
-    
-    
+      Log t( std::cerr, LogLevel::Info, true, true, true );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
     {
-      Log t( cerr, LogLevel::Info, true, true, false );
-    
-    
+      Log t( std::cerr, LogLevel::Info, true, true, false );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
@@ -181,34 +141,34 @@ tLog01( LibTest & tester )
   {
     // Log( ostream &, const char * )
 
-    Log t( cerr, "Error | warn | INFO" );
-    
-    
+    Log t( std::cerr, "Error | warn | INFO" );
+
+
     TEST( t.getOutput() == (LogLevel::Error |
 			    LogLevel::Warn |
 			    LogLevel::Info) );
-    
+
     TEST( t.setLevelStamp( false ) );
     TEST( t.setTimeStamp( false ) );
     TEST( t.setLocStamp( false ) );
   }
-  
+
   {
     // Log( ostream &, const char *, bool )
 
     {
-      Log t( cerr, "info", true );
-    
-    
+      Log t( std::cerr, "info", true );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
     {
-      Log t( cerr, "test | debug", false );
-    
-    
+      Log t( std::cerr, "test | debug", false );
+
+
       TEST( t.getOutput() == (LogLevel::Test |
 			      LogLevel::Debug) );
       TEST( ! t.setLevelStamp( false ) );
@@ -216,46 +176,46 @@ tLog01( LibTest & tester )
       TEST( t.setLocStamp( false ) );
     }
   }
-  
+
   {
     // Log( ostream &, const char *, bool, bool )
 
     {
-      Log t( cerr, "Info", true, true );
-    
-    
+      Log t( std::cerr, "Info", true, true );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
     {
-      Log t( cerr, "Info", true, false );
-    
-    
+      Log t( std::cerr, "Info", true, false );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( ! t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
   }
-  
+
   {
     // Log( ostream &, const char *, bool, bool, bool )
 
     {
-      Log t( cerr, "Info", true, true, true );
-    
-    
+      Log t( std::cerr, "Info", true, true, true );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
     {
-      Log t( cerr, "Info", true, true, false );
-    
-    
+      Log t( std::cerr, "Info", true, true, false );
+
+
       TEST( t.getOutput() == LogLevel::Info );
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
@@ -271,12 +231,12 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName );
 
-      TESTR( t.error(), t.good() );
-      
+      TEST( t.good() );
+
       TEST( t.getOutput() == (LogLevel::Error |
 			      LogLevel::Warn |
 			      LogLevel::Info) );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -284,9 +244,9 @@ tLog01( LibTest & tester )
 
     FileStat logFileStat( LogFileName );
 
-    TESTR( logFileStat.error(), logFileStat.good() );
+    TEST( logFileStat.good() );
     TEST( logFileStat.getSize() == 0 );
-    
+
   }
 
   {
@@ -298,7 +258,7 @@ tLog01( LibTest & tester )
       Log t( LogFileName, LogLevel::Info );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -308,28 +268,7 @@ tLog01( LibTest & tester )
 
     TEST( logFileStat.good() );
     TEST( logFileStat.getSize() == 0 );
-    
-  }
 
-  {
-    // Log( const char *, LogLevel::Level, ios::openmode )
-
-    remove( LogFileName );
-
-    {
-      Log t( LogFileName, LogLevel::Info, ios::nocreate );
-
-      TEST( t.getOutput() == LogLevel::Info );
-    
-      TEST( t.setLevelStamp( false ) );
-      TEST( t.setTimeStamp( false ) );
-      TEST( t.setLocStamp( false ) );
-    }
-
-    FileStat logFileStat( LogFileName );
-
-    TEST( ! logFileStat.good() );
-    
   }
 
   {
@@ -340,12 +279,11 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::openmode)(ios::app|ios::out),
-	     0711 );
+	     (std::ios::openmode)(std::ios::app|std::ios::out) );
 
-      TESTR( t.error(), t.good() );
+      TEST( t.good() );
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -353,26 +291,23 @@ tLog01( LibTest & tester )
 
     FileStat logFileStat( LogFileName );
 
-    TESTR( logFileStat.error(), logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0711 );
-    
+    TEST( logFileStat.good() );
   }
 
 
   {
-    // Log( const char *, LogLevel::Level, ios::openmode, int, bool )
+    // Log( const char *, LogLevel::Level, std::ios::openmode, int, bool )
 
     remove( LogFileName );
 
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     true );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -381,12 +316,11 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     false );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( ! t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -395,25 +329,22 @@ tLog01( LibTest & tester )
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
   }
 
   {
-    // Log( const char *, LogLevel::Level, ios::openmode, int, bool, bool )
+    // Log( const char *, LogLevel::Level, std::ios::openmode, int, bool, bool )
 
     remove( LogFileName );
 
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     true,
 	     true );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -422,13 +353,12 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     true,
 	     false );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( ! t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -437,14 +367,13 @@ tLog01( LibTest & tester )
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
+
   }
 
   {
     // Log( const char *,
     //	    LogLevel::Level,
-    //	    ios::openmode,
+    //	    std::ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -453,20 +382,20 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, LogLevel::Info, (ios::openmode)(ios::app|ios::out), 0664, true, true, true );
+      Log t( LogFileName, LogLevel::Info, (std::ios::openmode)(std::ios::app|std::ios::out), true, true, true );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
 
     {
-      Log t( LogFileName, LogLevel::Info, (ios::openmode)(ios::app|ios::out), 0664, true, true, false );
+      Log t( LogFileName, LogLevel::Info, (std::ios::openmode)(std::ios::app|std::ios::out), true, true, false );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( ! t.setLocStamp( false ) );
@@ -475,14 +404,13 @@ tLog01( LibTest & tester )
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
+
   }
 
   {
     // Log( const char *,
     //	    LogLevel::Level,
-    //	    ios::openmode,
+    //	    std::ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -494,31 +422,29 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     true,
 	     true,
 	     true,
 	     12345 );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
       TEST( t.setMaxSize( 0 ) == 12345 );
     }
-    
+
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
+
   }
   {
     // Log( const char *,
     //	    LogLevel::Level,
-    //	    ios::openmode,
+    //	    std::ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -531,8 +457,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     LogLevel::Info,
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     true,
 	     true,
 	     true,
@@ -540,19 +465,18 @@ tLog01( LibTest & tester )
 	     678 );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
       TEST( t.setMaxSize( 0 ) == 12345 );
       TEST( t.setTrimSize( 0 ) == 678 );
     }
-    
+
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
+
   }
 
   {
@@ -564,7 +488,7 @@ tLog01( LibTest & tester )
       Log t( LogFileName, "Info | Warn" );
 
       TEST( t.getOutput() == (LogLevel::Info | LogLevel::Warn ));
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -574,40 +498,19 @@ tLog01( LibTest & tester )
 
     TEST( logFileStat.good() );
     TEST( logFileStat.getSize() == 0 );
-    
+
   }
 
   {
-    // Log( const char *, const char *, ios::openmode )
+    // Log( const char *, const char *, std::ios::openmode, int )
 
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", ios::nocreate );
+      Log t( LogFileName, "info", (std::ios::openmode)(std::ios::app|std::ios::out) );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
-      TEST( t.setLevelStamp( false ) );
-      TEST( t.setTimeStamp( false ) );
-      TEST( t.setLocStamp( false ) );
-    }
 
-    FileStat logFileStat( LogFileName );
-
-    TEST( ! logFileStat.good() );
-    
-  }
-
-  {
-    // Log( const char *, const char *, ios::openmode, int )
-
-    remove( LogFileName );
-
-    {
-      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0711 );
-
-      TEST( t.getOutput() == LogLevel::Info );
-    
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -616,30 +519,29 @@ tLog01( LibTest & tester )
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0711 );
-    
+
   }
 
   {
-    // Log( const char *, const char *, ios::openmode, int, bool )
+    // Log( const char *, const char *, std::ios::openmode, int, bool )
 
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true );
+      Log t( LogFileName, "info", (std::ios::openmode)(std::ios::app|std::ios::out), true );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
 
     {
-      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, false );
+      Log t( LogFileName, "info", (std::ios::openmode)(std::ios::app|std::ios::out), false );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( ! t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -648,30 +550,29 @@ tLog01( LibTest & tester )
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
+
   }
 
   {
-    // Log( const char *, const char *, ios::openmode, int, bool, bool )
+    // Log( const char *, const char *, std::ios::openmode, int, bool, bool )
 
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true, true );
+      Log t( LogFileName, "info", (std::ios::openmode)(std::ios::app|std::ios::out), true, true );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
 
     {
-      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true, false );
+      Log t( LogFileName, "info", (std::ios::openmode)(std::ios::app|std::ios::out), true, false );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( ! t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
@@ -680,14 +581,13 @@ tLog01( LibTest & tester )
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
+
   }
 
   {
     // Log( const char *,
     //	    const char *,
-    //	    ios::openmode,
+    //	    std::ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -696,20 +596,20 @@ tLog01( LibTest & tester )
     remove( LogFileName );
 
     {
-      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true, true, true );
+      Log t( LogFileName, "info", (std::ios::openmode)(std::ios::app|std::ios::out), true, true, true );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
     }
 
     {
-      Log t( LogFileName, "info", (ios::openmode)(ios::app|ios::out), 0664, true, true, false );
+      Log t( LogFileName, "info", (std::ios::openmode)(std::ios::app|std::ios::out), true, true, false );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( ! t.setLocStamp( false ) );
@@ -718,14 +618,13 @@ tLog01( LibTest & tester )
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
+
   }
 
   {
     // Log( const char *,
     //	    const char *,
-    //	    ios::openmode,
+    //	    std::ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -737,32 +636,30 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     "info",
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     true,
 	     true,
 	     true,
 	     12345 );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
       TEST( t.setMaxSize( 0 ) == 12345 );
     }
-    
+
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
+
   }
 
   {
     // Log( const char *,
     //	    const char *,
-    //	    ios::openmode,
+    //	    std::ios::openmode,
     //	    int,
     //	    bool,
     //	    bool,
@@ -775,8 +672,7 @@ tLog01( LibTest & tester )
     {
       Log t( LogFileName,
 	     "info",
-	     (ios::openmode)(ios::app|ios::out),
-	     0664,
+	     (std::ios::openmode)(std::ios::app|std::ios::out),
 	     true,
 	     true,
 	     true,
@@ -784,60 +680,18 @@ tLog01( LibTest & tester )
 	     678 );
 
       TEST( t.getOutput() == LogLevel::Info );
-    
+
       TEST( t.setLevelStamp( false ) );
       TEST( t.setTimeStamp( false ) );
       TEST( t.setLocStamp( false ) );
       TEST( t.setMaxSize( 0 ) == 12345 );
       TEST( t.setTrimSize( 0 ) == 678 );
     }
-    
+
     FileStat logFileStat( LogFileName );
 
     TEST( logFileStat.good() );
-    TEST( (logFileStat.getMode() & 0777) == 0664 );
-    
+
   }
-
-  return( true );
+  return( verify.is_valid() );
 }
-
-
-//
-// $Log$
-// Revision 6.2  2011/12/30 23:57:44  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:51  houghton
-// Changed to version 6
-//
-// Revision 5.1  2000/05/25 10:33:28  houghton
-// Changed Version Num to 5
-//
-// Revision 4.1  1997/09/17 15:14:21  houghton
-// Changed to Version 4
-//
-// Revision 3.6  1997/09/17 11:09:48  houghton
-// Changed: renamed library to StlUtils.
-//
-// Revision 3.5  1997/07/18 21:39:57  houghton
-// Port(Sun5): Changed ios::app to (ios::openmode)(ios::app|ios::out).
-//
-// Revision 3.4  1997/03/21 15:41:02  houghton
-// Changed for new default output level.
-//
-// Revision 3.3  1996/11/20 12:16:23  houghton
-// Cleanup.
-//
-// Revision 3.2  1996/11/19 12:35:15  houghton
-// Changed include strstream to include strstream.h because strstream
-//     is not part of the standard.
-//
-// Revision 3.1  1996/11/14 01:26:45  houghton
-// Changed to Release 3
-//
-// Revision 2.4  1996/11/13 17:19:59  houghton
-// Complete rework of all tests.
-// Verified test against Log.hh header comments.
-//
-//

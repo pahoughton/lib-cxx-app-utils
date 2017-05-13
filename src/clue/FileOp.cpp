@@ -1,39 +1,17 @@
-//
-// File:        FileOp.C
-// Project:	StlUtils ()
-// Desc:        
-//
-//  Compiled sources for FileOp
-//  
-// Author:      Paul Houghton - (paul4hough@gmail.com)
-// Created:     03/08/98 07:33
-//
-// Revision History: (See end of file for Revision Log)
-//
-//  $Author$ 
-//  $Date$ 
-//  $Name$ 
-//  $Revision$ 
-//  $State$ 
-//
+// 1998-03-08 (cc) Paul Houghton <paul4hough@gmail.com>
 
-#include "FileOp.hh"
-#include <Str.hh>
-#include <Directory.hh>
-#include <LibLog.hh>
+#include "FileOp.hpp"
+#include "Str.hpp"
+#include "Directory.hpp"
+#include "LibLog.hpp"
+
 #include <cstdio>
 #include <cstring>
 #include <cerrno>
 #include <unistd.h>
 #include <fcntl.h>
 
-#if defined( STLUTILS_DEBUG )
-#include "FileOp.ii"
-#endif
-
-STLUTILS_VERSION(
-  FileOp,
-  "$Id$ ");
+namespace clue {
 
 const char *	FileOp::OpTypeName[] =
 {
@@ -79,7 +57,7 @@ FileOp::error( void ) const
 {
   static Str errStr;
 
-  errStr = FileOp::getClassName();
+  errStr = "FileOp";
 
   if( good() ) {
     errStr << ": ok";
@@ -95,12 +73,12 @@ FileOp::error( void ) const
       errStr << ": " << src.error();
 
     } else {
-  
+
       if( ! src.canRead() ) {
 	errStr << ": can not read src '" << src.getName() << "'.";
       }
     }
-      
+
     if( eSize == errStr.size() )
       errStr << ": unknown error";
   }
@@ -108,29 +86,12 @@ FileOp::error( void ) const
   return( errStr.c_str() );
 }
 
-const char *
-FileOp::getClassName( void ) const
-{
-  return( "FileOp" );
-}
-
-const char *
-FileOp::getVersion( bool withPrjVer ) const
-{
-  return( version.getVer( withPrjVer ) );
-}
-
-
 std::ostream &
 FileOp::dumpInfo(
-  std::ostream &	destStream,
-  const char *	prefix,
-  bool		showVer
+  std::ostream &    destStream,
+  const char *	    prefix
   ) const
 {
-  if( showVer )
-    destStream << FileOp::getClassName() << ":\n"
-	       << FileOp::getVersion() << '\n';
 
   if( ! FileOp::good() )
     destStream << prefix << "Error: " << FileOp::error() << '\n';
@@ -141,11 +102,11 @@ FileOp::dumpInfo(
 
   pre = prefix;
   pre << "src:";
-  src.dumpInfo( destStream, pre, false );
+  src.dumpInfo( destStream, pre );
 
   pre = prefix;
   pre << "dest:";
-  dest.dumpInfo( destStream, pre, false );
+  dest.dumpInfo( destStream, pre );
 
   return( destStream );
 }
@@ -162,7 +123,7 @@ FileOp::setDest( OpType opType, const char * fn, bool overwrite )
 	  if( opType != OT_Cat )
 	    {
 	      FilePath destFullName( dest.getName() );
-	      
+
 	      if( destFullName.size()
 		  && ( destFullName.at( destFullName.size() - 1 )
 		       == destFullName.dirSep() ) )
@@ -170,9 +131,9 @@ FileOp::setDest( OpType opType, const char * fn, bool overwrite )
 	      else
 		destFullName << destFullName.dirSep()
 			     << src.getName().getFileName();
-	      
+
 	      dest( destFullName );
-	      
+
 	      if( ! dest.good() )
 		return( true );
 	    }
@@ -194,7 +155,7 @@ FileOp::setDest( OpType opType, const char * fn, bool overwrite )
 	      if( ! dest.canWrite() )
 		{
 		  return( setError( EPERM,
-				    opType, 
+				    opType,
 				    "can't write to dest",
 				    dest.getName() ) );
 		}
@@ -203,7 +164,7 @@ FileOp::setDest( OpType opType, const char * fn, bool overwrite )
 		  return( true );
 		}
 	    }
-		  
+
 	  if( overwrite )
 	    {
 	      if( opType == OT_Move )
@@ -211,7 +172,7 @@ FileOp::setDest( OpType opType, const char * fn, bool overwrite )
 		  if( ! dest.canWrite() )
 		    {
 		      return( setError( EPERM,
-					opType, 
+					opType,
 					"can't write to dest",
 					dest.getName() ) );
 		    }
@@ -238,7 +199,7 @@ FileOp::setDest( OpType opType, const char * fn, bool overwrite )
     }
   return( true );
 }
-  
+
 bool
 FileOp::copyFile( void )
 {
@@ -247,8 +208,8 @@ FileOp::copyFile( void )
 
   if( (srcFd = open( src.getName().c_str(), O_RDONLY, 0 ) ) < 0 )
     return( setError( errno, "opening src", src.getName() ) );
-    
-  
+
+
   if( (destFd = open( dest.getName().c_str(),
 		      O_WRONLY | O_CREAT | O_TRUNC,
 		      0600 ) ) < 0 )
@@ -256,10 +217,10 @@ FileOp::copyFile( void )
       close( srcFd );
       return( setError( errno, "opening dest", dest.getName() ) );
     }
-  
+
   size_type	readLen;
   char		buffer[ 1024 * 8 ];
-  
+
   while( (readLen = readfd( srcFd, buffer, sizeof( buffer ) ) ) > 0 )
     {
       if( writefd( destFd, buffer, readLen ) < 0 )
@@ -292,7 +253,7 @@ FileOp::copyFile( void )
     }
 
   return( setDestStat() );
-  
+
   return( true );
 }
 
@@ -316,7 +277,7 @@ FileOp::moveFile( void )
 	{
 	  if( ! copyFile() )
 	    return( false );
-	    
+
 	  if( ! removeFile( src.getName() ) )
 	    return( false );
 
@@ -328,7 +289,7 @@ FileOp::moveFile( void )
       return( setError( 0,
 			"dest directory device unknown",
 			destDir.getName() ) );
-    }  
+    }
 }
 
 bool
@@ -339,8 +300,8 @@ FileOp::catFile( void )
 
   if( (srcFd = open( src.getName().c_str(), O_RDONLY, 0 ) ) < 0 )
     return( setError( errno, "opening src", src.getName() ) );
-    
-  
+
+
   if( (destFd = open( dest.getName().c_str(),
 		      O_WRONLY | O_CREAT | O_APPEND,
 		      0600 ) ) < 0 )
@@ -348,10 +309,10 @@ FileOp::catFile( void )
       close( srcFd );
       return( setError( errno, "opening dest", dest.getName() ) );
     }
-  
+
   size_type	readLen;
   char		buffer[ 1024 * 8 ];
-  
+
   while( (readLen = readfd( srcFd, buffer, sizeof( buffer ) ) ) > 0 )
     {
       if( writefd( destFd, buffer, readLen ) < 0 )
@@ -381,7 +342,7 @@ FileOp::catFile( void )
     }
 
   return( setDestStat() );
-  
+
   return( true );
 }
 
@@ -421,7 +382,7 @@ bool
 FileOp::removeDir( const char * dn, bool recurse )
 {
   LLgDebug << "removeDir( " << dn << ", " << recurse << ")." << std::endl;
-  
+
   if( recurse )
     {
       Directory	dir( dn, Directory::All );
@@ -438,7 +399,7 @@ FileOp::removeDir( const char * dn, bool recurse )
 		{
 		  LLgDebug << "removing dir  '" << (*them).getName() << "'."
 			   << std::endl;
-		  
+
 		  if( ! removeDir( (*them).getName(), true ))
 		    return( false );
 		}
@@ -446,7 +407,7 @@ FileOp::removeDir( const char * dn, bool recurse )
 		{
 		  LLgDebug << "removing file '" << (*them).getName() << "'."
 			   << std::endl;
-		  
+
 		  if( ! removeFile( (*them).getName() ) )
 		    return( false );
 		}
@@ -456,7 +417,7 @@ FileOp::removeDir( const char * dn, bool recurse )
 
   LLgDebug << "removing dir  '" << dn << "'."
 	   << std::endl;
-  
+
   if( ::rmdir( dn ) )
     {
       return( setError( errno, "removing directory", dn ) );
@@ -464,16 +425,16 @@ FileOp::removeDir( const char * dn, bool recurse )
 
   return( true );
 }
-	  
+
 bool
 FileOp::setDestStat( void )
 {
   dest( dest.getName() );
-  
+
   if( ! dest.setTimes( src.getAccessTime(), src.getModificationTime() )
       && dest.getSysError() != EPERM )
     return( setError( dest.getSysError(), "setting times", dest.getName() ) );
-  
+
   if( src.getUID() == 0 )
     {
       if( ! dest.setOwner( src.getUID(), src.getGID() ) )
@@ -481,7 +442,7 @@ FileOp::setDestStat( void )
 			  "setting owner",
 			  dest.getName() ) );
     }
-  
+
   if( ! dest.setMode( src.getMode() & 07777 )
       && dest.getSysError() != EPERM )
     return( setError( dest.getSysError(), "setting mode", dest.getName() ) );
@@ -504,23 +465,23 @@ FileOp::readfd( int fd, void * destBuf, size_t destSize )
 #else
   bytes = read( fd, (char *) destBuf, destSize );
 #endif
-  
+
   return( bytes );
 }
 
-      
+
 FileOp::size_type
 FileOp::writefd( int fd, const void * srcBuf, size_t srcLen )
 {
   int bytes(0);
   int written;
   const char * srcPtr = (const char *)srcBuf;
-  
+
   while( srcLen > 0 )
     {
       if( (written = write( fd, srcPtr, srcLen )) < 0 )
 	{
-	  
+
 #if defined( EINTR )
 	  if( errno == EINTR )
 	    continue;
@@ -533,13 +494,13 @@ FileOp::writefd( int fd, const void * srcBuf, size_t srcLen )
     }
   return( bytes );
 }
-      
+
 
 bool
 FileOp::setError( int osErr, const char * desc, const char * fileName )
 {
   clear();
-  
+
   osError = osErr;
 
   errorDesc << desc << " '" << fileName << '\'';
@@ -548,7 +509,7 @@ FileOp::setError( int osErr, const char * desc, const char * fileName )
     errorDesc << " - " << strerror( osError ) << '(' << osError << ").";
   else
     errorDesc << '.';
-  
+
   return( osError == 0 && errorDesc.size() == 0 );
 }
 
@@ -561,7 +522,7 @@ FileOp::setError(
   )
 {
   clear();
-  
+
   osError = osErr;
 
   errorDesc << OpTypeName[ op ] << ' ' << desc << " '" << fileName << '\'';
@@ -570,71 +531,8 @@ FileOp::setError(
     errorDesc << " - " << strerror( osError ) << '(' << osError << ").";
   else
     errorDesc << '.';
-  
+
   return( osError == 0 && errorDesc.size() == 0 );
 }
 
-
-// Revision Log:
-//
-// 
-// %PL%
-// 
-// $Log$
-// Revision 6.4  2012/04/26 20:08:47  paul
-// *** empty log message ***
-//
-// Revision 6.3  2012/04/02 10:12:47  paul
-// *** empty log message ***
-//
-// Revision 6.2  2011/12/30 23:57:31  paul
-// First go at Mac gcc Port
-//
-// Revision 6.1  2003/08/09 11:22:46  houghton
-// Changed to version 6
-//
-// Revision 5.5  2003/08/09 11:21:00  houghton
-// Changed ver strings.
-//
-// Revision 5.4  2003/07/19 09:17:23  houghton
-// Port to 64 bit.
-//
-// Revision 5.3  2001/07/26 19:28:58  houghton
-// *** empty log message ***
-//
-// Revision 5.2  2000/07/31 13:38:54  houghton
-// Added removeDir().
-//
-// Revision 5.1  2000/05/25 10:33:22  houghton
-// Changed Version Num to 5
-//
-// Revision 1.8  1999/10/07 09:45:45  houghton
-// Changed: remove() to work for files and directories.
-//
-// Revision 1.7  1999/09/29 14:17:43  houghton
-// Bug-Fix: it is not a crittical error if you get permission denied
-//     setting mode or time after a 'move'.
-//
-// Revision 1.6  1999/05/01 12:54:26  houghton
-// Added catFile()
-//
-// Revision 1.5  1999/03/02 12:51:23  houghton
-// Bug-Fixes.
-// Cleanup.
-//
-// Revision 1.4  1998/11/02 19:20:33  houghton
-// Major rework.
-// Added protected:setDest();
-// Added protected:removeFile();
-//
-// Revision 1.3  1998/03/13 12:33:52  houghton
-// Bug-Fix: if just doing a rename, don't no reason to set times or mode.
-//
-// Revision 1.2  1998/03/11 16:08:22  houghton
-// Added setDestStat
-// Bug-Fix: a few.
-//
-// Revision 1.1  1998/03/08 18:08:28  houghton
-// Initial Version.
-//
-//
+}; // namespace clue
