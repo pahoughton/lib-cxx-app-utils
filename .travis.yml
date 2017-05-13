@@ -1,7 +1,7 @@
 # 2017-04-23 (cc) <paul4hough@gmail.com>
 #
 dist: trusty
-language: c
+language: cpp
 notifications:
   email:
     - paul4hough@gmail.com
