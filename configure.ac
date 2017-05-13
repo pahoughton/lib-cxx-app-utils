@@ -4,7 +4,7 @@ dnl (cc) <paul4hough@gmail.com>
 
 AC_PREREQ(2.69)
 AC_INIT( [libclue],[1.01.01],[Paul Houghton <paul4hough@gmail.com>])
-AC_CONFIG_MACRO_DIRS([m4])
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE
 LT_INIT
 
