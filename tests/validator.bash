@@ -6,9 +6,8 @@ ver=1.01.01
 function DoD {
   if ! $*
   then
-    code=$?
-    echo error:$code: "$*"
-    exit $code
+    echo error:$ "$*"
+    exit 2
   fi
 }
 tdir=`pwd`
