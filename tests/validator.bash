@@ -12,6 +12,7 @@ function DoD {
   fi
 }
 tdir=`pwd`
+export TZ=MST
 
 DoD make -C unit test
 DoD make -C .. dist
