@@ -11,7 +11,7 @@
   which is the level for the current log message.
 */
 
-#include <clue/bitmask>
+#include <clue/Bitmask.hpp>
 #include <iostream>
 #include <map>
 
@@ -43,8 +43,8 @@ public:
     LOG_ALL   = 0xffff
   } LogLevelBit;
 
-  typedef bitmask            Level;
-  typedef bitmask::size_type size_type;
+  typedef Bitmask           Level;
+  typedef Level::size_type  size_type;
 
   typedef std::map< LogLevelBit,
 		    Level,

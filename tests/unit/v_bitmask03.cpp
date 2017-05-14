@@ -23,7 +23,7 @@
     ::operator >= ( unsigned long, const Bitmask & )
 */
 
-#include <clue/bitmask>
+#include <clue/Bitmask.hpp>
 
 #define VALID_VALIDATOR verify
 #include <valid/verify.hpp>

@@ -8,7 +8,7 @@ notifications:
 
 # :( unavoidable
 install:
-  - sudo apt-get install automake
+  - sudo apt-get install automake libtool
   - git clone http://github.com/pahoughton/libvalid
   - cd libvalid
   - autoreconf --install && ./configure
@@ -16,5 +16,5 @@ install:
 
 script:
   - autoreconf --install
-  - ./configure
+  - CXXFLAGS=-std=c++11 ./configure
   - make test

@@ -63,7 +63,6 @@ PidFile.cpp
 
 libclue_HEADERS =				\
 bit						\
-bitmask						\
 compare						\
 Bitmask.hpp					\
 Clue.hpp					\

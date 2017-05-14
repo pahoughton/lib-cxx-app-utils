@@ -2,8 +2,8 @@
 #
 
 check_PROGRAMS = unit
-unit_LDADD = clue/libclue.la
-unit_CPPFLAGS =					\
+unit_LDADD = ../../src/clue/libclue.la
+unit_CPPFLAGS =	-I../../src			\
 	-DTEST_USER='"$(USER)"'			\
 	-DTEST_GROUP="\"`id -gn`\""		\
 	-DTEST_APPNAME='"unit"'
@@ -129,7 +129,13 @@ unit_SOURCES =					\
 
 .PHONY: validate
 test: unit
-	unit
+	./unit
+
+data/FileStat/FileStat.h.t.nnn.nnn.nnn:
+	touch $@ && chmod 0 $@
+
+data/FileStat/FileStat.h.t.nnn.yyy.nnn:
+	touchd $@ && chmod 070 $@
 
 dbg: unit
 	echo libtool --mode=execute gdb unit

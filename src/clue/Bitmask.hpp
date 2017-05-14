@@ -1,5 +1,5 @@
-#ifndef _clue_bitmask_hpp_
-#define _clue_bitmask_hpp_
+#ifndef _clue_Bitmask_hpp_
+#define _clue_Bitmask_hpp_
 // 1995-05-18 (cc) paul4hough@gmail.com
 
 #include <clue/compare>

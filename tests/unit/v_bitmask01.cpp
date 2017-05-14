@@ -23,7 +23,7 @@
 	compare( const Bitmask & two ) const
 	compare( unsigned long ) const
 */
-#include <clue/bitmask>
+#include <clue/Bitmask.hpp>
 
 #define VALID_VALIDATOR verify
 #include <valid/verify.hpp>
