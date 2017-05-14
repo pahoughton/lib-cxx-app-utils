@@ -128,7 +128,9 @@ unit_SOURCES =					\
 #
 
 .PHONY: validate
-test: unit
+test: unit 	\
+		data/FileStat/FileStat.h.t.nnn.nnn.nnn \
+		data/FileStat/FileStat.h.t.nnn.yyy.nnn
 	./unit
 
 data/FileStat/FileStat.h.t.nnn.nnn.nnn:
