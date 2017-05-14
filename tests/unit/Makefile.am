@@ -137,7 +137,7 @@ data/FileStat/FileStat.h.t.nnn.nnn.nnn:
 	touch $@ && chmod 0 $@
 
 data/FileStat/FileStat.h.t.nnn.yyy.nnn:
-	touchd $@ && chmod 070 $@
+	touch $@ && chmod 070 $@
 
 dbg: unit
 	echo libtool --mode=execute gdb unit
