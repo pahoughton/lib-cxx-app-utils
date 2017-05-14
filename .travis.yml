@@ -1,5 +1,5 @@
 # 2017-04-23 (cc) <paul4hough@gmail.com>
-#
+
 dist: trusty
 language: cpp
 notifications:
