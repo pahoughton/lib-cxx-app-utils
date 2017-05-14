@@ -128,16 +128,22 @@ unit_SOURCES =					\
 #
 
 .PHONY: validate
-test: unit 	\
-		data/FileStat/FileStat.h.t.nnn.nnn.nnn \
+test_data: 	data/FileStat/FileStat.h.t.nnn.nnn.nnn \
 		data/FileStat/FileStat.h.t.nnn.yyy.nnn
-	./unit
+	chmod 755 data/FileStat/FileStat.b.b.yyy.yny.yny
+	chmod 770 data/FileStat/FileStat.b.b.yyy.yyy.nnn
+	chmod 777 data/FileStat/FileStat.h.t.yyy.yyy.yyy*
 
 data/FileStat/FileStat.h.t.nnn.nnn.nnn:
 	touch $@ && chmod 0 $@
 
 data/FileStat/FileStat.h.t.nnn.yyy.nnn:
 	touch $@ && chmod 070 $@
+
+
+test: test_data unit
+	./unit
+
 
 dbg: unit
 	echo libtool --mode=execute gdb unit
