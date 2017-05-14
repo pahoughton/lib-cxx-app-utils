@@ -214,6 +214,7 @@ v_Log07( void )
     VVFILE( TestF3 );
   }
 
+#if __GNUC__ >= 6
   {
     // addFilter( streambuf *, LogLevel::Level, const char * )
     // delFilter( LogBuf::FilterId )
@@ -320,5 +321,7 @@ v_Log07( void )
     VVFILE( TestF2 );
     VVFILE( TestF3 );
   }
+#endif //__GNUC__ >= 6
+
   return( verify.is_valid() );
 }
