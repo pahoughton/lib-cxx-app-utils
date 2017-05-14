@@ -12,6 +12,13 @@ v_Semaphore( void )
   static VVDESC( "clue::Semaphore" );
   {
     VVWHEN( clue::Semaphore t(TEST_FN) );
+
+    // remove sem if exist
+    if( ! t.good() ) {
+      t.remove();
+      t.create(TEST_FN);
+    }
+
     {
       VVTRUE( t.good() );
     }
