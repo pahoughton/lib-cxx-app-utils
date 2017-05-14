@@ -10,9 +10,10 @@ notifications:
 install:
   - sudo apt-get install automake libtool
   - git clone http://github.com/pahoughton/libvalid
-  - cd libvalid
+  - pushd libvalid
   - autoreconf --install && ./configure
   - sudo make install
+  - popd
 
 script:
   - autoreconf --install
