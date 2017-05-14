@@ -69,7 +69,7 @@ v_FileStat02( void )
     TEST( ! t.isChar() );
     TEST( ! t.isSocket() );
     TEST( ! t.isSetUID() );
-    TEST( t.isSetGID() );
+    TEST( ! t.isSetGID() );
   }
 
   {
