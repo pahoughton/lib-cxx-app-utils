@@ -19,6 +19,7 @@ bool
 v_Log07( void )
 {
 
+#if __GNUC__ >= 6
   {
     // filter( const char * regex )
     const char *    TestFn = TEST_DATA_DIR "/log.27";
@@ -54,6 +55,7 @@ v_Log07( void )
 
     VVFILE( TestFn );
   }
+#endif // __GNUC__ >= 6
 
   {
     // addFilter( streambuf *, LogLevel::Level )

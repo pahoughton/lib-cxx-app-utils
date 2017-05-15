@@ -121,8 +121,9 @@ v_FileStat05( void )
     TEST( t.setMode( 0 ) );
 
     c.stat( TEST_DATA_DIR "/FileStat.set" );
-
+#if !defined(VAGRANT) // can't set to 0 on /vagrant
     TEST( (c.getMode() & 0777) == 0 );
+#endif
     TEST( (t.getMode() & 0777) == 0 );
 
     TEST( t.setRead( FileStat::ALL ) );

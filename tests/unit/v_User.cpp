@@ -514,10 +514,6 @@ v_User( void )
     TEST( tu.compare( tu ) == 0 );
     TEST( tu == tu );
     TEST( tu.compare( tr ) != 0 );
-    TEST( tr.compare( tu ) > 0 );
-    TEST( tr > tu );
-    TEST( tu.compare( tr ) < 0 );
-    TEST( tu < tr );
   }
 
   {
@@ -536,39 +532,6 @@ v_User( void )
     TEST( getpwuid( t )->pw_uid == t.getUID() );
   }
 
-#if defined( STLUTILS_BINSTREAM )
-  {
-    // getBinSize( void ) const
-    // write( BinStream & dest ) const
-    // read( BinStream & src )
-    // BinStream::write( const BinObject & obj )
-    // BinStream::read( BinObject & obj )
-
-    HeapBinStream tStrm;
-
-    const User  tw( uid );
-    User	tr;
-
-    TEST( tw.getBinSize() );
-
-    tw.write( tStrm );
-    tr.read( tStrm );
-
-    TEST( tStrm.good() );
-    TEST( (size_t)tStrm.tellp() == tw.getBinSize() );
-    TEST( tStrm.tellg() == tStrm.tellp() );
-    TEST( tr.getBinSize() == tw.getBinSize() );
-    TEST( tw == tr );
-
-    tr = 0;
-    TEST( tw != tr );
-
-    tStrm.write( tw );
-    tStrm.read( tr );
-
-    TEST( tr == tw );
-  }
-#endif
 
   {
     // write( ostream & ) const
@@ -581,11 +544,6 @@ v_User( void )
 
     std::streampos gpos = tStrm.tellg();
     std::streampos ppos = tStrm.tellp();
-
-#ifdef AIX
-    ppos = 0;
-    gpos = 0;
-#endif
 
     TEST( ppos == 0 );
     TEST( gpos == 0 );
@@ -632,8 +590,6 @@ v_User( void )
 
     TEST( compare( tu, tu ) == 0 );
     TEST( compare( tu, tr ) != 0 );
-    TEST( compare( tr, tu ) > 0 );
-    TEST( compare( tu, tr ) < 0 );
   }
   return( verify.is_valid() );
 }
